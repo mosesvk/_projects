@@ -2971,7 +2971,6 @@ class DataProcessor {
           "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
           "mandatoryDebtServiceToCashExpenditure"
         );
-        // s166 - Future minimum lease payment - REMOVED per updated calculation
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -2982,7 +2981,6 @@ class DataProcessor {
           "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
           "mandatoryDebtServiceToCashExpenditure"
         );
-        // s168 - Interest on finance lease - REMOVED per updated calculation
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3047,7 +3045,7 @@ class DataProcessor {
           "mandatoryDebtServiceToCashExpenditure"
         );
 
-        // personnelIncludingToTotalCashExpenditures
+        // personnelIncludingToTotalCashExpenditures [s11, s10, s45, s167, s154, s90, s164, s46]
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3074,16 +3072,6 @@ class DataProcessor {
           "totalSalaries",
           record,
           "s10___total_salaries",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-          "personnelIncludingToTotalCashExpenditures"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "costOfOutsourcedEmployee",
-          record,
-          "s162___cost_of_outsourced_employee",
           "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
@@ -3137,8 +3125,6 @@ class DataProcessor {
           "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
-
-        // TODO: Add s164 field when available in Quickbase
         this.dataStore.insertData(
           "expense",
           "peer",

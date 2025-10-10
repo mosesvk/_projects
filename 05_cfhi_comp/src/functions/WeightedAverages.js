@@ -160,7 +160,6 @@ const personnelIncludingToTotalCashExpenditures_weightedAverage = (
 ) => {
   const s11 = getSumOfArray(data.totalBenefit[name][year ? year : 'total']);
   const s10 = getSumOfArray(data.totalSalaries[name][year ? year : 'total']);
-  const s162 = getSumOfArray(data.costOfOutsourcedEmployee[name][year ? year : 'total']);
   const s45 = getSumOfArray(data.totalExpense[name][year ? year : 'total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name][year ? year : 'total']);
@@ -172,9 +171,8 @@ const personnelIncludingToTotalCashExpenditures_weightedAverage = (
     : 0;
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
-  // Updated formula per image: (s11 + s10 + s162) / (s45 - s167 + s154 + s90 - s164 - s46)
-  // Removed s168 (internetOnFinanceLease) and s166 (futureMinimumLeasePayment) per updated calculation
-  return (s11 + s10 + s162) / (s45 - s167 + s154 + s90 - s164 - s46);
+
+  return (s11 + s10) / (s45 - s167) + (s154 + s90 - s164) - s46
 };
 
 const mandatoryDebtServiceToCashExpenditure_weightedAverage = (data, name, year) => {
