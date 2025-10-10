@@ -35,7 +35,6 @@ const displayReportComponent = () => {
       ["debtToContributionsWithout", "num", 1, "wa", "cb"],
       ["currentRatio", "num", 1, "wa", "cb"],
       ["mandatoryDebtServiceToContributionsWithout", "percent", 0, "wa", "cb"],
-      // Removed per todo: Debt per Average Adult Attendee
       ["debtPerGivingUnit", "dollar", 0, "wa", "cb"],
       ["debtPerGivingUnit_percentChange", "percent", 0],
       ["debtPerGivingUnit_standard", "dollar", 0, "wa"],
