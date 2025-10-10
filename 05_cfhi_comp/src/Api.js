@@ -1066,7 +1066,6 @@ class DataProcessor {
           "cfhi_compre_01_ratio___days_of_expendable_net_asset_reserves",
           "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves"
         );
-        // removed s35 per updated ratio
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -3120,7 +3119,6 @@ class DataProcessor {
           "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
-        // s168 - Interest on finance lease - REMOVED per updated calculation
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3131,7 +3129,6 @@ class DataProcessor {
           "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
-        // s166 - Future minimum lease payment - REMOVED per updated calculation
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3142,18 +3139,16 @@ class DataProcessor {
           "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
-
-        // TODO: Add s90 field when available in Quickbase
-        // this.dataStore.insertData(
-        //   "expense",
-        //   "peer",
-        //   year,
-        //   "nextFiscalYearsRefinancedLoanPayments",
-        //   record,
-        //   "s90___next_fiscal_years_refinanced_loan_payments", // Field name to be confirmed
-        //   "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
-        //   "personnelIncludingToTotalCashExpenditures"
-        // );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "nextFiscalYearsRefinancedLoanPayments",
+          record,
+          "s90___next_fiscal_years_refinanced_loan_payments", // Field name to be confirmed
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
 
         // TODO: Add s164 field when available in Quickbase
         this.dataStore.insertData(

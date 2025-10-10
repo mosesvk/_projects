@@ -115,10 +115,7 @@ const displayReportComponent = () => {
       ["personnelToCashExpenditure", "percent", 0, "wa", "cb"],
       ["mandatoryDebtServiceToCashExpenditure", "percent", 0, "wa", "cb"],
       ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa", "cb"],
-      ["localOutreachExpenses", "percent", 0, "wa"],
-      ["globalOutreachExpenses", "percent", 0, "wa"],
       ["totalGlobalAndLocalOutreachExpenses", "percent", 0, "wa", "cb"],
-      // Removed per todo: Cash Expenditures Per Average Adult Attendee
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
       ["cashExpendituresPerGivingUnit_percentChange", "percent", 0],
     ]);
@@ -175,8 +172,8 @@ const addToSingleRow = (
 ) => {
   // console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  // console.log(`row_${name}`);
-  // console.log("tableReportRow", tableReportRow);
+  console.log(`row_${name}`);
+  console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);

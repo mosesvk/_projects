@@ -383,7 +383,7 @@ const liquidityRatio_weightedAverage = (data, name, year) => {
   const s164 = getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']);
   const s29 = getSumOfArray(data.deferredRevenue[name][year ? year : 'total']);
   const s31 = getSumOfArray(data.shortTermConstructionLineOfCredit[name][year ? year : 'total']);
-  const s91 = getSumOfArray(data.cashFlowFromOperatingActivities[name][year ? year : 'total']);
+  const s91 = getSumOfArray(data.accountsReceivable[name][year ? year : 'total']);
 
 
   return (
