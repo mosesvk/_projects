@@ -170,9 +170,9 @@ const personnelIncludingToTotalCashExpenditures_weightedAverage = (
     ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']) 
     : 0;
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
+  const s162 = getSumOfArray(data.costOfOutsourcedEmployee[name][year ? year : 'total']);
 
-
-  return (s11 + s10) / (s45 - s167) + (s154 + s90 - s164) - s46
+  return (s11 + s10 + s162) / (s45 - s167) + (s154 + s90 - s164) - s46
 };
 
 const mandatoryDebtServiceToCashExpenditure_weightedAverage = (data, name, year) => {
@@ -189,10 +189,8 @@ const mandatoryDebtServiceToCashExpenditure_weightedAverage = (data, name, year)
   const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
-  // Updated formula per image: (s154 + s90 - s164 + s47 + s51) / (s45 - s167 + s154 + s90 - s164 - s46)
-  // Removed s166 (futureMinimumLeasePayment) and s168 (internetOnFinanceLease) per updated calculation
   return (
-    (s154 + s90 - s164 + s47 + s51) / (s45 - s167 + s154 + s90 - s164 - s46)
+    (s154 + s90 - s164) + s47 + s51 / (s45 - s167 + (s154 + s90 - s164) - s46)
   );
 };
 
@@ -201,12 +199,16 @@ const personnelToCashExpenditure_weightedAverage = (data, name, year) => {
   const s10 = getSumOfArray(data.totalSalaries[name][year ? year : 'total']);
   const s45 = getSumOfArray(data.totalExpense[name][year ? year : 'total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name][year ? year : 'total']);
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name][year ? year : 'total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name][year ? year : 'total']);
+  const s90 = data.nextFiscalYearsRefinancedLoanPayments 
+    ? getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name][year ? year : 'total']) 
+    : 0;
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']) 
+    : 0;
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
-  return (s11 + s10) / (s45 - s167 - s168 + (s154 - s166) - s46);
+  return (s11 + s10) / (s45 - s167 + (s154 + s90 - s164) - s46);
 };
 
 const salariesBenefitsIncludingOutsourcedEmployees_weightedAverage = (

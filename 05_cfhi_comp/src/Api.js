@@ -2914,16 +2914,6 @@ class DataProcessor {
           "expense",
           "peer",
           year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
-          "personnelToCashExpenditure"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
           "requiredMinimumDebtPrinciple",
           record,
           "s154___required_minimum_debt_principal_payment_for_the_next_year_",
@@ -2934,9 +2924,9 @@ class DataProcessor {
           "expense",
           "peer",
           year,
-          "futureMinimumLeasePayment",
+          "totalDepreciationExpense",
           record,
-          "s166___future_minimum_lease_payment",
+          "s46___total_depreciation_expense",
           "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
           "personnelToCashExpenditure"
         );
@@ -2944,9 +2934,19 @@ class DataProcessor {
           "expense",
           "peer",
           year,
-          "totalDepreciationExpense",
+          "nextFiscalYearsRefinancedLoanPayments",
           record,
-          "s46___total_depreciation_expense",
+          "s90___next_fiscal_years_refinanced_loan_payments",
+          "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
+          "personnelToCashExpenditure"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "oneTimePayoffDebtDueNextYear",
+          record,
+          "s164___one_time_payoff_of_debt_due_in_the_next_year",
           "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
           "personnelToCashExpenditure"
         );
@@ -3022,8 +3022,6 @@ class DataProcessor {
           "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
           "mandatoryDebtServiceToCashExpenditure"
         );
-
-        // TODO: Add s164 field when available in Quickbase
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3045,7 +3043,7 @@ class DataProcessor {
           "mandatoryDebtServiceToCashExpenditure"
         );
 
-        // personnelIncludingToTotalCashExpenditures [s11, s10, s45, s167, s154, s90, s164, s46]
+        // personnelIncludingToTotalCashExpenditures [s11, s10, s162, s45, s167, s154, s90, s164, s46]
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3132,6 +3130,16 @@ class DataProcessor {
           "oneTimePayoffDebtDueNextYear",
           record,
           "s164___one_time_payoff_of_debt_due_in_the_next_year", // Field name to be confirmed
+          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "costOfOutsourcedEmployee",
+          record,
+          "s162___cost_of_outsourced_employee",
           "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
