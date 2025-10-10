@@ -13,12 +13,6 @@ const getWeightedAverageOfArray = (data, name, year) => {
       return availableDaysOfCashFlow_weightedAverage(data, name, year);
     case "liquidityRatio":
       return liquidityRatio_weightedAverage(data, name, year);
-    case "netCashAvailability":
-      return netCashAvailability_weightedAverage(data, name, year);
-    case "netCashAvailability_including":
-      return netCashAvailability_including_weightedAverage(data, name, year);
-    case "netCashAvailability_standard":
-      return netCashAvailability_standard_weightedAverage(data, name, year);
     case "debtCoverage":
       return debtCoverage_weightedAverage(data, name, year);
     case "debtToContributionsWithout":
@@ -355,17 +349,16 @@ const mandatoryDebtServiceToContributionsWithout_weightedAverage = (
 const currentRatio_weightedAverage = (data, name, year) => {
   const s17 = getSumOfArray(data.currentAssets[name][year ? year : 'total']);
   const s26 = getSumOfArray(data.currentLiabilities[name][year ? year : 'total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name][year ? year : 'total']);
 
-  return s17 / (s26 - s166);
+  return s17 / s26;
 };
 
 const debtToContributionsWithout_weightedAverage = (data, name, year) => {
   const s155 = getSumOfArray(data.totalDebt[name][year ? year : 'total']);
-  const s165 = getSumOfArray(data.financeLeaseRightOfUse[name][year ? year : 'total']);
+  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name][year ? year : 'total']);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name][year ? year : 'total']);
 
-  return (s155 - s165) / s39;
+  return s155 / s39 - s152;
 };
 
 const debtCoverage_weightedAverage = (data, name, year) => {
@@ -382,54 +375,6 @@ const debtCoverage_weightedAverage = (data, name, year) => {
   );
 };
 
-const netCashAvailability_standard_weightedAverage = (data, name, year) => {
-  const s45 = getSumOfArray(data.totalExpense[name][year ? year : 'total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
-
-
-  // ((s45 - s167 - s168) - s46) / 12
-
-  // Removed s168 (internetOnFinanceLease) per updated calculation
-  return ((s45 - s167) - s46) / 12;
-};
-
-const netCashAvailability_including_weightedAverage = (data, name, year) => {
-  const s18 = getSumOfArray(data.totalCash[name][year ? year : 'total']);
-  const s20 = getSumOfArray(data.nonEndowmentInvestment[name][year ? year : 'total']);
-  const s26 = getSumOfArray(data.currentLiabilities[name][year ? year : 'total']);
-  const s31 = getSumOfArray(data.shortTermConstructionLineOfCredit[name][year ? year : 'total']);
-  const s164 = data.oneTimePayoffDebtDueNextYear 
-    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']) 
-    : 0;
-  const s36 = getSumOfArray(data.netAssetWithDonor[name][year ? year : 'total']);
-  const s30 = getSumOfArray(data.availableOperatingLineOfCredit[name][year ? year : 'total']);
-
-  // s18 + s20 - (s26 - s166 - s31) - s36 + s21 + s30
-
-  // Updated formula per image: s18 + s20 - (s26 - s31 - s164) - s36 + s30
-  // Removed s166 (futureMinimumLeasePayment) and s21 (pledgeReceivable) per updated calculation
-  // Added s164 (oneTimePayoffDebtDueNextYear) per updated calculation
-  return s18 + s20 - (s26 - s31 - s164) - s36 + s30;
-};
-
-const netCashAvailability_weightedAverage = (data, name, year) => {
-  const s18 = getSumOfArray(data.totalCash[name][year ? year : 'total']);
-  const s20 = getSumOfArray(data.nonEndowmentInvestment[name][year ? year : 'total']);
-  const s26 = getSumOfArray(data.currentLiabilities[name][year ? year : 'total']);
-  const s31 = getSumOfArray(data.shortTermConstructionLineOfCredit[name][year ? year : 'total']);
-  const s164 = data.oneTimePayoffDebtDueNextYear 
-    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']) 
-    : 0;
-  const s36 = getSumOfArray(data.netAssetWithDonor[name][year ? year : 'total']);
-
-  
-
-  // Updated formula per image: s18 + s20 - (s26 - s31 - s164) - s36
-  // Removed s166 (futureMinimumLeasePayment) and s21 (pledgeReceivable) per updated calculation
-  // Added s164 (oneTimePayoffDebtDueNextYear) per updated calculation
-  // return s18 + s20 - ((s26 - s166) - s31) - s36 + s21
-};
 
 const liquidityRatio_weightedAverage = (data, name, year) => {
   const s18 = getSumOfArray(data.totalCash[name][year ? year : 'total']);
@@ -437,26 +382,16 @@ const liquidityRatio_weightedAverage = (data, name, year) => {
   const s36 = getSumOfArray(data.netAssetWithDonor[name][year ? year : 'total']);
   const s21 = getSumOfArray(data.pledgeReceivable[name][year ? year : 'total']);
   const s26 = getSumOfArray(data.currentLiabilities[name][year ? year : 'total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name][year ? year : 'total']);
-  const s27 = getSumOfArray(data.accruedInterest[name][year ? year : 'total']);
-  const s28 = getSumOfArray(data.accruedConstructionCost[name][year ? year : 'total']);
-  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name][year ? year : 'total']);
   const s164 = getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']);
   const s29 = getSumOfArray(data.deferredRevenue[name][year ? year : 'total']);
   const s31 = getSumOfArray(data.shortTermConstructionLineOfCredit[name][year ? year : 'total']);
+  const s91 = getSumOfArray(data.cashFlowFromOperatingActivities[name][year ? year : 'total']);
+
 
   return (
-    (s18 + s20 - s36 + s21) /
-    (s26 - s166 - (s27 + s28 + (s154 - s166) + s164) - s29 - s31)
+    (s18 + s20 + s91 - s36 + s21) / 
+    (s26 - s31 - s29 - s164)
   );
-};
-
-const availableDaysOfCashFlow_weightedAverage = (data, name, year) => {
-  const s49 = getSumOfArray(data.cashFlowFromOperatingActivities[name][year ? year : 'total']);
-
-  // Updated formula per image: Replace entire ratio calculation with just Cash Flows from Operating Activities
-  // Removed complex calculation and replaced with simple s49 value
-  return s49;
 };
 
 const daysOperatingCash_weightedAverage = (data, name, year) => {

@@ -1271,8 +1271,8 @@ class DataProcessor {
           "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
           "availableDaysOfCashFlow"
         );
-        
-        // liquidityRatio [s18, s20, s36, s21, s26, s166, s27, s28, s154, s164, s29, s31]
+
+        // liquidityRatio [s18, s20, s36, s21, s26, s164, s29, s31, s91]
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -1336,46 +1336,6 @@ class DataProcessor {
           "cash",
           "peer",
           year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
-          "cfhi_compre_04_yes_no___liquidity_ratio",
-          "liquidityRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "accruedInterest",
-          record,
-          "s27___accrued_interest",
-          "cfhi_compre_04_yes_no___liquidity_ratio",
-          "liquidityRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "accruedConstructionCost",
-          record,
-          "s28___accrued_construction_cost",
-          "cfhi_compre_04_yes_no___liquidity_ratio",
-          "liquidityRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "requiredMinimumDebtPrinciple",
-          record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_04_yes_no___liquidity_ratio",
-          "liquidityRatio"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
           "oneTimePayoffDebtDueNextYear",
           record,
           "s164___one_time_payoff_of_debt_due_in_the_next_year",
@@ -1399,6 +1359,16 @@ class DataProcessor {
           "shortTermConstructionLineOfCredit",
           record,
           "s31___short_term_construction_line_of_credit",
+          "cfhi_compre_04_yes_no___liquidity_ratio",
+          "liquidityRatio"
+        );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "accountsReceivable",
+          record,
+          "s91___accounts_receivable",
           "cfhi_compre_04_yes_no___liquidity_ratio",
           "liquidityRatio"
         );
@@ -1443,7 +1413,6 @@ class DataProcessor {
           "cfhi_compre_05_yes_no___net_cash_availability",
           "netCashAvailability"
         );
-        // s166 - Future minimum lease payment - REMOVED per updated calculation
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -1464,9 +1433,6 @@ class DataProcessor {
           "cfhi_compre_05_yes_no___net_cash_availability",
           "netCashAvailability"
         );
-        // s21 - Pledge receivable - REMOVED per updated calculation
-
-        // TODO: Add s164 field when available in Quickbase
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -1518,7 +1484,6 @@ class DataProcessor {
           "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
           "netCashAvailability_including"
         );
-        // s166 - Future minimum lease payment - REMOVED per updated calculation
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -1539,7 +1504,6 @@ class DataProcessor {
           "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
           "netCashAvailability_including"
         );
-        // s21 - Pledge receivable - REMOVED per updated calculation
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -1550,7 +1514,6 @@ class DataProcessor {
           "cfhi_compre_05a_yes_no___net_cash_availability_including_unused_line_of_credit",
           "netCashAvailability_including"
         );
-
         // TODO: Add s164 field when available in Quickbase
         this.dataStore.insertData(
           "cash",
@@ -1765,9 +1728,9 @@ class DataProcessor {
           "debt",
           "peer",
           year,
-          "financeLeaseRightOfUse",
+          "largeOneTimeGiftWithoutDonor",
           record,
-          "s165___finance_lease_right_of_use_asset_and_liability",
+          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
           "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
           "debtToContributionsWithout"
         );
@@ -1809,16 +1772,6 @@ class DataProcessor {
           "currentLiabilities",
           record,
           "s26___current_liabilities",
-          "cfhi_compre_07_yes_no___current_ratio",
-          "currentRatio"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
           "cfhi_compre_07_yes_no___current_ratio",
           "currentRatio"
         );
