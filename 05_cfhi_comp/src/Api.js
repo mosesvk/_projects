@@ -2249,9 +2249,7 @@ class DataProcessor {
           "cfhi_compre_12b_ratio___contributions_without_donor_restrictions_per_giving_unit"
         );
 
-        // totalContributionsPerAverageAdultAttendee (removed per todo)
-
-        // totalContributionsPerGivingUnit [s40, s44, s152, s153, s02]
+        // totalContributionsPerGivingUnit [s40, s152, s153, s02]
         this.dataStore.insertData(
           "income",
           "peer",
@@ -2268,16 +2266,6 @@ class DataProcessor {
           "totalContributions",
           record,
           "s40___total_contribution",
-          "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit",
-          "totalContributionsPerGivingUnit"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "revenueFromPledge",
-          record,
-          "s44___revenue_from_pledge",
           "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit",
           "totalContributionsPerGivingUnit"
         );
@@ -3385,7 +3373,7 @@ class DataProcessor {
           "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
           "totalGlobalAndLocalOutreachExpenses"
         );
-        // s166 - Future minimum lease payment - REMOVED per updated calculation
+
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3396,18 +3384,16 @@ class DataProcessor {
           "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
           "totalGlobalAndLocalOutreachExpenses"
         );
-
-        // TODO: Add s90 and s164 fields when available in Quickbase
-        // this.dataStore.insertData(
-        //   "expense",
-        //   "peer",
-        //   year,
-        //   "nextFiscalYearsRefinancedLoanPayments",
-        //   record,
-        //   "s90___next_fiscal_years_refinanced_loan_payments",
-        //   "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
-        //   "totalGlobalAndLocalOutreachExpenses"
-        // );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "nextFiscalYearsRefinancedLoanPayments",
+          record,
+          "s90___next_fiscal_years_refinanced_loan_payments",
+          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "totalGlobalAndLocalOutreachExpenses"
+        );
         this.dataStore.insertData(
           "expense",
           "peer",

@@ -152,29 +152,6 @@ const totalGlobalAndLocalOutreachExpenses_weightedAverage = (data, name, year) =
   return (s14 + s15) / (s45 - s167 + s154 + s90 - s164 - s46);
 };
 
-const globalOutreachExpenses_weightedAverage = (data, name, year) => {
-  const s15 = getSumOfArray(data.globalOutreachExpense[name][year ? year : 'total']);
-  const s45 = getSumOfArray(data.totalExpense[name][year ? year : 'total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name][year ? year : 'total']);
-  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name][year ? year : 'total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name][year ? year : 'total']);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
-
-  return s15 / (s45 - s167 - s168 + (s154 - s166) - s46);
-};
-
-const localOutreachExpenses_weightedAverage = (data, name, year) => {
-  const s14 = getSumOfArray(data.localOutreachExpense[name][year ? year : 'total']);
-  const s45 = getSumOfArray(data.totalExpense[name][year ? year : 'total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name][year ? year : 'total']);
-  const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name][year ? year : 'total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name][year ? year : 'total']);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
-
-  return s14 / (s45 - s167 - s168 + (s154 - s166) - s46);
-};
 
 const personnelIncludingToTotalCashExpenditures_weightedAverage = (
   data,
@@ -282,12 +259,11 @@ const benefitsToSalaries_weightedAverage = (data, name, year) => {
 
 const totalContributionsPerGivingUnit_weightedAverage = (data, name, year) => {
   const s40 = getSumOfArray(data.totalContributions[name][year ? year : 'total']);
-  const s44 = getSumOfArray(data.revenueFromPledge[name][year ? year : 'total']);
   const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name][year ? year : 'total']);
   const s153 = getSumOfArray(data.largeOneTimeGiftWithDonor[name][year ? year : 'total']);
   const s02 = getSumOfArray(data.givingUnits[name][year ? year : 'total']);
 
-  return (s40 - s44 - (s152 + s153)) / s02;
+  return (s40 - (s152 + s153)) / s02;
 };
 
 const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name, year) => {
