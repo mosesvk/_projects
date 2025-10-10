@@ -13,7 +13,7 @@ const displayReportComponent = () => {
     insertDataToReport(demoData, selectedYears, [
       ["givingUnits", "num", 0],
       ["fullTimeEquivalent", "num", 0],
-      ["givingUnitsToStaff", "num", 1, "wa", "cb"],
+      ["givingUnitsToStaff", "num", 0, "wa", "cb"],
       ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
       ["totalContributionsExclude", "dollar", 0],
       ["percentContributionsOnline", "percent", 0, "wa"],
