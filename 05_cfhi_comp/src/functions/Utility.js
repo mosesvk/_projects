@@ -487,6 +487,7 @@ const closeSidebarAfterSelectingOption = (component) => {
 };
 
 const getAverageOfArray = (array, name, num = 1) => {
+  // if (name == 'netCashAvailability') console.log('getAverageOfArray', {array, name, num});
   
   const filteredArray = array
     .filter((value) => Number(value) !== 0)

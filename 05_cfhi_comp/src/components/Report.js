@@ -26,9 +26,9 @@ const displayReportComponent = () => {
       ["daysOperatingCash", "num", 0, "wa", "cb"],
       ["availableDaysOfCashFlow", "num", 0, "wa", "cb"],
       ["liquidityRatio", "num", 1, "wa", "cb"],
-      ["netCashAvailability", "dollar", 0, null, "cb"],
-      ["netCashAvailability_including", "dollar", 0, null],
-      ["netCashAvailability_standard", "dollar", 0, null],
+      ["netCashAvailability", "dollar", 0, undefined, "cb"],
+      ["netCashAvailability_including", "dollar", 0, undefined],
+      ["netCashAvailability_standard", "dollar", 0, undefined],
       // ["cashFlowsFromOperatingActivities", "dollar", 0, "wa"],
     ]);
     insertDataToReport(debtData, selectedYears, [
@@ -336,6 +336,7 @@ const addPeerDataToRow = (
     if (peer && wa) {
       avg = getWeightedAverageOfArray(data, name);
     } else if (peer && wa === undefined) {
+
       avg = getAverageOfArray(peer[dataArray], name);
     } else {
       avg = 0;
@@ -350,7 +351,7 @@ const addPeerDataToRow = (
     textMax = styleNumber(max, type, fixedNum);
   }
 
-  // if (name == 'givingUnits') console.log('givingUnits', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
+  // if (name == 'netCashAvailability') console.log('netCashAvailability', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
 
   // console.log('----', {avg, textAvg, peer, wa, data, name});  
 

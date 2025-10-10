@@ -387,7 +387,9 @@ const netCashAvailability_standard_weightedAverage = (data, name, year) => {
   const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
-  // Updated formula per image: ((s45 - s167) - s46) / 12
+
+  // ((s45 - s167 - s168) - s46) / 12
+
   // Removed s168 (internetOnFinanceLease) per updated calculation
   return ((s45 - s167) - s46) / 12;
 };
@@ -402,6 +404,8 @@ const netCashAvailability_including_weightedAverage = (data, name, year) => {
     : 0;
   const s36 = getSumOfArray(data.netAssetWithDonor[name][year ? year : 'total']);
   const s30 = getSumOfArray(data.availableOperatingLineOfCredit[name][year ? year : 'total']);
+
+  // s18 + s20 - (s26 - s166 - s31) - s36 + s21 + s30
 
   // Updated formula per image: s18 + s20 - (s26 - s31 - s164) - s36 + s30
   // Removed s166 (futureMinimumLeasePayment) and s21 (pledgeReceivable) per updated calculation
@@ -419,10 +423,12 @@ const netCashAvailability_weightedAverage = (data, name, year) => {
     : 0;
   const s36 = getSumOfArray(data.netAssetWithDonor[name][year ? year : 'total']);
 
+  
+
   // Updated formula per image: s18 + s20 - (s26 - s31 - s164) - s36
   // Removed s166 (futureMinimumLeasePayment) and s21 (pledgeReceivable) per updated calculation
   // Added s164 (oneTimePayoffDebtDueNextYear) per updated calculation
-  return s18 + s20 - (s26 - s31 - s164) - s36;
+  // return s18 + s20 - ((s26 - s166) - s31) - s36 + s21
 };
 
 const liquidityRatio_weightedAverage = (data, name, year) => {
@@ -485,7 +491,7 @@ const daysExpendableNetAssets_weightedAverage = (data, name, year) => {
 };
 
 const givingUnitsToStaff_weightedAverage = (data, name, year) => {
-  console.log('givingUnitsToStaff_weightedAverage', data, name);
+  // console.log('givingUnitsToStaff_weightedAverage', data, name);
   const s02 = getSumOfArray(data.givingUnits[name][year ? year : 'total']);
   const s151 = getSumOfArray(data.fullTimeEquivalent[name][year ? year : 'total']);
 
