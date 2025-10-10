@@ -1203,16 +1203,6 @@ class DataProcessor {
           "cash",
           "peer",
           year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
-          "daysOperatingCash"
-        );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
           "capitalizedInterest",
           record,
           "s51___capitalized_interest",
@@ -1243,12 +1233,23 @@ class DataProcessor {
           "cash",
           "peer",
           year,
-          "futureMinimumLeasePayment",
+          "nextFiscalYearsRefinancedLoanPayments",
           record,
-          "s166___future_minimum_lease_payment",
+          "s90___next_fiscal_years_refinanced_loan_payments",
           "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
           "daysOperatingCash"
         );
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
+          "oneTimePayoffDebtDueNextYear",
+          record,
+          "s164___one_time_payoff_of_debt_due_in_the_next_year",
+          "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
+          "daysOperatingCash"
+        );
+
 
         // availableDaysOfCashFlow [s49] - Simplified per updated calculation
         this.dataStore.insertData(
@@ -1270,18 +1271,7 @@ class DataProcessor {
           "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
           "availableDaysOfCashFlow"
         );
-        // s318 - Total cash at beginning of year - REMOVED per simplified calculation
-        // s320 - Non-endowment investment at beginning of year - REMOVED per simplified calculation
-        // s336 - Net asset with donor restriction at beginning of year - REMOVED per simplified calculation
-        // s321 - Pledge receivable at beginning of year - REMOVED per simplified calculation
-        // s30 - Available operating line of credit - REMOVED per simplified calculation
-        // s45 - Total expense - REMOVED per simplified calculation
-        // s167 - Amortization of finance lease - REMOVED per simplified calculation
-        // s168 - Interest on finance lease - REMOVED per simplified calculation
-        // s46 - Total depreciation expense - REMOVED per simplified calculation
-        // s154 - Required minimum debt principal - REMOVED per simplified calculation
-        // s166 - Future minimum lease payment - REMOVED per simplified calculation
-
+        
         // liquidityRatio [s18, s20, s36, s21, s26, s166, s27, s28, s154, s164, s29, s31]
         this.dataStore.insertData(
           "cash",
@@ -1853,7 +1843,6 @@ class DataProcessor {
           "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
           "mandatoryDebtServiceToContributionsWithout"
         );
-        // s166 - Future minimum lease payment - REMOVED per updated calculation
         this.dataStore.insertData(
           "debt",
           "peer",
@@ -1864,7 +1853,6 @@ class DataProcessor {
           "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
           "mandatoryDebtServiceToContributionsWithout"
         );
-        // s168 - Interest on finance lease - REMOVED per updated calculation
         this.dataStore.insertData(
           "debt",
           "peer",
@@ -1896,7 +1884,6 @@ class DataProcessor {
           "mandatoryDebtServiceToContributionsWithout"
         );
 
-        // debtPerAverageAdultAttendee (removed per todo)
 
         // debtPerGivingUnit [s155, s165, s02]
         this.dataStore.insertData(
@@ -3129,17 +3116,16 @@ class DataProcessor {
           "mandatoryDebtServiceToCashExpenditure"
         );
 
-        // TODO: Add s90 field when available in Quickbase
-        // this.dataStore.insertData(
-        //   "expense",
-        //   "peer",
-        //   year,
-        //   "nextFiscalYearsRefinancedLoanPayments",
-        //   record,
-        //   "s90___next_fiscal_years_refinanced_loan_payments", // Field name to be confirmed
-        //   "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
-        //   "mandatoryDebtServiceToCashExpenditure"
-        // );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "nextFiscalYearsRefinancedLoanPayments",
+          record,
+          "s90___next_fiscal_years_refinanced_loan_payments", // Field name to be confirmed
+          "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
+          "mandatoryDebtServiceToCashExpenditure"
+        );
 
         // TODO: Add s164 field when available in Quickbase
         this.dataStore.insertData(

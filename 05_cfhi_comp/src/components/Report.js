@@ -24,11 +24,11 @@ const displayReportComponent = () => {
     insertDataToReport(cashData, selectedYears, [
       ["daysExpendableNetAssets", "num", 0, "wa", "cb"],
       ["daysOperatingCash", "num", 0, "wa", "cb"],
-      ["availableDaysOfCashFlow", "num", 0, "wa", "cb"],
+      ["availableDaysOfCashFlow", "num", 0, null, "cb"],
       ["liquidityRatio", "num", 1, "wa", "cb"],
-      ["netCashAvailability", "dollar", 0, undefined, "cb"],
-      ["netCashAvailability_including", "dollar", 0, undefined],
-      ["netCashAvailability_standard", "dollar", 0, undefined],
+      ["netCashAvailability", "dollar", 0, null, "cb"],
+      ["netCashAvailability_including", "dollar", 0, null],
+      ["netCashAvailability_standard", "dollar", 0, null],
       // ["cashFlowsFromOperatingActivities", "dollar", 0, "wa"],
     ]);
     insertDataToReport(debtData, selectedYears, [
@@ -335,7 +335,7 @@ const addPeerDataToRow = (
     // Normal peer data calculation
     if (peer && wa) {
       avg = getWeightedAverageOfArray(data, name);
-    } else if (peer && wa === undefined) {
+    } else if (peer && wa === null) {
 
       avg = getAverageOfArray(peer[dataArray], name);
     } else {

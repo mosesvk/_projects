@@ -463,6 +463,7 @@ const daysOperatingCash_weightedAverage = (data, name, year) => {
   const s18 = getSumOfArray(data.totalCash[name][year ? year : 'total']);
   const s20 = getSumOfArray(data.nonEndowmentInvestment[name][year ? year : 'total']);
   const s36 = getSumOfArray(data.netAssetWithDonor[name][year ? year : 'total']);
+  const s21 = getSumOfArray(data.pledgeReceivable[name][year ? year : 'total']);
   const s45 = getSumOfArray(data.totalExpense[name][year ? year : 'total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
   const s51 = getSumOfArray(data.capitalizedInterest[name][year ? year : 'total']);
@@ -471,8 +472,11 @@ const daysOperatingCash_weightedAverage = (data, name, year) => {
   const s90 = data.nextFiscalYearsRefinancedLoanPayments
     ? getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name][year ? year : 'total'])
     : 0;
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']) 
+    : 0;
 
-  return (((s18 + s20 - s36) / (s45 - s167 + (s51 - s46) + (s154 + s90))) * 365);
+  return (((s18 + s20 - s36 + s21) / (s45 - s167 + (s51 - s46) + (s154 + s90 - s164))) * 365);
 };
 
 const daysExpendableNetAssets_weightedAverage = (data, name, year) => {
