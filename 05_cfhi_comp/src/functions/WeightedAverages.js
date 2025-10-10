@@ -487,6 +487,7 @@ const daysExpendableNetAssets_weightedAverage = (data, name, year) => {
   const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
+
   return (((s34 - s92 + s155) / ((s45 - s167) - s46)) * 365);
 };
 

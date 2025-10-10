@@ -1084,7 +1084,7 @@ class DataProcessor {
           "totalPropertyPlantAndEquipmentNet",
           record,
           "s92___total_property_plant_and_equipment__net",
-          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
+          "s92___total_ppe_net",
           "daysExpendableNetAssets"
         );
         this.dataStore.insertData(
@@ -1885,18 +1885,16 @@ class DataProcessor {
           "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
           "mandatoryDebtServiceToContributionsWithout"
         );
-
-        // TODO: Add s90 field when available in Quickbase
-        // this.dataStore.insertData(
-        //   "debt",
-        //   "peer",
-        //   year,
-        //   "nextFiscalYearsRefinancedLoanPayments",
-        //   record,
-        //   "s90___next_fiscal_years_refinanced_loan_payments", // Field name to be confirmed
-        //   "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
-        //   "mandatoryDebtServiceToContributionsWithout"
-        // );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "nextFiscalYearsRefinancedLoanPayments",
+          record,
+          "s90___next_fiscal_years_refinanced_loan_payments", // Field name to be confirmed
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "mandatoryDebtServiceToContributionsWithout"
+        );
 
         // debtPerAverageAdultAttendee (removed per todo)
 
@@ -4082,7 +4080,7 @@ class ApiService {
         act: "API_DoQuery",
         query: queryCondition,
         clist:
-          "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178.412.413",
+          "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178.412.413.414.415.416.417.418",
       };
       
 

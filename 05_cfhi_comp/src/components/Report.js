@@ -26,7 +26,7 @@ const displayReportComponent = () => {
       ["daysOperatingCash", "num", 0, "wa", "cb"],
       ["availableDaysOfCashFlow", "num", 0, "wa", "cb"],
       ["liquidityRatio", "num", 1, "wa", "cb"],
-      ["netCashAvailability", "dollar", 0, undefinaed, "cb"],
+      ["netCashAvailability", "dollar", 0, undefined, "cb"],
       ["netCashAvailability_including", "dollar", 0, undefined],
       ["netCashAvailability_standard", "dollar", 0, undefined],
       // ["cashFlowsFromOperatingActivities", "dollar", 0, "wa"],

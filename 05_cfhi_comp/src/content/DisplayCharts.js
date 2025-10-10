@@ -154,7 +154,7 @@ const displayCashComponent = () => {
 
   const daysExpendable_benchmark = [
     fixUnicodeCharacters("Days Expendable Benchmark"),
-    fixUnicodeCharacters('We believe a reasonable benchmark for this ratio is 30 to 60 days of cash expenses on hand. Furthermore, a result of less than 15 days could be interpreted as a <span class="red">red flag</span>.'),
+    fixUnicodeCharacters('We believe a reasonable benchmark for this ratio is 30 to 60 days of cash expenses on hand. Furthermore, a result of less than 30 days could be interpreted as a <span class="red">red flag</span>.'),
   ];
   createBenchmark(daysExpendable_benchmark, "row_daysExpendableNetAssets");
 
