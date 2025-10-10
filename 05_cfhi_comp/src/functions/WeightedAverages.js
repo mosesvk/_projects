@@ -301,11 +301,9 @@ const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name, year
 
 const netIncomeRatio_weightedAverage = (data, name, year) => {
   const s48 = getSumOfArray(data.changeInNetAssetWithout[name][year ? year : 'total']);
-  const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name][year ? year : 'total']);
   const s41 = getSumOfArray(data.totalContributionWithout[name][year ? year : 'total']);
 
-  return (s48 + s167 + s168) / s41;
+  return s48 / s41;
 };
 
 const debtPerGivingUnit_standard_weightedAverage = (data, name, year) => {
@@ -319,12 +317,10 @@ const debtPerGivingUnit_standard_weightedAverage = (data, name, year) => {
 
 const debtPerGivingUnit_weightedAverage = (data, name, year) => {
   const s155 = getSumOfArray(data.totalDebt[name][year ? year : 'total']);
-  const s165 = getSumOfArray(data.financeLeaseRightOfUse[name][year ? year : 'total']);
   const s02 = getSumOfArray(data.givingUnits[name][year ? year : 'total']);
 
-  return (s155 - s165) / s02;
+  return s155 / s02;
 };
-
 
 const mandatoryDebtServiceToContributionsWithout_weightedAverage = (
   data,
@@ -368,14 +364,12 @@ const debtToContributionsWithout_weightedAverage = (data, name, year) => {
 const debtCoverage_weightedAverage = (data, name, year) => {
   const s48 = getSumOfArray(data.changeInNetAssetWithout[name][year ? year : 'total']);
   const s167 = getSumOfArray(data.amortizationFinanceLease[name][year ? year : 'total']);
-  const s168 = getSumOfArray(data.internetOnFinanceLease[name][year ? year : 'total']);
   const s47 = getSumOfArray(data.cyInterestExpense[name][year ? year : 'total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name][year ? year : 'total']);
-  const s166 = getSumOfArray(data.futureMinimumLeasePayment[name][year ? year : 'total']);
 
   return (
-    (s48 + s167 + s168 + (s47 - s168) + s46) / (s154 - s166 + (s47 - s168))
+    (s48 + s167 + (s47) + s46) / (s154 + (s47))
   );
 };
 

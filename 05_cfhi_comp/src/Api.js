@@ -1848,7 +1848,7 @@ class DataProcessor {
         );
 
 
-        // debtPerGivingUnit [s155, s165, s02]
+        // debtPerGivingUnit [s155, s02]
         this.dataStore.insertData(
           "debt",
           "peer",
@@ -1865,16 +1865,6 @@ class DataProcessor {
           "totalDebt",
           record,
           "s155___total_debt",
-          "cfhi_compre_09d_yes_no___debt_per_giving_unit",
-          "debtPerGivingUnit"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "financeLeaseRightOfUse",
-          record,
-          "s165___finance_lease_right_of_use_asset_and_liability",
           "cfhi_compre_09d_yes_no___debt_per_giving_unit",
           "debtPerGivingUnit"
         );
@@ -1940,7 +1930,7 @@ class DataProcessor {
           "debtPerGivingUnit_standard"
         );
 
-        // debtCoverage [s48, s167, s168, s47, s46, s154, s166]
+        // debtCoverage [s48, s167, s47, s46, s154]
         this.dataStore.insertData(
           "debt",
           "peer",
@@ -1974,16 +1964,6 @@ class DataProcessor {
           "debt",
           "peer",
           year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_10_yes_no___debt_coverage",
-          "debtCoverage"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
           "cyInterestExpense",
           record,
           "s47___cy_interest_expense",
@@ -2007,16 +1987,6 @@ class DataProcessor {
           "requiredMinimumDebtPrinciple",
           record,
           "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_10_yes_no___debt_coverage",
-          "debtCoverage"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
           "cfhi_compre_10_yes_no___debt_coverage",
           "debtCoverage"
         );
@@ -2188,7 +2158,7 @@ class DataProcessor {
 
       // Process peer records
       filteredPeerRecords.forEach((record) => {
-        // netIncomeRatio [s48, s167, s168, s41]
+        // netIncomeRatio [s48, s41]
         this.dataStore.insertData(
           "income",
           "peer",
@@ -2212,26 +2182,6 @@ class DataProcessor {
           "income",
           "peer",
           year,
-          "amortizationFinanceLease",
-          record,
-          "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_11_yes_no___net_income_ratio",
-          "netIncomeRatio"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_11_yes_no___net_income_ratio",
-          "netIncomeRatio"
-        );
-        this.dataStore.insertData(
-          "income",
-          "peer",
-          year,
           "totalContributionWithout",
           record,
           "s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification",
@@ -2248,8 +2198,6 @@ class DataProcessor {
           record,
           "cfhi_compre_11_ratio___net_income_ratio"
         );
-
-        // contributionsWithoutDonorPerAverageAdultAttendee (removed per todo)
 
         // contributionsWithoutDonorPerGivingUnit [s39, s152, s02]
         this.dataStore.insertData(
