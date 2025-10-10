@@ -340,10 +340,14 @@ const mandatoryDebtServiceToContributionsWithout_weightedAverage = (
   const s47 = getSumOfArray(data.cyInterestExpense[name][year ? year : 'total']);
   const s51 = getSumOfArray(data.capitalizedInterest[name][year ? year : 'total']);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name][year ? year : 'total']);
+  const s164 = data.oneTimePayoffDebtDueNextYear 
+    ? getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']) 
+    : 0;
+
 
   // Updated formula: (s154 + s90 + s47 + s51) / s39
   // Removed s166 (futureMinimumLeasePayment) and s168 (internetOnFinanceLease) per updated calculation
-  return (s154 + s90 + s47 + s51) / s39;
+  return (s154 + s90 - s164) + s47 + s51 / s39;
 };
 
 const currentRatio_weightedAverage = (data, name, year) => {

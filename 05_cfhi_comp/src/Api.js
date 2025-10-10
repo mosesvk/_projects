@@ -1776,7 +1776,7 @@ class DataProcessor {
           "currentRatio"
         );
 
-        // mandatoryDebtServiceToContributionsWithout [s154, s47, s51, s39, s90]
+        // mandatoryDebtServiceToContributionsWithout [s154, s47, s51, s39, s90, s164]
         this.dataStore.insertData(
           "debt",
           "peer",
@@ -1832,7 +1832,17 @@ class DataProcessor {
           year,
           "nextFiscalYearsRefinancedLoanPayments",
           record,
-          "s90___next_fiscal_years_refinanced_loan_payments", // Field name to be confirmed
+          "s90___next_fiscal_years_refinanced_loan_payments", 
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "mandatoryDebtServiceToContributionsWithout"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "oneTimePayoffDebtDueNextYear",
+          record,
+          "s164___one_time_payoff_of_debt_due_in_the_next_year",
           "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
           "mandatoryDebtServiceToContributionsWithout"
         );
