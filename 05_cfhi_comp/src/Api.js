@@ -3144,167 +3144,6 @@ class DataProcessor {
           "personnelIncludingToTotalCashExpenditures"
         );
 
-        // localOutreachExpenses
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "localOutreachExpenses_Peer",
-          record,
-          "cfhi_compre_18_1_ratio___local_outreach_expenses",
-          "cfhi_compre_18_1_yes_no___local_outreach_expenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "localOutreachExpense",
-          record,
-          "s14___local_outreach_expense",
-          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
-          "localOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpense",
-          record,
-          "s45___total_expense",
-          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
-          "localOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "amortizationFinanceLease",
-          record,
-          "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
-          "localOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
-          "localOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "requiredMinimumDebtPrinciple",
-          record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
-          "localOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
-          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
-          "localOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalDepreciationExpense",
-          record,
-          "s46___total_depreciation_expense",
-          "cfhi_compre_18_1_yes_no___local_outreach_expenses",
-          "localOutreachExpenses"
-        );
-
-        // globalOutreachExpenses
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "globalOutreachExpenses_Peer",
-          record,
-          "cfhi_compre_18_2_ratio___global_outreach_expenses",
-          "cfhi_compre_18_2_yes_no___global_outreach_expenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "globalOutreachExpense",
-          record,
-          "s15___global_outreach_expense",
-          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
-          "globalOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalExpense",
-          record,
-          "s45___total_expense",
-          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
-          "globalOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "amortizationFinanceLease",
-          record,
-          "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
-          "globalOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "internetOnFinanceLease",
-          record,
-          "s168___internet_on_finance_lease_right_of_use_lease_liabilitie",
-          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
-          "globalOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "requiredMinimumDebtPrinciple",
-          record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
-          "globalOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "futureMinimumLeasePayment",
-          record,
-          "s166___future_minimum_lease_payment",
-          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
-          "globalOutreachExpenses"
-        );
-        this.dataStore.insertData(
-          "expense",
-          "peer",
-          year,
-          "totalDepreciationExpense",
-          record,
-          "s46___total_depreciation_expense",
-          "cfhi_compre_18_2_yes_no___global_outreach_expenses",
-          "globalOutreachExpenses"
-        );
 
         // totalGlobalAndLocalOutreachExpenses
         this.dataStore.insertData(
@@ -3356,7 +3195,6 @@ class DataProcessor {
           "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
           "totalGlobalAndLocalOutreachExpenses"
         );
-        // s168 - Interest on finance lease - REMOVED per updated calculation
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3367,7 +3205,6 @@ class DataProcessor {
           "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
           "totalGlobalAndLocalOutreachExpenses"
         );
-
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3399,8 +3236,6 @@ class DataProcessor {
           "totalGlobalAndLocalOutreachExpenses"
         );
 
-        // cashExpendituresPerAvgAdultAttendee (removed per todo)
-
         // cashExpendituresPerGivingUnit
         this.dataStore.insertData(
           "expense",
@@ -3431,7 +3266,6 @@ class DataProcessor {
           "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
           "cashExpendituresPerGivingUnit"
         );
-        // s168 - Interest on finance lease - REMOVED per updated calculation
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3442,7 +3276,6 @@ class DataProcessor {
           "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
           "cashExpendituresPerGivingUnit"
         );
-        // s166 - Future minimum lease payment - REMOVED per updated calculation
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3463,18 +3296,16 @@ class DataProcessor {
           "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
           "cashExpendituresPerGivingUnit"
         );
-
-        // TODO: Add s90 and s164 fields when available in Quickbase
-        // this.dataStore.insertData(
-        //   "expense",
-        //   "peer",
-        //   year,
-        //   "nextFiscalYearsRefinancedLoanPayments",
-        //   record,
-        //   "s90___next_fiscal_years_refinanced_loan_payments",
-        //   "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
-        //   "cashExpendituresPerGivingUnit"
-        // );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "nextFiscalYearsRefinancedLoanPayments",
+          record,
+          "s90___next_fiscal_years_refinanced_loan_payments",
+          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cashExpendituresPerGivingUnit"
+        );
         this.dataStore.insertData(
           "expense",
           "peer",
@@ -3687,7 +3518,6 @@ class DataProcessor {
           "cfhi_compre_20_ratio___contributions_per_acct_fte",
           "cfhi_compre_20_yes_no___contributions_per_acct_fte"
         );
-        
         this.dataStore.insertData(
           "additional",
           "peer",
@@ -3765,9 +3595,7 @@ class DataProcessor {
           "contributionsPerAccountingFTE"
         );
 
-        // ExpensesPerAccountingFTE
-        // s45 / (s158 + s159 + s160 + s94);
-
+        // expensesPerAccountingFTE [s45, s158, s159, s160, s94]
         this.dataStore.insertData(
           "additional",
           "peer",

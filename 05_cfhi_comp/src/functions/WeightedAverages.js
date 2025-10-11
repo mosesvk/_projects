@@ -103,15 +103,9 @@ const contributionsPerAccountingFTE_weightedAverage = (data, name, year) => {
   const s158 = getSumOfArray(data.averageAnnualAccountingDepartment[name][year ? year : 'total']);
   const s159 = getSumOfArray(data.accountingDepartmentPartTimeEmployee[name][year ? year : 'total']);
   const s160 = getSumOfArray(data.accountingDepartmentVolunteer[name][year ? year : 'total']);
-  // const s94 = data.accountingDeptOutsourcedLabor 
-  //   ? getSumOfArray(data.accountingDeptOutsourcedLabor[name][year ? year : 'total']) 
-  //   : 0;
-
-  // console.log('contributionsPerAccountingFTE_weightedAverage', '(s40 - (s152 + s153)) / (s158 + s159 + s160 + s94)', {s40, s152, s153, s158, s159, s160});
-
-  // Updated formula per image: (s40 - (s152 + s153)) / (s158 + s159 + s160 + s94)
-  // Removed s44 (revenueFromPledge) and added s94 (accountingDeptOutsourcedLabor) per updated calculation
-  return (s40 - (s152 + s153)) / (s158 + s159 + s160);
+  const s94 = getSumOfArray(data.accountingDeptOutsourcedLabor[name][year ? year : 'total']);
+  
+  return (s40 - (s152 + s153)) / (s158 + s159 + s160 + s94);
 };
 
 const cashExpendituresPerGivingUnit_weightedAverage = (data, name, year) => {
@@ -127,9 +121,7 @@ const cashExpendituresPerGivingUnit_weightedAverage = (data, name, year) => {
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
   const s02 = getSumOfArray(data.givingUnits[name][year ? year : 'total']);
 
-  // Updated formula per image: (s45 - s167 + s154 + s90 - s164 - s46) / s02
-  // Removed s168 (internetOnFinanceLease) and s166 (futureMinimumLeasePayment) per updated calculation
-  return (s45 - s167 + s154 + s90 - s164 - s46) / s02;
+  return (s45 - s167) + (s154 + s90 - s164) - s46 / s02;
 };
 
 
@@ -147,9 +139,7 @@ const totalGlobalAndLocalOutreachExpenses_weightedAverage = (data, name, year) =
     : 0;
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
-  // Updated formula per image: (s14 + s15) / (s45 - s167 + s154 + s90 - s164 - s46)
-  // Removed s168 (internetOnFinanceLease) and s166 (futureMinimumLeasePayment) per updated calculation
-  return (s14 + s15) / (s45 - s167 + s154 + s90 - s164 - s46);
+  return (s14 + s15) / (s45 - s167) + (s154 + s90 - s164) - s46;
 };
 
 
