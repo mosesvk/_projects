@@ -24,7 +24,7 @@ const displayReportComponent = () => {
     insertDataToReport(cashData, selectedYears, [
       ["daysExpendableNetAssets", "num", 0, "wa", "cb"],
       ["daysOperatingCash", "num", 0, "wa", "cb"],
-      ["cashFlowsFromOperatingActivities", "dollar", 0],
+      ["cashFlowsFromOperatingActivities", "dollar", 0, null, "cb"],
       ["liquidityRatio", "num", 1, "wa", "cb"],
       ["netCashAvailability", "dollar", 0, null, "cb"],
       ["netCashAvailability_including", "dollar", 0, null],
@@ -614,7 +614,7 @@ function processBenchmarkParagraphs() {
     // Cash data
     ["daysExpendableNetAssets", cashData, "#daysExpendableNetAssets-body-3 div"],
     ["daysOperatingCash", cashData, "#daysOperatingCash-body-3 div"],
-    ["availableDaysOfCashFlow", cashData, "#availableDaysOfCashFlow-body-3 div"],
+    ["cashFlowsFromOperatingActivities", cashData, "#cashFlowsFromOperatingActivities-body-3 div"],
     ["liquidityRatio", cashData, "#liquidityRatio-body-3 div"],
     ["netCashAvailability", cashData, "#netCashAvailability-body-3 div"],
     
