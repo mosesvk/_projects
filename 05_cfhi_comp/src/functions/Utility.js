@@ -55,7 +55,7 @@ window.givingUnits_chart = null;
 window.givingUnitsToStaff_chart = null;
 window.daysExpendableNetAssets_chart = null;
 window.daysOperatingCash_chart = null;
-window.availableDaysOfCashFlow_chart = null;
+window.cashFlowsFromOperatingActivities_chart = null;
 window.liquidityRatio_chart = null;
 window.netCashAvailability_chart = null;
 window.debtToContributionsWithout_chart = null;
@@ -272,7 +272,7 @@ const createChart = (
     "givingUnitsToStaff_chart",
     "daysExpendableNetAssets_chart",
     "daysOperatingCash_chart",
-    "availableDaysOfCashFlow_chart",
+    "cashFlowsFromOperatingActivities_chart",
     "liquidityRatio_chart",
     "netCashAvailability_chart",
     "debtToContributionsWithout_chart",
@@ -326,14 +326,14 @@ const createChart = (
       document.addEventListener("dark-mode", function () {
         window.daysOperatingCash_chart.updateOptions(chartOptions);
       });
-    } else if (chartId === "availableDaysOfCashFlow_chart") {
-      window.availableDaysOfCashFlow_chart = new ApexCharts(
+    } else if (chartId === "cashFlowsFromOperatingActivities_chart") {
+      window.cashFlowsFromOperatingActivities_chart = new ApexCharts(
         document.getElementById(chartId),
         chartOptions
       );
-      window.availableDaysOfCashFlow_chart.render();
+      window.cashFlowsFromOperatingActivities_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.availableDaysOfCashFlow_chart.updateOptions(chartOptions);
+        window.cashFlowsFromOperatingActivities_chart.updateOptions(chartOptions);
       });
     } else if (chartId === "liquidityRatio_chart") {
       window.liquidityRatio_chart = new ApexCharts(
