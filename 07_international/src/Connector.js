@@ -66,7 +66,7 @@ class SystemConnector {
 
     // Set up charts rendered event listener
     document.addEventListener("chartsRendered", () => {
-      console.log("Charts rendered event received");
+      // console.log("Charts rendered event received");
       if (typeof displayReportComponent === "function") {
         setTimeout(() => {
           displayReportComponent();
@@ -169,7 +169,7 @@ class SystemConnector {
 
     // Listen for chart rendered events
     document.addEventListener("chartsRendered", () => {
-      console.log("Charts rendered event received in SystemConnector");
+      // console.log("Charts rendered event received in SystemConnector");
 
       // Update any UI that depends on charts being rendered
       if (typeof displayReportComponent === "function") {

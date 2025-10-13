@@ -95,7 +95,7 @@ class ReportComponent {
    * Display report component with data
    */
   displayReportComponent() {
-    console.log("Displaying report component");
+    // console.log("Displaying report component");
 
     try {
       // Get selected years
@@ -227,7 +227,7 @@ class ReportComponent {
         generateReportsBtn.classList.remove("hidden");
       }
 
-      console.log("Report generated successfully");
+      // console.log("Report generated successfully");
     } catch (error) {
       console.error("Error displaying report component:", error);
       if (typeof createToastWarning === "function") {

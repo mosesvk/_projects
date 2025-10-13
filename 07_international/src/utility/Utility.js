@@ -2351,7 +2351,7 @@ function getPeerAndClientChartDataArrays(
     window.chartDataCache &&
     window.chartDataCache[cacheKey]
   ) {
-    console.log(`Using cached chart data for ${mainName}`);
+    // console.log(`Using cached chart data for ${mainName}`);
     return window.chartDataCache[cacheKey];
   }
 

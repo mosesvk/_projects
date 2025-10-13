@@ -88,7 +88,7 @@ function initializeChartDisplay() {
     // Update global chart references for backward compatibility
     updateGlobalChartReferences();
 
-    console.log("Chart display initialized successfully");
+    // console.log("Chart display initialized successfully");
 
     // Dispatch event that charts are rendered (other components may listen for this)
     document.dispatchEvent(new Event("chartsRendered"));

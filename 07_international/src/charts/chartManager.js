@@ -217,7 +217,7 @@ class ChartManager {
       // Ensure numType is set in chart globals
       if (chartContext && chartContext.w && chartContext.w.globals) {
         chartContext.w.globals.numType = dataType;
-        console.log(`Chart ${chartId} mounted with numType: ${dataType}`);
+        // console.log(`Chart ${chartId} mounted with numType: ${dataType}`);
       }
       
       // Call original mounted event if it exists
