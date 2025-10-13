@@ -172,8 +172,8 @@ const addToSingleRow = (
 ) => {
   // console.log({ selectedYears, name, client, peer, type, fixedNum });
   const tableReportRow = document.getElementById(`row_${name}`);
-  console.log(`row_${name}`);
-  console.log("tableReportRow", tableReportRow);
+  // console.log(`row_${name}`);
+  // console.log("tableReportRow", tableReportRow);
 
   while (tableReportRow.children.length > 1) {
     tableReportRow.removeChild(tableReportRow.children[1]);
@@ -331,7 +331,7 @@ const addPeerDataToRow = (
     // Normal peer data calculation
     if (peer && wa) {
       avg = getWeightedAverageOfArray(data, name);
-    } else if (peer && wa === null) {
+    } else if (peer && (wa === null || wa === undefined)) {
 
       avg = getAverageOfArray(peer[dataArray], name);
     } else {
@@ -414,7 +414,7 @@ const addPeerDataToModalRow = (
     // Normal peer data calculation
     if (peer && wa) {
       avg = getWeightedAverageOfArray(data, name, dataArray);
-    } else if (peer && wa === undefined) {
+    } else if (peer && (wa === undefined || wa === null)) {
       avg = getAverageOfArray(peer[dataArray], name);
     } else {
       avg = 0;
