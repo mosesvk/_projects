@@ -3672,8 +3672,7 @@ class DataProcessor {
           year,
           "contributionsPerAccountingFTE_Client",
           record,
-          "cfhi_compre_20_ratio___contributions_per_acct_fte",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte"
+          "cfhi_compre_20_ratio___contributions_per_accounting_fte"
         );
         
         this.dataStore.insertData(
@@ -3682,8 +3681,7 @@ class DataProcessor {
           year,
           "expensesPerAccountingFTE_Client",
           record,
-          "cfhi_compre_21_ratio___expenses_per_acct_fte",
-          "cfhi_compre_21_yes_no___expenses_per_acct_fte"
+          "cfhi_compre_21_ratio___expenses_per_acct_fte"
         );
 
       });
@@ -3912,7 +3910,7 @@ class ApiService {
         dataStr += newRecord.outerHTML;
       }
 
-      // console.log("client records", dataStr);
+      console.log("client records", dataStr);
       // console.log("recordClientHTMLArray", this.recordClientHTMLArray);
 
       // Recursive call with updated years and dataStr
