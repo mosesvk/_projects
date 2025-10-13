@@ -113,7 +113,18 @@ const displayCashComponent = () => {
     "Days Operating Cash"
   );
 
-
+  // cashFlowsFromOperatingActivities
+  createChartFromParsedData(
+    parseData,
+    "cashFlowsFromOperatingActivities_chart",
+    "cashFlowsFromOperatingActivities_Peer",
+    "cashFlowsFromOperatingActivities_Client",
+    "number",
+    0,
+    "cashFlowsFromOperatingActivities",
+    getBenchmarksForField("cashFlowsFromOperatingActivities"),
+    "Cash Flows from Operating Activities"
+  );
 
   // liquidityRatio
   createChartFromParsedData(
@@ -153,6 +164,12 @@ const displayCashComponent = () => {
     fixUnicodeCharacters('We believe an appropriate benchmark for this ratio is 40 to 80 days of annual cash expenditures on hand.  Furthermore, a result of less than 20 days could be interpreted as a  <span class="red">red flag</span>'),
   ];
   createBenchmark(daysOperatingCash_benchmark, "row_daysOperatingCash");
+
+  const cashFlowsFromOperatingActivities_benchmark = [
+    fixUnicodeCharacters("Cash Flows from Operating Activities Benchmark"),
+    fixUnicodeCharacters("We believe the benchmark for this ratio is greater than or equal to 0."),
+  ];
+  createBenchmark(cashFlowsFromOperatingActivities_benchmark, "row_cashFlowsFromOperatingActivities");
 
 
   const liquidityRatio_benchmark = [
