@@ -1257,7 +1257,8 @@ class DataProcessor {
           year,
           "cashFlowsFromOperatingActivities_Peer",
           record,
-          "s49___cash_flow_from_operating_activities"
+          "s49___cash_flow_from_operating_activities",
+          "Yes"
         );
 
 
@@ -3698,7 +3699,7 @@ class ApiService {
           dataStr + "</qdbapi>",
           "text/xml"
         );
-        console.log("PEER XML", xmlDoc);
+        // console.log("PEER XML", xmlDoc);
         const records = xmlDoc.querySelectorAll("record");
         // console.log("getRecordsForPeer", records);
         // console.log(`Parsed ${records.length} peer records from collected data`);
