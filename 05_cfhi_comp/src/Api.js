@@ -3717,7 +3717,7 @@ class ApiService {
           dataStr + "</qdbapi>",
           "text/xml"
         );
-        // console.log("PEER XML", xmlDoc);
+        console.log("PEER XML", xmlDoc);
         const records = xmlDoc.querySelectorAll("record");
         // console.log("getRecordsForPeer", records);
         // console.log(`Parsed ${records.length} peer records from collected data`);
@@ -3786,7 +3786,7 @@ class ApiService {
 
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
-      // console.log("PEER XML", xml);
+      console.log("PEER XML", xml);
       const recordsForPeer = $("record", xml).toArray();
       // console.log("recordsForPeer", recordsForPeer);
       // console.log(`Received ${recordsForPeer.length} records for year ${currentYear}`);

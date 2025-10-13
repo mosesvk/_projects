@@ -121,7 +121,7 @@ const cashExpendituresPerGivingUnit_weightedAverage = (data, name, year) => {
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
   const s02 = getSumOfArray(data.givingUnits[name][year ? year : 'total']);
 
-  return (s45 - s167) + (s154 + s90 - s164) - s46 / s02;
+  return ((s45 - s167) + (s154 + s90 - s164) - s46) / s02
 };
 
 
@@ -139,7 +139,7 @@ const totalGlobalAndLocalOutreachExpenses_weightedAverage = (data, name, year) =
     : 0;
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
-  return (s14 + s15) / (s45 - s167) + (s154 + s90 - s164) - s46;
+  return (s14 + s15) / ((s45 - s167) + (s154 + s90 - s164) - s46)
 };
 
 
@@ -162,7 +162,7 @@ const personnelIncludingToTotalCashExpenditures_weightedAverage = (
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
   const s162 = getSumOfArray(data.costOfOutsourcedEmployee[name][year ? year : 'total']);
 
-  return (s11 + s10 + s162) / (s45 - s167) + (s154 + s90 - s164) - s46
+  return (s11 + s10 + s162) / ((s45 - s167) + (s154 + s90 - s164) - s46)
 };
 
 const mandatoryDebtServiceToCashExpenditure_weightedAverage = (data, name, year) => {
@@ -180,7 +180,7 @@ const mandatoryDebtServiceToCashExpenditure_weightedAverage = (data, name, year)
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
   return (
-    (s154 + s90 - s164) + s47 + s51 / (s45 - s167 + (s154 + s90 - s164) - s46)
+    ((s154 + s90 - s164) + s47 + s51) / (s45 - s167 + (s154 + s90 - s164) - s46)
   );
 };
 
@@ -309,7 +309,7 @@ const mandatoryDebtServiceToContributionsWithout_weightedAverage = (
 
   // Updated formula: (s154 + s90 + s47 + s51) / s39
   // Removed s166 (futureMinimumLeasePayment) and s168 (internetOnFinanceLease) per updated calculation
-  return (s154 + s90 - s164) + s47 + s51 / s39;
+  return ((s154 + s90 - s164) + s47 + s51) / s39;
 };
 
 const currentRatio_weightedAverage = (data, name, year) => {
@@ -320,11 +320,12 @@ const currentRatio_weightedAverage = (data, name, year) => {
 };
 
 const debtToContributionsWithout_weightedAverage = (data, name, year) => {
+  // console.log('debtToContributionsWithout_weightedAverage', data, name, year);
   const s155 = getSumOfArray(data.totalDebt[name][year ? year : 'total']);
   const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name][year ? year : 'total']);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name][year ? year : 'total']);
 
-  return s155 / s39 - s152;
+  return s155 / (s39 - s152);
 };
 
 const debtCoverage_weightedAverage = (data, name, year) => {

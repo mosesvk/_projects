@@ -332,7 +332,6 @@ const addPeerDataToRow = (
     if (peer && wa) {
       avg = getWeightedAverageOfArray(data, name);
     } else if (peer && (wa === null || wa === undefined)) {
-
       avg = getAverageOfArray(peer[dataArray], name);
     } else {
       avg = 0;
@@ -347,7 +346,7 @@ const addPeerDataToRow = (
     textMax = styleNumber(max, type, fixedNum);
   }
 
-  if (name == 'givingUnits') console.log('givingUnits', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
+  if (name == 'debtToContributionsWithout') console.log('debtToContributionsWithout', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
 
   // console.log('----', {avg, textAvg, peer, wa, data, name});  
 
