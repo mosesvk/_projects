@@ -24,7 +24,7 @@ const displayReportComponent = () => {
     insertDataToReport(cashData, selectedYears, [
       ["daysExpendableNetAssets", "num", 0, "wa", "cb"],
       ["daysOperatingCash", "num", 0, "wa", "cb"],
-      ["cashFlowsFromOperatingActivities", "dollar", 0, "wa"],
+      ["cashFlowsFromOperatingActivities", "dollar", 0],
       ["liquidityRatio", "num", 1, "wa", "cb"],
       ["netCashAvailability", "dollar", 0, null, "cb"],
       ["netCashAvailability_including", "dollar", 0, null],
@@ -345,7 +345,7 @@ const addPeerDataToRow = (
     textMax = styleNumber(max, type, fixedNum);
   }
 
-  if (name == 'debtToContributionsWithout') console.log('debtToContributionsWithout', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
+  // if (name == 'debtToContributionsWithout') console.log('debtToContributionsWithout', {avg, textAvg, peer, wa, data, name, type, dataArray, fixedNum});
 
   // console.log('----', {avg, textAvg, peer, wa, data, name});  
 
