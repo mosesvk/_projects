@@ -146,6 +146,7 @@
         <cfhi_stand_06and08_bench_paragraph_total_contributions_per_giving_unit_less_cash_expense_per_giving_unit>&lt;p&gt;Have you ever wondered what the net position is (per giving unit) when compared to the financial cost of total contributions received? This calculation takes the net between these two measures and gives you the information to know if your contributions are high enough to cover the monetary cost per giving unit.&lt;/p&gt;&lt;p&gt;Because the net position of these two measures is positive, the result is within the recommended limits and your church can conclude that you are able to pay cash operations though current contributions received.&lt;/p&gt;</cfhi_stand_06and08_bench_paragraph_total_contributions_per_giving_unit_less_cash_expense_per_giving_unit>
         <cfhi_compre_00a_ratio___giving_units_to_staff>40</cfhi_compre_00a_ratio___giving_units_to_staff>
         <cfhi_compre_00a_bench_rating___giving_units_to_staff></cfhi_compre_00a_bench_rating___giving_units_to_staff>
+        <s49___csah_flow_from_operating_activities>5616527</s49___csah_flow_from_operating_activities>
         <update_id>1727367499837</update_id>
     </record>
     <record>
@@ -295,5 +296,6 @@
         <cfhi_stand_06and08_bench_paragraph_total_contributions_per_giving_unit_less_cash_expense_per_giving_unit>&lt;p&gt;Have you ever wondered what the net position is (per giving unit) when compared to the financial cost of total contributions received? This calculation takes the net between these two measures and gives you the information to know if your contributions are high enough to cover the monetary cost per giving unit.&lt;/p&gt;&lt;p&gt;Because the net position of these two measures is positive, the result is within the recommended limits and your church can conclude that you are able to pay cash operations though current contributions received.&lt;/p&gt;</cfhi_stand_06and08_bench_paragraph_total_contributions_per_giving_unit_less_cash_expense_per_giving_unit>
         <cfhi_compre_00a_ratio___giving_units_to_staff>40</cfhi_compre_00a_ratio___giving_units_to_staff>
         <cfhi_compre_00a_bench_rating___giving_units_to_staff></cfhi_compre_00a_bench_rating___giving_units_to_staff>
+        <s49___csah_flow_from_operating_activities>6192001</s49___csah_flow_from_operating_activities>
         <update_id>1759782698460</update_id>
     </record>

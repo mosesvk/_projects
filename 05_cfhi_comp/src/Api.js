@@ -1250,26 +1250,17 @@ class DataProcessor {
         );
 
 
-        // availableDaysOfCashFlow [s49] - Simplified per updated calculation
+        // cashFlowsFromOperatingActivities s49
         this.dataStore.insertData(
           "cash",
           "peer",
           year,
-          "availableDaysOfCashFlow_Peer",
+          "cashFlowsFromOperatingActivities_Peer",
           record,
-          "cfhi_compre_03_ratio___available_days_of_cash_flow_coverage",
-          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage"
+          "s49___cash_flow_from_operating_activities"
         );
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "cashFlowFromOperatingActivities",
-          record,
-          "s49___cash_flow_from_operating_activities",
-          "cfhi_compre_03_yes_no___available_days_of_cash_flow_coverage",
-          "availableDaysOfCashFlow"
-        );
+
+
 
         // liquidityRatio [s18, s20, s36, s21, s26, s164, s29, s31, s91]
         this.dataStore.insertData(
@@ -1590,6 +1581,16 @@ class DataProcessor {
           "cfhi_compre_01_bench_paragraph___days_of_expendable_net_asset_reserves"
         );
 
+        // cashFlowsFromOperatingActivities s49
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "cashFlowsFromOperatingActivities_Client",
+          record,
+          "s49___csah_flow_from_operating_activities"
+        );
+
         // daysOperatingCash
         this.dataStore.insertData(
           "cash",
@@ -1610,25 +1611,7 @@ class DataProcessor {
           "cfhi_compre_02_bench_paragraph___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures"
         );
 
-        // availableDaysOfCashFlow
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "availableDaysOfCashFlow_Client",
-          record,
-          "cfhi_compre_03_ratio___available_days_of_cash_flow_coverage",
-          "cfhi_compre_03_bench_rating___available_days_of_cash_flow_coverage"
-        );
         
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          'availableDaysOfCashFlow_benchmarkParagraph',
-          record,
-          "cfhi_compre_03_bench_paragraph___available_days_of_cash_flow_coverage"
-        );
 
         // liquidityRatio
         this.dataStore.insertData(
@@ -3888,7 +3871,7 @@ class ApiService {
       {98.EX.${ClientRid}} AND {105.EX.'Comprehensive'} AND {474.EX.${currentYear}} 
     `,
       clist:
-        "452.98.474.22.21.34.35.259.300.301.60.302.69.28.73.257.258.260.261.263.303.304.264.262.265.266.280.267.281.268.269.270.271.272.273.275.278.277.276.279.242.243.244.305.306.245.307.308.309.310.246.311.312.313.274.389.390.391.392.393.230.282.283.286.285.284.75.399.401.402.403.404.405.406.407.408.409.317.318.321.327.329.330.333.335.339.341.342.345.377.379.256.255.254.253.252.33.288.445.446.447.448.449.294.295.296.297.298.299.437.444.438.443.439.440.442.441.313.410.316.319.320.326.328.331.332.334.338.340.343.346.378.381.383.380.251.250.249.248.247.213.216.220.223.236.672.674",
+        "452.98.474.22.21.34.35.259.300.301.60.302.69.28.73.257.258.260.261.263.303.304.264.262.265.266.280.267.281.268.269.270.271.272.273.275.278.277.276.279.242.243.244.305.306.245.307.308.309.310.246.311.312.313.274.389.390.391.392.393.230.282.283.286.285.284.75.399.401.402.403.404.405.406.407.408.409.317.318.321.327.329.330.333.335.339.341.342.345.377.379.256.255.254.253.252.33.288.445.446.447.448.449.294.295.296.297.298.299.437.444.438.443.439.440.442.441.313.410.316.319.320.326.328.331.332.334.338.340.343.346.378.381.383.380.251.250.249.248.247.213.216.220.223.236.672.674.67",
     };
 
     try {
