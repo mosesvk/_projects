@@ -2335,15 +2335,15 @@ function getPeerAndClientChartDataArrays(
   )}_${numType}_${wa}_${fixedNum}`;
 
   if (mainName == testName)
-    console.log("getPeerAndClientChartDataArrays", {
-      dataPeer,
-      dataClient,
-      parsedData,
-      fixedNum,
-      mainName,
-      numType,
-      wa,
-    });
+    // console.log("getPeerAndClientChartDataArrays", {
+    //   dataPeer,
+    //   dataClient,
+    //   parsedData,
+    //   fixedNum,
+    //   mainName,
+    //   numType,
+    //   wa,
+    // });
 
   // Use cached result if available and not forcing refresh
   if (

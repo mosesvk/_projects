@@ -339,15 +339,15 @@ class ChartConfigFactory {
       parsedData
     );
 
-    console.log('createMainChartConfig', {
-      dataPeer,
-      dataClient,
-      numType,
-      fixedNum,
-      mainName,
-      wa,
-      parsedData,
-    });
+    // console.log('createMainChartConfig', {
+    //   dataPeer,
+    //   dataClient,
+    //   numType,
+    //   fixedNum,
+    //   mainName,
+    //   wa,
+    //   parsedData,
+    // });
     
 
     // Update the corresponding modal with the same data
@@ -1187,12 +1187,12 @@ class ChartConfigFactory {
         }
       });
 
-      console.log("createFunctionalAllocationConfig", {
-        programClientArray,
-        adminClientArray,
-        fundraisingClientArray,
-        programPeerAvg,
-      });
+      // console.log("createFunctionalAllocationConfig", {
+      //   programClientArray,
+      //   adminClientArray,
+      //   fundraisingClientArray,
+      //   programPeerAvg,
+      // });
 
       // Define series colors
       const seriesColors = [

@@ -19,6 +19,24 @@ class DataStore {
     localStorage.setItem("miscData", JSON.stringify(this.miscData));
   }
 
+  // Clear all data from memory and localStorage
+  clear() {
+    this.generalData = {};
+    this.cashData = {};
+    this.assetData = {};
+    this.incomeData = {};
+    this.expenseData = {};
+    this.miscData = {};
+    
+    // Also clear localStorage
+    localStorage.removeItem("generalData");
+    localStorage.removeItem("cashData");
+    localStorage.removeItem("assetData");
+    localStorage.removeItem("incomeData");
+    localStorage.removeItem("expenseData");
+    localStorage.removeItem("miscData");
+  }
+
   // Get a reference to the appropriate data object based on category
   getDataCategory(category) {
     switch (category) {
@@ -3142,6 +3160,11 @@ class AppController {
         typeof this.apiService.clearRecords === "function"
       ) {
         this.apiService.clearRecords();
+      }
+
+      // Clear chart data cache to force fresh calculations
+      if (window.chartDataCache) {
+        window.chartDataCache = {};
       }
 
       // Fetch peer data with improved error handling

@@ -147,11 +147,11 @@ class ChartManager {
   ) {
     const testName = "contributionsWithoutDR";
     if (mainName == testName) {
-      console.log("chartmanager.createChart", {
-        dataPeer,
-        dataClient,
-        parsedData,
-      });
+      // console.log("chartmanager.createChart", {
+      //   dataPeer,
+      //   dataClient,
+      //   parsedData,
+      // });
     }
 
     // Get chart element and clear it
@@ -232,7 +232,7 @@ class ChartManager {
     // Ensure numType is explicitly set on the chart instance
     if (chart && chart.w && chart.w.globals) {
       chart.w.globals.numType = dataType;
-      console.log(`Explicitly set numType for ${chartId}: ${dataType}`);
+      // console.log(`Explicitly set numType for ${chartId}: ${dataType}`);
     }
 
     // Store chart for reference
@@ -329,7 +329,7 @@ class ChartManager {
       // Ensure numType is explicitly set on the chart instance
       if (chart && chart.w && chart.w.globals) {
         chart.w.globals.numType = 'dollar';
-        console.log(`Explicitly set numType for ${chartId}: dollar`);
+        // console.log(`Explicitly set numType for ${chartId}: dollar`);
       }
       
       this.charts[chartId] = {
@@ -507,7 +507,7 @@ class ChartManager {
     // Set the numType if we found it
     if (numType) {
       chart.w.globals.numType = numType;
-      console.log(`Direct numType set for ${chartId}: ${numType}`);
+      // console.log(`Direct numType set for ${chartId}: ${numType}`);
     }
     
     chart.render();
@@ -558,7 +558,7 @@ class ChartManager {
 
           // Update the modal with current data
           if (dataPeer || dataClient) {
-            console.log(`Updating modal for ${mainName} after chart update`);
+            // console.log(`Updating modal for ${mainName} after chart update`);
             updateModal(mainName, dataPeer, dataClient, parsedData);
           }
         }
@@ -603,7 +603,7 @@ class ChartManager {
 
   // Utility function to fix numType for all chart instances
   fixChartNumTypes() {
-    console.log("Fixing numType for all charts...");
+    // console.log("Fixing numType for all charts...");
     
     // Chart types that should be dollars
     const dollarCharts = [
@@ -633,7 +633,7 @@ class ChartManager {
       const chart = this.getChart(chartId);
       if (chart && chart.w && chart.w.globals) {
         chart.w.globals.numType = 'dollar';
-        console.log(`Fixed ${chartId} to dollar`);
+        // console.log(`Fixed ${chartId} to dollar`);
       }
     });
     
@@ -642,11 +642,11 @@ class ChartManager {
       const chart = this.getChart(chartId);
       if (chart && chart.w && chart.w.globals) {
         chart.w.globals.numType = 'percent';
-        console.log(`Fixed ${chartId} to percent`);
+        // console.log(`Fixed ${chartId} to percent`);
       }
     });
     
-    console.log("Chart numType fixing complete");
+    // console.log("Chart numType fixing complete");
   }
 
   // Destroy all charts (cleanup)

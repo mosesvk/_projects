@@ -532,6 +532,11 @@ class SystemConnector {
       // Clear any existing record data
       apiService.clearRecords();
 
+      // Clear chart data cache
+      if (window.chartDataCache) {
+        window.chartDataCache = {};
+      }
+
       // Fetch data from API
       console.log("Fetching peer data...");
       const recordsPeer = await apiService.getRecordsForPeer(selectedYears);
