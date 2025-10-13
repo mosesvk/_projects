@@ -113,18 +113,7 @@ const displayCashComponent = () => {
     "Days Operating Cash"
   );
 
-  // availableDaysOfCashFlow
-  createChartFromParsedData(
-    parseData,
-    "availableDaysOfCashFlow_chart",
-    "availableDaysOfCashFlow_Peer",
-    "availableDaysOfCashFlow_Client",
-    "number",
-    0,
-    "availableDaysOfCashFlow",
-    getBenchmarksForField("availableDaysOfCashFlow"),
-    "Available Days of Cash Flow"
-  );
+
 
   // liquidityRatio
   createChartFromParsedData(
@@ -165,11 +154,6 @@ const displayCashComponent = () => {
   ];
   createBenchmark(daysOperatingCash_benchmark, "row_daysOperatingCash");
 
-  const availableDaysCash_benchmark = [
-    fixUnicodeCharacters("Available Days of Cash Flow Benchmark"),
-    fixUnicodeCharacters('We believe a reasonable benchmark is 120 to 180 days worth of cash expenditures on hand. A result of less than 60 days could be interpreted as a <span class="red">red flag</span>'),
-  ];
-  createBenchmark(availableDaysCash_benchmark, "row_availableDaysOfCashFlow");
 
   const liquidityRatio_benchmark = [
     fixUnicodeCharacters("Liquidity Ratio Benchmark"),

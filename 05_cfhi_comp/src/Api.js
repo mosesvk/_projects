@@ -3893,7 +3893,7 @@ class ApiService {
         dataStr += newRecord.outerHTML;
       }
 
-      console.log("client records", dataStr);
+      // console.log("client records", dataStr);
       // console.log("recordClientHTMLArray", this.recordClientHTMLArray);
 
       // Recursive call with updated years and dataStr

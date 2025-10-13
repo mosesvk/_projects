@@ -928,7 +928,7 @@ const getPeerAndClientChartDataArrays = (
 
   years.forEach((year) => {
     // if (mainName == "cfi_netIncomeOperationsRatio")
-    //   console.log({ mainName, year, client: dataClient[year], peer: dataPeer, type, fixedNum });
+      // console.log({ mainName, year, client: dataClient[year], peer: dataPeer, type, fixedNum });
 
     benchmarkArray.push(benchmark);
 
