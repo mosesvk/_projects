@@ -106,7 +106,7 @@ function toggleTheme() {
 //   document.documentElement.classList.add('dark');
 //   themeToggleDarkIcon.classList.add('hidden');
 //   themeToggleLightIcon.classList.remove('hidden');
-// } else if (userThemePreference === 'light') {
+// } else if (userThemePreferendce === 'light') {
 //   document.documentElement.classList.remove('dark');
 //   themeToggleDarkIcon.classList.remove('hidden');
 //   themeToggleLightIcon.classList.add('hidden');

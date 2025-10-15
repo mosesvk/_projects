@@ -25,6 +25,25 @@ async function fetchPeerData() {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Clear localStorage but preserve any existing selections
+  const preservedKeys = ["selectedYears"];
+  const savedValues = {};
+
+  // Save values we want to keep
+  preservedKeys.forEach((key) => {
+    savedValues[key] = localStorage.getItem(key);
+  });
+
+  // Clear localStorage
+  localStorage.clear();
+
+  // Restore preserved values
+  Object.keys(savedValues).forEach((key) => {
+    if (savedValues[key]) {
+      localStorage.setItem(key, savedValues[key]);
+    }
+  });
+
   const recordsClient = await fetchClientData();
   const recordsPeer = await fetchPeerData();
 
