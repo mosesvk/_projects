@@ -54,14 +54,6 @@ document.addEventListener("DOMContentLoaded", async () => {
   addUniqueRegionsToOptionsSelectRegion(regions_Array);
   addUniqueSitesToOptionsSelectSite(sites_Array);
 
-  displayDemoComponent();
-  displayCashComponent();
-  displayDebtComponent();
-  displayIncomeComponent();
-  displayExpenseComponent();
-
-  displayReportComponent();
-
   runApiMain(recordsPeer, recordsClient);
 });
 
