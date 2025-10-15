@@ -602,7 +602,7 @@ const range = () => {
 };
 
 const adjustDivHeight = () => {
-  var div = document.getElementById("options-list");
+  var div = document.getElementById("options-list-year");
 
   if (div.scrollHeight <= 20 * 16) {
     //
