@@ -100,26 +100,26 @@ function toggleTheme() {
 }
 
 // Check if the user's preference is stored in local storage
-const userThemePreference = localStorage.getItem('color-theme');
+// const userThemePreference = localStorage.getItem('color-theme');
 
-if (userThemePreference === 'dark') {
-  document.documentElement.classList.add('dark');
-  themeToggleDarkIcon.classList.add('hidden');
-  themeToggleLightIcon.classList.remove('hidden');
-} else if (userThemePreference === 'light') {
-  document.documentElement.classList.remove('dark');
-  themeToggleDarkIcon.classList.remove('hidden');
-  themeToggleLightIcon.classList.add('hidden');
-} else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-  // Use system preference if no user preference is set
-  document.documentElement.classList.add('dark');
-  themeToggleDarkIcon.classList.add('hidden');
-  themeToggleLightIcon.classList.remove('hidden');
-} else {
-  document.documentElement.classList.remove('dark');
-  themeToggleDarkIcon.classList.remove('hidden');
-  themeToggleLightIcon.classList.add('hidden');
-}
+// if (userThemePreference === 'dark') {
+//   document.documentElement.classList.add('dark');
+//   themeToggleDarkIcon.classList.add('hidden');
+//   themeToggleLightIcon.classList.remove('hidden');
+// } else if (userThemePreference === 'light') {
+//   document.documentElement.classList.remove('dark');
+//   themeToggleDarkIcon.classList.remove('hidden');
+//   themeToggleLightIcon.classList.add('hidden');
+// } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+//   // Use system preference if no user preference is set
+//   document.documentElement.classList.add('dark');
+//   themeToggleDarkIcon.classList.add('hidden');
+//   themeToggleLightIcon.classList.remove('hidden');
+// } else {
+//   document.documentElement.classList.remove('dark');
+//   themeToggleDarkIcon.classList.remove('hidden');
+//   themeToggleLightIcon.classList.add('hidden');
+// }
 
 // Add click event listener to toggle button
 themeToggleBtn.addEventListener('click', toggleTheme);
