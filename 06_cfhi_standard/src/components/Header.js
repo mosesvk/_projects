@@ -192,6 +192,10 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
 
       selectAllInput.checked = allChecked;
       selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
     });
   });
 
@@ -217,6 +221,10 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
 
     // Reset indeterminate state
     selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
   });
 }
 
@@ -331,6 +339,10 @@ function addUniqueSitesToOptionsSelectSitesDropdown(siteArray) {
 
       selectAllInput.checked = allChecked;
       selectAllInput.indeterminate = !allChecked && someChecked;
+
+      // Trigger filter changed event
+      const event = new CustomEvent("filtersChanged");
+      document.dispatchEvent(event);
     });
   });
 
@@ -356,11 +368,428 @@ function addUniqueSitesToOptionsSelectSitesDropdown(siteArray) {
 
     // Reset indeterminate state
     selectAllInput.indeterminate = false;
+
+    // Trigger filter changed event
+    const event = new CustomEvent("filtersChanged");
+    document.dispatchEvent(event);
   });
 }
 
 // Alias for backward compatibility
 const addUniqueSitesToOptionsSelectSite = addUniqueSitesToOptionsSelectSitesDropdown;
+
+/**
+ * Checks if a client matches the current filter criteria
+ * Critical function that determines whether a client should be selected
+ */
+function clientMatchesFilters(
+  clientData,
+  minGivingUnits,
+  maxGivingUnits,
+  selectedRegions,
+  selectedSites
+) {
+  if (!clientData) return false;
+
+  // Check giving units range
+  const givingUnitsMatch =
+    clientData.givingUnitVal >= minGivingUnits &&
+    clientData.givingUnitVal <= maxGivingUnits;
+
+  if (selectedRegions.length === 0 || selectedSites.length === 0) {
+    console.warn("No regions or sites selected, returning false");
+    return false;
+  }
+
+  // Check if client has at least one of the selected regions, handle missing regions
+  const regionMatch = clientData.region
+    ? selectedRegions.includes(clientData.region)
+    : false;
+
+  // Check if client has at least one of the selected sites, handle missing sites
+  const siteMatch = clientData.site
+    ? selectedSites.includes(clientData.site)
+    : false;
+
+  return givingUnitsMatch && regionMatch && siteMatch;
+}
+
+/**
+ * Updates client dropdown checkboxes based on current filter criteria
+ * Acts as the primary filter implementation that Utility.js will defer to
+ */
+let prevMatchCount = 0;
+let updateTimeout = null;
+
+function updateClientDropdownFilters() {
+  // Clear any existing timeout to debounce rapid calls
+  if (updateTimeout) {
+    clearTimeout(updateTimeout);
+  }
+  
+  updateTimeout = setTimeout(() => {
+    executeClientDropdownFilters();
+  }, 100);
+}
+
+function executeClientDropdownFilters() {
+  // Ensure client data store exists
+  if (!window.clientDataStore) {
+    setTimeout(() => {
+      if (!window.clientDataStore) {
+        console.warn("Client data store not initialized");
+        return;
+      }
+      executeClientDropdownFilters();
+    }, 100);
+    return;
+  }
+
+  // Get current filter values
+  const selectedRegions = Array.from(window.selectedRegions_Array || []);
+  const selectedSites = Array.from(window.selectedSites_Array || []);
+  const minGivingUnits = window.sliderValue || 0;
+  const maxGivingUnits = window.sliderValue2 || 25000;
+
+  // Get all client checkboxes
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
+
+  // Get the select all checkbox
+  const selectAllCheckbox = document.getElementById(
+    "select-all-checkbox-client"
+  );
+
+  // Clear the selected clients array to rebuild from scratch
+  window.selectedClients_Array.clear();
+  let matchCount = 0;
+  let totalClientCount = 0;
+
+  // Process each client checkbox (skip the select all checkbox)
+  clientCheckboxes.forEach((checkbox) => {
+    if (checkbox.id === "select-all-checkbox-client") return;
+
+    totalClientCount++;
+    const clientName = checkbox.value;
+    const clientData = window.clientDataStore[clientName];
+
+    if (!clientData) {
+      console.warn(`No data found for client: ${clientName}`);
+      checkbox.checked = false;
+      return;
+    }
+
+    // Determine if client matches all filter criteria
+    const matches = clientMatchesFilters(
+      clientData,
+      minGivingUnits,
+      maxGivingUnits,
+      selectedRegions,
+      selectedSites
+    );
+
+    // Update checkbox and selection array
+    checkbox.checked = matches;
+
+    if (matches) {
+      window.selectedClients_Array.add(clientName);
+      matchCount++;
+    }
+  });
+
+  // Update select all checkbox state
+  if (selectAllCheckbox) {
+    const allSelected = matchCount === totalClientCount && totalClientCount > 0;
+    const noneSelected = matchCount === 0;
+
+    selectAllCheckbox.checked = allSelected;
+    selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
+  }
+
+  console.log("Selected clients:", Array.from(window.selectedClients_Array));
+
+  // Only show toast if matchCount has changed and not on initial load
+  if (window.hasRunInitialClientDropdownFilter) {
+    if (matchCount !== prevMatchCount) {
+      if (typeof createToastSuccess === "function") {
+        createToastSuccess(`${matchCount} clients match your filter criteria`);
+      }
+    }
+  } else {
+    window.hasRunInitialClientDropdownFilter = true;
+  }
+  
+  // Update prevMatchCount for next comparison
+  prevMatchCount = matchCount;
+}
+
+/**
+ * Updates the state of the "select all" checkbox based on individual client selections
+ */
+function updateSelectAllClientCheckboxState() {
+  const selectAllCheckbox = document.getElementById(
+    "select-all-checkbox-client"
+  );
+  if (!selectAllCheckbox) return;
+
+  const clientCheckboxes = document.querySelectorAll(
+    '#options-list-client input[type="checkbox"]'
+  );
+  const clientOnlyCheckboxes = Array.from(clientCheckboxes).filter(
+    (checkbox) => checkbox.id !== "select-all-checkbox-client"
+  );
+
+  const allChecked = clientOnlyCheckboxes.every((checkbox) => checkbox.checked);
+  const noneChecked = clientOnlyCheckboxes.every(
+    (checkbox) => !checkbox.checked
+  );
+
+  selectAllCheckbox.checked = allChecked;
+  selectAllCheckbox.indeterminate = !allChecked && !noneChecked;
+}
+
+// Function to format numbers with commas
+function formatNumberWithCommas(number) {
+  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
+// Function to observe and format input values
+function setupNumberFormatting() {
+  const inputIds = ["givingUnitsMin", "givingUnitsMax"];
+
+  // Process each input field
+  inputIds.forEach((id) => {
+    const input = document.getElementById(id);
+    if (!input) return;
+
+    // Set initial value if not set and format it
+    if (!input.value || input.value === "0") {
+      if (id === "givingUnitsMin") {
+        input.value = window.sliderValue || 0;
+      } else {
+        input.value = window.sliderValue2 || 25000;
+      }
+    }
+    
+    // Format initial value
+    if (input.value) {
+      const formattedValue = formatNumberWithCommas(input.value);
+      const displaySpan = getOrCreateDisplaySpan(input, id);
+      displaySpan.textContent = formattedValue;
+    }
+
+    // Setup MutationObserver to watch for value changes from slider movement
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "value"
+        ) {
+          const rawValue = input.value;
+          const formattedValue = formatNumberWithCommas(rawValue);
+          const displaySpan = getOrCreateDisplaySpan(input, id);
+          displaySpan.textContent = formattedValue;
+        }
+      });
+    });
+
+    // Start observing the input element for value changes
+    observer.observe(input, { attributes: true });
+
+    // Also handle direct input changes
+    input.addEventListener("input", function () {
+      const rawValue = this.value;
+      const formattedValue = formatNumberWithCommas(rawValue);
+      const displaySpan = getOrCreateDisplaySpan(this, id);
+      displaySpan.textContent = formattedValue;
+    });
+
+    // Handle change event to ensure formattedValue is updated
+    input.addEventListener("change", function () {
+      const rawValue = this.value;
+      const formattedValue = formatNumberWithCommas(rawValue);
+      const displaySpan = getOrCreateDisplaySpan(this, id);
+      displaySpan.textContent = formattedValue;
+    });
+  });
+
+  // Also listen for the custom filtersChanged event
+  document.addEventListener("filtersChanged", function () {
+    inputIds.forEach((id) => {
+      const input = document.getElementById(id);
+      if (!input) return;
+
+      const rawValue = input.value;
+      const formattedValue = formatNumberWithCommas(rawValue);
+      const displaySpan = getOrCreateDisplaySpan(input, id);
+      displaySpan.textContent = formattedValue;
+    });
+  });
+}
+
+// Helper function to get or create display span
+function getOrCreateDisplaySpan(inputElement, inputId) {
+  // Check if we already have a display span
+  let displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
+
+  // If not, create one and position it appropriately
+  if (!displaySpan) {
+    displaySpan = document.createElement("span");
+    displaySpan.setAttribute("data-format-for", inputId);
+    displaySpan.className = "formatted-value ml-2";
+
+    // Style the display span
+    displaySpan.style.position = "absolute";
+    displaySpan.style.zIndex = "10";
+    displaySpan.style.background = "transparent";
+    displaySpan.style.pointerEvents = "none"; // Don't interfere with input
+
+    // Hide the actual input value visually (keep it for functionality)
+    inputElement.style.color = "transparent";
+
+    // Position the display span over the input
+    const rect = inputElement.getBoundingClientRect();
+
+    // Create a wrapper if the input doesn't have one
+    let wrapper = inputElement.parentElement;
+    if (!wrapper.classList.contains("input-wrapper")) {
+      wrapper = document.createElement("div");
+      wrapper.className = "input-wrapper relative";
+      wrapper.style.position = "relative";
+      inputElement.parentNode.insertBefore(wrapper, inputElement);
+      wrapper.appendChild(inputElement);
+    }
+
+    wrapper.appendChild(displaySpan);
+  }
+
+  return displaySpan;
+}
+
+/**
+ * Function to populate client dropdown
+ * Called from Api.js after fetching unique client names
+ */
+function addUniqueClientsToOptionsSelectClientDropdown(clientArray) {
+  const optionsListClient = document.getElementById("options-list-client");
+  if (!optionsListClient) {
+    console.error("Client options list element not found");
+    return;
+  }
+
+  // Ensure global scoping and initialization
+  window.selectedClients_Array = window.selectedClients_Array || new Set();
+
+  // Clear existing content
+  optionsListClient.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-client");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-client");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  selectAllInput.checked = true; // Check "Select All" by default
+
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-client");
+  selectAllSpan.innerText = "(select all)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListClient.appendChild(selectAllLabel);
+
+  // Populate all clients by default
+  clientArray.forEach((clientName) => {
+    const newListItem = document.createElement("li");
+    newListItem.style.listStyleType = "none";
+
+    const newDiv = document.createElement("label");
+    newDiv.setAttribute(
+      "class",
+      "flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("id", `client_${clientName}`);
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("value", clientName);
+    newInput.setAttribute(
+      "class",
+      "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+    );
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `client_${clientName}`);
+    newLabel.setAttribute(
+      "class",
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
+    );
+    newLabel.innerText = clientName;
+
+    // Automatically add all clients to the set and check the inputs
+    window.selectedClients_Array.add(clientName);
+    newInput.checked = true;
+
+    newDiv.appendChild(newInput);
+    newDiv.appendChild(newLabel);
+
+    newListItem.appendChild(newDiv);
+    optionsListClient.appendChild(newListItem);
+
+    // Event listener to update selectedClients_Array
+    newInput.addEventListener("change", function () {
+      if (this.checked) {
+        window.selectedClients_Array.add(clientName);
+      } else {
+        window.selectedClients_Array.delete(clientName);
+      }
+
+      // Update "Select All" checkbox state
+      updateSelectAllClientCheckboxState();
+    });
+  });
+
+  // "Select All" checkbox behavior
+  selectAllInput.addEventListener("change", function () {
+    const isChecked = this.checked;
+    const clientCheckboxes = document.querySelectorAll(
+      '#options-list-client input[type="checkbox"]'
+    );
+
+    clientCheckboxes.forEach((checkbox) => {
+      if (checkbox.id !== "select-all-checkbox-client") {
+        checkbox.checked = isChecked;
+        const clientName = checkbox.value;
+
+        if (isChecked) {
+          window.selectedClients_Array.add(clientName);
+        } else {
+          window.selectedClients_Array.delete(clientName);
+        }
+      }
+    });
+
+    // Reset indeterminate state
+    selectAllInput.indeterminate = false;
+  });
+
+  // After populating, apply initial filters
+  window.hasRunInitialClientDropdownFilter = false;
+  updateClientDropdownFilters();
+}
 
 // Main initialization when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -380,10 +809,21 @@ document.addEventListener("DOMContentLoaded", function () {
     { selectId: "custom-select-year", optionsId: "options-list-year" },
     { selectId: "custom-select-region", optionsId: "options-list-region" },
     { selectId: "custom-select-site", optionsId: "options-list-site" },
+    { selectId: "custom-select-client", optionsId: "options-list-client" },
   ];
 
   dropdownConfigs.forEach((config) => {
     setupDropdownToggle(config.selectId, config.optionsId);
+  });
+
+  // Setup number formatting for giving units
+  setupNumberFormatting();
+
+  // Listen for filtersChanged event to update client dropdown
+  document.addEventListener("filtersChanged", function () {
+    if (typeof updateClientDropdownFilters === "function") {
+      updateClientDropdownFilters();
+    }
   });
 });
 

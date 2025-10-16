@@ -1253,6 +1253,197 @@ class ApiService {
   }
 
   /**
+   * Get records for peer with batching to handle large client lists
+   * @param {Array} years - Array of years to fetch
+   * @param {Set|Array} selectedClientsSet - Set or array of selected client names
+   * @param {string} dataStr - Accumulated XML data string
+   */
+  async getRecordsForPeerWithBatching(
+    years,
+    selectedClientsSet,
+    dataStr = "<qdbapi>"
+  ) {
+    // Initialize record arrays if they don't exist
+    if (!this.recordPeerHTMLArray) {
+      this.recordPeerHTMLArray = [];
+    }
+
+    const selectedClients = Array.from(selectedClientsSet);
+
+    // If 15 or fewer clients, use the original method
+    if (selectedClients.length <= 15) {
+      return await this.getRecordsForPeer(years, dataStr);
+    }
+
+    console.log(
+      `Using batching for ${selectedClients.length} clients across ${years.length} years`
+    );
+
+    // Pre-calculate all filter conditions once
+    const filterParts = [];
+    if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
+      filterParts.push(
+        `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}} AND {193.EX.'Standard'}`
+      );
+    }
+    if (window.selectedRegions_Array?.length > 0) {
+      const regionConditions = window.selectedRegions_Array
+        .map((region) => `{267.EX.${region}}`)
+        .join(" OR ");
+      filterParts.push(`(${regionConditions})`);
+    }
+    if (window.selectedSites_Array?.length > 0) {
+      const siteConditions = window.selectedSites_Array
+        .map((site) => `{268.EX.${site}}`)
+        .join(" OR ");
+      filterParts.push(`(${siteConditions})`);
+    }
+    const additionalFilters =
+      filterParts.length > 0 ? ` AND ${filterParts.join(" AND ")}` : "";
+
+    // Pre-escape all client names once
+    const escapedClients = selectedClients.map((client) =>
+      this._escapeClientName(client)
+    );
+
+    // Split clients into batches of 15 (Standard mode uses field 186 which can be longer)
+    const BATCH_SIZE = 15;
+    const clientBatches = [];
+    for (let i = 0; i < escapedClients.length; i += BATCH_SIZE) {
+      clientBatches.push(escapedClients.slice(i, i + BATCH_SIZE));
+    }
+
+    console.log(
+      `Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`
+    );
+
+    // Create all API calls for parallel execution
+    const apiCalls = [];
+    const clist =
+      "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321";
+
+    for (const currentYear of years) {
+      for (const clientBatch of clientBatches) {
+        const clientConditions = clientBatch
+          .map((client) => `{186.EX.'${client}'}`)
+          .join(" OR ");
+        const queryCondition = `{195.EX.${currentYear}} AND (${clientConditions})${additionalFilters}`;
+
+        const apiCallPeerData = {
+          act: "API_DoQuery",
+          query: queryCondition,
+          clist: clist,
+        };
+
+        apiCalls.push($.get(peerData, apiCallPeerData));
+      }
+    }
+
+    console.log(
+      `Executing ${apiCalls.length} API calls (${years.length} years × ${clientBatches.length} batches)`
+    );
+
+    // Execute all API calls in parallel with limited concurrency
+    const CONCURRENCY_LIMIT = 5; // Limit concurrent requests to avoid overwhelming server
+    const results = [];
+
+    for (let i = 0; i < apiCalls.length; i += CONCURRENCY_LIMIT) {
+      const batch = apiCalls.slice(i, i + CONCURRENCY_LIMIT);
+      try {
+        const batchResults = await Promise.allSettled(batch);
+        results.push(...batchResults);
+
+        console.log(
+          `Completed batch ${Math.floor(i / CONCURRENCY_LIMIT) + 1}/${Math.ceil(apiCalls.length / CONCURRENCY_LIMIT)}`
+        );
+
+        // Small delay between batches to be API-friendly
+        if (i + CONCURRENCY_LIMIT < apiCalls.length) {
+          await new Promise((resolve) => setTimeout(resolve, 50));
+        }
+      } catch (error) {
+        console.error("Error in batch execution:", error);
+      }
+    }
+
+    // Process all results efficiently
+    const recordHtmlParts = [];
+    for (const result of results) {
+      if (result.status === "fulfilled") {
+        try {
+          const xml = result.value;
+          // Use jQuery once per response, then process natively
+          const $records = $("record", xml);
+
+          // Process records using native DOM for better performance
+          for (let i = 0; i < $records.length; i++) {
+            const recordHtml = $records[i].outerHTML;
+            recordHtmlParts.push(recordHtml);
+            this.recordPeerHTMLArray.push(recordHtml);
+          }
+        } catch (error) {
+          console.error("Error processing XML result:", error);
+        }
+      } else {
+        console.warn("API call failed:", result.reason);
+      }
+    }
+
+    console.log(`Total records collected: ${recordHtmlParts.length}`);
+
+    // Parse and return final results
+    try {
+      if (recordHtmlParts.length === 0) {
+        console.warn("No records collected from batched requests");
+        return [];
+      }
+
+      const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
+      const records = xmlDoc.querySelectorAll("record");
+
+      // Build per-year record counts
+      try {
+        const yearTotals = {};
+        Array.from(records).forEach((rec) => {
+          const yearElem = rec.querySelector("year");
+          if (yearElem) {
+            const yearKey = yearElem.textContent.trim();
+            if (yearKey) {
+              yearTotals[yearKey] = (yearTotals[yearKey] || 0) + 1;
+            }
+          }
+        });
+
+        if (
+          !window.peerRecordMapPerYear ||
+          typeof window.peerRecordMapPerYear.clear !== "function"
+        ) {
+          window.peerRecordMapPerYear = new Map();
+        } else {
+          window.peerRecordMapPerYear.clear();
+        }
+
+        Object.entries(yearTotals).forEach(([year, count]) => {
+          window.peerRecordMapPerYear.set(String(year), count);
+          console.log(`Year ${year}: ${count} peer records`);
+        });
+      } catch (e) {
+        console.error(
+          "Unable to compute/set peerRecordMapPerYear in batched approach:",
+          e
+        );
+      }
+
+      return records;
+    } catch (error) {
+      console.error("Error parsing XML in batched approach:", error);
+      return [];
+    }
+  }
+
+  /**
    * Get records for client organizations
    * @param {Array} years - Array of years to fetch
    * @param {string} dataStr - Accumulated XML data string
@@ -1743,7 +1934,18 @@ class AppController {
       // Fetch peer data with improved error handling
       let recordsPeer;
       try {
-        recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
+        // Use batching if more than 15 clients selected
+        if (window.selectedClients_Array.size > 15) {
+          console.log(
+            `Using batching for ${window.selectedClients_Array.size} clients`
+          );
+          recordsPeer = await this.apiService.getRecordsForPeerWithBatching(
+            selectedYears,
+            window.selectedClients_Array
+          );
+        } else {
+          recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
+        }
 
         // Validate records
         if (!recordsPeer || recordsPeer.length === 0) {
@@ -2442,10 +2644,21 @@ window.checkAppStorage = function () {
   }
 };
 
-window.onload = () => {
+window.onload = async () => {
   if (!window.appController) {
     // console.log("Initializing AppController");
     window.appController = new AppController();
+    
+    // Initialize client dropdown by fetching unique client names
+    try {
+      await window.appController.apiService.getRecordsForUniqueClientPeerNames();
+      console.log("✅ Client dropdown initialized");
+    } catch (error) {
+      console.error("Error initializing client dropdown:", error);
+      if (typeof createToastWarning === "function") {
+        createToastWarning("Failed to load client list. Please refresh the page.");
+      }
+    }
   }
 };
 
