@@ -36,7 +36,7 @@ class DataStore {
 
       // Try to save all data at once first
       this.saveCompressedData();
-  } catch (error) {
+    } catch (error) {
       console.warn(
         "Failed to save all data at once, trying chunked approach:",
         error
@@ -338,23 +338,23 @@ class DataStore {
    */
   insertData(
     category,
-  type,
-  year,
-  dataKey,
-  record,
-  child,
-  dynamicValueClientPeer,
+    type,
+    year,
+    dataKey,
+    record,
+    child,
+    dynamicValueClientPeer,
     name
   ) {
     const targetData = this[`${category}Data`];
 
     const childElement = record.querySelector(child);
-  const innerData =
+    const innerData =
       childElement && childElement.innerHTML.split("").length > 0
         ? childElement.innerHTML.trim()
-      : 0;
+        : 0;
 
-  if (type === "client") {
+    if (type === "client") {
       const benchmarkField = dynamicValueClientPeer
         ? record.querySelector(dynamicValueClientPeer)?.textContent.trim()
         : undefined;
@@ -367,9 +367,9 @@ class DataStore {
         benchmarkField
       );
     } else if (type === "peer") {
-    const yesNoField = dynamicValueClientPeer
+      const yesNoField = dynamicValueClientPeer
         ? record.querySelector(dynamicValueClientPeer)?.textContent.trim()
-      : "empty";
+        : "empty";
       this.insertPeerData(
         targetData,
         dataKey,
@@ -454,7 +454,8 @@ class DataProcessor {
    */
   filterRecordsByYear(records, year) {
     return [...records].filter((record) => {
-      const fiscalYear = record.querySelector("s52_formatted_year")?.textContent;
+      const fiscalYear =
+        record.querySelector("s52_formatted_year")?.textContent;
       return fiscalYear && fiscalYear.includes(year.toString());
     });
   }
@@ -465,704 +466,863 @@ class DataProcessor {
   processDemoData(years, recordsPeer, recordsClient) {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-    filteredPeerRecords.forEach((record) => {
-      // givingUnits
+      filteredPeerRecords.forEach((record) => {
+        // givingUnits
         this.dataStore.insertData(
           "demo",
-        "peer",
-        year,
-        "givingUnits_Peer",
-        record,
-        "s02___giving_units",
-        "cfhi_stand_00a_yes_no___giving_units"
-      );
+          "peer",
+          year,
+          "givingUnits_Peer",
+          record,
+          "s02___giving_units",
+          "cfhi_stand_00a_yes_no___giving_units"
+        );
 
-      // contributionsWithoutDonorExcludingLargeGifts
+        // contributionsWithoutDonorExcludingLargeGifts
         this.dataStore.insertData(
           "demo",
-        "peer",
-        year,
-        "contributionsWithoutDonorExcludingLargeGifts_Peer",
-        record,
-        "s39___contribution_without_donor_retriction",
-        "cfhi_stand_00a_yes_no___giving_units"
-      );
+          "peer",
+          year,
+          "contributionsWithoutDonorExcludingLargeGifts_Peer",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_stand_00a_yes_no___giving_units"
+        );
 
-      // totalContributionsExclude
+        // totalContributionsExclude
         this.dataStore.insertData(
           "demo",
-        "peer",
-        year,
-        "totalContributionsExclude_Peer",
-        record,
-        "s40___total_contribution",
-        "cfhi_stand_00b_yes_no___total_contributions"
+          "peer",
+          year,
+          "totalContributionsExclude_Peer",
+          record,
+          "s40___total_contribution",
+          "cfhi_stand_00b_yes_no___total_contributions"
+        );
+      });
+
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
       );
+      filteredClientRecords.forEach((record) => {
+        // givingUnits
+        this.dataStore.insertData(
+          "demo",
+          "client",
+          year,
+          "givingUnits_Client",
+          record,
+          "s02___giving_units"
+        );
+
+        // contributionsWithoutDonorExcludingLargeGifts
+        this.dataStore.insertData(
+          "demo",
+          "client",
+          year,
+          "contributionsWithoutDonorExcludingLargeGifts_Client",
+          record,
+          "s39___contribution_without_donor_retriction"
+        );
+
+        // totalContributionsExclude
+        this.dataStore.insertData(
+          "demo",
+          "client",
+          year,
+          "totalContributionsExclude_Client",
+          record,
+          "s40___total_contribution"
+        );
+      });
     });
-
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
-    filteredClientRecords.forEach((record) => {
-      // givingUnits
-        this.dataStore.insertData(
-          "demo",
-        "client",
-        year,
-        "givingUnits_Client",
-        record,
-        "s02___giving_units"
-      );
-
-      // contributionsWithoutDonorExcludingLargeGifts
-        this.dataStore.insertData(
-          "demo",
-        "client",
-        year,
-        "contributionsWithoutDonorExcludingLargeGifts_Client",
-        record,
-        "s39___contribution_without_donor_retriction"
-      );
-
-      // totalContributionsExclude
-        this.dataStore.insertData(
-          "demo",
-        "client",
-        year,
-        "totalContributionsExclude_Client",
-        record,
-        "s40___total_contribution"
-      );
-    });
-  });
   }
 
   /**
    * Process Cash Data
    */
   processCashData(years, recordsPeer, recordsClient) {
-  years.forEach((year) => {
+    years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-    filteredPeerRecords.forEach((record) => {
+      filteredPeerRecords.forEach((record) => {
         // daysOperatingCash
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "daysOperatingCash_Peer",
-        record,
-        "cfhi_stand_01_ratio___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
-        "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
-      );
+          "peer",
+          year,
+          "daysOperatingCash_Peer",
+          record,
+          "cfhi_stand_01_ratio___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
+          "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "totalCash",
-        record,
-        "s18___total_cash",
-        "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
-        "daysOperatingCash"
-      );
+          "peer",
+          year,
+          "totalCash",
+          record,
+          "s18___total_cash",
+          "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
+          "daysOperatingCash"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "nonEndowmentInvestment",
-        record,
-        "s20___non_endowment_investment",
-        "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
-        "daysOperatingCash"
-      );
+          "peer",
+          year,
+          "nonEndowmentInvestment",
+          record,
+          "s20___non_endowment_investment",
+          "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
+          "daysOperatingCash"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "totalExpense",
-        record,
-        "s45___total_expense",
-        "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
-        "daysOperatingCash"
-      );
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
+          "daysOperatingCash"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "totalDepreciationExpense",
-        record,
-        "s46___total_depreciation_expense",
-        "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
-        "daysOperatingCash"
-      );
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
+          "daysOperatingCash"
+        );
 
         // netCashAvailability
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "netCashAvailability_Peer",
-        record,
-        "cfhi_stand_02_ratio___net_cash_availability",
-        "cfhi_stand_02_yes_no___net_cash_availability"
-      );
+          "peer",
+          year,
+          "netCashAvailability_Peer",
+          record,
+          "cfhi_stand_02_ratio___net_cash_availability",
+          "cfhi_stand_02_yes_no___net_cash_availability"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "totalCash",
-        record,
-        "s18___total_cash",
-        "cfhi_stand_02_yes_no___net_cash_availability",
-        "netCashAvailability"
-      );
+          "peer",
+          year,
+          "totalCash",
+          record,
+          "s18___total_cash",
+          "cfhi_stand_02_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "nonEndowmentInvestment",
-        record,
-        "s20___non_endowment_investment",
-        "cfhi_stand_02_yes_no___net_cash_availability",
-        "netCashAvailability"
-      );
+          "peer",
+          year,
+          "nonEndowmentInvestment",
+          record,
+          "s20___non_endowment_investment",
+          "cfhi_stand_02_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "currentLiabilities",
-        record,
-        "s26___current_liabilities",
-        "cfhi_stand_02_yes_no___net_cash_availability",
-        "netCashAvailability"
-      );
+          "peer",
+          year,
+          "currentLiabilities",
+          record,
+          "s26___current_liabilities",
+          "cfhi_stand_02_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "shortTermConstructionLineOfCredit",
-        record,
-        "s31___short_term_construction_line_of_credit",
-        "cfhi_stand_02_yes_no___net_cash_availability",
-        "netCashAvailability"
-      );
+          "peer",
+          year,
+          "shortTermConstructionLineOfCredit",
+          record,
+          "s31___short_term_construction_line_of_credit",
+          "cfhi_stand_02_yes_no___net_cash_availability",
+          "netCashAvailability"
+        );
 
         // netCashAvailability_standard
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "netCashAvailability_standard_Peer",
-        record,
-        "cfhi_stand_02a_ratio___one_month_of_cash_expenses",
-        "cfhi_stand_02a_yes_no___one_month_of_cash_expenses"
-      );
+          "peer",
+          year,
+          "netCashAvailability_standard_Peer",
+          record,
+          "cfhi_stand_02a_ratio___one_month_of_cash_expenses",
+          "cfhi_stand_02a_yes_no___one_month_of_cash_expenses"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "totalExpense",
-        record,
-        "s45___total_expense",
-        "cfhi_stand_02a_yes_no___one_month_of_cash_expenses",
-        "netCashAvailability_standard"
-      );
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_stand_02a_yes_no___one_month_of_cash_expenses",
+          "netCashAvailability_standard"
+        );
 
         this.dataStore.insertData(
           "cash",
-        "peer",
-        year,
-        "totalDepreciationExpense",
-        record,
-        "s46___total_depreciation_expense",
-        "cfhi_stand_02a_yes_no___one_month_of_cash_expenses",
-        "netCashAvailability_standard"
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_stand_02a_yes_no___one_month_of_cash_expenses",
+          "netCashAvailability_standard"
+        );
+      });
+
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
       );
+      filteredClientRecords.forEach((record) => {
+        // daysOperatingCash
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "daysOperatingCash_Client",
+          record,
+          "cfhi_stand_01_ratio___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
+          "cfhi_stand_01_bench_rating___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
+        );
+
+        // netCashAvailability
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "netCashAvailability_Client",
+          record,
+          "cfhi_stand_02_ratio___net_cash_availability",
+          "cfhi_stand_02_bench_rating___net_cash_availability"
+        );
+
+        // netCashAvailability_standard
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "netCashAvailability_standard_Client",
+          record,
+          "cfhi_stand_02a_ratio___one_month_of_cash_expenses"
+        );
+      });
     });
-
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
-    filteredClientRecords.forEach((record) => {
-      // daysOperatingCash
-        this.dataStore.insertData(
-          "cash",
-        "client",
-        year,
-        "daysOperatingCash_Client",
-        record,
-        "cfhi_stand_01_ratio___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
-        "cfhi_stand_01_bench_rating___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
-      );
-
-      // netCashAvailability
-        this.dataStore.insertData(
-          "cash",
-        "client",
-        year,
-        "netCashAvailability_Client",
-        record,
-        "cfhi_stand_02_ratio___net_cash_availability",
-        "cfhi_stand_02_bench_rating___net_cash_availability"
-      );
-
-      // netCashAvailability_standard
-        this.dataStore.insertData(
-          "cash",
-        "client",
-        year,
-        "netCashAvailability_standard_Client",
-        record,
-        "cfhi_stand_02a_ratio___one_month_of_cash_expenses"
-      );
-    });
-  });
   }
 
   /**
    * Process Debt Data
    */
   processDebtData(years, recordsPeer, recordsClient) {
-  years.forEach((year) => {
+    years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-    filteredPeerRecords.forEach((record) => {
+      filteredPeerRecords.forEach((record) => {
         // debtToContributionsWithout
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "debtToContributionsWithout_Peer",
-        record,
-        "cfhi_stand_03_ratio___debt_to_contribution_w_o_donor_rest",
-        "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest"
-      );
+          "peer",
+          year,
+          "debtToContributionsWithout_Peer",
+          record,
+          "cfhi_stand_03_ratio___debt_to_contribution_w_o_donor_rest",
+          "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest"
+        );
 
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "totalDebt",
-        record,
-        "s32___total_debt",
-        "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
-        "debtToContributionsWithout"
-      );
+          "peer",
+          year,
+          "totalDebt",
+          record,
+          "s32___total_debt",
+          "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
+          "debtToContributionsWithout"
+        );
 
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "contributionWithoutDonor",
-        record,
-        "s39___contribution_without_donor_retriction",
-        "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
-        "debtToContributionsWithout"
-      );
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
+          "debtToContributionsWithout"
+        );
 
         // debtPerGivingUnit
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "debtPerGivingUnit_Peer",
-        record,
-        "cfhi_stand_04_ratio___debt_per_givingunit",
-        "cfhi_stand_04_yes_no___debt_per_givingunit"
-      );
+          "peer",
+          year,
+          "debtPerGivingUnit_Peer",
+          record,
+          "cfhi_stand_04_ratio___debt_per_givingunit",
+          "cfhi_stand_04_yes_no___debt_per_givingunit"
+        );
 
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "totalDebt",
-        record,
-        "s32___total_debt",
-        "cfhi_stand_04_yes_no___debt_per_givingunit",
-        "debtPerGivingUnit"
-      );
+          "peer",
+          year,
+          "totalDebt",
+          record,
+          "s32___total_debt",
+          "cfhi_stand_04_yes_no___debt_per_givingunit",
+          "debtPerGivingUnit"
+        );
 
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "givingUnits",
-        record,
-        "s02___giving_units",
-        "cfhi_stand_04_yes_no___debt_per_givingunit",
-        "debtPerGivingUnit"
-      );
-      
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_stand_04_yes_no___debt_per_givingunit",
+          "debtPerGivingUnit"
+        );
+
         // contributionsWithoutDonorPerGivingUnit_standard
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "contributionsWithoutDonorPerGivingUnit_standard_Peer",
-        record,
-        "cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
-        "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit"
-      );
+          "peer",
+          year,
+          "contributionsWithoutDonorPerGivingUnit_standard_Peer",
+          record,
+          "cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
+          "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit"
+        );
 
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "contributionWithoutDonor",
-        record,
-        "s39___contribution_without_donor_retriction",
-        "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
-        "contributionsWithoutDonorPerGivingUnit_standard"
-      );
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
+          "contributionsWithoutDonorPerGivingUnit_standard"
+        );
 
         this.dataStore.insertData(
           "debt",
-        "peer",
-        year,
-        "givingUnits",
-        record,
-        "s02___giving_units",
-        "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
-        "contributionsWithoutDonorPerGivingUnit_standard"
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
+          "contributionsWithoutDonorPerGivingUnit_standard"
+        );
+      });
+
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
       );
+      filteredClientRecords.forEach((record) => {
+        // debtToContributionsWithout
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtToContributionsWithout_Client",
+          record,
+          "cfhi_stand_03_ratio___debt_to_contribution_w_o_donor_rest",
+          "cfhi_stand_03_bench_rating___debt_to_contribution_w_o_donor_rest"
+        );
+
+        // debtPerGivingUnit
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtPerGivingUnit_Client",
+          record,
+          "cfhi_stand_04_ratio___debt_per_givingunit",
+          "cfhi_stand_04_bench_rating___debt_per_givingunit"
+        );
+
+        // debtPerGivingUnit_standard
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtPerGivingUnit_standard_Client",
+          record,
+          "cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit"
+        );
+      });
     });
-
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
-    filteredClientRecords.forEach((record) => {
-      // debtToContributionsWithout
-        this.dataStore.insertData(
-          "debt",
-        "client",
-        year,
-        "debtToContributionsWithout_Client",
-        record,
-        "cfhi_stand_03_ratio___debt_to_contribution_w_o_donor_rest",
-        "cfhi_stand_03_bench_rating___debt_to_contribution_w_o_donor_rest"
-      );
-
-      // debtPerGivingUnit
-        this.dataStore.insertData(
-          "debt",
-        "client",
-        year,
-        "debtPerGivingUnit_Client",
-        record,
-        "cfhi_stand_04_ratio___debt_per_givingunit",
-        "cfhi_stand_04_bench_rating___debt_per_givingunit"
-      );
-
-      // debtPerGivingUnit_standard
-        this.dataStore.insertData(
-          "debt",
-        "client",
-        year,
-        "debtPerGivingUnit_standard_Client",
-        record,
-        "cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit"
-      );
-    });
-  });
   }
 
   /**
    * Process Income Data
    */
   processIncomeData(years, recordsPeer, recordsClient) {
-  years.forEach((year) => {
+    years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-    filteredPeerRecords.forEach((record) => {
+      filteredPeerRecords.forEach((record) => {
         // contributionsWithoutDonorPerGivingUnit
         this.dataStore.insertData(
           "income",
-        "peer",
-        year,
-        "contributionsWithoutDonorPerGivingUnit_Peer",
-        record,
-        "cfhi_stand_05_ratio___contribution_w_o_donor_restriction_per_giving_unit",
-        "cfhi_stand_05_yes_no___contribution_w_o_donor_restriction_per_giving_unit"
-      );
+          "peer",
+          year,
+          "contributionsWithoutDonorPerGivingUnit_Peer",
+          record,
+          "cfhi_stand_05_ratio___contribution_w_o_donor_restriction_per_giving_unit",
+          "cfhi_stand_05_yes_no___contribution_w_o_donor_restriction_per_giving_unit"
+        );
 
         this.dataStore.insertData(
           "income",
-        "peer",
-        year,
-        "contributionWithoutDonor",
-        record,
-        "s39___contribution_without_donor_retriction",
-        "cfhi_stand_05_yes_no___contribution_w_o_donor_restriction_per_giving_unit",
-        "contributionsWithoutDonorPerGivingUnit"
-      );
+          "peer",
+          year,
+          "contributionWithoutDonor",
+          record,
+          "s39___contribution_without_donor_retriction",
+          "cfhi_stand_05_yes_no___contribution_w_o_donor_restriction_per_giving_unit",
+          "contributionsWithoutDonorPerGivingUnit"
+        );
 
         this.dataStore.insertData(
           "income",
-        "peer",
-        year,
-        "givingUnits",
-        record,
-        "s02___giving_units",
-        "cfhi_stand_05_yes_no___contribution_w_o_donor_restriction_per_giving_unit",
-        "contributionsWithoutDonorPerGivingUnit"
-      );
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_stand_05_yes_no___contribution_w_o_donor_restriction_per_giving_unit",
+          "contributionsWithoutDonorPerGivingUnit"
+        );
 
         // totalContributionsPerGivingUnit
         this.dataStore.insertData(
           "income",
-        "peer",
-        year,
-        "totalContributionsPerGivingUnit_Peer",
-        record,
-        "cfhi_stand_06_ratio___total_contributions_per_giving_unit",
-        "cfhi_stand_06_yes_no___total_contributions_per_giving_unit"
-      );
+          "peer",
+          year,
+          "totalContributionsPerGivingUnit_Peer",
+          record,
+          "cfhi_stand_06_ratio___total_contributions_per_giving_unit",
+          "cfhi_stand_06_yes_no___total_contributions_per_giving_unit"
+        );
 
         this.dataStore.insertData(
           "income",
-        "peer",
-        year,
-        "totalContributions",
-        record,
-        "s40___total_contribution",
-        "cfhi_stand_06_yes_no___total_contributions_per_giving_unit",
-        "totalContributionsPerGivingUnit"
-      );
+          "peer",
+          year,
+          "totalContributions",
+          record,
+          "s40___total_contribution",
+          "cfhi_stand_06_yes_no___total_contributions_per_giving_unit",
+          "totalContributionsPerGivingUnit"
+        );
 
         this.dataStore.insertData(
           "income",
-        "peer",
-        year,
-        "givingUnits",
-        record,
-        "s02___giving_units",
-        "cfhi_stand_06_yes_no___total_contributions_per_giving_unit",
-        "totalContributionsPerGivingUnit"
-      );
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_stand_06_yes_no___total_contributions_per_giving_unit",
+          "totalContributionsPerGivingUnit"
+        );
       });
 
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
-    filteredClientRecords.forEach((record) => {
-      // contributionsWithoutDonorPerGivingUnit
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
+      );
+      filteredClientRecords.forEach((record) => {
+        // contributionsWithoutDonorPerGivingUnit
         this.dataStore.insertData(
           "income",
-        "client",
-        year,
-        "contributionsWithoutDonorPerGivingUnit_Client",
-        record,
-        "cfhi_stand_05_ratio___contribution_w_o_donor_restriction_per_giving_unit"
-      );
+          "client",
+          year,
+          "contributionsWithoutDonorPerGivingUnit_Client",
+          record,
+          "cfhi_stand_05_ratio___contribution_w_o_donor_restriction_per_giving_unit"
+        );
 
-      // contributionsWithoutDonorPerGivingUnit_percentChange
+        // contributionsWithoutDonorPerGivingUnit_percentChange
         this.dataStore.insertData(
           "income",
-        "client",
-        year,
-        "contributionsWithoutDonorPerGivingUnit_percentChange_Client",
-        record,
-        "cfhi_stand_05a_ratio_change___contribution_w_o_donor_restriction_per_giving_unit",
-        "cfhi_stand_05a_bench_rating__percent_change___contribution_w_o_donor_restriction_per_giving_unit"
-      );
+          "client",
+          year,
+          "contributionsWithoutDonorPerGivingUnit_percentChange_Client",
+          record,
+          "cfhi_stand_05a_ratio_change___contribution_w_o_donor_restriction_per_giving_unit",
+          "cfhi_stand_05a_bench_rating__percent_change___contribution_w_o_donor_restriction_per_giving_unit"
+        );
 
-      // totalContributionsPerGivingUnit
+        // totalContributionsPerGivingUnit
         this.dataStore.insertData(
           "income",
-        "client",
-        year,
-        "totalContributionsPerGivingUnit_Client",
-        record,
-        "cfhi_stand_06_ratio___total_contributions_per_giving_unit"
-      );
+          "client",
+          year,
+          "totalContributionsPerGivingUnit_Client",
+          record,
+          "cfhi_stand_06_ratio___total_contributions_per_giving_unit"
+        );
 
-      // totalContributionsPerGivingUnit_percentChange
+        // totalContributionsPerGivingUnit_percentChange
         this.dataStore.insertData(
           "income",
-        "client",
-        year,
-        "totalContributionsPerGivingUnit_percentChange_Client",
-        record,
-        "cfhi_stand_06a_ratio_change__total_contributions_per_giving_unit",
-        "cfhi_stand_06a_bench_rating___percentage_change__total_contributions_per_giving_unit"
-      );
+          "client",
+          year,
+          "totalContributionsPerGivingUnit_percentChange_Client",
+          record,
+          "cfhi_stand_06a_ratio_change__total_contributions_per_giving_unit",
+          "cfhi_stand_06a_bench_rating___percentage_change__total_contributions_per_giving_unit"
+        );
 
-      // localCountyPerGivingUnit
+        // localCountyPerGivingUnit
         this.dataStore.insertData(
           "income",
-        "client",
-        year,
-        "localCountyPerGivingUnit_Client",
-        record,
-        "cfhi_stand_07_ratio___median_household_income_given_to_the_church"
-      );
+          "client",
+          year,
+          "localCountyPerGivingUnit_Client",
+          record,
+          "cfhi_stand_07_ratio___median_household_income_given_to_the_church"
+        );
 
-      // localCountyMedianHouseholdIncome
+        // localCountyMedianHouseholdIncome
         this.dataStore.insertData(
           "income",
-        "client",
-        year,
-        "localCountyMedianHouseholdIncome_Client",
-        record,
-        "s54_county_code___data"
-      );
+          "client",
+          year,
+          "localCountyMedianHouseholdIncome_Client",
+          record,
+          "s54_county_code___data"
+        );
 
-      // localCountyName
+        // localCountyName
         this.dataStore.insertData(
           "income",
-        "client",
-        year,
-        "localCountyName_Client",
-        record,
-        "s54_county_code___county"
-      );
+          "client",
+          year,
+          "localCountyName_Client",
+          record,
+          "s54_county_code___county"
+        );
+      });
     });
-  });
   }
 
   /**
    * Process Expense Data
    */
   processExpenseData(years, recordsPeer, recordsClient) {
-  years.forEach((year) => {
+    years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-    filteredPeerRecords.forEach((record) => {
+      filteredPeerRecords.forEach((record) => {
         // cashExpendituresPerGivingUnit
         this.dataStore.insertData(
           "expense",
-        "peer",
-        year,
-        "cashExpendituresPerGivingUnit_Peer",
-        record,
-        "cfhi_stand_08_ratio___cash_expenses_per_giving_unit",
-        "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit"
-      );
+          "peer",
+          year,
+          "cashExpendituresPerGivingUnit_Peer",
+          record,
+          "cfhi_stand_08_ratio___cash_expenses_per_giving_unit",
+          "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit"
+        );
 
         this.dataStore.insertData(
           "expense",
-        "peer",
-        year,
-        "totalExpense",
-        record,
-        "s45___total_expense",
-        "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit",
-        "cashExpendituresPerGivingUnit"
-      );
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit",
+          "cashExpendituresPerGivingUnit"
+        );
 
         this.dataStore.insertData(
           "expense",
-        "peer",
-        year,
-        "totalDepreciationExpense",
-        record,
-        "s46___total_depreciation_expense",
-        "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit",
-        "cashExpendituresPerGivingUnit"
-      );
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit",
+          "cashExpendituresPerGivingUnit"
+        );
 
         this.dataStore.insertData(
           "expense",
-        "peer",
-        year,
-        "givingUnits",
-        record,
-        "s02___giving_units",
-        "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit",
-        "cashExpendituresPerGivingUnit"
+          "peer",
+          year,
+          "givingUnits",
+          record,
+          "s02___giving_units",
+          "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit",
+          "cashExpendituresPerGivingUnit"
+        );
+      });
+
+      const filteredClientRecords = this.filterRecordsByYear(
+        recordsClient,
+        year
       );
+      filteredClientRecords.forEach((record) => {
+        // cashExpendituresPerGivingUnit
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "cashExpendituresPerGivingUnit_Client",
+          record,
+          "cfhi_stand_08_ratio___cash_expenses_per_giving_unit"
+        );
+      });
     });
-
-      const filteredClientRecords = this.filterRecordsByYear(recordsClient, year);
-    filteredClientRecords.forEach((record) => {
-      // cashExpendituresPerGivingUnit
-        this.dataStore.insertData(
-          "expense",
-        "client",
-        year,
-        "cashExpendituresPerGivingUnit_Client",
-        record,
-        "cfhi_stand_08_ratio___cash_expenses_per_giving_unit"
-      );
-    });
-  });
   }
 }
 
 // API Service Class for Quickbase Integration
 class ApiService {
   constructor() {
-    this.recordsPeer = [];
-    this.recordsClient = [];
-    this.uniqueClientNames = [];
+    this.baseUrl = "https://qbcapitalmanagement.quickbase.com";
+    this.userToken = "bdqk4z_qh_0_efzgz73p69tg4exwdqhxudtg6s2fgje";
+    this.appId = "bsnm4tgde";
+    this.recordClientHTMLArray = [];
+    this.recordPeerHTMLArray = [];
   }
 
   /**
-   * Get records for peer data
+   * Get records for peer organizations with filtering
    * @param {Array} years - Array of years to fetch
-   * @param {Array} regions - Array of regions to filter by
-   * @param {Number} sliderValue - Minimum giving units
-   * @param {Number} sliderValue2 - Maximum giving units
+   * @param {string} dataStr - Accumulated XML data string
    */
-  async getRecordsForPeer(years, regions, sliderValue, sliderValue2) {
-    const currentYear = years[0]; // Use first year in array
-    const selectedRegionArray = regions.slice(0, 7); // Ensure 7 regions
+  async getRecordsForPeer(years, dataStr = "<qdbapi>") {
+    if (years.length === 0) {
+      // Base case: return the final string when the array is empty
+      try {
+        // If no data was collected, return empty array
+        if (dataStr === "<qdbapi>") {
+          console.warn("No records collected, returning empty array");
+          return [];
+        }
 
-    // Pad with empty strings if less than 7 regions
-    while (selectedRegionArray.length < 7) {
-      selectedRegionArray.push("");
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(
+          dataStr + "</qdbapi>",
+          "text/xml"
+        );
+        const records = xmlDoc.querySelectorAll("record");
+        return records;
+      } catch (error) {
+        console.error("Error parsing XML in getRecordsForPeer:", error);
+        return [];
+      }
+    }
+
+    const currentYear = years[0];
+
+    try {
+      // Get selected clients query
+      const clientQuery = this.getClientQuery(window.selectedClients_Array);
+
+      // Basic query condition with year and client query
+      let queryCondition = `{195.EX.${currentYear}} AND {193.EX.'Standard'} AND ${clientQuery}`;
+
+      // Add giving units filter
+      if (
+        window.sliderValue !== undefined &&
+        window.sliderValue2 !== undefined
+      ) {
+        queryCondition += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
+      }
+
+      // Add regions filter
+      if (
+        window.selectedRegions_Array &&
+        window.selectedRegions_Array.length > 0
+      ) {
+        const regionConditions = window.selectedRegions_Array
+          .map((region) => `{267.EX.${region}}`)
+          .join(" OR ");
+        queryCondition += ` AND (${regionConditions})`;
+      }
+
+      // Add sites filter
+      if (window.selectedSites_Array && window.selectedSites_Array.length > 0) {
+        const siteConditions = window.selectedSites_Array
+          .map((site) => `{268.EX.${site}}`)
+          .join(" OR ");
+        queryCondition += ` AND (${siteConditions})`;
     }
 
     const apiCallPeerData = {
       act: "API_DoQuery",
-      query: `
-        {195.EX.${currentYear}} AND 
-        {123.GTE.${sliderValue}} AND 
-        {123.LTE.${sliderValue2}} AND 
-        {193.EX.'Standard'} AND 
-        ( {267.EX.${selectedRegionArray[0]}} OR {267.EX.${selectedRegionArray[1]}} OR {267.EX.${selectedRegionArray[2]}} OR {267.EX.${selectedRegionArray[3]}} OR {267.EX.${selectedRegionArray[4]}} OR {267.EX.${selectedRegionArray[5]}} OR {267.EX.${selectedRegionArray[6]}} )
-      `,
+        query: queryCondition,
       clist:
-        "195.123.407.160.408.161.409.143.164.165.145.149.154.184.160.304.305.306.307.308.309.310.311.312.197.313.314.315.316.317.318.319.320.321",
-    };
+          "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321",
+      };
 
-    try {
-      // Make API call to Quickbase
-      const response = await this.makeQuickbaseApiCall(apiCallPeerData);
-      this.recordsPeer = this.parseXmlResponse(response);
-      return this.recordsPeer;
+      // Use await to make the async operation more explicit
+      const xml = await $.get(peerData, apiCallPeerData);
+      console.log("PEER XML", xml);
+      const recordsForPeer = $("record", xml).toArray();
+
+      // Collect records for later use
+      if (recordsForPeer.length > 0) {
+        for (const record of recordsForPeer) {
+          const newRecord = document.createElement("record");
+
+          // Append each child element to the new record
+          Array.from(record.children).forEach((child) => {
+            newRecord.appendChild(child.cloneNode(true));
+          });
+
+          this.recordPeerHTMLArray.push(newRecord.outerHTML);
+          dataStr += newRecord.outerHTML;
+        }
+      } else {
+        console.warn(`No records found for year ${currentYear}`);
+      }
+
+      // Update per-year record count map
+      try {
+        if (
+          !window.peerRecordMapPerYear ||
+          typeof window.peerRecordMapPerYear.set !== "function"
+        ) {
+          window.peerRecordMapPerYear = new Map();
+        }
+        window.peerRecordMapPerYear.set(
+          String(currentYear),
+          recordsForPeer.length
+        );
+      } catch (e) {
+        console.error("Unable to update peerRecordMapPerYear:", e);
+      }
+
+      // Recursive call with updated years and dataStr
+      return await this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching peer records:", error);
-      return [];
+      console.error("Error fetching peer data for year", currentYear, error);
+
+      // Log error details
+      if (error.status) {
+        console.error(
+          `Status: ${error.status}, StatusText: ${error.statusText}`
+        );
+      }
+
+      // Continue with next year even if this one failed
+      try {
+        if (
+          !window.peerRecordMapPerYear ||
+          typeof window.peerRecordMapPerYear.set !== "function"
+        ) {
+          window.peerRecordMapPerYear = new Map();
+        }
+        window.peerRecordMapPerYear.set(String(currentYear), 0);
+      } catch (e) {
+        console.error(
+          "Unable to set 0 count in peerRecordMapPerYear after error:",
+          e
+        );
+      }
+      return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
   }
 
   /**
-   * Get records for client data
-   * @param {String} clientRid - Client record ID
+   * Get records for client organizations
    * @param {Array} years - Array of years to fetch
+   * @param {string} dataStr - Accumulated XML data string
    */
-  async getRecordsForClient(clientRid, years) {
-    const yearQueries = years.map((year, index) => {
-      if (index === 0) {
-        return `{98.EX.${clientRid}} AND {105.EX.'Standard'} AND {474.EX.${year}}`;
-      } else {
-        return ` OR {474.EX.${year}}`;
-      }
-    }).join("");
+  async getRecordsForClient(years, dataStr = "<qdbapi>") {
+    if (years.length === 0) {
+      // Base case: return the final XML when the array is empty
+      try {
+        // If no data was collected, return empty array
+        if (dataStr === "<qdbapi>") {
+          console.warn("No client records collected, returning empty array");
+          return [];
+        }
 
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(
+          dataStr + "</qdbapi>",
+          "text/xml"
+        );
+        const records = xmlDoc.querySelectorAll("record");
+
+        return records;
+      } catch (error) {
+        console.error("Error parsing client XML:", error);
+        return [];
+      }
+    }
+
+    const currentYear = years[0];
     const apiCallClientData = {
       act: "API_DoQuery",
-      query: yearQueries,
+      query: `
+        {98.EX.${ClientRid}} AND {105.EX.'Standard'} AND {474.EX.${currentYear}} 
+      `,
       clist:
         "452.98.474.22.59.60.211.212.215.217.227.218.219.221.222.228.224.415.462.229.460.463.232.230.233.294",
     };
 
     try {
-      // Make API call to Quickbase
-      const response = await this.makeQuickbaseApiCall(apiCallClientData);
-      this.recordsClient = this.parseXmlResponse(response);
-      return this.recordsClient;
+      // Use await to make the async operation more explicit
+      const xml = await $.get(clientData, apiCallClientData);
+      const recordsForClient = $("record", xml).toArray();
+
+      // Process the records
+      for (const record of recordsForClient) {
+        const newRecord = document.createElement("record");
+
+        // Append each child element to the new record
+        Array.from(record.children).forEach((child) => {
+          newRecord.appendChild(child.cloneNode(true));
+        });
+
+        this.recordClientHTMLArray.push(newRecord.outerHTML);
+        dataStr += newRecord.outerHTML;
+      }
+
+      // Recursive call with updated years and dataStr
+      return await this.getRecordsForClient(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching client records:", error);
-      return [];
+      console.error("Error fetching client data for year", currentYear, error);
+
+      // Log error details
+      if (error.status) {
+        console.error(
+          `Status: ${error.status}, StatusText: ${error.statusText}`
+        );
+      }
+
+      // Continue with next year even if this one failed
+      return await this.getRecordsForClient(years.slice(1), dataStr);
     }
   }
 
@@ -1170,34 +1330,105 @@ class ApiService {
    * Get unique client names for dropdown
    */
   async getRecordsForUniqueClientPeerNames() {
-    const apiCheckUniqueClient = {
+    const apiCallPeerData = {
       act: "API_DoQuery",
       query: "{195.XEX.''} AND {193.EX.'Standard'}",
-      clist: "186.195.123.122.193.267.268",
+      clist: "195.301.123.267.268.186.3",
     };
 
     try {
-      // Make API call to Quickbase
-      const response = await this.makeQuickbaseApiCall(apiCheckUniqueClient);
-      const records = this.parseXmlResponse(response);
-      
-      // Extract unique client names
-      const clientNames = new Set();
-      records.forEach((record) => {
-        const clientName = record.querySelector("f186")?.textContent;
+      const xml = await $.get(peerData, apiCallPeerData);
+      const recordsForPeerUniqueClientPeerNames = $("record", xml).toArray();
+      const uniquePeerClientNames = new Set();
+
+      // Create a global client data storage if it doesn't exist
+      if (!window.clientDataStore) {
+        window.clientDataStore = {};
+      }
+
+      // Create a string to hold the XML data
+      let xmlString = "<qdbapi>";
+
+      recordsForPeerUniqueClientPeerNames.forEach((record) => {
+        const clientName = record.querySelector(
+          "client___merged_client_name"
+        )?.textContent;
+
         if (clientName) {
-          clientNames.add(clientName);
+          uniquePeerClientNames.add(clientName);
+
+          // Store client data with all required fields
+          if (!window.clientDataStore[clientName]) {
+            // Get fiscal year
+            const year = record.querySelector("year")?.textContent;
+
+            // Get mission unit value
+            const givingUnitVal =
+              record.querySelector("s02___giving_units")?.textContent || "0";
+
+            // Get region value
+            const regionVal =
+              record.querySelector("main_queryregions")?.textContent || "0";
+
+            // Get statevalue
+            const siteVal =
+              record.querySelector("main_querymultisite")?.textContent || "0";
+
+            // Store all client data
+            window.clientDataStore[clientName] = {
+              name: clientName,
+              year: year,
+              givingUnitVal: parseFloat(givingUnitVal) || 0,
+              region: regionVal,
+              site: siteVal,
+            };
+          }
+
+          // Add record's outerHTML to the XML string
+          xmlString += record.outerHTML;
         }
       });
 
-      this.uniqueClientNames = Array.from(clientNames).sort();
-      
-      // Populate dropdown if function exists
-      if (typeof addUniqueClientNamesToDropdown === "function") {
-        addUniqueClientNamesToDropdown(this.uniqueClientNames);
+      // Close the XML string
+      xmlString += "</qdbapi>";
+
+      const sortedUniquePeerClientNames = Array.from(
+        uniquePeerClientNames
+      ).sort();
+
+      // Add to global selected clients array
+      if (typeof selectedClients_Array !== "undefined") {
+        sortedUniquePeerClientNames.forEach((item) =>
+          selectedClients_Array.add(item)
+        );
       }
 
-      return this.uniqueClientNames;
+      // Check if the function exists before calling it
+      if (typeof addUniqueClientsToOptionsSelectClientDropdown === "function") {
+        addUniqueClientsToOptionsSelectClientDropdown(
+          sortedUniquePeerClientNames
+        );
+      } else {
+        console.error(
+          "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
+        );
+
+        // Provide a simple fallback for populating clients if needed
+        this._populateClientsDropdownFallback(sortedUniquePeerClientNames);
+      }
+
+      // Initialize filter handlers after client data is loaded
+      if (sortedUniquePeerClientNames.length > 0) {
+        this._initializeFilterHandlers();
+      } else {
+        console.log(
+          "No client data loaded, skipping filter handler initialization"
+        );
+      }
+
+      window.sortedUniquePeerClientNames = sortedUniquePeerClientNames;
+
+      return sortedUniquePeerClientNames;
     } catch (error) {
       console.error("Error fetching unique client names:", error);
       return [];
@@ -1205,55 +1436,145 @@ class ApiService {
   }
 
   /**
-   * Make Quickbase API call
-   * @param {Object} apiParams - API parameters
+   * Initialize filter event handlers
    */
-  async makeQuickbaseApiCall(apiParams) {
-    // This is a placeholder for the actual Quickbase API implementation
-    // In production, this would make actual API calls to Quickbase
-    
-    // For now, return mock response or throw error
-    throw new Error("Quickbase API not configured. Please set up API credentials.");
+  _initializeFilterHandlers() {
+    // Handle changes to any filter
+    const handleFilterChange = () => this._handleFiltersChanged();
+
+    // Note: Client selection is handled by custom dropdown checkboxes in options-list-client
+    // The checkboxes have their own event listeners that update window.selectedClients_Array
+
+    // Region selection
+    const regionSelect = document.getElementById("regionSelect");
+    if (regionSelect) {
+      regionSelect.addEventListener("change", handleFilterChange);
+    }
+
+    // Site selection
+    const siteSelect = document.getElementById("siteSelect");
+    if (siteSelect) {
+      siteSelect.addEventListener("change", handleFilterChange);
+    }
+
+    // Slider controls
+    const slider1 = document.getElementById("slider1");
+    const slider2 = document.getElementById("slider2");
+    if (slider1) {
+      slider1.addEventListener("input", handleFilterChange);
+    }
+    if (slider2) {
+      slider2.addEventListener("input", handleFilterChange);
+    }
   }
 
   /**
-   * Parse XML response from Quickbase
-   * @param {String} xmlString - XML response string
+   * Handle filter changes
    */
-  parseXmlResponse(xmlString) {
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-    return xmlDoc.querySelectorAll("record");
+  _handleFiltersChanged() {
+    // Update global variables based on current filter state
+    const regionSelect = document.getElementById("regionSelect");
+    const siteSelect = document.getElementById("siteSelect");
+    const slider1 = document.getElementById("slider1");
+    const slider2 = document.getElementById("slider2");
+
+    if (regionSelect) {
+      window.selectedRegions_Array = Array.from(
+        regionSelect.selectedOptions
+      ).map((option) => option.value);
+    }
+    if (siteSelect) {
+      window.selectedSites_Array = Array.from(siteSelect.selectedOptions).map(
+        (option) => option.value
+      );
+    }
+    if (slider1) {
+      window.sliderValue = parseInt(slider1.value);
+    }
+    if (slider2) {
+      window.sliderValue2 = parseInt(slider2.value);
+    }
+
+    // Trigger update event
+    this._triggerFiltersChanged();
+  }
+
+  /**
+   * Trigger filters changed event
+   */
+  _triggerFiltersChanged() {
+    // Dispatch custom event that can be listened to
+    const event = new CustomEvent("filtersChanged", {
+      detail: {
+        clients: window.selectedClients_Array
+          ? Array.from(window.selectedClients_Array)
+          : [],
+        regions: window.selectedRegions_Array || [],
+        sites: window.selectedSites_Array || [],
+        sliderValue: window.sliderValue,
+        sliderValue2: window.sliderValue2,
+      },
+    });
+    document.dispatchEvent(event);
+  }
+
+  /**
+   * Fallback for populating clients dropdown
+   */
+  _populateClientsDropdownFallback(clientArray) {
+    const clientSelect = document.getElementById("options-list-client");
+    if (clientSelect) {
+      console.log("Using fallback to populate clients dropdown");
+      // Simple fallback implementation
+    }
+  }
+
+  /**
+   * Build client query for Quickbase
+   */
+  getClientQuery(selectedClientsSet) {
+    if (!selectedClientsSet || selectedClientsSet.size === 0) {
+      return "{186.XEX.''}"; // Return all clients if none selected
+    }
+
+    const clientsArray = Array.from(selectedClientsSet);
+    const escapedClients = clientsArray.map((client) =>
+      this._escapeClientName(client)
+    );
+    const clientConditions = escapedClients
+      .map((client) => `{186.EX.'${client}'}`)
+      .join(" OR ");
+
+    return `(${clientConditions})`;
+  }
+
+  /**
+   * Escape client name for query
+   */
+  _escapeClientName(clientName) {
+    return clientName.replace(/'/g, "\\'");
   }
 
   /**
    * Get peer XML string for display
    */
   getPeerXmlString() {
-    // Convert peer records to XML string
-    return this.recordsPeer.length > 0
-      ? new XMLSerializer().serializeToString(this.recordsPeer[0].ownerDocument)
-      : "";
+    return this.recordPeerHTMLArray.join("");
   }
 
   /**
    * Get client XML string for display
    */
   getClientXmlString() {
-    // Convert client records to XML string
-    return this.recordsClient.length > 0
-      ? new XMLSerializer().serializeToString(
-          this.recordsClient[0].ownerDocument
-        )
-      : "";
+    return this.recordClientHTMLArray.join("");
   }
 
   /**
    * Clear all records
    */
   clearRecords() {
-    this.recordsPeer = [];
-    this.recordsClient = [];
+    this.recordPeerHTMLArray = [];
+    this.recordClientHTMLArray = [];
   }
 }
 
@@ -1305,7 +1626,9 @@ class AppController {
       (!regionsListElement.children.length ||
         regionsListElement.children.length <= 1)
     ) {
-      if (typeof addUniqueRegionsToOptionsSelectRegionsDropdown === "function") {
+      if (
+        typeof addUniqueRegionsToOptionsSelectRegionsDropdown === "function"
+      ) {
         addUniqueRegionsToOptionsSelectRegionsDropdown(regions_Array);
       }
     }
@@ -1347,94 +1670,262 @@ class AppController {
    */
   async handleRunButtonClick() {
     try {
-      const selectedYears = this.processSelectedYears();
+      // Show loading indicator
+      if (typeof showApiLoadingFunction === "function") {
+        showApiLoadingFunction("open", "api");
+      }
+
+      // Reset per-year peer record counts for this run
+      try {
+        if (
+          !window.peerRecordMapPerYear ||
+          typeof window.peerRecordMapPerYear.clear !== "function"
+        ) {
+          window.peerRecordMapPerYear = new Map();
+        } else {
+          window.peerRecordMapPerYear.clear();
+        }
+      } catch (e) {
+        console.error("Unable to initialize peerRecordMapPerYear:", e);
+      }
+
+      // Process selected years
+      let selectedYears;
+      try {
+        selectedYears = this.processSelectedYears();
+      } catch (error) {
+        console.error("Error processing selected years:", error);
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return;
+      }
 
       if (!selectedYears || selectedYears.length === 0) {
         console.error("No years selected");
         if (typeof createToastWarning === "function") {
           createToastWarning("Please select at least one year");
         }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
         return;
       }
 
-      // Save selected years to localStorage
       this.saveSelectedYearsToLocalStorage(selectedYears);
 
-      // Get filter values (these should come from UI)
-      const regions = this.getSelectedRegions();
-      const sliderValue = this.getSliderValue();
-      const sliderValue2 = this.getSliderValue2();
+      // Check for selected clients
+      if (
+        !window.selectedClients_Array ||
+        window.selectedClients_Array.size === 0
+      ) {
+        console.warn("No clients selected");
+        if (typeof createToastWarning === "function") {
+          createToastWarning("Please select at least one client");
+        } else {
+          alert("Please select at least one client");
+        }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return;
+      }
 
-      // Fetch data from API or use XML files
-      await this.fetchData(selectedYears, regions, sliderValue, sliderValue2);
+      // Clear existing data
+      if (this.dataStore && typeof this.dataStore.clear === "function") {
+        this.dataStore.clear();
+      }
+
+      if (this.apiService && typeof this.apiService.clearRecords === "function") {
+        this.apiService.clearRecords();
+      }
+
+      // Fetch peer data with improved error handling
+      let recordsPeer;
+      try {
+        recordsPeer = await this.apiService.getRecordsForPeer(selectedYears);
+
+        // Validate records
+        if (!recordsPeer || recordsPeer.length === 0) {
+          console.warn("No peer records returned");
+          if (typeof createToastWarning === "function") {
+            createToastWarning(
+              "No peer records extracted. Please select more filters"
+            );
+          } else {
+            alert("No peer records extracted. Please select more filters");
+          }
+          if (typeof showApiLoadingFunction === "function") {
+            showApiLoadingFunction("close");
+          }
+          return; // Stop the whole process here
+        } else {
+          // Process peer records
+          recordsPeer = await validateAndNormalizeRecords(recordsPeer);
+          window.recordsPeer = recordsPeer;
+          window.totalRecordsPeer = recordsPeer.length;
+          countUniqueClients(recordsPeer);
+        }
+    } catch (error) {
+        console.error("Error fetching peer data:", error);
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "Error fetching peer data. Please try again or adjust your filters."
+          );
+        } else {
+          alert(
+            "Error fetching peer data. Please try again or adjust your filters."
+          );
+        }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return; // Stop the process on error as well
+      }
+
+      // Fetch client data with error handling
+      let recordsClient;
+      try {
+        recordsClient = await this.apiService.getRecordsForClient(
+          selectedYears
+        );
+
+        window.testRecordsClient = recordsClient;
+
+        if (!recordsClient || recordsClient.length === 0) {
+          console.warn("No client records returned");
+          // Continue anyway, we might have peer data
+        } else {
+          // Process client records
+          recordsClient = await validateAndNormalizeRecords(recordsClient);
+
+          window.recordsClientSelectedYears = recordsClient;
+          window.totalRecordsClient = recordsClient.length;
+          if (
+            recordsClient.length > 0 &&
+            recordsClient[recordsClient.length - 1]
+          ) {
+            const monthYearElement = recordsClient[
+              recordsClient.length - 1
+            ].querySelector("fiscal_ye_date_formatted_month");
+            if (monthYearElement) {
+              window.monthYearEnd = monthYearElement.textContent;
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching client data:", error);
+        if (typeof createToastWarning === "function") {
+          createToastWarning("Error fetching client data. Please try again.");
+        } else {
+          alert("Error fetching client data. Please try again.");
+        }
+        // Continue anyway, we might have peer data
+      }
+
+      // Check if we have any data at all
+      if (
+        (!recordsPeer || recordsPeer.length === 0) &&
+        (!recordsClient || recordsClient.length === 0)
+      ) {
+        console.error("No data available for either peer or client");
+        if (typeof createToastWarning === "function") {
+          createToastWarning(
+            "No data retrieved. Try selecting fewer clients or different years."
+      );
+    } else {
+          alert(
+            "No data retrieved. Try selecting fewer clients or different years."
+          );
+        }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return;
+      }
 
       // Process the data
+      try {
       this.dataProcessor.processAllData(
         selectedYears,
-        this.apiService.recordsPeer,
-        this.apiService.recordsClient
-      );
+          recordsPeer || [],
+          recordsClient || []
+        );
+      } catch (error) {
+        console.error("Error processing data:", error);
 
-      // Display all components
+        // Check if it's a storage quota error
+        if (
+          error.name === "QuotaExceededError" ||
+          error.message.includes("quota")
+        ) {
+          console.warn("Storage quota exceeded, showing management options");
+          const message =
+            "Storage limit exceeded. Try selecting fewer years or clear browser data.";
+          if (typeof createToastWarning === "function") {
+            createToastWarning(message);
+          } else {
+            alert(message);
+          }
+        } else {
+          if (typeof createToastWarning === "function") {
+            createToastWarning("Error processing data. Please try again.");
+          } else {
+            alert("Error processing data. Please try again.");
+          }
+        }
+
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return;
+      }
+
+      // Display charts
+      try {
       await this.displayAllComponents();
 
       console.log("✅ Data processing complete");
     } catch (error) {
-      console.error("Error in handleRunButtonClick:", error);
-      if (typeof createToastError === "function") {
-        createToastError("Error processing data. Please try again.");
+        console.error("Error displaying components:", error);
+
+        // Check if it's a data-related error
+        if (
+          error.message &&
+          error.message.includes("Cannot read properties of undefined")
+        ) {
+          console.warn(
+            "Data structure issue detected, attempting to continue with available data"
+          );
+          // Continue anyway since some data might be available
+        } else {
+          if (typeof createToastWarning === "function") {
+            createToastWarning(
+              "Error displaying charts. Please check console for details."
+            );
+          } else {
+            alert("Error displaying charts. Please check console for details.");
+          }
+        }
+      } finally {
+        // Always hide loading indicator
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+      }
+    } catch (err) {
+      console.error("Unexpected error in handleRunButtonClick:", err);
+      if (typeof createToastWarning === "function") {
+        createToastWarning("An unexpected error occurred. Please try again.");
+      } else {
+        alert("An unexpected error occurred. Please try again.");
+      }
+      if (typeof showApiLoadingFunction === "function") {
+        showApiLoadingFunction("close");
       }
     }
   }
 
-  /**
-   * Fetch data - either from API or XML files
-   */
-  async fetchData(selectedYears, regions, sliderValue, sliderValue2) {
-    // Check if we should use API or XML files
-    const useXmlFiles = true; // Set to false when API is configured
-
-    if (useXmlFiles) {
-      // Load from XML files
-      this.apiService.recordsPeer = await this.fetchXmlData("./data/peerData.xml");
-      this.apiService.recordsClient = await this.fetchXmlData("./data/clientData.xml");
-    } else {
-      // Load from API
-      await this.apiService.getRecordsForPeer(
-        selectedYears,
-        regions,
-        sliderValue,
-        sliderValue2
-      );
-      
-      // Get client RID (this should come from UI selection)
-      const clientRid = this.getSelectedClientRid();
-      if (clientRid) {
-        await this.apiService.getRecordsForClient(clientRid, selectedYears);
-      }
-    }
-
-    // Extract unique years from data
-    if (typeof findUniqueYears === "function") {
-      findUniqueYears(this.apiService.recordsClient);
-    }
-  }
-
-  /**
-   * Fetch XML data from file
-   */
-  async fetchXmlData(filePath) {
-    try {
-      const response = await fetch(filePath);
-      const xmlString = await response.text();
-      const parser = new DOMParser();
-      const xmlDoc = parser.parseFromString(xmlString, "text/xml");
-      return xmlDoc.querySelectorAll("record");
-    } catch (error) {
-      console.error(`Error fetching XML file ${filePath}:`, error);
-      return [];
-    }
-  }
 
   /**
    * Process selected years
@@ -1450,7 +1941,10 @@ class AppController {
     }
 
     // Fallback to selectedYears_Set if available
-    if (typeof selectedYears_Set !== "undefined" && selectedYears_Set.size > 0) {
+    if (
+      typeof selectedYears_Set !== "undefined" &&
+      selectedYears_Set.size > 0
+    ) {
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
         (a, b) => a - b
       );
@@ -1464,7 +1958,10 @@ class AppController {
    * Save selected years to localStorage
    */
   saveSelectedYearsToLocalStorage(selectedYearsData) {
-    if (typeof selectedYears_Set !== "undefined" && selectedYears_Set.size > 0) {
+    if (
+      typeof selectedYears_Set !== "undefined" &&
+      selectedYears_Set.size > 0
+    ) {
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
         (a, b) => a - b
       );
@@ -1496,40 +1993,6 @@ class AppController {
     if (typeof displayReportComponent === "function") {
       displayReportComponent();
     }
-  }
-
-  /**
-   * Get selected regions from UI
-   */
-  getSelectedRegions() {
-    if (typeof regions_Array !== "undefined") {
-      return regions_Array;
-    }
-    return ["", "", "", "", "", "", ""];
-  }
-
-  /**
-   * Get slider value from UI
-   */
-  getSliderValue() {
-    const slider = document.getElementById("slider");
-    return slider ? parseInt(slider.value) : 0;
-  }
-
-  /**
-   * Get slider value 2 from UI
-   */
-  getSliderValue2() {
-    const slider2 = document.getElementById("slider2");
-    return slider2 ? parseInt(slider2.value) : 10000;
-  }
-
-  /**
-   * Get selected client RID from UI
-   */
-  getSelectedClientRid() {
-    const clientSelect = document.getElementById("client-select");
-    return clientSelect ? clientSelect.value : null;
   }
 
   /**
@@ -1617,8 +2080,7 @@ function countUniqueClients(records) {
       const clientName = record
         .querySelector("client___merged_client_name")
         ?.textContent?.trim();
-        const year = record.querySelector("s52_formatted_year")?.textContent;
-    
+      const year = record.querySelector("s52_formatted_year")?.textContent;
 
       // Only count clients that are in the selectedClients_Array
       if (clientName && selectedClients.includes(clientName)) {
@@ -1631,7 +2093,7 @@ function countUniqueClients(records) {
           window.uniqueClientsPerYearMap[year]
         ) {
           window.uniqueClientsPerYearMap[year].add(clientName);
-          
+
           // Also populate the names array if client name not already in it
           if (
             window.uniqueClientsNamesPerYearMap &&
