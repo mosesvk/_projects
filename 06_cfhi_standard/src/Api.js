@@ -1340,7 +1340,7 @@ class ApiService {
       for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
         const clientBatch = clientBatches[batchIndex];
         const clientConditions = clientBatch
-          .map((client) => `{186.EX.'${client}'}`)
+          .map((client) => `{301.EX.'${client}'}`)
           .join(" OR ");
         const queryCondition = `{195.EX.${currentYear}} AND (${clientConditions})${additionalFilters}`;
 
@@ -1772,7 +1772,7 @@ class ApiService {
    */
   getClientQuery(selectedClientsSet) {
     if (!selectedClientsSet || selectedClientsSet.size === 0) {
-      return "{186.XEX.''}"; // Return all clients if none selected
+      return "{301.XEX.''}"; // Return all clients if none selected
     }
 
     const clientsArray = Array.from(selectedClientsSet);
@@ -1780,7 +1780,7 @@ class ApiService {
       this._escapeClientName(client)
     );
     const clientConditions = escapedClients
-      .map((client) => `{186.EX.'${client}'}`)
+      .map((client) => `{301.EX.'${client}'}`)
       .join(" OR ");
 
     return `(${clientConditions})`;
