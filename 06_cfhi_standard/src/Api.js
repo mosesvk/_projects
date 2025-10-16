@@ -1281,11 +1281,24 @@ class ApiService {
 
     // Pre-calculate all filter conditions once
     const filterParts = [];
+    
+    // Always include Standard mode filter
+    filterParts.push(`{193.EX.'Standard'}`);
+    
+    // Add giving units filter if defined
+    console.log("🎚️ Slider values:", {
+      sliderValue: window.sliderValue,
+      sliderValue2: window.sliderValue2,
+      selectedRegions: window.selectedRegions_Array?.length || 0,
+      selectedSites: window.selectedSites_Array?.length || 0
+    });
+    
     if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
       filterParts.push(
-        `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}} AND {193.EX.'Standard'}`
+        `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`
       );
     }
+    
     if (window.selectedRegions_Array?.length > 0) {
       const regionConditions = window.selectedRegions_Array
         .map((region) => `{267.EX.${region}}`)
@@ -1298,8 +1311,9 @@ class ApiService {
         .join(" OR ");
       filterParts.push(`(${siteConditions})`);
     }
-    const additionalFilters =
-      filterParts.length > 0 ? ` AND ${filterParts.join(" AND ")}` : "";
+    const additionalFilters = ` AND ${filterParts.join(" AND ")}`;
+    
+    console.log("📝 Filter parts:", filterParts);
 
     // Pre-escape all client names once
     const escapedClients = selectedClients.map((client) =>
@@ -1323,11 +1337,19 @@ class ApiService {
       "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321";
 
     for (const currentYear of years) {
-      for (const clientBatch of clientBatches) {
+      for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
+        const clientBatch = clientBatches[batchIndex];
         const clientConditions = clientBatch
           .map((client) => `{186.EX.'${client}'}`)
           .join(" OR ");
         const queryCondition = `{195.EX.${currentYear}} AND (${clientConditions})${additionalFilters}`;
+
+        // Log first query for debugging
+        if (currentYear === years[0] && batchIndex === 0) {
+          console.log("🔍 Sample query for year", currentYear, "batch 1:");
+          console.log("Query:", queryCondition);
+          console.log("clist:", clist);
+        }
 
         const apiCallPeerData = {
           act: "API_DoQuery",
@@ -1368,12 +1390,34 @@ class ApiService {
 
     // Process all results efficiently
     const recordHtmlParts = [];
-    for (const result of results) {
+    let successfulCalls = 0;
+    let failedCalls = 0;
+    
+    for (let idx = 0; idx < results.length; idx++) {
+      const result = results[idx];
+      
       if (result.status === "fulfilled") {
+        successfulCalls++;
         try {
           const xml = result.value;
+          
+          // Log first successful response for debugging
+          if (idx === 0) {
+            console.log("📦 First API response received:");
+            console.log("XML type:", typeof xml);
+            console.log("XML preview:", xml ? String(xml).substring(0, 500) : "null");
+          }
+          
           // Use jQuery once per response, then process natively
           const $records = $("record", xml);
+          
+          // Log record count for first batch
+          if (idx === 0) {
+            console.log("Records found in first response:", $records.length);
+            if ($records.length > 0) {
+              console.log("First record preview:", $records[0].outerHTML.substring(0, 300));
+            }
+          }
 
           // Process records using native DOM for better performance
           for (let i = 0; i < $records.length; i++) {
@@ -1382,12 +1426,15 @@ class ApiService {
             this.recordPeerHTMLArray.push(recordHtml);
           }
         } catch (error) {
-          console.error("Error processing XML result:", error);
+          console.error("Error processing XML result at index", idx, ":", error);
         }
-      } else {
-        console.warn("API call failed:", result.reason);
+        } else {
+        failedCalls++;
+        console.warn("API call", idx + 1, "failed:", result.reason);
       }
     }
+    
+    console.log(`✅ Successful calls: ${successfulCalls}, ❌ Failed calls: ${failedCalls}`);
 
     console.log(`Total records collected: ${recordHtmlParts.length}`);
 
@@ -1940,7 +1987,7 @@ class AppController {
             `Using batching for ${window.selectedClients_Array.size} clients`
           );
           recordsPeer = await this.apiService.getRecordsForPeerWithBatching(
-            selectedYears,
+        selectedYears,
             window.selectedClients_Array
           );
         } else {
