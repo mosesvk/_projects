@@ -288,6 +288,21 @@ const changeListenerForInputYears = (input, year) => {
 };
 
 const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
+  // Get the options list element correctly
+  const optionsListElement = document.getElementById("options-list-year");
+
+  if (!optionsListElement) {
+    console.error("Options list element not found for years dropdown");
+    return;
+  }
+
+  // Clear the selected years on page load
+  if (!window.yearSelectionsInitialized) {
+    resetSelectedYearsFromLocalStorage();
+    selectedYears_Set.clear();
+    window.yearSelectionsInitialized = true;
+  }
+
   // Initialize selectedYears_Set from local storage if data exists
   const storedYears = getSelectedYearsFromLocalStorage();
 
@@ -295,6 +310,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     selectedYears_Set = new Set(storedYears);
   }
 
+  // Clear existing content
   optionsListElement.innerHTML = "";
 
   yearsArray.sort((a, b) => b - a);
@@ -334,7 +350,7 @@ const getPeerAndClientChartDataArrays = (
   dataClient,
   fixedNum
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum })
+  console.log({ years, dataPeer, dataClient, fixedNum })
   const peerAvg = [];
   const peerMid = [];
   const peerMin = [];

@@ -1557,50 +1557,575 @@ class AppController {
   }
 }
 
-// Helper function to find unique years
-const findUniqueYears = (data) => {
-  if (!data || data.length === 0) return;
+// Restore initial client selection
+function restoreInitialClientSelection() {
+  try {
+    const savedSelection = localStorage.getItem("selectedClients");
+    if (savedSelection) {
+      const clientArray = JSON.parse(savedSelection);
+      window.selectedClients_Array = new Set(clientArray);
 
-  data.forEach((item) => {
-    const yearElement = item.querySelector("s52_formatted_year");
-    if (yearElement) {
-      const year = yearElement.textContent;
-
-      // Check if the year is not already in yearsData_Array to ensure uniqueness
-      if (
-        typeof yearsData_Array !== "undefined" &&
-        !yearsData_Array.includes(year)
-      ) {
-        yearsData_Array.push(year);
+      // Update UI if client select exists
+      const clientSelect = document.getElementById("clientSelect");
+      if (clientSelect) {
+        Array.from(clientSelect.options).forEach((option) => {
+          option.selected = window.selectedClients_Array.has(option.value);
+        });
       }
     }
+  } catch (error) {
+    console.error("Error restoring client selection:", error);
+  }
+}
+
+// Count unique clients in records
+function countUniqueClients(records) {
+  // Check if records is valid and has a forEach method
+  if (!records || typeof records.forEach !== "function") {
+    console.error("Invalid records provided to countUniqueClients:", records);
+    const element = document.getElementById("uniqueClients");
+    if (element) {
+      element.textContent = "0";
+    }
+    return;
+  }
+
+  // Get the current filter state
+  const selectedClients = window.selectedClients_Array
+    ? Array.from(window.selectedClients_Array)
+    : [];
+
+  // Use a Set to track unique client names
+  const uniqueClients = new Set();
+
+  /**
+   * Initializes uniqueClientsPerYearMap and uniqueClientsNamesPerYearMap based on selected years.
+   * uniqueClientsPerYearMap: { [year]: Set<string> } - Set of unique client names per year.
+   * uniqueClientsNamesPerYearMap: { [year]: Array<string> } - Array of unique client names per year.
+   */
+  window.uniqueClientsPerYearMap = {};
+  window.uniqueClientsNamesPerYearMap = {};
+
+  const selectedYears = getSelectedYearsFromLocalStorage() || [];
+  selectedYears.forEach((year) => {
+    window.uniqueClientsPerYearMap[year] = new Set();
+    window.uniqueClientsNamesPerYearMap[year] = [];
   });
 
-  if (typeof yearsData_Array !== "undefined") {
-    yearsData_Array.sort();
+  try {
+    records.forEach((record) => {
+      const clientName = record
+        .querySelector("client___merged_client_name")
+        ?.textContent?.trim();
+        const year = record.querySelector("s52_formatted_year")?.textContent;
+    
 
-    // Add to dropdown if function exists
-    if (typeof addUniqueYearsToOptionsSelectDropdown === "function") {
-      addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
+      // Only count clients that are in the selectedClients_Array
+      if (clientName && selectedClients.includes(clientName)) {
+        uniqueClients.add(clientName);
+
+        // Track unique clients per year
+        if (
+          year &&
+          window.uniqueClientsPerYearMap &&
+          window.uniqueClientsPerYearMap[year]
+        ) {
+          window.uniqueClientsPerYearMap[year].add(clientName);
+          
+          // Also populate the names array if client name not already in it
+          if (
+            window.uniqueClientsNamesPerYearMap &&
+            window.uniqueClientsNamesPerYearMap[year] &&
+            !window.uniqueClientsNamesPerYearMap[year].includes(clientName)
+          ) {
+            window.uniqueClientsNamesPerYearMap[year].push(clientName);
+          }
+        }
+      }
+    });
+
+    // Convert Sets to counts for the per-year map
+    if (window.uniqueClientsPerYearMap) {
+      Object.keys(window.uniqueClientsPerYearMap).forEach((year) => {
+        window.uniqueClientsPerYearMap[year] =
+          window.uniqueClientsPerYearMap[year].size;
+      });
     }
+
+    // Update the UI with the count
+    const count = uniqueClients.size;
+    window.uniqueClientSize = count;
+    if (count < 6) {
+      if (typeof createToastWarning === "function") {
+        createToastWarning(
+          "There are 5 or less Unique Clients in Peer Records."
+        );
+      }
+    }
+    const element = document.getElementById("uniqueClients");
+    if (element) {
+      element.textContent = count;
+    }
+
+    // console.log(`Counted ${count} unique clients after filtering`);
+    // console.log("Unique clients per year:", window.uniqueClientsPerYearMap);
+  } catch (error) {
+    console.error("Error counting unique clients:", error);
+    const element = document.getElementById("uniqueClients");
+    if (element) {
+      element.textContent = "0";
+    }
+  }
+}
+
+// Toggle button loading state
+function toggleButtonLoadingState(btn) {
+  btn.innerHTML = `
+        <svg aria-hidden="true" role="status" class="inline w-6 h-6 me-3 text-xl colorGreen font-extrabold animate-spin" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="#E5E7EB"/>
+          <path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentColor"/>
+        </svg>
+        Loading...`;
+  btn.disabled = true;
+}
+
+// Toggle print presentation button normal state
+const togglePrintPresentationButtonNormalState = (btn) => {
+  if (!btn) return;
+
+  btn.disabled = false;
+  btn.classList.remove("loading");
+  btn.textContent = "Print Presentation";
+};
+
+// Toggle generate report button normal state
+const toggleGenerateReportButtonNormalState = (btn) => {
+  if (!btn) return;
+
+  btn.disabled = false;
+  btn.classList.remove("loading");
+  btn.textContent = "Generate Report";
+};
+
+// Toggle button normal state
+function toggleButtonNormalState(btn) {
+  if (!btn) return;
+
+  btn.disabled = false;
+  btn.classList.remove("loading");
+
+  const originalText = btn.dataset.originalText;
+  if (originalText) {
+    btn.textContent = originalText;
+    delete btn.dataset.originalText;
+  }
+}
+
+// API Client Data Query
+let apiCallClientDataForUniqueYears = {
+  act: "API_DoQuery",
+  query: `{98.EX.${ClientRid}}`,
+  clist: "98.474.452.3",
+};
+
+// Fetch client information
+$.get(clientData, apiCallClientDataForUniqueYears)
+  .then(async (xml) => {
+    recordsClient = await $("record", xml).toArray();
+
+    // console.log({recordsClient});
+
+    if (recordsClient.length > 0) {
+      firmName = recordsClient[0].children[2].innerHTML;
+      document.querySelector("#firmName").textContent = firmName;
+      findUniqueYears(recordsClient);
+    } else {
+      console.error(
+        "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
+      );
+    }
+  })
+  .catch((err) => console.error(err));
+
+// Find and add unique years from data
+const findUniqueYears = (data) => {
+  // console.log('findUniqueYears', {data});
+
+  if (data) {
+    data.forEach((item) => {
+      const yearElement = item.querySelector("s52_formatted_year");
+      if (yearElement) {
+        const year = yearElement.textContent;
+
+        // Check if the year is not already in yearsData_Array to ensure uniqueness
+        if (!yearsData_Array.includes(year)) {
+          yearsData_Array.push(year);
+        }
+      }
+    });
+
+    yearsData_Array.sort();
+    // console.log('findUniqueYears', {yearsData_Array});
+
+    // Add years to options dropdown
+    addUniqueYearsToOptionsSelectDropdown(yearsData_Array);
   }
 };
 
-// Initialize application when window loads
-window.onload = () => {
-  if (!window.appController) {
-    window.appController = new AppController();
+// Validate and normalize records
+async function validateAndNormalizeRecords(records) {
+  // Handle empty or invalid input
+  if (!records) {
+    console.warn("Empty records received");
+    return [];
   }
 
-  // Also initialize dataStore reference for utilities
-  if (window.appController && window.appController.dataStore) {
-    window.dataStore = window.appController.dataStore;
+  // If records is already an array, process it
+  if (Array.isArray(records)) {
+    // Create a new array with properly processed records
+    const result = [];
+
+    for (const record of records) {
+      // If it's a DOM node, return as is
+      if (record && typeof record.querySelector === "function") {
+        result.push(record);
+      }
+      // If it's an object but not a DOM node, convert to a simulated DOM-like object
+      else if (record && typeof record === "object") {
+        // Create a wrapper with querySelector method
+        const wrapper = {
+          querySelector: function (selector) {
+            // Strip any leading underscores or other characters from selector to match property name
+            const propName = selector.replace(/^[_.]/, "");
+            if (this.hasOwnProperty(propName)) {
+              return { textContent: this[propName] };
+            }
+            return null;
+          },
+        };
+
+        // Copy all properties from the original record
+        Object.assign(wrapper, record);
+        result.push(wrapper);
+      }
+    }
+
+    console.log(`Validated ${result.length} out of ${records.length} records`);
+    return result;
+  }
+
+  // If records is NodeList or other iterable, convert to array
+  if (typeof records[Symbol.iterator] === "function") {
+    return Array.from(records);
+  }
+
+  // If records is a single object, wrap in array
+  if (typeof records === "object") {
+    return [records];
+  }
+
+  console.error("Unrecognized records format:", records);
+  return [];
+}
+
+window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
+  // console.log("processApiData called with", {
+  //   yearsCount: selectedYears.length,
+  //   peerCount: recordsPeer ? recordsPeer.length : 0,
+  //   clientCount: recordsClient ? recordsClient.length : 0,
+  // });
+
+  // Call the processApiCalls function which will update the dataStore
+  if (typeof processApiCalls === "function") {
+    const processedData = processApiCalls(
+      selectedYears,
+      recordsPeer,
+      recordsClient
+    );
+
+    // Signal that data processing is complete
+    document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
+
+    // Attempt to trigger chart initialization
+    setTimeout(() => {
+      if (typeof enhancedInitializeChartDisplay === "function") {
+        // console.log(
+        //   "Triggering enhancedInitializeChartDisplay from processApiData"
+        // );
+        enhancedInitializeChartDisplay();
+      } else if (typeof initializeChartDisplay === "function") {
+        // console.log("Triggering initializeChartDisplay from processApiData");
+        initializeChartDisplay();
+      } else if (
+        window.systemConnector &&
+        typeof window.systemConnector.displayCharts === "function"
+      ) {
+        // console.log(
+        //   "Triggering systemConnector.displayCharts from processApiData"
+        // );
+        window.systemConnector.displayCharts();
+      }
+    }, 500);
+
+    return processedData;
+  } else {
+    console.error("processApiCalls function not available");
+
+    // Create a fallback function
+    if (!window.dataStore) {
+      window.dataStore = new DataStore();
+    }
+
+    const dataProcessor = new DataProcessor(window.dataStore);
+    dataProcessor.processAllData(selectedYears, recordsPeer, recordsClient);
+
+    // Signal completion
+    document.dispatchEvent(new CustomEvent("dataProcessingComplete"));
+
+    // Load data using the new centralized method
+    window.dataStore.loadFromLocalStorage();
+    return window.dataStore.getAllData();
+  }
+};
+
+// Ensure other key components are globally accessible
+window.DataStore = DataStore;
+window.DataProcessor = DataProcessor;
+window.ApiService = ApiService;
+
+// Create global instances if they don't exist
+if (!window.dataStore) {
+  window.dataStore = new DataStore();
+} else {
+  // Ensure the existing instance has all the new methods
+  const newDataStore = new DataStore();
+  Object.getOwnPropertyNames(Object.getPrototypeOf(newDataStore)).forEach(
+    (method) => {
+      if (
+        method !== "constructor" &&
+        typeof newDataStore[method] === "function"
+      ) {
+        window.dataStore[method] = newDataStore[method];
+      }
+    }
+  );
+}
+
+if (!window.dataProcessor) {
+  window.dataProcessor = new DataProcessor(window.dataStore);
+}
+
+// Ensure DataStore has all required methods
+window.ensureDataStoreMethods = function () {
+  if (window.dataStore) {
+    const newDataStore = new DataStore();
+    Object.getOwnPropertyNames(Object.getPrototypeOf(newDataStore)).forEach(
+      (method) => {
+        if (
+          method !== "constructor" &&
+          typeof newDataStore[method] === "function"
+        ) {
+          window.dataStore[method] = newDataStore[method];
+        }
+      }
+    );
+    console.log("DataStore methods updated");
+  }
+};
+
+// Add global storage management functions
+window.clearAppStorage = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.clearAllStorage === "function"
+  ) {
+    window.dataStore.clearAllStorage();
+    console.log("App storage cleared successfully");
+
+    if (typeof createToastWarning === "function") {
+      createToastWarning(
+        "Storage cleared successfully. You can now try loading data again."
+      );
+    } else {
+      alert(
+        "Storage cleared successfully. You can now try loading data again."
+      );
+    }
+  } else {
+    console.error("DataStore or clearAllStorage method not available");
+  }
+};
+
+window.checkAppStorage = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.checkStorageQuota === "function"
+  ) {
+    const quotaInfo = window.dataStore.checkStorageQuota();
+    const message = `Storage Usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`;
+
+    if (typeof createToastWarning === "function") {
+      createToastWarning(message);
+    } else {
+      alert(message);
+    }
+  } else {
+    console.error("DataStore or checkStorageQuota method not available");
+  }
+};
+
+window.onload = () => {
+  if (!window.appController) {
+    // console.log("Initializing AppController");
+    window.appController = new AppController();
+  }
+};
+
+// Storage Management Utilities for Users
+// These functions can be called from the browser console to manage storage issues
+
+/**
+ * Storage Management Utility Functions
+ *
+ * Usage from browser console:
+ * - checkStorage() - Check current storage usage
+ * - clearStorage() - Clear all app data
+ * - optimizeStorage() - Show optimization suggestions
+ * - getStorageInfo() - Get detailed storage information
+ */
+
+window.checkStorage = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.checkStorageQuota === "function"
+  ) {
+    const quotaInfo = window.dataStore.checkStorageQuota();
+    const sizeInfo = window.dataStore.estimateDataSize();
+
+    console.log("=== Storage Information ===");
+    console.log(
+      `Current Usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`
+    );
+    console.log(`Estimated New Data: ${sizeInfo.sizeMB}MB`);
+    console.log(
+      `Available Space: ${(
+        (quotaInfo.maxQuota - quotaInfo.used) /
+        1024 /
+        1024
+      ).toFixed(2)}MB`
+    );
+
+    if (parseFloat(quotaInfo.percentage) > 80) {
+      console.warn("⚠️ Storage usage is high! Consider clearing old data.");
+    }
+
+    return { quotaInfo, sizeInfo };
+  } else {
+    console.error("DataStore not available");
+    return null;
+  }
+};
+
+window.clearStorage = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.clearAllStorage === "function"
+  ) {
+    const before = window.dataStore.checkStorageQuota();
+    window.dataStore.clearAllStorage();
+    const after = window.dataStore.checkStorageQuota();
+
+    console.log("=== Storage Cleared ===");
+    console.log(`Before: ${before.usedMB}MB`);
+    console.log(`After: ${after.usedMB}MB`);
+    console.log(`Freed: ${(before.used - after.used) / 1024 / 1024}MB`);
+
+    return { before, after };
+  } else {
+    console.error("DataStore not available");
+    return null;
+  }
+};
+
+window.optimizeStorage = function () {
+  const suggestions = [
+    "1. Select fewer years (3-4 instead of 6)",
+    "2. Clear browser data for this site",
+    "3. Use private/incognito mode",
+    "4. Close other browser tabs",
+    "5. Try a different browser",
+  ];
+
+  console.log("=== Storage Optimization Suggestions ===");
+  suggestions.forEach((suggestion) => console.log(suggestion));
+
+  return suggestions;
+};
+
+window.getStorageInfo = function () {
+  // Ensure methods are available
+  window.ensureDataStoreMethods();
+
+  if (
+    window.dataStore &&
+    typeof window.dataStore.checkStorageQuota === "function"
+  ) {
+    const quotaInfo = window.dataStore.checkStorageQuota();
+    const sizeInfo = window.dataStore.estimateDataSize();
+    const hasData = window.dataStore.hasDataInStorage();
+
+    const info = {
+      currentUsage: quotaInfo,
+      estimatedNewData: sizeInfo,
+      hasExistingData: hasData,
+      recommendations: [],
+    };
+
+    // Add recommendations based on current state
+    if (parseFloat(quotaInfo.percentage) > 80) {
+      info.recommendations.push("Clear old data before loading new data");
+    }
+
+    if (parseFloat(sizeInfo.sizeMB) > 3) {
+      info.recommendations.push(
+        "Consider selecting fewer years to reduce data size"
+      );
+    }
+
+    if (hasData) {
+      info.recommendations.push(
+        "Existing data found - consider clearing if having issues"
+      );
+    }
+
+    console.log("=== Detailed Storage Information ===");
+    console.log(info);
+
+    return info;
+  } else {
+    console.error("DataStore not available");
+    return null;
   }
 };
 
 // Auto-check storage on page load
 document.addEventListener("DOMContentLoaded", function () {
   setTimeout(() => {
+    // Ensure methods are available
+    window.ensureDataStoreMethods();
+
     if (
       window.dataStore &&
       typeof window.dataStore.checkStorageQuota === "function"
@@ -1610,16 +2135,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.warn("⚠️ Storage usage is very high! Consider clearing data.");
         if (typeof createToastWarning === "function") {
           createToastWarning(
-            "Storage is nearly full. Consider clearing old data."
+            "Storage is nearly full. Use checkStorage() in console for details."
           );
         }
       }
     }
   }, 2000);
 });
-
-// Export for global access
-window.DataStore = DataStore;
-window.DataProcessor = DataProcessor;
-window.ApiService = ApiService;
-window.AppController = AppController;
