@@ -262,7 +262,8 @@
           </div>
           <div class="flex items-center cursor-pointer">
             <!-- year -->
-            <button id="custom-select-year"
+            <button
+              id="custom-select-year"
               class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div class="flex px-1">
@@ -288,8 +289,7 @@
               <div
                 id="options-list-year"
                 class="text-2xl absolute left-0 top-8 z-10 mt-2 w-fit colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-80 invisible"
-                >
-              </div>
+              ></div>
             </button>
             <button
               data-modal-target="options_modal"
@@ -378,7 +378,7 @@
       id="container"
       class="flex pt-16 overflow-hidden bg-gray-50 dark:bg-gray-900 h-screen"
     >
-      <aside 
+      <aside
         id="sidebar"
         class="fixed top-0 left-0 z-20 flex flex-col flex-shrink-0 hidden w-44 h-full pt-16 font-normal duration-75 lg:flex transition-width"
       >
@@ -655,12 +655,13 @@
           </div>
         </div>
       </aside>
-      <div 
+      <div
         id="sidebarBackdrop"
         class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/90"
       ></div>
       <!-- MAIN CONTENT -->
-      <div id="main-content"
+      <div
+        id="main-content"
         class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-44 dark:bg-gray-900"
       >
         <main class="px-4 pt-6 grid gap-y-4">
@@ -757,7 +758,9 @@
                   </svg>
                 </div>
               </div>
-              <div id="contributionsWithoutDonorExcludingLargeGifts_chart"></div>
+              <div
+                id="contributionsWithoutDonorExcludingLargeGifts_chart"
+              ></div>
               <div
                 class="flex items-center justify-between pt-3 mt-4 border-t border-gray-200 sm:pt-6 dark:border-gray-700"
               >
@@ -788,7 +791,6 @@
             </div>
           </div>
           <div id="cashContent" class="tab-content hidden">
-
             <!-- Days Operating -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1034,10 +1036,8 @@
                 </div>
               </div>
             </div>
-
           </div>
           <div id="incomeContent" class="tab-content hidden">
-
             <!-- contributionsWithoutDonorPerGivingUnit -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1291,7 +1291,6 @@
                               Total Contributions
                             </th>
                           </tr>
-                          
                         </tbody>
                       </table>
                     </div>
@@ -1338,7 +1337,8 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
-                              1. Days of Operating Cash and Investments on Hand to Fund Annual Cash Expenses
+                              1. Days of Operating Cash and Investments on Hand
+                              to Fund Annual Cash Expenses
                             </td>
                           </tr>
                           <tr
@@ -1436,7 +1436,6 @@
                               Restrictions per Average Adult Attendee
                             </th>
                           </tr>
-                          
                         </tbody>
                       </table>
                     </div>
@@ -1506,8 +1505,7 @@
                               scope="row"
                               class="px-6 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
                             >
-                              6. Total Contributions per
-                              Giving Units
+                              6. Total Contributions per Giving Units
                             </th>
                           </tr>
                           <tr
@@ -1585,7 +1583,6 @@
                               Cash Expenditures per Giving
                             </th>
                           </tr>
-                          
                         </tbody>
                       </table>
                     </div>
@@ -1593,14 +1590,14 @@
                 </div>
               </div>
             </div>
-            
           </div>
         </main>
       </div>
     </div>
 
     <!-- DEMO MODALS -->
-    <div id="givingUnits_modal"
+    <div
+      id="givingUnits_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -1787,7 +1784,8 @@
       </div>
     </div>
 
-    <div id="contributionsWithoutDonorExcludingLargeGifts_modal"
+    <div
+      id="contributionsWithoutDonorExcludingLargeGifts_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -1803,7 +1801,7 @@
               class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
             >
               <h1 class="text-white font-bold text-center self-center">
-                Contributions Without Donor 
+                Contributions Without Donor
               </h1>
               <button
                 type="button"
@@ -1873,7 +1871,9 @@
                           <thead
                             class="text-sm colorBlue uppercase backgroundGrey dark:bg-gray-700"
                           >
-                            <tr id="contributionsWithoutDonorExcludingLargeGifts_modal_row"></tr>
+                            <tr
+                              id="contributionsWithoutDonorExcludingLargeGifts_modal_row"
+                            ></tr>
                           </thead>
                           <tbody></tbody>
                         </table>
@@ -1975,7 +1975,8 @@
     </div>
 
     <!-- CASH MODALS -->
-    <div id="daysOperatingCash_modal"
+    <div
+      id="daysOperatingCash_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -2162,7 +2163,8 @@
       </div>
     </div>
 
-    <div id="netCashAvailability_modal"
+    <div
+      id="netCashAvailability_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -2351,7 +2353,8 @@
 
     <!-- DEBT MODALS -->
 
-    <div id="debtToContributionsWithout_modal"
+    <div
+      id="debtToContributionsWithout_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -2538,7 +2541,8 @@
       </div>
     </div>
 
-    <div id="debtPerGivingUnit_modal"
+    <div
+      id="debtPerGivingUnit_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -2727,7 +2731,8 @@
 
     <!-- INCOME MODALS -->
 
-    <div id="contributionsWithoutDonorPerGivingUnit_modal"
+    <div
+      id="contributionsWithoutDonorPerGivingUnit_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -2916,7 +2921,8 @@
       </div>
     </div>
 
-    <div id="totalContributionsPerGivingUnit_modal"
+    <div
+      id="totalContributionsPerGivingUnit_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -3106,7 +3112,8 @@
     </div>
 
     <!-- EXPENSE MODALS -->
-    <div id="cashExpendituresPerGivingUnit_modal"
+    <div
+      id="cashExpendituresPerGivingUnit_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -3296,7 +3303,8 @@
     </div>
 
     <!-- OPTIONS MODALS -->
-    <div id="options_modal"
+    <div
+      id="options_modal"
       tabindex="-1"
       aria-hidden="true"
       class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
@@ -3379,11 +3387,12 @@
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
-                  </div>    
+                  </div>
                 </div>
                 <div class="flex">
                   <!-- region -->
-                  <div id="custom-select-region"
+                  <div
+                    id="custom-select-region"
                     class="flex max-w-max cursor-pointer"
                   >
                     <svg
@@ -3414,12 +3423,13 @@
                       />
                     </svg>
                   </div>
-                  <div 
-                  id="options-list-region"
+                  <div
+                    id="options-list-region"
                     class="absolute top-36 left-0 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible"
-                  ></div> 
+                  ></div>
                   <!-- site -->
-                  <div id="custom-select-site"
+                  <div
+                    id="custom-select-site"
                     class="flex max-w-max cursor-pointer"
                   >
                     <svg
@@ -3450,11 +3460,13 @@
                       />
                     </svg>
                   </div>
-                  <div id="options-list-site"
+                  <div
+                    id="options-list-site"
                     class="absolute top-36 left-64 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible"
-                  ></div> 
+                  ></div>
                   <!-- client -->
-                  <div id="custom-select-client"
+                  <div
+                    id="custom-select-client"
                     class="flex max-w-max cursor-pointer"
                   >
                     <svg
@@ -3472,11 +3484,94 @@
                       Select Client
                     </div>
                   </div>
-                  <div id="options-list-client"
+                  <div
+                    id="options-list-client"
                     class="absolute top-36 left-128 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-max invisible"
                   ></div>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading Modal -->
+    <div
+      id="loadingApiDiv"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black/75 backdrop-blur-sm"
+    >
+      <div class="text-center">
+        <div role="status">
+          <div
+            id="loadingApiInnerDiv"
+            class="flex flex-col items-center px-8 py-8 font-semibold text-white leading-none tracking-wider text-center rounded-2xl shadow-2xl animate-pulse"
+          >
+            <div
+              id="loadingApiHeader"
+              class="mb-6 text-6xl font-bold text-blue-100"
+            ></div>
+            <div
+              id="loadingApiYears"
+              class="px-6 py-3 text-4xl font-bold leading-none text-center text-blue-100 backgroundBlue rounded-full border border-white"
+            >
+              <span id="apiYears">
+                <span id="firstApiYear" class="mx-2"></span> -
+                <span id="LastApiYear" class="mx-2"></span>
+              </span>
+              <span id="apiPrint" class="flex gap-3 items-center mt-3">
+                <!-- Download SVG Icon -->
+                <svg
+                  class="w-8 h-8 text-blue-300 hover:text-blue-100 transition-colors cursor-pointer"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
+                  />
+                </svg>
+                <!-- Bar Chart SVG Icon -->
+                <svg
+                  class="w-8 h-8 text-green-400 hover:text-green-300 transition-colors cursor-pointer"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <rect
+                    x="3"
+                    y="10"
+                    width="4"
+                    height="8"
+                    rx="1"
+                    fill="currentColor"
+                  />
+                  <rect
+                    x="9"
+                    y="6"
+                    width="4"
+                    height="12"
+                    rx="1"
+                    fill="currentColor"
+                  />
+                  <rect
+                    x="15"
+                    y="2"
+                    width="4"
+                    height="16"
+                    rx="1"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
             </div>
           </div>
         </div>

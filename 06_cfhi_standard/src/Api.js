@@ -402,6 +402,13 @@ class DataStore {
    * Insert peer data
    */
   insertPeerData(targetData, dataKey, year, value, record, yesNoField, name) {
+    // Log first few calls for debugging
+    if (!this._peerDataLogCount) this._peerDataLogCount = 0;
+    if (this._peerDataLogCount < 3) {
+      console.log(`insertPeerData called: dataKey=${dataKey}, year=${year}, value=${value}, yesNoField=${yesNoField}`);
+      this._peerDataLogCount++;
+    }
+    
     if (yesNoField === "Yes" || yesNoField === "empty") {
       if (!targetData[dataKey]) {
         targetData[dataKey] = {};
@@ -445,8 +452,21 @@ class DataProcessor {
     this.processIncomeData(years, recordsPeer, recordsClient);
     this.processExpenseData(years, recordsPeer, recordsClient);
 
+    // Log demoData structure before saving
+    console.log("📦 demoData before saving to localStorage:");
+    console.log("Keys:", Object.keys(this.demoData));
+    const firstKey = Object.keys(this.demoData)[0];
+    if (firstKey) {
+      console.log(`Sample (${firstKey}):`, this.demoData[firstKey]);
+    }
+
     // Save to localStorage
     this.dataStore.saveAllToLocalStorage();
+    
+    // Verify what was saved
+    const savedDemo = JSON.parse(localStorage.getItem("demoData"));
+    console.log("💾 demoData after saving to localStorage:");
+    console.log("Keys:", Object.keys(savedDemo || {}));
   }
 
   /**
@@ -464,9 +484,22 @@ class DataProcessor {
    * Process Demographics Data
    */
   processDemoData(years, recordsPeer, recordsClient) {
+    console.log(
+      `📊 processDemoData called with ${years.length} years, ${recordsPeer?.length || 0} peer records, ${recordsClient?.length || 0} client records`
+    );
+    
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      filteredPeerRecords.forEach((record) => {
+      console.log(`Year ${year}: ${filteredPeerRecords.length} peer records filtered`);
+      
+      filteredPeerRecords.forEach((record, idx) => {
+        // Log first record for debugging
+        if (idx === 0) {
+          const givingUnits = record.querySelector("s02___giving_units")?.textContent;
+          const yesNo = record.querySelector("cfhi_stand_00a_yes_no___giving_units")?.textContent;
+          console.log(`  First record - Giving Units: ${givingUnits}, YesNo: ${yesNo}`);
+        }
+        
         // givingUnits
         this.dataStore.insertData(
           "demo",
