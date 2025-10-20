@@ -758,3 +758,46 @@ const editElementChildren = (element, variable, elementId) => {
   element.classList.add("ease-in-out");
 
 };
+
+/**
+ * Show or hide the API loading modal
+ * @param {string} action - "open" or "close"
+ * @param {string} mode - "api" or "print"
+ */
+function showApiLoadingFunction(action, mode) {
+  const loadingDiv = document.getElementById("loadingApiDiv");
+  const loadingApiHeader = document.getElementById("loadingApiHeader");
+  const apiPrint = document.getElementById("apiPrint");
+  const firstApiYearSpan = document.getElementById("firstApiYear");
+  const lastApiYearSpan = document.getElementById("LastApiYear");
+  const apiYears = document.getElementById("apiYears");
+  const loadingApiYears = document.getElementById("loadingApiYears");
+
+
+  if (action === "close") {
+    setTimeout(() => {
+      loadingDiv.classList.add("hidden");
+    }, 1500);
+  } else if (action === "open") {
+    loadingDiv.classList.remove("hidden");
+
+    if (mode === "api") {
+      loadingApiHeader.innerHTML = "Loading Data";
+      apiYears.classList.remove("hidden");
+      apiPrint.classList.add("hidden");
+
+      const selectedYears = getSelectedYearsFromLocalStorage();
+      // console.log({ selectedYears });
+
+      if (selectedYears.length > 0) {
+        firstApiYearSpan.textContent = selectedYears[0];
+        lastApiYearSpan.textContent = selectedYears[selectedYears.length - 1];
+      }
+    } else if (mode === "print") {
+      loadingApiHeader.innerHTML = "Creating Presentation Slides";
+      apiYears.classList.add("hidden");
+      apiPrint.classList.remove("hidden");
+      loadingApiYears.classList.add('hidden')
+    }
+  }
+}
