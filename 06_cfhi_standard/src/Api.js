@@ -1940,6 +1940,10 @@ class AppController {
    * Handle run button click
    */
   async handleRunButtonClick() {
+    // Declare variables for record counts
+    let totalRecordsPeer = 0;
+    let totalRecordsClient = 0;
+
     try {
       // Show loading indicator
       if (typeof showApiLoadingFunction === "function") {
@@ -2045,7 +2049,8 @@ class AppController {
           // Process peer records
           recordsPeer = await validateAndNormalizeRecords(recordsPeer);
           window.recordsPeer = recordsPeer;
-          window.totalRecordsPeer = recordsPeer.length;
+          totalRecordsPeer = recordsPeer.length;
+          window.totalRecordsPeer = totalRecordsPeer;
           countUniqueClients(recordsPeer);
         }
     } catch (error) {
@@ -2082,7 +2087,8 @@ class AppController {
           recordsClient = await validateAndNormalizeRecords(recordsClient);
 
           window.recordsClientSelectedYears = recordsClient;
-          window.totalRecordsClient = recordsClient.length;
+          totalRecordsClient = recordsClient.length;
+          window.totalRecordsClient = totalRecordsClient;
           if (
             recordsClient.length > 0 &&
             recordsClient[recordsClient.length - 1]
