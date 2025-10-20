@@ -12,10 +12,8 @@ if (sidebar) {
     sidebarBackdrop.classList.toggle('hidden');
     toggleSidebarMobileHamburger.classList.toggle('hidden');
     toggleSidebarMobileClose.classList.toggle('hidden');
+    console.log('Sidebar toggled. Hidden:', sidebar.classList.contains('hidden'));
   };
-
-  // console.log("sidebar", sidebar);
-
 
   const sidebarBackdrop = document.getElementById('sidebarBackdrop');
   const toggleSidebarMobileHamburger = document.getElementById(
@@ -26,6 +24,15 @@ if (sidebar) {
   );
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
   const tabContents = document.querySelectorAll('.tab-content');
+
+  console.log('Sidebar elements found:', {
+    sidebar: !!sidebar,
+    sidebarBackdrop: !!sidebarBackdrop,
+    hamburger: !!toggleSidebarMobileHamburger,
+    close: !!toggleSidebarMobileClose,
+    buttonsCount: sidebarButtons.length,
+    tabContentsCount: tabContents.length
+  });
 
   const handleSidebarButtonClick = () => {
     toggleSidebarMobile(
@@ -75,6 +82,9 @@ if (sidebar) {
       // Update the toggleSidebarMobile icon
       toggleSidebarMobileHamburger.classList.remove('hidden');
       toggleSidebarMobileClose.classList.add('hidden');
+
+      // Scroll to top of page when switching tabs
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 }
