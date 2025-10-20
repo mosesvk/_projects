@@ -8,7 +8,19 @@ if (sidebar) {
     toggleSidebarMobileHamburger,
     toggleSidebarMobileClose
   ) => {
-    sidebar.classList.toggle('hidden');
+    // Toggle sidebar visibility - need both hidden and flex for proper display
+    const isHidden = sidebar.classList.contains('hidden');
+    
+    if (isHidden) {
+      // Show sidebar
+      sidebar.classList.remove('hidden');
+      sidebar.classList.add('flex');
+    } else {
+      // Hide sidebar
+      sidebar.classList.add('hidden');
+      sidebar.classList.remove('flex');
+    }
+    
     sidebarBackdrop.classList.toggle('hidden');
     toggleSidebarMobileHamburger.classList.toggle('hidden');
     toggleSidebarMobileClose.classList.toggle('hidden');
@@ -75,8 +87,9 @@ if (sidebar) {
       // Activate the clicked button
       activateButton(index);
 
-      // Hide the sidebar and backdrop
+      // Hide the sidebar and backdrop (on mobile)
       sidebar.classList.add('hidden');
+      sidebar.classList.remove('flex');
       sidebarBackdrop.classList.add('hidden');
 
       // Update the toggleSidebarMobile icon
