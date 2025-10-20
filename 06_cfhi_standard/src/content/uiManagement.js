@@ -1,3 +1,6 @@
+// Get sidebar element first
+const sidebar = document.getElementById('sidebar');
+
 if (sidebar) {
   const toggleSidebarMobile = (
     sidebar,
@@ -11,7 +14,6 @@ if (sidebar) {
     toggleSidebarMobileClose.classList.toggle('hidden');
   };
 
-  const sidebar = document.getElementById('sidebar');
   // console.log("sidebar", sidebar);
 
 
