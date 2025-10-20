@@ -43,23 +43,42 @@ const createChartFromParsedData = (
   client,
   type,
   fixedNum,
-  mainName
+  mainName,
+  benchmark,
+  title
 ) => {
   //console.log('parsedData', parsedData);
   if (parsedData) {
-    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum);
+    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum, mainName, benchmark, title);
     updateModal(mainName, parsedData[peer], parsedData[client]);
   }
 };
 
-const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
-  // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum });
+const createChart = (chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title) => {
+  // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title });
   document.getElementById(chartId).innerHTML = "";
 
-  // Create a new chart instance
+  // Create a new chart instance with all parameters
+  const chartOptions = getMainChartOptions(
+    dataPeer,
+    dataClient,
+    type,
+    fixedNum,
+    mainName,
+    benchmark,
+    title,
+    chartId
+  );
+
+  // Check if chartOptions is null (invalid data)
+  if (!chartOptions) {
+    console.warn(`Cannot create chart ${chartId} - invalid chart options`);
+    return;
+  }
+
   const chart = new ApexCharts(
     document.getElementById(chartId),
-    getMainChartOptions(dataPeer, dataClient, type, fixedNum)
+    chartOptions
   );
 
   chart.render();
@@ -67,7 +86,7 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum) => {
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
     chart.updateOptions(
-      getMainChartOptions(dataPeer, dataClient, type, fixedNum)
+      getMainChartOptions(dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, chartId)
     );
   });
 };
@@ -193,6 +212,73 @@ const getMidpointOfArray = (array) => {
   } else {
     // If even length, return the average of the two midpoints
     return (Number(array[midpoint - 1]) + Number(array[midpoint])) / 2;
+  }
+};
+
+const get25thPercentileOfArray = (array, mainName) => {
+  const filteredArray = array
+    .filter((value) => Number(value) !== 0)
+    .map((value) => Number(value));
+
+  const sortedArray = filteredArray.sort((a, b) => a - b);
+
+  // Check if the array has less than or equal to 2 elements
+  if (sortedArray.length <= 2) {
+    // If array has 1 or 2 elements, return the average of the elements
+    return (
+      sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) /
+      sortedArray.length
+    );
+  }
+
+  // Calculate the index for the 25th percentile
+  const index = (sortedArray.length + 1) * 0.25;
+
+  // Check if the index is an integer
+  if (Number.isInteger(index)) {
+    // If it's an integer, return the value at that index
+    return Number(sortedArray[index - 1]);
+  } else {
+    // If not an integer, interpolate between the two nearest values
+    const lowerIndex = Math.floor(index);
+    const upperIndex = Math.ceil(index);
+    const lowerValue = Number(sortedArray[lowerIndex - 1]);
+    const upperValue = Number(sortedArray[upperIndex - 1]);
+    return (lowerValue + upperValue) / 2;
+  }
+};
+
+const get75thPercentileOfArray = (array, mainName) => {
+  const filteredArray = array
+    .filter((value) => Number(value) !== 0)
+    .map((value) => Number(value));
+
+  // Sort the array in ascending order
+  const sortedArray = filteredArray.sort((a, b) => a - b);
+
+  // Check if the array has less than or equal to 2 elements
+  if (sortedArray.length <= 2) {
+    // If array has 1 or 2 elements, return the average of the elements
+    return (
+      sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) /
+      sortedArray.length
+    );
+  }
+
+  // Calculate the index for the 75th percentile
+  const index = (sortedArray.length + 1) * 0.75;
+
+  // Check if the index is an integer
+  if (Number.isInteger(index)) {
+    // If it's an integer, return the value at that index
+    return Number(sortedArray[index - 1]);
+  } else {
+    // If not an integer, interpolate between the two nearest values
+    const lowerIndex = Math.floor(index);
+    const upperIndex = Math.ceil(index);
+    const lowerValue = Number(sortedArray[lowerIndex - 1]);
+    const upperValue = Number(sortedArray[upperIndex - 1]);
+    return (lowerValue + upperValue) / 2;
   }
 };
 
@@ -348,39 +434,140 @@ const getPeerAndClientChartDataArrays = (
   years,
   dataPeer,
   dataClient,
-  fixedNum
+  fixedNum,
+  mainName,
+  benchmark,
+  type
 ) => {
-  console.log({ years, dataPeer, dataClient, fixedNum })
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark, type });
+
   const peerAvg = [];
   const peerMid = [];
-  const peerMin = [];
-  const peerMax = [];
+  const peer25 = [];
+  const peer75 = [];
   const clientArray = [];
+  const benchmarkArray = [];
 
-  // console.log(years, dataPeer)
   years.forEach((year) => {
-    if (dataPeer[year]) {
+    benchmarkArray.push(benchmark);
+
+    if (!dataPeer && dataClient[year]) {
+      peerAvg.push(null);
+      peerMid.push(null);
+      peer25.push(null);
+      peer75.push(null);
+
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
+
+      if (clientValue !== null && clientValue !== undefined) {
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+        if (type === "percent") {
+          clientNum *= 100;
+        }
+        
+        clientArray.push(clientNum);
+      } else {
+        clientArray.push(null);
+      }
+    } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
+      let numToTimesByIfPercent = 1;
+      if (type == "percent") numToTimesByIfPercent = 100;
+
       const array = dataPeer[year];
-      const avg = getAverageOfArray(array);
-      const mid = getMidpointOfArray(array);
-      const min = Math.min(...array);
-      const max = Math.max(...array);
+      let avg = getAverageOfArray(array);
+      avg *= numToTimesByIfPercent;
+      let mid = getMidpointOfArray(array);
+      mid *= numToTimesByIfPercent;
+      let lower25 = get25thPercentileOfArray(array);
+      lower25 *= numToTimesByIfPercent;
+      let higher75 = get75thPercentileOfArray(array);
+      higher75 *= numToTimesByIfPercent;
 
-      // console.log(mid);
+      peerAvg.push(avg.toFixed(fixedNum));
+      peerMid.push(mid.toFixed(fixedNum));
+      peer25.push(lower25.toFixed(fixedNum));
+      peer75.push(higher75.toFixed(fixedNum));
 
-      peerAvg.push(parseFloat(avg.toFixed(fixedNum)));
-      peerMid.push(parseFloat(mid.toFixed(fixedNum)));
-      peerMin.push(parseFloat(min.toFixed(fixedNum)));
-      peerMax.push(parseFloat(max.toFixed(fixedNum)));
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
 
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
-      clientArray.push(clientNum);
-    } else {
-      console.error(`Data for year ${year} is undefined in dataPeer`);
+      if (clientValue !== null && clientValue !== undefined) {
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+        if (type === "percent") {
+          clientNum *= 100;
+        }
+        
+        clientArray.push(clientNum);
+      } else {
+        clientArray.push(null);
+      }
+    } else if (dataPeer[year] === undefined && dataClient[year]) {
+      peerAvg.push(null);
+      peerMid.push(null);
+      peer25.push(null);
+      peer75.push(null);
+
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
+
+      if (clientValue !== null && clientValue !== undefined) {
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+        if (type === "percent") {
+          clientNum *= 100;
+        }
+        
+        clientArray.push(clientNum);
+      } else {
+        clientArray.push(null);
+      }
+    } else if (dataClient == undefined || dataPeer == undefined) {
+      throw new Error(
+        `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
+      createToastWarning(
+        `check Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
     }
   });
 
-  return { clientArray, peerAvg, peerMid, peerMin, peerMax };
+  return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
 
 const styleNumber = (num, type, fixed) => {
