@@ -661,7 +661,13 @@ function getOrCreateDisplaySpan(inputElement, inputId) {
       wrapper.appendChild(inputElement);
     }
 
+    // Add the span after the input in the same wrapper
     wrapper.appendChild(displaySpan);
+
+    // Adjust positioning to overlay the input
+    displaySpan.style.left = "8px"; // Padding
+    displaySpan.style.top = "50%";
+    displaySpan.style.transform = "translateY(-50%)";
   }
 
   return displaySpan;
