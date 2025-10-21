@@ -8,24 +8,14 @@ if (sidebar) {
     toggleSidebarMobileHamburger,
     toggleSidebarMobileClose
   ) => {
-    // Toggle sidebar visibility - need both hidden and flex for proper display
-    const isHidden = sidebar.classList.contains('hidden');
-    
-    if (isHidden) {
-      // Show sidebar
-      sidebar.classList.remove('hidden');
-      sidebar.classList.add('flex');
-    } else {
-      // Hide sidebar
-      sidebar.classList.add('hidden');
-      sidebar.classList.remove('flex');
-    }
-    
+    sidebar.classList.toggle('hidden');
     sidebarBackdrop.classList.toggle('hidden');
     toggleSidebarMobileHamburger.classList.toggle('hidden');
     toggleSidebarMobileClose.classList.toggle('hidden');
-    console.log('Sidebar toggled. Hidden:', sidebar.classList.contains('hidden'));
   };
+
+  // console.log("sidebar", sidebar);
+
 
   const sidebarBackdrop = document.getElementById('sidebarBackdrop');
   const toggleSidebarMobileHamburger = document.getElementById(
@@ -36,15 +26,6 @@ if (sidebar) {
   );
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
   const tabContents = document.querySelectorAll('.tab-content');
-
-  console.log('Sidebar elements found:', {
-    sidebar: !!sidebar,
-    sidebarBackdrop: !!sidebarBackdrop,
-    hamburger: !!toggleSidebarMobileHamburger,
-    close: !!toggleSidebarMobileClose,
-    buttonsCount: sidebarButtons.length,
-    tabContentsCount: tabContents.length
-  });
 
   const handleSidebarButtonClick = () => {
     toggleSidebarMobile(
@@ -87,17 +68,13 @@ if (sidebar) {
       // Activate the clicked button
       activateButton(index);
 
-      // Hide the sidebar and backdrop (on mobile)
+      // Hide the sidebar and backdrop
       sidebar.classList.add('hidden');
-      sidebar.classList.remove('flex');
       sidebarBackdrop.classList.add('hidden');
 
       // Update the toggleSidebarMobile icon
       toggleSidebarMobileHamburger.classList.remove('hidden');
       toggleSidebarMobileClose.classList.add('hidden');
-
-      // Scroll to top of page when switching tabs
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   });
 }
