@@ -1,9 +1,9 @@
 if (sidebar) {
   const toggleSidebarWidth = (sidebar) => {
-    sidebar.classList.toggle("w-56");
+    sidebar.classList.toggle("w-44");
     sidebar.classList.toggle("w-14");
     // Toggle ml-64 and ml-14 classes on main-content
-    mainContent.classList.toggle("ml-56");
+    mainContent.classList.toggle("ml-44");
     mainContent.classList.toggle("ml-14");
 
     sidebarContent.classList.toggle("px-3");

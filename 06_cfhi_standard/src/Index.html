@@ -387,6 +387,7 @@
         >
           <div class="flex flex-col flex-1 pt-5 pb-4 overflow-y-auto">
             <div
+              id="sidebar-content"
               class="flex-1 px-3 space-y-1 bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700"
             >
               <ul class="pb-2 space-y-2">
@@ -410,7 +411,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left whitespace-normal"
                       sidebar-toggle-item=""
                     >
                       Demo
@@ -457,7 +458,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left whitespace-normal"
                       sidebar-toggle-item=""
                     >
                       Cash
@@ -504,7 +505,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left whitespace-normal"
                       sidebar-toggle-item=""
                     >
                       Debt
@@ -553,7 +554,7 @@
                       />
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left whitespace-normal"
                       sidebar-toggle-item=""
                     >
                       Income
@@ -600,7 +601,7 @@
                       ></path>
                     </svg>
                     <span
-                      class="flex-1 ml-3 text-left whitespace-normal"
+                      class="flex-1 ml-4 text-left whitespace-normal"
                       sidebar-toggle-item=""
                     >
                       Expense
@@ -645,7 +646,7 @@
                         clip-rule="evenodd"
                       ></path>
                     </svg>
-                    <span class="ml-3" sidebar-toggle-item="">
+                    <span class="ml-4" sidebar-toggle-item="">
                       All Reports
                     </span>
                   </button>
@@ -662,10 +663,22 @@
       <!-- MAIN CONTENT -->
       <div
         id="main-content"
-        class="relative w-full h-full overflow-y-auto bg-gray-50 lg:ml-44 dark:bg-gray-900"
+        class="relative w-full h-full overflow-y-auto bg-gray-50 ml-44 dark:bg-gray-900"
       >
         <main class="px-4 pt-6 grid gap-y-4">
           <div id="demoContent" class="tab-content">
+            <div
+              id="demoContentHeader"
+              class="hidden flex items-center justify-start mb-2 ml-2"
+            >
+              <div class="flex-shrink-0">
+                <span
+                  class="text-xl leading-none text-black sm:text-2xl tracking-wide font-bold"
+                >
+                  Demographic Information
+                </span>
+              </div>
+            </div>
             <!-- Giving Units -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -755,6 +768,18 @@
             </div>
           </div>
           <div id="cashContent" class="tab-content hidden">
+            <div
+              id="cashContentHeader"
+              class="hidden flex items-center justify-start mb-2 ml-2"
+            >
+              <div class="flex-shrink-0">
+                <span
+                  class="text-xl leading-none text-black sm:text-2xl tracking-wide font-bold"
+                >
+                  Cash Flow and Reserve Ratios and Measurements
+                </span>
+              </div>
+            </div>
             <!-- Days Operating -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -843,6 +868,18 @@
             </div>
           </div>
           <div id="debtContent" class="tab-content hidden">
+            <div
+              id="debtContentHeader"
+              class="hidden flex items-center justify-start mb-2 ml-2"
+            >
+              <div class="flex-shrink-0">
+                <span
+                  class="text-xl leading-none text-black sm:text-2xl tracking-wide font-bold"
+                >
+                  Debt Ratios and Measurements
+                </span>
+              </div>
+            </div>
             <!-- debtToContributionsWithout -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -930,6 +967,18 @@
             </div>
           </div>
           <div id="incomeContent" class="tab-content hidden">
+            <div
+              id="incomeContentHeader"
+              class="hidden flex items-center justify-start mb-2 ml-2"
+            >
+              <div class="flex-shrink-0">
+                <span
+                  class="text-xl leading-none text-black sm:text-2xl tracking-wide font-bold"
+                >
+                  Income/Giving Ratios and Measurements
+                </span>
+              </div>
+            </div>
             <!-- contributionsWithoutDonorPerGivingUnit -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1017,6 +1066,18 @@
             </div>
           </div>
           <div id="expenseContent" class="tab-content hidden">
+            <div
+              id="expenseContentHeader"
+              class="hidden flex items-center justify-start mb-2 ml-2"
+            >
+              <div class="flex-shrink-0">
+                <span
+                  class="text-xl leading-none text-black sm:text-2xl tracking-wide font-bold"
+                >
+                  Expense Ratios and Measurements
+                </span>
+              </div>
+            </div>
             <!-- cashExpendituresPerGivingUnit -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
@@ -1065,6 +1126,18 @@
             </div>
           </div>
           <div id="reportContent" class="tab-content hidden">
+            <div
+              id="reportContentHeader"
+              class="hidden flex items-center justify-start mb-2 ml-2"
+            >
+              <div class="flex-shrink-0">
+                <span
+                  class="text-xl leading-none text-black sm:text-2xl tracking-wide font-bold"
+                >
+                  All Reports
+                </span>
+              </div>
+            </div>
             <!-- Demo Table -->
             <div
               class="p-4 bg-white border border-gray-200 rounded-lg shadow-sm dark:border-gray-700 sm:p-6 dark:bg-gray-800 mb-4"
