@@ -824,13 +824,32 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Setup number formatting for giving units
   setupNumberFormatting();
+});
 
-  // Listen for filtersChanged event to update client dropdown
-  document.addEventListener("filtersChanged", function () {
-    if (typeof updateClientDropdownFilters === "function") {
-      updateClientDropdownFilters();
+// Listen for custom slider events to update formatted display
+document.addEventListener("sliderChanged", function (event) {
+  const { value, type } = event.detail;
+  const input = document.getElementById(
+    type === "min" ? "givingUnitsMin" : "givingUnitsMax"
+  );
+  if (input && input.value != value) {
+    input.value = value;
+
+    // Also update the formatted display if it exists
+    const displaySpan = document.querySelector(
+      `[data-format-for="${input.id}"]`
+    );
+    if (displaySpan) {
+      displaySpan.textContent = formatNumberWithCommas(value);
     }
-  });
+  }
+});
+
+// Listen for filtersChanged event to update client dropdown
+document.addEventListener("filtersChanged", function () {
+  if (typeof updateClientDropdownFilters === "function") {
+    updateClientDropdownFilters();
+  }
 });
 
 // Keep the existing adjustDivHeight function call if it exists
