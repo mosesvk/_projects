@@ -1,127 +1,128 @@
-// Get sidebar element first
-const sidebar = document.getElementById('sidebar');
-
 if (sidebar) {
-  const toggleSidebarMobile = (
-    sidebar,
-    sidebarBackdrop,
-    toggleSidebarMobileHamburger,
-    toggleSidebarMobileClose
-  ) => {
-    sidebar.classList.toggle('hidden');
-    sidebarBackdrop.classList.toggle('hidden');
-    toggleSidebarMobileHamburger.classList.toggle('hidden');
-    toggleSidebarMobileClose.classList.toggle('hidden');
+  const toggleSidebarWidth = (sidebar) => {
+    sidebar.classList.toggle("w-56");
+    sidebar.classList.toggle("w-14");
+    // Toggle ml-64 and ml-14 classes on main-content
+    mainContent.classList.toggle("ml-56");
+    mainContent.classList.toggle("ml-14");
+
+    sidebarContent.classList.toggle("px-3");
+    sidebarContent.classList.toggle("px-2");
+
+    demoContentHeader.classList.toggle("hidden");
+    cashContentHeader.classList.toggle("hidden");
+    debtContentHeader.classList.toggle("hidden");
+    incomeContentHeader.classList.toggle("hidden");
+    expenseContentHeader.classList.toggle("hidden");
+    reportContentHeader.classList.toggle("hidden");
   };
 
-  // console.log("sidebar", sidebar);
-
-
-  const sidebarBackdrop = document.getElementById('sidebarBackdrop');
-  const toggleSidebarMobileHamburger = document.getElementById(
-    'toggleSidebarMobileHamburger'
-  );
-  const toggleSidebarMobileClose = document.getElementById(
-    'toggleSidebarMobileClose'
-  );
+  const sidebar = document.getElementById("sidebar");
+  const sidebarBackdrop = document.getElementById("sidebarBackdrop");
+  const toggleSidebarMobileHamburger = document.getElementById("toggleSidebarMobileHamburger");
+  const toggleSidebarMobileClose = document.getElementById("toggleSidebarMobileClose");
   const sidebarButtons = document.querySelectorAll("button[id$='Link']");
-  const tabContents = document.querySelectorAll('.tab-content');
+  const tabContents = document.querySelectorAll(".tab-content");
+  const mainContent = document.getElementById("main-content"); // Get the main content element
+  const sidebarContent = document.getElementById("sidebar-content");
+  const demoContentHeader = document.getElementById("demoContentHeader");
+  const cashContentHeader = document.getElementById("cashContentHeader");
+  const debtContentHeader = document.getElementById("debtContentHeader");
+  const incomeContentHeader = document.getElementById("incomeContentHeader");
+  const expenseContentHeader = document.getElementById("expenseContentHeader");
+  const reportContentHeader = document.getElementById("reportContentHeader");
 
   const handleSidebarButtonClick = () => {
-    toggleSidebarMobile(
-      sidebar,
-      sidebarBackdrop,
-      toggleSidebarMobileHamburger,
-      toggleSidebarMobileClose
-    );
+    toggleSidebarWidth(sidebar);
+    togglePopoverVisibility(); // Toggle visibility of popover divs
   };
+
+  // Function to toggle the "hidden" class for popover divs
+  const togglePopoverVisibility = () => {
+    const popoverDivs = document.querySelectorAll("div[id^='popover']");
+    popoverDivs.forEach((popoverDiv) => {
+      popoverDiv.classList.toggle("hidden");
+    });
+  };
+  
 
   const activateButton = (clickedIndex) => {
     sidebarButtons.forEach((button, index) => {
       if (index === clickedIndex) {
-        button.classList.add('active'); // Add a class to the clicked button
+        button.classList.add("active");
       } else {
-        button.classList.remove('active'); // Remove the class from other buttons
+        button.classList.remove("active");
       }
     });
   };
 
-  toggleSidebarMobileHamburger.addEventListener(
-    'click',
-    handleSidebarButtonClick
-  );
-  toggleSidebarMobileClose.addEventListener('click', handleSidebarButtonClick);
-  sidebarBackdrop.addEventListener('click', handleSidebarButtonClick);
-
   sidebarButtons.forEach((button, index) => {
-
-    button.addEventListener('click', () => {
-      // Hide all tab contents
+    button.addEventListener("click", () => {
       tabContents.forEach((content) => {
-        content.classList.add('hidden');
+        content.classList.add("hidden");
       });
-
-      // console.log(tabContents[index]);
-      // Show the corresponding tab content based on the button index
-      tabContents[index].classList.remove('hidden');
-
-      // Activate the clicked button
+      tabContents[index].classList.remove("hidden");
       activateButton(index);
-
-      // Hide the sidebar and backdrop
-      sidebar.classList.add('hidden');
-      sidebarBackdrop.classList.add('hidden');
-
-      // Update the toggleSidebarMobile icon
-      toggleSidebarMobileHamburger.classList.remove('hidden');
-      toggleSidebarMobileClose.classList.add('hidden');
+      // Removed handleSidebarButtonClick() from here
     });
   });
+
+  toggleSidebarMobileClose.addEventListener("click", () => {
+    handleSidebarButtonClick(); // Toggle sidebar width and main content margin-left
+  });
+  toggleSidebarMobileHamburger.addEventListener("click", handleSidebarButtonClick);
+  sidebarBackdrop.addEventListener("click", handleSidebarButtonClick);
+
+  // Initialize the first button as active by default
+  if (sidebarButtons.length > 0) {
+    activateButton(0);
+  }
 }
 
+
 // DARK MODE FUNCTIONALITY
-const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
-const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
-const themeToggleBtn = document.getElementById('theme-toggle');
+const themeToggleDarkIcon = document.getElementById("theme-toggle-dark-icon");
+const themeToggleLightIcon = document.getElementById("theme-toggle-light-icon");
+const themeToggleBtn = document.getElementById("theme-toggle");
 
 // Function to toggle the theme
 function toggleTheme() {
-  if (document.documentElement.classList.contains('dark')) {
-    document.documentElement.classList.remove('dark');
-    localStorage.setItem('color-theme', 'light');
-    themeToggleDarkIcon.classList.remove('hidden');
-    themeToggleLightIcon.classList.add('hidden');
+  if (document.documentElement.classList.contains("dark")) {
+    document.documentElement.classList.remove("dark");
+    localStorage.setItem("color-theme", "light");
+    themeToggleDarkIcon.classList.remove("hidden");
+    themeToggleLightIcon.classList.add("hidden");
   } else {
-    document.documentElement.classList.add('dark');
-    localStorage.setItem('color-theme', 'dark');
-    themeToggleDarkIcon.classList.add('hidden');
-    themeToggleLightIcon.classList.remove('hidden');
+    document.documentElement.classList.add("dark");
+    localStorage.setItem("color-theme", "dark");
+    themeToggleDarkIcon.classList.add("hidden");
+    themeToggleLightIcon.classList.remove("hidden");
   }
 
-  document.dispatchEvent(new Event('dark-mode'));
+  document.dispatchEvent(new Event("dark-mode"));
 }
 
 // Check if the user's preference is stored in local storage
-// const userThemePreference = localStorage.getItem('color-theme');
+const userThemePreference = localStorage.getItem("color-theme");
 
-// if (userThemePreference === 'dark') {
-//   document.documentElement.classList.add('dark');
-//   themeToggleDarkIcon.classList.add('hidden');
-//   themeToggleLightIcon.classList.remove('hidden');
-// } else if (userThemePreferendce === 'light') {
-//   document.documentElement.classList.remove('dark');
-//   themeToggleDarkIcon.classList.remove('hidden');
-//   themeToggleLightIcon.classList.add('hidden');
-// } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+// if (userThemePreference === "dark") {
+//   document.documentElement.classList.add("dark");
+//   themeToggleDarkIcon.classList.add("hidden");
+//   themeToggleLightIcon.classList.remove("hidden");
+// } else if (userThemePreference === "light") {
+//   document.documentElement.classList.remove("dark");
+//   themeToggleDarkIcon.classList.remove("hidden");
+//   themeToggleLightIcon.classList.add("hidden");
+// } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
 //   // Use system preference if no user preference is set
-//   document.documentElement.classList.add('dark');
-//   themeToggleDarkIcon.classList.add('hidden');
-//   themeToggleLightIcon.classList.remove('hidden');
+//   document.documentElement.classList.add("dark");
+//   themeToggleDarkIcon.classList.add("hidden");
+//   themeToggleLightIcon.classList.remove("hidden");
 // } else {
-//   document.documentElement.classList.remove('dark');
-//   themeToggleDarkIcon.classList.remove('hidden');
-//   themeToggleLightIcon.classList.add('hidden');
+//   document.documentElement.classList.remove("dark");
+//   themeToggleDarkIcon.classList.remove("hidden");
+//   themeToggleLightIcon.classList.add("hidden");
 // }
 
 // Add click event listener to toggle button
-themeToggleBtn.addEventListener('click', toggleTheme);
+themeToggleBtn.addEventListener("click", toggleTheme);
