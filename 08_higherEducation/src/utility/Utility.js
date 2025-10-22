@@ -291,7 +291,7 @@ const createToastWarning = (textString) => {
   }, 100); // Delay adding the event listener to prevent immediate removal
 };
 
-const createToastSuccess = (textString) => {
+const createToastSuccess = (textString, bigger = false) => {
   const toastSuccessDiv = document.createElement("div");
   toastSuccessDiv.id = "toast-success";
   toastSuccessDiv.classList.add(
@@ -307,7 +307,7 @@ const createToastSuccess = (textString) => {
     "flex",
     "items-center",
     "w-full",
-    "max-w-md",
+    bigger ? "max-w-2xl" : "max-w-md",
     "p-4",
     "text-gray-700",
     "bg-gray-300",
@@ -316,6 +316,8 @@ const createToastSuccess = (textString) => {
     "dark:text-gray-200",
     "dark:bg-gray-600"
   );
+
+  
 
   toastSuccessDiv.innerHTML = `
     <div class="animate-pulse inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
