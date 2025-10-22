@@ -93,7 +93,7 @@ function getDynamicRadialBarDimensions(chartId) {
   // Get the series data to determine the value
   const seriesData = chart.w.config.series || [];
   const value = seriesData[0] || 0;
-  
+
   // Get the labels to determine text content
   const labels = chart.w.config.labels || [];
   const textContent = labels[0] || "";
@@ -101,19 +101,19 @@ function getDynamicRadialBarDimensions(chartId) {
   // Base dimensions for the radial chart itself (without text)
   const baseChartSize = 180; // Reduced size of the actual radial chart
   const padding = 30; // Reduced padding around the chart
-  
+
   // Calculate text width dynamically
-  const tempTextElement = document.createElement('div');
-  tempTextElement.style.position = 'absolute';
-  tempTextElement.style.left = '-9999px';
-  tempTextElement.style.fontFamily = 'Arial, sans-serif';
-  tempTextElement.style.fontSize = '14px';
-  tempTextElement.style.fontWeight = 'bold';
-  tempTextElement.style.whiteSpace = 'nowrap';
-  tempTextElement.style.visibility = 'hidden';
+  const tempTextElement = document.createElement("div");
+  tempTextElement.style.position = "absolute";
+  tempTextElement.style.left = "-9999px";
+  tempTextElement.style.fontFamily = "Arial, sans-serif";
+  tempTextElement.style.fontSize = "14px";
+  tempTextElement.style.fontWeight = "bold";
+  tempTextElement.style.whiteSpace = "nowrap";
+  tempTextElement.style.visibility = "hidden";
   tempTextElement.textContent = textContent;
   document.body.appendChild(tempTextElement);
-  
+
   const textWidth = tempTextElement.offsetWidth;
   document.body.removeChild(tempTextElement);
 
@@ -159,7 +159,7 @@ async function processChartsWithSpacing(chartMappings) {
     const { chartId, fieldId } = chartMappings[i];
     updateProgressUI(i, chartMappings.length);
 
-          // console.log(`Processing chart: ${chartId}...`);
+    // console.log(`Processing chart: ${chartId}...`);
     try {
       // Get the chart element and instance
       const chartElement = document.getElementById(chartId);
@@ -178,29 +178,29 @@ async function processChartsWithSpacing(chartMappings) {
       // );
 
       // Special handling for CFI Composite chart - export only the table
-            if (chartId === "cfiCompositeHtml_Chart") {
+      if (chartId === "cfiCompositeHtml_Chart") {
         const tableElement = chartElement.querySelector("#myTable");
         if (tableElement) {
           // Export the table directly without container constraints
           const tableClone = tableElement.cloneNode(true);
-          
+
           // Set minimal styling for clean export
           tableClone.style.margin = "0";
           tableClone.style.padding = "10px";
           tableClone.style.backgroundColor = "#ffffff";
           tableClone.style.fontSize = "12px";
           tableClone.style.border = "none";
-          
+
           // Position off-screen for export
           tableClone.style.position = "absolute";
           tableClone.style.left = "-9999px";
           tableClone.style.top = "0";
-          
+
           document.body.appendChild(tableClone);
-          
+
           // Wait for layout to settle
           await new Promise((resolve) => setTimeout(resolve, 100));
-          
+
           // Export with html2canvas using natural dimensions
           const canvas = await html2canvas(tableClone, {
             scale: 1,
@@ -210,15 +210,15 @@ async function processChartsWithSpacing(chartMappings) {
             width: tableClone.scrollWidth,
             height: tableClone.scrollHeight,
           });
-          
+
           const dataURL = canvas.toDataURL("image/png");
           const base64String = dataURL.split(",")[1];
-          
+
           // Clean up
           if (tableClone.parentNode) {
             document.body.removeChild(tableClone);
           }
-          
+
           results.push({ chartId, fieldId, base64String });
           continue;
         }
@@ -232,9 +232,14 @@ async function processChartsWithSpacing(chartMappings) {
           continue;
         }
       }
-      
+
       // If we have a FusionCharts instance, use html2canvas export
-      if (chart && chart.args && chart.args.dataSource && chart.args.dataSource.chart) {
+      if (
+        chart &&
+        chart.args &&
+        chart.args.dataSource &&
+        chart.args.dataSource.chart
+      ) {
         const base64String = await exportWithHtml2Canvas(chartElement);
         results.push({ chartId, fieldId, base64String });
         continue;
@@ -268,18 +273,18 @@ function saveCompleteChartState(chart) {
       // This is a FusionCharts instance
       const chartId = chart.renderAt || chart.id || "unknown";
       const chartType = getChartTypeFromId(chartId);
-      
+
       // For FusionCharts, get the caption from the dataSource
       const originalCaption = chart.args.dataSource.chart.caption || "";
-      
+
       return {
         chartId: chartId,
         chartType: chartType,
         isFusionChart: true,
-        originalCaption: originalCaption
+        originalCaption: originalCaption,
       };
     }
-    
+
     // Handle ApexCharts (original logic)
     const paperNode = chart.w.globals.dom.Paper.node;
     const chartConfig = chart.w.config;
@@ -343,16 +348,18 @@ function saveCompleteChartState(chart) {
       }));
     } else {
       // Handle single y-axis object
-      yaxisConfig = [{
-        ...chartConfig.yaxis,
-        labels: {
-          ...chartConfig.yaxis?.labels,
-          formatter: chartConfig.yaxis?.labels?.formatter?.toString(),
-          style: chartConfig.yaxis?.labels?.style || {},
+      yaxisConfig = [
+        {
+          ...chartConfig.yaxis,
+          labels: {
+            ...chartConfig.yaxis?.labels,
+            formatter: chartConfig.yaxis?.labels?.formatter?.toString(),
+            style: chartConfig.yaxis?.labels?.style || {},
+          },
+          axisBorder: chartConfig.yaxis?.axisBorder || {},
+          axisTicks: chartConfig.yaxis?.axisTicks || {},
         },
-        axisBorder: chartConfig.yaxis?.axisBorder || {},
-        axisTicks: chartConfig.yaxis?.axisTicks || {},
-      }];
+      ];
     }
 
     // Save everything we'll need for proper restoration
@@ -386,9 +393,10 @@ function saveCompleteChartState(chart) {
       isYAxisArray: Array.isArray(chartConfig.yaxis),
       yaxisConfig: yaxisConfig,
       // Save FusionCharts caption for hlineargauge charts
-      ...(chartType === "hlineargauge" && chart.dataSource && {
-        originalCaption: chart.dataSource.chart?.caption || ""
-      }),
+      ...(chartType === "hlineargauge" &&
+        chart.dataSource && {
+          originalCaption: chart.dataSource.chart?.caption || "",
+        }),
     };
     return originalConfig;
   } catch (error) {
@@ -448,29 +456,29 @@ function restoreCompleteChartState(chart, originalState) {
     if (!chart || !originalState) {
       return;
     }
-    
+
     // Handle FusionCharts restoration
     if (originalState.isFusionChart) {
-      if (chart.args && chart.args.dataSource && originalState.originalCaption !== undefined) {
+      if (
+        chart.args &&
+        chart.args.dataSource &&
+        originalState.originalCaption !== undefined
+      ) {
         // Restore the caption in the dataSource
         chart.args.dataSource.chart.caption = originalState.originalCaption;
-        
+
         // Force the chart to re-render with the restored dataSource
-        if (typeof chart.setData === 'function') {
+        if (typeof chart.setData === "function") {
           chart.setData(chart.args.dataSource);
-        } else if (typeof chart.feedData === 'function') {
+        } else if (typeof chart.feedData === "function") {
           chart.feedData(chart.args.dataSource);
         }
       }
       return;
     }
-    
+
     // Handle ApexCharts restoration (original logic)
-    if (
-      !chart.w ||
-      !chart.w.globals ||
-      !chart.w.globals.dom
-    ) {
+    if (!chart.w || !chart.w.globals || !chart.w.globals.dom) {
       return;
     }
 
@@ -504,7 +512,7 @@ function restoreCompleteChartState(chart, originalState) {
 
     // Different restoration logic based on chart type
     let restoredConfig;
-    
+
     if (chartType === "radialBar") {
       // For radialBar charts, preserve the original configuration completely
       restoredConfig = {
@@ -533,43 +541,45 @@ function restoreCompleteChartState(chart, originalState) {
             },
           },
         },
-        yaxis: originalState.yaxisConfig ? originalState.yaxisConfig.map((axis) => {
-          return {
-            ...axis,
-            labels: {
-              ...axis.labels,
-              formatter: function (value) {
-                if (value === null || value === undefined || value === 0) {
-                  if (numType === "dollar") return "$0";
-                  if (numType === "percent") return "0%";
-                  return "0";
-                }
+        yaxis: originalState.yaxisConfig
+          ? originalState.yaxisConfig.map((axis) => {
+              return {
+                ...axis,
+                labels: {
+                  ...axis.labels,
+                  formatter: function (value) {
+                    if (value === null || value === undefined || value === 0) {
+                      if (numType === "dollar") return "$0";
+                      if (numType === "percent") return "0%";
+                      return "0";
+                    }
 
-                const isNegative = value < 0;
-                const absValue = Math.abs(value);
+                    const isNegative = value < 0;
+                    const absValue = Math.abs(value);
 
-                let formattedValue;
-                if (absValue >= 1000000) {
-                  // Remove decimal point for millions
-                  const millions = absValue / 1000000;
-                  formattedValue = `${Math.round(millions)}M`;
-                } else if (absValue >= 1000) {
-                  formattedValue = `${Math.round(absValue / 1000)}K`;
-                } else {
-                  formattedValue = Math.round(absValue).toString();
-                }
+                    let formattedValue;
+                    if (absValue >= 1000000) {
+                      // Remove decimal point for millions
+                      const millions = absValue / 1000000;
+                      formattedValue = `${Math.round(millions)}M`;
+                    } else if (absValue >= 1000) {
+                      formattedValue = `${Math.round(absValue / 1000)}K`;
+                    } else {
+                      formattedValue = Math.round(absValue).toString();
+                    }
 
-                // Apply appropriate symbol based on numType
-                if (numType === "dollar") {
-                  return `${isNegative ? "-" : ""}$${formattedValue}`;
-                } else if (numType === "percent") {
-                  return `${isNegative ? "-" : ""}${formattedValue}%`;
-                }
-                return `${isNegative ? "-" : ""}${formattedValue}`;
-              },
-            },
-          };
-        }) : [],
+                    // Apply appropriate symbol based on numType
+                    if (numType === "dollar") {
+                      return `${isNegative ? "-" : ""}$${formattedValue}`;
+                    } else if (numType === "percent") {
+                      return `${isNegative ? "-" : ""}${formattedValue}%`;
+                    }
+                    return `${isNegative ? "-" : ""}${formattedValue}`;
+                  },
+                },
+              };
+            })
+          : [],
       };
     }
 
@@ -582,18 +592,21 @@ function restoreCompleteChartState(chart, originalState) {
     if (chart.updateOptions && chartType !== "radialBar") {
       chart.updateOptions(restoredConfig, true, true);
     } else if (chartType === "radialBar") {
-      console.log(`[RADIALBAR DEBUG] ${chartId} - Skipping restoration updateOptions to preserve original styling`);
-      console.log(`[RADIALBAR DEBUG] ${chartId} - Final config after restoration:`, {
-        fill: chart.w.config.fill,
-        stroke: chart.w.config.stroke,
-        plotOptions: chart.w.config.plotOptions,
-        labels: chart.w.config.labels,
-        colors: chart.w.config.colors,
-        series: chart.w.config.series
-      });
+      console.log(
+        `[RADIALBAR DEBUG] ${chartId} - Skipping restoration updateOptions to preserve original styling`
+      );
+      console.log(
+        `[RADIALBAR DEBUG] ${chartId} - Final config after restoration:`,
+        {
+          fill: chart.w.config.fill,
+          stroke: chart.w.config.stroke,
+          plotOptions: chart.w.config.plotOptions,
+          labels: chart.w.config.labels,
+          colors: chart.w.config.colors,
+          series: chart.w.config.series,
+        }
+      );
     }
-
-
   } catch (error) {
     // console.warn("Error restoring chart state:", error);
   }
@@ -664,8 +677,7 @@ const getChartInstance = (chartId) => {
     salariesBenefitsPerNetTuition_chart: salariesBenefitsPerNetTuition_chart,
     netEducationalExpensePerStudent_chart:
       netEducationalExpensePerStudent_chart,
-    netTuitionPerStudent_chart:
-      netTuitionPerStudent_chart,
+    netTuitionPerStudent_chart: netTuitionPerStudent_chart,
     tuitionDependency_chart: tuitionDependency_chart,
     tuitionDiscountRate_chart: tuitionDiscountRate_chart,
     ltDebtPerTotalOperatingRevenue_chart: ltDebtPerTotalOperatingRevenue_chart,
@@ -687,7 +699,6 @@ const getChartInstance = (chartId) => {
  * @returns {Promise<string>} - Base64 encoded image or null if failed
  */
 async function exportApexChart(chart, chartId) {
-
   try {
     if (!chart || !chart.w || !chart.w.globals || !chart.w.globals.dom) {
       throw new Error("Invalid chart instance");
@@ -737,10 +748,10 @@ async function exportApexChart(chart, chartId) {
     chartElement.style.height = `${chartHeight}px`;
     chartElement.style.position = "absolute";
     chartElement.style.transform = "none";
-    
+
     // Get chart type for debugging
     const chartType = getChartTypeFromId(chartId);
-    
+
     // For radialBar charts, center the content
     if (chartType === "radialBar") {
       chartElement.style.display = "flex";
@@ -763,68 +774,64 @@ async function exportApexChart(chart, chartId) {
     paperNode.setAttribute("height", chartHeight.toString());
     paperNode.style.width = `${chartWidth}px`;
     paperNode.style.height = `${chartHeight}px`;
-    paperNode.style.position = 'absolute';
-    paperNode.style.left = '0';
-    paperNode.style.top = '0';
-
-
+    paperNode.style.position = "absolute";
+    paperNode.style.left = "0";
+    paperNode.style.top = "0";
 
     // Remove the caption from the chart
     // Set viewBox to match dimensions exactly
     paperNode.setAttribute("viewBox", `0 0 ${chartWidth} ${chartHeight}`);
     paperNode.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
-
-    
     // Remove chart titles and legends for print export
     if (["line", "bar", "radialBar", "rangeBar", "pie"].includes(chartType)) {
       // For ApexCharts, remove title and subtitle for all chart types
       if (chart.updateOptions) {
         const updateConfig = {
           title: {
-            text: ""
+            text: "",
           },
           subtitle: {
-            text: ""
-          }
+            text: "",
+          },
         };
-        
+
         // Only hide legend for pie charts
         if (chartType === "pie") {
           updateConfig.legend = {
-            show: false
+            show: false,
           };
         }
-        
+
         await chart.updateOptions(updateConfig, false, true);
       }
     }
-    
+
     // For radialBar charts, log the original configuration
     // if (chartType === "radialBar") {
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - Original chart config:`, {
-      //   fill: chart.w.config.fill,
-      //   stroke: chart.w.config.stroke,
-      //   plotOptions: chart.w.config.plotOptions,
-      //   labels: chart.w.config.labels,
-      //   colors: chart.w.config.colors,
-      //   series: chart.w.config.series
-      // });
-      
-      // Also log the actual data values to understand the color logic
-      // console.log(`[RADIALBAR DEBUG] ${chartId} - Series data:`, chart.w.config.series);
+    // console.log(`[RADIALBAR DEBUG] ${chartId} - Original chart config:`, {
+    //   fill: chart.w.config.fill,
+    //   stroke: chart.w.config.stroke,
+    //   plotOptions: chart.w.config.plotOptions,
+    //   labels: chart.w.config.labels,
+    //   colors: chart.w.config.colors,
+    //   series: chart.w.config.series
+    // });
+
+    // Also log the actual data values to understand the color logic
+    // console.log(`[RADIALBAR DEBUG] ${chartId} - Series data:`, chart.w.config.series);
     // }
-    
+
     // Simple configuration like testPrint.js - only set basic properties
     let updatedOptions = {
       chart: {
         width: chartWidth,
         height: chartHeight,
         animations: {
-          enabled: false
+          enabled: false,
         },
-        background: '#ffffff'
-      }
+        background: "#ffffff",
+      },
     };
 
     // For radialBar charts, apply dimensions but preserve styling
@@ -832,15 +839,19 @@ async function exportApexChart(chart, chartId) {
       // console.log(`[RADIALBAR DEBUG] ${chartId} - Applying dynamic dimensions: ${chartWidth}x${chartHeight}`);
       // Apply only the chart dimensions, not the full configuration
       if (chart.updateOptions) {
-        await chart.updateOptions({
-          chart: {
-            width: chartWidth,
-            height: chartHeight,
-            animations: {
-              enabled: false
-            }
-          }
-        }, false, true);
+        await chart.updateOptions(
+          {
+            chart: {
+              width: chartWidth,
+              height: chartHeight,
+              animations: {
+                enabled: false,
+              },
+            },
+          },
+          false,
+          true
+        );
       }
     } else {
       // Force chart to redraw with new dimensions and styles
@@ -894,7 +905,7 @@ async function exportApexChart(chart, chartId) {
     if (fixedContainer.parentNode) {
       document.body.removeChild(fixedContainer);
     }
-    
+
     const base64String = uri.imgURI.split(",")[1];
     // console.log(`Base64 string length for ${chartId}: ${base64String.length}`);
 
@@ -919,28 +930,31 @@ async function exportWithHtml2Canvas(chartElement) {
   const chart = getChartInstance(chartId);
   const chartType = getChartTypeFromId(chartId);
 
-  
   // Handle FusionCharts caption clearing before export
   let originalCaption = null;
   if (chartType === "hlineargauge") {
     // console.log(`if (chartType === "hlineargauge") ${chartId} - Clearing caption`, chart, chartElement);
     // Store original caption and clear it
     originalCaption = chart.args?.dataSource?.chart?.caption || "";
-    
+
     // For FusionCharts, we need to update the dataSource and re-render
     if (chart.args && chart.args.dataSource) {
       // Update the caption in the dataSource
-      chart.args.dataSource.chart.caption = '';
-      
+      chart.args.dataSource.chart.caption = "";
+
       // Force the chart to re-render with the updated dataSource
-      if (typeof chart.setData === 'function') {
+      if (typeof chart.setData === "function") {
         chart.setData(chart.args.dataSource);
-      } else if (typeof chart.feedData === 'function') {
+      } else if (typeof chart.feedData === "function") {
         chart.feedData(chart.args.dataSource);
       }
     }
-    
-    console.log(`if (chartType === "hlineargauge") ${chartId} - AfterCleared caption`, chart, originalCaption);
+
+    console.log(
+      `if (chartType === "hlineargauge") ${chartId} - AfterCleared caption`,
+      chart,
+      originalCaption
+    );
   }
 
   // Special handling for CFI Composite chart
@@ -948,7 +962,7 @@ async function exportWithHtml2Canvas(chartElement) {
     // For CFI Composite, use the container's actual content height
     const actualHeight = chartElement.scrollHeight || chartElement.offsetHeight;
     const finalHeight = Math.max(actualHeight, chartHeight);
-    
+
     // Create a clone container with dynamic height
     const container = document.createElement("div");
     container.style.position = "absolute";
@@ -964,7 +978,7 @@ async function exportWithHtml2Canvas(chartElement) {
     clone.style.height = "auto";
     container.appendChild(clone);
     document.body.appendChild(container);
-    
+
     try {
       // Wait for layout updates
       await new Promise((resolve) => setTimeout(resolve, 200));
@@ -1043,15 +1057,20 @@ async function exportWithHtml2Canvas(chartElement) {
     // );
 
     // Restore FusionCharts caption if it was cleared
-    if (originalCaption !== null && chart && chart.args && chart.args.dataSource) {
+    if (
+      originalCaption !== null &&
+      chart &&
+      chart.args &&
+      chart.args.dataSource
+    ) {
       // console.log(`[Lineargauge DEBUG] ${chartId} - Restoring caption`, chart, originalCaption);
       // Restore the caption in the dataSource
       chart.args.dataSource.chart.caption = originalCaption;
-      
+
       // Force the chart to re-render with the restored dataSource
-      if (typeof chart.setData === 'function') {
+      if (typeof chart.setData === "function") {
         chart.setData(chart.args.dataSource);
-      } else if (typeof chart.feedData === 'function') {
+      } else if (typeof chart.feedData === "function") {
         chart.feedData(chart.args.dataSource);
       }
     }
@@ -1274,7 +1293,7 @@ async function apexChartsExportPrint() {
     if (errorCode === "0") {
       const recordId = xmlResponse.find("qdbapi").find("rid").text();
       createToastSuccess(
-        `Charts successfully uploaded to Quickbase. Record ID: ${recordId}`
+        `The presentation will be sent to your email address in the next 5 minutes from clientportal@capincrouse.com.  If you do not receive it, please email capindata@capincrouse.com for assistance.`
       );
     } else {
       const errorText =
