@@ -1,0 +1,56 @@
+# Project-Specific Context
+
+## Project Structure & Reference Files
+
+### The `_comp` Folder - Reference Implementation
+The `_comp/` folder contains **reference files only** from the `05_cfhi_comp` project (referred to as **'comp project'**).
+
+**Important Context:**
+- The **comp project** is **fully working** and serves as the reference implementation
+- This project `06_cfhi_standard` (referred to as **'stand project'**) is **not fully working yet**
+- The stand project **should use most of the comp project code and structure implementation**
+- Files in `_comp/` are prefixed with "comp" (e.g., `compApi.js`, `compIndex.html`)
+
+**Working with Reference Files:**
+- When implementing features in the stand project, **refer to the corresponding `_comp/` files** for working implementations
+- **Do not modify files in `_comp/`** - they are reference only
+- When creating or fixing files in `src/`, use the `_comp/` equivalents as templates
+- If a feature exists in `_comp/` but not in `src/`, port it from the comp implementation
+
+**Example Mapping:**
+```
+_comp/compApi.js          → src/Api.js
+_comp/compIndex.html      → src/Index.html
+_comp/compUtility.js      → src/functions/Utility.js
+_comp/compUiManagement.js → src/content/uiManagement.js
+```
+
+---
+
+## Code Style & Standards
+
+- Always use ES6+ features (e.g., arrow functions, const, let)
+- Use JSDoc comments for all functions to explain their purpose, parameters, and return values
+- Enforce consistent formatting (e.g., use Prettier or a similar style)
+- Prefer declarative code over imperative code
+- Avoid modifying unrelated code. Only make changes relevant to the current task
+
+---
+
+## Quickbase API/CLI Specific Rules
+
+- All Quickbase API calls must use the 'quickbase-js-api' library
+- When creating a function to interact with Quickbase, include a comment explaining which Quickbase table it is for
+- When a new code page file is created, always write a corresponding README.md entry that describes its purpose
+- For any API call that fetches data, include a 'loading' state and a basic error handler
+
+---
+
+## Workflow & Context Rules
+
+- When generating code, provide a detailed plan and rationale before writing the code
+- If uncertain about a solution, ask for clarification or propose a few alternatives
+- When a task involves creating a new component, also suggest a corresponding unit test file
+- Never use placeholders like '// ... rest of the code ...'. Always provide a complete and functional implementation
+- When debugging or implementing features, **always check the `_comp/` folder first** for the working reference implementation
+

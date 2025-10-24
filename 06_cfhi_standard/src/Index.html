@@ -74,6 +74,7 @@
         return false;
       }
       var ClientRid = getQueryVariable("clientrid");
+      window.ClientRid = ClientRid;
       const clientData = "br8rqi6bk";
       const peerData = "br8szmntp";
     </script>
@@ -650,6 +651,33 @@
                       All Reports
                     </span>
                   </button>
+                </li>
+                <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
+                <li>
+                  <button
+                    data-modal-target="print_modal"
+                    data-modal-toggle="print_modal"
+                    data-popover-target="popoverPrint-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
+                    type="button"
+                    class="flex items-center p-2 w-full text-base font-normal rounded-lg transition duration-75 group hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-200"
+                  >
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span class="ml-4 text-left text-xl font-bold whitespace-nowrap" sidebar-toggle-item="">
+                      Print
+                    </span>
+                  </button>
+                  <div data-popover id="popoverPrint-hover" role="tooltip" class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0">
+                    <div class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg">
+                      <h3 class="font-semibold text-white text-lg">Print Report</h3>
+                    </div>
+                    <div class="px-3 py-2 bg-gray-800 text-white rounded-b-lg">
+                      <p>Generate and print benchmark reports</p>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -3524,5 +3552,56 @@
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=159"></script>
     <!-- charts.js -->
     <script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=158"></script>
+
+    <!-- PRINT MODAL -->
+    <div id="print_modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex items-center justify-center w-full p-4">
+      <div class="relative p-4 w-full max-w-2xl max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+            <h2 class="text-3xl dark:text-white font-bold leading-none uppercase text-gray-800">
+              Print Options
+            </h2>
+          </div>
+          <div class="p-6 space-y-6 flex flex-col items-center">
+            <div class="w-full flex flex-col gap-4">
+              <button type="button" class="flex backgroundGreen text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-green-300/50 opacity-90 hover:opacity-100 cursor-pointer" id="generateReports">
+                Generate Trends and Benchmark Reports
+              </button>
+              <div id="print_modal_footer" class="hidden flex flex-col items-center p-4 border-t border-gray-200 rounded-b-lg dark:border-gray-600">
+                <p class="text-lg font-semibold mb-4">Download Options:</p>
+                <div class="flex gap-4">
+                  <a id="trendXLSFinal" href="#" class="backgroundBlue py-3 px-6 rounded-lg text-white font-bold hover:opacity-90">Excel (.xls)</a>
+                  <a id="trendPDFFinal" href="#" class="backgroundBlue py-3 px-6 rounded-lg text-white font-bold hover:opacity-90">PDF</a>
+                </div>
+              </div>
+              
+              <hr class="my-4" />
+              
+              <button type="button" class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-blue-300/50 opacity-90 hover:opacity-100 cursor-pointer" id="printBase64">
+                Print Presentation
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Loading API Modal -->
+    <div id="loadingApiDiv" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
+      <div id="loadingApiInnerDiv" class="bg-gray-800 rounded-lg p-6 flex flex-col items-center">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+        <p id="loadingApiHeader" class="text-white text-xl font-semibold">Processing...</p>
+        <p id="apiPrint" class="text-gray-300 mt-2"></p>
+        <span id="apiYears" class="text-white text-lg font-medium mt-2">
+          <span id="firstApiYear" class="mx-2"></span> -
+          <span id="LastApiYear" class="mx-2"></span>
+        </span>
+      </div>
+    </div>
+
+    <!-- PrintExcel.js -->
+    <script src="functions/PrintExcel.js"></script>
+    <!-- PrintBase64.js -->
+    <script src="functions/PrintBase64.js"></script>
   </body>
 </html>

@@ -2487,6 +2487,7 @@ $.get(clientData, apiCallClientDataForUniqueYears)
 
     if (recordsClient.length > 0) {
       firmName = recordsClient[0].children[2].innerHTML;
+      window.firmName = firmName;
       document.querySelector("#firmName").textContent = firmName;
       findUniqueYears(recordsClient);
     } else {
