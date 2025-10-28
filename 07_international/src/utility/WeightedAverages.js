@@ -978,12 +978,39 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
     ? getSumOfArray(data.totalExpenses[name][year])
     : getSumOfArray(data.totalExpenses[name]["total"]);
 
+  // Use the Quickbase record fields for each name directly in the calculation:
+
+  // netAssetsWithoutDR: [01.03NA - 01 Net assets without donor restrictions]
+  // propertyPlantAndEquipment: [01.01Ass - 09 Property, plant and equipment]
+  // notesPayable: [01.02Liab - 02 Notes Payable]
+  // totalExpenses: [02.03Exp - 05 Total Expenses]
+
+  // The structure expects that 'data' contains these properties for each name.
+  // The calculation:
+  // (
+  //    [01.03NA - 01 Net assets without donor restrictions] -
+  //    [01.01Ass - 09 Property, plant and equipment] -
+  //    [01.02Liab - 02 Notes Payable]
+  // ) / ([02.03Exp - 05 Total Expenses] / 365)
+
+  // Already mapped above:
+  // const netAssetsWithoutDR = ...
+  // const propertyPlantAndEquipment = ...
+  // const notesPayable = ...
+  // const totalExpenses = ...
+
+  // The direct use in the formula:
+  // Numerator uses the net assets, property/plant/equipment, and notes payable fields.
+  // Denominator uses total expenses field divided by 365.
+  // Return is as specified below.
+
   // console.log({
   //   netAssetsWithoutDR,
   //   propertyPlantAndEquipment,
   //   notesPayable,
   //   totalExpenses
   // })
+
   const denominator = totalExpenses / 365;
 
   return denominator > 0
