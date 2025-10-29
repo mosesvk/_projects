@@ -661,22 +661,46 @@
                     data-popover-trigger="hover"
                     data-popover-placement="right"
                     type="button"
-                    class="flex items-center p-2 w-full text-base font-normal rounded-lg transition duration-75 group hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-900 dark:text-gray-200"
+                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
                   >
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clip-rule="evenodd"></path>
+                    <svg
+                      class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:text-gray-400 dark:group-hover:text-white"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z"
+                        clip-rule="evenodd"
+                      />
                     </svg>
-                    <span class="ml-4 text-left text-xl font-bold whitespace-nowrap" sidebar-toggle-item="">
+                    <span
+                      class="flex-1 ml-4 text-left whitespace-normal"
+                      sidebar-toggle-item=""
+                    >
                       Print
                     </span>
                   </button>
-                  <div data-popover id="popoverPrint-hover" role="tooltip" class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0">
-                    <div class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg">
-                      <h3 class="font-semibold text-white text-lg">Print Report</h3>
+                  <div
+                    data-popover
+                    id="popoverPrint-hover"
+                    role="tooltip"
+                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
+                    >
+                      <h3
+                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                      >
+                        Print Report
+                      </h3>
                     </div>
-                    <div class="px-3 py-2 bg-gray-800 text-white rounded-b-lg">
-                      <p>Generate and print benchmark reports</p>
-                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-100 dark:bg-gray-700 dark:border-gray-600"
+                    ></div>
                   </div>
                 </li>
               </ul>
