@@ -422,7 +422,7 @@
                     data-popover
                     id="popoverEnrollment-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -469,7 +469,7 @@
                     data-popover
                     id="popoverCash-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -516,7 +516,7 @@
                     data-popover
                     id="popoverDebt-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -565,7 +565,7 @@
                     data-popover
                     id="popoverIncome-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -612,7 +612,7 @@
                     data-popover
                     id="popoverExpense-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -686,7 +686,7 @@
                     data-popover
                     id="popoverPrint-hover"
                     role="tooltip"
-                    class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+                    class="hidden absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
                   >
                     <div
                       class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700"
@@ -3472,6 +3472,39 @@
       </div>
     </div>
 
+    <!-- PRINT MODAL -->
+        <div id="print_modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex items-center justify-center w-full p-4">
+          <div class="relative p-4 w-full max-w-2xl max-h-full">
+            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+              <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
+                <h2 class="text-3xl dark:text-white font-bold leading-none uppercase text-gray-800">
+                  Print Options
+                </h2>
+              </div>
+              <div class="p-6 space-y-6 flex flex-col items-center">
+                <div class="w-full flex flex-col gap-4">
+                  <button type="button" class="flex backgroundGreen text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-green-300/50 opacity-90 hover:opacity-100 cursor-pointer" id="generateReports">
+                    Generate Trends and Benchmark Reports
+                  </button>
+                  <div id="print_modal_footer" class="hidden flex flex-col items-center p-4 border-t border-gray-200 rounded-b-lg dark:border-gray-600">
+                    <p class="text-lg font-semibold mb-4">Download Options:</p>
+                    <div class="flex gap-4">
+                      <a id="trendXLSFinal" href="#" class="backgroundBlue py-3 px-6 rounded-lg text-white font-bold hover:opacity-90">Excel (.xls)</a>
+                      <a id="trendPDFFinal" href="#" class="backgroundBlue py-3 px-6 rounded-lg text-white font-bold hover:opacity-90">PDF</a>
+                    </div>
+                  </div>
+                  
+                  <hr class="my-4" />
+                  
+                  <button type="button" class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-blue-300/50 opacity-90 hover:opacity-100 cursor-pointer" id="printBase64">
+                    Print Presentation
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
     <!-- Loading Modal -->
     <div
       id="loadingApiDiv"
@@ -3553,52 +3586,6 @@
         </div>
       </div>
     </div>
-
-        <!-- PRINT MODAL -->
-        <div id="print_modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex items-center justify-center w-full p-4">
-          <div class="relative p-4 w-full max-w-2xl max-h-full">
-            <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-              <div class="flex items-center justify-between p-5 border-b rounded-t dark:border-gray-600">
-                <h2 class="text-3xl dark:text-white font-bold leading-none uppercase text-gray-800">
-                  Print Options
-                </h2>
-              </div>
-              <div class="p-6 space-y-6 flex flex-col items-center">
-                <div class="w-full flex flex-col gap-4">
-                  <button type="button" class="flex backgroundGreen text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-green-300/50 opacity-90 hover:opacity-100 cursor-pointer" id="generateReports">
-                    Generate Trends and Benchmark Reports
-                  </button>
-                  <div id="print_modal_footer" class="hidden flex flex-col items-center p-4 border-t border-gray-200 rounded-b-lg dark:border-gray-600">
-                    <p class="text-lg font-semibold mb-4">Download Options:</p>
-                    <div class="flex gap-4">
-                      <a id="trendXLSFinal" href="#" class="backgroundBlue py-3 px-6 rounded-lg text-white font-bold hover:opacity-90">Excel (.xls)</a>
-                      <a id="trendPDFFinal" href="#" class="backgroundBlue py-3 px-6 rounded-lg text-white font-bold hover:opacity-90">PDF</a>
-                    </div>
-                  </div>
-                  
-                  <hr class="my-4" />
-                  
-                  <button type="button" class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-blue-300/50 opacity-90 hover:opacity-100 cursor-pointer" id="printBase64">
-                    Print Presentation
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    
-        <!-- Loading API Modal -->
-        <div id="loadingApiDiv" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-          <div id="loadingApiInnerDiv" class="bg-gray-800 rounded-lg p-6 flex flex-col items-center">
-            <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-            <p id="loadingApiHeader" class="text-white text-xl font-semibold">Processing...</p>
-            <p id="apiPrint" class="text-gray-300 mt-2"></p>
-            <span id="apiYears" class="text-white text-lg font-medium mt-2">
-              <span id="firstApiYear" class="mx-2"></span> -
-              <span id="LastApiYear" class="mx-2"></span>
-            </span>
-          </div>
-        </div>
 
 
     <!-- utility.js -->
