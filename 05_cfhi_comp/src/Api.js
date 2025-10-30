@@ -986,7 +986,7 @@ class DataProcessor {
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Client",
           record,
-          "cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_lage"
+          "cfhi_compre_00b_ratio___contributions_wo_donor_restrictions_exclude_large"
         );
         // totalContributionsExclude
         this.dataStore.insertData(
