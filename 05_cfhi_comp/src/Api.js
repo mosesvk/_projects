@@ -1766,8 +1766,8 @@ class DataProcessor {
           year,
           "mandatoryDebtServiceToContributionsWithout_Peer",
           record,
-          "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions"
+          "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
         );
         this.dataStore.insertData(
           "debt",
@@ -3361,7 +3361,7 @@ class DataProcessor {
           year,
           "salariesBenefitsIncludingOutsourcedEmployees_Client",
           record,
-          "cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced"
+          "cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp"
         );
 
         // personnelToCashExpenditure
@@ -3371,7 +3371,7 @@ class DataProcessor {
           year,
           "personnelToCashExpenditure_Client",
           record,
-          "cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures",
           "cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures"
         );
         
@@ -3656,7 +3656,7 @@ class DataProcessor {
           year,
           "contributionsPerAccountingFTE_Client",
           record,
-          "cfhi_compre_20_ratio___contributions_per_accounting_fte"
+          "cfhi_compre_20_ratio___contributions_per_acct_fte"
         );
         
         this.dataStore.insertData(
@@ -3665,7 +3665,7 @@ class DataProcessor {
           year,
           "expensesPerAccountingFTE_Client",
           record,
-          "cfhi_compre_21_ratio___expenses_per_accounting_fte"
+          "cfhi_compre_21_ratio___expenses_per_acct_fte"
         );
 
       });
