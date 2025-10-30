@@ -1767,7 +1767,7 @@ class DataProcessor {
           "mandatoryDebtServiceToContributionsWithout_Peer",
           record,
           "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions"
         );
         this.dataStore.insertData(
           "debt",
@@ -2025,7 +2025,7 @@ class DataProcessor {
           "mandatoryDebtServiceToContributionsWithout_Client",
           record,
           "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
-          "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
+          "cfhi_compre_08_bench_rating___mandatory_debt_service_to_contributions_w_o_donor_restrictions"
         );
         
         this.dataStore.insertData(
