@@ -484,9 +484,9 @@ class DataProcessor {
    * Process Demographics Data
    */
   processDemoData(years, recordsPeer, recordsClient) {
-    console.log(
-      `📊 processDemoData called with ${years.length} years, ${recordsPeer?.length || 0} peer records, ${recordsClient?.length || 0} client records`
-    );
+    // console.log(
+    //   `📊 processDemoData called with ${years.length} years, ${recordsPeer?.length || 0} peer records, ${recordsClient?.length || 0} client records`
+    // );
     
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
