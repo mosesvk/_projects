@@ -3402,8 +3402,8 @@ class DataProcessor {
           year,
           "personnelIncludingToTotalCashExpenditures_Client",
           record,
-          "cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures",
-          "cfhi_compre_17_3_ratio___personnel_and_outsourced_to_total_cash_expenditures"
+          "cfhi_compre_17_3_ratio___personnel_and_outsourced_to_total_cash_expenditures",
+          "cfhi_compre_17_3_bench_rating___personnel_and_outsourced_to_total_cash_expenditures"
         );
 
         // localOutreachExpenses
