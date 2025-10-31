@@ -3136,8 +3136,8 @@ class DataProcessor {
           year,
           "totalGlobalAndLocalOutreachExpenses_Peer",
           record,
-          "cfhi_compre_18_3_ratio___global_local_outreach_expenses",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses"
+          "cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend"
         );
         this.dataStore.insertData(
           "expense",
@@ -3146,7 +3146,7 @@ class DataProcessor {
           "localOutreachExpense",
           record,
           "s14___local_outreach_expense",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend",
           "totalGlobalAndLocalOutreachExpenses"
         );
         this.dataStore.insertData(
@@ -3156,7 +3156,7 @@ class DataProcessor {
           "globalOutreachExpense",
           record,
           "s15___global_outreach_expense",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend",
           "totalGlobalAndLocalOutreachExpenses"
         );
         this.dataStore.insertData(
@@ -3166,7 +3166,7 @@ class DataProcessor {
           "totalExpense",
           record,
           "s45___total_expense",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend",
           "totalGlobalAndLocalOutreachExpenses"
         );
         this.dataStore.insertData(
@@ -3176,7 +3176,7 @@ class DataProcessor {
           "amortizationFinanceLease",
           record,
           "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend",
           "totalGlobalAndLocalOutreachExpenses"
         );
         this.dataStore.insertData(
@@ -3186,7 +3186,7 @@ class DataProcessor {
           "requiredMinimumDebtPrinciple",
           record,
           "s154___required_minimum_debt_principal_payment_for_the_next_year",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend",
           "totalGlobalAndLocalOutreachExpenses"
         );
         this.dataStore.insertData(
@@ -3196,7 +3196,7 @@ class DataProcessor {
           "totalDepreciationExpense",
           record,
           "s46___total_depreciation_expense",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend",
           "totalGlobalAndLocalOutreachExpenses"
         );
         this.dataStore.insertData(
@@ -3206,7 +3206,7 @@ class DataProcessor {
           "nextFiscalYearsRefinancedLoanPayments",
           record,
           "s90___next_fiscal_years_refinanced_loan_payments",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend",
           "totalGlobalAndLocalOutreachExpenses"
         );
         this.dataStore.insertData(
@@ -3216,7 +3216,7 @@ class DataProcessor {
           "oneTimePayoffDebtDueNextYear",
           record,
           "s164___one_time_payoff_of_debt_due_in_the_next_year",
-          "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
+          "cfhi_compre_18c_yes_no___total_outreach_to_total_cash_expend",
           "totalGlobalAndLocalOutreachExpenses"
         );
 
@@ -3586,8 +3586,8 @@ class DataProcessor {
           year,
           "expensesPerAccountingFTE_Peer",
           record,
-          "cfhi_compre_21_ratio___expenses_per_acct_fte",
-          "cfhi_compre_21_yes_no___expenses_per_acct_fte"
+          "cfhi_compre_21_ratio___expenses_per_accounting_fte",
+          "cfhi_compre_21_yes_no___expenses_per_accounting_fte"
         );
 
         this.dataStore.insertData(
@@ -3597,7 +3597,7 @@ class DataProcessor {
           "totalExpense",
           record,
           "s45___total_expense",
-          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "cfhi_compre_21_yes_no___expenses_per_accounting_fte",
           "expensesPerAccountingFTE"
         );
 
@@ -3608,7 +3608,7 @@ class DataProcessor {
           "averageAnnualAccountingDepartment",
           record,
           "s158___average_annual_accounting_department",
-          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "cfhi_compre_21_yes_no___expenses_per_accounting_fte",
           "expensesPerAccountingFTE"
         );
 
@@ -3619,7 +3619,7 @@ class DataProcessor {
           "accountingDepartmentPartTimeEmployee",
           record,
           "s159___accounting_department_part_time_employee",
-          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "cfhi_compre_21_yes_no___expenses_per_accounting_fte",
           "expensesPerAccountingFTE"
         );
         
@@ -3630,7 +3630,7 @@ class DataProcessor {
           "accountingDepartmentVolunteer",
           record,
           "s160___accounting_department_volunteer",
-          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "cfhi_compre_21_yes_no___expenses_per_accounting_fte",
           "expensesPerAccountingFTE"
         );
         
@@ -3641,7 +3641,7 @@ class DataProcessor {
           "accountingDeptOutsourcedLabor",
           record,
           "s94___accounting_dept_outsourced_labor",
-          "cfhi_compre_21_yes_no___expenses_per_acct_fte",
+          "cfhi_compre_21_yes_no___expenses_per_accounting_fte",
           "expensesPerAccountingFTE"
         );
         
