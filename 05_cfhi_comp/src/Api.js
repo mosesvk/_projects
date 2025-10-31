@@ -2790,8 +2790,8 @@ class DataProcessor {
           year,
           "salariesBenefitsIncludingOutsourcedEmployees_Peer",
           record,
-          "cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp",
-          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp"
+          "cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced",
+          "cfhi_compre_16a_yes_no___average_salaries_and_benefits_per_fte___outsourced"
         );
         this.dataStore.insertData(
           "expense",
@@ -2800,7 +2800,7 @@ class DataProcessor {
           "totalSalaries",
           record,
           "s10___total_salaries_and_housing",
-          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "cfhi_compre_16a_yes_no___average_salaries_and_benefits_per_fte___outsourced",
           "salariesBenefitsIncludingOutsourcedEmployees"
         );
         this.dataStore.insertData(
@@ -2810,7 +2810,7 @@ class DataProcessor {
           "totalBenefit",
           record,
           "s11___total_benefit",
-          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "cfhi_compre_16a_yes_no___average_salaries_and_benefits_per_fte___outsourced",
           "salariesBenefitsIncludingOutsourcedEmployees"
         );
         this.dataStore.insertData(
@@ -2820,7 +2820,7 @@ class DataProcessor {
           "costOfOutsourcedEmployee",
           record,
           "s162___cost_of_outsourced_employee",
-          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "cfhi_compre_16a_yes_no___average_salaries_and_benefits_per_fte___outsourced",
           "salariesBenefitsIncludingOutsourcedEmployees"
         );
         this.dataStore.insertData(
@@ -2830,7 +2830,7 @@ class DataProcessor {
           "fullTimeEquivalent",
           record,
           "s151___church_only_full_time_equivalent_excluding_childcare_worker",
-          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "cfhi_compre_16a_yes_no___average_salaries_and_benefits_per_fte___outsourced",
           "salariesBenefitsIncludingOutsourcedEmployees"
         );
         this.dataStore.insertData(
@@ -2840,7 +2840,7 @@ class DataProcessor {
           "totalOutsourcedEmployee",
           record,
           "s157___total_outsourced_employee__fte_",
-          "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
+          "cfhi_compre_16a_yes_no___average_salaries_and_benefits_per_fte___outsourced",
           "salariesBenefitsIncludingOutsourcedEmployees"
         );
 
@@ -2851,7 +2851,7 @@ class DataProcessor {
           year,
           "personnelToCashExpenditure_Peer",
           record,
-          "cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures",
           "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures"
         );
         this.dataStore.insertData(
@@ -3034,8 +3034,8 @@ class DataProcessor {
           year,
           "personnelIncludingToTotalCashExpenditures_Peer",
           record,
-          "cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures"
+          "cfhi_compre_17_3_ratio___personnel_and_outsourced_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures"
         );
         this.dataStore.insertData(
           "expense",
@@ -3044,7 +3044,7 @@ class DataProcessor {
           "totalBenefit",
           record,
           "s11___total_benefit",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
         this.dataStore.insertData(
@@ -3054,7 +3054,7 @@ class DataProcessor {
           "totalSalaries",
           record,
           "s10___total_salaries_and_housing",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
         this.dataStore.insertData(
@@ -3064,7 +3064,7 @@ class DataProcessor {
           "totalExpense",
           record,
           "s45___total_expense",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
         this.dataStore.insertData(
@@ -3074,7 +3074,7 @@ class DataProcessor {
           "amortizationFinanceLease",
           record,
           "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
         this.dataStore.insertData(
@@ -3084,7 +3084,7 @@ class DataProcessor {
           "requiredMinimumDebtPrinciple",
           record,
           "s154___required_minimum_debt_principal_payment_for_the_next_year",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
         this.dataStore.insertData(
@@ -3094,7 +3094,7 @@ class DataProcessor {
           "totalDepreciationExpense",
           record,
           "s46___total_depreciation_expense",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
         this.dataStore.insertData(
@@ -3104,7 +3104,7 @@ class DataProcessor {
           "nextFiscalYearsRefinancedLoanPayments",
           record,
           "s90___next_fiscal_years_refinanced_loan_payments", // Field name to be confirmed
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
         this.dataStore.insertData(
@@ -3114,7 +3114,7 @@ class DataProcessor {
           "oneTimePayoffDebtDueNextYear",
           record,
           "s164___one_time_payoff_of_debt_due_in_the_next_year", // Field name to be confirmed
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
         this.dataStore.insertData(
@@ -3124,7 +3124,7 @@ class DataProcessor {
           "costOfOutsourcedEmployee",
           record,
           "s162___cost_of_outsourced_employee",
-          "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_3_yes_no___personnel_and_outsourced_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
 
