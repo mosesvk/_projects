@@ -1,4 +1,5 @@
-<qdbapi><record>
+<qdbapi>
+  <record>
   <s52_formatted_year>2024</s52_formatted_year>
   <s02___giving_units>6710</s02___giving_units>
   <old_s01_average_adult_attendees_excluding_children>16416</old_s01_average_adult_attendees_excluding_children>

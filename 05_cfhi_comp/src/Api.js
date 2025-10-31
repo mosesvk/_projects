@@ -770,7 +770,7 @@ class DataProcessor {
           year,
           "averageAdultAttendees_Peer",
           record,
-          "s01_average_adult_attendees_excluding_children",
+          "old_s01_average_adult_attendees_excluding_children",
           "cfhi_compre_00b_yes_no___average_adult_attendees"
         );
         // totalAttendees
@@ -780,7 +780,7 @@ class DataProcessor {
           year,
           "totalAttendees_Peer",
           record,
-          "s150___total_attendee_including_children",
+          "old_s150___total_attendee_including_children",
           "cfhi_compre_00c_yes_no___total_attendees_including_children"
         );
         // fullTimeEquivalent
@@ -1224,7 +1224,7 @@ class DataProcessor {
           year,
           "requiredMinimumDebtPrinciple",
           record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "s154___required_minimum_debt_principal_payment_for_the_next_year",
           "cfhi_compre_02_yes_no___days_operating_cash_and_investments_on_hand_to_fund_annual_cash_expenditures",
           "daysOperatingCash"
         );
@@ -1713,7 +1713,7 @@ class DataProcessor {
           year,
           "largeOneTimeGiftWithoutDonor",
           record,
-          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
           "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
           "debtToContributionsWithout"
         );
@@ -1723,7 +1723,7 @@ class DataProcessor {
           year,
           "contributionWithoutDonor",
           record,
-          "s39___contribution_without_donor_retriction",
+          "s39___contribution_without_donor_restriction",
           "cfhi_compre_06_yes_no___debt_to_contributions_w_o_donor_restrictions",
           "debtToContributionsWithout"
         );
@@ -1766,8 +1766,8 @@ class DataProcessor {
           year,
           "mandatoryDebtServiceToContributionsWithout_Peer",
           record,
-          "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
+          "cfhi_compre_08_ratio__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions"
         );
         this.dataStore.insertData(
           "debt",
@@ -1775,8 +1775,8 @@ class DataProcessor {
           year,
           "requiredMinimumDebtPrinciple",
           record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "s154___required_minimum_debt_principal_payment_for_the_next_year",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
           "mandatoryDebtServiceToContributionsWithout"
         );
         this.dataStore.insertData(
@@ -1786,7 +1786,7 @@ class DataProcessor {
           "cyInterestExpense",
           record,
           "s47___cy_interest_expense",
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
           "mandatoryDebtServiceToContributionsWithout"
         );
         this.dataStore.insertData(
@@ -1796,7 +1796,7 @@ class DataProcessor {
           "capitalizedInterest",
           record,
           "s51___capitalized_interest",
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
           "mandatoryDebtServiceToContributionsWithout"
         );
         this.dataStore.insertData(
@@ -1805,8 +1805,8 @@ class DataProcessor {
           year,
           "contributionWithoutDonor",
           record,
-          "s39___contribution_without_donor_retriction",
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "s39___contribution_without_donor_restriction",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
           "mandatoryDebtServiceToContributionsWithout"
         );
         this.dataStore.insertData(
@@ -1816,7 +1816,7 @@ class DataProcessor {
           "nextFiscalYearsRefinancedLoanPayments",
           record,
           "s90___next_fiscal_years_refinanced_loan_payments", 
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
           "mandatoryDebtServiceToContributionsWithout"
         );
         this.dataStore.insertData(
@@ -1826,7 +1826,7 @@ class DataProcessor {
           "oneTimePayoffDebtDueNextYear",
           record,
           "s164___one_time_payoff_of_debt_due_in_the_next_year",
-          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictuions",
+          "cfhi_compre_08_yes_no__mandatory_debt_service_to_contributions_w_o_donor_restrictions",
           "mandatoryDebtServiceToContributionsWithout"
         );
 
@@ -1888,7 +1888,7 @@ class DataProcessor {
           year,
           "contributionWithoutDonor",
           record,
-          "s39___contribution_without_donor_retriction",
+          "s39___contribution_without_donor_restriction",
           "cfhi_compre_09d_yes_no___debt_per_giving_unit",
           "debtPerGivingUnit_standard"
         );
@@ -1898,7 +1898,7 @@ class DataProcessor {
           year,
           "largeOneTimeGiftWithoutDonor",
           record,
-          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
           "cfhi_compre_09d_yes_no___debt_per_giving_unit",
           "debtPerGivingUnit_standard"
         );
@@ -1969,7 +1969,7 @@ class DataProcessor {
           year,
           "requiredMinimumDebtPrinciple",
           record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "s154___required_minimum_debt_principal_payment_for_the_next_year",
           "cfhi_compre_10_yes_no___debt_coverage",
           "debtCoverage"
         );
@@ -2034,7 +2034,7 @@ class DataProcessor {
           year,
           'mandatoryDebtServiceToContributionsWithout_benchmarkParagraph',
           record,
-          "cfhi_compre_08_bench_paragraph__mandatory_debt_service_to_contributions_w_o_donor_restrictuions"
+          "cfhi_compre_08_bench_paragraph__mandatory_debt_service_to_contributions_w_o_donor_restrictions"
         );
 
         // debtPerAverageAdultAttendee
@@ -2167,7 +2167,7 @@ class DataProcessor {
           year,
           "totalContributionWithout",
           record,
-          "s41___total_contribution_w_o_donor_restriction__other_rev_and_reclasification",
+          "s41___total_contribution_w_o_donor_restriction__other_rev_and_reclassification",
           "cfhi_compre_11_yes_no___net_income_ratio",
           "netIncomeRatio"
         );
@@ -2198,7 +2198,7 @@ class DataProcessor {
           year,
           "contributionWithoutDonor",
           record,
-          "s39___contribution_without_donor_retriction",
+          "s39___contribution_without_donor_restriction",
           "cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit",
           "contributionsWithoutDonorPerGivingUnit"
         );
@@ -2208,7 +2208,7 @@ class DataProcessor {
           year,
           "largeOneTimeGiftWithoutDonor",
           record,
-          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
           "cfhi_compre_12b_yes_no___contributions_without_donor_restrictions_per_giving_unit",
           "contributionsWithoutDonorPerGivingUnit"
         );
@@ -2259,7 +2259,7 @@ class DataProcessor {
           year,
           "largeOneTimeGiftWithoutDonor",
           record,
-          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
           "cfhi_compre_13b_yes_no___total_contributions_per_giving_unit",
           "totalContributionsPerGivingUnit"
         );
@@ -2675,7 +2675,7 @@ class DataProcessor {
           year,
           "totalSalaries",
           record,
-          "s10___total_salaries",
+          "s10___total_salaries_and_housing",
           "cfhi_compre_15_yes_no___benefits_to_salaries",
           "benefitsToSalaries"
         );
@@ -2696,7 +2696,7 @@ class DataProcessor {
           year,
           "totalSalaries",
           record,
-          "s10___total_salaries",
+          "s10___total_salaries_and_housing",
           "cfhi_compre_16_yes_no___average_salaries_per_fte",
           "salaries"
         );
@@ -2758,7 +2758,7 @@ class DataProcessor {
           year,
           "totalSalaries",
           record,
-          "s10___total_salaries",
+          "s10___total_salaries_and_housing",
           "cfhi_compre_16_yes_no___average_salaries_and_benefits_per_fte",
           "salariesBenefits"
         );
@@ -2799,7 +2799,7 @@ class DataProcessor {
           year,
           "totalSalaries",
           record,
-          "s10___total_salaries",
+          "s10___total_salaries_and_housing",
           "cfhi_compre_16a_yes_no___salaries_benefits_outsourced_per_all_emp",
           "salariesBenefitsIncludingOutsourcedEmployees"
         );
@@ -2870,7 +2870,7 @@ class DataProcessor {
           year,
           "totalSalaries",
           record,
-          "s10___total_salaries",
+          "s10___total_salaries_and_housing",
           "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
           "personnelToCashExpenditure"
         );
@@ -2900,7 +2900,7 @@ class DataProcessor {
           year,
           "requiredMinimumDebtPrinciple",
           record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "s154___required_minimum_debt_principal_payment_for_the_next_year",
           "cfhi_compre_17_1_yes_no___personnel_to_total_cash_expenditures",
           "personnelToCashExpenditure"
         );
@@ -2951,7 +2951,7 @@ class DataProcessor {
           year,
           "requiredMinimumDebtPrinciple",
           record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "s154___required_minimum_debt_principal_payment_for_the_next_year",
           "cfhi_compre_17_2_yes_no___mandatory_debt_to_total_cash_expenditures",
           "mandatoryDebtServiceToCashExpenditure"
         );
@@ -3053,7 +3053,7 @@ class DataProcessor {
           year,
           "totalSalaries",
           record,
-          "s10___total_salaries",
+          "s10___total_salaries_and_housing",
           "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
@@ -3083,7 +3083,7 @@ class DataProcessor {
           year,
           "requiredMinimumDebtPrinciple",
           record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "s154___required_minimum_debt_principal_payment_for_the_next_year",
           "cfhi_compre_17_3_yes_no___mandatory_debt_and_personnel_to_total_cash_expenditures",
           "personnelIncludingToTotalCashExpenditures"
         );
@@ -3185,7 +3185,7 @@ class DataProcessor {
           year,
           "requiredMinimumDebtPrinciple",
           record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "s154___required_minimum_debt_principal_payment_for_the_next_year",
           "cfhi_compre_18_3_yes_no___global_local_outreach_expenses",
           "totalGlobalAndLocalOutreachExpenses"
         );
@@ -3256,7 +3256,7 @@ class DataProcessor {
           year,
           "requiredMinimumDebtPrinciple",
           record,
-          "s154___required_minimum_debt_principal_payment_for_the_next_year_",
+          "s154___required_minimum_debt_principal_payment_for_the_next_year",
           "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
           "cashExpendituresPerGivingUnit"
         );
@@ -3519,7 +3519,7 @@ class DataProcessor {
           year,
           "largeOneTimeGiftWithoutDonor",
           record,
-          "s152___large_one_time_gift_without_donor_retriction__non_recurring_",
+          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
           "cfhi_compre_20_yes_no___contributions_per_acct_fte",
           "contributionsPerAccountingFTE"
         );
@@ -4256,6 +4256,10 @@ class ApiService {
       }
 
       const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
+      
+      // Log peer records data
+      console.log("peer records (batched)", dataStr + recordHtmlParts.join(""));
+      
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
       const records = xmlDoc.querySelectorAll("record");
