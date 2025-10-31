@@ -986,7 +986,7 @@ class DataProcessor {
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Client",
           record,
-          "cfhi_compre_00b_ratio___contributions_wo_donor_restrictions_exclude_large"
+          "cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_large"
         );
         // totalContributionsExclude
         this.dataStore.insertData(
@@ -3361,7 +3361,7 @@ class DataProcessor {
           year,
           "salariesBenefitsIncludingOutsourcedEmployees_Client",
           record,
-          "cfhi_compre_16a_ratio___salaries_benefits_outsourced_per_all_emp"
+          "cfhi_compre_16a_ratio___average_salaries_and_benefits_per_fte___outsourced"
         );
 
         // personnelToCashExpenditure
@@ -3403,7 +3403,7 @@ class DataProcessor {
           "personnelIncludingToTotalCashExpenditures_Client",
           record,
           "cfhi_compre_17_3_ratio___mandatory_debt_and_personnel_to_total_cash_expenditures",
-          "cfhi_compre_17_3_bench_rating___mandatory_debt_and_personnel_to_total_cash_expenditures"
+          "cfhi_compre_17_3_ratio___personnel_and_outsourced_to_total_cash_expenditures"
         );
 
         // localOutreachExpenses
@@ -3656,7 +3656,7 @@ class DataProcessor {
           year,
           "contributionsPerAccountingFTE_Client",
           record,
-          "cfhi_compre_20_ratio___contributions_per_acct_fte"
+          "cfhi_compre_20_ratio___contributions_per_accounting_fte"
         );
         
         this.dataStore.insertData(
@@ -3665,7 +3665,7 @@ class DataProcessor {
           year,
           "expensesPerAccountingFTE_Client",
           record,
-          "cfhi_compre_21_ratio___expenses_per_acct_fte"
+          "cfhi_compre_21_ratio___expenses_per_accounting_fte"
         );
 
       });
