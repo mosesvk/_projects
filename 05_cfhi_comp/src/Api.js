@@ -3371,7 +3371,7 @@ class DataProcessor {
           year,
           "personnelToCashExpenditure_Client",
           record,
-          "cfhi_compre_17_1_ratio__personnel_to_total_cash_expenditures",
+          "cfhi_compre_17_1_ratio___personnel_to_total_cash_expenditures",
           "cfhi_compre_17_1_bench_rating___personnel_to_total_cash_expenditures"
         );
         
@@ -3786,6 +3786,8 @@ class ApiService {
           this.recordPeerHTMLArray.push(newRecord.outerHTML);
           dataStr += newRecord.outerHTML;
         }
+        
+        console.log("peer records", dataStr);
       } else {
         console.warn(`No records found for year ${currentYear}`);
       }
@@ -3894,7 +3896,7 @@ class ApiService {
         dataStr += newRecord.outerHTML;
       }
 
-      console.log("client records", dataStr);
+      // console.log("client records", dataStr);
       // console.log("recordClientHTMLArray", this.recordClientHTMLArray);
 
       // Recursive call with updated years and dataStr
