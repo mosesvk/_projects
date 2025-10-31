@@ -556,7 +556,7 @@ class DataProcessor {
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Client",
           record,
-          "s39___contribution_without_donor_retriction"
+          "cfhi_compre_00b_ratio___contributions_wo_donor_restrictions_exclude_large"
         );
 
         // totalContributionsExclude
