@@ -90,8 +90,7 @@ const expensesPerAccountingFTE_weightedAverage = (data, name, year) => {
     ? getSumOfArray(data.accountingDeptOutsourcedLabor[name][year ? year : 'total']) 
     : 0;
 
-  // Updated formula per image: s45 / (s158 + s159 + s160 + s94)
-  // Removed s167 (amortizationFinanceLease) and s168 (internetOnFinanceLease) per updated calculation
+
   return s45 / (s158 + s159 + s160 + s94);
 }
 
@@ -334,10 +333,10 @@ const debtCoverage_weightedAverage = (data, name, year) => {
   const s47 = getSumOfArray(data.cyInterestExpense[name][year ? year : 'total']);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
   const s154 = getSumOfArray(data.requiredMinimumDebtPrinciple[name][year ? year : 'total']);
+  const s90 = getSumOfArray(data.nextFiscalYearsRefinancedLoanPayments[name][year ? year : 'total']);
+  const s164 = getSumOfArray(data.oneTimePayoffDebtDueNextYear[name][year ? year : 'total']);
 
-  return (
-    (s48 + s167 + (s47) + s46) / (s154 + (s47))
-  );
+  return ((s48 + s167) + (s47 + s46)) / ((s154 + s90 - s164) + s47);
 };
 
 
