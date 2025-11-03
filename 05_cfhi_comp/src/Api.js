@@ -3227,8 +3227,8 @@ class DataProcessor {
           year,
           "cashExpendituresPerGivingUnit_Peer",
           record,
-          "cfhi_compre_19_2_ratio___cash_exp_per_gu",
-          "cfhi_compre_19_2_yes_no___cash_exp_per_gu"
+          "cfhi_compre_19b_ratio___cash_exp_per_giving_unit",
+          "cfhi_compre_19b_yes_no___cash_exp_per_giving_unit"
         );
         this.dataStore.insertData(
           "expense",
@@ -3237,7 +3237,7 @@ class DataProcessor {
           "totalExpense",
           record,
           "s45___total_expense",
-          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cfhi_compre_19b_yes_no___cash_exp_per_giving_unit",
           "cashExpendituresPerGivingUnit"
         );
         this.dataStore.insertData(
@@ -3247,7 +3247,7 @@ class DataProcessor {
           "amortizationFinanceLease",
           record,
           "s167___amortization_of_finance_lease_right_of_use_asset",
-          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cfhi_compre_19b_yes_no___cash_exp_per_giving_unit",
           "cashExpendituresPerGivingUnit"
         );
         this.dataStore.insertData(
@@ -3257,7 +3257,7 @@ class DataProcessor {
           "requiredMinimumDebtPrinciple",
           record,
           "s154___required_minimum_debt_principal_payment_for_the_next_year",
-          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cfhi_compre_19b_yes_no___cash_exp_per_giving_unit",
           "cashExpendituresPerGivingUnit"
         );
         this.dataStore.insertData(
@@ -3267,7 +3267,7 @@ class DataProcessor {
           "totalDepreciationExpense",
           record,
           "s46___total_depreciation_expense",
-          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cfhi_compre_19b_yes_no___cash_exp_per_giving_unit",
           "cashExpendituresPerGivingUnit"
         );
         this.dataStore.insertData(
@@ -3277,7 +3277,7 @@ class DataProcessor {
           "givingUnits",
           record,
           "s02___giving_units",
-          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cfhi_compre_19b_yes_no___cash_exp_per_giving_unit",
           "cashExpendituresPerGivingUnit"
         );
         this.dataStore.insertData(
@@ -3287,7 +3287,7 @@ class DataProcessor {
           "nextFiscalYearsRefinancedLoanPayments",
           record,
           "s90___next_fiscal_years_refinanced_loan_payments",
-          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cfhi_compre_19b_yes_no___cash_exp_per_giving_unit",
           "cashExpendituresPerGivingUnit"
         );
         this.dataStore.insertData(
@@ -3297,7 +3297,7 @@ class DataProcessor {
           "oneTimePayoffDebtDueNextYear",
           record,
           "s164___one_time_payoff_of_debt_due_in_the_next_year",
-          "cfhi_compre_19_2_yes_no___cash_exp_per_gu",
+          "cfhi_compre_19b_yes_no___cash_exp_per_giving_unit",
           "cashExpendituresPerGivingUnit"
         );
 
@@ -3499,8 +3499,8 @@ class DataProcessor {
           year,
           "contributionsPerAccountingFTE_Peer",
           record,
-          "cfhi_compre_20_ratio___contributions_per_acct_fte",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte"
+          "cfhi_compre_20_ratio___contributions_per_accounting_fte",
+          "cfhi_compre_20_yes_no___contributions_per_accounting_fte"
         );
         this.dataStore.insertData(
           "additional",
@@ -3509,7 +3509,7 @@ class DataProcessor {
           "totalContributions",
           record,
           "s40___total_contribution",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_accounting_fte",
           "contributionsPerAccountingFTE"
         );
         
@@ -3520,7 +3520,7 @@ class DataProcessor {
           "largeOneTimeGiftWithoutDonor",
           record,
           "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_accounting_fte",
           "contributionsPerAccountingFTE"
         );
         
@@ -3531,7 +3531,7 @@ class DataProcessor {
           "largeOneTimeGiftWithDonor",
           record,
           "s153___large_one_time_gift_with_donor_restriction__non_recurring_",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_accounting_fte",
           "contributionsPerAccountingFTE"
         );
         
@@ -3542,7 +3542,7 @@ class DataProcessor {
           "averageAnnualAccountingDepartment",
           record,
           "s158___average_annual_accounting_department_full_time_employee",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_accounting_fte",
           "contributionsPerAccountingFTE"
         );
         
@@ -3553,7 +3553,7 @@ class DataProcessor {
           "accountingDepartmentPartTimeEmployee",
           record,
           "s159___accounting_department_part_time_employee",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_accounting_fte",
           "contributionsPerAccountingFTE"
         );
         
@@ -3564,7 +3564,7 @@ class DataProcessor {
           "accountingDepartmentVolunteer",
           record,
           "s160___accounting_department_volunteer",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_accounting_fte",
           "contributionsPerAccountingFTE"
         );
         
@@ -3575,7 +3575,7 @@ class DataProcessor {
           "accountingDeptOutsourcedLabor",
           record,
           "s94___accounting_dept_outsourced_labor",
-          "cfhi_compre_20_yes_no___contributions_per_acct_fte",
+          "cfhi_compre_20_yes_no___contributions_per_accounting_fte",
           "contributionsPerAccountingFTE"
         );
 
