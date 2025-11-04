@@ -3628,7 +3628,7 @@ class DataProcessor {
           year,
           "averageAnnualAccountingDepartment",
           record,
-          "s158___average_annual_accounting_department",
+          "s158___average_annual_accounting_department_full_time_employee",
           "cfhi_compre_21_yes_no___expenses_per_accounting_fte",
           "expensesPerAccountingFTE"
         );
