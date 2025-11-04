@@ -90,7 +90,6 @@ const expensesPerAccountingFTE_weightedAverage = (data, name, year) => {
     ? getSumOfArray(data.accountingDeptOutsourcedLabor[name][year ? year : 'total']) 
     : 0;
 
-
   return s45 / (s158 + s159 + s160 + s94);
 }
 
