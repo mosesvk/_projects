@@ -38,8 +38,15 @@ class ExcelReportGenerator {
       // Format per entry: [metricName, [AVG, MIN, MID, MAX], begin, end, category]
       this.fieldMappings = [
         // Demo (general -> demoData)
-        ["givingUnits", [6, 8, 7, 9], true, false, "demo"],
+        ["givingUnits", [6, 8, 7, 9], false, false, "demo"],
+        ["fullTimeEquivalent", [18, 20, 19, 21], false, false, "demo"],
         ["attendeesToStaff", [22, 24, 23, 25], false, false, "demo"],
+        ["contributionsWithoutDonorExcludingLargeGifts", [26, 28, 27, 29], false, false, "demo"],
+        ["totalContributionsExclude", [30, 32, 31, 33], false, false, "demo"],
+        ["percentContributionsOnline", [39, 41, 40, 42], false, false, "demo"],
+        ["totalOutsourcedEmployees", [43, 45, 44, 46], false, false, "demo"],
+        ["facilitySquareFootage", [47, 49, 48, 50], false, false, "demo"],
+        ["numberOfLocations", [51, 53, 52, 54], false, false, "demo"],
 
         // Cash (cash -> cashData)
         ["daysExpendableNetAssets", [55, 57, 56, 58], false, false, "cash"],
@@ -47,12 +54,15 @@ class ExcelReportGenerator {
         ["availableDaysOfCashFlow", [63, 65, 64, 66], false, false, "cash"],
         ["liquidityRatio", [67, 69, 68, 70], false, false, "cash"],
         ["netCashAvailability", [71, 73, 72, 74], false, false, "cash"],
+        ["netCashAvailability_including", [75, 77, 76, 78], false, false, "cash"],
+        ["netCashAvailability_standard", [79, 81, 80, 82], false, false, "cash"],
 
         // Debt (asset -> debtData)
         ["debtToContributionsWithout", [83, 85, 84, 86], false, false, "debt"],
         ["currentRatio", [87, 89, 88, 90], false, false, "debt"],
         ["mandatoryDebtServiceToContributionsWithout", [91, 93, 92, 94], false, false, "debt"],
         ["debtPerGivingUnit", [103, 105, 104, 106], false, false, "debt"],
+        ["debtPerGivingUnit_standard", [107, 109, 108, 110], false, false, "debt"],
         ["debtCoverage", [111, 113, 112, 114], false, false, "debt"],
 
         // Income (income -> incomeData)
@@ -62,8 +72,14 @@ class ExcelReportGenerator {
 
         // Expense (expense -> expenseData)
         ["benefitsToSalaries", [135, 137, 136, 138], false, false, "expense"],
+        ["salaries", [139, 141, 140, 142], false, false, "expense"],
+        ["benefits", [143, 145, 144, 146], false, false, "expense"],
+        ["salariesBenefits", [147, 149, 148, 150], false, false, "expense"],
         ["salariesBenefitsIncludingOutsourcedEmployees", [151, 153, 152, 154], false, false, "expense"],
         ["personnelToCashExpenditure", [155, 157, 156, 158], false, false, "expense"],
+        ["mandatoryDebtServiceToCashExpenditure", [159, 161, 160, 162], false, false, "expense"],
+        ["personnelIncludingToTotalCashExpenditures", [163, 165, 164, 166], false, false, "expense"],
+        ["totalGlobalAndLocalOutreachExpenses", [175, 177, 176, 178], false, false, "expense"],
         ["cashExpendituresPerGivingUnit", [183, 185, 184, 186], false, false, "expense"],
 
         // Additional (misc -> additionalData)
