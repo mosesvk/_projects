@@ -36,60 +36,56 @@ class ExcelReportGenerator {
   
       // Field metric mappings (CFHI Comp) using printTableFields.md
       // Format per entry: [metricName, [AVG, MIN, MID, MAX], begin, end, category]
-      // CRITICAL: Only fields that ACTUALLY EXIST in the Quickbase table
-      // The QB table may not have all fields from printTableFields.md yet
+      // ALL FIELDS ENABLED FOR DEBUGGING - Will log which fields have data
       this.fieldMappings = [
-        // CONFIRMED WORKING FIELDS (from original implementation)
+        // Demo data (demoData) - C01.x and C02.x fields
         ["givingUnits", [6, 8, 7, 9], false, false, "demo"],
+        ["fullTimeEquivalent", [18, 20, 19, 21], false, false, "demo"],
         ["givingUnitsToStaff", [22, 24, 23, 25], false, false, "demo"],
-        
+        ["contributionsWithoutDonorExcludingLargeGifts", [26, 28, 27, 29], false, false, "demo"],
+        ["totalContributionsExclude", [30, 32, 31, 33], false, false, "demo"],
+        ["percentContributionsOnline", [39, 41, 40, 42], false, false, "demo"],
+        ["totalOutsourcedEmployees", [43, 45, 44, 46], false, false, "demo"],
+        ["facilitySquareFootage", [47, 49, 48, 50], false, false, "demo"],
+        ["numberOfLocations", [51, 53, 52, 54], false, false, "demo"],
+
+        // Cash data (cashData) - C03.x fields
         ["daysExpendableNetAssets", [55, 57, 56, 58], false, false, "cash"],
         ["daysOperatingCash", [59, 61, 60, 62], false, false, "cash"],
+        ["availableDaysOfCashFlow", [63, 65, 64, 66], false, false, "cash"],
         ["liquidityRatio", [67, 69, 68, 70], false, false, "cash"],
-        
+        ["netCashAvailability", [71, 73, 72, 74], false, false, "cash"],
+        ["netCashAvailability_including", [75, 77, 76, 78], false, false, "cash"],
+        ["netCashAvailability_standard", [79, 81, 80, 82], false, false, "cash"],
+
+        // Debt data (debtData) - C04.x fields
         ["debtToContributionsWithout", [83, 85, 84, 86], false, false, "debt"],
         ["currentRatio", [87, 89, 88, 90], false, false, "debt"],
         ["mandatoryDebtServiceToContributionsWithout", [91, 93, 92, 94], false, false, "debt"],
         ["debtPerGivingUnit", [103, 105, 104, 106], false, false, "debt"],
+        ["debtPerGivingUnit_standard", [107, 109, 108, 110], false, false, "debt"],
         ["debtCoverage", [111, 113, 112, 114], false, false, "debt"],
-        
+
+        // Income data (incomeData) - C05.x fields
         ["netIncomeRatio", [115, 117, 116, 118], false, false, "income"],
         ["contributionsWithoutDonorPerGivingUnit", [123, 125, 124, 126], false, false, "income"],
         ["totalContributionsPerGivingUnit", [131, 133, 132, 134], false, false, "income"],
-        
+
+        // Expense data (expenseData) - C06.x fields
         ["benefitsToSalaries", [135, 137, 136, 138], false, false, "expense"],
+        ["salaries", [139, 141, 140, 142], false, false, "expense"],
+        ["benefits", [143, 145, 144, 146], false, false, "expense"],
+        ["salariesBenefits", [147, 149, 148, 150], false, false, "expense"],
         ["salariesBenefitsIncludingOutsourcedEmployees", [151, 153, 152, 154], false, false, "expense"],
         ["personnelToCashExpenditure", [155, 157, 156, 158], false, false, "expense"],
+        ["mandatoryDebtServiceToCashExpenditure", [159, 161, 160, 162], false, false, "expense"],
+        ["personnelIncludingToTotalCashExpenditures", [163, 165, 164, 166], false, false, "expense"],
+        ["totalGlobalAndLocalOutreachExpenses", [175, 177, 176, 178], false, false, "expense"],
         ["cashExpendituresPerGivingUnit", [183, 185, 184, 186], false, false, "expense"],
-        
+
+        // Additional data (additionalData) - C07.x fields
         ["contributionsPerAccountingFTE", [187, 189, 188, 190], false, false, "additional"],
         ["expensesPerAccountingFTE", [191, 193, 192, 194], false, false, "additional"],
-
-        // FIELDS TO ADD AFTER CONFIRMING THEY EXIST IN QB TABLE
-        // Test by uncommenting ONE AT A TIME and generating report
-        // If error occurs, that field doesn't exist in QB table yet
-        
-        // ["fullTimeEquivalent", [18, 20, 19, 21], false, false, "demo"],
-        // ["contributionsWithoutDonorExcludingLargeGifts", [26, 28, 27, 29], false, false, "demo"],
-        // ["totalContributionsExclude", [30, 32, 31, 33], false, false, "demo"],
-        // ["percentContributionsOnline", [39, 41, 40, 42], false, false, "demo"],
-        // ["totalOutsourcedEmployees", [43, 45, 44, 46], false, false, "demo"],
-        // ["facilitySquareFootage", [47, 49, 48, 50], false, false, "demo"],
-        // ["numberOfLocations", [51, 53, 52, 54], false, false, "demo"],
-        
-        // ["availableDaysOfCashFlow", [63, 65, 64, 66], false, false, "cash"],
-        // ["netCashAvailability", [71, 73, 72, 74], false, false, "cash"],
-        // ["netCashAvailability_including", [75, 77, 76, 78], false, false, "cash"],
-        // ["netCashAvailability_standard", [79, 81, 80, 82], false, false, "cash"],
-        
-        // ["debtPerGivingUnit_standard", [107, 109, 108, 110], false, false, "debt"],
-        
-        // ["salaries", [139, 141, 140, 142], false, false, "expense"],
-        // ["benefits", [143, 145, 144, 146], false, false, "expense"],
-        // ["salariesBenefits", [147, 149, 148, 150], false, false, "expense"],
-        // ["mandatoryDebtServiceToCashExpenditure", [159, 161, 160, 162], false, false, "expense"],
-        // ["personnelIncludingToTotalCashExpenditures", [163, 165, 164, 166], false, false, "expense"],
-        // ["totalGlobalAndLocalOutreachExpenses", [175, 177, 176, 178], false, false, "expense"],
       ];
   
         this.init();
@@ -501,13 +497,22 @@ class ExcelReportGenerator {
         }
   
         // Process metrics data
+        console.log("📝 XML with client data (first 500 chars):", this.xmlPayload.substring(0, 500));
         const metricsXml = this.generateMetricsXml();
+        console.log("📊 Metrics XML length:", metricsXml.length, "characters");
+        console.log("📊 Metrics XML (first 1000 chars):", metricsXml.substring(0, 1000));
   
         // Add metrics XML to the existing XML payload
         this.xmlPayload += metricsXml;
   
         // Close the XML
         this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
+        
+        console.log("📦 COMPLETE XML PAYLOAD:");
+        console.log("━".repeat(80));
+        console.log(this.xmlPayload);
+        console.log("━".repeat(80));
+        console.log("📏 Total XML length:", this.xmlPayload.length, "characters");
   
         // Send to QuickBase with delay to ensure data is properly prepared
         console.log("Adding delay before sending to QuickBase API...");
@@ -621,6 +626,10 @@ class ExcelReportGenerator {
      */
     generateMetricsXml() {
       let metricsXml = "";
+      console.log("=== STARTING METRICS XML GENERATION ===");
+      
+      const fieldsProcessed = [];
+      const fieldsSkipped = [];
   
       try {
         // Get all data from localStorage
@@ -632,6 +641,15 @@ class ExcelReportGenerator {
           localStorage.getItem("expenseData") || "{}"
         );
         const additionalData = JSON.parse(localStorage.getItem("additionalData") || "{}");
+  
+        console.log("📊 Data Categories Available:", {
+          demo: Object.keys(demoData).filter(k => k.includes('_Peer')).length + " peer fields",
+          cash: Object.keys(cashData).filter(k => k.includes('_Peer')).length + " peer fields",
+          debt: Object.keys(debtData).filter(k => k.includes('_Peer')).length + " peer fields",
+          income: Object.keys(incomeData).filter(k => k.includes('_Peer')).length + " peer fields",
+          expense: Object.keys(expenseData).filter(k => k.includes('_Peer')).length + " peer fields",
+          additional: Object.keys(additionalData).filter(k => k.includes('_Peer')).length + " peer fields"
+        });
   
         // Process each field mapping
         this.fieldMappings.forEach((mapping, index) => {
@@ -659,11 +677,18 @@ class ExcelReportGenerator {
               dataObject = additionalData;
               break;
             default:
+              console.warn(`⚠️ Unknown category: ${category} for ${metricName}`);
               return; // Skip if no valid category
           }
   
           // Check if data exists for this metric
           if (!dataObject || !dataObject[`${metricName}_Peer`]) {
+            fieldsSkipped.push({
+              metric: metricName,
+              category: category,
+              fieldIds: fieldIds,
+              reason: !dataObject ? "No data object" : "No _Peer data"
+            });
             return; // Skip if no data found
           }
   
@@ -686,6 +711,18 @@ class ExcelReportGenerator {
             const safeMin = this.escapeXml(stats.min);
             const safeMax = this.escapeXml(stats.max);
   
+            // Log field details
+            fieldsProcessed.push({
+              metric: metricName,
+              category: category,
+              fields: {
+                [`fid_${avgId}_AVG`]: safeAvg,
+                [`fid_${minId}_MIN`]: safeMin,
+                [`fid_${midId}_MID`]: safeMid,
+                [`fid_${maxId}_MAX`]: safeMax
+              }
+            });
+  
             // Add fields to metrics XML
             metricsXml +=
               `<field fid='${avgId}'>${safeAvg}</field>` +
@@ -694,10 +731,15 @@ class ExcelReportGenerator {
               `<field fid='${maxId}'>${safeMax}</field>`;
           }
         });
+
+        console.log(`✅ Fields PROCESSED (${fieldsProcessed.length}):`, fieldsProcessed);
+        console.log(`⏭️ Fields SKIPPED (${fieldsSkipped.length}):`, fieldsSkipped);
+        
       } catch (error) {
-        console.error("Error generating metrics XML:", error);
+        console.error("❌ Error generating metrics XML:", error);
       }
   
+      console.log("=== METRICS XML GENERATION COMPLETE ===");
       return metricsXml;
     }
   
