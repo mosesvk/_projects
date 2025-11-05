@@ -37,6 +37,8 @@ class ExcelReportGenerator {
     // Field metric mappings (CFHI Comp) using printTableFields.md
     // Format per entry: [metricName, [AVG, MIN, MID, MAX], category, useWeightedAvg]
     // useWeightedAvg flag matches the "wa" flag from Report.js
+    
+    // C-prefix fields for TRENDS reports (Comprehensive metrics)
     this.fieldMappings = [
       // Demo data (demoData) - C01.x and C02.x fields
       ["givingUnits", [6, 8, 7, 9], "demo", false],
@@ -86,6 +88,32 @@ class ExcelReportGenerator {
       // Additional data (additionalData) - C07.x fields
       ["contributionsPerAccountingFTE", [187, 189, 188, 190], "additional", true], // wa in Report.js
       ["expensesPerAccountingFTE", [191, 193, 192, 194], "additional", true], // wa in Report.js
+    ];
+
+    // S-prefix fields for BENCHMARK reports (Simplified/Standard metrics)
+    // These map to a subset of metrics used in Benchmark reports
+    this.benchmarkFieldMappings = [
+      // S01.x fields - Basic demographic data
+      ["givingUnits", [239, 241, 240, 242], "demo", false], // S01.1
+      ["contributionsWithoutDonorExcludingLargeGifts", [243, 245, 244, 246], "demo", false], // S01.2
+      ["totalContributionsExclude", [247, 249, 248, 250], "demo", false], // S01.3
+
+      // S02.x fields - Cash data
+      ["daysOperatingCash", [251, 253, 252, 254], "cash", true], // S02.1
+      ["netCashAvailability", [255, 257, 256, 258], "cash", false], // S02.2
+      ["netCashAvailability_standard", [259, 261, 260, 262], "cash", false], // S02.3
+
+      // S03.x fields - Debt data
+      ["debtToContributionsWithout", [263, 265, 264, 266], "debt", true], // S03.1
+      ["debtPerGivingUnit", [267, 269, 268, 270], "debt", true], // S03.2
+      ["debtPerGivingUnit_standard", [271, 273, 272, 274], "debt", true], // S03.3
+
+      // S04.x fields - Income data
+      ["contributionsWithoutDonorPerGivingUnit", [275, 277, 276, 278], "income", false], // S04.1
+      ["totalContributionsPerGivingUnit", [279, 281, 280, 282], "income", false], // S04.2
+
+      // S05.x fields - Expense data
+      ["cashExpendituresPerGivingUnit", [283, 285, 284, 286], "expense", true], // S05.1
     ];
   
         this.init();
@@ -650,6 +678,7 @@ class ExcelReportGenerator {
 
     /*
      * Generate XML for metrics data
+     * Processes BOTH Trends (C-prefix) and Benchmark (S-prefix) fields
      * @returns {string} XML string with metric data
      */
     generateMetricsXml() {
@@ -658,7 +687,7 @@ class ExcelReportGenerator {
       
       const fieldsProcessed = [];
       const fieldsSkipped = [];
-  
+
       try {
         // Get all data from localStorage
         const demoData = JSON.parse(localStorage.getItem("demoData") || "{}");
@@ -669,7 +698,7 @@ class ExcelReportGenerator {
           localStorage.getItem("expenseData") || "{}"
         );
         const additionalData = JSON.parse(localStorage.getItem("additionalData") || "{}");
-  
+
         console.log("📊 Data Categories Available:", {
           demo: Object.keys(demoData).filter(k => k.includes('_Peer')).length + " peer fields",
           cash: Object.keys(cashData).filter(k => k.includes('_Peer')).length + " peer fields",
@@ -678,90 +707,108 @@ class ExcelReportGenerator {
           expense: Object.keys(expenseData).filter(k => k.includes('_Peer')).length + " peer fields",
           additional: Object.keys(additionalData).filter(k => k.includes('_Peer')).length + " peer fields"
         });
-  
-        // Process each field mapping
-        this.fieldMappings.forEach((mapping, index) => {
-          const [metricName, fieldIds, category, useWeightedAvg] = mapping;
 
-          // Find which data object contains this metric based on category
-          let dataObject;
-          switch (category) {
-            case "demo":
-              dataObject = demoData;
-              break;
-            case "cash":
-              dataObject = cashData;
-              break;
-            case "debt":
-              dataObject = debtData;
-              break;
-            case "income":
-              dataObject = incomeData;
-              break;
-            case "expense":
-              dataObject = expenseData;
-              break;
-            case "additional":
-              dataObject = additionalData;
-              break;
-            default:
-              console.warn(`⚠️ Unknown category: ${category} for ${metricName}`);
-              return; // Skip if no valid category
-          }
+        // Helper function to process a field mapping array
+        const processFieldMappings = (mappings, reportType) => {
+          console.log(`\n📋 Processing ${reportType} field mappings (${mappings.length} total)`);
+          
+          mappings.forEach((mapping, index) => {
+            const [metricName, fieldIds, category, useWeightedAvg] = mapping;
 
-          // Check if data exists for this metric
-          if (!dataObject || !dataObject[`${metricName}_Peer`]) {
-            fieldsSkipped.push({
-              metric: metricName,
-              category: category,
-              fieldIds: fieldIds,
-              reason: !dataObject ? "No data object" : "No _Peer data"
-            });
-            return; // Skip if no data found
-          }
+            // Find which data object contains this metric based on category
+            let dataObject;
+            switch (category) {
+              case "demo":
+                dataObject = demoData;
+                break;
+              case "cash":
+                dataObject = cashData;
+                break;
+              case "debt":
+                dataObject = debtData;
+                break;
+              case "income":
+                dataObject = incomeData;
+                break;
+              case "expense":
+                dataObject = expenseData;
+                break;
+              case "additional":
+                dataObject = additionalData;
+                break;
+              default:
+                console.warn(`⚠️ Unknown category: ${category} for ${metricName}`);
+                return; // Skip if no valid category
+            }
 
-          // Get peer data
-          const peerData = dataObject[`${metricName}_Peer`];
+            // Check if data exists for this metric
+            if (!dataObject || !dataObject[`${metricName}_Peer`]) {
+              fieldsSkipped.push({
+                metric: metricName,
+                category: category,
+                fieldIds: fieldIds,
+                reportType: reportType,
+                reason: !dataObject ? "No data object" : "No _Peer data"
+              });
+              return; // Skip if no data found
+            }
 
-          // Calculate statistics (pass weighted average flag)
-          const stats = this.calculateStatistics(dataObject, metricName, useWeightedAvg);
-  
-          // Add to metrics XML
-          if (fieldIds && fieldIds.length >= 4) {
-            const avgId = fieldIds[0];
-            const midId = fieldIds[2];
-            const minId = fieldIds[1];
-            const maxId = fieldIds[3];
-  
-            // Format values
-            const safeAvg = this.escapeXml(stats.avg);
-            const safeMid = this.escapeXml(stats.mid);
-            const safeMin = this.escapeXml(stats.min);
-            const safeMax = this.escapeXml(stats.max);
-  
-            // Log field details
-            fieldsProcessed.push({
-              metric: metricName,
-              category: category,
-              fields: {
-                [`fid_${avgId}_AVG`]: safeAvg,
-                [`fid_${minId}_MIN`]: safeMin,
-                [`fid_${midId}_MID`]: safeMid,
-                [`fid_${maxId}_MAX`]: safeMax
-              }
-            });
-  
-            // Add fields to metrics XML
-            metricsXml +=
-              `<field fid='${avgId}'>${safeAvg}</field>` +
-              `<field fid='${midId}'>${safeMid}</field>` +
-              `<field fid='${minId}'>${safeMin}</field>` +
-              `<field fid='${maxId}'>${safeMax}</field>`;
-          }
-        });
+            // Get peer data
+            const peerData = dataObject[`${metricName}_Peer`];
 
-        console.log(`✅ Fields PROCESSED (${fieldsProcessed.length}):`, fieldsProcessed);
-        console.log(`⏭️ Fields SKIPPED (${fieldsSkipped.length}):`, fieldsSkipped);
+            // Calculate statistics (pass weighted average flag)
+            const stats = this.calculateStatistics(dataObject, metricName, useWeightedAvg);
+    
+            // Add to metrics XML
+            if (fieldIds && fieldIds.length >= 4) {
+              const avgId = fieldIds[0];
+              const midId = fieldIds[2];
+              const minId = fieldIds[1];
+              const maxId = fieldIds[3];
+    
+              // Format values
+              const safeAvg = this.escapeXml(stats.avg);
+              const safeMid = this.escapeXml(stats.mid);
+              const safeMin = this.escapeXml(stats.min);
+              const safeMax = this.escapeXml(stats.max);
+    
+              // Log field details
+              fieldsProcessed.push({
+                metric: metricName,
+                category: category,
+                reportType: reportType,
+                fields: {
+                  [`fid_${avgId}_AVG`]: safeAvg,
+                  [`fid_${minId}_MIN`]: safeMin,
+                  [`fid_${midId}_MID`]: safeMid,
+                  [`fid_${maxId}_MAX`]: safeMax
+                }
+              });
+    
+              // Add fields to metrics XML
+              metricsXml +=
+                `<field fid='${avgId}'>${safeAvg}</field>` +
+                `<field fid='${midId}'>${safeMid}</field>` +
+                `<field fid='${minId}'>${safeMin}</field>` +
+                `<field fid='${maxId}'>${safeMax}</field>`;
+            }
+          });
+        };
+
+        // Process TRENDS fields (C-prefix fields 6-194)
+        processFieldMappings(this.fieldMappings, "TRENDS");
+        
+        // Process BENCHMARK fields (S-prefix fields 239-286)
+        processFieldMappings(this.benchmarkFieldMappings, "BENCHMARK");
+
+        console.log(`\n✅ Total Fields PROCESSED: ${fieldsProcessed.length}`);
+        console.log(`  - Trends fields: ${fieldsProcessed.filter(f => f.reportType === 'TRENDS').length}`);
+        console.log(`  - Benchmark fields: ${fieldsProcessed.filter(f => f.reportType === 'BENCHMARK').length}`);
+        console.log(`⏭️ Total Fields SKIPPED: ${fieldsSkipped.length}`);
+        
+        if (fieldsSkipped.length > 0) {
+          console.log("Skipped fields details:", fieldsSkipped);
+        }
         
       } catch (error) {
         console.error("❌ Error generating metrics XML:", error);
