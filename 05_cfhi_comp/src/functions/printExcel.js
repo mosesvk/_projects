@@ -777,34 +777,73 @@ class ExcelReportGenerator {
      * @returns {Promise} Promise that resolves with the QuickBase response
      */
     printToExcel(dataString) {
-      function getUrlBasedOnYearCount(format, RecordId) {
+      /**
+       * Generate URL for Trends or Benchmark reports based on year count
+       * @param {string} reportType - Either "trends" or "benchmark"
+       * @param {string} format - File format ("xls" or "pdf")
+       * @param {string} RecordId - QuickBase record ID
+       * @returns {string} Generated URL for the report
+       */
+      function getUrlBasedOnYearCount(reportType, format, RecordId) {
         const yearCount = selectedYears_Set.size;
-        let url = "";
-  
-        switch (yearCount) {
-          case 1:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=9&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-                  https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=13&fn=BenchmarkReport&dbid=btcc8gq3r&msid=970&docfmt=xls&stream=y&apptoken=---
-            break;
-          case 2:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=10&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-            break;
-          case 3:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=11&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-            break;
-          case 4:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=12&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-            break;
-          case 5:
-            url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=13&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-            break;
-          default:
-            console.error("Invalid year count");
+        let tpid = "";
+        let fnName = "";
+
+        // Map year count to tpid based on report type
+        if (reportType === "trends") {
+          fnName = "TrendsReport";
+          switch (yearCount) {
+            case 1:
+              tpid = "5"; // Church Compre Trends 1 Year.xlsx
+              break;
+            case 2:
+              tpid = "4"; // Church Compre Trends 2 Year.xlsx
+              break;
+            case 3:
+              tpid = "6"; // Church Compre Trends 3 Year.xlsx
+              break;
+            case 4:
+              tpid = "7"; // Church Compre Trends 4 Year.xlsx
+              break;
+            case 5:
+              tpid = "8"; // Church Compre Trends 5 Year.xlsx
+              break;
+            default:
+              console.error("Invalid year count for Trends report:", yearCount);
+              return "";
+          }
+        } else if (reportType === "benchmark") {
+          fnName = "BenchmarkReport";
+          switch (yearCount) {
+            case 1:
+              tpid = "9"; // Church Compre Bench 1 Year.xlsx
+              break;
+            case 2:
+              tpid = "10"; // Church Compre Bench 2 Year.xlsx
+              break;
+            case 3:
+              tpid = "11"; // Church Compre Bench 3 Year.xlsx
+              break;
+            case 4:
+              tpid = "12"; // Church Compre Bench 4 Year.xlsx
+              break;
+            case 5:
+              tpid = "13"; // Church Compre Bench 5 Year.xlsx
+              break;
+            default:
+              console.error("Invalid year count for Benchmark report:", yearCount);
+              return "";
+          }
+        } else {
+          console.error("Invalid report type:", reportType);
+          return "";
         }
-  
+
+        const url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=${tpid}&fn=${fnName}&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+
         console.log(
-          `Generated URL for format ${format} and RecordId ${RecordId}: ${url}`
-        ); // Add this line to log the generated URL
+          `Generated ${reportType} URL for ${yearCount} year(s), format ${format}, RecordId ${RecordId}: ${url}`
+        );
         return url;
       }
       return new Promise((resolve, reject) => {
@@ -869,22 +908,27 @@ class ExcelReportGenerator {
                   if (printModalFooter) {
                     printModalFooter.classList.remove("hidden");
                   }
-  
-                  // Update download links if they exist
+
+                  // Update Trends download links
                   const trendXLSFinal = document.getElementById("trendXLSFinal");
-                  if (
-                    trendXLSFinal &&
-                    typeof getUrlBasedOnYearCount === "function"
-                  ) {
-                    trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
+                  if (trendXLSFinal && typeof getUrlBasedOnYearCount === "function") {
+                    trendXLSFinal.href = getUrlBasedOnYearCount("trends", "xls", recordId);
                   }
-  
+
                   const trendPDFFinal = document.getElementById("trendPDFFinal");
-                  if (
-                    trendPDFFinal &&
-                    typeof getUrlBasedOnYearCount === "function"
-                  ) {
-                    trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
+                  if (trendPDFFinal && typeof getUrlBasedOnYearCount === "function") {
+                    trendPDFFinal.href = getUrlBasedOnYearCount("trends", "pdf", recordId);
+                  }
+
+                  // Update Benchmark download links
+                  const benchXLSFinal = document.getElementById("benchXLSFinal");
+                  if (benchXLSFinal && typeof getUrlBasedOnYearCount === "function") {
+                    benchXLSFinal.href = getUrlBasedOnYearCount("benchmark", "xls", recordId);
+                  }
+
+                  const benchPDFFinal = document.getElementById("benchPDFFinal");
+                  if (benchPDFFinal && typeof getUrlBasedOnYearCount === "function") {
+                    benchPDFFinal.href = getUrlBasedOnYearCount("benchmark", "pdf", recordId);
                   }
   
                   resolve({ recordId });
