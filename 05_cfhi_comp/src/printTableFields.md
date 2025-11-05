@@ -1,4 +1,10 @@
- C01.1 Giving Units - AVG	Numeric	 	6	 
+
+	 Date Created	Date / Time	 	1	 
+	 Date Modified 	Date / Time	 	2	 
+	 Record ID# 	Numeric	 	3	 
+	 Record Owner	User	 	4	 
+	 Last Modified By	User	 	5	 
+	 C01.1 Giving Units - AVG	Numeric	 	6	 
 	 C01.1 Giving Units - MID	Numeric	 	7	 
 	 C01.1 Giving Units - MIN	Numeric	 	8	 
 	 C01.1 Giving Units - MAX	Numeric	 	9	 

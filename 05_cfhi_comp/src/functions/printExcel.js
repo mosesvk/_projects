@@ -34,59 +34,59 @@ class ExcelReportGenerator {
       // XML payload storage
       this.xmlPayload = "";
   
-      // Field metric mappings (CFHI Comp) using printTableFields.md
-      // Format per entry: [metricName, [AVG, MIN, MID, MAX], begin, end, category]
-      // ALL FIELDS ENABLED FOR DEBUGGING - Will log which fields have data
-      this.fieldMappings = [
-        // Demo data (demoData) - C01.x and C02.x fields
-        ["givingUnits", [6, 8, 7, 9], false, false, "demo"],
-        ["fullTimeEquivalent", [18, 20, 19, 21], false, false, "demo"],
-        ["givingUnitsToStaff", [22, 24, 23, 25], false, false, "demo"],
-        ["contributionsWithoutDonorExcludingLargeGifts", [26, 28, 27, 29], false, false, "demo"],
-        ["totalContributionsExclude", [30, 32, 31, 33], false, false, "demo"],
-        ["percentContributionsOnline", [39, 41, 40, 42], false, false, "demo"],
-        ["totalOutsourcedEmployees", [43, 45, 44, 46], false, false, "demo"],
-        ["facilitySquareFootage", [47, 49, 48, 50], false, false, "demo"],
-        ["numberOfLocations", [51, 53, 52, 54], false, false, "demo"],
+    // Field metric mappings (CFHI Comp) using printTableFields.md
+    // Format per entry: [metricName, [AVG, MIN, MID, MAX], category, useWeightedAvg]
+    // useWeightedAvg flag matches the "wa" flag from Report.js
+    this.fieldMappings = [
+      // Demo data (demoData) - C01.x and C02.x fields
+      ["givingUnits", [6, 8, 7, 9], "demo", false],
+      ["fullTimeEquivalent", [18, 20, 19, 21], "demo", false],
+      ["givingUnitsToStaff", [22, 24, 23, 25], "demo", true], // wa in Report.js
+      ["contributionsWithoutDonorExcludingLargeGifts", [26, 28, 27, 29], "demo", false],
+      ["totalContributionsExclude", [30, 32, 31, 33], "demo", false],
+      ["percentContributionsOnline", [39, 41, 40, 42], "demo", true], // wa in Report.js
+      ["totalOutsourcedEmployees", [43, 45, 44, 46], "demo", false],
+      ["facilitySquareFootage", [47, 49, 48, 50], "demo", false],
+      ["numberOfLocations", [51, 53, 52, 54], "demo", false],
 
-        // Cash data (cashData) - C03.x fields
-        ["daysExpendableNetAssets", [55, 57, 56, 58], false, false, "cash"],
-        ["daysOperatingCash", [59, 61, 60, 62], false, false, "cash"],
-        ["availableDaysOfCashFlow", [63, 65, 64, 66], false, false, "cash"],
-        ["liquidityRatio", [67, 69, 68, 70], false, false, "cash"],
-        ["netCashAvailability", [71, 73, 72, 74], false, false, "cash"],
-        ["netCashAvailability_including", [75, 77, 76, 78], false, false, "cash"],
-        ["netCashAvailability_standard", [79, 81, 80, 82], false, false, "cash"],
+      // Cash data (cashData) - C03.x fields
+      ["daysExpendableNetAssets", [55, 57, 56, 58], "cash", true], // wa in Report.js
+      ["daysOperatingCash", [59, 61, 60, 62], "cash", true], // wa in Report.js
+      ["availableDaysOfCashFlow", [63, 65, 64, 66], "cash", false],
+      ["liquidityRatio", [67, 69, 68, 70], "cash", true], // wa in Report.js
+      ["netCashAvailability", [71, 73, 72, 74], "cash", false],
+      ["netCashAvailability_including", [75, 77, 76, 78], "cash", false],
+      ["netCashAvailability_standard", [79, 81, 80, 82], "cash", false],
 
-        // Debt data (debtData) - C04.x fields
-        ["debtToContributionsWithout", [83, 85, 84, 86], false, false, "debt"],
-        ["currentRatio", [87, 89, 88, 90], false, false, "debt"],
-        ["mandatoryDebtServiceToContributionsWithout", [91, 93, 92, 94], false, false, "debt"],
-        ["debtPerGivingUnit", [103, 105, 104, 106], false, false, "debt"],
-        ["debtPerGivingUnit_standard", [107, 109, 108, 110], false, false, "debt"],
-        ["debtCoverage", [111, 113, 112, 114], false, false, "debt"],
+      // Debt data (debtData) - C04.x fields
+      ["debtToContributionsWithout", [83, 85, 84, 86], "debt", true], // wa in Report.js
+      ["currentRatio", [87, 89, 88, 90], "debt", true], // wa in Report.js
+      ["mandatoryDebtServiceToContributionsWithout", [91, 93, 92, 94], "debt", true], // wa in Report.js
+      ["debtPerGivingUnit", [103, 105, 104, 106], "debt", true], // wa in Report.js
+      ["debtPerGivingUnit_standard", [107, 109, 108, 110], "debt", true], // wa in Report.js
+      ["debtCoverage", [111, 113, 112, 114], "debt", true], // wa in Report.js
 
-        // Income data (incomeData) - C05.x fields
-        ["netIncomeRatio", [115, 117, 116, 118], false, false, "income"],
-        ["contributionsWithoutDonorPerGivingUnit", [123, 125, 124, 126], false, false, "income"],
-        ["totalContributionsPerGivingUnit", [131, 133, 132, 134], false, false, "income"],
+      // Income data (incomeData) - C05.x fields
+      ["netIncomeRatio", [115, 117, 116, 118], "income", true], // wa in Report.js
+      ["contributionsWithoutDonorPerGivingUnit", [123, 125, 124, 126], "income", false],
+      ["totalContributionsPerGivingUnit", [131, 133, 132, 134], "income", false],
 
-        // Expense data (expenseData) - C06.x fields
-        ["benefitsToSalaries", [135, 137, 136, 138], false, false, "expense"],
-        ["salaries", [139, 141, 140, 142], false, false, "expense"],
-        ["benefits", [143, 145, 144, 146], false, false, "expense"],
-        ["salariesBenefits", [147, 149, 148, 150], false, false, "expense"],
-        ["salariesBenefitsIncludingOutsourcedEmployees", [151, 153, 152, 154], false, false, "expense"],
-        ["personnelToCashExpenditure", [155, 157, 156, 158], false, false, "expense"],
-        ["mandatoryDebtServiceToCashExpenditure", [159, 161, 160, 162], false, false, "expense"],
-        ["personnelIncludingToTotalCashExpenditures", [163, 165, 164, 166], false, false, "expense"],
-        ["totalGlobalAndLocalOutreachExpenses", [175, 177, 176, 178], false, false, "expense"],
-        ["cashExpendituresPerGivingUnit", [183, 185, 184, 186], false, false, "expense"],
+      // Expense data (expenseData) - C06.x fields
+      ["benefitsToSalaries", [135, 137, 136, 138], "expense", true], // wa in Report.js
+      ["salaries", [139, 141, 140, 142], "expense", true], // wa in Report.js
+      ["benefits", [143, 145, 144, 146], "expense", true], // wa in Report.js
+      ["salariesBenefits", [147, 149, 148, 150], "expense", true], // wa in Report.js
+      ["salariesBenefitsIncludingOutsourcedEmployees", [151, 153, 152, 154], "expense", true], // wa in Report.js
+      ["personnelToCashExpenditure", [155, 157, 156, 158], "expense", true], // wa in Report.js
+      ["mandatoryDebtServiceToCashExpenditure", [159, 161, 160, 162], "expense", true], // wa in Report.js
+      ["personnelIncludingToTotalCashExpenditures", [163, 165, 164, 166], "expense", true], // wa in Report.js
+      ["totalGlobalAndLocalOutreachExpenses", [175, 177, 176, 178], "expense", true], // wa in Report.js
+      ["cashExpendituresPerGivingUnit", [183, 185, 184, 186], "expense", true], // wa in Report.js
 
-        // Additional data (additionalData) - C07.x fields
-        ["contributionsPerAccountingFTE", [187, 189, 188, 190], false, false, "additional"],
-        ["expensesPerAccountingFTE", [191, 193, 192, 194], false, false, "additional"],
-      ];
+      // Additional data (additionalData) - C07.x fields
+      ["contributionsPerAccountingFTE", [187, 189, 188, 190], "additional", true], // wa in Report.js
+      ["expensesPerAccountingFTE", [191, 193, 192, 194], "additional", true], // wa in Report.js
+    ];
   
         this.init();
     }
@@ -247,32 +247,60 @@ class ExcelReportGenerator {
 
     /**
      * Process data arrays and calculate statistics
+     * @param {Object} data - Data object containing _Peer and _Stats
+     * @param {string} metricName - Name of the metric
+     * @param {boolean} useWeightedAvg - Whether to use weighted average (matches "wa" flag from Report.js)
      */
-    calculateStatistics(data, metricName) {
+    calculateStatistics(data, metricName, useWeightedAvg = false) {
       if (data[`${metricName}_Stats`]) {
-        return {
+        const stats = {
           avg: data[`${metricName}_Stats`].avg || 0,
           mid: data[`${metricName}_Stats`].median || 0,
           min: data[`${metricName}_Stats`].q1 || 0,
           max: data[`${metricName}_Stats`].q3 || 0
         };
+        console.log(`📊 Using _Stats for ${metricName}:`, stats);
+        return stats;
       }
       // Get peer data
       const peerData = data[`${metricName}_Peer`];
       if (!peerData || !peerData.total || !Array.isArray(peerData.total)) {
+        console.warn(`⚠️ No valid peer data for ${metricName}`);
         return { avg: 0, mid: 0, min: 0, max: 0 };
       }
   
       const values = peerData.total.filter((v) => !isNaN(parseFloat(v)));
+      console.log(`📊 Calculating stats for ${metricName}, ${values.length} values, useWeightedAvg: ${useWeightedAvg}`);
   
       // Calculate statistics
       let avg, mid, min, max;
   
-      // Average
-      if (typeof getWeightedAverageOfArray === "function") {
-        avg = getWeightedAverageOfArray(data, metricName, null);
+      // Average calculation - matches Report.js logic exactly
+      if (useWeightedAvg && typeof getWeightedAverageOfArray === "function") {
+        // Use weighted average for fields marked with "wa" flag
+        try {
+          avg = getWeightedAverageOfArray(data, metricName, null);
+          console.log(`  AVG (weighted): ${avg}`);
+        } catch (error) {
+          console.error(`  ⚠️ Error calculating weighted average for ${metricName}:`, error);
+          // Fallback to simple average
+          avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
+          console.log(`  AVG (fallback simple): ${avg}`);
+        }
+      } else if (typeof getAverageOfArray === "function") {
+        // Use simple average for fields without "wa" flag
+        avg = getAverageOfArray(values, metricName);
+        console.log(`  AVG (simple via function): ${avg}`);
       } else {
+        // Fallback manual calculation
         avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
+        console.log(`  AVG (fallback manual): ${avg}`);
+      }
+      
+      // Check if avg is undefined, null, or NaN
+      if (avg === undefined || avg === null || isNaN(avg) || values.length === 0) {
+        console.warn(`  ⚠️ AVG calculation returned invalid value for ${metricName}: ${avg}`);
+        avg = 0;
       }
   
       // Percentiles
@@ -653,8 +681,8 @@ class ExcelReportGenerator {
   
         // Process each field mapping
         this.fieldMappings.forEach((mapping, index) => {
-          const [metricName, fieldIds, begin, end, category] = mapping;
-  
+          const [metricName, fieldIds, category, useWeightedAvg] = mapping;
+
           // Find which data object contains this metric based on category
           let dataObject;
           switch (category) {
@@ -680,7 +708,7 @@ class ExcelReportGenerator {
               console.warn(`⚠️ Unknown category: ${category} for ${metricName}`);
               return; // Skip if no valid category
           }
-  
+
           // Check if data exists for this metric
           if (!dataObject || !dataObject[`${metricName}_Peer`]) {
             fieldsSkipped.push({
@@ -691,12 +719,12 @@ class ExcelReportGenerator {
             });
             return; // Skip if no data found
           }
-  
+
           // Get peer data
           const peerData = dataObject[`${metricName}_Peer`];
-  
-          // Calculate statistics
-          const stats = this.calculateStatistics(dataObject, metricName);
+
+          // Calculate statistics (pass weighted average flag)
+          const stats = this.calculateStatistics(dataObject, metricName, useWeightedAvg);
   
           // Add to metrics XML
           if (fieldIds && fieldIds.length >= 4) {
