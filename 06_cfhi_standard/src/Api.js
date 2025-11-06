@@ -1161,8 +1161,12 @@ class ApiService {
         }
 
         const parser = new DOMParser();
+        const finalXmlString = dataStr + "</qdbapi>";
+        console.log("=== COMPLETE PEER RECORDS dataStr (Non-Batching) ===");
+        console.log(finalXmlString);
+        console.log("=== END PEER RECORDS dataStr ===");
         const xmlDoc = parser.parseFromString(
-          dataStr + "</qdbapi>",
+          finalXmlString,
           "text/xml"
         );
         const records = xmlDoc.querySelectorAll("record");
@@ -1434,13 +1438,6 @@ class ApiService {
         try {
           const xml = result.value;
           
-          // Log first successful response for debugging
-          if (idx === 0) {
-            console.log("📦 First API response received:");
-            console.log("XML type:", typeof xml);
-            console.log("XML preview:", xml ? String(xml).substring(0, 500) : "null");
-          }
-          
           // Use jQuery once per response, then process natively
           const $records = $("record", xml);
           
@@ -1479,6 +1476,9 @@ class ApiService {
       }
 
       const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
+      console.log("=== COMPLETE PEER RECORDS dataStr (Batching) ===");
+      console.log(finalXmlString);
+      console.log("=== END PEER RECORDS dataStr ===");
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
       const records = xmlDoc.querySelectorAll("record");
