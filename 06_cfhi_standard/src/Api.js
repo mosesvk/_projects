@@ -942,7 +942,7 @@ class DataProcessor {
           year,
           "contributionWithoutDonor",
           record,
-          "s39___contribution_without_donor_retriction",
+          "s39___contribution_without_donor_restriction",
           "cfhi_stand_05_yes_no___contribution_w_o_donor_restriction_per_giving_unit",
           "contributionsWithoutDonorPerGivingUnit"
         );
