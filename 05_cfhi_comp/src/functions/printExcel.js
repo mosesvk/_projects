@@ -24,6 +24,7 @@ class ExcelReportGenerator {
           TOTAL_RECORDS_PEER: "224",
           TYPE: "287",
           FIRM_NAME: "223",
+          UNIQUE_CLIENTS: "298", // Query Years field used for storing unique client count range
           SLIDER_MIN: "296",
           SLIDER_MAX: "297",
           SITES: "329",
