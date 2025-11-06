@@ -780,14 +780,13 @@ class DataProcessor {
           "cfhi_stand_03_ratio___debt_to_contribution_w_o_donor_rest",
           "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest"
         );
-
         this.dataStore.insertData(
           "debt",
           "peer",
           year,
           "totalDebt",
           record,
-          "s155___total_debt",
+          "s32___total_debt",
           "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
           "debtToContributionsWithout"
         );
@@ -797,20 +796,11 @@ class DataProcessor {
           year,
           "contributionWithoutDonor",
           record,
-          "s39___contribution_without_donor_retriction",
+          "s39___contribution_without_donor_restriction",
           "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
           "debtToContributionsWithout"
         );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "largeOneTimeGiftWithoutDonor",
-          record,
-          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
-          "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
-          "debtToContributionsWithout"
-        );
+
         // debtPerGivingUnit
         this.dataStore.insertData(
           "debt",

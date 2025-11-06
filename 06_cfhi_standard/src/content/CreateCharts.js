@@ -690,6 +690,7 @@ const getMainChartOptions = (
           },
         } : {
           forceNiceScale: true,
+          tickAmount: 5, // Ensures 6 evenly distributed ticks on Y-axis
           labels: {
             formatter: yaxisLabelFormatter,
             style: {
