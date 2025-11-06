@@ -20,7 +20,7 @@ const displayReportComponent = () => {
       ["netCashAvailability_standard", "dollar", 0],
     ]);
     insertDataToReport(debtData, selectedYears, [
-      ["debtToContributionsWithout", "num", 0, "wa", 'cb'],
+      ["debtToContributionsWithout", "num", 1, "wa", 'cb'],
       ["debtPerGivingUnit", "dollar", 0, "wa", 'cb'],
       ["contributionsWithoutDonorPerGivingUnit_standard", "dollar", 0, "wa"],
     ]);
@@ -238,37 +238,41 @@ const addPeerDataToRow = (
   
   
   const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
-  const dataPointMid = document.createElement("th");
-  const mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
-  // console.log('mid', mid);
-  const textMid = styleNumber(mid, type, fixedNum);
-  const dataPointMin = document.createElement("th");
-  const min = peer ? getMinOfArray(peer[dataArray]) : '';
-// if (name == 'totalOutsourcedEmployees') console.log('totalOutsourcedEmployees', {min, peerArray: peer[dataArray]})
-  const textMin = styleNumber(min, type, fixedNum);
-  const dataPointMax = document.createElement("th");
-  const max = peer ? getMaxOfArray(peer[dataArray]) : '';
-  const textMax = styleNumber(max, type, fixedNum);
+  
+  // Use 25th percentile instead of Min (matching comp project)
+  const dataPoint25th = document.createElement("th");
+  const percentile25 = peer ? get25thPercentileOfArray(peer[dataArray], name) : '';
+  const text25th = styleNumber(percentile25, type, fixedNum);
+  
+  // Use 50th percentile (median/midpoint) 
+  const dataPoint50th = document.createElement("th");
+  const percentile50 = peer ? getMidpointOfArray(peer[dataArray], name) : '';
+  const text50th = styleNumber(percentile50, type, fixedNum);
+  
+  // Use 75th percentile instead of Max (matching comp project)
+  const dataPoint75th = document.createElement("th");
+  const percentile75 = peer ? get75thPercentileOfArray(peer[dataArray], name) : '';
+  const text75th = styleNumber(percentile75, type, fixedNum);
 
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
   dataPointAvg.textContent = textAvg;
   tableRow.appendChild(dataPointAvg);
 
-  dataPointMid.className = propClass;
-  dataPointMid.scope = propScope;
-  dataPointMid.textContent = textMid;
-  tableRow.appendChild(dataPointMid);
+  dataPoint25th.className = propClass;
+  dataPoint25th.scope = propScope;
+  dataPoint25th.textContent = text25th;
+  tableRow.appendChild(dataPoint25th);
 
-  dataPointMin.className = propClass;
-  dataPointMin.scope = propScope;
-  dataPointMin.textContent = textMin;
-  tableRow.appendChild(dataPointMin);
+  dataPoint50th.className = propClass;
+  dataPoint50th.scope = propScope;
+  dataPoint50th.textContent = text50th;
+  tableRow.appendChild(dataPoint50th);
 
-  dataPointMax.className = propClass;
-  dataPointMax.scope = propScope;
-  dataPointMax.textContent = textMax;
-  tableRow.appendChild(dataPointMax);
+  dataPoint75th.className = propClass;
+  dataPoint75th.scope = propScope;
+  dataPoint75th.textContent = text75th;
+  tableRow.appendChild(dataPoint75th);
 };
 
 const addYearColumnsToReportTable = (years) => {
@@ -316,7 +320,7 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
 
 const clearTableColumns = (idName) => {
   const headerRow = document.getElementById(idName);
-  const columnsToPreserve = ["Avg", "Mid", "Min", "Max"];
+  const columnsToPreserve = ["Avg", "25th", "50th", "75th"];
 
   // Remove all existing th elements except the first one and those to be preserved
   Array.from(headerRow.children)

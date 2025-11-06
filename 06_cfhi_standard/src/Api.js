@@ -787,11 +787,10 @@ class DataProcessor {
           year,
           "totalDebt",
           record,
-          "s32___total_debt",
+          "s155___total_debt",
           "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
           "debtToContributionsWithout"
         );
-
         this.dataStore.insertData(
           "debt",
           "peer",
@@ -802,7 +801,16 @@ class DataProcessor {
           "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
           "debtToContributionsWithout"
         );
-
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "largeOneTimeGiftWithoutDonor",
+          record,
+          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
+          "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
+          "debtToContributionsWithout"
+        );
         // debtPerGivingUnit
         this.dataStore.insertData(
           "debt",
@@ -1217,7 +1225,7 @@ class ApiService {
       act: "API_DoQuery",
         query: queryCondition,
       clist:
-          "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352",
+          "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.160.155",
       };
 
       // Use await to make the async operation more explicit
@@ -1371,7 +1379,7 @@ class ApiService {
     // Create all API calls for parallel execution
     const apiCalls = [];
     const clist =
-      "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409";
+      "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.160.155";
 
     for (const currentYear of years) {
       for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {

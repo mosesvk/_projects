@@ -136,8 +136,8 @@ function updateModal(mainName, avgData, clientData) {
     avgColumn.textContent = "Avg";
     headerRow.appendChild(avgColumn);
 
-    // Add the remaining columns
-    const columns = ["Mid", "Min", "Max"];
+    // Add the remaining columns (matching comp project - using percentiles)
+    const columns = ["25th", "50th", "75th"];
     columns.forEach((column) => {
       const col = document.createElement("th");
       col.className = "px-6 py-3";
@@ -189,32 +189,44 @@ const closeSidebarAfterSelectingOption = (component) => {
   localStorage.setItem("lastRenderedComponent", component);
 };
 
-const getAverageOfArray = (array) => {
-  if (array.length === 0) {
+const getAverageOfArray = (array, name, num = 1) => {
+  // Filter out zero values before calculating average (matching comp implementation)
+  const filteredArray = array
+    .filter((value) => Number(value) !== 0)
+    .map((value) => Number(value) * num);
+
+  if (filteredArray.length === 0) {
     return 0;
   }
-  const sum = array.reduce((acc, str) => acc + Number(str), 0);
-  const avg = sum / array.length;
+  const sum = filteredArray.reduce((acc, value) => acc + value, 0);
+  const avg = sum / filteredArray.length;
 
   return avg;
 };
 
-const getMidpointOfArray = (array) => {
-  // console.log(array);
-  if (array.length === 0) {
+const getMidpointOfArray = (array, mainName) => {
+  // Filter out zero values before calculating midpoint (matching comp implementation)
+  const filteredArray = array
+    .filter((value) => Number(value) !== 0)
+    .map((value) => Number(value));
+
+  if (filteredArray.length === 0) {
     return 0;
   }
 
-  array.sort((a, b) => a - b); // Sort the array
+  filteredArray.sort((a, b) => a - b); // Sort the array
 
-  const midpoint = Math.floor(array.length / 2); // Calculate the midpoint index
+  const midpoint = Math.floor(filteredArray.length / 2); // Calculate the midpoint index
 
-  if (array.length % 2 === 1) {
+  if (filteredArray.length % 2 === 1) {
     // If odd length, return the value at the midpoint
-    return Number(array[midpoint]);
+    return Number(filteredArray[midpoint]);
   } else {
     // If even length, return the average of the two midpoints
-    return (Number(array[midpoint - 1]) + Number(array[midpoint])) / 2;
+    return (
+      (Number(filteredArray[midpoint - 1]) + Number(filteredArray[midpoint])) /
+      2
+    );
   }
 };
 
@@ -296,8 +308,14 @@ const getMaxOfArray = (array) => {
 };
 
 const getMinOfArray = (array) => {
+  // Filter out zero values before calculating minimum (matching comp implementation)
+  const nonZeroArray = array.filter((num) => Number(num) !== 0);
 
-  return Math.min(...array);
+  if (nonZeroArray.length === 0) {
+    return 0;
+  }
+
+  return Math.min(...nonZeroArray);
 };
 
 const getSumOfArray = (array) => {
@@ -630,13 +648,13 @@ const getPeerAndClientChartDataArrays = (
       if (type == "percent") numToTimesByIfPercent = 100;
 
       const array = dataPeer[year];
-      let avg = getAverageOfArray(array);
+      let avg = getAverageOfArray(array, mainName);
       avg *= numToTimesByIfPercent;
-      let mid = getMidpointOfArray(array);
+      let mid = getMidpointOfArray(array, mainName);
       mid *= numToTimesByIfPercent;
-      let lower25 = get25thPercentileOfArray(array);
+      let lower25 = get25thPercentileOfArray(array, mainName);
       lower25 *= numToTimesByIfPercent;
-      let higher75 = get75thPercentileOfArray(array);
+      let higher75 = get75thPercentileOfArray(array, mainName);
       higher75 *= numToTimesByIfPercent;
 
       peerAvg.push(avg.toFixed(fixedNum));

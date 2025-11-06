@@ -134,10 +134,11 @@ const debtPerGivingUnit_weightedAverage = (data, name) => {
 
 
 const debtToContributionsWithout_weightedAverage = (data, name) => {
-  const s32 = getSumOfArray(data.totalDebt[name]);
+  const s155 = getSumOfArray(data.totalDebt[name]);
   const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
+  const s152 = getSumOfArray(data.largeOneTimeGiftWithoutDonor[name]);
 
-  return s32 / s39
+  return s155 / s39 + s152
 };
 
 const daysOperatingCash_weightedAverage = (data, name) => {
