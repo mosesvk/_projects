@@ -64,7 +64,8 @@ const displayDemoComponent = () => {
     0,
     "givingUnits",
     getBenchmarksForField("givingUnits"),
-    "Giving Units"
+    "Giving Units",
+    null // no weighted average
   );
   // givingUnitsToStaff
   createChartFromParsedData(
@@ -76,7 +77,8 @@ const displayDemoComponent = () => {
     0,
     "givingUnitsToStaff",
     getBenchmarksForField("givingUnitsToStaff"),
-    "Giving Units to Staff"
+    "Giving Units to Staff",
+    "wa" // use weighted average
   );
 
 
@@ -97,7 +99,8 @@ const displayCashComponent = () => {
     0,
     "daysExpendableNetAssets",
     getBenchmarksForField("daysExpendableNetAssets"),
-    "Days Expendable Net Assets"
+    "Days Expendable Net Assets",
+    "wa" // use weighted average
   );
 
   // daysOperatingCash
@@ -110,7 +113,8 @@ const displayCashComponent = () => {
     0,
     "daysOperatingCash",
     getBenchmarksForField("daysOperatingCash"),
-    "Days Operating Cash"
+    "Days Operating Cash",
+    "wa" // use weighted average
   );
 
   // cashFlowsFromOperatingActivities
@@ -123,7 +127,8 @@ const displayCashComponent = () => {
     0,
     "cashFlowsFromOperatingActivities",
     getBenchmarksForField("cashFlowsFromOperatingActivities"),
-    "Cash Flows from Operating Activities"
+    "Cash Flows from Operating Activities",
+    null // no weighted average
   );
 
   // liquidityRatio
@@ -136,7 +141,8 @@ const displayCashComponent = () => {
     0,
     "liquidityRatio",
     getBenchmarksForField("liquidityRatio"),
-    "Liquidity Ratio"
+    "Liquidity Ratio",
+    "wa" // use weighted average
   );
 
   // netCashAvailability
@@ -149,7 +155,8 @@ const displayCashComponent = () => {
     0,
     "netCashAvailability",
     getBenchmarksForField("netCashAvailability"),
-    "Net Cash Availability"
+    "Net Cash Availability",
+    null // no weighted average
   );
 
   const daysExpendable_benchmark = [
@@ -201,7 +208,8 @@ const displayDebtComponent = () => {
     0,
     "debtToContributionsWithout",
     getBenchmarksForField("debtToContributionsWithout"),
-    "Debt to Contributions Without"
+    "Debt to Contributions Without",
+    "wa" // use weighted average
   );
 
   // currentRatio
@@ -214,7 +222,8 @@ const displayDebtComponent = () => {
     0,
     "currentRatio",
     getBenchmarksForField("currentRatio"),
-    "Current Ratio"
+    "Current Ratio",
+    "wa" // use weighted average
   );
 
   // mandatoryDebtServiceToContributionsWithout
@@ -227,7 +236,8 @@ const displayDebtComponent = () => {
     0,
     "mandatoryDebtServiceToContributionsWithout",
     getBenchmarksForField("mandatoryDebtServiceToContributionsWithout"),
-    "Mandatory Debt Service to Contributions Without"
+    "Mandatory Debt Service to Contributions Without",
+    "wa" // use weighted average
   );
 
   // debtPerGivingUnit
@@ -240,7 +250,8 @@ const displayDebtComponent = () => {
     0,
     "debtPerGivingUnit",
     getBenchmarksForField("debtPerGivingUnit"),
-    "Debt Per Giving Unit"
+    "Debt Per Giving Unit",
+    "wa" // use weighted average
   );
 
   // debtCoverage
@@ -253,7 +264,8 @@ const displayDebtComponent = () => {
     0,
     "debtCoverage",
     getBenchmarksForField("debtCoverage"),
-    "Debt Coverage"
+    "Debt Coverage",
+    "wa" // use weighted average
   );
 
   const debtToContributionsWithout_benchmark = [
@@ -310,7 +322,8 @@ const displayIncomeComponent = () => {
     1,
     "netIncomeRatio",
     getBenchmarksForField("netIncomeRatio"),
-    "Net Income Ratio"
+    "Net Income Ratio",
+    "wa" // use weighted average
   );
 
   // contributionsWithoutDonorPerGivingUnit
@@ -323,7 +336,8 @@ const displayIncomeComponent = () => {
     1,
     "contributionsWithoutDonorPerGivingUnit",
     getBenchmarksForField("contributionsWithoutDonorPerGivingUnit"),
-    "Contributions Without Donor Per Giving Unit"
+    "Contributions Without Donor Per Giving Unit",
+    null // no weighted average
   );
 
   // totalContributionsPerGivingUnit
@@ -336,7 +350,8 @@ const displayIncomeComponent = () => {
     1,
     "totalContributionsPerGivingUnit",
     getBenchmarksForField("totalContributionsPerGivingUnit"),
-    "Total Contributions Per Giving Unit"
+    "Total Contributions Per Giving Unit",
+    null // no weighted average
   );
 
   const netIncome_benchmark = [
@@ -394,7 +409,8 @@ const displayExpenseComponent = () => {
     1,
     "benefitsToSalaries",
     null,
-    "Benefits to Salaries"
+    "Benefits to Salaries",
+    "wa" // use weighted average
   );
 
   // salariesBenefitsIncludingOutsourcedEmployees
@@ -407,7 +423,8 @@ const displayExpenseComponent = () => {
     1,
     "salariesBenefitsIncludingOutsourcedEmployees",
     null,
-    "Salaries Benefits Including Outsourced Employees"
+    "Salaries Benefits Including Outsourced Employees",
+    "wa" // use weighted average
   );
 
   // personnelToCashExpenditure
@@ -420,7 +437,8 @@ const displayExpenseComponent = () => {
     1,
     "personnelToCashExpenditure",
     null,
-    "Personnel to Cash Expenditure"
+    "Personnel to Cash Expenditure",
+    "wa" // use weighted average
   );
 
   // cashExpendituresPerGivingUnit
@@ -433,7 +451,8 @@ const displayExpenseComponent = () => {
     1,
     "cashExpendituresPerGivingUnit",
     null,
-    "Cash Expenditures Per Giving Unit"
+    "Cash Expenditures Per Giving Unit",
+    "wa" // use weighted average
   );
 
   const personnelToCash_benchmark = [

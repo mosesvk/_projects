@@ -128,7 +128,9 @@ const getMainChartOptions = (
   mainName,
   benchmark,
   title,
-  chartId
+  chartId,
+  wa = null,
+  allData = null
 ) => {
   const isDarkMode = document.documentElement.classList.contains("dark");
   const chartColors = isDarkMode
@@ -318,7 +320,9 @@ const getMainChartOptions = (
       fixedNum,
       mainName,
       benchmark,
-      numType
+      numType,
+      wa,
+      allData
     ));
 
   // Calculate smart y-axis range based on actual data (always needed)

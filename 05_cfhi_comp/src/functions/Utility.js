@@ -217,10 +217,11 @@ const createChartFromParsedData = (
   fixedNum,
   mainName,
   benchmark,
-  title
+  title,
+  wa = null
 ) => {
   if (parsedData) {
-    // console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName });
+    // console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName, wa });
 
     createChart(
       chart,
@@ -230,7 +231,9 @@ const createChartFromParsedData = (
       fixedNum,
       mainName,
       benchmark,
-      title
+      title,
+      wa,
+      parsedData
     );
     updateModal (mainName, parsedData[peer], parsedData[client]);
   }
@@ -244,7 +247,9 @@ const createChart = (
   fixedNum,
   mainName,
   benchmark,
-  title
+  title,
+  wa = null,
+  allData = null
 ) => {
   document.getElementById(chartId).innerHTML = "";
 
@@ -258,7 +263,9 @@ const createChart = (
     mainName,
     benchmark,
     title,
-    chartId
+    chartId,
+    wa,
+    allData
   );
 
   // Check if chartOptions is null (invalid data)
@@ -915,9 +922,11 @@ const getPeerAndClientChartDataArrays = (
   fixedNum,
   mainName,
   benchmark,
-  type
+  type,
+  wa = null,
+  allData = null
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark, type });
+  // console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark, type, wa, allData });
 
   const peerAvg = [];
   const peerMid = [];
@@ -973,8 +982,19 @@ const getPeerAndClientChartDataArrays = (
 
       const array = dataPeer[year];
       // if (mainName == 'cfiRatio') console.log(array)
-      let avg = getAverageOfArray(array);
-      avg *= numToTimesByIfPercent;
+      
+      // Use weighted average if "wa" is present, otherwise use simple average
+      let avg;
+      if (wa && allData) {
+        // Use weighted average for specific year
+        avg = getWeightedAverageOfArray(allData, mainName, year);
+        avg *= numToTimesByIfPercent;
+      } else {
+        // Use simple average
+        avg = getAverageOfArray(array);
+        avg *= numToTimesByIfPercent;
+      }
+      
       let mid = getMidpointOfArray(array);
       mid *= numToTimesByIfPercent;
       let lower25 = get25thPercentileOfArray(array);

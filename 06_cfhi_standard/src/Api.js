@@ -518,8 +518,8 @@ class DataProcessor {
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Peer",
           record,
-          "s39___contribution_without_donor_retriction",
-          "cfhi_stand_00a_yes_no___giving_units"
+          "cfhi_compre_00f_ratio___contributions_without_donor_restrictions",
+          "cfhi_compre_00f_yes_no___contributions_without_donor_restrictions"
         );
 
         // totalContributionsExclude
@@ -556,7 +556,7 @@ class DataProcessor {
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Client",
           record,
-          "cfhi_compre_00b_ratio___contributions_wo_donor_restrictions_exclude_large"
+          "cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_large"
         );
 
         // totalContributionsExclude
