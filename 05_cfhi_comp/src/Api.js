@@ -4279,7 +4279,7 @@ class ApiService {
       const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
       
       // Log peer records data
-      console.log("peer records (batched)", dataStr + recordHtmlParts.join(""));
+      // console.log("peer records (batched)", dataStr + recordHtmlParts.join(""));
       
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
