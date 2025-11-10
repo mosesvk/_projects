@@ -54,7 +54,7 @@ class ExcelReportGenerator {
       // Cash data (cashData) - C03.x fields
       ["daysExpendableNetAssets", [55, 57, 56, 58], "cash", true], // wa in Report.js
       ["daysOperatingCash", [59, 61, 60, 62], "cash", true], // wa in Report.js
-      ["availableDaysOfCashFlow", [63, 65, 64, 66], "cash", false],
+      ["cashFlowsFromOperatingActivities", [63, 65, 64, 66], "cash", false], // C03.3 - Fixed field name
       ["liquidityRatio", [67, 69, 68, 70], "cash", true], // wa in Report.js
       ["netCashAvailability", [71, 73, 72, 74], "cash", false],
       ["netCashAvailability_including", [75, 77, 76, 78], "cash", false],
