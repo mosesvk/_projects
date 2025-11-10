@@ -957,23 +957,23 @@ class ExcelReportGenerator {
 
                   // Update Trends download links
                   const trendXLSFinal = document.getElementById("trendXLSFinal");
-                  if (trendXLSFinal && typeof getUrlBasedOnYearCount === "function") {
+                  if (trendXLSFinal) {
                     trendXLSFinal.href = getUrlBasedOnYearCount("trends", "xls", recordId);
                   }
 
                   const trendPDFFinal = document.getElementById("trendPDFFinal");
-                  if (trendPDFFinal && typeof getUrlBasedOnYearCount === "function") {
+                  if (trendPDFFinal) {
                     trendPDFFinal.href = getUrlBasedOnYearCount("trends", "pdf", recordId);
                   }
 
                   // Update Benchmark download links
                   const benchXLSFinal = document.getElementById("benchXLSFinal");
-                  if (benchXLSFinal && typeof getUrlBasedOnYearCount === "function") {
+                  if (benchXLSFinal) {
                     benchXLSFinal.href = getUrlBasedOnYearCount("benchmark", "xls", recordId);
                   }
 
                   const benchPDFFinal = document.getElementById("benchPDFFinal");
-                  if (benchPDFFinal && typeof getUrlBasedOnYearCount === "function") {
+                  if (benchPDFFinal) {
                     benchPDFFinal.href = getUrlBasedOnYearCount("benchmark", "pdf", recordId);
                   }
   
