@@ -24,7 +24,6 @@ class ExcelReportGenerator {
           TOTAL_RECORDS_PEER: "224",
           TYPE: "287",
           FIRM_NAME: "223",
-          UNIQUE_CLIENTS: "298", // Query Years field used for storing unique client count range
           SLIDER_MIN: "296",
           SLIDER_MAX: "297",
           SITES: "329",
@@ -309,21 +308,21 @@ class ExcelReportGenerator {
         // Use weighted average for fields marked with "wa" flag
         try {
           avg = getWeightedAverageOfArray(data, metricName, null);
-          console.log(`  AVG (weighted): ${avg}`);
+          // console.log(`  AVG (weighted): ${avg}`);
         } catch (error) {
           console.error(`  ⚠️ Error calculating weighted average for ${metricName}:`, error);
           // Fallback to simple average
           avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
-          console.log(`  AVG (fallback simple): ${avg}`);
+          // console.log(`  AVG (fallback simple): ${avg}`);
         }
       } else if (typeof getAverageOfArray === "function") {
         // Use simple average for fields without "wa" flag
         avg = getAverageOfArray(values, metricName);
-        console.log(`  AVG (simple via function): ${avg}`);
+        // console.log(`  AVG (simple via function): ${avg}`);
       } else {
         // Fallback manual calculation
         avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
-        console.log(`  AVG (fallback manual): ${avg}`);
+        // console.log(`  AVG (fallback manual): ${avg}`);
       }
       
       // Check if avg is undefined, null, or NaN
@@ -504,9 +503,8 @@ class ExcelReportGenerator {
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.FIRM_NAME
         }'>${this.escapeXml(firmName)}</field>`;
-        this.xmlPayload += `<field fid='${
-          this.FIELD_IDS.UNIQUE_CLIENTS
-        }'>${this.escapeXml(uniqueClientsChoice)}</field>`;
+        // NOTE: uniqueClientsChoice is not stored in this table - it's display-only
+        // Removed field 298 which is actually "Query Years" multi-select field
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.SLIDER_MIN
         }'>${this.escapeXml(sliderValue)}</field>`;
