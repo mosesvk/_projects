@@ -1552,17 +1552,14 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     },
   });
 
-  // Build modal content
+  // Build modal content (skip first element which is the title)
   let modalContent = "";
   if (benchmarkDesc.length > 1) {
     let message = "<div>";
     let p = "";
-    for (let i = 0; i < benchmarkDesc.length; i++) {
-      if (i === 0) {
-        p += `<p class="text-center font-bold mb-2">${benchmarkDesc[i]}</p>`;
-      } else {
-        p += `<p class="mb-2">${benchmarkDesc[i]}</p>`;
-      }
+    // Skip index 0 (title) and start from index 1
+    for (let i = 1; i < benchmarkDesc.length; i++) {
+      p += `<p class="mb-2">${benchmarkDesc[i]}</p>`;
     }
     message += p;
     message += "</div>";
