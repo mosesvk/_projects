@@ -1575,8 +1575,8 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
 
   // Populate the _body-3 section with the benchmark description
   try {
-    // Extract field name from elementId (e.g., "daysExpendableNetAssets_modal" -> "daysExpendableNetAssets")
-    const fieldName = elementId.replace(/_modal$/, '');
+    // Extract field name from elementId (e.g., "row_daysExpendableNetAssets" -> "daysExpendableNetAssets")
+    const fieldName = elementId.replace(/^row_/, '');
     const body3Selector = `#${fieldName}-body-3 div`;
     const body3Element = document.querySelector(body3Selector);
     
