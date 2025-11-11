@@ -1577,6 +1577,57 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
   return variable;
 };
 
+/**
+ * Creates a modal with benchmark paragraph content for _body-3 sections
+ * @param {string} benchmarkParagraphContent - HTML content containing benchmark paragraph information
+ * @param {string} elementId - ID of the element to attach the modal to
+ * @returns {Object} - Tingle modal instance
+ */
+const createModalInfo = async (benchmarkParagraphContent, elementId) => {
+  // console.log({ benchmarkParagraphContent, elementId });
+
+  let variable = new tingle.modal({
+    footer: false,
+    stickyFooter: false,
+    closeMethods: ["overlay", "button", "escape"],
+    closeLabel: "Close",
+    cssClass: ["custom-class-1", "custom-class-2"],
+    // onOpen: function () {
+    //   console.log('modal open');
+    // },
+    // onClose: function () {
+    //   console.log('modal closed');
+    // },
+    beforeClose: function () {
+      // here's goes some logic
+      // e.g. save content before closing the modal
+      return true; // close the modal
+      return false; // nothing happens
+    },
+  });
+
+  // Set the benchmark paragraph HTML content directly
+  if (benchmarkParagraphContent && benchmarkParagraphContent !== '0') {
+    variable.setContent(`<div>${benchmarkParagraphContent}</div>`);
+  } else {
+    variable.setContent(`<p>No benchmark information available.</p>`);
+  }
+
+  const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
+  // console.log('createModalInfo', {selectedYears, elementId})
+  if (selectedYears) {
+    const children = await document.getElementById(elementId).children;
+    // console.log(children);
+    // console.log('createModalInfo', {selectedYears, elementId})
+
+    for (let i = 1; i < selectedYears.length + 1; i++) {
+      editElementChildren(children[i], variable, elementId);
+    }
+  }
+
+  return variable;
+};
+
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
   if (!element) console.log(elementId);
