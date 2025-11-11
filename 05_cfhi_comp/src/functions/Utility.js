@@ -1522,9 +1522,16 @@ const addClickEventToBenchmark = (elementId, benchmarkDesc) => {
   element.onclick = createBenchmark(benchmarkDesc, elementId);
 };
 
+/**
+ * Creates a benchmark modal and populates the _body-3 section with benchmark description
+ * @param {Array|string} benchmarkDesc - Benchmark description content (array or string)
+ * @param {string} elementId - ID of the modal element
+ * @returns {Object} - Tingle modal instance
+ */
 const createBenchmark = async (benchmarkDesc, elementId) => {
   // console.log({ benchmarkDesc, elementId });
 
+  // Create modal for clickable benchmark interactions
   let variable = new tingle.modal({
     footer: false,
     stickyFooter: false,
@@ -1545,6 +1552,8 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     },
   });
 
+  // Build modal content
+  let modalContent = "";
   if (benchmarkDesc.length > 1) {
     let message = "<div>";
     let p = "";
@@ -1552,16 +1561,36 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
       if (i === 0) {
         p += `<p class="text-center font-bold mb-2">${benchmarkDesc[i]}</p>`;
       } else {
-        p += `<p >${benchmarkDesc[i]}</p>`;
+        p += `<p class="mb-2">${benchmarkDesc[i]}</p>`;
       }
     }
     message += p;
     message += "</div>";
+    modalContent = message;
     variable.setContent(`${message}`);
   } else {
-    variable.setContent(`<p>${benchmarkDesc}</p>`);
+    modalContent = `<p class="mb-2">${benchmarkDesc}</p>`;
+    variable.setContent(modalContent);
   }
 
+  // Populate the _body-3 section with the benchmark description
+  try {
+    // Extract field name from elementId (e.g., "daysExpendableNetAssets_modal" -> "daysExpendableNetAssets")
+    const fieldName = elementId.replace(/_modal$/, '');
+    const body3Selector = `#${fieldName}-body-3 div`;
+    const body3Element = document.querySelector(body3Selector);
+    
+    if (body3Element) {
+      // Set the innerHTML of the _body-3 element with the benchmark description
+      body3Element.innerHTML = modalContent;
+    } else {
+      // console.warn(`_body-3 element not found for selector: ${body3Selector}`);
+    }
+  } catch (error) {
+    console.error(`Error populating _body-3 section for ${elementId}:`, error);
+  }
+
+  // Set up click handlers for year columns
   const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
   // console.log('createBenchmark', {selectedYears, elementId})
   if (selectedYears) {
@@ -1577,56 +1606,6 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
   return variable;
 };
 
-/**
- * Creates a modal with benchmark paragraph content for _body-3 sections
- * @param {string} benchmarkParagraphContent - HTML content containing benchmark paragraph information
- * @param {string} elementId - ID of the element to attach the modal to
- * @returns {Object} - Tingle modal instance
- */
-const createModalInfo = async (benchmarkParagraphContent, elementId) => {
-  // console.log({ benchmarkParagraphContent, elementId });
-
-  let variable = new tingle.modal({
-    footer: false,
-    stickyFooter: false,
-    closeMethods: ["overlay", "button", "escape"],
-    closeLabel: "Close",
-    cssClass: ["custom-class-1", "custom-class-2"],
-    // onOpen: function () {
-    //   console.log('modal open');
-    // },
-    // onClose: function () {
-    //   console.log('modal closed');
-    // },
-    beforeClose: function () {
-      // here's goes some logic
-      // e.g. save content before closing the modal
-      return true; // close the modal
-      return false; // nothing happens
-    },
-  });
-
-  // Set the benchmark paragraph HTML content directly
-  if (benchmarkParagraphContent && benchmarkParagraphContent !== '0') {
-    variable.setContent(`<div>${benchmarkParagraphContent}</div>`);
-  } else {
-    variable.setContent(`<p>No benchmark information available.</p>`);
-  }
-
-  const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
-  // console.log('createModalInfo', {selectedYears, elementId})
-  if (selectedYears) {
-    const children = await document.getElementById(elementId).children;
-    // console.log(children);
-    // console.log('createModalInfo', {selectedYears, elementId})
-
-    for (let i = 1; i < selectedYears.length + 1; i++) {
-      editElementChildren(children[i], variable, elementId);
-    }
-  }
-
-  return variable;
-};
 
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
