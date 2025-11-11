@@ -470,11 +470,21 @@ const getMainChartOptions = (
     if (value >= 100000000) {
       // Round to nearest 10M for values >= 100M
       formattedValue = `${Math.round(value / 10000000) * 10}M`;
-    } else if (value >= 1000000) {
-      // Round to nearest 5M for values between 1M and 100M
+    } else if (value >= 50000000) {
+      // Round to nearest 10M for values between 50M and 100M
+      formattedValue = `${Math.round(value / 10000000) * 10}M`;
+    } else if (value >= 10000000) {
+      // Round to nearest 5M for values between 10M and 50M
       formattedValue = `${Math.round(value / 5000000) * 5}M`;
+    } else if (value >= 1000000) {
+      // Round to nearest 1M for values between 1M and 10M
+      // This prevents small millions from rounding to 0M
+      formattedValue = `${Math.round(value / 1000000)}M`;
+    } else if (value >= 100000) {
+      // Round to nearest 100K for values between 100K and 1M
+      formattedValue = `${Math.round(value / 100000) * 100}K`;
     } else if (value >= 10000) {
-      // Round to nearest 10K for values >= 10K
+      // Round to nearest 10K for values between 10K and 100K
       formattedValue = `${Math.round(value / 10000) * 10}K`;
     } else if (value >= 1000) {
       // Round to nearest 1K for values >= 1K
