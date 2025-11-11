@@ -607,34 +607,34 @@ function processBenchmarkParagraphs() {
   const expenseData = JSON.parse(localStorage.getItem("expenseData"));
 
   // Array of field mappings: [fieldName, dataSource, modalBodySelector]
-  const benchmarkFields = [
+  const modalInfoFields = [
     // Demo data
-    ["attendeesToStaff", demoData, "#attendeesToStaff-body-3 div"],
+    ["attendeesToStaff", demoData, "#attendeesToStaff-body-2 div"],
     
     // Cash data
-    ["daysExpendableNetAssets", cashData, "#daysExpendableNetAssets-body-3 div"],
-    ["daysOperatingCash", cashData, "#daysOperatingCash-body-3 div"],
-    ["cashFlowsFromOperatingActivities", cashData, "#cashFlowsFromOperatingActivities-body-3 div"],
-    ["liquidityRatio", cashData, "#liquidityRatio-body-3 div"],
-    ["netCashAvailability", cashData, "#netCashAvailability-body-3 div"],
+    ["daysExpendableNetAssets", cashData, "#daysExpendableNetAssets-body-2 div"],
+    ["daysOperatingCash", cashData, "#daysOperatingCash-body-2 div"],
+    ["cashFlowsFromOperatingActivities", cashData, "#cashFlowsFromOperatingActivities-body-2 div"],
+    ["liquidityRatio", cashData, "#liquidityRatio-body-2 div"],
+    ["netCashAvailability", cashData, "#netCashAvailability-body-2 div"],
     
     // Debt data
-    ["debtToContributionsWithout", debtData, "#debtToContributionsWithout-body-3 div"],
-    ["currentRatio", debtData, "#currentRatio-body-3 div"],
-    ["mandatoryDebtServiceToContributionsWithout", debtData, "#mandatoryDebtServiceToContributionsWithout-body-3 div"],
-    ["debtPerGivingUnit", debtData, "#debtPerGivingUnit-body-3 div"],
-    ["debtCoverage", debtData, "#debtCoverage-body-3 div"],
+    ["debtToContributionsWithout", debtData, "#debtToContributionsWithout-body-2 div"],
+    ["currentRatio", debtData, "#currentRatio-body-2 div"],
+    ["mandatoryDebtServiceToContributionsWithout", debtData, "#mandatoryDebtServiceToContributionsWithout-body-2 div"],
+    ["debtPerGivingUnit", debtData, "#debtPerGivingUnit-body-2 div"],
+    ["debtCoverage", debtData, "#debtCoverage-body-2 div"],
     
     // Income data
-    ["netIncomeRatio", incomeData, "#netIncomeRatio-body-3 div"],
-    ["totalContributionsPerGivingUnit", incomeData, "#totalContributionsPerGivingUnit-body-3 div"],
-    ["contributionsWithoutDonorPerGivingUnit", incomeData, "#contributionsWithoutDonorPerGivingUnit-body-3 div"],
+    ["netIncomeRatio", incomeData, "#netIncomeRatio-body-2 div"],
+    ["totalContributionsPerGivingUnit", incomeData, "#totalContributionsPerGivingUnit-body-2 div"],
+    ["contributionsWithoutDonorPerGivingUnit", incomeData, "#contributionsWithoutDonorPerGivingUnit-body-2 div"],
     
     // Expense data
-    ["personnelToCashExpenditure", expenseData, "#personnelToCashExpenditure-body-3 div"],
-    ["benefitsToSalaries", expenseData, "#benefitsToSalaries-body-3 div"],
-    ["salariesBenefitsIncludingOutsourcedEmployees", expenseData, "#salariesBenefitsIncludingOutsourcedEmployees-body-3 div"],
-    ["cashExpendituresPerGivingUnit", expenseData, "#cashExpendituresPerGivingUnit-body-3 div"],
+    ["personnelToCashExpenditure", expenseData, "#personnelToCashExpenditure-body-2 div"],
+    ["benefitsToSalaries", expenseData, "#benefitsToSalaries-body-2 div"],
+    ["salariesBenefitsIncludingOutsourcedEmployees", expenseData, "#salariesBenefitsIncludingOutsourcedEmployees-body-2 div"],
+    ["cashExpendituresPerGivingUnit", expenseData, "#cashExpendituresPerGivingUnit-body-2 div"],
     
   ];
 
@@ -648,7 +648,7 @@ function processBenchmarkParagraphs() {
   // Use the first available year to get benchmark paragraph data
   const targetYear = selectedYears[0];
 
-  benchmarkFields.forEach(([fieldName, dataSource, selector]) => {
+  modalInfoFields.forEach(([fieldName, dataSource, selector]) => {
     try {
       const targetElement = document.querySelector(selector);
       
