@@ -404,8 +404,39 @@ const getMainChartOptions = (
       }
     }
   } else {
-    // For larger values (>10), use the original padding approach
-    yaxisMax = dataMax + padding;
+    // For larger values (>10), use smart rounding based on scale
+    // Ensure the max divides evenly by ideal tick intervals
+    const rawMax = dataMax + padding;
+    
+    if (rawMax >= 100000000) {
+      // For values >= 100M, round up to nearest 10M
+      yaxisMax = Math.ceil(rawMax / 10000000) * 10000000;
+    } else if (rawMax >= 50000000) {
+      // For values >= 50M, round up to nearest 10M for clean 10M intervals
+      yaxisMax = Math.ceil(rawMax / 10000000) * 10000000;
+    } else if (rawMax >= 10000000) {
+      // For values >= 10M, round up to nearest 5M
+      yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
+    } else if (rawMax >= 1000000) {
+      // For values >= 1M, round up to nearest 2M for clean 2M intervals
+      // This ensures ranges like 10.67M become 12M, giving ticks at 0, 2, 4, 6, 8, 10, 12
+      yaxisMax = Math.ceil(rawMax / 2000000) * 2000000;
+    } else if (rawMax >= 100000) {
+      // For values >= 100K, round up to nearest 100K
+      yaxisMax = Math.ceil(rawMax / 100000) * 100000;
+    } else if (rawMax >= 10000) {
+      // For values >= 10K, round up to nearest 10K
+      yaxisMax = Math.ceil(rawMax / 10000) * 10000;
+    } else if (rawMax >= 1000) {
+      // For values >= 1K, round up to nearest 1K
+      yaxisMax = Math.ceil(rawMax / 1000) * 1000;
+    } else if (rawMax >= 100) {
+      // For values >= 100, round up to nearest 100
+      yaxisMax = Math.ceil(rawMax / 100) * 100;
+    } else {
+      // For values 10-100, round up to nearest 10
+      yaxisMax = Math.ceil(rawMax / 10) * 10;
+    }
   }
 
   // Set up annotations based on mainName and benchmark (only if benchmark is provided)
@@ -794,8 +825,57 @@ const getMainChartOptions = (
             hideOverlappingLabels: false,
           },
         } : {
-          // For larger values (>10), use default ApexCharts behavior
-          forceNiceScale: true,
+          // For larger values (>10), calculate dynamic tick amount for even spacing
+          forceNiceScale: false,
+          tickAmount: (() => {
+            const range = yaxisMax - (yaxisMin || 0);
+            
+            // Calculate ideal tick count based on range scale
+            if (range >= 100000000) {
+              // For ranges >= 100M, use 5-10 ticks
+              return Math.min(10, Math.max(5, Math.floor(range / 10000000)));
+            } else if (range >= 50000000) {
+              // For ranges >= 50M, aim for 5 ticks (e.g., 0, 10M, 20M, 30M, 40M, 50M)
+              return 5;
+            } else if (range >= 10000000) {
+              // For ranges >= 10M, aim for 5 ticks
+              return 5;
+            } else if (range >= 1000000) {
+              // For ranges >= 1M, calculate ticks based on the rounded max
+              // Since yaxisMax is rounded to nearest 2M, use 2M intervals
+              // Example: 12M range = 6 ticks (0, 2M, 4M, 6M, 8M, 10M, 12M = 7 labels)
+              const millionRange = range / 1000000;
+              if (millionRange <= 4) {
+                // For ranges 1-4M, use 1M intervals
+                return Math.floor(millionRange);
+              } else if (millionRange <= 20) {
+                // For ranges 4-20M (rounded to even 2M), use 2M intervals
+                // tickAmount = range / 2M
+                return Math.floor(range / 2000000);
+              } else if (millionRange <= 50) {
+                // For ranges 20-50M, use 5M intervals
+                return Math.floor(range / 5000000);
+              } else {
+                // For ranges > 50M, use 10M intervals
+                return Math.floor(range / 10000000);
+              }
+            } else if (range >= 100000) {
+              // For ranges >= 100K, use 5 ticks
+              return 5;
+            } else if (range >= 10000) {
+              // For ranges >= 10K, use 5 ticks
+              return 5;
+            } else if (range >= 1000) {
+              // For ranges >= 1K, use 5 ticks
+              return 5;
+            } else if (range >= 100) {
+              // For ranges >= 100, use 5 ticks
+              return 5;
+            } else {
+              // For ranges 10-100, use 5 ticks
+              return 5;
+            }
+          })(),
           labels: {
             formatter: yaxisLabelFormatter,
             style: {
