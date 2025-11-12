@@ -87,7 +87,7 @@ const displayReportComponent = () => {
     insertDataToReport(incomeData, selectedYears, [
       ["netIncomeRatio", "percent", 0, "wa", "cb"],
       ["netIncomeRatio_twoYrAvg", "percent", 0, null, "cb"],
-      ["contributionsWithoutDonorPerGivingUnit", "dollar", 0],
+      ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
       [
         "contributionsWithoutDonorPerGivingUnit_percentChange",
         "percent",
@@ -95,12 +95,12 @@ const displayReportComponent = () => {
         null,
         "cb",
       ],
-      ["totalContributionsPerGivingUnit", "dollar", 0],
+      ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
       [
         "totalContributionsPerGivingUnit_percentChange",
         "percent",
         0,
-        "wa",
+        null,
         "cb",
       ],
     ]);
