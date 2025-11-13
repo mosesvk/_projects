@@ -151,7 +151,7 @@ const displayCashComponent = () => {
     "netCashAvailability_chart",
     "netCashAvailability_Peer",
     "netCashAvailability_Client",
-    "number",
+    "dollar",
     0,
     "netCashAvailability",
     getBenchmarksForField("netCashAvailability"),
@@ -181,7 +181,7 @@ const displayCashComponent = () => {
 
   const liquidityRatio_benchmark = [
     fixUnicodeCharacters("Liquidity Ratio Benchmark"),
-    fixUnicodeCharacters("Based on our experience, we have set the minimum benchmark for this ratio at greater than or equal to 5.0. Results less than this may indicate that the church is keeping fewer liquid reserves and is less likely to be able to handle unexpected operating expenses, events, or new opportunities that may come along."),
+    fixUnicodeCharacters("Based on our experience, we have set the minimum benchmark for this ratio at greater than or equal to 4.0. Results less than this may indicate that the church is keeping fewer liquid reserves and is less likely to be able to handle unexpected operating expenses, events, or new opportunities that may come along."),
   ];
   createBenchmark(liquidityRatio_benchmark, "row_liquidityRatio");
 
