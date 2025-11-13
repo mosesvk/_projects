@@ -123,7 +123,7 @@ const displayCashComponent = () => {
     "cashFlowsFromOperatingActivities_chart",
     "cashFlowsFromOperatingActivities_Peer",
     "cashFlowsFromOperatingActivities_Client",
-    "number",
+    "dollar",
     0,
     "cashFlowsFromOperatingActivities",
     getBenchmarksForField("cashFlowsFromOperatingActivities"),
