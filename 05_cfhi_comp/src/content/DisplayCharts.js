@@ -168,7 +168,7 @@ const displayCashComponent = () => {
   const daysOperatingCash_benchmark = [
     fixUnicodeCharacters("Days Operating Cash Benchmark"),
     fixUnicodeCharacters("Some churches want to maintain a certain level of reserves. The reserves can be used for economic downturns or unexpected expenses, events, or new opportunities. Often, churches that try to build up reserves have a goal."),
-    fixUnicodeCharacters('We believe an appropriate benchmark for this ratio is 40 to 80 days of annual cash expenditures on hand.  Furthermore, a result of less than 20 days could be interpreted as a  <span class="red">red flag</span>'),
+    fixUnicodeCharacters('We believe an appropriate benchmark for this ratio is 90 - 130 days of annual cash expenditures on hand.  Furthermore, a result of less than 60 days could be interpreted as a  <span class="red">red flag</span>'),
   ];
   createBenchmark(daysOperatingCash_benchmark, "row_daysOperatingCash");
 
