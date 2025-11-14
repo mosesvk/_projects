@@ -385,6 +385,10 @@ const displayIncomeComponent = () => {
     totalContributionsPerGivingUnit_benchmark,
     "row_totalContributionsPerGivingUnit_percentChange"
   );
+  createBenchmark(
+    totalContributionsPerGivingUnit_benchmark,
+    "row_totalContributionsPerGivingUnit"
+  );
 
   const localCounty_benchmark = [
     fixUnicodeCharacters(`Local County - Benchmark`),
