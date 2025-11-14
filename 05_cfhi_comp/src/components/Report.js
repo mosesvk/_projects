@@ -95,7 +95,7 @@ const displayReportComponent = () => {
         null,
         "cb",
       ],
-      ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
+      ["totalContributionsPerGivingUnit", "dollar", 0, "wa", "cb"],
       [
         "totalContributionsPerGivingUnit_percentChange",
         "percent",

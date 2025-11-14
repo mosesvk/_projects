@@ -1552,13 +1552,13 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     },
   });
 
-  // Build modal content (skip first element which is the title)
+  // Build modal content (INCLUDE the title for the tingle modal)
   let modalContent = "";
   if (benchmarkDesc.length > 1) {
     let message = "<div>";
     let p = "";
-    // Skip index 0 (title) and start from index 1
-    for (let i = 1; i < benchmarkDesc.length; i++) {
+    // Include ALL elements starting from index 0 (the title)
+    for (let i = 0; i < benchmarkDesc.length; i++) {
       p += `<p class="mb-2">${benchmarkDesc[i]}</p>`;
     }
     message += p;
@@ -1570,13 +1570,13 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     variable.setContent(modalContent);
   }
 
-  // Build report content (INCLUDE the title for the report tab)
+  // Build report content (SKIP the title for the report tab _body-3 section)
   let reportContent = "";
   if (benchmarkDesc.length > 1) {
     let message = "<div>";
     let p = "";
-    // Include ALL elements starting from index 0 (the title)
-    for (let i = 0; i < benchmarkDesc.length; i++) {
+    // Skip index 0 (title) and start from index 1
+    for (let i = 1; i < benchmarkDesc.length; i++) {
       p += `<p class="mb-2">${benchmarkDesc[i]}</p>`;
     }
     message += p;
@@ -1586,7 +1586,7 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     reportContent = `<p class="mb-2">${benchmarkDesc}</p>`;
   }
 
-  // Populate the _body-3 section with the benchmark description (including title)
+  // Populate the _body-3 section with the benchmark description (without title)
   try {
     // Extract field name from elementId (e.g., "row_daysExpendableNetAssets" -> "daysExpendableNetAssets")
     const fieldName = elementId.replace(/^row_/, '');
@@ -1594,7 +1594,7 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     const body3Element = document.querySelector(body3Selector);
     
     if (body3Element) {
-      // Set the innerHTML of the _body-3 element with the report content (includes title)
+      // Set the innerHTML of the _body-3 element with the report content (without title)
       body3Element.innerHTML = reportContent;
     } else {
       // console.warn(`_body-3 element not found for selector: ${body3Selector}`);
