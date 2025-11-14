@@ -1570,7 +1570,23 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     variable.setContent(modalContent);
   }
 
-  // Populate the _body-3 section with the benchmark description
+  // Build report content (INCLUDE the title for the report tab)
+  let reportContent = "";
+  if (benchmarkDesc.length > 1) {
+    let message = "<div>";
+    let p = "";
+    // Include ALL elements starting from index 0 (the title)
+    for (let i = 0; i < benchmarkDesc.length; i++) {
+      p += `<p class="mb-2">${benchmarkDesc[i]}</p>`;
+    }
+    message += p;
+    message += "</div>";
+    reportContent = message;
+  } else {
+    reportContent = `<p class="mb-2">${benchmarkDesc}</p>`;
+  }
+
+  // Populate the _body-3 section with the benchmark description (including title)
   try {
     // Extract field name from elementId (e.g., "row_daysExpendableNetAssets" -> "daysExpendableNetAssets")
     const fieldName = elementId.replace(/^row_/, '');
@@ -1578,8 +1594,8 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     const body3Element = document.querySelector(body3Selector);
     
     if (body3Element) {
-      // Set the innerHTML of the _body-3 element with the benchmark description
-      body3Element.innerHTML = modalContent;
+      // Set the innerHTML of the _body-3 element with the report content (includes title)
+      body3Element.innerHTML = reportContent;
     } else {
       // console.warn(`_body-3 element not found for selector: ${body3Selector}`);
     }
