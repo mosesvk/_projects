@@ -41,23 +41,27 @@ class ExcelReportGenerator {
     // C-prefix fields for TRENDS reports (Comprehensive metrics)
     this.fieldMappings = [
       // Demo data (demoData) - C01.x and C02.x fields
-      ["givingUnits", [6, 8, 7, 9], "demo", false],
-      ["fullTimeEquivalent", [18, 20, 19, 21], "demo", false],
-      ["givingUnitsToStaff", [22, 24, 23, 25], "demo", true], // wa in Report.js
-      ["contributionsWithoutDonorExcludingLargeGifts", [26, 28, 27, 29], "demo", false],
-      ["totalContributionsExclude", [30, 32, 31, 33], "demo", false],
-      ["percentContributionsOnline", [39, 41, 40, 42], "demo", true], // wa in Report.js
-      ["totalOutsourcedEmployees", [43, 45, 44, 46], "demo", false],
-      ["facilitySquareFootage", [47, 49, 48, 50], "demo", false],
-      ["numberOfLocations", [51, 53, 52, 54], "demo", false],
+      ["givingUnits", [6, 8, 7, 9], "demo", false], // C01.1
+      ["averageAdultAttendees", [10, 12, 11, 13], "demo", false], // C01.2
+      ["totalAttendees", [14, 16, 15, 17], "demo", false], // C01.3
+      ["fullTimeEquivalent", [18, 20, 19, 21], "demo", false], // C01.4
+      ["attendeesToStaff", [22, 24, 23, 25], "demo", true], // C01.5 - wa in Report.js
+      ["contributionsWithoutDonorExcludingLargeGifts", [26, 28, 27, 29], "demo", false], // C01.6
+      ["totalContributionsExclude", [30, 32, 31, 33], "demo", false], // C01.7
+      ["totalContributionOnline", [35, 37, 36, 38], "demo", false], // C02.1
+      ["percentContributionsOnline", [39, 41, 40, 42], "demo", true], // C02.2 - wa in Report.js
+      ["totalOutsourcedEmployees", [43, 45, 44, 46], "demo", false], // C02.3
+      ["facilitySquareFootage", [47, 49, 48, 50], "demo", false], // C02.4
+      ["numberOfLocations", [51, 53, 52, 54], "demo", false], // C02.5
 
       // Cash data (cashData) - C03.x fields
       ["daysExpendableNetAssets", [55, 57, 56, 58], "cash", true], // wa in Report.js
       ["daysOperatingCash", [59, 61, 60, 62], "cash", true], // wa in Report.js
       ["cashFlowsFromOperatingActivities", [63, 65, 64, 66], "cash", false], // C03.3 - Fixed field name
       ["liquidityRatio", [67, 69, 68, 70], "cash", true], // wa in Report.js
-      // WARNING: Field 74 may not exist in QuickBase table - check if error occurs
-      ["netCashAvailability", [71, 73, 72, 74], "cash", false],
+      // NOTE: Field 74 doesn't exist in QuickBase - netCashAvailability commented out
+      // To fix: Add field 74 to QuickBase table or contact admin
+      // ["netCashAvailability", [71, 73, 72, 74], "cash", false],
       ["netCashAvailability_including", [75, 77, 76, 78], "cash", false],
       ["netCashAvailability_standard", [79, 81, 80, 82], "cash", false],
 
@@ -101,7 +105,7 @@ class ExcelReportGenerator {
 
       // S02.x fields - Cash data
       ["daysOperatingCash", [251, 253, 252, 254], "cash", true], // S02.1
-      // WARNING: Field 258 may not exist in QuickBase table - check if error occurs
+      // Fields 255-258 exist in QuickBase - re-enabled for Benchmark report
       ["netCashAvailability", [255, 257, 256, 258], "cash", false], // S02.2
       ["netCashAvailability_standard", [259, 261, 260, 262], "cash", false], // S02.3
 
