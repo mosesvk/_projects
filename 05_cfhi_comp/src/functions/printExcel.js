@@ -70,8 +70,8 @@ class ExcelReportGenerator {
 
       // Income data (incomeData) - C05.x fields
       ["netIncomeRatio", [115, 117, 116, 118], "income", true], // wa in Report.js
-      ["contributionsWithoutDonorPerGivingUnit", [123, 125, 124, 126], "income", false],
-      ["totalContributionsPerGivingUnit", [131, 133, 132, 134], "income", false],
+      ["contributionsWithoutDonorPerGivingUnit", [123, 125, 124, 126], "income", true], // wa in Report.js
+      ["totalContributionsPerGivingUnit", [131, 133, 132, 134], "income", true], // wa in Report.js
 
       // Expense data (expenseData) - C06.x fields
       ["benefitsToSalaries", [135, 137, 136, 138], "expense", true], // wa in Report.js
@@ -109,8 +109,8 @@ class ExcelReportGenerator {
       ["debtPerGivingUnit_standard", [271, 273, 272, 274], "debt", true], // S03.3
 
       // S04.x fields - Income data
-      ["contributionsWithoutDonorPerGivingUnit", [275, 277, 276, 278], "income", false], // S04.1
-      ["totalContributionsPerGivingUnit", [279, 281, 280, 282], "income", false], // S04.2
+      ["contributionsWithoutDonorPerGivingUnit", [275, 277, 276, 278], "income", true], // S04.1 - wa in Report.js
+      ["totalContributionsPerGivingUnit", [279, 281, 280, 282], "income", true], // S04.2 - wa in Report.js
 
       // S05.x fields - Expense data
       ["cashExpendituresPerGivingUnit", [283, 285, 284, 286], "expense", true], // S05.1
@@ -424,13 +424,18 @@ class ExcelReportGenerator {
               : window.firmName;
         }
   
-        // Get uniqueClients - convert to a valid choice value
+        // Get uniqueClients - this is the actual peer group size (unique client count)
+        // NOT the total record count which includes multiple years
         let uniqueClientsSize =
-          document.getElementById("uniqueClients")?.textContent || 0;
+          document.getElementById("uniqueClients")?.textContent || 
+          window.uniqueClientSize || 
+          0;
+        
+        // Parse to integer
+        const clientCount = parseInt(uniqueClientsSize);
         
         // Convert numeric value to choice value for field 298
         let uniqueClientsChoice = "";
-        const clientCount = parseInt(uniqueClientsSize);
         if (clientCount <= 50) {
           uniqueClientsChoice = "1-50";
         } else if (clientCount <= 100) {
@@ -494,9 +499,11 @@ class ExcelReportGenerator {
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.CLIENT_RID
         }'>${this.escapeXml(ClientRid)}</field>`;
+        // IMPORTANT: Use uniqueClients (peer group size) NOT totalRecordsPeer (total records across years)
+        // totalRecordsPeer includes all records for all years, but we want unique client count
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.TOTAL_RECORDS_PEER
-        }'>${this.escapeXml(totalRecordsPeer)}</field>`;
+        }'>${this.escapeXml(clientCount)}</field>`;
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.TYPE
         }'>${this.escapeXml("Comprehensive")}</field>`;
