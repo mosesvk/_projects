@@ -2492,7 +2492,16 @@ class DataProcessor {
           "totalContributionsPerGivingUnit_Client",
           record,
           "cfhi_compre_13b_ratio___total_contributions_per_giving_unit",
-          "cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit"
+          "cfhi_compre_13b_bench_rating___total_contributions_per_giving_unit"
+        );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'totalContributionsPerGivingUnit_benchmarkParagraph',
+          record,
+          "cfhi_compre_13b_bench_paragraph___total_contributions_per_giving_unit"
         );
 
         // totalContributionsPerGivingUnit_percentChange

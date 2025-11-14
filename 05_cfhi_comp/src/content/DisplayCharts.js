@@ -377,12 +377,17 @@ const displayIncomeComponent = () => {
   );
 
 
-  const totalContributionsPerGivingUnit_benchmark = [
+  const totalContributionsPerGivingUnit_percentChange_benchmark = [
     fixUnicodeCharacters("Total Contributions Per Giving Unit Benchmark"),
     fixUnicodeCharacters("An improving trend is the benchmark."),
   ];
+
+  const totalContributionsPerGivingUnit_benchmark = [
+    fixUnicodeCharacters("Total Contributions Per Giving Unit Benchmark"),
+    fixUnicodeCharacters("When a church is in the midst of a specific campaign, it will likely receive some large one-time gifts. Since this ratio includes both gifts with and without donor restrictions, it is important to determine if any unusual or large gifts should be eliminated; otherwise, there could be large swings between years. The power of this ratio is in analyzing trends in congregational giving habits between years. Keep in mind that during the period of a capital campaign this figure may be inflated even with the removal of large or one-time gifts because of an increase in smaller gifts as well. This result indicates that the measure is within the recommended benchmark and giving per adult attendee is strong."),
+  ];
   createBenchmark(
-    totalContributionsPerGivingUnit_benchmark,
+    totalContributionsPerGivingUnit_percentChange_benchmark,
     "row_totalContributionsPerGivingUnit_percentChange"
   );
   createBenchmark(
