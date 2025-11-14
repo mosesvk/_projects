@@ -1182,7 +1182,7 @@ class ApiService {
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
 
       // Basic query condition with year and client query
-      let queryCondition = `{195.EX.${currentYear}} AND {193.EX.'Standard'} AND ${clientQuery}`;
+      let queryCondition = `{195.EX.${currentYear}} AND ${clientQuery}`;
 
       // Add giving units filter
       if (

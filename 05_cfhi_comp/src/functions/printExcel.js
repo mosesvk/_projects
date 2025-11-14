@@ -308,14 +308,13 @@ class ExcelReportGenerator {
         // Use weighted average for fields marked with "wa" flag
         try {
           avg = getWeightedAverageOfArray(data, metricName, null);
-          console.log(`  ✅ AVG (weighted) for ${metricName}: ${avg}`);
+          console.log(`  ✅ Weighted avg for ${metricName}: ${avg}`);
         } catch (error) {
-          console.error(`  ⚠️ Error calculating weighted average for ${metricName}:`, error);
-          console.error(`  Stack trace:`, error.stack);
-          console.log(`  Data keys available:`, Object.keys(data).filter(k => !k.includes('_Peer') && !k.includes('_Client')));
+          console.error(`  ⚠️ ERROR: Weighted average failed for ${metricName}, falling back to simple average`);
+          console.error(`  Error details:`, error.message);
           // Fallback to simple average
           avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
-          console.warn(`  ⚠️ FALLBACK to simple average for ${metricName}: ${avg}`);
+          console.warn(`  📍 Using simple average fallback: ${avg}`);
         }
       } else if (typeof getAverageOfArray === "function") {
         // Use simple average for fields without "wa" flag
@@ -426,18 +425,13 @@ class ExcelReportGenerator {
               : window.firmName;
         }
   
-        // Get uniqueClients - this is the actual peer group size (unique client count)
-        // NOT the total record count which includes multiple years
+        // Get uniqueClients - convert to a valid choice value
         let uniqueClientsSize =
-          document.getElementById("uniqueClients")?.textContent || 
-          window.uniqueClientSize || 
-          0;
-        
-        // Parse to integer
-        const clientCount = parseInt(uniqueClientsSize);
+          document.getElementById("uniqueClients")?.textContent || 0;
         
         // Convert numeric value to choice value for field 298
         let uniqueClientsChoice = "";
+        const clientCount = parseInt(uniqueClientsSize);
         if (clientCount <= 50) {
           uniqueClientsChoice = "1-50";
         } else if (clientCount <= 100) {
@@ -501,11 +495,9 @@ class ExcelReportGenerator {
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.CLIENT_RID
         }'>${this.escapeXml(ClientRid)}</field>`;
-        // IMPORTANT: Use uniqueClients (peer group size) NOT totalRecordsPeer (total records across years)
-        // totalRecordsPeer includes all records for all years, but we want unique client count
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.TOTAL_RECORDS_PEER
-        }'>${this.escapeXml(clientCount)}</field>`;
+        }'>${this.escapeXml(totalRecordsPeer)}</field>`;
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.TYPE
         }'>${this.escapeXml("Comprehensive")}</field>`;
@@ -616,9 +608,9 @@ class ExcelReportGenerator {
   
         // Process each field mapping
         this.fieldMappings.forEach((mapping, index) => {
-          const [metricName, fieldIds, begin, end, category] = mapping;
+          const [metricName, fieldIds, category, useWeightedAvg] = mapping;
           const isLastMetric = index === this.fieldMappings.length - 1;
-  
+
           // Find which data object contains this metric based on category
           let dataObject;
           switch (category) {
@@ -643,17 +635,17 @@ class ExcelReportGenerator {
             default:
               return; // Skip if no valid category
           }
-  
+
           // Check if data exists for this metric
           if (!dataObject || !dataObject[`${metricName}_Peer`]) {
             return; // Skip if no data found
           }
-  
+
           // Get peer data
           const peerData = dataObject[`${metricName}_Peer`];
-  
-          // Calculate statistics
-          const stats = this.calculateStatistics(dataObject, metricName);
+
+          // Calculate statistics - IMPORTANT: Pass useWeightedAvg flag
+          const stats = this.calculateStatistics(dataObject, metricName, useWeightedAvg);
   
           // Add to metrics XML - specifically NOT using begin or end flags
           if (fieldIds && fieldIds.length >= 4) {
