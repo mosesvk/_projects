@@ -56,7 +56,8 @@ class ExcelReportGenerator {
       ["daysOperatingCash", [59, 61, 60, 62], "cash", true], // wa in Report.js
       ["cashFlowsFromOperatingActivities", [63, 65, 64, 66], "cash", false], // C03.3 - Fixed field name
       ["liquidityRatio", [67, 69, 68, 70], "cash", true], // wa in Report.js
-      ["netCashAvailability", [71, 73, 72, 74], "cash", false],
+      // NOTE: Field 74 doesn't exist in QuickBase - temporarily commented out
+      // ["netCashAvailability", [71, 73, 72, 74], "cash", false],
       ["netCashAvailability_including", [75, 77, 76, 78], "cash", false],
       ["netCashAvailability_standard", [79, 81, 80, 82], "cash", false],
 
@@ -79,9 +80,9 @@ class ExcelReportGenerator {
       ["benefits", [143, 145, 144, 146], "expense", true], // wa in Report.js
       ["salariesBenefits", [147, 149, 148, 150], "expense", true], // wa in Report.js
       ["salariesBenefitsIncludingOutsourcedEmployees", [151, 153, 152, 154], "expense", true], // wa in Report.js
-      ["personnelToCashExpenditure", [155, 157, 156, 158], "expense", true], // wa in Report.js
+      ["personnelToCashExpenditure", [163, 165, 164, 166], "expense", true], // wa in Report.js - SWAPPED: was using 155-158
       ["mandatoryDebtServiceToCashExpenditure", [159, 161, 160, 162], "expense", true], // wa in Report.js
-      ["personnelIncludingToTotalCashExpenditures", [163, 165, 164, 166], "expense", true], // wa in Report.js
+      ["personnelIncludingToTotalCashExpenditures", [155, 157, 156, 158], "expense", true], // wa in Report.js - SWAPPED: was using 163-166
       ["totalGlobalAndLocalOutreachExpenses", [175, 177, 176, 178], "expense", true], // wa in Report.js
       ["cashExpendituresPerGivingUnit", [183, 185, 184, 186], "expense", true], // wa in Report.js
 
@@ -287,18 +288,18 @@ class ExcelReportGenerator {
           min: data[`${metricName}_Stats`].q1 || 0,
           max: data[`${metricName}_Stats`].q3 || 0
         };
-        console.log(`📊 Using _Stats for ${metricName}:`, stats);
+        // console.log(`📊 Using _Stats for ${metricName}:`, stats);
         return stats;
       }
       // Get peer data
       const peerData = data[`${metricName}_Peer`];
       if (!peerData || !peerData.total || !Array.isArray(peerData.total)) {
-        console.warn(`⚠️ No valid peer data for ${metricName}`);
+        // console.warn(`⚠️ No valid peer data for ${metricName}`);
         return { avg: 0, mid: 0, min: 0, max: 0 };
       }
   
       const values = peerData.total.filter((v) => !isNaN(parseFloat(v)));
-      console.log(`📊 Calculating stats for ${metricName}, ${values.length} values, useWeightedAvg: ${useWeightedAvg}`);
+      // console.log(`📊 Calculating stats for ${metricName}, ${values.length} values, useWeightedAvg: ${useWeightedAvg}`);
   
       // Calculate statistics
       let avg, mid, min, max;
@@ -308,13 +309,11 @@ class ExcelReportGenerator {
         // Use weighted average for fields marked with "wa" flag
         try {
           avg = getWeightedAverageOfArray(data, metricName, null);
-          console.log(`  ✅ Weighted avg for ${metricName}: ${avg}`);
+          // console.log(`  ✅ Weighted avg for ${metricName}: ${avg}`);
         } catch (error) {
-          console.error(`  ⚠️ ERROR: Weighted average failed for ${metricName}, falling back to simple average`);
-          console.error(`  Error details:`, error.message);
+          console.error(`  ⚠️ Weighted average failed for ${metricName}, using simple average fallback`);
           // Fallback to simple average
           avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
-          console.warn(`  📍 Using simple average fallback: ${avg}`);
         }
       } else if (typeof getAverageOfArray === "function") {
         // Use simple average for fields without "wa" flag
@@ -425,13 +424,18 @@ class ExcelReportGenerator {
               : window.firmName;
         }
   
-        // Get uniqueClients - convert to a valid choice value
+        // Get uniqueClients (peer group size) - this is the actual count of unique clients
+        // NOT totalRecordsPeer which includes multiple years
         let uniqueClientsSize =
-          document.getElementById("uniqueClients")?.textContent || 0;
+          document.getElementById("uniqueClients")?.textContent || 
+          window.uniqueClientSize || 
+          0;
+        
+        // Parse to integer - this will be used for TOTAL_RECORDS_PEER field
+        const clientCount = parseInt(uniqueClientsSize);
         
         // Convert numeric value to choice value for field 298
         let uniqueClientsChoice = "";
-        const clientCount = parseInt(uniqueClientsSize);
         if (clientCount <= 50) {
           uniqueClientsChoice = "1-50";
         } else if (clientCount <= 100) {
@@ -495,9 +499,11 @@ class ExcelReportGenerator {
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.CLIENT_RID
         }'>${this.escapeXml(ClientRid)}</field>`;
+        // IMPORTANT: Use clientCount (unique clients) NOT totalRecordsPeer (total records across years)
+        // This ensures "Sample Size in Peer Averages" matches the dashboard's "Peer group size"
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.TOTAL_RECORDS_PEER
-        }'>${this.escapeXml(totalRecordsPeer)}</field>`;
+        }'>${this.escapeXml(clientCount)}</field>`;
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.TYPE
         }'>${this.escapeXml("Comprehensive")}</field>`;
