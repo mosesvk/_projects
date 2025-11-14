@@ -56,8 +56,8 @@ class ExcelReportGenerator {
       ["daysOperatingCash", [59, 61, 60, 62], "cash", true], // wa in Report.js
       ["cashFlowsFromOperatingActivities", [63, 65, 64, 66], "cash", false], // C03.3 - Fixed field name
       ["liquidityRatio", [67, 69, 68, 70], "cash", true], // wa in Report.js
-      // NOTE: Field 74 doesn't exist in QuickBase - temporarily commented out
-      // ["netCashAvailability", [71, 73, 72, 74], "cash", false],
+      // WARNING: Field 74 may not exist in QuickBase table - check if error occurs
+      ["netCashAvailability", [71, 73, 72, 74], "cash", false],
       ["netCashAvailability_including", [75, 77, 76, 78], "cash", false],
       ["netCashAvailability_standard", [79, 81, 80, 82], "cash", false],
 
@@ -101,6 +101,7 @@ class ExcelReportGenerator {
 
       // S02.x fields - Cash data
       ["daysOperatingCash", [251, 253, 252, 254], "cash", true], // S02.1
+      // WARNING: Field 258 may not exist in QuickBase table - check if error occurs
       ["netCashAvailability", [255, 257, 256, 258], "cash", false], // S02.2
       ["netCashAvailability_standard", [259, 261, 260, 262], "cash", false], // S02.3
 
@@ -485,12 +486,19 @@ class ExcelReportGenerator {
           ClientRid,
           firmName,
           uniqueClientsSize,
+          clientCount,
           uniqueClientsChoice,
           sliderValue,
           sliderValue2,
           sites, 
           regions
         });
+        
+        console.log("🎯 PEER GROUP SIZE CHECK:");
+        console.log("  - uniqueClientsSize (from DOM):", uniqueClientsSize);
+        console.log("  - clientCount (parsed int):", clientCount);
+        console.log("  - window.uniqueClientSize:", window.uniqueClientSize);
+        console.log("  - This will be sent to QuickBase field 224 (TOTAL_RECORDS_PEER)");
   
         // Start the XML with the XML header
         this.xmlPayload = this.XML.HEADER;
@@ -501,6 +509,7 @@ class ExcelReportGenerator {
         }'>${this.escapeXml(ClientRid)}</field>`;
         // IMPORTANT: Use clientCount (unique clients) NOT totalRecordsPeer (total records across years)
         // This ensures "Sample Size in Peer Averages" matches the dashboard's "Peer group size"
+        console.log(`📤 Sending to QuickBase field ${this.FIELD_IDS.TOTAL_RECORDS_PEER} (TOTAL_RECORDS_PEER): ${clientCount}`);
         this.xmlPayload += `<field fid='${
           this.FIELD_IDS.TOTAL_RECORDS_PEER
         }'>${this.escapeXml(clientCount)}</field>`;
