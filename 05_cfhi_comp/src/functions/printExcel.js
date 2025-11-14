@@ -308,12 +308,14 @@ class ExcelReportGenerator {
         // Use weighted average for fields marked with "wa" flag
         try {
           avg = getWeightedAverageOfArray(data, metricName, null);
-          // console.log(`  AVG (weighted): ${avg}`);
+          console.log(`  ✅ AVG (weighted) for ${metricName}: ${avg}`);
         } catch (error) {
           console.error(`  ⚠️ Error calculating weighted average for ${metricName}:`, error);
+          console.error(`  Stack trace:`, error.stack);
+          console.log(`  Data keys available:`, Object.keys(data).filter(k => !k.includes('_Peer') && !k.includes('_Client')));
           // Fallback to simple average
           avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
-          // console.log(`  AVG (fallback simple): ${avg}`);
+          console.warn(`  ⚠️ FALLBACK to simple average for ${metricName}: ${avg}`);
         }
       } else if (typeof getAverageOfArray === "function") {
         // Use simple average for fields without "wa" flag
