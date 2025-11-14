@@ -1589,7 +1589,7 @@ class DataProcessor {
           year,
           "cashFlowsFromOperatingActivities_Client",
           record,
-          "s49___cash_flow_from_operating_activities"
+          "cfhi_compre_03_bench_paragraph___cash_flows_from_operating_activities"
         );
 
         // daysOperatingCash
