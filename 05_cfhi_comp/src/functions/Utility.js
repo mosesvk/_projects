@@ -1528,8 +1528,96 @@ const addClickEventToBenchmark = (elementId, benchmarkDesc) => {
  * @param {string} elementId - ID of the modal element
  * @returns {Object} - Tingle modal instance
  */
-const createBenchmark = async (benchmarkDesc, elementId) => {
-  // console.log({ benchmarkDesc, elementId });
+/**
+ * Generate a human-readable title from a field name
+ * @param {string} fieldName - The field name (e.g., "daysExpendableNetAssets")
+ * @returns {string} - The formatted title (e.g., "Days Expendable Net Assets Benchmark")
+ */
+const generateBenchmarkTitle = (fieldName) => {
+  // Convert camelCase to Title Case and add "Benchmark"
+  const title = fieldName
+    .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+    .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+    .trim();
+  return `${title} Benchmark`;
+};
+
+/**
+ * Process HTML content and add mb-2 class to p tags
+ * @param {string} htmlContent - The HTML content string
+ * @returns {string} - Processed HTML content
+ */
+const processHtmlContent = (htmlContent) => {
+  if (typeof htmlContent !== 'string') {
+    return '';
+  }
+  
+  // Create a temporary div to parse the HTML
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlContent;
+  
+  // Find all p tags and add mb-2 class
+  const pTags = tempDiv.querySelectorAll('p');
+  pTags.forEach(p => {
+    if (!p.classList.contains('mb-2')) {
+      p.classList.add('mb-2');
+    }
+  });
+  
+  return tempDiv.innerHTML;
+};
+
+/**
+ * Create benchmark modal and populate report content dynamically from localStorage
+ * @param {string} benchmarkFieldName - The field name for the benchmark (e.g., "daysExpendableNetAssets_benchmarkParagraph")
+ * @param {string} dataCategory - The data category (e.g., "cashData", "debtData")
+ * @param {string} elementId - The row element ID (e.g., "row_daysExpendableNetAssets")
+ * @returns {Object} - The tingle modal instance
+ */
+const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
+  // console.log({ benchmarkFieldName, dataCategory, elementId });
+
+  // Get data from localStorage
+  const data = localStorage.getItem(dataCategory);
+  if (!data) {
+    console.warn(`No data found for category: ${dataCategory}`);
+    return null;
+  }
+
+  const parsedData = JSON.parse(data);
+  const benchmarkData = parsedData[benchmarkFieldName];
+  
+  if (!benchmarkData) {
+    console.warn(`No benchmark data found for field: ${benchmarkFieldName}`);
+    return null;
+  }
+
+  // Get selected years to access benchmark paragraph
+  const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
+  if (!selectedYears || selectedYears.length === 0) {
+    console.warn('No selected years found');
+    return null;
+  }
+
+  // Use the first available year to get benchmark paragraph data
+  const targetYear = selectedYears[0];
+  const benchmarkContent = benchmarkData[targetYear]?.value;
+
+  if (!benchmarkContent || benchmarkContent === '0') {
+    console.warn(`No benchmark content for field: ${benchmarkFieldName}, year: ${targetYear}`);
+    return null;
+  }
+
+  // Extract field name from benchmarkFieldName (remove _benchmarkParagraph suffix)
+  const fieldName = benchmarkFieldName.replace(/_benchmarkParagraph$/, '');
+  
+  // Generate title from field name
+  const benchmarkTitle = generateBenchmarkTitle(fieldName);
+
+  // Process HTML content and apply fixUnicodeCharacters
+  let processedContent = processHtmlContent(benchmarkContent);
+  processedContent = fixUnicodeCharacters(processedContent);
+  const processedTitle = fixUnicodeCharacters(benchmarkTitle);
 
   // Create modal for clickable benchmark interactions
   let variable = new tingle.modal({
@@ -1538,59 +1626,23 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
     closeMethods: ["overlay", "button", "escape"],
     closeLabel: "Close",
     cssClass: ["custom-class-1", "custom-class-2"],
-    // onOpen: function () {
-    //   console.log('modal open');
-    // },
-    // onClose: function () {
-    //   console.log('modal closed');
-    // },
     beforeClose: function () {
-      // here's goes some logic
-      // e.g. save content before closing the modal
       return true; // close the modal
-      return false; // nothing happens
     },
   });
 
   // Build modal content (INCLUDE the title for the tingle modal)
-  let modalContent = "";
-  if (benchmarkDesc.length > 1) {
-    let message = "<div>";
-    let p = "";
-    // Include ALL elements starting from index 0 (the title)
-    for (let i = 0; i < benchmarkDesc.length; i++) {
-      p += `<p class="mb-2">${benchmarkDesc[i]}</p>`;
-    }
-    message += p;
-    message += "</div>";
-    modalContent = message;
-    variable.setContent(`${message}`);
-  } else {
-    modalContent = `<p class="mb-2">${benchmarkDesc}</p>`;
-    variable.setContent(modalContent);
-  }
+  const modalContent = `<div><p class="mb-2"><strong>${processedTitle}</strong></p>${processedContent}</div>`;
+  variable.setContent(modalContent);
 
   // Build report content (SKIP the title for the report tab _body-3 section)
-  let reportContent = "";
-  if (benchmarkDesc.length > 1) {
-    let message = "<div>";
-    let p = "";
-    // Skip index 0 (title) and start from index 1
-    for (let i = 1; i < benchmarkDesc.length; i++) {
-      p += `<p class="mb-2">${benchmarkDesc[i]}</p>`;
-    }
-    message += p;
-    message += "</div>";
-    reportContent = message;
-  } else {
-    reportContent = `<p class="mb-2">${benchmarkDesc}</p>`;
-  }
+  const reportContent = `<div>${processedContent}</div>`;
 
   // Populate the _body-3 section with the benchmark description (without title)
   try {
     // Extract field name from elementId (e.g., "row_daysExpendableNetAssets" -> "daysExpendableNetAssets")
-    const fieldName = elementId.replace(/^row_/, '');
-    const body3Selector = `#${fieldName}-body-3 div`;
+    const rowFieldName = elementId.replace(/^row_/, '');
+    const body3Selector = `#${rowFieldName}-body-3 div`;
     const body3Element = document.querySelector(body3Selector);
     
     if (body3Element) {
@@ -1604,13 +1656,9 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
   }
 
   // Set up click handlers for year columns
-  const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
-  // console.log('createBenchmark', {selectedYears, elementId})
   if (selectedYears) {
     const children = await document.getElementById(elementId).children;
-    // console.log(children);
-    // console.log('createBenchmark', {selectedYears, elementId})
-
+    
     for (let i = 1; i < selectedYears.length + 1; i++) {
       editElementChildren(children[i], variable, elementId);
     }

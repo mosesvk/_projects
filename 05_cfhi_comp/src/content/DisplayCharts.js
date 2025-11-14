@@ -159,37 +159,11 @@ const displayCashComponent = () => {
     null // no weighted average
   );
 
-  const daysExpendable_benchmark = [
-    fixUnicodeCharacters("Days Expendable Benchmark"),
-    fixUnicodeCharacters('We believe a reasonable benchmark for this ratio is 30 to 60 days of cash expenses on hand. Furthermore, a result of less than 30 days could be interpreted as a <span class="red">red flag</span>.'),
-  ];
-  createBenchmark(daysExpendable_benchmark, "row_daysExpendableNetAssets");
-
-  const daysOperatingCash_benchmark = [
-    fixUnicodeCharacters("Days Operating Cash Benchmark"),
-    fixUnicodeCharacters("Some churches want to maintain a certain level of reserves. The reserves can be used for economic downturns or unexpected expenses, events, or new opportunities. Often, churches that try to build up reserves have a goal."),
-    fixUnicodeCharacters('We believe an appropriate benchmark for this ratio is 90 - 130 days of annual cash expenditures on hand.  Furthermore, a result of less than 60 days could be interpreted as a  <span class="red">red flag</span>'),
-  ];
-  createBenchmark(daysOperatingCash_benchmark, "row_daysOperatingCash");
-
-  const cashFlowsFromOperatingActivities_benchmark = [
-    fixUnicodeCharacters("Cash Flows from Operating Activities Benchmark"),
-    fixUnicodeCharacters("We believe the benchmark for this ratio is greater than or equal to 0."),
-  ];
-  createBenchmark(cashFlowsFromOperatingActivities_benchmark, "row_cashFlowsFromOperatingActivities");
-
-
-  const liquidityRatio_benchmark = [
-    fixUnicodeCharacters("Liquidity Ratio Benchmark"),
-    fixUnicodeCharacters("Based on our experience, we have set the minimum benchmark for this ratio at greater than or equal to 4.0. Results less than this may indicate that the church is keeping fewer liquid reserves and is less likely to be able to handle unexpected operating expenses, events, or new opportunities that may come along."),
-  ];
-  createBenchmark(liquidityRatio_benchmark, "row_liquidityRatio");
-
-  const netCashAvailability_benchmark = [
-    fixUnicodeCharacters("Net Cash Availability Benchmark"),
-    fixUnicodeCharacters('We believe the minimum benchmark for this number is at least one month\'s worth of cash expenses. Any positive amount less than this is in the warning range. Any negative amount indicates that the church is borrowing from funds with donor restrictions and could be interpreted as a <span class="red">red flag</span>. Also, a calculation that is positive only when amounts available on an operating line of credit are included could be interpreted as a <span class="red">red flag</span> because the church is still relying on short-term revolving debt to meet its immediate cash needs.'),
-  ];
-  createBenchmark(netCashAvailability_benchmark, "row_netCashAvailability");
+  createBenchmark("daysExpendableNetAssets_benchmarkParagraph", "cashData", "row_daysExpendableNetAssets");
+  createBenchmark("daysOperatingCash_benchmarkParagraph", "cashData", "row_daysOperatingCash");
+  createBenchmark("cashFlowsFromOperatingActivities_benchmarkParagraph", "cashData", "row_cashFlowsFromOperatingActivities");
+  createBenchmark("liquidityRatio_benchmarkParagraph", "cashData", "row_liquidityRatio");
+  createBenchmark("netCashAvailability_benchmarkParagraph", "cashData", "row_netCashAvailability");
 
   closeSidebarAfterSelectingOption("cash");
 };
@@ -268,42 +242,11 @@ const displayDebtComponent = () => {
     "wa" // use weighted average
   );
 
-  const debtToContributionsWithout_benchmark = [
-    fixUnicodeCharacters("Debt to Contributions Without Donor Restrictions Benchmark"),
-    fixUnicodeCharacters("We discussed this with several church lenders and concluded that the benchmark for this ratio should be less than or equal to 2.0."),
-    fixUnicodeCharacters("Based on our experience with church clients across the country, we realize the lower this ratio is, the less strain debt will be on the church\'s budget.  We started with the lender-recommended benchmark as the maximum limit and have further broken it down as follows:"),
-    fixUnicodeCharacters("A ratio less than or equal to 2.0 is within the benchmark."),
-    fixUnicodeCharacters("Any ratio greater than 2.0 to 3.0 is in the warning range."),
-    fixUnicodeCharacters('Any amount in excess of 3.0 could be interpreted as a <strong class="red">red flag.</strong>  A ratio result that high indicates that the church\'s debt levels are in excess of three times the support without donor restrictions, which places excessive burden on the budget. It also means that debt is at a level lenders consider too great for the church to support.'),
-  ];
-  createBenchmark(
-    debtToContributionsWithout_benchmark,
-    "row_debtToContributionsWithout"
-  );
-
-  const currentRatio_benchmark = [
-    fixUnicodeCharacters("Current Ratio Benchmark"),
-    fixUnicodeCharacters("We believe the benchmark for this ratio is a minimum of 2.0."),
-  ];
-  createBenchmark(currentRatio_benchmark, "row_currentRatio");
-
-  const mandatoryDebtService_benchmark = [
-    fixUnicodeCharacters("Mandatory Debt Service to Contributions Benchmark"),
-    fixUnicodeCharacters("The benchmark was set based on our discussions with various church lenders, who had very consistent responses. We believe the benchmark for this ratio is less than 15% - 20% of contributions without donor restrictions. However, some lenders will allow up to 30% of contributions without donor restrictions as an acceptable benchmark. Results below the benchmark would allow room in the budget in case the church\'s interest rate increases."),
-  ];
-  createBenchmark(
-    mandatoryDebtService_benchmark,
-    "row_mandatoryDebtServiceToContributionsWithout"
-  );
-
-  // Removed: Debt Per Average Adult Attendee (ratio deleted)
-
-
-  const debtCoverage_benchmark = [
-    fixUnicodeCharacters("Debt Coverage Benchmark"),
-    fixUnicodeCharacters("We believe the benchmark is a result greater than or equal to 1.15, based on our conversations with church lenders and our experience."),
-  ];
-  createBenchmark(debtCoverage_benchmark, "row_debtCoverage");
+  createBenchmark("debtToContributionsWithout_benchmarkParagraph", "debtData", "row_debtToContributionsWithout");
+  createBenchmark("currentRatio_benchmarkParagraph", "debtData", "row_currentRatio");
+  createBenchmark("mandatoryDebtServiceToContributionsWithout_benchmarkParagraph", "debtData", "row_mandatoryDebtServiceToContributionsWithout");
+  createBenchmark("debtPerGivingUnit_benchmarkParagraph", "debtData", "row_debtPerGivingUnit");
+  createBenchmark("debtCoverage_benchmarkParagraph", "debtData", "row_debtCoverage");
 
   closeSidebarAfterSelectingOption("debt");
 };
@@ -354,52 +297,12 @@ const displayIncomeComponent = () => {
     null // no weighted average
   );
 
-  const netIncome_benchmark = [
-    fixUnicodeCharacters("Net Income Ratio Benchmark"),
-    fixUnicodeCharacters("The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years."),
-  ];
-  createBenchmark(netIncome_benchmark, "row_netIncomeRatio");
-  const netIncome_twoYrAvg_benchmark = [
-    fixUnicodeCharacters("Net Income Ratio Two Year Average Benchmark"),
-    fixUnicodeCharacters("The benchmark for this ratio in any particular year is that it is positive. However, we understand there will be years the church invests in its ministry and the ratio may be negative because of a predetermined choice. A more important benchmark is for the average net income ratio to be an improving trend over the years."),
-  ];
-  createBenchmark(netIncome_twoYrAvg_benchmark, "row_netIncomeRatio_twoYrAvg");
-
-
-
-  const contrWithoutDonorPerGivingUnit_benchmark = [
-    fixUnicodeCharacters("Contributions Without Donor Restrictions Per Giving Unit Benchmark"),
-    fixUnicodeCharacters("An improving trend is the benchmark."),
-  ];
-  createBenchmark(
-    contrWithoutDonorPerGivingUnit_benchmark,
-    "row_contributionsWithoutDonorPerGivingUnit_percentChange"
-  );
-
-
-  const totalContributionsPerGivingUnit_percentChange_benchmark = [
-    fixUnicodeCharacters("Total Contributions Per Giving Unit Benchmark"),
-    fixUnicodeCharacters("An improving trend is the benchmark."),
-  ];
-
-  const totalContributionsPerGivingUnit_benchmark = [
-    fixUnicodeCharacters("Total Contributions Per Giving Unit Benchmark"),
-    fixUnicodeCharacters("When a church is in the midst of a specific campaign, it will likely receive some large one-time gifts. Since this ratio includes both gifts with and without donor restrictions, it is important to determine if any unusual or large gifts should be eliminated; otherwise, there could be large swings between years. The power of this ratio is in analyzing trends in congregational giving habits between years. Keep in mind that during the period of a capital campaign this figure may be inflated even with the removal of large or one-time gifts because of an increase in smaller gifts as well. This result indicates that the measure is within the recommended benchmark and giving per adult attendee is strong."),
-  ];
-  createBenchmark(
-    totalContributionsPerGivingUnit_percentChange_benchmark,
-    "row_totalContributionsPerGivingUnit_percentChange"
-  );
-  createBenchmark(
-    totalContributionsPerGivingUnit_benchmark,
-    "row_totalContributionsPerGivingUnit"
-  );
-
-  const localCounty_benchmark = [
-    fixUnicodeCharacters(`Local County - Benchmark`),
-    fixUnicodeCharacters("We believe that a reasonable benchmark is between 1.5% - 3% of the total giving."),
-  ];
-  createBenchmark(localCounty_benchmark, "row_localCounty");
+  createBenchmark("netIncomeRatio_benchmarkParagraph", "incomeData", "row_netIncomeRatio");
+  createBenchmark("netIncomeRatio_twoYrAvg_benchmarkParagraph", "incomeData", "row_netIncomeRatio_twoYrAvg");
+  createBenchmark("contributionsWithoutDonorPerGivingUnit_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
+  createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit");
+  createBenchmark("totalContributionsPerGivingUnit_percentChange_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
+  createBenchmark("localCounty_benchmarkParagraph", "incomeData", "row_localCounty");
 
   closeSidebarAfterSelectingOption("income");
 };
@@ -464,38 +367,10 @@ const displayExpenseComponent = () => {
     "wa" // use weighted average
   );
 
-  const personnelToCash_benchmark = [
-    fixUnicodeCharacters("Personnel to Cash Expenditure Benchmark"),
-    fixUnicodeCharacters("40% - 55%"),
-  ];
-  createBenchmark(personnelToCash_benchmark, "row_personnelToCashExpenditure");
-
-  const mandatoryDebtToCashExpend_benchmark = [
-    fixUnicodeCharacters("Mandatory Debt Service to Cash Expenditure Benchmark"),
-    fixUnicodeCharacters("15% or less"),
-  ];
-  createBenchmark(
-    mandatoryDebtToCashExpend_benchmark,
-    "row_mandatoryDebtServiceToCashExpenditure"
-  );
-
-  const personnelIncludingToTotalCashExpenditures_benchmark = [
-    fixUnicodeCharacters("Personnel Including Benefits to Total Cash Expenditures Benchmark"),
-    fixUnicodeCharacters("An improving trend is the benchmark."),
-  ];
-  createBenchmark(
-    personnelIncludingToTotalCashExpenditures_benchmark,
-    "row_personnelIncludingToTotalCashExpenditures"
-  );
-
-  const totalGlobalAndLocalOutreachExpenses_benchmark = [
-    fixUnicodeCharacters("Total Global and Local Outreach Expenses Benchmark"),
-    fixUnicodeCharacters("10% - 25%"),
-  ];
-  createBenchmark(
-    totalGlobalAndLocalOutreachExpenses_benchmark,
-    "row_totalGlobalAndLocalOutreachExpenses"
-  );
+  createBenchmark("personnelToCashExpenditure_benchmarkParagraph", "expenseData", "row_personnelToCashExpenditure");
+  createBenchmark("mandatoryDebtServiceToCashExpenditure_benchmarkParagraph", "expenseData", "row_mandatoryDebtServiceToCashExpenditure");
+  createBenchmark("personnelIncludingToTotalCashExpenditures_benchmarkParagraph", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
+  createBenchmark("totalGlobalAndLocalOutreachExpenses_benchmarkParagraph", "expenseData", "row_totalGlobalAndLocalOutreachExpenses");
 
   // Removed facility expense and cost per square foot ratios per todo
 

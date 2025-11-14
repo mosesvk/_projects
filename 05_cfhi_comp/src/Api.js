@@ -1589,6 +1589,16 @@ class DataProcessor {
           year,
           "cashFlowsFromOperatingActivities_Client",
           record,
+          "cfhi_compre_03_ratio___cash_flows_from_operating_activities",
+          "cfhi_compre_03_bench_rating___cash_flows_from_operating_activities"
+        );
+        
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          'cashFlowsFromOperatingActivities_benchmarkParagraph',
+          record,
           "cfhi_compre_03_bench_paragraph___cash_flows_from_operating_activities"
         );
 
@@ -2458,6 +2468,15 @@ class DataProcessor {
           "cfhi_compre_11a_ratio___two_year_net_income_ratio",
           "cfhi_compre_11a_bench_ratings___two_year_net_income_ratio"
         );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'netIncomeRatio_twoYrAvg_benchmarkParagraph',
+          record,
+          "cfhi_compre_11_bench_paragraph___net_income_ratio"
+        );
 
         // contributionsWithoutDonorPerAverageAdultAttendee (removed per todo)
 
@@ -2480,6 +2499,15 @@ class DataProcessor {
           record,
           "cfhi_compre_12b_ratio_change__contributions_without_donor_restrictions_per_giving_unit",
           "cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu"
+        );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'contributionsWithoutDonorPerGivingUnit_benchmarkParagraph',
+          record,
+          "cfhi_compre_13b_bench_paragraph___total_contributions_per_giving_unit"
         );
 
         // totalContributionsPerAverageAdultAttendee (removed per todo)
@@ -2514,6 +2542,15 @@ class DataProcessor {
           "cfhi_compre_13b_ratio_change___total_contributions_per_giving_unit",
           "cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit"
         );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'totalContributionsPerGivingUnit_percentChange_benchmarkParagraph',
+          record,
+          "cfhi_compre_13b_bench_paragraph___total_contributions_per_giving_unit"
+        );
 
         // localCountyPerGivingUnit variations
         this.dataStore.insertData(
@@ -2525,6 +2562,16 @@ class DataProcessor {
           "cfhi_compre_14_ratio___median_household_income_given_to_church",
           "cfhi_compre_14_bench_rating___median_household_income_given_to_church"
         );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'localCounty_benchmarkParagraph',
+          record,
+          "cfhi_compre_14_bench_paragraph___median_household_income_given_to_church"
+        );
+        
         this.dataStore.insertData(
           "income",
           "client",
@@ -3424,6 +3471,15 @@ class DataProcessor {
           "cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures",
           "cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures"
         );
+        
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          'mandatoryDebtServiceToCashExpenditure_benchmarkParagraph',
+          record,
+          "cfhi_compre_17_2_bench_paragraph___mandatory_debt_to_total_cash_expenditures"
+        );
 
         // personnelIncludingToTotalCashExpenditures
         this.dataStore.insertData(
@@ -3434,6 +3490,15 @@ class DataProcessor {
           record,
           "cfhi_compre_17_3_ratio___personnel_and_outsourced_to_total_cash_expenditures",
           "cfhi_compre_17_3_bench_rating___personnel_and_outsourced_to_total_cash_expenditures"
+        );
+        
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          'personnelIncludingToTotalCashExpenditures_benchmarkParagraph',
+          record,
+          "cfhi_compre_17_3_bench_paragraph___personnel_and_outsourced_to_total_cash_expenditures"
         );
 
         // localOutreachExpenses
@@ -3465,6 +3530,15 @@ class DataProcessor {
           record,
           "cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend",
           "cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend"
+        );
+        
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          'totalGlobalAndLocalOutreachExpenses_benchmarkParagraph',
+          record,
+          "cfhi_compre_18c_bench_paragraph___total_outreach_to_total_cash_expend"
         );
 
         // cashExpendituresPerAvgAdultAttendee
