@@ -820,6 +820,21 @@ class ExcelReportGenerator {
         
         // Process BENCHMARK fields (S-prefix fields 239-286)
         processFieldMappings(this.benchmarkFieldMappings, "BENCHMARK");
+        
+        // CRITICAL FIX: Excel template requires field 74 to exist (even if empty)
+        // Send empty values for fields 71-74 to satisfy template requirements
+        metricsXml +=
+          `<field fid='71'>0</field>` +
+          `<field fid='72'>0</field>` +
+          `<field fid='73'>0</field>` +
+          `<field fid='74'>0</field>`;
+        
+        // Also send empty values for benchmark fields 255-258
+        metricsXml +=
+          `<field fid='255'>0</field>` +
+          `<field fid='256'>0</field>` +
+          `<field fid='257'>0</field>` +
+          `<field fid='258'>0</field>`;
 
         console.log(`\n✅ Total Fields PROCESSED: ${fieldsProcessed.length}`);
         console.log(`  - Trends fields: ${fieldsProcessed.filter(f => f.reportType === 'TRENDS').length}`);
