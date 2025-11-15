@@ -62,8 +62,9 @@ class ExcelReportGenerator {
       // NOTE: Field 74 doesn't exist in QuickBase - netCashAvailability commented out
       // To fix: Add field 74 to QuickBase table or contact admin
       // ["netCashAvailability", [71, 73, 72, 74], "cash", false],
-      ["netCashAvailability_including", [75, 77, 76, 78], "cash", false],
-      ["netCashAvailability_standard", [79, 81, 80, 82], "cash", false],
+      // TEMPORARILY DISABLED: Testing if fields 75-82 depend on 71-74 existing
+      // ["netCashAvailability_including", [75, 77, 76, 78], "cash", false],
+      // ["netCashAvailability_standard", [79, 81, 80, 82], "cash", false],
 
       // Debt data (debtData) - C04.x fields
       ["debtToContributionsWithout", [83, 85, 84, 86], "debt", true], // wa in Report.js
@@ -105,8 +106,8 @@ class ExcelReportGenerator {
 
       // S02.x fields - Cash data
       ["daysOperatingCash", [251, 253, 252, 254], "cash", true], // S02.1
-      // Fields 255-258 exist in QuickBase - re-enabled for Benchmark report
-      ["netCashAvailability", [255, 257, 256, 258], "cash", false], // S02.2
+      // DISABLED: Excel template service cannot find field 258 - template schema issue  
+      // ["netCashAvailability", [255, 257, 256, 258], "cash", false],
       ["netCashAvailability_standard", [259, 261, 260, 262], "cash", false], // S02.3
 
       // S03.x fields - Debt data
