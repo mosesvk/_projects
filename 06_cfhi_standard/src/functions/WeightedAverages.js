@@ -143,7 +143,7 @@ const debtToContributionsWithout_weightedAverage = (data, name) => {
 const daysOperatingCash_weightedAverage = (data, name) => {
   const s18 = getSumOfArray(data.totalCash[name]);
   const s20 = getSumOfArray(data.nonEndowmentInvestment[name]);
-  const s36 = getSumOfArray(data.totalDeferredRevenue[name]);
+  const s36 = getSumOfArray(data.netAssetWithDonorRestriction[name]);
   const s45 = getSumOfArray(data.totalExpense[name]);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]);
 

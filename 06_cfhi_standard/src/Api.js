@@ -651,9 +651,9 @@ class DataProcessor {
           "cash",
           "peer",
           year,
-          "totalDeferredRevenue",
+          "netAssetWithDonorRestriction",
           record,
-          "s36___total_deferred_revenue",
+          "s36___net_asset_with_donor_restriction",
           "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
           "daysOperatingCash"
         );
@@ -981,12 +981,12 @@ class DataProcessor {
           "cfhi_stand_04_bench_paragraph___debt_per_givingunit"
         );
 
-        // debtPerGivingUnit_standard
+        // contributionsWithoutDonorPerGivingUnit_standard
         this.dataStore.insertData(
           "debt",
           "client",
           year,
-          "debtPerGivingUnit_standard_Client",
+          "contributionsWithoutDonorPerGivingUnit_standard_Client",
           record,
           "cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit"
         );
