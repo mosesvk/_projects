@@ -1138,7 +1138,8 @@ const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
   const benchmarkContent = benchmarkData[targetYear]?.value;
 
   if (!benchmarkContent || benchmarkContent === '0') {
-    console.warn(`No benchmark content for field: ${benchmarkFieldName}, year: ${targetYear}`);
+    // Silently skip if benchmark content is missing (field may not exist in QuickBase)
+    // console.warn(`No benchmark content for field: ${benchmarkFieldName}, year: ${targetYear}`);
     return null;
   }
 
