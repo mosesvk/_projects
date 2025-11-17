@@ -1257,8 +1257,8 @@ class DataProcessor {
           year,
           "cashFlowsFromOperatingActivities_Peer",
           record,
-          "s49___cash_flow_from_operating_activities",
-          "Yes"
+          "cfhi_compre_03_ratio___cash_flows_from_operating_activities",
+          "cfhi_compre_03_yes_no___cash_flows_from_operating_activities"
         );
 
 
@@ -1589,7 +1589,17 @@ class DataProcessor {
           year,
           "cashFlowsFromOperatingActivities_Client",
           record,
-          "s49___cash_flow_from_operating_activities"
+          "cfhi_compre_03_ratio___cash_flows_from_operating_activities",
+          "cfhi_compre_03_bench_rating___cash_flows_from_operating_activities"
+        );
+        
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          'cashFlowsFromOperatingActivities_benchmarkParagraph',
+          record,
+          "cfhi_compre_03_bench_paragraph___cash_flows_from_operating_activities"
         );
 
         // daysOperatingCash
@@ -1913,7 +1923,8 @@ class DataProcessor {
           "debtPerGivingUnit_standard"
         );
 
-        // debtCoverage [s48, s167, s47, s46, s154]
+
+        // debtCoverage [s48, s167, s47, s46, s154, s90, s164]
         this.dataStore.insertData(
           "debt",
           "peer",
@@ -1970,6 +1981,26 @@ class DataProcessor {
           "requiredMinimumDebtPrinciple",
           record,
           "s154___required_minimum_debt_principal_payment_for_the_next_year",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "nextFiscalYearsRefinancedLoanPayments",
+          record,
+          "s90___next_fiscal_years_refinanced_loan_payments",
+          "cfhi_compre_10_yes_no___debt_coverage",
+          "debtCoverage"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "oneTimePayoffDebtDueNextYear",
+          record,
+          "s164___one_time_payoff_of_debt_due_in_the_next_year",
           "cfhi_compre_10_yes_no___debt_coverage",
           "debtCoverage"
         );
@@ -2437,6 +2468,15 @@ class DataProcessor {
           "cfhi_compre_11a_ratio___two_year_net_income_ratio",
           "cfhi_compre_11a_bench_ratings___two_year_net_income_ratio"
         );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'netIncomeRatio_twoYrAvg_benchmarkParagraph',
+          record,
+          "cfhi_compre_11_bench_paragraph___net_income_ratio"
+        );
 
         // contributionsWithoutDonorPerAverageAdultAttendee (removed per todo)
 
@@ -2460,6 +2500,15 @@ class DataProcessor {
           "cfhi_compre_12b_ratio_change__contributions_without_donor_restrictions_per_giving_unit",
           "cfhi_compre_12b_bench_ratings___percent_change___contributions_without_donor_restrictions_per_gu"
         );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'contributionsWithoutDonorPerGivingUnit_benchmarkParagraph',
+          record,
+          "cfhi_compre_13b_bench_paragraph___total_contributions_per_giving_unit"
+        );
 
         // totalContributionsPerAverageAdultAttendee (removed per todo)
 
@@ -2471,7 +2520,16 @@ class DataProcessor {
           "totalContributionsPerGivingUnit_Client",
           record,
           "cfhi_compre_13b_ratio___total_contributions_per_giving_unit",
-          "cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit"
+          "cfhi_compre_13b_bench_rating___total_contributions_per_giving_unit"
+        );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'totalContributionsPerGivingUnit_benchmarkParagraph',
+          record,
+          "cfhi_compre_13b_bench_paragraph___total_contributions_per_giving_unit"
         );
 
         // totalContributionsPerGivingUnit_percentChange
@@ -2484,6 +2542,15 @@ class DataProcessor {
           "cfhi_compre_13b_ratio_change___total_contributions_per_giving_unit",
           "cfhi_compre_13b_bench_ratings___percent_change___total_contributions_per_giving_unit"
         );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'totalContributionsPerGivingUnit_percentChange_benchmarkParagraph',
+          record,
+          "cfhi_compre_13b_bench_paragraph___total_contributions_per_giving_unit"
+        );
 
         // localCountyPerGivingUnit variations
         this.dataStore.insertData(
@@ -2495,6 +2562,16 @@ class DataProcessor {
           "cfhi_compre_14_ratio___median_household_income_given_to_church",
           "cfhi_compre_14_bench_rating___median_household_income_given_to_church"
         );
+        
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          'localCounty_benchmarkParagraph',
+          record,
+          "cfhi_compre_14_bench_paragraph___median_household_income_given_to_church"
+        );
+        
         this.dataStore.insertData(
           "income",
           "client",
@@ -3394,6 +3471,15 @@ class DataProcessor {
           "cfhi_compre_17_2_ratio___mandatory_debt_to_total_cash_expenditures",
           "cfhi_compre_17_2_bench_rating___mandatory_debt_to_total_cash_expenditures"
         );
+        
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          'mandatoryDebtServiceToCashExpenditure_benchmarkParagraph',
+          record,
+          "cfhi_compre_17_2_bench_paragraph___mandatory_debt_to_total_cash_expenditures"
+        );
 
         // personnelIncludingToTotalCashExpenditures
         this.dataStore.insertData(
@@ -3404,6 +3490,15 @@ class DataProcessor {
           record,
           "cfhi_compre_17_3_ratio___personnel_and_outsourced_to_total_cash_expenditures",
           "cfhi_compre_17_3_bench_rating___personnel_and_outsourced_to_total_cash_expenditures"
+        );
+        
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          'personnelIncludingToTotalCashExpenditures_benchmarkParagraph',
+          record,
+          "cfhi_compre_17_3_bench_paragraph___personnel_and_outsourced_to_total_cash_expenditures"
         );
 
         // localOutreachExpenses
@@ -3435,6 +3530,15 @@ class DataProcessor {
           record,
           "cfhi_compre_18c_ratio___total_outreach_to_total_cash_expend",
           "cfhi_compre_18c_bench_rating___total_outreach_to_total_cash_expend"
+        );
+        
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          'totalGlobalAndLocalOutreachExpenses_benchmarkParagraph',
+          record,
+          "cfhi_compre_18c_bench_paragraph___total_outreach_to_total_cash_expend"
         );
 
         // cashExpendituresPerAvgAdultAttendee
@@ -3607,7 +3711,7 @@ class DataProcessor {
           year,
           "averageAnnualAccountingDepartment",
           record,
-          "s158___average_annual_accounting_department",
+          "s158___average_annual_accounting_department_full_time_employee",
           "cfhi_compre_21_yes_no___expenses_per_accounting_fte",
           "expensesPerAccountingFTE"
         );
@@ -3874,7 +3978,7 @@ class ApiService {
       {98.EX.${ClientRid}} AND {105.EX.'Comprehensive'} AND {474.EX.${currentYear}} 
     `,
       clist:
-        "452.98.474.22.21.34.35.259.300.301.60.302.69.28.73.257.258.260.261.263.303.304.264.262.265.266.280.267.281.268.269.270.271.272.273.275.278.277.276.279.242.243.244.305.306.245.307.308.309.310.246.311.312.313.274.389.390.391.392.393.230.282.283.286.285.284.75.399.401.402.403.404.405.406.407.408.409.317.318.321.327.329.330.333.335.339.341.342.345.377.379.256.255.254.253.252.33.288.445.446.447.448.449.294.295.296.297.298.299.437.444.438.443.439.440.442.441.313.410.316.319.320.326.328.331.332.334.338.340.343.346.378.381.383.380.251.250.249.248.247.213.216.220.223.236.672.674.67",
+        "452.98.474.22.21.34.35.259.300.301.60.302.69.28.73.257.258.260.261.263.303.304.264.262.265.266.280.267.281.268.269.270.271.272.273.275.278.277.276.279.242.243.244.305.306.245.307.308.309.310.246.311.312.313.274.389.390.391.392.393.230.282.283.286.285.284.75.399.401.402.403.404.405.406.407.408.409.317.318.321.327.329.330.333.335.339.341.342.345.377.379.256.255.254.253.252.33.288.445.446.447.448.449.294.295.296.297.298.299.437.444.438.443.439.440.442.441.313.410.316.319.320.326.328.331.332.334.338.340.343.346.378.381.383.380.251.250.249.248.247.213.216.220.223.236.672.674.67.695.696",
     };
 
     try {
@@ -3896,7 +4000,7 @@ class ApiService {
         dataStr += newRecord.outerHTML;
       }
 
-      // console.log("client records", dataStr);
+      console.log("client records", dataStr);
       // console.log("recordClientHTMLArray", this.recordClientHTMLArray);
 
       // Recursive call with updated years and dataStr
@@ -4189,7 +4293,7 @@ class ApiService {
     // Create all API calls for parallel execution
     const apiCalls = [];
     const clist =
-      "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178.301.412.413";
+      "195.123.122.135.136.226.160.137.161.176.354.170.129.174.252.253.254.255.256.257.258.259.260.261.262.263.264.265.405.239.156.158.149.142.143.153.155.164.162.132.131.141.140.171.172.173.157.181.182.165.179.145.147.169.138.168.139.180.177.152.150.151.154.166.167.163.175.178.133.227.228.229.230.231.232.233.234.235.144.146.159.148.236.237.238.239.240.241.242.243.244.245.246.247.248.249.250.251.267.268.271.274.273.276.277.278.279.280.281.282.283.134.284.286.287.288.289.290.291.324.325.326.327.328.352.329.353.330.331.332.333.334.335.406.240.167.181.356.162.241.137.122.357.242.123.358.243.161.163.138.359.244.361.245.365.273.136.363.274.364.249.366.170.367.250.164.181.182.139.180.165.368.251.166.369.271.175.370.277.142.371.278.140.372.279.141.373.280.374.281.375.282.173.376.283.377.284.133.378.286.379.287.129.380.288.381.289.382.290.383.291.178.301.412.413.414.415.416.417.418";
 
     for (const currentYear of years) {
       for (const clientBatch of clientBatches) {
@@ -4258,7 +4362,7 @@ class ApiService {
       const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
       
       // Log peer records data
-      console.log("peer records (batched)", dataStr + recordHtmlParts.join(""));
+      // console.log("peer records (batched)", dataStr + recordHtmlParts.join(""));
       
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");

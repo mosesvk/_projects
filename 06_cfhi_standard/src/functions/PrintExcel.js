@@ -127,8 +127,13 @@ class ExcelReportGenerator {
     this.isGenerating = true;
     const button = document.getElementById("generateReports");
 
-    button.disabled = true;
-    button.textContent = "Generating...";
+    // Use toggleButtonLoadingState if available, otherwise use direct manipulation
+    if (typeof toggleButtonLoadingState === "function") {
+      toggleButtonLoadingState(button);
+    } else {
+      button.disabled = true;
+      button.textContent = "Generating...";
+    }
 
     // Validate data is available (use Standard Project data categories)
     if (!localStorage.getItem("demoData") &&
@@ -142,8 +147,14 @@ class ExcelReportGenerator {
         );
       }
 
-      button.disabled = false;
-      button.textContent = "Generate Reports";
+      // Use toggleGenerateReportButtonNormalState if available
+      if (typeof toggleGenerateReportButtonNormalState === "function") {
+        toggleGenerateReportButtonNormalState(button);
+      } else {
+        button.disabled = false;
+        button.textContent = "Generate Trends and Benchmark Reports";
+      }
+
       this.isGenerating = false;
       return;
     }
@@ -152,8 +163,14 @@ class ExcelReportGenerator {
     setTimeout(() => {
       this.createPrintExcel()
         .then(() => {
-          button.disabled = false;
-          button.textContent = "Generate Reports";
+          // Use toggleGenerateReportButtonNormalState if available
+          if (typeof toggleGenerateReportButtonNormalState === "function") {
+            toggleGenerateReportButtonNormalState(button);
+          } else {
+            button.disabled = false;
+            button.textContent = "Generate Trends and Benchmark Reports";
+          }
+
           this.isGenerating = false;
         })
         .catch((error) => {
@@ -165,8 +182,14 @@ class ExcelReportGenerator {
             );
           }
 
-          button.disabled = false;
-          button.textContent = "Generate Reports";
+          // Use toggleGenerateReportButtonNormalState if available
+          if (typeof toggleGenerateReportButtonNormalState === "function") {
+            toggleGenerateReportButtonNormalState(button);
+          } else {
+            button.disabled = false;
+            button.textContent = "Generate Trends and Benchmark Reports";
+          }
+
           this.isGenerating = false;
         });
     }, 100);
@@ -582,9 +605,11 @@ class ExcelReportGenerator {
         const parseError = xmlDoc.querySelector("parsererror");
         if (parseError) {
           console.error("XML validation failed:", parseError.textContent);
+          // Continue anyway but log the error
         }
       } catch (validationError) {
         console.error("Error validating XML:", validationError);
+        // Continue anyway but log the error
       }
 
       // Add delay before sending the request to ensure data is ready
@@ -725,11 +750,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const newBtn = generateReportsBtn.cloneNode(true);
     generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
 
-    // Add a single click event listener
+    // Add a single click event listener (removed { once: true } to allow multiple clicks)
     newBtn.addEventListener(
       "click",
-      excelReportGenerator.handleGenerateReport.bind(excelReportGenerator),
-      { once: true } // This ensures the event only fires once per click
+      excelReportGenerator.handleGenerateReport.bind(excelReportGenerator)
     );
   }
 
