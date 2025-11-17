@@ -349,10 +349,15 @@ class DataStore {
     const targetData = this[`${category}Data`];
 
     const childElement = record.querySelector(child);
-    const innerData =
+    let innerData =
       childElement && childElement.innerHTML.split("").length > 0
         ? childElement.innerHTML.trim()
         : 0;
+
+    // Decode HTML entities if the value is a string (typically for benchmark paragraphs)
+    if (typeof innerData === 'string' && innerData !== '0') {
+      innerData = this.decodeHtmlEntities(innerData);
+    }
 
     if (type === "client") {
       const benchmarkField = dynamicValueClientPeer
@@ -549,6 +554,26 @@ class DataProcessor {
           "s02___giving_units"
         );
 
+        // givingUnits benchmark paragraph (if field exists)
+        this.dataStore.insertData(
+          "demo",
+          "client",
+          year,
+          "givingUnits_benchmarkParagraph",
+          record,
+          "cfhi_stand_00_bench_paragraph___giving_units"
+        );
+
+        // givingUnits_percentChange (client data only, no peer data)
+        this.dataStore.insertData(
+          "demo",
+          "client",
+          year,
+          "givingUnits_percentChange_Client",
+          record,
+          "cfhi_stand_00_ratio_change___giving_units"
+        );
+
         // contributionsWithoutDonorExcludingLargeGifts
         this.dataStore.insertData(
           "demo",
@@ -557,6 +582,16 @@ class DataProcessor {
           "contributionsWithoutDonorExcludingLargeGifts_Client",
           record,
           "cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_large"
+        );
+
+        // contributionsWithoutDonorExcludingLargeGifts benchmark paragraph (if field exists)
+        this.dataStore.insertData(
+          "demo",
+          "client",
+          year,
+          "contributionsWithoutDonorExcludingLargeGifts_benchmarkParagraph",
+          record,
+          "cfhi_stand_00b_bench_paragraph___contributions_without_donor_excluding_large_gifts"
         );
 
         // totalContributionsExclude
@@ -739,6 +774,16 @@ class DataProcessor {
           "cfhi_stand_01_bench_rating___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
         );
 
+        // daysOperatingCash benchmark paragraph
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "daysOperatingCash_benchmarkParagraph",
+          record,
+          "cfhi_stand_01_bench_paragraph___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
+        );
+
         // netCashAvailability
         this.dataStore.insertData(
           "cash",
@@ -748,6 +793,16 @@ class DataProcessor {
           record,
           "cfhi_stand_02_ratio___net_cash_availability",
           "cfhi_stand_02_bench_rating___net_cash_availability"
+        );
+
+        // netCashAvailability benchmark paragraph
+        this.dataStore.insertData(
+          "cash",
+          "client",
+          year,
+          "netCashAvailability_benchmarkParagraph",
+          record,
+          "cfhi_stand_02_bench_paragraph___net_cash_availability"
         );
 
         // netCashAvailability_standard
@@ -884,6 +939,16 @@ class DataProcessor {
           "cfhi_stand_03_bench_rating___debt_to_contribution_w_o_donor_rest"
         );
 
+        // debtToContributionsWithout benchmark paragraph
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtToContributionsWithout_benchmarkParagraph",
+          record,
+          "cfhi_stand_03_bench_paragraph___debt_to_contribution_w_o_donor_rest"
+        );
+
         // debtPerGivingUnit
         this.dataStore.insertData(
           "debt",
@@ -893,6 +958,16 @@ class DataProcessor {
           record,
           "cfhi_stand_04_ratio___debt_per_givingunit",
           "cfhi_stand_04_bench_rating___debt_per_givingunit"
+        );
+
+        // debtPerGivingUnit benchmark paragraph
+        this.dataStore.insertData(
+          "debt",
+          "client",
+          year,
+          "debtPerGivingUnit_benchmarkParagraph",
+          record,
+          "cfhi_stand_04_bench_paragraph___debt_per_givingunit"
         );
 
         // debtPerGivingUnit_standard
@@ -997,6 +1072,16 @@ class DataProcessor {
           "cfhi_stand_05_ratio___contribution_w_o_donor_restriction_per_giving_unit"
         );
 
+        // contributionsWithoutDonorPerGivingUnit benchmark paragraph
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "contributionsWithoutDonorPerGivingUnit_benchmarkParagraph",
+          record,
+          "cfhi_stand_05_bench_paragraph___contribution_w_o_donor_restriction_per_giving_unit"
+        );
+
         // contributionsWithoutDonorPerGivingUnit_percentChange
         this.dataStore.insertData(
           "income",
@@ -1016,6 +1101,16 @@ class DataProcessor {
           "totalContributionsPerGivingUnit_Client",
           record,
           "cfhi_stand_06_ratio___total_contributions_per_giving_unit"
+        );
+
+        // totalContributionsPerGivingUnit benchmark paragraph
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "totalContributionsPerGivingUnit_benchmarkParagraph",
+          record,
+          "cfhi_stand_06_bench_paragraph___total_contributions_per_giving_unit"
         );
 
         // totalContributionsPerGivingUnit_percentChange
@@ -1127,6 +1222,16 @@ class DataProcessor {
           "cashExpendituresPerGivingUnit_Client",
           record,
           "cfhi_stand_08_ratio___cash_expenses_per_giving_unit"
+        );
+
+        // cashExpendituresPerGivingUnit benchmark paragraph
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "cashExpendituresPerGivingUnit_benchmarkParagraph",
+          record,
+          "cfhi_stand_08_bench_paragraph___cash_expenses_per_giving_unit"
         );
       });
     });
@@ -1557,7 +1662,7 @@ class ApiService {
         {98.EX.${ClientRid}} AND {105.EX.'Standard'} AND {474.EX.${currentYear}} 
       `,
       clist:
-        "452.98.474.22.59.60.211.212.215.217.227.218.219.221.222.228.224.415.462.229.460.463.232.230.233.294.300",
+        "452.98.474.22.59.60.211.212.215.217.227.218.219.221.222.228.224.415.462.229.460.463.232.230.233.294.300.700",
     };
 
     try {

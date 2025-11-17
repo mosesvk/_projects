@@ -11,6 +11,7 @@ const displayReportComponent = () => {
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(demoData, selectedYears, [
       ["givingUnits", "num", 0],
+      ["givingUnits_percentChange", "percent", 0],
       ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
       ["totalContributionsExclude", "dollar", 0],
     ]);
@@ -44,9 +45,10 @@ const displayReportComponent = () => {
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
     ])
 
+    processBenchmarkParagraphs();
   }
 
-
+  processTHElements();
   closeSidebarAfterSelectingOption("report");
 };
 
@@ -227,51 +229,68 @@ const addPeerDataToRow = (
 
   const dataPointAvg = document.createElement("th");
 
-  let avg;
-  if (peer && wa) {
-    avg = getWeightedAverageOfArray(data, name);
-  } else if (peer && !wa) {
-    avg = getAverageOfArray(peer[dataArray], name);
+  // Check if this field should not have peer data calculated
+  const shouldSkipPeerData = name.endsWith('_percentChange');
+
+  let avg, mid, min, max;
+  let textAvg, textMid, textMin, textMax;
+
+  if (shouldSkipPeerData) {
+    // For _percentChange fields, set peer data to blank
+    avg = '';
+    mid = '';
+    min = '';
+    max = '';
+    textAvg = '';
+    textMid = '';
+    textMin = '';
+    textMax = '';
   } else {
-    avg = 0;
+    // Normal peer data calculation
+    if (peer && wa) {
+      avg = getWeightedAverageOfArray(data, name);
+    } else if (peer && !wa) {
+      avg = getAverageOfArray(peer[dataArray], name);
+    } else {
+      avg = 0;
+    }
+    
+    textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
+    
+    // Use 25th percentile instead of Min (matching comp project)
+    min = peer ? get25thPercentileOfArray(peer[dataArray], name) : '';
+    textMin = styleNumber(min, type, fixedNum);
+    
+    // Use 50th percentile (median/midpoint) 
+    mid = peer ? getMidpointOfArray(peer[dataArray], name) : '';
+    textMid = styleNumber(mid, type, fixedNum);
+    
+    // Use 75th percentile instead of Max (matching comp project)
+    max = peer ? get75thPercentileOfArray(peer[dataArray], name) : '';
+    textMax = styleNumber(max, type, fixedNum);
   }
-  
-  
-  const textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
-  
-  // Use 25th percentile instead of Min (matching comp project)
-  const dataPoint25th = document.createElement("th");
-  const percentile25 = peer ? get25thPercentileOfArray(peer[dataArray], name) : '';
-  const text25th = styleNumber(percentile25, type, fixedNum);
-  
-  // Use 50th percentile (median/midpoint) 
-  const dataPoint50th = document.createElement("th");
-  const percentile50 = peer ? getMidpointOfArray(peer[dataArray], name) : '';
-  const text50th = styleNumber(percentile50, type, fixedNum);
-  
-  // Use 75th percentile instead of Max (matching comp project)
-  const dataPoint75th = document.createElement("th");
-  const percentile75 = peer ? get75thPercentileOfArray(peer[dataArray], name) : '';
-  const text75th = styleNumber(percentile75, type, fixedNum);
 
   dataPointAvg.className = propClass;
   dataPointAvg.scope = propScope;
   dataPointAvg.textContent = textAvg;
   tableRow.appendChild(dataPointAvg);
 
+  const dataPoint25th = document.createElement("th");
   dataPoint25th.className = propClass;
   dataPoint25th.scope = propScope;
-  dataPoint25th.textContent = text25th;
+  dataPoint25th.textContent = textMin;
   tableRow.appendChild(dataPoint25th);
 
+  const dataPoint50th = document.createElement("th");
   dataPoint50th.className = propClass;
   dataPoint50th.scope = propScope;
-  dataPoint50th.textContent = text50th;
+  dataPoint50th.textContent = textMid;
   tableRow.appendChild(dataPoint50th);
 
+  const dataPoint75th = document.createElement("th");
   dataPoint75th.className = propClass;
   dataPoint75th.scope = propScope;
-  dataPoint75th.textContent = text75th;
+  dataPoint75th.textContent = textMax;
   tableRow.appendChild(dataPoint75th);
 };
 
@@ -415,4 +434,223 @@ function processTHElements() {
       }
     });
   });
+}
+
+/**
+ * Process benchmark paragraphs and display them in modals
+ * Based on comp project implementation, adapted for Standard project's 9 metrics
+ */
+function processBenchmarkParagraphs() {
+  // Get data from localStorage
+  const demoData = JSON.parse(localStorage.getItem("demoData") || "{}");
+  const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
+  const debtData = JSON.parse(localStorage.getItem("debtData") || "{}");
+  const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
+  const expenseData = JSON.parse(localStorage.getItem("expenseData") || "{}");
+
+  // Array of field mappings for Standard project: [fieldName, dataSource, modalBodySelector]
+  const modalInfoFields = [
+    // Demo data
+    ["givingUnits", demoData, "#givingUnits-body-2 div"],
+    ["contributionsWithoutDonorExcludingLargeGifts", demoData, "#contributionsWithoutDonorExcludingLargeGifts-body-2 div"],
+    
+    // Cash data
+    ["daysOperatingCash", cashData, "#daysOperatingCash-body-2 div"],
+    ["netCashAvailability", cashData, "#netCashAvailability-body-2 div"],
+    
+    // Debt data
+    ["debtToContributionsWithout", debtData, "#debtToContributionsWithout-body-2 div"],
+    ["debtPerGivingUnit", debtData, "#debtPerGivingUnit-body-2 div"],
+    
+    // Income data
+    ["contributionsWithoutDonorPerGivingUnit", incomeData, "#contributionsWithoutDonorPerGivingUnit-body-2 div"],
+    ["totalContributionsPerGivingUnit", incomeData, "#totalContributionsPerGivingUnit-body-2 div"],
+    
+    // Expense data
+    ["cashExpendituresPerGivingUnit", expenseData, "#cashExpendituresPerGivingUnit-body-2 div"],
+  ];
+
+  // Get the selected years to access the benchmark data
+  const selectedYears = getSelectedYearsFromLocalStorage();
+  
+  if (!selectedYears || selectedYears.length === 0) {
+    return;
+  }
+
+  // Use the first available year to get benchmark paragraph data
+  const targetYear = selectedYears[0];
+
+  modalInfoFields.forEach(([fieldName, dataSource, selector]) => {
+    try {
+      const targetElement = document.querySelector(selector);
+      
+      if (!targetElement) {
+        // console.warn(`Element not found for selector: ${selector}`);
+        return;
+      }
+
+      if (!dataSource) {
+        console.warn(`Data source not available for field: ${fieldName}`);
+        return;
+      }
+
+      const benchmarkKey = `${fieldName}_benchmarkParagraph`;
+      const benchmarkData = dataSource[benchmarkKey];
+
+      if (!benchmarkData || !benchmarkData[targetYear]) {
+        // console.warn(`Benchmark data not found for field: ${fieldName}, year: ${targetYear}`);
+        return;
+      }
+
+      let benchmarkContent = benchmarkData[targetYear].value;
+
+      if (!benchmarkContent || benchmarkContent === '0') {
+        // console.warn(`No benchmark content for field: ${fieldName}`);
+        return;
+      }
+
+      // Process the HTML content to add mb-2 class to p tags
+      benchmarkContent = addMb2ClassToPTags(benchmarkContent);
+
+      // Set the innerHTML of the target element
+      targetElement.innerHTML = benchmarkContent;
+
+    } catch (error) {
+      console.error(`Error processing benchmark paragraph for ${fieldName}:`, error);
+    }
+  });
+}
+
+/**
+ * Add 'mb-2' class to all <p> tags in HTML content and wrap text after <br/> in <p> tags
+ * @param {string} htmlContent - The HTML content string
+ * @returns {string} - HTML content with mb-2 class added to p tags and text after br wrapped in p tags
+ */
+function addMb2ClassToPTags(htmlContent) {
+  if (typeof htmlContent !== 'string') {
+    return htmlContent;
+  }
+
+  // Create a temporary div to parse the HTML
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlContent;
+
+  // Process the content to handle <br/> tags and unwrapped text
+  processContentNodes(tempDiv);
+
+  // Find all p tags and add appropriate classes
+  const pTags = tempDiv.querySelectorAll('p');
+  pTags.forEach(p => {
+    applyParagraphStyling(p);
+  });
+
+  return tempDiv.innerHTML;
+}
+
+/**
+ * Process all content nodes to handle <br/> tags and wrap unwrapped text
+ * @param {HTMLElement} container - The container element
+ */
+function processContentNodes(container) {
+  const nodes = Array.from(container.childNodes);
+  const newNodes = [];
+  
+  for (let i = 0; i < nodes.length; i++) {
+    const node = nodes[i];
+    
+    if (node.nodeType === Node.ELEMENT_NODE && node.tagName.toLowerCase() === 'p') {
+      // Handle paragraphs that might contain <br/> tags
+      const processedP = processParagraphWithBr(node);
+      newNodes.push(...processedP);
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName.toLowerCase() === 'br') {
+      // Skip <br/> tags as they will be handled by splitting
+      continue;
+    } else if (node.nodeType === Node.TEXT_NODE) {
+      // Wrap standalone text nodes in <p> tags
+      const text = node.textContent.trim();
+      if (text) {
+        const newP = document.createElement('p');
+        newP.textContent = text;
+        newNodes.push(newP);
+      }
+    } else {
+      // Keep other elements as-is
+      newNodes.push(node);
+    }
+  }
+  
+  // Clear the container and add processed nodes
+  container.innerHTML = '';
+  newNodes.forEach(node => container.appendChild(node));
+}
+
+/**
+ * Process a paragraph that might contain <br/> tags
+ * @param {HTMLElement} pElement - The paragraph element
+ * @returns {Array} - Array of processed paragraph elements
+ */
+function processParagraphWithBr(pElement) {
+  const content = pElement.innerHTML;
+  
+  // Check if the paragraph contains <br/> tags
+  if (content.includes('<br') || content.includes('<BR')) {
+    // Split by <br/> tags and create separate paragraphs
+    const parts = content.split(/<br\s*\/?>/gi);
+    const paragraphs = [];
+    
+    parts.forEach(part => {
+      const trimmedPart = part.trim();
+      if (trimmedPart) {
+        const newP = document.createElement('p');
+        newP.innerHTML = trimmedPart;
+        // Preserve original classes
+        newP.className = pElement.className;
+        paragraphs.push(newP);
+      }
+    });
+    
+    return paragraphs;
+  } else {
+    // Return the original paragraph if no <br/> tags
+    return [pElement];
+  }
+}
+
+/**
+ * Apply consistent styling to paragraph elements
+ * @param {HTMLElement} pElement - The paragraph element to style
+ */
+function applyParagraphStyling(pElement) {
+  const standardClasses = 'mb-2 text-gray-500 dark:text-gray-400';
+  
+  // Check if the p tag already has classes
+  const existingClasses = pElement.className.trim();
+  
+  if (existingClasses) {
+    // Parse existing classes
+    const classArray = existingClasses.split(/\s+/);
+    const newClasses = [];
+    
+    // Add mb-2 if not present
+    if (!classArray.includes('mb-2')) {
+      newClasses.push('mb-2');
+    }
+    
+    // Add text color classes if not present
+    if (!classArray.some(cls => cls.includes('text-gray-500'))) {
+      newClasses.push('text-gray-500');
+    }
+    
+    if (!classArray.some(cls => cls.includes('dark:text-gray-400'))) {
+      newClasses.push('dark:text-gray-400');
+    }
+    
+    // Combine existing and new classes
+    if (newClasses.length > 0) {
+      pElement.className = `${newClasses.join(' ')} ${existingClasses}`;
+    }
+  } else {
+    // Add standard classes if no existing classes
+    pElement.className = standardClasses;
+  }
 }
