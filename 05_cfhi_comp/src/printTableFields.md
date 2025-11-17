@@ -20,10 +20,10 @@
 	 C01.4 Full Time Equivalents - MID	Numeric	 	19	 
 	 C01.4 Full Time Equivalents - MIN	Numeric	 	20	 
 	 C01.4 Full Time Equivalents - MAX	Numeric	 	21	 
-	 C01.5 Attendees to Staff - AVG	Numeric	 	22	 
-	 C01.5 Attendees to Staff - MID	Numeric	 	23	 
-	 C01.5 Attendees to Staff - MIN	Numeric	 	24	 
-	 C01.5 Attendees to Staff - MAX	Numeric	 	25	 
+	 C01.5 Giving Units to Staff - AVG	Numeric	 	22	 
+	 C01.5 Giving Units to Staff - MID	Numeric	 	23	 
+	 C01.5 Giving Units to Staff - MIN	Numeric	 	24	 
+	 C01.5 Giving Units to Staff - MAX	Numeric	 	25 
 	 C01.6 Contributions w/o Donor - AVG	Numeric	 	26	 
 	 C01.6 Contributions w/o Donor - MID	Numeric	 	27	 
 	 C01.6 Contributions w/o Donor - MIN	Numeric	 	28	 

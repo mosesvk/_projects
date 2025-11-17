@@ -42,10 +42,12 @@ class ExcelReportGenerator {
     this.fieldMappings = [
       // Demo data (demoData) - C01.x and C02.x fields
       ["givingUnits", [6, 8, 7, 9], "demo", false], // C01.1
-      ["averageAdultAttendees", [10, 12, 11, 13], "demo", false], // C01.2
-      ["totalAttendees", [14, 16, 15, 17], "demo", false], // C01.3
       ["fullTimeEquivalent", [18, 20, 19, 21], "demo", false], // C01.4
-      ["attendeesToStaff", [22, 24, 23, 25], "demo", true], // C01.5 - wa in Report.js
+      // TODO: givingUnitsToStaff - Field IDs need to be added to QuickBase table and printTableFields.md
+      // This field exists in Report.js (line 16) with "wa" flag, but field IDs are not in printTableFields.md
+      // This field needs peer data for Excel reports but field IDs must be verified first
+      // ["givingUnitsToStaff", [FIELD_IDS_NEEDED], "demo", true], // TODO: Add field IDs after verification - wa in Report.js
+      ["givingUnitsToStaff", [22, 24, 23, 25], "demo", true], // C01.5 - wa in Report.js
       ["contributionsWithoutDonorExcludingLargeGifts", [26, 28, 27, 29], "demo", false], // C01.6
       ["totalContributionsExclude", [30, 32, 31, 33], "demo", false], // C01.7
       ["totalContributionOnline", [35, 37, 36, 38], "demo", false], // C02.1
@@ -59,12 +61,9 @@ class ExcelReportGenerator {
       ["daysOperatingCash", [59, 61, 60, 62], "cash", true], // wa in Report.js
       ["cashFlowsFromOperatingActivities", [63, 65, 64, 66], "cash", false], // C03.3 - Fixed field name
       ["liquidityRatio", [67, 69, 68, 70], "cash", true], // wa in Report.js
-      // NOTE: Field 74 doesn't exist in QuickBase - netCashAvailability commented out
-      // To fix: Add field 74 to QuickBase table or contact admin
-      // ["netCashAvailability", [71, 73, 72, 74], "cash", false],
-      // TEMPORARILY DISABLED: Testing if fields 75-82 depend on 71-74 existing
-      // ["netCashAvailability_including", [75, 77, 76, 78], "cash", false],
-      // ["netCashAvailability_standard", [79, 81, 80, 82], "cash", false],
+      ["netCashAvailability", [71, 73, 72, 74], "cash", false], // C03.5 - Re-enabled
+      ["netCashAvailability_including", [75, 77, 76, 78], "cash", false], // C03.6 - Re-enabled
+      ["netCashAvailability_standard", [79, 81, 80, 82], "cash", false], // C03.7 - Re-enabled
 
       // Debt data (debtData) - C04.x fields
       ["debtToContributionsWithout", [83, 85, 84, 86], "debt", true], // wa in Report.js
@@ -106,8 +105,7 @@ class ExcelReportGenerator {
 
       // S02.x fields - Cash data
       ["daysOperatingCash", [251, 253, 252, 254], "cash", true], // S02.1
-      // DISABLED: Excel template service cannot find field 258 - template schema issue  
-      // ["netCashAvailability", [255, 257, 256, 258], "cash", false],
+      ["netCashAvailability", [255, 257, 256, 258], "cash", false], // S02.2 - Re-enabled
       ["netCashAvailability_standard", [259, 261, 260, 262], "cash", false], // S02.3
 
       // S03.x fields - Debt data
@@ -821,8 +819,12 @@ class ExcelReportGenerator {
         // Process BENCHMARK fields (S-prefix fields 239-286)
         processFieldMappings(this.benchmarkFieldMappings, "BENCHMARK");
         
-        // CRITICAL FIX: Excel template requires field 74 to exist (even if empty)
-        // Send empty values for fields 71-74 to satisfy template requirements
+        // CRITICAL: Excel template requires fields 71-74 and 255-258 to exist (even if empty)
+        // These fields are now enabled in fieldMappings and benchmarkFieldMappings,
+        // but if peer data doesn't exist, they'll be skipped. So we send empty values
+        // as a fallback to satisfy template requirements. If data exists, it will overwrite
+        // these in the XML (since we append, duplicate fields may occur - QuickBase should handle this).
+        // TODO: Consider conditionally sending only if fields weren't processed
         metricsXml +=
           `<field fid='71'>0</field>` +
           `<field fid='72'>0</field>` +
