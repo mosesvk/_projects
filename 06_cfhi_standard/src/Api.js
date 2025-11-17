@@ -524,7 +524,7 @@ class DataProcessor {
           "contributionsWithoutDonorExcludingLargeGifts_Peer",
           record,
           "cfhi_compre_00f_ratio___contributions_without_donor_restrictions",
-          "cfhi_compre_00f_yes_no___contributions_without_donor_restrictions"
+          "cfhi_stand_00b_yes_no___contribution_w_o_dr"
         );
 
         // totalContributionsExclude
