@@ -651,6 +651,17 @@ class DataProcessor {
           "cash",
           "peer",
           year,
+          "totalDeferredRevenue",
+          record,
+          "s36___total_deferred_revenue",
+          "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
+          "daysOperatingCash"
+        );
+
+        this.dataStore.insertData(
+          "cash",
+          "peer",
+          year,
           "totalExpense",
           record,
           "s45___total_expense",
@@ -1320,7 +1331,7 @@ class ApiService {
       act: "API_DoQuery",
         query: queryCondition,
       clist:
-          "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.160.155",
+          "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.160.155.158",
       };
 
       // Use await to make the async operation more explicit
@@ -1579,9 +1590,7 @@ class ApiService {
       }
 
       const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
-      console.log("=== COMPLETE PEER RECORDS dataStr (Batching) ===");
-      console.log(finalXmlString);
-      console.log("=== END PEER RECORDS dataStr ===");
+      console.log('peer records (batched)', finalXmlString);
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
       const records = xmlDoc.querySelectorAll("record");
