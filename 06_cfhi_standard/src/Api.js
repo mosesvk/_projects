@@ -581,7 +581,7 @@ class DataProcessor {
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Client",
           record,
-          "cfhi_compre_00b_ratio___contributions_w_o_donor_restrictions_exclude_large"
+          "cfhi_stand_05_ratio___contribution_w_o_donor_restriction_per_giving_unit"
         );
 
         // contributionsWithoutDonorExcludingLargeGifts benchmark paragraph (if field exists)
@@ -1104,6 +1104,16 @@ class DataProcessor {
           "cfhi_stand_05a_bench_rating__percent_change___contribution_w_o_donor_restriction_per_giving_unit"
         );
 
+        // contributionsWithoutDonorPerGivingUnit_percentChange benchmark paragraph
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "contributionsWithoutDonorPerGivingUnit_percentChange_benchmarkParagraph",
+          record,
+          "cfhi_stand_05a_bench_paragraph___percent_change___contribution_w_o_donor_restriction_per_giving_unit"
+        );
+
         // totalContributionsPerGivingUnit
         this.dataStore.insertData(
           "income",
@@ -1111,7 +1121,8 @@ class DataProcessor {
           year,
           "totalContributionsPerGivingUnit_Client",
           record,
-          "cfhi_stand_06_ratio___total_contributions_per_giving_unit"
+          "cfhi_stand_06_ratio___total_contributions_per_giving_unit", 
+          "cfhi_stand_06a_bench_rating___percentage_change__total_contributions_per_giving_unit"
         );
 
         // totalContributionsPerGivingUnit benchmark paragraph
@@ -1121,7 +1132,7 @@ class DataProcessor {
           year,
           "totalContributionsPerGivingUnit_benchmarkParagraph",
           record,
-          "cfhi_stand_06_bench_paragraph___total_contributions_per_giving_unit"
+          "cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions"
         );
 
         // totalContributionsPerGivingUnit_percentChange
@@ -1133,6 +1144,16 @@ class DataProcessor {
           record,
           "cfhi_stand_06a_ratio_change__total_contributions_per_giving_unit",
           "cfhi_stand_06a_bench_rating___percentage_change__total_contributions_per_giving_unit"
+        );
+
+        // totalContributionsPerGivingUnit_percentChange benchmark paragraph
+        this.dataStore.insertData(
+          "income",
+          "client",
+          year,
+          "totalContributionsPerGivingUnit_percentChange_benchmarkParagraph",
+          record,
+          "cfhi_stand_06a_bench_paragraph___percent_change__total_contributions_per_giving_unit"
         );
 
         // localCountyPerGivingUnit
@@ -1276,9 +1297,7 @@ class ApiService {
 
         const parser = new DOMParser();
         const finalXmlString = dataStr + "</qdbapi>";
-        console.log("=== COMPLETE PEER RECORDS dataStr (Non-Batching) ===");
-        console.log(finalXmlString);
-        console.log("=== END PEER RECORDS dataStr ===");
+        // console.log('peer records (non-batched)', finalXmlString);
         const xmlDoc = parser.parseFromString(
           finalXmlString,
           "text/xml"
@@ -1671,7 +1690,7 @@ class ApiService {
         {98.EX.${ClientRid}} AND {105.EX.'Standard'} AND {474.EX.${currentYear}} 
       `,
       clist:
-        "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.300.700",
+        "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.700.698",
     };
 
     try {
@@ -1690,6 +1709,8 @@ class ApiService {
 
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
+
+        // console.log('client records', dataStr);
       }
 
       // Recursive call with updated years and dataStr

@@ -1086,11 +1086,34 @@ const processHtmlContent = (htmlContent) => {
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = htmlContent;
   
-  // Find all p tags and add mb-2 class
+  // Find all p tags and add mb-2 class and text styling
   const pTags = tempDiv.querySelectorAll('p');
   pTags.forEach(p => {
-    if (!p.classList.contains('mb-2')) {
-      p.classList.add('mb-2');
+    const existingClasses = p.className.trim();
+    const classArray = existingClasses ? existingClasses.split(/\s+/) : [];
+    const newClasses = [];
+    
+    // Add mb-2 if not present
+    if (!classArray.includes('mb-2')) {
+      newClasses.push('mb-2');
+    }
+    
+    // Add text color classes if not present
+    if (!classArray.some(cls => cls.includes('text-gray-500'))) {
+      newClasses.push('text-gray-500');
+    }
+    
+    if (!classArray.some(cls => cls.includes('dark:text-gray-400'))) {
+      newClasses.push('dark:text-gray-400');
+    }
+    
+    // Apply new classes
+    if (newClasses.length > 0) {
+      if (existingClasses) {
+        p.className = `${newClasses.join(' ')} ${existingClasses}`;
+      } else {
+        p.className = newClasses.join(' ');
+      }
     }
   });
   
@@ -1198,7 +1221,7 @@ const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
   // Set up click handlers for year columns
   if (selectedYears) {
     const children = await document.getElementById(elementId).children;
-    
+
     for (let i = 1; i < selectedYears.length + 1; i++) {
       editElementChildren(children[i], variable, elementId);
     }

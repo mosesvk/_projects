@@ -189,11 +189,11 @@ const displayIncomeComponent = () => {
   );
 
   // Use benchmark paragraph data from localStorage for income metrics
-  createBenchmark("contributionsWithoutDonorPerGivingUnit_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit");
   createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit");
   
-  // Note: Percent change fields typically don't have benchmark paragraphs in QuickBase
-  // They use "Improving Trend is the Benchmark" which is handled by getBenchmarksForField()
+  // Percent change fields benchmark paragraphs
+  createBenchmark("contributionsWithoutDonorPerGivingUnit_percentChange_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
+  createBenchmark("totalContributionsPerGivingUnit_percentChange_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
 
   closeSidebarAfterSelectingOption("income");
 };
