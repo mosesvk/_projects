@@ -1151,7 +1151,7 @@ const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
 
   // Process HTML content and apply fixUnicodeCharacters
   let processedContent = processHtmlContent(benchmarkContent);
-  let processedTitle;
+  let processedTitle; 
   if (typeof fixUnicodeCharacters === 'function') {
     processedContent = fixUnicodeCharacters(processedContent);
     processedTitle = fixUnicodeCharacters(benchmarkTitle);
