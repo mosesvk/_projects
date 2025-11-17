@@ -705,6 +705,8 @@ class ExcelReportGenerator {
       
       const fieldsProcessed = [];
       const fieldsSkipped = [];
+      // Track which field IDs were actually processed to avoid overwriting with empty values
+      const processedFieldIds = new Set();
 
       try {
         // Get all data from localStorage
@@ -784,6 +786,12 @@ class ExcelReportGenerator {
               const minId = fieldIds[1];
               const maxId = fieldIds[3];
     
+              // Track that these field IDs were processed
+              processedFieldIds.add(avgId);
+              processedFieldIds.add(midId);
+              processedFieldIds.add(minId);
+              processedFieldIds.add(maxId);
+    
               // Format values
               const safeAvg = this.escapeXml(stats.avg);
               const safeMid = this.escapeXml(stats.mid);
@@ -820,23 +828,22 @@ class ExcelReportGenerator {
         processFieldMappings(this.benchmarkFieldMappings, "BENCHMARK");
         
         // CRITICAL: Excel template requires fields 71-74 and 255-258 to exist (even if empty)
-        // These fields are now enabled in fieldMappings and benchmarkFieldMappings,
-        // but if peer data doesn't exist, they'll be skipped. So we send empty values
-        // as a fallback to satisfy template requirements. If data exists, it will overwrite
-        // these in the XML (since we append, duplicate fields may occur - QuickBase should handle this).
-        // TODO: Consider conditionally sending only if fields weren't processed
-        metricsXml +=
-          `<field fid='71'>0</field>` +
-          `<field fid='72'>0</field>` +
-          `<field fid='73'>0</field>` +
-          `<field fid='74'>0</field>`;
+        // Only send empty values for fields that weren't processed (no peer data available)
+        // This prevents overwriting real data with zeros
+        const requiredTrendsFields = [71, 72, 73, 74]; // netCashAvailability (C03.5)
+        requiredTrendsFields.forEach(fieldId => {
+          if (!processedFieldIds.has(fieldId)) {
+            metricsXml += `<field fid='${fieldId}'>0</field>`;
+          }
+        });
         
-        // Also send empty values for benchmark fields 255-258
-        metricsXml +=
-          `<field fid='255'>0</field>` +
-          `<field fid='256'>0</field>` +
-          `<field fid='257'>0</field>` +
-          `<field fid='258'>0</field>`;
+        // Also send empty values for benchmark fields 255-258 if not processed
+        const requiredBenchmarkFields = [255, 256, 257, 258]; // netCashAvailability (S02.2)
+        requiredBenchmarkFields.forEach(fieldId => {
+          if (!processedFieldIds.has(fieldId)) {
+            metricsXml += `<field fid='${fieldId}'>0</field>`;
+          }
+        });
 
         console.log(`\n✅ Total Fields PROCESSED: ${fieldsProcessed.length}`);
         console.log(`  - Trends fields: ${fieldsProcessed.filter(f => f.reportType === 'TRENDS').length}`);
