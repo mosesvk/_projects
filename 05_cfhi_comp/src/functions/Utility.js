@@ -1568,54 +1568,30 @@ const processHtmlContent = (htmlContent) => {
 };
 
 /**
- * Create benchmark modal and populate report content dynamically from localStorage
- * @param {string} benchmarkFieldName - The field name for the benchmark (e.g., "daysExpendableNetAssets_benchmarkParagraph")
+ * Create benchmark modal and populate report content with static text
+ * @param {string} benchmarkText - The static benchmark text (e.g., "Good: > 60 | Warning: 30-60 | Action: < 30")
  * @param {string} dataCategory - The data category (e.g., "cashData", "debtData")
  * @param {string} elementId - The row element ID (e.g., "row_daysExpendableNetAssets")
  * @returns {Object} - The tingle modal instance
  */
-const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
-  // console.log({ benchmarkFieldName, dataCategory, elementId });
+const createBenchmark = async (benchmarkText, dataCategory, elementId) => {
+  // console.log({ benchmarkText, dataCategory, elementId });
 
-  // Get data from localStorage
-  const data = localStorage.getItem(dataCategory);
-  if (!data) {
-    console.warn(`No data found for category: ${dataCategory}`);
-    return null;
-  }
-
-  const parsedData = JSON.parse(data);
-  const benchmarkData = parsedData[benchmarkFieldName];
-  
-  if (!benchmarkData) {
-    console.warn(`No benchmark data found for field: ${benchmarkFieldName}`);
-    return null;
-  }
-
-  // Get selected years to access benchmark paragraph
+  // Get selected years for click handlers
   const selectedYears = JSON.parse(localStorage.getItem("selectedYears"));
   if (!selectedYears || selectedYears.length === 0) {
     console.warn('No selected years found');
     return null;
   }
 
-  // Use the first available year to get benchmark paragraph data
-  const targetYear = selectedYears[0];
-  const benchmarkContent = benchmarkData[targetYear]?.value;
-
-  if (!benchmarkContent || benchmarkContent === '0') {
-    console.warn(`No benchmark content for field: ${benchmarkFieldName}, year: ${targetYear}`);
-    return null;
-  }
-
-  // Extract field name from benchmarkFieldName (remove _benchmarkParagraph suffix)
-  const fieldName = benchmarkFieldName.replace(/_benchmarkParagraph$/, '');
+  // Extract field name from elementId (e.g., "row_daysExpendableNetAssets" -> "daysExpendableNetAssets")
+  const fieldName = elementId.replace(/^row_/, '');
   
   // Generate title from field name
   const benchmarkTitle = generateBenchmarkTitle(fieldName);
 
-  // Process HTML content and apply fixUnicodeCharacters
-  let processedContent = processHtmlContent(benchmarkContent);
+  // Process the static benchmark text and apply fixUnicodeCharacters
+  let processedContent = processHtmlContent(benchmarkText);
   processedContent = fixUnicodeCharacters(processedContent);
   const processedTitle = fixUnicodeCharacters(benchmarkTitle);
 

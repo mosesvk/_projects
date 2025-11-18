@@ -159,11 +159,11 @@ const displayCashComponent = () => {
     null // no weighted average
   );
 
-  createBenchmark("daysExpendableNetAssets_benchmarkParagraph", "cashData", "row_daysExpendableNetAssets");
-  createBenchmark("daysOperatingCash_benchmarkParagraph", "cashData", "row_daysOperatingCash");
-  createBenchmark("cashFlowsFromOperatingActivities_benchmarkParagraph", "cashData", "row_cashFlowsFromOperatingActivities");
-  createBenchmark("liquidityRatio_benchmarkParagraph", "cashData", "row_liquidityRatio");
-  createBenchmark("netCashAvailability_benchmarkParagraph", "cashData", "row_netCashAvailability");
+  createBenchmark("Good: > 60 | Warning: 30-60 | Action: < 30", "cashData", "row_daysExpendableNetAssets");
+  createBenchmark("Good: > 90 | Warning: 60-90 | Action: < 60", "cashData", "row_daysOperatingCash");
+  createBenchmark("Good: > 0 | Warning: 1 year of negative results  Action:  2+ years of negative results", "cashData", "row_cashFlowsFromOperatingActivities");
+  createBenchmark("Good: > 4 | Warning: 1-4 | Action: < 1", "cashData", "row_liquidityRatio");
+  createBenchmark("Good: > 1 month expenses  Warning: > 0 and < 1 month expenses | Action: < 0", "cashData", "row_netCashAvailability");
 
   closeSidebarAfterSelectingOption("cash");
 };
@@ -242,11 +242,11 @@ const displayDebtComponent = () => {
     "wa" // use weighted average
   );
 
-  createBenchmark("debtToContributionsWithout_benchmarkParagraph", "debtData", "row_debtToContributionsWithout");
-  createBenchmark("currentRatio_benchmarkParagraph", "debtData", "row_currentRatio");
-  createBenchmark("mandatoryDebtServiceToContributionsWithout_benchmarkParagraph", "debtData", "row_mandatoryDebtServiceToContributionsWithout");
-  createBenchmark("debtPerGivingUnit_benchmarkParagraph", "debtData", "row_debtPerGivingUnit");
-  createBenchmark("debtCoverage_benchmarkParagraph", "debtData", "row_debtCoverage");
+  createBenchmark("Good: < 2 | Warning: 2-3 | Action: > 3", "debtData", "row_debtToContributionsWithout");
+  createBenchmark("Good: > 2 | Warning: 1-2 | Action: < 1", "debtData", "row_currentRatio");
+  createBenchmark("Good: < 15 | Warning: 15-20 | Action: > 20", "debtData", "row_mandatoryDebtServiceToContributionsWithout");
+  createBenchmark("Good: < 2x | Warning: 2x - 3x | Action: > 3x contributions w/o donor restrictions", "debtData", "row_debtPerGivingUnit");
+  createBenchmark("Good: > 1.25 | Warning: 1 - 1.25 | Action: < 1", "debtData", "row_debtCoverage");
 
   closeSidebarAfterSelectingOption("debt");
 };
@@ -297,12 +297,12 @@ const displayIncomeComponent = () => {
     null // no weighted average
   );
 
-  createBenchmark("netIncomeRatio_benchmarkParagraph", "incomeData", "row_netIncomeRatio");
-  createBenchmark("netIncomeRatio_twoYrAvg_benchmarkParagraph", "incomeData", "row_netIncomeRatio_twoYrAvg");
-  createBenchmark("contributionsWithoutDonorPerGivingUnit_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
-  createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit");
-  createBenchmark("totalContributionsPerGivingUnit_percentChange_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
-  createBenchmark("localCounty_benchmarkParagraph", "incomeData", "row_localCounty");
+  createBenchmark("Good: > 0 | Warning: = 0 | Action: < 0", "incomeData", "row_netIncomeRatio");
+  createBenchmark("Good: Improving Trend", "incomeData", "row_netIncomeRatio_twoYrAvg");
+  createBenchmark("Good: Improving Trend", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
+  createBenchmark("Good: > 4,500 | Warning: 3,000 - 4,500 | Action: < 3,000", "incomeData", "row_totalContributionsPerGivingUnit");
+  createBenchmark("Good: Improving Trend", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
+  createBenchmark("Good: > 4 | Warning: 3-4 | Action: < 3", "incomeData", "row_localCounty");
 
   closeSidebarAfterSelectingOption("income");
 };
@@ -367,10 +367,10 @@ const displayExpenseComponent = () => {
     "wa" // use weighted average
   );
 
-  createBenchmark("personnelToCashExpenditure_benchmarkParagraph", "expenseData", "row_personnelToCashExpenditure");
-  createBenchmark("mandatoryDebtServiceToCashExpenditure_benchmarkParagraph", "expenseData", "row_mandatoryDebtServiceToCashExpenditure");
-  createBenchmark("personnelIncludingToTotalCashExpenditures_benchmarkParagraph", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
-  createBenchmark("totalGlobalAndLocalOutreachExpenses_benchmarkParagraph", "expenseData", "row_totalGlobalAndLocalOutreachExpenses");
+  createBenchmark("Good: 40-55 | Warning: 35-40 or 55-59 | Action: < 35 or > 59", "expenseData", "row_personnelToCashExpenditure");
+  createBenchmark("Good: < 15 | Warning: 15-19 | Action: > 19", "expenseData", "row_mandatoryDebtServiceToCashExpenditure");
+  createBenchmark("Good: 40-55 | Warning: 35-40 or 55-59 | Action: < 35 or > 59", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
+  createBenchmark("Good: > 10 | Warning: 5-10 | Action: < 5", "expenseData", "row_totalGlobalAndLocalOutreachExpenses");
 
   // Removed facility expense and cost per square foot ratios per todo
 
