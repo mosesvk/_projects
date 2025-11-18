@@ -836,12 +836,12 @@ const checkForCountyDataIncomeTable = (
     // Create the <p> elements inside the first <th>
     const firstPElement = document.createElement("p");
     firstPElement.className = "pl-4 mb-2";
-    firstPElement.textContent = "__ Per Giving Units";
+    firstPElement.textContent = "Per Giving Units";
     thElement.appendChild(firstPElement);
 
     const secondPElement = document.createElement("p");
     secondPElement.className = "pl-4";
-    secondPElement.textContent = "__ Median Household Income";
+    secondPElement.textContent = "Median Household Income";
     thElement.appendChild(secondPElement);
 
     const tableRow = document.getElementById(`row_${trId}`);
