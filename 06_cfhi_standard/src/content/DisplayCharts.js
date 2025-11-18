@@ -50,6 +50,14 @@ function fixUnicodeCharacters(content) {
 const displayDemoComponent = () => {
   const savedData = getStoredData("demoData");
   const parseData = parseStoredData(savedData);
+  
+  // Debug: Check what keys exist in parseData
+  console.log("🔍 displayDemoComponent - parseData keys:", parseData ? Object.keys(parseData) : "parseData is null");
+  console.log("🔍 givingUnits_Client exists?", parseData?.givingUnits_Client ? "YES" : "NO");
+  console.log("🔍 givingUnits_Peer exists?", parseData?.givingUnits_Peer ? "YES" : "NO");
+  if (parseData?.givingUnits_Client) {
+    console.log("🔍 givingUnits_Client structure:", parseData.givingUnits_Client);
+  }
 
   // givingUnits
   createChartFromParsedData(

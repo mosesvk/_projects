@@ -250,7 +250,7 @@ const addPeerDataToRow = (
     // Normal peer data calculation
     if (peer && wa) {
       avg = getWeightedAverageOfArray(data, name);
-    } else if (peer && !wa) {
+    } else if (peer && peer[dataArray] && !wa) {
       avg = getAverageOfArray(peer[dataArray], name);
     } else {
       avg = 0;
@@ -259,15 +259,15 @@ const addPeerDataToRow = (
     textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
     
     // Use 25th percentile instead of Min (matching comp project)
-    min = peer ? get25thPercentileOfArray(peer[dataArray], name) : '';
+    min = peer && peer[dataArray] ? get25thPercentileOfArray(peer[dataArray], name) : '';
     textMin = styleNumber(min, type, fixedNum);
     
     // Use 50th percentile (median/midpoint) 
-    mid = peer ? getMidpointOfArray(peer[dataArray], name) : '';
+    mid = peer && peer[dataArray] ? getMidpointOfArray(peer[dataArray], name) : '';
     textMid = styleNumber(mid, type, fixedNum);
     
     // Use 75th percentile instead of Max (matching comp project)
-    max = peer ? get75thPercentileOfArray(peer[dataArray], name) : '';
+    max = peer && peer[dataArray] ? get75thPercentileOfArray(peer[dataArray], name) : '';
     textMax = styleNumber(max, type, fixedNum);
   }
 

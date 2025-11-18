@@ -478,10 +478,37 @@ class DataProcessor {
    * Filter records by year
    */
   filterRecordsByYear(records, year) {
-    return [...records].filter((record) => {
-      const fiscalYear =
-        record.querySelector("s52_formatted_year")?.textContent;
-      return fiscalYear && fiscalYear.includes(year.toString());
+    // Handle null or undefined records
+    if (!records) {
+      console.warn("Records is null or undefined");
+      return [];
+    }
+
+    // Convert to array if it's not already one
+    const recordsArray = Array.isArray(records) ? records : Array.from(records);
+
+    return recordsArray.filter((record) => {
+      try {
+        // Check if record is a DOM element
+        if (record && typeof record.querySelector === "function") {
+          const fiscalYear =
+            record.querySelector("s52_formatted_year")?.textContent;
+          return fiscalYear && fiscalYear.includes(year.toString());
+        }
+        // Check if record is an object with direct properties
+        else if (record && record.year) {
+          const fiscalYear = record.year;
+          return fiscalYear && fiscalYear.includes(year.toString());
+        }
+        // If neither format works, log and skip this record
+        else {
+          console.warn("Unrecognized record format:", record);
+          return false;
+        }
+      } catch (error) {
+        console.error("Error filtering record by year:", error, record);
+        return false;
+      }
     });
   }
 
@@ -543,7 +570,16 @@ class DataProcessor {
         recordsClient,
         year
       );
-      filteredClientRecords.forEach((record) => {
+      console.log(`Year ${year}: ${filteredClientRecords.length} client records filtered`);
+      console.log(`Total client records passed: ${recordsClient?.length || 0}`);
+      
+      filteredClientRecords.forEach((record, idx) => {
+        // Log first record for debugging
+        if (idx === 0) {
+          const givingUnits = record.querySelector("s02___giving_units")?.textContent;
+          console.log(`  First client record - Giving Units: ${givingUnits}`);
+        }
+        
         // givingUnits
         this.dataStore.insertData(
           "demo",
@@ -554,15 +590,6 @@ class DataProcessor {
           "s02___giving_units"
         );
 
-        // givingUnits benchmark paragraph (if field exists)
-        this.dataStore.insertData(
-          "demo",
-          "client",
-          year,
-          "givingUnits_benchmarkParagraph",
-          record,
-          "cfhi_stand_00_bench_paragraph___giving_units"
-        );
 
         // givingUnits_percentChange (client data only, no peer data)
         this.dataStore.insertData(
@@ -581,18 +608,9 @@ class DataProcessor {
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Client",
           record,
-          "cfhi_stand_05_ratio___contribution_w_o_donor_restriction_per_giving_unit"
+          "s39___contribution_without_donor_restriction"
         );
 
-        // contributionsWithoutDonorExcludingLargeGifts benchmark paragraph (if field exists)
-        this.dataStore.insertData(
-          "demo",
-          "client",
-          year,
-          "contributionsWithoutDonorExcludingLargeGifts_benchmarkParagraph",
-          record,
-          "cfhi_stand_00b_bench_paragraph___contributions_without_donor_excluding_large_gifts"
-        );
 
         // totalContributionsExclude
         this.dataStore.insertData(
@@ -1761,16 +1779,20 @@ class ApiService {
     const apiCallClientData = {
       act: "API_DoQuery",
       query: `
-        {98.EX.${ClientRid}} AND {105.EX.'Standard'} AND {474.EX.${currentYear}} 
+        {98.EX.${ClientRid}} AND {474.EX.${currentYear}} 
       `,
       clist:
         "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.700.698.702.703.421.420",
     };
 
+    console.log(`🔵 Fetching client data for year ${currentYear}, ClientRid: ${ClientRid}, clientData URL: ${clientData}`);
+    console.log(`🔵 Query: ${apiCallClientData.query}`);
+
     try {
       // Use await to make the async operation more explicit
       const xml = await $.get(clientData, apiCallClientData);
       const recordsForClient = $("record", xml).toArray();
+      console.log(`🔵 Year ${currentYear}: Found ${recordsForClient.length} client records`);
 
       // Process the records
       for (const record of recordsForClient) {
@@ -1790,7 +1812,12 @@ class ApiService {
       // Recursive call with updated years and dataStr
       return await this.getRecordsForClient(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching client data for year", currentYear, error);
+      console.error(`🔴 Error fetching client data for year ${currentYear}:`, error);
+      console.error(`🔴 Error details:`, {
+        status: error.status,
+        statusText: error.statusText,
+        responseText: error.responseText?.substring(0, 200)
+      });
 
       // Log error details
       if (error.status) {

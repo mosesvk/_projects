@@ -190,6 +190,11 @@ const closeSidebarAfterSelectingOption = (component) => {
 };
 
 const getAverageOfArray = (array, name, num = 1) => {
+  // Handle null, undefined, or non-array inputs
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
   // Filter out zero values before calculating average (matching comp implementation)
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
@@ -231,6 +236,11 @@ const getMidpointOfArray = (array, mainName) => {
 };
 
 const get25thPercentileOfArray = (array, mainName) => {
+  // Handle null, undefined, or non-array inputs
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
     .map((value) => Number(value));
@@ -264,6 +274,11 @@ const get25thPercentileOfArray = (array, mainName) => {
 };
 
 const get75thPercentileOfArray = (array, mainName) => {
+  // Handle null, undefined, or non-array inputs
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
     .map((value) => Number(value));
@@ -612,7 +627,7 @@ const getPeerAndClientChartDataArrays = (
   years.forEach((year) => {
     benchmarkArray.push(benchmark);
 
-    if (!dataPeer && dataClient[year]) {
+    if (!dataPeer && dataClient && dataClient[year]) {
       peerAvg.push(null);
       peerMid.push(null);
       peer25.push(null);
@@ -643,7 +658,7 @@ const getPeerAndClientChartDataArrays = (
       } else {
         clientArray.push(null);
       }
-    } else if (dataPeer[year] !== undefined && dataClient[year] !== undefined) {
+    } else if (dataPeer && dataPeer[year] !== undefined && dataClient && dataClient[year] !== undefined) {
       let numToTimesByIfPercent = 1;
       if (type == "percent") numToTimesByIfPercent = 100;
 
@@ -718,7 +733,7 @@ const getPeerAndClientChartDataArrays = (
       } else {
         clientArray.push(null);
       }
-    } else if (dataClient == undefined || dataPeer == undefined) {
+    } else if (!dataClient || !dataPeer) {
       throw new Error(
         `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
       );
