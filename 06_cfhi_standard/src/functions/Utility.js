@@ -210,6 +210,11 @@ const getAverageOfArray = (array, name, num = 1) => {
 };
 
 const getMidpointOfArray = (array, mainName) => {
+  // Handle null, undefined, or non-array inputs
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
   // Filter out zero values before calculating midpoint (matching comp implementation)
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
