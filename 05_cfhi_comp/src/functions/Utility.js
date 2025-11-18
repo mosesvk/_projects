@@ -1643,6 +1643,53 @@ const createBenchmark = async (benchmarkText, dataCategory, elementId) => {
   return variable;
 };
 
+/**
+ * Create "What Does This Mean" content and populate the _body-2 section
+ * @param {Array<string>} whatDoesThisMeanArray - Array of strings describing what the metric means
+ * @param {string} elementId - The row element ID (e.g., "row_daysExpendableNetAssets")
+ */
+const createWhatDoesThisMean = (whatDoesThisMeanArray, elementId) => {
+  if (!Array.isArray(whatDoesThisMeanArray) || whatDoesThisMeanArray.length === 0) {
+    console.warn(`Invalid whatDoesThisMeanArray for ${elementId}`);
+    return;
+  }
+
+  // Extract field name from elementId (e.g., "row_daysExpendableNetAssets" -> "daysExpendableNetAssets")
+  const fieldName = elementId.replace(/^row_/, '');
+
+  // Build HTML content from array - each item becomes a paragraph
+  let htmlContent = '';
+  whatDoesThisMeanArray.forEach((paragraph) => {
+    // Process each paragraph and apply fixUnicodeCharacters
+    let processedParagraph = processHtmlContent(paragraph);
+    processedParagraph = fixUnicodeCharacters(processedParagraph);
+    htmlContent += `<p class="mb-2 text-gray-500 dark:text-gray-400">${processedParagraph}</p>`;
+  });
+
+  // Wrap in a div with the same structure as the example
+  const content = `<div class="p-5 bg-gray-50 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800">${htmlContent}</div>`;
+
+  // Populate the _body-2 section
+  try {
+    const body2Selector = `#${fieldName}-body-2`;
+    const body2Element = document.querySelector(body2Selector);
+    
+    if (body2Element) {
+      // Find the inner div with the p-5 class, or create it if it doesn't exist
+      let innerDiv = body2Element.querySelector('div.p-5');
+      if (!innerDiv) {
+        innerDiv = document.createElement('div');
+        innerDiv.className = 'p-5 bg-gray-50 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800';
+        body2Element.appendChild(innerDiv);
+      }
+      innerDiv.innerHTML = htmlContent;
+    } else {
+      console.warn(`_body-2 element not found for selector: ${body2Selector}`);
+    }
+  } catch (error) {
+    console.error(`Error populating _body-2 section for ${elementId}:`, error);
+  }
+};
 
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
