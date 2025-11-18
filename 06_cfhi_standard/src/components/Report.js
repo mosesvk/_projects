@@ -43,6 +43,7 @@ const displayReportComponent = () => {
 
     insertDataToReport(expenseData, selectedYears, [
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
+      ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa"],
     ])
 
     processBenchmarkParagraphs();

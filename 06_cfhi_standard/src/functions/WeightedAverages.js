@@ -76,10 +76,21 @@ const getWeightedAverageOfArray = (data, name) => {
       return cashExpendituresPerAvgAdultAttendee_weightedAverage(data, name);
     case "cashExpendituresPerGivingUnit":
       return cashExpendituresPerGivingUnit_weightedAverage(data, name);
+    case "personnelIncludingToTotalCashExpenditures":
+      return personnelIncludingToTotalCashExpenditures_weightedAverage(data, name);
     default:
       return;
   }
 };
+
+const personnelIncludingToTotalCashExpenditures_weightedAverage = (data, name) => {
+  const s10 = getSumOfArray(data.totalSalaries[name]);
+  const s162 = getSumOfArray(data.costOfOutsourcedEmployee[name]);
+  const s45 = getSumOfArray(data.totalExpense[name]);
+  const s46 = getSumOfArray(data.totalDepreciationExpense[name]);
+
+  return (s10 + s162) / (s45 - s46)
+}
 
 const cashExpendituresPerGivingUnit_weightedAverage = (data, name) => {
   const s45 = getSumOfArray(data.totalExpense[name]);

@@ -1248,6 +1248,58 @@ class DataProcessor {
           "cfhi_stand_08_yes_no___cash_expenses_per_giving_unit",
           "cashExpendituresPerGivingUnit"
         );
+
+        // personnelIncludingToTotalCashExpenditures
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "personnelIncludingToTotalCashExpenditures_Peer",
+          record,
+          "cfhi_stand_09_ratio___personnel__including_outsourced_personnel__to_total_cash_expenditures",
+          "cfhi_stand_09_yes_no___personnel__including_outsourced_personnel__to_total_cash_expenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "costOfOutsourcedEmployee",
+          record,
+          "s162___cost_of_outsourced_employee",
+          "cfhi_stand_09_yes_no___personnel__including_outsourced_personnel__to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalSalaries",
+          record,
+          "s10___total_salaries_and_housing",
+          "cfhi_stand_09_yes_no___personnel__including_outsourced_personnel__to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalExpense",
+          record,
+          "s45___total_expense",
+          "cfhi_stand_09_yes_no___personnel__including_outsourced_personnel__to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
+
+        this.dataStore.insertData(
+          "expense",
+          "peer",
+          year,
+          "totalDepreciationExpense",
+          record,
+          "s46___total_depreciation_expense",
+          "cfhi_stand_09_yes_no___personnel__including_outsourced_personnel__to_total_cash_expenditures",
+          "personnelIncludingToTotalCashExpenditures"
+        );
       });
 
       const filteredClientRecords = this.filterRecordsByYear(
@@ -1273,6 +1325,17 @@ class DataProcessor {
           "cashExpendituresPerGivingUnit_benchmarkParagraph",
           record,
           "cfhi_stand_08_bench_paragraph___cash_expenses_per_giving_unit"
+        );
+
+        // personnelIncludingToTotalCashExpenditures
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "personnelIncludingToTotalCashExpenditures_Client",
+          record,
+          "cfhi_stand_09_ratio___personnel__including_outsourced_personnel__to_total_cash_expenditures",
+          "cfhi_stand_09_bench_rating___personnel__including_outsourced_personnel__to_total_cash_expenditures"
         );
       });
     });
@@ -1359,7 +1422,7 @@ class ApiService {
       act: "API_DoQuery",
         query: queryCondition,
       clist:
-          "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.155.158.330.331",
+          "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.155.158.330.331.420.421.131.175",
       };
 
       // Use await to make the async operation more explicit
@@ -1513,7 +1576,7 @@ class ApiService {
     // apiCallForPeerDataBatched
     const apiCalls = [];
     const clist =
-      "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.158.155.330.331";
+      "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.158.155.330.331.420.421.131.175";
 
     for (const currentYear of years) {
       for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
@@ -1618,7 +1681,9 @@ class ApiService {
       }
 
       const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
-      // console.log('peer records (batched)', finalXmlString);
+      console.log('peer records (batched)', finalXmlString);
+
+
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
       const records = xmlDoc.querySelectorAll("record");
@@ -1699,7 +1764,7 @@ class ApiService {
         {98.EX.${ClientRid}} AND {105.EX.'Standard'} AND {474.EX.${currentYear}} 
       `,
       clist:
-        "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.700.698",
+        "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.700.698.702.703.421.420",
     };
 
     try {
@@ -1719,7 +1784,7 @@ class ApiService {
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
 
-        console.log('client records', dataStr);
+        // console.log('client records', dataStr);
       }
 
       // Recursive call with updated years and dataStr
