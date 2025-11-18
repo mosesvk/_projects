@@ -214,6 +214,19 @@ const displayExpenseComponent = () => {
     'Cash Expenditures Per Giving Unit'
   );
 
+  // personnelIncludingToTotalCashExpenditures
+  createChartFromParsedData(
+    parseData,
+    'personnelIncludingToTotalCashExpenditures_chart',
+    'personnelIncludingToTotalCashExpenditures_Peer',
+    'personnelIncludingToTotalCashExpenditures_Client',
+    'percent',
+    0,
+    'personnelIncludingToTotalCashExpenditures',
+    getBenchmarksForField('personnelIncludingToTotalCashExpenditures'),
+    'Personnel Including to Total Cash Expenditures'
+  );
+
   // Use benchmark paragraph data from localStorage
   createBenchmark("cashExpendituresPerGivingUnit_benchmarkParagraph", "expenseData", "row_cashExpendituresPerGivingUnit");
 

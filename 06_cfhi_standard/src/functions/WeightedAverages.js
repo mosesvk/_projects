@@ -89,7 +89,7 @@ const personnelIncludingToTotalCashExpenditures_weightedAverage = (data, name) =
   const s45 = getSumOfArray(data.totalExpense[name]);
   const s46 = getSumOfArray(data.totalDepreciationExpense[name]);
 
-  return (s10 + s162) / (s45 - s46)
+  return (s10 + s162) / (s45 - s46) 
 }
 
 const cashExpendituresPerGivingUnit_weightedAverage = (data, name) => {
