@@ -1699,7 +1699,7 @@ class ApiService {
       }
 
       const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
-      console.log('peer records (batched)', finalXmlString);
+      // console.log('peer records (batched)', finalXmlString);
 
 
       const parser = new DOMParser();
@@ -1806,7 +1806,7 @@ class ApiService {
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
 
-        // console.log('client records', dataStr);
+        console.log('client records', dataStr);
       }
 
       // Recursive call with updated years and dataStr
