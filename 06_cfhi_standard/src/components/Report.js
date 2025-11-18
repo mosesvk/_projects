@@ -36,9 +36,9 @@ const displayReportComponent = () => {
 
     insertDataToReport(incomeData, selectedYears, [
       ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
-      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0, null, 'cb'],
+      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0, null],
       ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
-      ["totalContributionsPerGivingUnit_percentChange", "percent", 0, null, 'cb'],
+      ["totalContributionsPerGivingUnit_percentChange", "percent", 0, null],
     ])
 
     insertDataToReport(expenseData, selectedYears, [

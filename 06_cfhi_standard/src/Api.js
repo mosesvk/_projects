@@ -1122,17 +1122,26 @@ class DataProcessor {
           "totalContributionsPerGivingUnit_Client",
           record,
           "cfhi_stand_06_ratio___total_contributions_per_giving_unit", 
-          "cfhi_stand_06a_bench_rating___percentage_change__total_contributions_per_giving_unit"
+          "cfhi_stand_06_bench_rating___total_contributions_per_giving_unit"
         );
 
         // totalContributionsPerGivingUnit benchmark paragraph
+        // this.dataStore.insertData(
+        //   "income",
+        //   "client",
+        //   year,
+        //   "totalContributionsPerGivingUnit_benchmarkParagraph",
+        //   record,
+        //   "cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions"
+        // );
+
         this.dataStore.insertData(
-          "income",
+          "debt",
           "client",
           year,
-          "totalContributionsPerGivingUnit_benchmarkParagraph",
+          "debtPerGivingUnit_benchmarkParagraph",
           record,
-          "cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions"
+          "cfhi_stand_04_bench_paragraph___debt_per_givingunit"
         );
 
         // totalContributionsPerGivingUnit_percentChange
@@ -1609,7 +1618,7 @@ class ApiService {
       }
 
       const finalXmlString = dataStr + recordHtmlParts.join("") + "</qdbapi>";
-      console.log('peer records (batched)', finalXmlString);
+      // console.log('peer records (batched)', finalXmlString);
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
       const records = xmlDoc.querySelectorAll("record");
@@ -1710,7 +1719,7 @@ class ApiService {
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
 
-        // console.log('client records', dataStr);
+        console.log('client records', dataStr);
       }
 
       // Recursive call with updated years and dataStr

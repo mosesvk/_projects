@@ -1221,7 +1221,7 @@ const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
   // Set up click handlers for year columns
   if (selectedYears) {
     const children = await document.getElementById(elementId).children;
-
+    
     for (let i = 1; i < selectedYears.length + 1; i++) {
       editElementChildren(children[i], variable, elementId);
     }

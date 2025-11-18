@@ -189,11 +189,10 @@ const displayIncomeComponent = () => {
   );
 
   // Use benchmark paragraph data from localStorage for income metrics
-  createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit");
+  // createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit");
+  // createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
   
-  // Percent change fields benchmark paragraphs
-  createBenchmark("contributionsWithoutDonorPerGivingUnit_percentChange_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
-  createBenchmark("totalContributionsPerGivingUnit_percentChange_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
+  // createBenchmark("contributionsWithoutDonorPerGivingUnit_percentChange_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
 
   closeSidebarAfterSelectingOption("income");
 };
