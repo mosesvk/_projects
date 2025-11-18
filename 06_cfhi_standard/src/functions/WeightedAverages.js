@@ -64,8 +64,6 @@ const getWeightedAverageOfArray = (data, name) => {
       return personnelToCashExpenditure_weightedAverage(data, name);
     case "mandatoryDebtServiceToCashExpenditure":
       return mandatoryDebtServiceToCashExpenditure_weightedAverage(data, name);
-    case "personnelIncludingToTotalCashExpenditures":
-      return personnelIncludingToTotalCashExpenditures_weightedAverage(data, name);
     case "localOutreachExpenses":
       return localOutreachExpenses_weightedAverage(data, name);
     case "globalOutreachExpenses":
