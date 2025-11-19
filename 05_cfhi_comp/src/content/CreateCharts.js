@@ -421,9 +421,16 @@ const getMainChartOptions = (
       // For values >= 1M, round up to nearest 2M for clean 2M intervals
       // This ensures ranges like 10.67M become 12M, giving ticks at 0, 2, 4, 6, 8, 10, 12
       yaxisMax = Math.ceil(rawMax / 2000000) * 2000000;
-    } else if (rawMax >= 100000) {
-      // For values >= 100K, round up to nearest 100K
+    } else if (rawMax >= 500000) {
+      // For values 500K-1M, round up to nearest 100K
       yaxisMax = Math.ceil(rawMax / 100000) * 100000;
+    } else if (rawMax >= 200000) {
+      // For values 200K-500K, round up to nearest 50K for tighter spacing
+      yaxisMax = Math.ceil(rawMax / 50000) * 50000;
+    } else if (rawMax >= 100000) {
+      // For values 100K-200K, round up to nearest 20K for tighter spacing
+      // Example: 137K rounds to 140K instead of 200K
+      yaxisMax = Math.ceil(rawMax / 20000) * 20000;
     } else if (rawMax >= 10000) {
       // For values >= 10K, round up to nearest 10K
       yaxisMax = Math.ceil(rawMax / 10000) * 10000;
@@ -512,14 +519,20 @@ const getMainChartOptions = (
       // This prevents small millions from rounding to 0M
       formattedValue = `${Math.round(value / 1000000)}M`;
     } else if (value >= 100000) {
-      // Round to nearest 100K for values between 100K and 1M
-      formattedValue = `${Math.round(value / 100000) * 100}K`;
+      // For values >= 100K, display actual K value without rounding
+      const kValue = value / 1000;
+      // Only show decimal if it's not a whole number
+      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
     } else if (value >= 10000) {
-      // Round to nearest 10K for values between 10K and 100K
-      formattedValue = `${Math.round(value / 10000) * 10}K`;
+      // For values >= 10K, display actual K value without rounding
+      const kValue = value / 1000;
+      // Only show decimal if it's not a whole number
+      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
     } else if (value >= 1000) {
-      // Round to nearest 1K for values >= 1K
-      formattedValue = `${Math.round(value / 1000)}K`;
+      // For values >= 1K, display actual K value without rounding
+      const kValue = value / 1000;
+      // Only show decimal if it's not a whole number
+      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
     } else if (value >= 100) {
       // Round to nearest 100 for values between 100 and 1000
       // This handles cases like 510 -> 500, 410 -> 400, etc.
@@ -859,9 +872,16 @@ const getMainChartOptions = (
                 // For ranges > 50M, use 10M intervals
                 return Math.floor(range / 10000000);
               }
+            } else if (range >= 500000) {
+              // For ranges 500K-1M, use 100K intervals
+              return Math.floor(range / 100000);
+            } else if (range >= 200000) {
+              // For ranges 200K-500K, use 50K intervals
+              return Math.floor(range / 50000);
             } else if (range >= 100000) {
-              // For ranges >= 100K, use 5 ticks
-              return 5;
+              // For ranges 100K-200K, use 20K intervals
+              // Example: 140K range / 20K = 7 ticks (0, 20K, 40K, 60K, 80K, 100K, 120K, 140K)
+              return Math.floor(range / 20000);
             } else if (range >= 10000) {
               // For ranges >= 10K, use 5 ticks
               return 5;

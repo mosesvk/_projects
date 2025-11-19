@@ -1002,6 +1002,12 @@ const getPeerAndClientChartDataArrays = (
       let higher75 = get75thPercentileOfArray(array);
       higher75 *= numToTimesByIfPercent;
 
+      // Round quartile values to match fixedNum decimal places (same as Report.js formatting)
+      avg = parseFloat(avg.toFixed(fixedNum));
+      mid = parseFloat(mid.toFixed(fixedNum));
+      lower25 = parseFloat(lower25.toFixed(fixedNum));
+      higher75 = parseFloat(higher75.toFixed(fixedNum));
+
       // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({mainName, avg, mid, lower25, higher75 });
 
       // Push numeric values (not strings) so ApexCharts can format decimals correctly
