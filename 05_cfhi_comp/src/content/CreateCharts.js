@@ -431,9 +431,17 @@ const getMainChartOptions = (
       // For values 100K-200K, round up to nearest 20K for tighter spacing
       // Example: 137K rounds to 140K instead of 200K
       yaxisMax = Math.ceil(rawMax / 20000) * 20000;
-    } else if (rawMax >= 10000) {
-      // For values >= 10K, round up to nearest 10K
+    } else if (rawMax >= 50000) {
+      // For values 50K-100K, round up to nearest 10K
       yaxisMax = Math.ceil(rawMax / 10000) * 10000;
+    } else if (rawMax >= 20000) {
+      // For values 20K-50K, round up to nearest 5K for tighter spacing
+      // Example: 25K rounds to 30K instead of 30K (same), 35K rounds to 40K
+      yaxisMax = Math.ceil(rawMax / 5000) * 5000;
+    } else if (rawMax >= 10000) {
+      // For values 10K-20K, round up to nearest 4K for tighter spacing
+      // Example: 20K rounds to 24K instead of 30K
+      yaxisMax = Math.ceil(rawMax / 4000) * 4000;
     } else if (rawMax >= 1000) {
       // For values >= 1K, round up to nearest 1K
       yaxisMax = Math.ceil(rawMax / 1000) * 1000;
@@ -882,9 +890,17 @@ const getMainChartOptions = (
               // For ranges 100K-200K, use 20K intervals
               // Example: 140K range / 20K = 7 ticks (0, 20K, 40K, 60K, 80K, 100K, 120K, 140K)
               return Math.floor(range / 20000);
+            } else if (range >= 50000) {
+              // For ranges 50K-100K, use 10K intervals
+              return Math.floor(range / 10000);
+            } else if (range >= 20000) {
+              // For ranges 20K-50K, use 5K intervals
+              // Example: 30K range / 5K = 6 ticks (0, 5K, 10K, 15K, 20K, 25K, 30K)
+              return Math.floor(range / 5000);
             } else if (range >= 10000) {
-              // For ranges >= 10K, use 5 ticks
-              return 5;
+              // For ranges 10K-20K, use 4K intervals
+              // Example: 24K range / 4K = 6 ticks (0, 4K, 8K, 12K, 16K, 20K, 24K)
+              return Math.floor(range / 4000);
             } else if (range >= 1000) {
               // For ranges >= 1K, use 5 ticks
               return 5;
