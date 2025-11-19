@@ -393,7 +393,7 @@ const displayIncomeComponent = () => {
     "contributionsWithoutDonorPerGivingUnit_Peer",
     "contributionsWithoutDonorPerGivingUnit_Client",
     "dollar",
-    1,
+    0,
     "contributionsWithoutDonorPerGivingUnit",
     getBenchmarksForField("contributionsWithoutDonorPerGivingUnit"),
     "Contributions Without Donor Per Giving Unit",
