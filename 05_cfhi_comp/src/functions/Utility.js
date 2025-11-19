@@ -1004,10 +1004,11 @@ const getPeerAndClientChartDataArrays = (
 
       // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({mainName, avg, mid, lower25, higher75 });
 
-      peerAvg.push(avg.toFixed(fixedNum));
-      peerMid.push(mid.toFixed(fixedNum));
-      peer25.push(lower25.toFixed(fixedNum));
-      peer75.push(higher75.toFixed(fixedNum));
+      // Push numeric values (not strings) so ApexCharts can format decimals correctly
+      peerAvg.push(avg);
+      peerMid.push(mid);
+      peer25.push(lower25);
+      peer75.push(higher75);
 
       // if (mainName == "cfi_netIncomeOperationsRatio") console.log({mainName, peerAvg, peerMid, peer25, peer75});
 
