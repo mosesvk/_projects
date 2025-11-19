@@ -337,11 +337,21 @@ const addPeerDataToRow = (
     }
 
     textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
-    mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
+    
+    // Special handling for salariesBenefitsIncludingOutsourcedEmployees:
+    // Calculate percentiles from component fields to match weighted average peer set
+    if (name === 'salariesBenefitsIncludingOutsourcedEmployees' && wa && data) {
+      // For report table, dataArray is "total", so use null to get total
+      mid = getMidpointFromComponentFields(data, name, null);
+      min = get25thPercentileFromComponentFields(data, name, null);
+      max = get75thPercentileFromComponentFields(data, name, null);
+    } else {
+      mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
+      min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
+      max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
+    }
     textMid = styleNumber(mid, type, fixedNum);
-    min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
     textMin = styleNumber(min, type, fixedNum);
-    max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
     textMax = styleNumber(max, type, fixedNum);
   }
 
@@ -419,11 +429,20 @@ const addPeerDataToModalRow = (
     }
 
     textAvg = peer ? styleNumber(avg, type, fixedNum) : '';
-    mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
+    
+    // Special handling for salariesBenefitsIncludingOutsourcedEmployees:
+    // Calculate percentiles from component fields to match weighted average peer set
+    if (name === 'salariesBenefitsIncludingOutsourcedEmployees' && wa && data) {
+      mid = getMidpointFromComponentFields(data, name, dataArray);
+      min = get25thPercentileFromComponentFields(data, name, dataArray);
+      max = get75thPercentileFromComponentFields(data, name, dataArray);
+    } else {
+      mid = peer ? getMidpointOfArray(peer[dataArray]) : '';
+      min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
+      max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
+    }
     textMid = styleNumber(mid, type, fixedNum);
-    min = peer ? get25thPercentileOfArray(peer[dataArray]) : '';
     textMin = styleNumber(min, type, fixedNum);
-    max = peer ? get75thPercentileOfArray(peer[dataArray]) : '';
     textMax = styleNumber(max, type, fixedNum);
   }
 

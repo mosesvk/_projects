@@ -616,6 +616,76 @@ const get75thPercentileOfArray = (array, mainName) => {
   }
 };
 
+/**
+ * Calculate individual ratios from component fields for salariesBenefitsIncludingOutsourcedEmployees
+ * Returns array of calculated ratios for each peer
+ */
+const calculateRatiosFromComponentFields = (data, name, year) => {
+  const ratios = [];
+  
+  // Get component field arrays for the year
+  const s10Array = data.totalSalaries[name][year ? year : 'total'] || [];
+  const s11Array = data.totalBenefit[name][year ? year : 'total'] || [];
+  const s162Array = data.costOfOutsourcedEmployee[name][year ? year : 'total'] || [];
+  const s151Array = data.fullTimeEquivalent[name][year ? year : 'total'] || [];
+  const s157Array = data.totalOutsourcedEmployee[name][year ? year : 'total'] || [];
+  
+  // Find the maximum length to iterate through all peers
+  const maxLength = Math.max(
+    s10Array.length,
+    s11Array.length,
+    s162Array.length,
+    s151Array.length,
+    s157Array.length
+  );
+  
+  // Calculate ratio for each peer
+  for (let i = 0; i < maxLength; i++) {
+    const s10 = parseFloat(s10Array[i]) || 0;
+    const s11 = parseFloat(s11Array[i]) || 0;
+    const s162 = parseFloat(s162Array[i]) || 0;
+    const s151 = parseFloat(s151Array[i]) || 0;
+    const s157 = parseFloat(s157Array[i]) || 0; // Include zeros - valid value
+    
+    const denominator = s151 + s157;
+    
+    // Only include if denominator is not zero
+    if (denominator !== 0) {
+      const ratio = (s10 + s11 + s162) / denominator;
+      ratios.push(ratio);
+    }
+  }
+  
+  return ratios;
+};
+
+/**
+ * Get 50th percentile (median) from component fields for salariesBenefitsIncludingOutsourcedEmployees
+ */
+const getMidpointFromComponentFields = (data, name, year) => {
+  const ratios = calculateRatiosFromComponentFields(data, name, year);
+  if (ratios.length === 0) return 0;
+  return getMidpointOfArray(ratios, name);
+};
+
+/**
+ * Get 25th percentile from component fields for salariesBenefitsIncludingOutsourcedEmployees
+ */
+const get25thPercentileFromComponentFields = (data, name, year) => {
+  const ratios = calculateRatiosFromComponentFields(data, name, year);
+  if (ratios.length === 0) return 0;
+  return get25thPercentileOfArray(ratios, name);
+};
+
+/**
+ * Get 75th percentile from component fields for salariesBenefitsIncludingOutsourcedEmployees
+ */
+const get75thPercentileFromComponentFields = (data, name, year) => {
+  const ratios = calculateRatiosFromComponentFields(data, name, year);
+  if (ratios.length === 0) return 0;
+  return get75thPercentileOfArray(ratios, name);
+};
+
 const getSumOfArray = (array) => {
   // console.log('getSumOfArray', array);
   
