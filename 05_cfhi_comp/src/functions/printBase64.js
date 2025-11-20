@@ -330,10 +330,10 @@ const getChartInstance = (chartId) => {
   // Get the chart instance from the global scope
   const chartMap = {
     givingUnits_chart: window.givingUnits_chart,
-    attendeesToStaff_chart: window.attendeesToStaff_chart,
+    givingUnitsToStaff_chart: window.givingUnitsToStaff_chart,
     daysExpendableNetAssets_chart: window.daysExpendableNetAssets_chart,
     daysOperatingCash_chart: window.daysOperatingCash_chart,
-    availableDaysOfCashFlow_chart: window.availableDaysOfCashFlow_chart,
+    cashFlowsFromOperatingActivities_chart: window.cashFlowsFromOperatingActivities_chart,
     liquidityRatio_chart: window.liquidityRatio_chart,
     netCashAvailability_chart: window.netCashAvailability_chart,
     debtToContributionsWithout_chart: window.debtToContributionsWithout_chart,
@@ -686,10 +686,10 @@ async function apexChartsExportPrint() {
     // Define chart mappings for your specific charts
     const chartMappings = [
       { chartId: "givingUnits_chart", fieldId: 11 },
-      { chartId: "attendeesToStaff_chart", fieldId: 12 },
+      { chartId: "givingUnitsToStaff_chart", fieldId: 12 },
       { chartId: "daysExpendableNetAssets_chart", fieldId: 13 },
       { chartId: "daysOperatingCash_chart", fieldId: 14 },
-      { chartId: "availableDaysOfCashFlow_chart", fieldId: 15 },
+      { chartId: "cashFlowsFromOperatingActivities_chart", fieldId: 15 },
       { chartId: "liquidityRatio_chart", fieldId: 16 },
       { chartId: "netCashAvailability_chart", fieldId: 17 },
       { chartId: "debtToContributionsWithout_chart", fieldId: 18 },
