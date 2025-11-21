@@ -358,7 +358,6 @@ const getMainChartOptions = (
       break;
     case 11:
       dynamicOffsetX = 40;
-      break;
     default:
       dynamicOffsetX = 50;
   }
@@ -382,13 +381,6 @@ const getMainChartOptions = (
 
   // Calculate smart y-axis range based on actual data (always needed)
   const allDataValues = [...clientArray, ...peerAvg, ...peerMid, ...peer25, ...peer75, ...(benchmark || [])].filter(v => v !== null && v !== undefined);
-  
-  // If no valid data values, return null to prevent chart creation
-  if (allDataValues.length === 0) {
-    console.warn(`No valid data values for chart ${chartId} (${mainName})`);
-    return null;
-  }
-  
   const dataMin = Math.min(...allDataValues);
   const dataMax = Math.max(...allDataValues);
   const dataRange = dataMax - dataMin;

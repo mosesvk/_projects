@@ -220,26 +220,13 @@ const createChartFromParsedData = (
   title,
   wa = null
 ) => {
-  if (!parsedData) {
-    console.warn(`No parsed data available for chart ${chart} (${mainName})`);
-    return;
-  }
+  if (parsedData) {
+    // console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName, wa });
 
-  // Get peer and client data, handling missing keys gracefully
-  const dataPeer = parsedData[peer] || null;
-  const dataClient = parsedData[client] || null;
-
-  // Only create chart if we have at least some data (peer or client)
-  if (!dataPeer && !dataClient) {
-    console.warn(`No data available for chart ${chart} (${mainName}) - missing both peer and client data`);
-    return;
-  }
-
-  try {
     createChart(
       chart,
-      dataPeer,
-      dataClient,
+      parsedData[peer],
+      parsedData[client],
       type,
       fixedNum,
       mainName,
@@ -248,13 +235,7 @@ const createChartFromParsedData = (
       wa,
       parsedData
     );
-    
-    // Only update modal if we have data
-    if (dataPeer || dataClient) {
-      updateModal(mainName, dataPeer, dataClient);
-    }
-  } catch (error) {
-    console.error(`Error creating chart ${chart} (${mainName}):`, error);
+    updateModal (mainName, parsedData[peer], parsedData[client]);
   }
 };
 
@@ -270,14 +251,7 @@ const createChart = (
   wa = null,
   allData = null
 ) => {
-  // Check if chart element exists before proceeding
-  const chartElement = document.getElementById(chartId);
-  if (!chartElement) {
-    console.error(`Chart element not found: ${chartId}`);
-    return;
-  }
-
-  chartElement.innerHTML = "";
+  document.getElementById(chartId).innerHTML = "";
 
   dataUrLObj[mainName] = chartId;
 
@@ -1111,25 +1085,13 @@ const getPeerAndClientChartDataArrays = (
       } else {
         clientArray.push(null);
       }
-    } else {
-      // Handle missing data gracefully instead of throwing error
-      // This prevents one chart failure from crashing all other charts
-      console.warn(`No data available for ${mainName} year ${year} - dataClient: ${dataClient === undefined ? 'undefined' : 'defined'}, dataPeer: ${dataPeer === undefined ? 'undefined' : 'defined'}`);
-      
-      peerAvg.push(null);
-      peerMid.push(null);
-      peer25.push(null);
-      peer75.push(null);
-      clientArray.push(null);
-      
-      // Only show toast warning once per field, not for every year
-      if (year === years[0]) {
-        if (typeof createToastWarning === 'function') {
-          createToastWarning(
-            `No data available for ${mainName}. Check your data filters.`
-          );
-        }
-      }
+    } else if (dataClient == undefined || dataPeer == undefined) {
+      throw new Error(
+        `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
+      createToastWarning(
+        `check Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
     }
 
     // if (mainName == "demoOverall") console.log({clientArray, dataClient});
