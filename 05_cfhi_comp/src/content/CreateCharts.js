@@ -120,127 +120,58 @@ function isFieldHigherBetter(fieldName) {
 };
 
 /**
- * Calculate ideal tick interval and tickAmount for even y-axis spacing
+ * Calculate ideal tick interval for even y-axis spacing (aims for 4-6 ticks)
  * @param {number} range - The range of the y-axis (max - min)
- * @param {number} yaxisMax - The maximum y-axis value
- * @returns {Object} - Object with interval and tickAmount
+ * @returns {number|null} - The ideal interval, or null if should use default logic
  */
-function calculateTickInterval(range, yaxisMax) {
+function calculateTickInterval(range) {
   // For very small ranges (≤10), use existing logic
   if (range <= 10) {
-    return { interval: null, tickAmount: null }; // Let existing logic handle it
+    return null; // Let existing logic handle it
   }
   
-  // Calculate ideal number of ticks (aim for 4-6 ticks for readability)
-  let idealTickCount = 5;
+  // Calculate what interval would give us approximately 4-6 ticks
+  // We want: range / interval ≈ 4-6, so interval ≈ range / 5
+  const idealInterval = range / 5;
   
-  // For specific ranges, calculate proper intervals
-  if (range >= 1000) {
-    // For ranges >= 1000, use intervals that divide evenly
-    if (range >= 100000) {
-      // Large ranges: use larger intervals
-      if (range >= 10000000) {
-        // 10M+ ranges: use 10M intervals
-        const interval = 10000000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 5000000) {
-        // 5M-10M ranges: use 5M intervals
-        const interval = 5000000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 2000000) {
-        // 2M-5M ranges: use 2M intervals
-        const interval = 2000000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 1000000) {
-        // 1M-2M ranges: use 1M intervals
-        const interval = 1000000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 500000) {
-        // 500K-1M ranges: use 100K intervals
-        const interval = 100000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 200000) {
-        // 200K-500K ranges: use 50K intervals
-        const interval = 50000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 100000) {
-        // 100K-200K ranges: use 20K intervals
-        const interval = 20000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 50000) {
-        // 50K-100K ranges: use 10K intervals
-        const interval = 10000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 20000) {
-        // 20K-50K ranges: use 5K intervals
-        const interval = 5000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 10000) {
-        // 10K-20K ranges: use 4K intervals
-        const interval = 4000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 1000) {
-        // 1K-10K ranges: use 1K intervals
-        const interval = 1000;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      }
-    } else {
-      // Ranges 100-1000: calculate proper intervals
-      if (range >= 500) {
-        // 500-1000: use 200 intervals (0, 200, 400, 600, 800, 1000)
-        const interval = 200;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 200) {
-        // 200-500: use 100 intervals
-        const interval = 100;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      } else if (range >= 100) {
-        // 100-200: use 40 intervals (0, 40, 80, 120, 160, 200)
-        const interval = 40;
-        const tickAmount = Math.floor(range / interval);
-        return { interval, tickAmount };
-      }
-    }
+  // Round to a "nice" number based on the scale
+  if (range >= 10000000) {
+    // 10M+ ranges: round to nearest 10M
+    return Math.round(idealInterval / 10000000) * 10000000;
+  } else if (range >= 1000000) {
+    // 1M-10M ranges: round to nearest 1M
+    return Math.round(idealInterval / 1000000) * 1000000;
+  } else if (range >= 100000) {
+    // 100K-1M ranges: round to nearest 100K
+    return Math.round(idealInterval / 100000) * 100000;
+  } else if (range >= 10000) {
+    // 10K-100K ranges: round to nearest 10K
+    return Math.round(idealInterval / 10000) * 10000;
+  } else if (range >= 1000) {
+    // 1K-10K ranges: round to nearest 1K
+    return Math.round(idealInterval / 1000) * 1000;
+  } else if (range >= 500) {
+    // 500-1000: round to nearest 200
+    return Math.round(idealInterval / 200) * 200;
+  } else if (range >= 200) {
+    // 200-500: round to nearest 100
+    return Math.round(idealInterval / 100) * 100;
+  } else if (range >= 100) {
+    // 100-200: round to nearest 40
+    return Math.round(idealInterval / 40) * 40;
+  } else if (range >= 50) {
+    // 50-100: round to nearest 20
+    return Math.round(idealInterval / 20) * 20;
+  } else if (range >= 40) {
+    // 40-50: round to nearest 10
+    return Math.round(idealInterval / 10) * 10;
+  } else if (range >= 20) {
+    // 20-40: round to nearest 10
+    return Math.round(idealInterval / 10) * 10;
   } else {
-    // Ranges 10-100: calculate proper intervals
-    if (range >= 50) {
-      // 50-100: use 20 intervals (0, 20, 40, 60, 80, 100)
-      const interval = 20;
-      const tickAmount = Math.floor(range / interval);
-      return { interval, tickAmount };
-    } else if (range >= 40) {
-      // 40-50: use 10 intervals (0, 10, 20, 30, 40)
-      const interval = 10;
-      const tickAmount = Math.floor(range / interval);
-      return { interval, tickAmount };
-    } else if (range >= 20) {
-      // 20-40: use 10 intervals (0, 10, 20, 30, 40)
-      const interval = 10;
-      const tickAmount = Math.floor(range / interval);
-      return { interval, tickAmount };
-    } else {
-      // 10-20: use 5 intervals (0, 5, 10, 15, 20)
-      const interval = 5;
-      const tickAmount = Math.floor(range / interval);
-      return { interval, tickAmount };
-    }
+    // 10-20: round to nearest 5
+    return Math.round(idealInterval / 5) * 5;
   }
-  
-  // Default: use 5 ticks
-  return { interval: null, tickAmount: 5 };
 }
 
 const getMainChartOptions = (
@@ -572,12 +503,13 @@ const getMainChartOptions = (
       // For values 500-1000, round up to nearest 200 for even spacing
       // This ensures ticks at 0, 200, 400, 600, 800, 1000
       yaxisMax = Math.ceil(rawMax / 200) * 200;
-    } else if (rawMax >= 200) {
-      // For values 200-500, round up to nearest 100 for even spacing
+    } else if (rawMax >= 240) {
+      // For values 240-500, round up to nearest 100 for even spacing
       yaxisMax = Math.ceil(rawMax / 100) * 100;
     } else if (rawMax >= 100) {
-      // For values 100-200, round up to nearest 40 for even spacing
-      // This ensures ticks at 0, 40, 80, 120, 160, 200
+      // For values 100-240, round up to nearest 40 for even spacing
+      // This ensures ticks at 0, 40, 80, 120, 160, 200 (or 240 if needed)
+      // Handles both 0-200 and 0-240 ranges with consistent 40-unit intervals
       yaxisMax = Math.ceil(rawMax / 40) * 40;
     } else if (rawMax >= 50) {
       // For values 50-100, round up to nearest 20 for even spacing
@@ -990,73 +922,39 @@ const getMainChartOptions = (
             hideOverlappingLabels: false,
           },
         } : {
-          // For larger values (>10), calculate dynamic tick amount for even spacing
-          forceNiceScale: false, // Disable to use our explicit max and tickAmount
+          // For larger values (>10), use explicit intervals for even spacing
+          // Disable forceNiceScale to have full control over tick spacing
+          forceNiceScale: false,
           tickAmount: (() => {
             const range = yaxisMax - (yaxisMin || 0);
-            const tickConfig = calculateTickInterval(range, yaxisMax);
             
-            // If we calculated a specific interval, use that tickAmount
-            if (tickConfig.tickAmount !== null && tickConfig.interval !== null) {
-              // Ensure yaxisMax is a multiple of the interval for perfect spacing
-              const adjustedMax = Math.ceil(yaxisMax / tickConfig.interval) * tickConfig.interval;
-              // Recalculate tickAmount based on adjusted max
-              return Math.floor(adjustedMax / tickConfig.interval);
-            }
-            
-            // Fallback: calculate tickAmount directly from range and yaxisMax
-            // This matches the intervals used in yaxisMax calculation
-            if (range >= 100000000) {
-              return Math.min(10, Math.max(5, Math.floor(range / 10000000)));
-            } else if (range >= 50000000) {
-              return 5;
-            } else if (range >= 10000000) {
-              return 5;
-            } else if (range >= 1000000) {
-              const millionRange = range / 1000000;
-              if (millionRange <= 4) {
-                return Math.floor(millionRange);
-              } else if (millionRange <= 20) {
-                return Math.floor(range / 2000000);
-              } else if (millionRange <= 50) {
-                return Math.floor(range / 5000000);
-              } else {
-                return Math.floor(range / 10000000);
-              }
-            } else if (range >= 500000) {
-              return Math.floor(range / 100000);
-            } else if (range >= 200000) {
-              return Math.floor(range / 50000);
-            } else if (range >= 100000) {
-              return Math.floor(range / 20000);
-            } else if (range >= 50000) {
-              return Math.floor(range / 10000);
-            } else if (range >= 20000) {
-              return Math.floor(range / 5000);
-            } else if (range >= 10000) {
-              return Math.floor(range / 4000);
-            } else if (range >= 1000) {
+            // Calculate tickAmount based on the actual interval used in yaxisMax rounding
+            // This must match the yaxisMax rounding logic exactly
+            if (range >= 1000) {
+              // For 1K+ ranges, yaxisMax is rounded to nearest 1K, so use 1K intervals
               return Math.floor(range / 1000);
             } else if (range >= 500) {
-              // 500-1000: use 200 intervals
+              // For 500-1000, yaxisMax is rounded to nearest 200, so use 200 intervals
               return Math.floor(range / 200);
-            } else if (range >= 200) {
-              // 200-500: use 100 intervals
+            } else if (range >= 240) {
+              // For 240-500, yaxisMax is rounded to nearest 100, so use 100 intervals
               return Math.floor(range / 100);
             } else if (range >= 100) {
-              // 100-200: use 40 intervals (0, 40, 80, 120, 160, 200)
+              // For 100-240, yaxisMax is rounded to nearest 40, so use 40 intervals
+              // This gives: 0, 40, 80, 120, 160, 200 (6 ticks for 200 max)
+              // Or: 0, 40, 80, 120, 160, 200, 240 (7 ticks for 240 max)
               return Math.floor(range / 40);
             } else if (range >= 50) {
-              // 50-100: use 20 intervals (0, 20, 40, 60, 80, 100)
+              // For 50-100, yaxisMax is rounded to nearest 20, so use 20 intervals
               return Math.floor(range / 20);
             } else if (range >= 40) {
-              // 40-50: use 10 intervals (0, 10, 20, 30, 40)
+              // For 40-50, yaxisMax is rounded to nearest 10, so use 10 intervals
               return Math.floor(range / 10);
             } else if (range >= 20) {
-              // 20-40: use 10 intervals (0, 10, 20, 30, 40)
+              // For 20-40, yaxisMax is rounded to nearest 10, so use 10 intervals
               return Math.floor(range / 10);
             } else {
-              // 10-20: use 5 intervals (0, 5, 10, 15, 20)
+              // For 10-20, yaxisMax is rounded to nearest 5, so use 5 intervals
               return Math.floor(range / 5);
             }
           })(),
