@@ -195,74 +195,94 @@ const displayCashComponent = () => {
   const parseData = parseStoredData(savedData);
 
   // daysExpendableNetAssets
-  createChartFromParsedData(
-    parseData,
-    "daysExpendableNetAssets_chart",
-    "daysExpendableNetAssets_Peer",
-    "daysExpendableNetAssets_Client",
-    "number",
-    0,
-    "daysExpendableNetAssets",
-    getBenchmarksForField("daysExpendableNetAssets"),
-    "Days Expendable Net Assets",
-    "wa" // use weighted average
-  );
+  try {
+    createChartFromParsedData(
+      parseData,
+      "daysExpendableNetAssets_chart",
+      "daysExpendableNetAssets_Peer",
+      "daysExpendableNetAssets_Client",
+      "number",
+      0,
+      "daysExpendableNetAssets",
+      getBenchmarksForField("daysExpendableNetAssets"),
+      "Days Expendable Net Assets",
+      "wa" // use weighted average
+    );
+  } catch (error) {
+    console.error("Error creating daysExpendableNetAssets chart:", error);
+  }
 
   // daysOperatingCash
-  createChartFromParsedData(
-    parseData,
-    "daysOperatingCash_chart",
-    "daysOperatingCash_Peer",
-    "daysOperatingCash_Client",
-    "number",
-    0,
-    "daysOperatingCash",
-    getBenchmarksForField("daysOperatingCash"),
-    "Days Operating Cash",
-    "wa" // use weighted average
-  );
+  try {
+    createChartFromParsedData(
+      parseData,
+      "daysOperatingCash_chart",
+      "daysOperatingCash_Peer",
+      "daysOperatingCash_Client",
+      "number",
+      0,
+      "daysOperatingCash",
+      getBenchmarksForField("daysOperatingCash"),
+      "Days Operating Cash",
+      "wa" // use weighted average
+    );
+  } catch (error) {
+    console.error("Error creating daysOperatingCash chart:", error);
+  }
 
   // cashFlowsFromOperatingActivities
-  createChartFromParsedData(
-    parseData,
-    "cashFlowsFromOperatingActivities_chart",
-    "cashFlowsFromOperatingActivities_Peer",
-    "cashFlowsFromOperatingActivities_Client",
-    "dollar",
-    0,
-    "cashFlowsFromOperatingActivities",
-    getBenchmarksForField("cashFlowsFromOperatingActivities"),
-    "Cash Flows from Operating Activities",
-    null // no weighted average
-  );
+  try {
+    createChartFromParsedData(
+      parseData,
+      "cashFlowsFromOperatingActivities_chart",
+      "cashFlowsFromOperatingActivities_Peer",
+      "cashFlowsFromOperatingActivities_Client",
+      "dollar",
+      0,
+      "cashFlowsFromOperatingActivities",
+      getBenchmarksForField("cashFlowsFromOperatingActivities"),
+      "Cash Flows from Operating Activities",
+      null // no weighted average
+    );
+  } catch (error) {
+    console.error("Error creating cashFlowsFromOperatingActivities chart:", error);
+  }
 
   // liquidityRatio
-  createChartFromParsedData(
-    parseData,
-    "liquidityRatio_chart",
-    "liquidityRatio_Peer",
-    "liquidityRatio_Client",
-    "number",
-    0,
-    "liquidityRatio",
-    getBenchmarksForField("liquidityRatio"),
-    "Liquidity Ratio",
-    "wa" // use weighted average
-  );
+  try {
+    createChartFromParsedData(
+      parseData,
+      "liquidityRatio_chart",
+      "liquidityRatio_Peer",
+      "liquidityRatio_Client",
+      "number",
+      0,
+      "liquidityRatio",
+      getBenchmarksForField("liquidityRatio"),
+      "Liquidity Ratio",
+      "wa" // use weighted average
+    );
+  } catch (error) {
+    console.error("Error creating liquidityRatio chart:", error);
+  }
 
   // netCashAvailability
-  createChartFromParsedData(
-    parseData,
-    "netCashAvailability_chart",
-    "netCashAvailability_Peer",
-    "netCashAvailability_Client",
-    "dollar",
-    0,
-    "netCashAvailability",
-    getBenchmarksForField("netCashAvailability"),
-    "Net Cash Availability",
-    null // no weighted average
-  );
+  try {
+    createChartFromParsedData(
+      parseData,
+      "netCashAvailability_chart",
+      "netCashAvailability_Peer",
+      "netCashAvailability_Client",
+      "dollar",
+      0,
+      "netCashAvailability",
+      getBenchmarksForField("netCashAvailability"),
+      "Net Cash Availability",
+      null // no weighted average
+    );
+  } catch (error) {
+    console.error("Error creating netCashAvailability chart:", error);
+  }
 
   createBenchmark("Good: > 60 | Warning: 30-60 | Action: < 30", "cashData", "row_daysExpendableNetAssets");
   createBenchmark("Good: > 90 | Warning: 60-90 | Action: < 60", "cashData", "row_daysOperatingCash");
