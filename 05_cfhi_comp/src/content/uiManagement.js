@@ -64,34 +64,33 @@ if (sidebar) {
       tabContents[index].classList.remove("hidden");
       activateButton(index);
       
-      // Scroll to top when switching tabs
-      // Function to handle scrolling
+      // Scroll to top when switching tabs (smooth scroll)
+      // Function to handle smooth scrolling - only use smooth methods, no instant assignments
       const scrollToTop = () => {
-        // Scroll main-content container (primary scrollable element)
+        // Scroll main-content container (primary scrollable element) - smooth only
         if (mainContent) {
-          mainContent.scrollTop = 0;
           mainContent.scrollTo({
             top: 0,
             behavior: 'smooth'
           });
         }
         
-        // Fallback: scroll window and document elements
+        // Fallback: scroll window - smooth only
         window.scrollTo({
           top: 0,
           left: 0,
           behavior: 'smooth'
         });
-        document.documentElement.scrollTop = 0;
-        document.body.scrollTop = 0;
       };
       
-      // Scroll immediately
+      // Scroll immediately with smooth animation
       scrollToTop();
       
       // Also scroll after a delay to catch any DOM updates or async content
-      setTimeout(scrollToTop, 100);
-      setTimeout(scrollToTop, 300); // One more check after layout settles
+      // Use requestAnimationFrame for better timing with DOM updates
+      requestAnimationFrame(() => {
+        setTimeout(scrollToTop, 50);
+      });
       
       // Removed handleSidebarButtonClick() from here
     });
