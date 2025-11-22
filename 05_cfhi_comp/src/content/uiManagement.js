@@ -64,13 +64,34 @@ if (sidebar) {
       tabContents[index].classList.remove("hidden");
       activateButton(index);
       
-      // Scroll main-content container to top when switching tabs
-      if (mainContent) {
-        mainContent.scrollTo({
+      // Scroll to top when switching tabs
+      // Function to handle scrolling
+      const scrollToTop = () => {
+        // Scroll main-content container (primary scrollable element)
+        if (mainContent) {
+          mainContent.scrollTop = 0;
+          mainContent.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+        
+        // Fallback: scroll window and document elements
+        window.scrollTo({
           top: 0,
+          left: 0,
           behavior: 'smooth'
         });
-      }
+        document.documentElement.scrollTop = 0;
+        document.body.scrollTop = 0;
+      };
+      
+      // Scroll immediately
+      scrollToTop();
+      
+      // Also scroll after a delay to catch any DOM updates or async content
+      setTimeout(scrollToTop, 100);
+      setTimeout(scrollToTop, 300); // One more check after layout settles
       
       // Removed handleSidebarButtonClick() from here
     });
