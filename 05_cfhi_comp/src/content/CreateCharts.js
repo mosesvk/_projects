@@ -557,24 +557,24 @@ const getMainChartOptions = (
     } else if (rawMax >= 50000) {
       // For values 50K-100K, round up to nearest 10K
       yaxisMax = Math.ceil(rawMax / 10000) * 10000;
-    } else if (rawMax >= 20000) {
-      // For values 20K-50K, round up to nearest 5K for tighter spacing
-      // Example: 25K rounds to 30K instead of 30K (same), 35K rounds to 40K
-      yaxisMax = Math.ceil(rawMax / 5000) * 5000;
+    } else if (rawMax >= 100000) {
+      // For values >= 100K, round to nearest 20K for cleaner spacing
+      yaxisMax = Math.ceil(rawMax / 20000) * 20000; // 100K, 120K, 140K, etc.
+    } else if (rawMax >= 50000) {
+      // For values 50K-100K, round to nearest 10K for cleaner spacing
+      yaxisMax = Math.ceil(rawMax / 10000) * 10000; // 50K, 60K, 70K, etc.
     } else if (rawMax >= 10000) {
-      // For values 10K-20K, round up to nearest 4K for tighter spacing
-      // Example: 20K rounds to 24K instead of 30K
-      yaxisMax = Math.ceil(rawMax / 4000) * 4000;
+      // For values 10K-50K, round to nearest 5K for cleaner spacing
+      yaxisMax = Math.ceil(rawMax / 5000) * 5000; // 10K, 15K, 20K, etc.
     } else if (rawMax >= 1000) {
-      // For values >= 1K, round up to nearest 1K
-      yaxisMax = Math.ceil(rawMax / 1000) * 1000;
+      // For values 1K-10K, round to nearest 1K for cleaner spacing
+      yaxisMax = Math.ceil(rawMax / 1000) * 1000; // 1K, 2K, 3K, etc.
     } else if (rawMax >= 500) {
-      // For values 500-1000, round up to nearest 200 for even spacing
-      // This ensures ticks at 0, 200, 400, 600, 800, 1000
-      yaxisMax = Math.ceil(rawMax / 200) * 200;
+      // For values 500-1000, round to nearest 200 for cleaner spacing
+      yaxisMax = Math.ceil(rawMax / 200) * 200; // 600, 800, 1000
     } else if (rawMax >= 200) {
-      // For values 200-500, round up to nearest 100 for even spacing
-      yaxisMax = Math.ceil(rawMax / 100) * 100;
+      // For values 200-500, round to nearest 100 for cleaner spacing
+      yaxisMax = Math.ceil(rawMax / 100) * 100; // 200, 300, 400, 500
     } else if (rawMax >= 100) {
       // For values 100-200, round up to nearest 40 for even spacing
       // This ensures ticks at 0, 40, 80, 120, 160, 200
@@ -588,13 +588,26 @@ const getMainChartOptions = (
       // This ensures ticks at 0, 10, 20, 30, 40
       yaxisMax = Math.ceil(rawMax / 10) * 10;
     } else if (rawMax >= 20) {
-      // For values 20-40, round up to nearest 10 for even spacing
-      // This ensures ticks at 0, 10, 20, 30, 40
-      yaxisMax = Math.ceil(rawMax / 10) * 10;
+      // For values 20-40, round to nearest multiple of 4 for clean spacing
+      // Prefer max 16 for cleaner 5 ticks (0, 4, 8, 12, 16) unless data is really close to 20
+      if (rawMax <= 19) {
+        yaxisMax = 16; // 5 ticks: 0, 4, 8, 12, 16
+      } else {
+        // Only use 20+ if data is at or above 19
+        yaxisMax = Math.ceil(rawMax / 4) * 4; // Round to nearest multiple of 4 (20, 24, 28, etc.)
+      }
+    } else if (rawMax >= 16) {
+      // For values 16-20, prefer max 16 for 5 ticks (0, 4, 8, 12, 16)
+      yaxisMax = 16; // Always use 16 for cleaner 5 ticks
     } else {
-      // For values 10-20, round up to nearest 5 for even spacing
-      // This ensures ticks at 0, 5, 10, 15, 20
-      yaxisMax = Math.ceil(rawMax / 5) * 5;
+      // For values 10-16, round to nearest multiple of 4
+      yaxisMax = Math.ceil(rawMax / 4) * 4; // 12, 16
+      // If resulting max would be 12, prefer 16 for consistent 5 ticks
+      if (yaxisMax === 12 && rawMax >= 11) {
+        yaxisMax = 16;
+      } else if (yaxisMax < 16 && rawMax >= 14) {
+        yaxisMax = 16; // Prefer 16 for data >= 14
+      }
     }
   }
 
@@ -1028,21 +1041,26 @@ const getMainChartOptions = (
             } else if (range >= 200000) {
               return Math.floor(range / 50000);
             } else if (range >= 100000) {
-              return Math.floor(range / 20000);
+              // 100K+: use 20K intervals (limit to 5-6 ticks)
+              return Math.min(6, Math.floor(range / 20000));
             } else if (range >= 50000) {
-              return Math.floor(range / 10000);
-            } else if (range >= 20000) {
-              return Math.floor(range / 5000);
+              // 50K-100K: use 10K intervals (limit to 5 ticks)
+              return Math.min(5, Math.floor(range / 10000));
             } else if (range >= 10000) {
-              return Math.floor(range / 4000);
+              // 10K-50K: use 5K intervals (limit to 4-5 ticks)
+              return Math.min(5, Math.floor(range / 5000));
+            } else if (range >= 5000) {
+              // 5K-10K: use 2K intervals (limit to 4-5 ticks)
+              return Math.min(5, Math.floor(range / 2000));
             } else if (range >= 1000) {
-              return Math.floor(range / 1000);
+              // 1K-5K: use 1K intervals (limit to 5 ticks max)
+              return Math.min(5, Math.floor(range / 1000));
             } else if (range >= 500) {
-              // 500-1000: use 200 intervals
-              return Math.floor(range / 200);
+              // 500-1000: use 200 intervals (limit to 4-5 ticks)
+              return Math.min(5, Math.floor(range / 200));
             } else if (range >= 200) {
-              // 200-500: use 100 intervals
-              return Math.floor(range / 100);
+              // 200-500: use 100 intervals (limit to 4-5 ticks)
+              return Math.min(5, Math.floor(range / 100));
             } else if (range >= 100) {
               // 100-200: use 40 intervals (0, 40, 80, 120, 160, 200)
               return Math.floor(range / 40);
@@ -1052,12 +1070,32 @@ const getMainChartOptions = (
             } else if (range >= 40) {
               // 40-50: use 10 intervals (0, 10, 20, 30, 40)
               return Math.floor(range / 10);
-            } else if (range >= 20) {
-              // 20-40: use 10 intervals (0, 10, 20, 30, 40)
-              return Math.floor(range / 10);
+            } else if (range >= 16 || (yaxisMax >= 16 && yaxisMax <= 24)) {
+              // For ranges 16-24 (y-axis max between 16-24), use interval of 4
+              // This gives clean ticks: 0, 4, 8, 12, 16 (5 ticks for max 16)
+              // Or: 0, 4, 8, 12, 16, 20 (6 ticks for max 20)
+              // User wants 5 ticks, so use tickAmount = 4
+              if (yaxisMax % 4 === 0) {
+                // For max 16 or 20, use tickAmount = 4 to get 5 ticks
+                // tickAmount = 4 means 5 tick marks (0, 4, 8, 12, 16)
+                return 4; // 5 ticks: 0, 4, 8, 12, 16
+              }
+              return Math.floor(range / 4); // Fallback
+            } else if (range >= 12) {
+              // 12-16: use 4 intervals (0, 4, 8, 12, 16 = 5 ticks)
+              if (yaxisMax === 16) {
+                return 4; // 5 ticks: 0, 4, 8, 12, 16
+              }
+              return Math.floor(range / 4);
             } else {
-              // 10-20: use 5 intervals (0, 5, 10, 15, 20)
-              return Math.floor(range / 5);
+              // 10-12: use 4 intervals for cleaner spacing
+              // Prefer rounding up to 16 for consistency
+              if (yaxisMax === 16) {
+                return 4; // 5 ticks: 0, 4, 8, 12, 16
+              } else if (yaxisMax === 12) {
+                return 3; // 4 ticks: 0, 4, 8, 12
+              }
+              return Math.floor(range / 4);
             }
           })(),
           labels: {
