@@ -408,7 +408,24 @@ const getMainChartOptions = (
     // Ensure the max divides evenly by ideal tick intervals
     const rawMax = dataMax + padding;
     
-    if (rawMax >= 100000000) {
+    // Check dataMax first for values under 20 to prevent rounding up too much
+    // This ensures maxVal 15 doesn't get yaxisMax 20 even if rawMax is higher
+    if (dataMax < 20) {
+      // For dataMax under 20, use dataMax directly to keep yaxisMax close to actual max
+      if (dataMax <= 12) {
+        yaxisMax = 12; // maxVal 12: use 12 for ticks 0, 3, 6, 9, 12
+      } else if (dataMax <= 15) {
+        yaxisMax = 15; // maxVal 15: use 15 for ticks 0, 3, 6, 9, 12, 15
+      } else if (dataMax <= 16) {
+        yaxisMax = 16; // maxVal 16: use 16 for ticks 0, 4, 8, 12, 16
+      } else if (dataMax <= 17) {
+        yaxisMax = 18; // maxVal 17: use 18 for ticks 0, 3, 6, 9, 12, 15, 18
+      } else if (dataMax <= 18) {
+        yaxisMax = 18; // maxVal 18: use 18 for ticks 0, 3, 6, 9, 12, 15, 18
+      } else {
+        yaxisMax = 20; // maxVal 19: use 20
+      }
+    } else if (rawMax >= 100000000) {
       // For values >= 100M, round up to nearest 10M
       yaxisMax = Math.ceil(rawMax / 10000000) * 10000000;
     } else if (rawMax >= 50000000) {
@@ -459,28 +476,9 @@ const getMainChartOptions = (
     } else if (rawMax >= 40) {
       // For values 40-50, round to nearest 10
       yaxisMax = Math.ceil(rawMax / 10) * 10; // 40, 50
-    } else if (rawMax >= 20) {
-      // For values 20-40, round to nearest multiple of 4 for clean spacing
-      // But keep closer to actual max - if data is 15-19, use 16, not 20
-      if (rawMax <= 19) {
-        yaxisMax = 16; // 5 ticks: 0, 4, 8, 12, 16 (for maxVal ~15)
-      } else {
-        // Only use 20+ if data is at or above 19
-        yaxisMax = Math.ceil(rawMax / 4) * 4; // Round to nearest multiple of 4 (20, 24, 28, etc.)
-      }
-    } else if (rawMax >= 16) {
-      // For values 16-20, prefer max 16 for 5 ticks (0, 4, 8, 12, 16)
-      // This ensures maxVal 15 gets yaxisMax 16, not 20
-      yaxisMax = 16; // Always use 16 for cleaner 5 ticks
     } else {
-      // For values 10-16, round to nearest multiple of 4
-      yaxisMax = Math.ceil(rawMax / 4) * 4; // 12, 16
-      // If resulting max would be 12, prefer 16 for consistent 5 ticks
-      if (yaxisMax === 12 && rawMax >= 11) {
-        yaxisMax = 16;
-      } else if (yaxisMax < 16 && rawMax >= 14) {
-        yaxisMax = 16; // Prefer 16 for data >= 14
-      }
+      // For values 20-40, round to nearest multiple of 4 for clean spacing
+      yaxisMax = Math.ceil(rawMax / 4) * 4; // Round to nearest multiple of 4 (20, 24, 28, etc.)
     }
   }
 
@@ -937,32 +935,31 @@ const getMainChartOptions = (
             } else if (range >= 100) {
               // For ranges >= 100, use 5 ticks
               return 5;
-            } else if (range >= 16 || (yaxisMax >= 16 && yaxisMax <= 24)) {
-              // For ranges 16-24 (y-axis max between 16-24), use interval of 4
-              // This gives clean ticks: 0, 4, 8, 12, 16 (5 ticks for max 16)
-              // Or: 0, 4, 8, 12, 16, 20 (6 ticks for max 20)
-              // User wants 5 ticks, so use tickAmount = 4
-              if (yaxisMax % 4 === 0) {
-                // For max 16 or 20, use tickAmount = 4 to get 5 ticks
-                // tickAmount = 4 means 5 tick marks (0, 4, 8, 12, 16)
-                return 4; // 5 ticks: 0, 4, 8, 12, 16
-              }
-              return Math.floor(range / 4); // Fallback
-            } else if (range >= 12) {
-              // 12-16: use 4 intervals (0, 4, 8, 12, 16 = 5 ticks)
-              if (yaxisMax === 16) {
-                return 4; // 5 ticks: 0, 4, 8, 12, 16
-              }
-              return Math.floor(range / 4);
-            } else {
-              // 10-12: use 4 intervals for cleaner spacing
-              // Prefer rounding up to 16 for consistency
-              if (yaxisMax === 16) {
-                return 4; // 5 ticks: 0, 4, 8, 12, 16
+            } else if (range < 20 && yaxisMax < 20) {
+              // For ranges under 20 with yaxisMax under 20, use simple tickAmount based on yaxisMax
+              // This approach matches how other projects handle small ranges
+              if (yaxisMax === 15) {
+                // maxVal 15: use tickAmount = 5 for interval of 3 → ticks: 0, 3, 6, 9, 12, 15 (6 ticks)
+                return 5;
+              } else if (yaxisMax === 16) {
+                // maxVal 16: use tickAmount = 4 for interval of 4 → ticks: 0, 4, 8, 12, 16 (5 ticks)
+                return 4;
+              } else if (yaxisMax === 18) {
+                // maxVal 18: use tickAmount = 6 for interval of 3 → ticks: 0, 3, 6, 9, 12, 15, 18 (7 ticks)
+                return 6;
               } else if (yaxisMax === 12) {
-                return 3; // 4 ticks: 0, 4, 8, 12
+                // maxVal 12: use tickAmount = 4 for interval of 3 → ticks: 0, 3, 6, 9, 12 (5 ticks)
+                return 4;
+              } else if (yaxisMax === 20) {
+                // maxVal 20: use tickAmount = 4 for interval of 5 → ticks: 0, 5, 10, 15, 20 (5 ticks)
+                return 4;
+              } else {
+                // Fallback: use tickAmount = 5 for simplicity
+                return 5;
               }
-              return Math.floor(range / 4);
+            } else {
+              // For other ranges, use 5 ticks
+              return 5;
             }
           })(),
           labels: {
