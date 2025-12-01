@@ -2656,6 +2656,10 @@ class ApiService {
         uniquePeerClientNames
       ).sort();
 
+      // Console log the list of unique clients being pulled
+      // console.log("📋 Unique Peer Clients Found:", sortedUniquePeerClientNames.length);
+      // console.log("📝 Client List:", sortedUniquePeerClientNames);
+
       // Add to global selected clients array
       if (typeof selectedClients_Array !== "undefined") {
         sortedUniquePeerClientNames.forEach((item) =>
@@ -3550,6 +3554,10 @@ function countUniqueClients(records) {
         uniqueClients.add(clientName);
       }
     });
+    
+    // Console log the list of unique clients being pulled
+    console.log("📋 Unique Peer Clients Found:", Array.from(uniqueClients));
+    console.log("📝 Client List:", Array.from(uniqueClients));
 
     // Update the UI with the count
     const count = uniqueClients.size;
@@ -3564,6 +3572,7 @@ function countUniqueClients(records) {
     }
 
     console.log(`Counted ${count} unique clients after filtering`);
+    console.log("Unique clients list:", Array.from(uniqueClients));
   } catch (error) {
     console.error("Error counting unique clients:", error);
     const element = document.getElementById("uniqueClients");
