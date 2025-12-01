@@ -1014,7 +1014,7 @@ const daysExpensesInUnrestrictedNA_excludingPPE_weightedAverage = (
   const denominator = totalExpenses / 365;
 
   return denominator > 0
-    ? (netAssetsWithoutDR - propertyPlantAndEquipment - notesPayable) /
+    ? (netAssetsWithoutDR - propertyPlantAndEquipment + notesPayable) /
         denominator
     : 0;
 };
