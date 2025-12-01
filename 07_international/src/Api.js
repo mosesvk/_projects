@@ -2877,7 +2877,7 @@ class ApiService {
     const fullQuery = `(${clientConditions})`;
     
     // Note: This method is now primarily used for non-peer queries
-    // Peer data queries use batching to avoid URL length limits
+    // Peer data queries use batching to avoid URL length limits\
     
     return fullQuery;
   }
@@ -3554,7 +3554,7 @@ function countUniqueClients(records) {
         uniqueClients.add(clientName);
       }
     });
-    
+
     // Console log the list of unique clients being pulled
     console.log("📋 Unique Peer Clients Found:", Array.from(uniqueClients));
     console.log("📝 Client List:", Array.from(uniqueClients));
