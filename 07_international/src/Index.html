@@ -4769,10 +4769,9 @@
                     <p class="whitespace-nowrap w-40">Giving Units:</p>
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:blur="mintrigger"
-                      x-on:change="mintrigger"
-                      x-model.lazy="minprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value"
+                      x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { minprice = $event.target.value.replace(/[^\d]/g, ''); mintrigger(); }"
                       x-ref="minInput"
                       id="givingUnitsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4781,10 +4780,9 @@
 
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:blur="maxtrigger"
-                      x-on:change="maxtrigger"
-                      x-model.lazy="maxprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value"
+                      x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { maxprice = $event.target.value.replace(/[^\d]/g, ''); maxtrigger(); }"
                       id="givingUnitsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
@@ -4842,10 +4840,9 @@
                     <p class="whitespace-nowrap w-40">Missionary Units:</p>
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:blur="mintrigger"
-                      x-on:change="mintrigger"
-                      x-model.lazy="minprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value"
+                      x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { minprice = $event.target.value.replace(/[^\d]/g, ''); mintrigger(); }"
                       x-ref="minInput"
                       id="missionUnitsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4853,10 +4850,9 @@
                     <span class="mx-1">-</span>
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:blur="maxtrigger"
-                      x-on:change="maxtrigger"
-                      x-model.lazy="maxprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value"
+                      x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { maxprice = $event.target.value.replace(/[^\d]/g, ''); maxtrigger(); }"
                       id="missionUnitsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
@@ -4914,10 +4910,9 @@
                     <p class="whitespace-nowrap w-40">Total Assets:</p>
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:blur="mintrigger"
-                      x-on:change="mintrigger"
-                      x-model.lazy="minprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value"
+                      x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { minprice = $event.target.value.replace(/[^\d]/g, ''); mintrigger(); }"
                       x-ref="minInput"
                       id="assetsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4925,10 +4920,9 @@
                     <span class="mx-1">-</span>
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:blur="maxtrigger"
-                      x-on:change="maxtrigger"
-                      x-model.lazy="maxprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value"
+                      x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { maxprice = $event.target.value.replace(/[^\d]/g, ''); maxtrigger(); }"
                       id="assetsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
@@ -4944,10 +4938,9 @@
                     <p class="whitespace-nowrap w-40">Total Revenue:</p>
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:blur="mintrigger"
-                      x-on:change="mintrigger"
-                      x-model.lazy="minprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value"
+                      x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { minprice = $event.target.value.replace(/[^\d]/g, ''); mintrigger(); }"
                       x-ref="minInput"
                       id="revenueMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4955,10 +4948,9 @@
                     <span class="mx-1">-</span>
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:blur="maxtrigger"
-                      x-on:change="maxtrigger"
-                      x-model.lazy="maxprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value"
+                      x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { maxprice = $event.target.value.replace(/[^\d]/g, ''); maxtrigger(); }"
                       id="revenueMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />

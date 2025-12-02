@@ -2093,6 +2093,114 @@ const adjustDivHeight = () => {
   }
 };
 
+// Format all slider input values on page load
+function formatSliderInputsOnLoad() {
+  const inputsToFormat = [
+    { id: 'givingUnitsMin', value: window.sliderValue || 0 },
+    { id: 'givingUnitsMax', value: window.sliderValue2 || 25000 },
+    { id: 'missionUnitsMin', value: window.missionValue || 0 },
+    { id: 'missionUnitsMax', value: window.missionValue2 || 10000 },
+    { id: 'assetsMin', value: window.assetsValue || 0 },
+    { id: 'assetsMax', value: window.assetsValue2 || 900000000 },
+    { id: 'revenueMin', value: window.revenueValue || 0 },
+    { id: 'revenueMax', value: window.revenueValue2 || 600000000 }
+  ];
+  
+  inputsToFormat.forEach(({ id, value }) => {
+    const inputElement = document.getElementById(id);
+    if (inputElement) {
+      inputElement.value = value.toLocaleString('en-US');
+    }
+  });
+}
+
+// Format number with commas as user types
+function formatInputWithCommas(input) {
+  // Get cursor position before formatting
+  const cursorPosition = input.selectionStart;
+  const oldValue = input.value;
+  
+  // Remove all non-digit characters
+  const digitsOnly = oldValue.replace(/[^\d]/g, '');
+  
+  // If empty, just clear and return
+  if (!digitsOnly) {
+    input.value = '';
+    return;
+  }
+  
+  // Format with commas
+  const formatted = parseInt(digitsOnly).toLocaleString('en-US');
+  
+  // Count commas before cursor in old value
+  const textBeforeCursor = oldValue.substring(0, cursorPosition);
+  const commasBeforeCursor = (textBeforeCursor.match(/,/g) || []).length;
+  
+  // Count digits before cursor
+  const digitsBeforeCursor = textBeforeCursor.replace(/[^\d]/g, '').length;
+  
+  // Update the input value
+  input.value = formatted;
+  
+  // Find the new cursor position by counting digits and commas
+  let newCursorPosition = 0;
+  let digitCount = 0;
+  
+  for (let i = 0; i < formatted.length; i++) {
+    if (formatted[i] >= '0' && formatted[i] <= '9') {
+      digitCount++;
+    }
+    if (digitCount >= digitsBeforeCursor) {
+      newCursorPosition = i + 1;
+      break;
+    }
+  }
+  
+  // Restore cursor position
+  input.setSelectionRange(newCursorPosition, newCursorPosition);
+}
+
+// Add real-time formatting to all slider inputs
+function setupRealTimeFormatting() {
+  const inputIds = [
+    'givingUnitsMin', 'givingUnitsMax',
+    'missionUnitsMin', 'missionUnitsMax',
+    'assetsMin', 'assetsMax',
+    'revenueMin', 'revenueMax'
+  ];
+  
+  inputIds.forEach(id => {
+    const inputElement = document.getElementById(id);
+    if (inputElement) {
+      // Format on initial load
+      if (inputElement.value && !inputElement.value.includes(',')) {
+        const numValue = parseInt(inputElement.value.replace(/[^\d]/g, '')) || 0;
+        inputElement.value = numValue.toLocaleString('en-US');
+      }
+      
+      // Add input event listener for real-time formatting
+      inputElement.addEventListener('input', function(e) {
+        formatInputWithCommas(this);
+      });
+    }
+  });
+}
+
+// Call on DOMContentLoaded and after a short delay for Alpine.js
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+      formatSliderInputsOnLoad();
+      setupRealTimeFormatting();
+    }, 100);
+  });
+} else {
+  setTimeout(() => {
+    formatSliderInputsOnLoad();
+    setupRealTimeFormatting();
+  }, 100);
+}
+
 function getBenchmarks(obj) {
   // console.log('getBenchmarks', obj)
 
