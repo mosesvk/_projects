@@ -1809,7 +1809,7 @@ const range = () => {
     minthumb: 1,
     maxthumb: 1,
 
-    mintrigger() {
+    mintrigger(shouldDispatchEvent = true) {
       // Remove any non-numeric characters except digits
       let value = String(this.minprice).replace(/[^\d]/g, '');
       
@@ -1833,15 +1833,17 @@ const range = () => {
       const inputElement = document.getElementById("givingUnitsMin");
       if (inputElement) {
         inputElement.value = this.minprice.toLocaleString('en-US');
-        // Store the current value as oldValue for comparison on blur
-        inputElement.dataset.oldValue = inputElement.value;
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.minprice);
       }
 
-      // Trigger filter change event
-      document.dispatchEvent(new CustomEvent("filtersChanged"));
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
 
-    maxtrigger() {
+    maxtrigger(shouldDispatchEvent = true) {
       // Remove any non-numeric characters except digits
       let value = String(this.maxprice).replace(/[^\d]/g, '');
       
@@ -1865,12 +1867,14 @@ const range = () => {
       const inputElement = document.getElementById("givingUnitsMax");
       if (inputElement) {
         inputElement.value = this.maxprice.toLocaleString('en-US');
-        // Store the current value as oldValue for comparison on blur
-        inputElement.dataset.oldValue = inputElement.value;
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.maxprice);
       }
 
-      // Trigger filter change event
-      document.dispatchEvent(new CustomEvent("filtersChanged"));
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
   };
 };
@@ -1884,7 +1888,7 @@ function missionaryRange() {
     minthumb: 1,
     maxthumb: 1,
 
-    mintrigger() {
+    mintrigger(shouldDispatchEvent = true) {
       // Remove any non-numeric characters except digits
       let value = String(this.minprice).replace(/[^\d]/g, '');
       
@@ -1908,15 +1912,17 @@ function missionaryRange() {
       const inputElement = document.getElementById("missionUnitsMin");
       if (inputElement) {
         inputElement.value = this.minprice.toLocaleString('en-US');
-        // Store the current value as oldValue for comparison on blur
-        inputElement.dataset.oldValue = inputElement.value;
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.minprice);
       }
 
-      // Trigger filter change event
-      document.dispatchEvent(new CustomEvent("filtersChanged"));
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
 
-    maxtrigger() {
+    maxtrigger(shouldDispatchEvent = true) {
       // Remove any non-numeric characters except digits
       let value = String(this.maxprice).replace(/[^\d]/g, '');
       
@@ -1940,12 +1946,14 @@ function missionaryRange() {
       const inputElement = document.getElementById("missionUnitsMax");
       if (inputElement) {
         inputElement.value = this.maxprice.toLocaleString('en-US');
-        // Store the current value as oldValue for comparison on blur
-        inputElement.dataset.oldValue = inputElement.value;
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.maxprice);
       }
 
-      // Trigger filter change event
-      document.dispatchEvent(new CustomEvent("filtersChanged"));
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
   };
 }
@@ -1961,7 +1969,7 @@ function assetsRange() {
     minthumb: 0,
     maxthumb: 1,
 
-    mintrigger() {
+    mintrigger(shouldDispatchEvent = true) {
       // Remove any non-numeric characters except digits
       let value = String(this.minprice).replace(/[^\d]/g, '');
       
@@ -1981,15 +1989,17 @@ function assetsRange() {
       const inputElement = document.getElementById("assetsMin");
       if (inputElement) {
         inputElement.value = this.minprice.toLocaleString('en-US');
-        // Store the current value as oldValue for comparison on blur
-        inputElement.dataset.oldValue = inputElement.value;
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.minprice);
       }
 
-      // Trigger filter change event
-      document.dispatchEvent(new CustomEvent("filtersChanged"));
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
 
-    maxtrigger() {
+    maxtrigger(shouldDispatchEvent = true) {
       // Remove any non-numeric characters except digits
       let value = String(this.maxprice).replace(/[^\d]/g, '');
       
@@ -2013,12 +2023,14 @@ function assetsRange() {
       const inputElement = document.getElementById("assetsMax");
       if (inputElement) {
         inputElement.value = this.maxprice.toLocaleString('en-US');
-        // Store the current value as oldValue for comparison on blur
-        inputElement.dataset.oldValue = inputElement.value;
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.maxprice);
       }
 
-      // Trigger filter change event
-      document.dispatchEvent(new CustomEvent("filtersChanged"));
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
   };
 }
@@ -2032,7 +2044,7 @@ function revenueRange() {
     minthumb: 0,
     maxthumb: 1,
 
-    mintrigger() {
+    mintrigger(shouldDispatchEvent = true) {
       // Remove any non-numeric characters except digits
       let value = String(this.minprice).replace(/[^\d]/g, '');
       
@@ -2052,15 +2064,17 @@ function revenueRange() {
       const inputElement = document.getElementById("revenueMin");
       if (inputElement) {
         inputElement.value = this.minprice.toLocaleString('en-US');
-        // Store the current value as oldValue for comparison on blur
-        inputElement.dataset.oldValue = inputElement.value;
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.minprice);
       }
 
-      // Trigger filter change event
-      document.dispatchEvent(new CustomEvent("filtersChanged"));
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
 
-    maxtrigger() {
+    maxtrigger(shouldDispatchEvent = true) {
       // Remove any non-numeric characters except digits
       let value = String(this.maxprice).replace(/[^\d]/g, '');
       
@@ -2084,12 +2098,14 @@ function revenueRange() {
       const inputElement = document.getElementById("revenueMax");
       if (inputElement) {
         inputElement.value = this.maxprice.toLocaleString('en-US');
-        // Store the current value as oldValue for comparison on blur
-        inputElement.dataset.oldValue = inputElement.value;
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.maxprice);
       }
 
-      // Trigger filter change event
-      document.dispatchEvent(new CustomEvent("filtersChanged"));
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
   };
 }
