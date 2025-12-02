@@ -2585,13 +2585,18 @@ class ApiService {
         if (clientInformalName) {
           uniquePeerClientNames.add(clientInformalName);
 
-          // Store client data with all required fields
-          if (!window.clientDataStore[clientInformalName]) {
-            // Get fiscal year
-            const year = record.querySelector(
-              "fiscal_ye_date_formatted_year_text"
-            )?.textContent;
+          // Get fiscal year for comparison
+          const year = record.querySelector(
+            "fiscal_ye_date_formatted_year_text"
+          )?.textContent;
+          const currentYear = parseInt(year) || 0;
 
+          // Store or update if this is a newer year (or first record)
+          // This ensures we always use the most recent year's data for filtering
+          if (!window.clientDataStore[clientInformalName] || 
+              (window.clientDataStore[clientInformalName].year && 
+               currentYear > parseInt(window.clientDataStore[clientInformalName].year))) {
+            
             // Get mission unit value
             const missionUnitVal =
               record.querySelector("_06_01nonfin___01_missionary_unit")
@@ -2602,12 +2607,12 @@ class ApiService {
               record.querySelector("_06_01nonfin___02_giving_unit")
                 ?.textContent || "0";
 
-            // Get giving unit value
+            // Get assets value
             const assetsVal =
               record.querySelector("_01__01ass___10_total_assets")
                 ?.textContent || "0";
 
-            // Get giving unit value
+            // Get revenue value
             const revenueVal =
               record.querySelector("query_slider_total_revenue")?.textContent ||
               "0";
@@ -2628,7 +2633,7 @@ class ApiService {
               ? typeQueryText.split(";").filter(Boolean)
               : [];
 
-            // Store all client data
+            // Store all client data with most recent year
             window.clientDataStore[clientInformalName] = {
               name: clientInformalName,
               year: year,
