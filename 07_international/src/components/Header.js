@@ -736,123 +736,17 @@ function addUniqueTypesToOptionsSelectTypeDropdown(typeArray) {
   });
 }
 
-// Function to format numbers with commas
-function formatNumberWithCommas(number) {
-  return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
-
-// Function to observe and format input values
-function setupNumberFormatting() {
-  const inputIds = [
-    'givingUnitsMin', 'givingUnitsMax',
-    'missionUnitsMin', 'missionUnitsMax',
-    'assetsMin', 'assetsMax',
-    'revenueMin', 'revenueMax'
-  ];
-  
-  // Process each input field
-  inputIds.forEach(id => {
-    const input = document.getElementById(id);
-    if (!input) return;
-    
-    // Format initial value
-    if (input.value) {
-      const formattedValue = formatNumberWithCommas(input.value);
-      const displaySpan = getOrCreateDisplaySpan(input, id);
-      displaySpan.textContent = formattedValue;
-    }
-    
-    // Setup MutationObserver to watch for value changes from slider movement
-    const observer = new MutationObserver(mutations => {
-      mutations.forEach(mutation => {
-        if (mutation.type === 'attributes' && mutation.attributeName === 'value') {
-          const rawValue = input.value;
-          const formattedValue = formatNumberWithCommas(rawValue);
-          const displaySpan = getOrCreateDisplaySpan(input, id);
-          displaySpan.textContent = formattedValue;
-        }
-      });
-    });
-    
-    // Start observing the input element for value changes
-    observer.observe(input, { attributes: true });
-    
-    // Also handle direct input changes
-    input.addEventListener('input', function() {
-      const rawValue = this.value;
-      const formattedValue = formatNumberWithCommas(rawValue);
-      const displaySpan = getOrCreateDisplaySpan(this, id);
-      displaySpan.textContent = formattedValue;
-    });
-    
-    // Handle change event to ensure formattedValue is updated
-    input.addEventListener('change', function() {
-      const rawValue = this.value;
-      const formattedValue = formatNumberWithCommas(rawValue);
-      const displaySpan = getOrCreateDisplaySpan(this, id);
-      displaySpan.textContent = formattedValue;
-    });
-  });
-  
-  // Also listen for the custom filtersChanged event
-  document.addEventListener('filtersChanged', function() {
-    inputIds.forEach(id => {
-      const input = document.getElementById(id);
-      if (!input) return;
-      
-      const rawValue = input.value;
-      const formattedValue = formatNumberWithCommas(rawValue);
-      const displaySpan = getOrCreateDisplaySpan(input, id);
-      displaySpan.textContent = formattedValue;
-    });
-  });
-}
-
-// Helper function to get or create display span
-function getOrCreateDisplaySpan(inputElement, inputId) {
-  // Check if we already have a display span
-  let displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
-  
-  // If not, create one and position it appropriately
-  if (!displaySpan) {
-    displaySpan = document.createElement('span');
-    displaySpan.setAttribute('data-format-for', inputId);
-    displaySpan.className = 'formatted-value ml-2';
-    
-    // Style the display span
-    displaySpan.style.position = 'absolute';
-    displaySpan.style.zIndex = '10';
-    displaySpan.style.background = 'transparent';
-    displaySpan.style.pointerEvents = 'none'; // Don't interfere with input
-    
-    // DO NOT hide the input value - let it remain visible
-    // inputElement.style.color = 'transparent'; // REMOVED
-    
-    // Position the display span over the input
-    const rect = inputElement.getBoundingClientRect();
-    
-    // Create a wrapper if the input doesn't have one
-    let wrapper = inputElement.parentElement;
-    if (!wrapper.classList.contains('input-wrapper')) {
-      wrapper = document.createElement('div');
-      wrapper.className = 'input-wrapper relative';
-      wrapper.style.position = 'relative';
-      inputElement.parentNode.insertBefore(wrapper, inputElement);
-      wrapper.appendChild(inputElement);
-    }
-    
-    // Add the span after the input in the same wrapper
-    wrapper.appendChild(displaySpan);
-    
-    // Adjust positioning to overlay the input
-    displaySpan.style.left = '8px'; // Padding
-    displaySpan.style.top = '50%';
-    displaySpan.style.transform = 'translateY(-50%)';
-    displaySpan.style.display = 'none'; // Hide the overlay span - let input show naturally
-  }
-  
-  return displaySpan;
-}
+// NOTE: All number formatting code has been removed (formatNumberWithCommas,
+// setupNumberFormatting, getOrCreateDisplaySpan, MutationObservers, etc.)
+// 
+// Number formatting is now handled ONLY by the trigger functions in Utility.js
+// (mintrigger/maxtrigger) which use toLocaleString('en-US').
+//
+// The previous code was causing issues because:
+// 1. It added event listeners on every filtersChanged event (accumulating)
+// 2. It manipulated the DOM by wrapping inputs (caused Alpine.js conflicts)
+// 3. It created MutationObservers on every call (accumulating)
+// 4. It interfered with the Alpine.js focus/blur handlers in Index.html
 
 // Add event listeners for key events
 document.addEventListener("filtersChanged", updateClientDropdownFilters);
@@ -1125,7 +1019,7 @@ document.addEventListener("DOMContentLoaded", function () {
   initializeFilterTriggers();
 
   document.addEventListener("filtersChanged", function () {
-    setTimeout(setupNumberFormatting, 500);
+    // NOTE: setupNumberFormatting call removed - formatting handled by Utility.js
     console.log("Filter State Updated:", {
       sliders: {
         givingMin: window.sliderValue,
