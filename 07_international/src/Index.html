@@ -4903,11 +4903,21 @@
                 <!-- Total Assets - slider -->
                 <div
                   x-data="assetsRange()"
-                  x-init="maxtrigger()"
+                  x-init="mintrigger(); maxtrigger()"
                   class="relative max-w-lg w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Total Assets:</p>
+                    <input
+                      type="text"
+                      maxlength="12"
+                      x-on:input="mintrigger"
+                      x-model="minprice"
+                      x-ref="minInput"
+                      id="assetsMin"
+                      class="bg-transparent border-none text-center w-40 text-xl"
+                    />
+                    <span class="mx-1">-</span>
                     <input
                       type="text"
                       maxlength="12"
@@ -4948,11 +4958,21 @@
                 <!-- Total Revenue - slider -->
                 <div
                   x-data="revenueRange()"
-                  x-init="maxtrigger()"
+                  x-init="mintrigger(); maxtrigger()"
                   class="relative max-w-lg w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
                     <p class="whitespace-nowrap w-40">Total Revenue:</p>
+                    <input
+                      type="text"
+                      maxlength="12"
+                      x-on:input="mintrigger"
+                      x-model="minprice"
+                      x-ref="minInput"
+                      id="revenueMin"
+                      class="bg-transparent border-none text-center w-40 text-xl"
+                    />
+                    <span class="mx-1">-</span>
                     <input
                       type="text"
                       maxlength="12"

@@ -897,10 +897,22 @@ document.addEventListener("DOMContentLoaded", function () {
       sliderDivs: document.querySelectorAll(".missionUnitSlider"),
     },
     {
+      element: document.getElementById("assetsMin"),
+      globalVar: "assetsValue",
+      defaultValue: 0,
+      sliderDivs: document.querySelectorAll(".assetsSlider"),
+    },
+    {
       element: document.getElementById("assetsMax"),
       globalVar: "assetsValue2",
       defaultValue: 9000000000,
       sliderDivs: document.querySelectorAll(".assetsSlider"),
+    },
+    {
+      element: document.getElementById("revenueMin"),
+      globalVar: "revenueValue",
+      defaultValue: 0,
+      sliderDivs: document.querySelectorAll(".revenueSlider"),
     },
     {
       element: document.getElementById("revenueMax"),
@@ -1139,12 +1151,8 @@ document.addEventListener("DOMContentLoaded", function () {
             window.missionValue2 = parseInt(slider.value);
           } else if (slider.id === "assetsMax") {
             window.assetsValue2 = parseInt(slider.value);
-            // Always set minimum to 0 for assets
-            window.assetsValue = 0;
           } else if (slider.id === "revenueMax") {
             window.revenueValue2 = parseInt(slider.value);
-            // Always set minimum to 0 for revenue
-            window.revenueValue = 0;
           }
 
           // Trigger immediate visual update for number formatting
@@ -1180,12 +1188,8 @@ document.addEventListener("DOMContentLoaded", function () {
             window.missionValue2 = parseInt(slider.value);
           } else if (slider.id === "assetsMax") {
             window.assetsValue2 = parseInt(slider.value);
-            // Always set minimum to 0 for assets
-            window.assetsValue = 0;
           } else if (slider.id === "revenueMax") {
             window.revenueValue2 = parseInt(slider.value);
-            // Always set minimum to 0 for revenue
-            window.revenueValue = 0;
           }
 
           // Trigger immediate visual update for number formatting
