@@ -4770,8 +4770,9 @@
                     <input
                       type="text"
                       maxlength="12"
-                      x-on:input="mintrigger"
-                      x-model="minprice"
+                      x-on:blur="mintrigger"
+                      x-on:change="mintrigger"
+                      x-model.lazy="minprice"
                       x-ref="minInput"
                       id="givingUnitsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4781,8 +4782,9 @@
                     <input
                       type="text"
                       maxlength="12"
-                      x-on:input="maxtrigger"
-                      x-model="maxprice"
+                      x-on:blur="maxtrigger"
+                      x-on:change="maxtrigger"
+                      x-model.lazy="maxprice"
                       id="givingUnitsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
@@ -4841,8 +4843,9 @@
                     <input
                       type="text"
                       maxlength="12"
-                      x-on:input="mintrigger"
-                      x-model="minprice"
+                      x-on:blur="mintrigger"
+                      x-on:change="mintrigger"
+                      x-model.lazy="minprice"
                       x-ref="minInput"
                       id="missionUnitsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4851,8 +4854,9 @@
                     <input
                       type="text"
                       maxlength="12"
-                      x-on:input="maxtrigger"
-                      x-model="maxprice"
+                      x-on:blur="maxtrigger"
+                      x-on:change="maxtrigger"
+                      x-model.lazy="maxprice"
                       id="missionUnitsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
@@ -4911,8 +4915,9 @@
                     <input
                       type="text"
                       maxlength="12"
-                      x-on:input="mintrigger"
-                      x-model="minprice"
+                      x-on:blur="mintrigger"
+                      x-on:change="mintrigger"
+                      x-model.lazy="minprice"
                       x-ref="minInput"
                       id="assetsMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4921,8 +4926,9 @@
                     <input
                       type="text"
                       maxlength="12"
-                      x-on:input="maxtrigger"
-                      x-model="maxprice"
+                      x-on:blur="maxtrigger"
+                      x-on:change="maxtrigger"
+                      x-model.lazy="maxprice"
                       id="assetsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
@@ -4939,8 +4945,9 @@
                     <input
                       type="text"
                       maxlength="12"
-                      x-on:input="mintrigger"
-                      x-model="minprice"
+                      x-on:blur="mintrigger"
+                      x-on:change="mintrigger"
+                      x-model.lazy="minprice"
                       x-ref="minInput"
                       id="revenueMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4949,8 +4956,9 @@
                     <input
                       type="text"
                       maxlength="12"
-                      x-on:input="maxtrigger"
-                      x-model="maxprice"
+                      x-on:blur="maxtrigger"
+                      x-on:change="maxtrigger"
+                      x-model.lazy="maxprice"
                       id="revenueMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />

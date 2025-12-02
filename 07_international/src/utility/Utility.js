@@ -1810,8 +1810,16 @@ const range = () => {
     maxthumb: 1,
 
     mintrigger() {
-      // Parse as number and constrain within valid range
-      this.minprice = parseInt(this.minprice) || 0;
+      // Remove any non-numeric characters except digits
+      let value = String(this.minprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.minprice = parseInt(value) || 0;
+      
+      // Round to nearest 100
+      this.minprice = Math.round(this.minprice / 100) * 100;
+      
+      // Constrain within valid range
       this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
       
       // Calculate thumb position
@@ -1821,10 +1829,10 @@ const range = () => {
       // Update global window variable
       window.sliderValue = this.minprice;
       
-      // Update the text input element if it exists
+      // Update the text input element with formatted value (with commas)
       const inputElement = document.getElementById("givingUnitsMin");
-      if (inputElement && parseInt(inputElement.value) !== this.minprice) {
-        inputElement.value = this.minprice;
+      if (inputElement) {
+        inputElement.value = this.minprice.toLocaleString('en-US');
       }
 
       // Trigger filter change event
@@ -1832,8 +1840,16 @@ const range = () => {
     },
 
     maxtrigger() {
-      // Parse as number and constrain within valid range
-      this.maxprice = parseInt(this.maxprice) || this.max;
+      // Remove any non-numeric characters except digits
+      let value = String(this.maxprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.maxprice = parseInt(value) || this.max;
+      
+      // Round to nearest 100
+      this.maxprice = Math.round(this.maxprice / 100) * 100;
+      
+      // Constrain within valid range
       this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
       
       // Calculate thumb position
@@ -1843,10 +1859,10 @@ const range = () => {
       // Update global window variable
       window.sliderValue2 = this.maxprice;
       
-      // Update the text input element if it exists
+      // Update the text input element with formatted value (with commas)
       const inputElement = document.getElementById("givingUnitsMax");
-      if (inputElement && parseInt(inputElement.value) !== this.maxprice) {
-        inputElement.value = this.maxprice;
+      if (inputElement) {
+        inputElement.value = this.maxprice.toLocaleString('en-US');
       }
 
       // Trigger filter change event
@@ -1865,8 +1881,16 @@ function missionaryRange() {
     maxthumb: 1,
 
     mintrigger() {
-      // Parse as number and constrain within valid range
-      this.minprice = parseInt(this.minprice) || 0;
+      // Remove any non-numeric characters except digits
+      let value = String(this.minprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.minprice = parseInt(value) || 0;
+      
+      // Round to nearest 100
+      this.minprice = Math.round(this.minprice / 100) * 100;
+      
+      // Constrain within valid range
       this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
       
       // Calculate thumb position
@@ -1876,10 +1900,10 @@ function missionaryRange() {
       // Update global window variable
       window.missionValue = this.minprice;
       
-      // Update the text input element if it exists
+      // Update the text input element with formatted value (with commas)
       const inputElement = document.getElementById("missionUnitsMin");
-      if (inputElement && parseInt(inputElement.value) !== this.minprice) {
-        inputElement.value = this.minprice;
+      if (inputElement) {
+        inputElement.value = this.minprice.toLocaleString('en-US');
       }
 
       // Trigger filter change event
@@ -1887,8 +1911,16 @@ function missionaryRange() {
     },
 
     maxtrigger() {
-      // Parse as number and constrain within valid range
-      this.maxprice = parseInt(this.maxprice) || this.max;
+      // Remove any non-numeric characters except digits
+      let value = String(this.maxprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.maxprice = parseInt(value) || this.max;
+      
+      // Round to nearest 100
+      this.maxprice = Math.round(this.maxprice / 100) * 100;
+      
+      // Constrain within valid range
       this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
       
       // Calculate thumb position
@@ -1898,10 +1930,10 @@ function missionaryRange() {
       // Update global window variable
       window.missionValue2 = this.maxprice;
       
-      // Update the text input element if it exists
+      // Update the text input element with formatted value (with commas)
       const inputElement = document.getElementById("missionUnitsMax");
-      if (inputElement && parseInt(inputElement.value) !== this.maxprice) {
-        inputElement.value = this.maxprice;
+      if (inputElement) {
+        inputElement.value = this.maxprice.toLocaleString('en-US');
       }
 
       // Trigger filter change event
@@ -1922,16 +1954,24 @@ function assetsRange() {
     maxthumb: 1,
 
     mintrigger() {
-      // Parse as number and constrain within valid range
-      this.minprice = parseInt(this.minprice) || 0;
-      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      // Remove any non-numeric characters except digits
+      let value = String(this.minprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.minprice = parseInt(value) || 0;
+      
+      // Round to nearest 100000
+      this.minprice = Math.round(this.minprice / 100000) * 100000;
+      
+      // Constrain within valid range
+      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 100000));
       
       // Update global window variable
       window.assetsValue = this.minprice;
       
-      // Update the text input element if it exists
+      // Update the text input element with cleaned value
       const inputElement = document.getElementById("assetsMin");
-      if (inputElement && parseInt(inputElement.value) !== this.minprice) {
+      if (inputElement) {
         inputElement.value = this.minprice;
       }
 
@@ -1940,9 +1980,17 @@ function assetsRange() {
     },
 
     maxtrigger() {
-      // Parse as number and constrain within valid range
-      this.maxprice = parseInt(this.maxprice) || this.max;
-      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      // Remove any non-numeric characters except digits
+      let value = String(this.maxprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.maxprice = parseInt(value) || this.max;
+      
+      // Round to nearest 100000
+      this.maxprice = Math.round(this.maxprice / 100000) * 100000;
+      
+      // Constrain within valid range
+      this.maxprice = Math.max(this.minprice + 100000, Math.min(this.maxprice, this.max));
       
       // Calculate thumb position
       this.maxthumb =
@@ -1951,9 +1999,9 @@ function assetsRange() {
       // Update global window variable
       window.assetsValue2 = this.maxprice;
       
-      // Update the text input element if it exists
+      // Update the text input element with cleaned value
       const inputElement = document.getElementById("assetsMax");
-      if (inputElement && parseInt(inputElement.value) !== this.maxprice) {
+      if (inputElement) {
         inputElement.value = this.maxprice;
       }
 
@@ -1973,16 +2021,24 @@ function revenueRange() {
     maxthumb: 1,
 
     mintrigger() {
-      // Parse as number and constrain within valid range
-      this.minprice = parseInt(this.minprice) || 0;
-      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      // Remove any non-numeric characters except digits
+      let value = String(this.minprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.minprice = parseInt(value) || 0;
+      
+      // Round to nearest 100000
+      this.minprice = Math.round(this.minprice / 100000) * 100000;
+      
+      // Constrain within valid range
+      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 100000));
       
       // Update global window variable
       window.revenueValue = this.minprice;
       
-      // Update the text input element if it exists
+      // Update the text input element with cleaned value
       const inputElement = document.getElementById("revenueMin");
-      if (inputElement && parseInt(inputElement.value) !== this.minprice) {
+      if (inputElement) {
         inputElement.value = this.minprice;
       }
 
@@ -1991,9 +2047,17 @@ function revenueRange() {
     },
 
     maxtrigger() {
-      // Parse as number and constrain within valid range
-      this.maxprice = parseInt(this.maxprice) || this.max;
-      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      // Remove any non-numeric characters except digits
+      let value = String(this.maxprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.maxprice = parseInt(value) || this.max;
+      
+      // Round to nearest 100000
+      this.maxprice = Math.round(this.maxprice / 100000) * 100000;
+      
+      // Constrain within valid range
+      this.maxprice = Math.max(this.minprice + 100000, Math.min(this.maxprice, this.max));
       
       // Calculate thumb position
       this.maxthumb =
@@ -2002,9 +2066,9 @@ function revenueRange() {
       // Update global window variable
       window.revenueValue2 = this.maxprice;
       
-      // Update the text input element if it exists
+      // Update the text input element with cleaned value
       const inputElement = document.getElementById("revenueMax");
-      if (inputElement && parseInt(inputElement.value) !== this.maxprice) {
+      if (inputElement) {
         inputElement.value = this.maxprice;
       }
 

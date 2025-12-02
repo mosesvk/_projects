@@ -825,8 +825,8 @@ function getOrCreateDisplaySpan(inputElement, inputId) {
     displaySpan.style.background = 'transparent';
     displaySpan.style.pointerEvents = 'none'; // Don't interfere with input
     
-    // Hide the actual input value visually (keep it for functionality)
-    inputElement.style.color = 'transparent';
+    // DO NOT hide the input value - let it remain visible
+    // inputElement.style.color = 'transparent'; // REMOVED
     
     // Position the display span over the input
     const rect = inputElement.getBoundingClientRect();
@@ -848,6 +848,7 @@ function getOrCreateDisplaySpan(inputElement, inputId) {
     displaySpan.style.left = '8px'; // Padding
     displaySpan.style.top = '50%';
     displaySpan.style.transform = 'translateY(-50%)';
+    displaySpan.style.display = 'none'; // Hide the overlay span - let input show naturally
   }
   
   return displaySpan;
