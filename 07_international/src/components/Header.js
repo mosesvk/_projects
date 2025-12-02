@@ -1126,6 +1126,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sliders.forEach((slider) => {
       if (slider) {
+        // Helper function to parse value with commas
+        const parseValue = (val) => parseInt(String(val).replace(/,/g, '')) || 0;
+        
         // Set initial slider values to match global variables
         slider.value = parseInt(
           slider.id === "givingUnitsMin"
@@ -1141,19 +1144,20 @@ document.addEventListener("DOMContentLoaded", function () {
             : window.revenueValue2
         );
         slider.addEventListener("input", () => {
-          // Update corresponding value IMMEDIATELY
+          // Update corresponding value IMMEDIATELY (strip commas before parsing!)
+          const numericValue = parseValue(slider.value);
           if (slider.id === "givingUnitsMin") {
-            window.sliderValue = parseInt(slider.value);
+            window.sliderValue = numericValue;
           } else if (slider.id === "givingUnitsMax") {
-            window.sliderValue2 = parseInt(slider.value);
+            window.sliderValue2 = numericValue;
           } else if (slider.id === "missionUnitsMin") {
-            window.missionValue = parseInt(slider.value);
+            window.missionValue = numericValue;
           } else if (slider.id === "missionUnitsMax") {
-            window.missionValue2 = parseInt(slider.value);
+            window.missionValue2 = numericValue;
           } else if (slider.id === "assetsMax") {
-            window.assetsValue2 = parseInt(slider.value);
+            window.assetsValue2 = numericValue;
           } else if (slider.id === "revenueMax") {
-            window.revenueValue2 = parseInt(slider.value);
+            window.revenueValue2 = numericValue;
           }
 
           // Trigger immediate visual update for number formatting
@@ -1178,19 +1182,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
         // Add change event listener for immediate trigger when slider is released
         slider.addEventListener("change", () => {
-          // Update corresponding value IMMEDIATELY
+          // Update corresponding value IMMEDIATELY (strip commas before parsing!)
+          const numericValue = parseValue(slider.value);
           if (slider.id === "givingUnitsMin") {
-            window.sliderValue = parseInt(slider.value);
+            window.sliderValue = numericValue;
           } else if (slider.id === "givingUnitsMax") {
-            window.sliderValue2 = parseInt(slider.value);
+            window.sliderValue2 = numericValue;
           } else if (slider.id === "missionUnitsMin") {
-            window.missionValue = parseInt(slider.value);
+            window.missionValue = numericValue;
           } else if (slider.id === "missionUnitsMax") {
-            window.missionValue2 = parseInt(slider.value);
+            window.missionValue2 = numericValue;
           } else if (slider.id === "assetsMax") {
-            window.assetsValue2 = parseInt(slider.value);
+            window.assetsValue2 = numericValue;
           } else if (slider.id === "revenueMax") {
-            window.revenueValue2 = parseInt(slider.value);
+            window.revenueValue2 = numericValue;
           }
 
           // Trigger immediate visual update for number formatting
