@@ -1810,39 +1810,47 @@ const range = () => {
     maxthumb: 1,
 
     mintrigger() {
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);
+      // Parse as number and constrain within valid range
+      this.minprice = parseInt(this.minprice) || 0;
+      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      
+      // Calculate thumb position
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update sliderValue and trigger slider movement if necessary
-      sliderValue = this.minprice;
-      if (sliderAmount) {
-        sliderAmount.value = sliderValue; // Assuming sliderAmount is an input element
-        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
+      // Update global window variable
+      window.sliderValue = this.minprice;
+      
+      // Update the text input element if it exists
+      const inputElement = document.getElementById("givingUnitsMin");
+      if (inputElement && parseInt(inputElement.value) !== this.minprice) {
+        inputElement.value = this.minprice;
       }
 
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for minthumb movement
+      // Trigger filter change event
+      document.dispatchEvent(new CustomEvent("filtersChanged"));
     },
 
     maxtrigger() {
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+      // Parse as number and constrain within valid range
+      this.maxprice = parseInt(this.maxprice) || this.max;
+      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      
+      // Calculate thumb position
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update sliderValue2 and trigger slider movement if necessary
-      sliderValue2 = this.maxprice;
-      if (sliderRange) {
-        sliderRange.value = sliderValue2; // Assuming sliderRange is an input element
-        // Update slider position dynamically using appropriate API
+      // Update global window variable
+      window.sliderValue2 = this.maxprice;
+      
+      // Update the text input element if it exists
+      const inputElement = document.getElementById("givingUnitsMax");
+      if (inputElement && parseInt(inputElement.value) !== this.maxprice) {
+        inputElement.value = this.maxprice;
       }
 
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for maxthumb movement
+      // Trigger filter change event
+      document.dispatchEvent(new CustomEvent("filtersChanged"));
     },
   };
 };
@@ -1857,39 +1865,47 @@ function missionaryRange() {
     maxthumb: 1,
 
     mintrigger() {
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);
+      // Parse as number and constrain within valid range
+      this.minprice = parseInt(this.minprice) || 0;
+      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      
+      // Calculate thumb position
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update missionValue and trigger slider movement if necessary
-      missionValue = this.minprice;
-      if (missionSliderAmount) {
-        missionSliderAmount.value = missionValue; // Assuming missionSliderAmount is an input element
-        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
+      // Update global window variable
+      window.missionValue = this.minprice;
+      
+      // Update the text input element if it exists
+      const inputElement = document.getElementById("missionUnitsMin");
+      if (inputElement && parseInt(inputElement.value) !== this.minprice) {
+        inputElement.value = this.minprice;
       }
 
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for minthumb movement
+      // Trigger filter change event
+      document.dispatchEvent(new CustomEvent("filtersChanged"));
     },
 
     maxtrigger() {
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+      // Parse as number and constrain within valid range
+      this.maxprice = parseInt(this.maxprice) || this.max;
+      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      
+      // Calculate thumb position
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update missionValue2 and trigger slider movement if necessary
-      missionValue2 = this.maxprice;
-      if (missionSliderRange) {
-        missionSliderRange.value = missionValue2; // Assuming missionSliderRange is an input element
-        // Update slider position dynamically using appropriate API
+      // Update global window variable
+      window.missionValue2 = this.maxprice;
+      
+      // Update the text input element if it exists
+      const inputElement = document.getElementById("missionUnitsMax");
+      if (inputElement && parseInt(inputElement.value) !== this.maxprice) {
+        inputElement.value = this.maxprice;
       }
 
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for maxthumb movement
+      // Trigger filter change event
+      document.dispatchEvent(new CustomEvent("filtersChanged"));
     },
   };
 }
@@ -1898,82 +1914,66 @@ function missionaryRange() {
 
 function assetsRange() {
   return {
-    minprice: 0,
     maxprice: 900000000,
     min: 0,
     max: 900000000,
-    minthumb: 1,
     maxthumb: 1,
 
-    mintrigger() {
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Update assetsValue and trigger slider movement if necessary
-      assetsValue = this.minprice;
-      if (document.getElementById("assetsMin")) {
-        document.getElementById("assetsMin").value = assetsValue;
-      }
-
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-    },
-
     maxtrigger() {
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+      // Parse as number and constrain within valid range
+      this.maxprice = parseInt(this.maxprice) || this.max;
+      this.maxprice = Math.max(this.min, Math.min(this.maxprice, this.max));
+      
+      // Calculate thumb position
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update assetsValue2 and trigger slider movement if necessary
-      assetsValue2 = this.maxprice;
-      if (document.getElementById("assetsMax")) {
-        document.getElementById("assetsMax").value = assetsValue2;
+      // Update global window variables
+      window.assetsValue2 = this.maxprice;
+      // Always set minimum to 0
+      window.assetsValue = 0;
+      
+      // Update the text input element if it exists
+      const inputElement = document.getElementById("assetsMax");
+      if (inputElement && parseInt(inputElement.value) !== this.maxprice) {
+        inputElement.value = this.maxprice;
       }
 
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+      // Trigger filter change event
+      document.dispatchEvent(new CustomEvent("filtersChanged"));
     },
   };
 }
 
 function revenueRange() {
   return {
-    minprice: 0,
     maxprice: 600000000,
     min: 0,
     max: 600000000,
-    minthumb: 1,
     maxthumb: 1,
 
-    mintrigger() {
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Update revenueValue and trigger slider movement if necessary
-      revenueValue = this.minprice;
-      if (document.getElementById("revenueMin")) {
-        document.getElementById("revenueMin").value = revenueValue;
-      }
-
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-    },
-
     maxtrigger() {
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+      // Parse as number and constrain within valid range
+      this.maxprice = parseInt(this.maxprice) || this.max;
+      this.maxprice = Math.max(this.min, Math.min(this.maxprice, this.max));
+      
+      // Calculate thumb position
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update revenueValue2 and trigger slider movement if necessary
-      revenueValue2 = this.maxprice;
-      if (document.getElementById("revenueMax")) {
-        document.getElementById("revenueMax").value = revenueValue2;
+      // Update global window variables
+      window.revenueValue2 = this.maxprice;
+      // Always set minimum to 0
+      window.revenueValue = 0;
+      
+      // Update the text input element if it exists
+      const inputElement = document.getElementById("revenueMax");
+      if (inputElement && parseInt(inputElement.value) !== this.maxprice) {
+        inputElement.value = this.maxprice;
       }
 
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+      // Trigger filter change event
+      document.dispatchEvent(new CustomEvent("filtersChanged"));
     },
   };
 }
