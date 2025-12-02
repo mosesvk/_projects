@@ -4770,7 +4770,6 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-init="$el.dataset.oldValue = $el.value"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value"
                       x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { minprice = $event.target.value.replace(/[^\d]/g, ''); mintrigger(); }"
                       x-ref="minInput"
@@ -4782,7 +4781,6 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-init="$el.dataset.oldValue = $el.value"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value"
                       x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { maxprice = $event.target.value.replace(/[^\d]/g, ''); maxtrigger(); }"
                       id="givingUnitsMax"
@@ -4843,7 +4841,6 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-init="$el.dataset.oldValue = $el.value"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value"
                       x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { minprice = $event.target.value.replace(/[^\d]/g, ''); mintrigger(); }"
                       x-ref="minInput"
@@ -4854,7 +4851,6 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-init="$el.dataset.oldValue = $el.value"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value"
                       x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { maxprice = $event.target.value.replace(/[^\d]/g, ''); maxtrigger(); }"
                       id="missionUnitsMax"
@@ -4915,7 +4911,6 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-init="$el.dataset.oldValue = $el.value"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value"
                       x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { minprice = $event.target.value.replace(/[^\d]/g, ''); mintrigger(); }"
                       x-ref="minInput"
@@ -4926,7 +4921,6 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-init="$el.dataset.oldValue = $el.value"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value"
                       x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { maxprice = $event.target.value.replace(/[^\d]/g, ''); maxtrigger(); }"
                       id="assetsMax"
@@ -4945,7 +4939,6 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-init="$el.dataset.oldValue = $el.value"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value"
                       x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { minprice = $event.target.value.replace(/[^\d]/g, ''); mintrigger(); }"
                       x-ref="minInput"
@@ -4956,7 +4949,6 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-init="$el.dataset.oldValue = $el.value"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value"
                       x-on:blur="if ($event.target.value !== $event.target.dataset.oldValue) { maxprice = $event.target.value.replace(/[^\d]/g, ''); maxtrigger(); }"
                       id="revenueMax"
