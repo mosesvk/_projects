@@ -1963,9 +1963,9 @@ function missionaryRange() {
 function assetsRange() {
   return {
     minprice: 0,
-    maxprice: 900000000,
+    maxprice: 1000000000,
     min: 0,
-    max: 900000000,
+    max: 1000000000,
     minthumb: 0,
     maxthumb: 1,
 
@@ -2038,9 +2038,9 @@ function assetsRange() {
 function revenueRange() {
   return {
     minprice: 0,
-    maxprice: 600000000,
+    maxprice: 2000000000,
     min: 0,
-    max: 600000000,
+    max: 2000000000,
     minthumb: 0,
     maxthumb: 1,
 
@@ -2133,9 +2133,9 @@ function formatSliderInputsOnLoad() {
     { id: 'missionUnitsMin', value: window.missionValue || 0 },
     { id: 'missionUnitsMax', value: window.missionValue2 || 10000 },
     { id: 'assetsMin', value: window.assetsValue || 0 },
-    { id: 'assetsMax', value: window.assetsValue2 || 900000000 },
+    { id: 'assetsMax', value: window.assetsValue2 || 1000000000 },
     { id: 'revenueMin', value: window.revenueValue || 0 },
-    { id: 'revenueMax', value: window.revenueValue2 || 600000000 }
+    { id: 'revenueMax', value: window.revenueValue2 || 2000000000 }
   ];
   
   inputsToFormat.forEach(({ id, value }) => {

@@ -4922,7 +4922,7 @@
                       type="text"
                       maxlength="15"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, '')"
-                      x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { maxprice = parseInt(newVal) || 900000000; maxtrigger(true); }"
+                      x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { maxprice = parseInt(newVal) || 1000000000; maxtrigger(true); }"
                       id="assetsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
@@ -4950,7 +4950,7 @@
                       type="text"
                       maxlength="15"
                       x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, '')"
-                      x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { maxprice = parseInt(newVal) || 600000000; maxtrigger(true); }"
+                      x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { maxprice = parseInt(newVal) || 2000000000; maxtrigger(true); }"
                       id="revenueMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />

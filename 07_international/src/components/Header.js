@@ -15,9 +15,9 @@ window.sliderValue2 = 25000;
 window.missionValue = 0;
 window.missionValue2 = 10000;
 window.assetsValue = 0;
-window.assetsValue2 = 900000000;
+window.assetsValue2 = 1000000000;
 window.revenueValue = 0;
-window.revenueValue2 = 600000000;
+window.revenueValue2 = 2000000000;
 
 /**
  * Sets up dropdown toggle functionality
@@ -179,9 +179,9 @@ function updateClientDropdownFilters() {
   const minMission = window.missionValue || 0;
   const maxMission = window.missionValue2 || 10000;
   const minAssets = window.assetsValue || 0;
-  const maxAssets = window.assetsValue2 || 900000000;
+  const maxAssets = window.assetsValue2 || 1000000000;
   const minRevenue = window.revenueValue || 0;
-  const maxRevenue = window.revenueValue2 || 600000000; 
+  const maxRevenue = window.revenueValue2 || 2000000000; 
 
   // console.log("Current filter criteria:", {
   //   areas: selectedAreas,
@@ -765,178 +765,14 @@ document.addEventListener("DOMContentLoaded", function () {
     window.selectedTypes_Array = new Set(types_Array.map((type) => type.str));
   }
 
-  // Configure slider inputs
-  const sliderInputs = [
-    {
-      element: document.getElementById("givingUnitsMin"),
-      globalVar: "sliderValue",
-      defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".givingUnitSlider"),
-    },
-    {
-      element: document.getElementById("givingUnitsMax"),
-      globalVar: "sliderValue2",
-      defaultValue: 25000,
-      sliderDivs: document.querySelectorAll(".givingUnitSlider"),
-    },
-    {
-      element: document.getElementById("missionUnitsMin"),
-      globalVar: "missionValue",
-      defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".missionUnitSlider"),
-    },
-    {
-      element: document.getElementById("missionUnitsMax"),
-      globalVar: "missionValue2",
-      defaultValue: 10000,
-      sliderDivs: document.querySelectorAll(".missionUnitSlider"),
-    },
-    {
-      element: document.getElementById("assetsMin"),
-      globalVar: "assetsValue",
-      defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".assetsSlider"),
-    },
-    {
-      element: document.getElementById("assetsMax"),
-      globalVar: "assetsValue2",
-      defaultValue: 9000000000,
-      sliderDivs: document.querySelectorAll(".assetsSlider"),
-    },
-    {
-      element: document.getElementById("revenueMin"),
-      globalVar: "revenueValue",
-      defaultValue: 0,
-      sliderDivs: document.querySelectorAll(".revenueSlider"),
-    },
-    {
-      element: document.getElementById("revenueMax"),
-      globalVar: "revenueValue2",
-      defaultValue: 6000000000,
-      sliderDivs: document.querySelectorAll(".revenueSlider"),
-    },
-  ];
-
-  // Debounce timer for slider filter updates
-  let filterUpdateTimer = null;
-  
-  // Function to trigger filter change event with debouncing
-  function triggerFiltersChanged(sliderInfo, immediate = false) {
-    // console.log(
-    //   `${sliderInfo.globalVar} changed to ${window[sliderInfo.globalVar]}`
-    // );
-    
-    if (immediate) {
-      // Clear any pending timer and trigger immediately
-      if (filterUpdateTimer) {
-        clearTimeout(filterUpdateTimer);
-        filterUpdateTimer = null;
-      }
-      const event = new CustomEvent("filtersChanged");
-      document.dispatchEvent(event);
-    } else {
-      // Debounce the filter update - only trigger after user stops interacting
-      if (filterUpdateTimer) {
-        clearTimeout(filterUpdateTimer);
-      }
-      filterUpdateTimer = setTimeout(() => {
-        const event = new CustomEvent("filtersChanged");
-        document.dispatchEvent(event);
-        filterUpdateTimer = null;
-      }, 300); // 300ms delay after user stops moving slider
-    }
-  }
-
-  // Set up each slider
-  sliderInputs.forEach((slider) => {
-    if (slider.element) {
-      // Set initial value
-      slider.element.value = window[slider.globalVar];
-
-      // If slider has specific slider divs
-      if (slider.sliderDivs && slider.sliderDivs.length) {
-        slider.sliderDivs.forEach((sliderDiv) => {
-          // Set up MutationObserver to detect style changes
-          const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (
-                mutation.type === "attributes" &&
-                mutation.attributeName === "style"
-              ) {
-                // ALWAYS update the global variable immediately for real-time display
-                window[slider.globalVar] =
-                  parseInt(slider.element.value) || slider.defaultValue;
-                
-                // Trigger immediate visual update for number formatting
-                const inputId = slider.element.id;
-                const rawValue = slider.element.value;
-                const formattedValue = formatNumberWithCommas(rawValue);
-                const displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
-                if (displaySpan) {
-                  displaySpan.textContent = formattedValue;
-                }
-                
-                // Use debounced trigger for style changes (while dragging)
-                triggerFiltersChanged(slider, false);
-              }
-            });
-          });
-
-          // Configure the observer
-          observer.observe(sliderDiv, {
-            attributes: true,
-            attributeFilter: ["style"],
-          });
-        });
-      }
-
-      // Standard event listeners as a fallback
-      slider.element.addEventListener("input", function () {
-        // ALWAYS update the global variable immediately for real-time display
-        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        
-        // Trigger immediate visual update for number formatting
-        const inputId = this.id;
-        const rawValue = this.value;
-        const formattedValue = formatNumberWithCommas(rawValue);
-        const displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
-        if (displaySpan) {
-          displaySpan.textContent = formattedValue;
-        }
-        
-        // Use debounced trigger for filter events (while dragging)
-        triggerFiltersChanged(slider, false);
-      });
-
-      slider.element.addEventListener("change", function () {
-        // Update the global variable immediately
-        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        
-        // Trigger immediate visual update for number formatting
-        const inputId = this.id;
-        const rawValue = this.value;
-        const formattedValue = formatNumberWithCommas(rawValue);
-        const displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
-        if (displaySpan) {
-          displaySpan.textContent = formattedValue;
-        }
-        
-        // Use immediate trigger for change events (when slider is released)
-        triggerFiltersChanged(slider, true);
-      });
-
-      // Add mouseup and touchend events to ensure filter triggers when slider is released
-      slider.element.addEventListener("mouseup", function () {
-        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider, true);
-      });
-
-      slider.element.addEventListener("touchend", function () {
-        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider, true);
-      });
-    }
-  });
+  // NOTE: All slider input configuration, event listeners, and MutationObservers
+  // have been removed from here. The text inputs are now fully managed by:
+  // 1. Alpine.js in Index.html (x-on:focus, x-on:blur handlers)
+  // 2. Trigger functions in Utility.js (mintrigger/maxtrigger)
+  //
+  // The previous code was adding input, change, mouseup, touchend event listeners
+  // and MutationObservers which were all firing when interacting with the inputs,
+  // causing unwanted filter updates.
 
   // Initialize all dropdowns
   const dropdownConfigs = [

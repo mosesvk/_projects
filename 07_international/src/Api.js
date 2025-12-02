@@ -2773,9 +2773,9 @@ class ApiService {
     const minMission = window.missionValue || 0;
     const maxMission = window.missionValue2 || 10000;
     const minAssets = window.assetsValue || 0;
-    const maxAssets = window.assetsValue2 || 900000000;
+    const maxAssets = window.assetsValue2 || 1000000000;
     const minRevenue = window.revenueValue || 0;
-    const maxRevenue = window.revenueValue2 || 600000000;
+    const maxRevenue = window.revenueValue2 || 2000000000;
 
     // Update client checkboxes based on filters
     const clientCheckboxes = document.querySelectorAll(
