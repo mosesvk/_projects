@@ -1969,10 +1969,10 @@ function assetsRange() {
       // Update global window variable
       window.assetsValue = this.minprice;
       
-      // Update the text input element with cleaned value
+      // Update the text input element with formatted value (with commas)
       const inputElement = document.getElementById("assetsMin");
       if (inputElement) {
-        inputElement.value = this.minprice;
+        inputElement.value = this.minprice.toLocaleString('en-US');
       }
 
       // Trigger filter change event
@@ -1999,10 +1999,10 @@ function assetsRange() {
       // Update global window variable
       window.assetsValue2 = this.maxprice;
       
-      // Update the text input element with cleaned value
+      // Update the text input element with formatted value (with commas)
       const inputElement = document.getElementById("assetsMax");
       if (inputElement) {
-        inputElement.value = this.maxprice;
+        inputElement.value = this.maxprice.toLocaleString('en-US');
       }
 
       // Trigger filter change event
@@ -2036,10 +2036,10 @@ function revenueRange() {
       // Update global window variable
       window.revenueValue = this.minprice;
       
-      // Update the text input element with cleaned value
+      // Update the text input element with formatted value (with commas)
       const inputElement = document.getElementById("revenueMin");
       if (inputElement) {
-        inputElement.value = this.minprice;
+        inputElement.value = this.minprice.toLocaleString('en-US');
       }
 
       // Trigger filter change event
@@ -2066,10 +2066,10 @@ function revenueRange() {
       // Update global window variable
       window.revenueValue2 = this.maxprice;
       
-      // Update the text input element with cleaned value
+      // Update the text input element with formatted value (with commas)
       const inputElement = document.getElementById("revenueMax");
       if (inputElement) {
-        inputElement.value = this.maxprice;
+        inputElement.value = this.maxprice.toLocaleString('en-US');
       }
 
       // Trigger filter change event
