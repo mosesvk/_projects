@@ -2789,9 +2789,16 @@ class ApiService {
       const clientData = window.clientDataStore[clientName];
 
       if (clientData) {
+        // Reject clients with negative values for any of the four slider metrics
+        const hasNegativeValues = 
+          clientData.givingUnit < 0 || 
+          clientData.missionUnit < 0 || 
+          clientData.assets < 0 || 
+          clientData.revenue < 0;
 
         // Simple matching logic as fallback
         const matches =
+          !hasNegativeValues &&
           (selectedAreas.length === 0 ||
             clientData.areaQuery.some((area) =>
               selectedAreas.includes(area)

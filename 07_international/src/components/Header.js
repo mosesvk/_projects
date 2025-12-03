@@ -115,7 +115,14 @@ function clientMatchesFilters(
   if (!clientData) return false;
   // console.log('clientMatchesFilters', clientData);
   
-  
+  // Reject clients with negative values for any of the four slider metrics
+  // These indicate invalid or problematic data that should not be included
+  if (clientData.givingUnit < 0 || 
+      clientData.missionUnit < 0 || 
+      clientData.assets < 0 || 
+      clientData.revenue < 0) {
+    return false;
+  }
 
   // Check giving unit range
   const givingUnitMatch =
