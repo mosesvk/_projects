@@ -4825,6 +4825,26 @@
                       minInput.style.pointerEvents = 'auto';
                       maxInput.style.pointerEvents = 'auto';
                     "
+                    x-on:mousemove="
+                      // Only show pointer cursor when hovering near a thumb
+                      const rect = $event.currentTarget.getBoundingClientRect();
+                      const mouseX = $event.clientX - rect.left;
+                      const mousePercent = (mouseX / rect.width) * 100;
+                      const minPos = minthumb;
+                      const maxPos = 100 - maxthumb;
+                      const minDist = Math.abs(mousePercent - minPos);
+                      const maxDist = Math.abs(mousePercent - maxPos);
+                      const threshold = 5;
+                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
+                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      if (minDist <= threshold || maxDist <= threshold) {
+                        minInput.style.cursor = 'pointer';
+                        maxInput.style.cursor = 'pointer';
+                      } else {
+                        minInput.style.cursor = 'default';
+                        maxInput.style.cursor = 'default';
+                      }
+                    "
                   >
                     <input
                       type="range"
@@ -4833,7 +4853,15 @@
                       x-bind:max="max"
                       x-on:input="mintrigger(true, true)"
                       x-model="minprice"
-                      class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0 cursor-pointer"
+                      x-init="
+                        // Initially enable min, disable max
+                        $el.style.pointerEvents = 'auto';
+                        $el.style.zIndex = '21';
+                        $el.nextElementSibling.style.pointerEvents = 'none';
+                        $el.nextElementSibling.style.zIndex = '20';
+                      "
+                      class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0"
+                      style="cursor: default;"
                     />
 
                     <input
@@ -4843,7 +4871,13 @@
                       x-bind:max="max"
                       x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
-                      class="absolute pointer-events-auto appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                      x-init="
+                        // Initially disable max
+                        $el.style.pointerEvents = 'none';
+                        $el.style.zIndex = '20';
+                      "
+                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0"
+                      style="cursor: default;"
                     />
 
                     <div class="relative z-10 h-2 pointer-events-none">
@@ -4933,6 +4967,26 @@
                       minInput.style.pointerEvents = 'auto';
                       maxInput.style.pointerEvents = 'auto';
                     "
+                    x-on:mousemove="
+                      // Only show pointer cursor when hovering near a thumb
+                      const rect = $event.currentTarget.getBoundingClientRect();
+                      const mouseX = $event.clientX - rect.left;
+                      const mousePercent = (mouseX / rect.width) * 100;
+                      const minPos = minthumb;
+                      const maxPos = 100 - maxthumb;
+                      const minDist = Math.abs(mousePercent - minPos);
+                      const maxDist = Math.abs(mousePercent - maxPos);
+                      const threshold = 5;
+                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
+                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      if (minDist <= threshold || maxDist <= threshold) {
+                        minInput.style.cursor = 'pointer';
+                        maxInput.style.cursor = 'pointer';
+                      } else {
+                        minInput.style.cursor = 'default';
+                        maxInput.style.cursor = 'default';
+                      }
+                    "
                   >
                     <input
                       type="range"
@@ -4941,7 +4995,15 @@
                       x-bind:max="max"
                       x-on:input="mintrigger(true, true)"
                       x-model="minprice"
-                      class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0 cursor-pointer"
+                      x-init="
+                        // Initially enable min, disable max
+                        $el.style.pointerEvents = 'auto';
+                        $el.style.zIndex = '21';
+                        $el.nextElementSibling.style.pointerEvents = 'none';
+                        $el.nextElementSibling.style.zIndex = '20';
+                      "
+                      class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0"
+                      style="cursor: default;"
                     />
 
                     <input
@@ -4951,7 +5013,13 @@
                       x-bind:max="max"
                       x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
-                      class="absolute pointer-events-auto appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                      x-init="
+                        // Initially disable max
+                        $el.style.pointerEvents = 'none';
+                        $el.style.zIndex = '20';
+                      "
+                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0"
+                      style="cursor: default;"
                     />
 
                     <div class="relative z-10 h-2 pointer-events-none">
