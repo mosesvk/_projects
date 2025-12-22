@@ -4805,12 +4805,25 @@
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
                       if (minDist < maxDist) {
+                        // Click is closer to min thumb - enable min, disable max
+                        minInput.style.pointerEvents = 'auto';
                         minInput.style.zIndex = '21';
+                        maxInput.style.pointerEvents = 'none';
                         maxInput.style.zIndex = '20';
                       } else {
+                        // Click is closer to max thumb - enable max, disable min
+                        minInput.style.pointerEvents = 'none';
                         minInput.style.zIndex = '20';
+                        maxInput.style.pointerEvents = 'auto';
                         maxInput.style.zIndex = '21';
                       }
+                    "
+                    x-on:mouseup="
+                      // Re-enable both inputs after mouseup
+                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
+                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      minInput.style.pointerEvents = 'auto';
+                      maxInput.style.pointerEvents = 'auto';
                     "
                   >
                     <input
@@ -4900,12 +4913,25 @@
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
                       if (minDist < maxDist) {
+                        // Click is closer to min thumb - enable min, disable max
+                        minInput.style.pointerEvents = 'auto';
                         minInput.style.zIndex = '21';
+                        maxInput.style.pointerEvents = 'none';
                         maxInput.style.zIndex = '20';
                       } else {
+                        // Click is closer to max thumb - enable max, disable min
+                        minInput.style.pointerEvents = 'none';
                         minInput.style.zIndex = '20';
+                        maxInput.style.pointerEvents = 'auto';
                         maxInput.style.zIndex = '21';
                       }
+                    "
+                    x-on:mouseup="
+                      // Re-enable both inputs after mouseup
+                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
+                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      minInput.style.pointerEvents = 'auto';
+                      maxInput.style.pointerEvents = 'auto';
                     "
                   >
                     <input
