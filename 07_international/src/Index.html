@@ -4787,25 +4787,42 @@
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
                   </div>
-                  <div>
+                  <div
+                    x-on:mousedown="
+                      const rect = $event.currentTarget.getBoundingClientRect();
+                      const clickX = $event.clientX - rect.left;
+                      const clickPercent = (clickX / rect.width) * 100;
+                      const minPos = minthumb;
+                      const maxPos = 100 - maxthumb;
+                      const minDist = Math.abs(clickPercent - minPos);
+                      const maxDist = Math.abs(clickPercent - maxPos);
+                      if (minDist < maxDist) {
+                        $event.currentTarget.querySelector('input[type=range]:first-child').style.zIndex = '21';
+                        $event.currentTarget.querySelector('input[type=range]:last-child').style.zIndex = '20';
+                      } else {
+                        $event.currentTarget.querySelector('input[type=range]:first-child').style.zIndex = '20';
+                        $event.currentTarget.querySelector('input[type=range]:last-child').style.zIndex = '21';
+                      }
+                    "
+                  >
                     <input
                       type="range"
-                      step="100"
+                      step="1"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:input="mintrigger(false)"
+                      x-on:input="mintrigger(true, true)"
                       x-model="minprice"
-                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                      class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0 cursor-pointer"
                     />
 
                     <input
                       type="range"
-                      step="100"
+                      step="1"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:input="maxtrigger(false)"
+                      x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
-                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                      class="absolute pointer-events-auto appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
                     />
 
                     <div class="relative z-10 h-2">
@@ -4819,12 +4836,12 @@
                       ></div>
 
                       <div
-                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1 pointer-events-none"
                         x-bind:style="'left: '+minthumb+'%'"
                       ></div>
 
                       <div
-                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                        class="givingUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1 pointer-events-none"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
@@ -4857,25 +4874,42 @@
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
                   </div>
-                  <div>
+                  <div
+                    x-on:mousedown="
+                      const rect = $event.currentTarget.getBoundingClientRect();
+                      const clickX = $event.clientX - rect.left;
+                      const clickPercent = (clickX / rect.width) * 100;
+                      const minPos = minthumb;
+                      const maxPos = 100 - maxthumb;
+                      const minDist = Math.abs(clickPercent - minPos);
+                      const maxDist = Math.abs(clickPercent - maxPos);
+                      if (minDist < maxDist) {
+                        $event.currentTarget.querySelector('input[type=range]:first-child').style.zIndex = '21';
+                        $event.currentTarget.querySelector('input[type=range]:last-child').style.zIndex = '20';
+                      } else {
+                        $event.currentTarget.querySelector('input[type=range]:first-child').style.zIndex = '20';
+                        $event.currentTarget.querySelector('input[type=range]:last-child').style.zIndex = '21';
+                      }
+                    "
+                  >
                     <input
                       type="range"
-                      step="100"
+                      step="1"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:input="mintrigger(false)"
+                      x-on:input="mintrigger(true, true)"
                       x-model="minprice"
-                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                      class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0 cursor-pointer"
                     />
 
                     <input
                       type="range"
-                      step="100"
+                      step="1"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:input="maxtrigger(false)"
+                      x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
-                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                      class="absolute pointer-events-auto appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
                     />
 
                     <div class="relative z-10 h-2">
@@ -4889,12 +4923,12 @@
                       ></div>
 
                       <div
-                        class="missionUnitSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1"
+                        class="missionUnitSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1 pointer-events-none"
                         x-bind:style="'left: '+minthumb+'%'"
                       ></div>
 
                       <div
-                        class="missionUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1"
+                        class="missionUnitSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1 pointer-events-none"
                         x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>

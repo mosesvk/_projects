@@ -1829,15 +1829,17 @@ const range = () => {
     minthumb: 1,
     maxthumb: 1,
 
-    mintrigger(shouldDispatchEvent = true) {
+    mintrigger(shouldDispatchEvent = true, shouldRound = false) {
       // Remove any non-numeric characters except digits
       let value = String(this.minprice).replace(/[^\d]/g, '');
       
       // Parse as number
       this.minprice = parseInt(value) || 0;
       
-      // Round to nearest 100
-      this.minprice = Math.round(this.minprice / 100) * 100;
+      // Round to nearest 100 only if from slider
+      if (shouldRound) {
+        this.minprice = Math.round(this.minprice / 100) * 100;
+      }
       
       // Constrain within valid range
       this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
@@ -1863,15 +1865,17 @@ const range = () => {
       }
     },
 
-    maxtrigger(shouldDispatchEvent = true) {
+    maxtrigger(shouldDispatchEvent = true, shouldRound = false) {
       // Remove any non-numeric characters except digits
       let value = String(this.maxprice).replace(/[^\d]/g, '');
       
       // Parse as number
       this.maxprice = parseInt(value) || this.max;
       
-      // Round to nearest 100
-      this.maxprice = Math.round(this.maxprice / 100) * 100;
+      // Round to nearest 100 only if from slider
+      if (shouldRound) {
+        this.maxprice = Math.round(this.maxprice / 100) * 100;
+      }
       
       // Constrain within valid range
       this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
@@ -1908,15 +1912,17 @@ function missionaryRange() {
     minthumb: 1,
     maxthumb: 1,
 
-    mintrigger(shouldDispatchEvent = true) {
+    mintrigger(shouldDispatchEvent = true, shouldRound = false) {
       // Remove any non-numeric characters except digits
       let value = String(this.minprice).replace(/[^\d]/g, '');
       
       // Parse as number
       this.minprice = parseInt(value) || 0;
       
-      // Round to nearest 100
-      this.minprice = Math.round(this.minprice / 100) * 100;
+      // Round to nearest 100 only if from slider
+      if (shouldRound) {
+        this.minprice = Math.round(this.minprice / 100) * 100;
+      }
       
       // Constrain within valid range
       this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
@@ -1942,15 +1948,17 @@ function missionaryRange() {
       }
     },
 
-    maxtrigger(shouldDispatchEvent = true) {
+    maxtrigger(shouldDispatchEvent = true, shouldRound = false) {
       // Remove any non-numeric characters except digits
       let value = String(this.maxprice).replace(/[^\d]/g, '');
       
       // Parse as number
       this.maxprice = parseInt(value) || this.max;
       
-      // Round to nearest 100
-      this.maxprice = Math.round(this.maxprice / 100) * 100;
+      // Round to nearest 100 only if from slider
+      if (shouldRound) {
+        this.maxprice = Math.round(this.maxprice / 100) * 100;
+      }
       
       // Constrain within valid range
       this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
@@ -1989,15 +1997,17 @@ function assetsRange() {
     minthumb: 0,
     maxthumb: 1,
 
-    mintrigger(shouldDispatchEvent = true) {
+    mintrigger(shouldDispatchEvent = true, shouldRound = false) {
       // Remove any non-numeric characters except digits
       let value = String(this.minprice).replace(/[^\d]/g, '');
       
       // Parse as number
       this.minprice = parseInt(value) || 0;
       
-      // Round to nearest 100000
-      this.minprice = Math.round(this.minprice / 100000) * 100000;
+      // Round to nearest 100000 only if from slider
+      if (shouldRound) {
+        this.minprice = Math.round(this.minprice / 100000) * 100000;
+      }
       
       // Constrain within valid range
       this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 100000));
@@ -2019,15 +2029,17 @@ function assetsRange() {
       }
     },
 
-    maxtrigger(shouldDispatchEvent = true) {
+    maxtrigger(shouldDispatchEvent = true, shouldRound = false) {
       // Remove any non-numeric characters except digits
       let value = String(this.maxprice).replace(/[^\d]/g, '');
       
       // Parse as number
       this.maxprice = parseInt(value) || this.max;
       
-      // Round to nearest 100000
-      this.maxprice = Math.round(this.maxprice / 100000) * 100000;
+      // Round to nearest 100000 only if from slider
+      if (shouldRound) {
+        this.maxprice = Math.round(this.maxprice / 100000) * 100000;
+      }
       
       // Constrain within valid range
       this.maxprice = Math.max(this.minprice + 100000, Math.min(this.maxprice, this.max));
@@ -2064,15 +2076,17 @@ function revenueRange() {
     minthumb: 0,
     maxthumb: 1,
 
-    mintrigger(shouldDispatchEvent = true) {
+    mintrigger(shouldDispatchEvent = true, shouldRound = false) {
       // Remove any non-numeric characters except digits
       let value = String(this.minprice).replace(/[^\d]/g, '');
       
       // Parse as number
       this.minprice = parseInt(value) || 0;
       
-      // Round to nearest 100000
-      this.minprice = Math.round(this.minprice / 100000) * 100000;
+      // Round to nearest 100000 only if from slider
+      if (shouldRound) {
+        this.minprice = Math.round(this.minprice / 100000) * 100000;
+      }
       
       // Constrain within valid range
       this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 100000));
@@ -2094,15 +2108,17 @@ function revenueRange() {
       }
     },
 
-    maxtrigger(shouldDispatchEvent = true) {
+    maxtrigger(shouldDispatchEvent = true, shouldRound = false) {
       // Remove any non-numeric characters except digits
       let value = String(this.maxprice).replace(/[^\d]/g, '');
       
       // Parse as number
       this.maxprice = parseInt(value) || this.max;
       
-      // Round to nearest 100000
-      this.maxprice = Math.round(this.maxprice / 100000) * 100000;
+      // Round to nearest 100000 only if from slider
+      if (shouldRound) {
+        this.maxprice = Math.round(this.maxprice / 100000) * 100000;
+      }
       
       // Constrain within valid range
       this.maxprice = Math.max(this.minprice + 100000, Math.min(this.maxprice, this.max));
