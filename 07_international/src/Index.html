@@ -4804,26 +4804,70 @@
                       }
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
-                      if (minDist < maxDist) {
-                        // Click is closer to min thumb - enable min, disable max
-                        minInput.style.pointerEvents = 'auto';
-                        minInput.style.zIndex = '21';
-                        maxInput.style.pointerEvents = 'none';
-                        maxInput.style.zIndex = '20';
+                      const currentlyActive = minInput && minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
+                      const shouldBeActive = minDist < maxDist ? 'min' : 'max';
+                      
+                      // If we need to switch, prevent the event and manually trigger
+                      if (currentlyActive !== shouldBeActive) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        
+                        // Switch the inputs
+                        if (shouldBeActive === 'min') {
+                          minInput.style.pointerEvents = 'auto';
+                          minInput.style.zIndex = '21';
+                          maxInput.style.pointerEvents = 'none';
+                          maxInput.style.zIndex = '20';
+                          // Manually trigger the min input
+                          setTimeout(() => {
+                            const newEvent = new MouseEvent('mousedown', {
+                              bubbles: true,
+                              cancelable: true,
+                              clientX: $event.clientX,
+                              clientY: $event.clientY,
+                              button: $event.button
+                            });
+                            minInput.dispatchEvent(newEvent);
+                          }, 0);
+                        } else {
+                          minInput.style.pointerEvents = 'none';
+                          minInput.style.zIndex = '20';
+                          maxInput.style.pointerEvents = 'auto';
+                          maxInput.style.zIndex = '21';
+                          // Manually trigger the max input
+                          setTimeout(() => {
+                            const newEvent = new MouseEvent('mousedown', {
+                              bubbles: true,
+                              cancelable: true,
+                              clientX: $event.clientX,
+                              clientY: $event.clientY,
+                              button: $event.button
+                            });
+                            maxInput.dispatchEvent(newEvent);
+                          }, 0);
+                        }
+                        return false;
                       } else {
-                        // Click is closer to max thumb - enable max, disable min
-                        minInput.style.pointerEvents = 'none';
-                        minInput.style.zIndex = '20';
-                        maxInput.style.pointerEvents = 'auto';
-                        maxInput.style.zIndex = '21';
+                        // No switch needed, just update pointer-events
+                        if (shouldBeActive === 'min') {
+                          minInput.style.pointerEvents = 'auto';
+                          minInput.style.zIndex = '21';
+                          maxInput.style.pointerEvents = 'none';
+                          maxInput.style.zIndex = '20';
+                        } else {
+                          minInput.style.pointerEvents = 'none';
+                          minInput.style.zIndex = '20';
+                          maxInput.style.pointerEvents = 'auto';
+                          maxInput.style.zIndex = '21';
+                        }
                       }
                     "
                     x-on:mouseup="
                       // Re-enable both inputs after mouseup
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
-                      minInput.style.pointerEvents = 'auto';
-                      maxInput.style.pointerEvents = 'auto';
+                      if (minInput) minInput.style.pointerEvents = 'auto';
+                      if (maxInput) maxInput.style.pointerEvents = 'auto';
                     "
                     x-on:mousemove="
                       // Only show pointer cursor when hovering near a thumb
@@ -4837,12 +4881,14 @@
                       const threshold = 5;
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
-                      if (minDist <= threshold || maxDist <= threshold) {
-                        minInput.style.cursor = 'pointer';
-                        maxInput.style.cursor = 'pointer';
-                      } else {
-                        minInput.style.cursor = 'default';
-                        maxInput.style.cursor = 'default';
+                      if (minInput && maxInput) {
+                        if (minDist <= threshold || maxDist <= threshold) {
+                          minInput.style.cursor = 'pointer';
+                          maxInput.style.cursor = 'pointer';
+                        } else {
+                          minInput.style.cursor = 'default';
+                          maxInput.style.cursor = 'default';
+                        }
                       }
                     "
                     >
@@ -4851,38 +4897,6 @@
                       step="1"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:mousedown="
-                        // Check which thumb is closer and switch if needed
-                        const container = $event.currentTarget.closest('div');
-                        const rect = container.getBoundingClientRect();
-                        const clickX = $event.clientX - rect.left;
-                        const clickPercent = (clickX / rect.width) * 100;
-                        const minPos = minthumb;
-                        const maxPos = 100 - maxthumb;
-                        const minDist = Math.abs(clickPercent - minPos);
-                        const maxDist = Math.abs(clickPercent - maxPos);
-                        const threshold = 5;
-                        if (minDist > threshold && maxDist > threshold) {
-                          $event.preventDefault();
-                          $event.stopPropagation();
-                          return false;
-                        }
-                        const minInput = container.querySelector('input[type=range]:first-child');
-                        const maxInput = container.querySelector('input[type=range]:last-child');
-                        if (minDist < maxDist) {
-                          // Click is closer to min thumb - enable min, disable max
-                          minInput.style.pointerEvents = 'auto';
-                          minInput.style.zIndex = '21';
-                          maxInput.style.pointerEvents = 'none';
-                          maxInput.style.zIndex = '20';
-                        } else {
-                          // Click is closer to max thumb - enable max, disable min
-                          minInput.style.pointerEvents = 'none';
-                          minInput.style.zIndex = '20';
-                          maxInput.style.pointerEvents = 'auto';
-                          maxInput.style.zIndex = '21';
-                        }
-                      "
                       x-on:input="mintrigger(true, true)"
                       x-model="minprice"
                       x-init="
@@ -4901,38 +4915,6 @@
                       step="1"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:mousedown="
-                        // Check which thumb is closer and switch if needed
-                        const container = $event.currentTarget.closest('div');
-                        const rect = container.getBoundingClientRect();
-                        const clickX = $event.clientX - rect.left;
-                        const clickPercent = (clickX / rect.width) * 100;
-                        const minPos = minthumb;
-                        const maxPos = 100 - maxthumb;
-                        const minDist = Math.abs(clickPercent - minPos);
-                        const maxDist = Math.abs(clickPercent - maxPos);
-                        const threshold = 5;
-                        if (minDist > threshold && maxDist > threshold) {
-                          $event.preventDefault();
-                          $event.stopPropagation();
-                          return false;
-                        }
-                        const minInput = container.querySelector('input[type=range]:first-child');
-                        const maxInput = container.querySelector('input[type=range]:last-child');
-                        if (minDist < maxDist) {
-                          // Click is closer to min thumb - enable min, disable max
-                          minInput.style.pointerEvents = 'auto';
-                          minInput.style.zIndex = '21';
-                          maxInput.style.pointerEvents = 'none';
-                          maxInput.style.zIndex = '20';
-                        } else {
-                          // Click is closer to max thumb - enable max, disable min
-                          minInput.style.pointerEvents = 'none';
-                          minInput.style.zIndex = '20';
-                          maxInput.style.pointerEvents = 'auto';
-                          maxInput.style.zIndex = '21';
-                        }
-                      "
                       x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
                       x-init="
@@ -5010,26 +4992,70 @@
                       }
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
-                      if (minDist < maxDist) {
-                        // Click is closer to min thumb - enable min, disable max
-                        minInput.style.pointerEvents = 'auto';
-                        minInput.style.zIndex = '21';
-                        maxInput.style.pointerEvents = 'none';
-                        maxInput.style.zIndex = '20';
+                      const currentlyActive = minInput && minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
+                      const shouldBeActive = minDist < maxDist ? 'min' : 'max';
+                      
+                      // If we need to switch, prevent the event and manually trigger
+                      if (currentlyActive !== shouldBeActive) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        
+                        // Switch the inputs
+                        if (shouldBeActive === 'min') {
+                          minInput.style.pointerEvents = 'auto';
+                          minInput.style.zIndex = '21';
+                          maxInput.style.pointerEvents = 'none';
+                          maxInput.style.zIndex = '20';
+                          // Manually trigger the min input
+                          setTimeout(() => {
+                            const newEvent = new MouseEvent('mousedown', {
+                              bubbles: true,
+                              cancelable: true,
+                              clientX: $event.clientX,
+                              clientY: $event.clientY,
+                              button: $event.button
+                            });
+                            minInput.dispatchEvent(newEvent);
+                          }, 0);
+                        } else {
+                          minInput.style.pointerEvents = 'none';
+                          minInput.style.zIndex = '20';
+                          maxInput.style.pointerEvents = 'auto';
+                          maxInput.style.zIndex = '21';
+                          // Manually trigger the max input
+                          setTimeout(() => {
+                            const newEvent = new MouseEvent('mousedown', {
+                              bubbles: true,
+                              cancelable: true,
+                              clientX: $event.clientX,
+                              clientY: $event.clientY,
+                              button: $event.button
+                            });
+                            maxInput.dispatchEvent(newEvent);
+                          }, 0);
+                        }
+                        return false;
                       } else {
-                        // Click is closer to max thumb - enable max, disable min
-                        minInput.style.pointerEvents = 'none';
-                        minInput.style.zIndex = '20';
-                        maxInput.style.pointerEvents = 'auto';
-                        maxInput.style.zIndex = '21';
+                        // No switch needed, just update pointer-events
+                        if (shouldBeActive === 'min') {
+                          minInput.style.pointerEvents = 'auto';
+                          minInput.style.zIndex = '21';
+                          maxInput.style.pointerEvents = 'none';
+                          maxInput.style.zIndex = '20';
+                        } else {
+                          minInput.style.pointerEvents = 'none';
+                          minInput.style.zIndex = '20';
+                          maxInput.style.pointerEvents = 'auto';
+                          maxInput.style.zIndex = '21';
+                        }
                       }
                     "
                     x-on:mouseup="
                       // Re-enable both inputs after mouseup
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
-                      minInput.style.pointerEvents = 'auto';
-                      maxInput.style.pointerEvents = 'auto';
+                      if (minInput) minInput.style.pointerEvents = 'auto';
+                      if (maxInput) maxInput.style.pointerEvents = 'auto';
                     "
                     x-on:mousemove="
                       // Only show pointer cursor when hovering near a thumb
@@ -5043,12 +5069,14 @@
                       const threshold = 5;
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
-                      if (minDist <= threshold || maxDist <= threshold) {
-                        minInput.style.cursor = 'pointer';
-                        maxInput.style.cursor = 'pointer';
-                      } else {
-                        minInput.style.cursor = 'default';
-                        maxInput.style.cursor = 'default';
+                      if (minInput && maxInput) {
+                        if (minDist <= threshold || maxDist <= threshold) {
+                          minInput.style.cursor = 'pointer';
+                          maxInput.style.cursor = 'pointer';
+                        } else {
+                          minInput.style.cursor = 'default';
+                          maxInput.style.cursor = 'default';
+                        }
                       }
                     "
                     >
@@ -5057,38 +5085,6 @@
                       step="1"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:mousedown="
-                        // Check which thumb is closer and switch if needed
-                        const container = $event.currentTarget.closest('div');
-                        const rect = container.getBoundingClientRect();
-                        const clickX = $event.clientX - rect.left;
-                        const clickPercent = (clickX / rect.width) * 100;
-                        const minPos = minthumb;
-                        const maxPos = 100 - maxthumb;
-                        const minDist = Math.abs(clickPercent - minPos);
-                        const maxDist = Math.abs(clickPercent - maxPos);
-                        const threshold = 5;
-                        if (minDist > threshold && maxDist > threshold) {
-                          $event.preventDefault();
-                          $event.stopPropagation();
-                          return false;
-                        }
-                        const minInput = container.querySelector('input[type=range]:first-child');
-                        const maxInput = container.querySelector('input[type=range]:last-child');
-                        if (minDist < maxDist) {
-                          // Click is closer to min thumb - enable min, disable max
-                          minInput.style.pointerEvents = 'auto';
-                          minInput.style.zIndex = '21';
-                          maxInput.style.pointerEvents = 'none';
-                          maxInput.style.zIndex = '20';
-                        } else {
-                          // Click is closer to max thumb - enable max, disable min
-                          minInput.style.pointerEvents = 'none';
-                          minInput.style.zIndex = '20';
-                          maxInput.style.pointerEvents = 'auto';
-                          maxInput.style.zIndex = '21';
-                        }
-                      "
                       x-on:input="mintrigger(true, true)"
                       x-model="minprice"
                       x-init="
@@ -5107,38 +5103,6 @@
                       step="1"
                       x-bind:min="min"
                       x-bind:max="max"
-                      x-on:mousedown="
-                        // Check which thumb is closer and switch if needed
-                        const container = $event.currentTarget.closest('div');
-                        const rect = container.getBoundingClientRect();
-                        const clickX = $event.clientX - rect.left;
-                        const clickPercent = (clickX / rect.width) * 100;
-                        const minPos = minthumb;
-                        const maxPos = 100 - maxthumb;
-                        const minDist = Math.abs(clickPercent - minPos);
-                        const maxDist = Math.abs(clickPercent - maxPos);
-                        const threshold = 5;
-                        if (minDist > threshold && maxDist > threshold) {
-                          $event.preventDefault();
-                          $event.stopPropagation();
-                          return false;
-                        }
-                        const minInput = container.querySelector('input[type=range]:first-child');
-                        const maxInput = container.querySelector('input[type=range]:last-child');
-                        if (minDist < maxDist) {
-                          // Click is closer to min thumb - enable min, disable max
-                          minInput.style.pointerEvents = 'auto';
-                          minInput.style.zIndex = '21';
-                          maxInput.style.pointerEvents = 'none';
-                          maxInput.style.zIndex = '20';
-                        } else {
-                          // Click is closer to max thumb - enable max, disable min
-                          minInput.style.pointerEvents = 'none';
-                          minInput.style.zIndex = '20';
-                          maxInput.style.pointerEvents = 'auto';
-                          maxInput.style.zIndex = '21';
-                        }
-                      "
                       x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
                       x-init="
