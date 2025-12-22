@@ -4804,7 +4804,9 @@
                       }
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
-                      const currentlyActive = minInput && minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
+                      if (!minInput || !maxInput) return;
+                      
+                      const currentlyActive = minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
                       const shouldBeActive = minDist < maxDist ? 'min' : 'max';
                       
                       // If we need to switch, prevent the event and manually trigger
@@ -4870,7 +4872,7 @@
                       if (maxInput) maxInput.style.pointerEvents = 'auto';
                     "
                     x-on:mousemove="
-                      // Only show pointer cursor when hovering near a thumb
+                      // Update pointer-events and cursor when hovering near a thumb
                       const rect = $event.currentTarget.getBoundingClientRect();
                       const mouseX = $event.clientX - rect.left;
                       const mousePercent = (mouseX / rect.width) * 100;
@@ -4885,6 +4887,18 @@
                         if (minDist <= threshold || maxDist <= threshold) {
                           minInput.style.cursor = 'pointer';
                           maxInput.style.cursor = 'pointer';
+                          // Update pointer-events based on which thumb is closer
+                          if (minDist < maxDist) {
+                            minInput.style.pointerEvents = 'auto';
+                            minInput.style.zIndex = '21';
+                            maxInput.style.pointerEvents = 'none';
+                            maxInput.style.zIndex = '20';
+                          } else {
+                            minInput.style.pointerEvents = 'none';
+                            minInput.style.zIndex = '20';
+                            maxInput.style.pointerEvents = 'auto';
+                            maxInput.style.zIndex = '21';
+                          }
                         } else {
                           minInput.style.cursor = 'default';
                           maxInput.style.cursor = 'default';
@@ -4992,7 +5006,9 @@
                       }
                       const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
                       const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
-                      const currentlyActive = minInput && minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
+                      if (!minInput || !maxInput) return;
+                      
+                      const currentlyActive = minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
                       const shouldBeActive = minDist < maxDist ? 'min' : 'max';
                       
                       // If we need to switch, prevent the event and manually trigger
@@ -5058,7 +5074,7 @@
                       if (maxInput) maxInput.style.pointerEvents = 'auto';
                     "
                     x-on:mousemove="
-                      // Only show pointer cursor when hovering near a thumb
+                      // Update pointer-events and cursor when hovering near a thumb
                       const rect = $event.currentTarget.getBoundingClientRect();
                       const mouseX = $event.clientX - rect.left;
                       const mousePercent = (mouseX / rect.width) * 100;
@@ -5073,6 +5089,18 @@
                         if (minDist <= threshold || maxDist <= threshold) {
                           minInput.style.cursor = 'pointer';
                           maxInput.style.cursor = 'pointer';
+                          // Update pointer-events based on which thumb is closer
+                          if (minDist < maxDist) {
+                            minInput.style.pointerEvents = 'auto';
+                            minInput.style.zIndex = '21';
+                            maxInput.style.pointerEvents = 'none';
+                            maxInput.style.zIndex = '20';
+                          } else {
+                            minInput.style.pointerEvents = 'none';
+                            minInput.style.zIndex = '20';
+                            maxInput.style.pointerEvents = 'auto';
+                            maxInput.style.zIndex = '21';
+                          }
                         } else {
                           minInput.style.cursor = 'default';
                           maxInput.style.cursor = 'default';
