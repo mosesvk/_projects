@@ -860,29 +860,42 @@ async function exportApexChart(chart, chartId) {
       }
     } else {
       // Main chart type - Ensure we use an array with a single object for yaxis
+      // Preserve tickAmount, min, and max for line charts to ensure evenly spaced ticks
+      const originalYAxis = originalState.chartConfig.yaxis;
+      const isLineChart = chartType === "line" || chartId.includes("changeInNetAssets") || chartId.includes("liquidityAssetsAvailableCover");
+      
+      // Get the original y-axis config (handle both array and object formats)
+      const originalYAxisConfig = Array.isArray(originalYAxis) ? originalYAxis[0] : originalYAxis;
+      
       exportOptions = {
         ...baseExportOptions,
         yaxis: [
           {
-            axisTicks: { show: true },
+            // Preserve all original y-axis properties
+            ...originalYAxisConfig,
+            axisTicks: { 
+              show: true,
+              ...originalYAxisConfig?.axisTicks
+            },
             axisBorder: {
               show: true,
-              color:
-                originalState.chartConfig.yaxis[0]?.axisBorder?.color ||
-                "#3a464f",
+              color: originalYAxisConfig?.axisBorder?.color || "#3a464f",
+              ...originalYAxisConfig?.axisBorder
             },
             labels: {
               formatter: yaxisFormatter,
               style: {
-                colors:
-                  originalState.chartConfig.yaxis[0]?.labels?.style?.colors ||
-                  "#3a464f",
-                fontSize:
-                  originalState.chartConfig.yaxis[0]?.labels?.style?.fontSize ||
-                  "1.25rem",
+                colors: originalYAxisConfig?.labels?.style?.colors || "#3a464f",
+                fontSize: originalYAxisConfig?.labels?.style?.fontSize || "1.25rem",
               },
             },
             tooltip: { enabled: true },
+            // Explicitly preserve tickAmount, min, and max for line charts
+            ...(isLineChart && originalYAxisConfig ? {
+              tickAmount: originalYAxisConfig.tickAmount,
+              min: originalYAxisConfig.min,
+              max: originalYAxisConfig.max,
+            } : {}),
           },
         ],
       };

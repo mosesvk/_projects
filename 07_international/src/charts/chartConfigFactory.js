@@ -779,8 +779,8 @@ class ChartConfigFactory {
       }
     };
 
-    // Special case for changeInNetAssets chart - ensure evenly spaced, rounded ticks
-    if (mainName === "changeInNetAssets") {
+    // Special case for changeInNetAssets and liquidityAssetsAvailableCover charts - ensure evenly spaced, rounded ticks
+    if (mainName === "changeInNetAssets" || mainName === "liquidityAssetsAvailableCover") {
       const niceTicks = this._calculateNiceYAxisTicks(minValue, maxValue, 5);
       yAxisConfig = {
         min: niceTicks.min,
