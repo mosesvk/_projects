@@ -265,10 +265,10 @@ function updateClientDropdownFilters() {
     selectAllCheckbox.indeterminate = !allSelected && !noneSelected;
   }
 
-  console.log(
-    `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
-  );
-  console.log("Selected clients:", Array.from(window.selectedClients_Array));
+  // console.log(
+  //   `Filter completed: ${matchCount} of ${totalClientCount} clients match current filters`
+  // );
+  // console.log("Selected clients:", Array.from(window.selectedClients_Array));
 
   // Handle toast notification for filter results
   if (window.hasRunInitialClientDropdownFilter) {
@@ -863,25 +863,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
   document.addEventListener("filtersChanged", function () {
     // NOTE: setupNumberFormatting call removed - formatting handled by Utility.js
-    console.log("Filter State Updated:", {
-      sliders: {
-        givingMin: window.sliderValue,
-        givingMax: window.sliderValue2,
-        missionMin: window.missionValue,
-        missionMax: window.missionValue2,
-        assetsMin: window.assetsValue,
-        assetsMax: window.assetsValue2,
-        revenueMin: window.revenueValue,
-        revenueMax: window.revenueValue2,
-      },
-      areas: Array.from(window.selectedAreas_Array || []),
-      types: Array.from(window.selectedTypes_Array || []),
-      clients: {
-        count: window.selectedClients_Array
-          ? window.selectedClients_Array.size
-          : 0,
-      },
-    });
+    // console.log("Filter State Updated:", {
+    //   sliders: {
+    //     givingMin: window.sliderValue,
+    //     givingMax: window.sliderValue2,
+    //     missionMin: window.missionValue,
+    //     missionMax: window.missionValue2,
+    //     assetsMin: window.assetsValue,
+    //     assetsMax: window.assetsValue2,
+    //     revenueMin: window.revenueValue,
+    //     revenueMax: window.revenueValue2,
+    //   },
+    //   areas: Array.from(window.selectedAreas_Array || []),
+    //   types: Array.from(window.selectedTypes_Array || []),
+    //   clients: {
+    //     count: window.selectedClients_Array
+    //       ? window.selectedClients_Array.size
+    //       : 0,
+    //   },
+    // });
   });
 
   // Initialize areas dropdown with the provided array

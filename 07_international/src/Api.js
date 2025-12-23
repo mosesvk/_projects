@@ -2317,19 +2317,39 @@ class DataProcessor {
     // Convert to array if it's not already one
     const recordsArray = Array.isArray(records) ? records : Array.from(records);
 
-    return recordsArray.filter((record) => {
+    const filtered = recordsArray.filter((record) => {
       try {
+        let fiscalYear, clientName;
+        
         // Check if record is a DOM element
         if (record && typeof record.querySelector === "function") {
-          const fiscalYear = record.querySelector(
+          fiscalYear = record.querySelector(
             "fiscal_ye_date_formatted_year_text"
           )?.textContent;
-          return fiscalYear && fiscalYear.includes(year.toString());
+          clientName = record.querySelector("pe___client_informal_name")?.textContent || "Unknown";
+          // Use exact match instead of includes to avoid partial matches
+          const matches = fiscalYear && fiscalYear.trim() === year.toString();
+          
+          // Debug log mismatches
+          if (fiscalYear && !matches) {
+            console.log(`  ⚠️ Filter mismatch - Client: "${clientName}", Record Year: "${fiscalYear}", Filter Year: "${year}"`);
+          }
+          
+          return matches;
         }
         // Check if record is an object with direct properties
         else if (record && record.fiscal_ye_date_formatted_year_text) {
-          const fiscalYear = record.fiscal_ye_date_formatted_year_text;
-          return fiscalYear && fiscalYear.includes(year.toString());
+          fiscalYear = record.fiscal_ye_date_formatted_year_text;
+          clientName = record.pe___client_informal_name || "Unknown";
+          // Use exact match instead of includes to avoid partial matches
+          const matches = fiscalYear && fiscalYear.trim() === year.toString();
+          
+          // Debug log mismatches
+          if (fiscalYear && !matches) {
+            console.log(`  ⚠️ Filter mismatch - Client: "${clientName}", Record Year: "${fiscalYear}", Filter Year: "${year}"`);
+          }
+          
+          return matches;
         }
         // If neither format works, log and skip this record
         else {
@@ -2341,6 +2361,9 @@ class DataProcessor {
         return false;
       }
     });
+    
+    console.log(`🔍 filterRecordsByYear: Filtered ${filtered.length} records for year ${year} from ${recordsArray.length} total records`);
+    return filtered;
   }
 }
 
@@ -2381,8 +2404,8 @@ class ApiService {
 
     try {
       // Debug: Log current selected clients
-      console.log(`Selected clients count: ${window.selectedClients_Array?.size || 0}`);
-      console.log(`Selected clients:`, Array.from(window.selectedClients_Array || []));
+      // console.log(`Selected clients count: ${window.selectedClients_Array?.size || 0}`);
+      // console.log(`Selected clients:`, Array.from(window.selectedClients_Array || []));
       
       // Use batched approach for large client lists
       const selectedClients = Array.from(window.selectedClients_Array || []);
@@ -2466,6 +2489,14 @@ class ApiService {
         const batchRecords = $("record", xml).toArray();
         
         console.log(`Batch ${i + 1} returned ${batchRecords.length} records`);
+        
+        // Debug: Log each record's client name and year (fid 301)
+        batchRecords.forEach((record) => {
+          const clientName = record.querySelector("pe___client_informal_name")?.textContent || "Unknown";
+          const yearField = record.querySelector("fiscal_ye_date_formatted_year_text")?.textContent || "Unknown";
+          console.log(`  📊 Peer Record - Client: "${clientName}", Year (fid 301): "${yearField}" (Query year: ${year})`);
+        });
+        
         allRecords.push(...batchRecords);
 
         // Small delay between batches to be respectful to the server
@@ -2745,11 +2776,11 @@ class ApiService {
   // Method to handle filter changes
   _handleFiltersChanged() {
     if (!window.clientDataStore) {
-      console.warn("Client data store not available yet");
+      console.warn("Client datahe store not available yet");
       return;
     }
 
-    console.log("Filter change detected. Updating client selection...");
+    // console.log("Filter change detected. Updating client selection...");
 
     // Call the function that updates client checkboxes based on current filters
     if (typeof updateClientDropdownBasedOnFilters === "function") {
