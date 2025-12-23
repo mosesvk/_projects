@@ -595,6 +595,52 @@ class ChartConfigFactory {
     return chartConfig;
   }
 
+  /**
+   * Calculate nice rounded y-axis limits and tick amount for evenly spaced ticks
+   * @param {number} minValue - Minimum data value
+   * @param {number} maxValue - Maximum data value
+   * @param {number} tickCount - Desired number of ticks (default: 5)
+   * @returns {Object} Object with rounded min, max, and tickAmount
+   */
+  _calculateNiceYAxisTicks(minValue, maxValue, tickCount = 5) {
+    if (minValue === maxValue) {
+      return { min: minValue - 1, max: maxValue + 1, tickAmount: tickCount };
+    }
+
+    const range = maxValue - minValue;
+    const absMax = Math.max(Math.abs(minValue), Math.abs(maxValue));
+    
+    // Calculate nice step size using the range
+    const rawStep = range / (tickCount - 1);
+    const stepMagnitude = Math.pow(10, Math.floor(Math.log10(rawStep)));
+    const normalizedStep = rawStep / stepMagnitude;
+    
+    // Round to nice step values (1, 2, 5, 10, 20, 50, etc.)
+    let niceStep;
+    if (normalizedStep <= 1) {
+      niceStep = 1 * stepMagnitude;
+    } else if (normalizedStep <= 2) {
+      niceStep = 2 * stepMagnitude;
+    } else if (normalizedStep <= 5) {
+      niceStep = 5 * stepMagnitude;
+    } else {
+      niceStep = 10 * stepMagnitude;
+    }
+
+    // Round min down and max up to nice values that align with the step
+    const niceMin = Math.floor(minValue / niceStep) * niceStep;
+    const niceMax = Math.ceil(maxValue / niceStep) * niceStep;
+    
+    // Calculate actual tick amount based on nice step
+    const actualTickAmount = Math.round((niceMax - niceMin) / niceStep) + 1;
+    
+    return {
+      min: niceMin,
+      max: niceMax,
+      tickAmount: Math.min(Math.max(actualTickAmount, tickCount), 7) // Ensure at least tickCount ticks, cap at 7
+    };
+  }
+
   // Configuration for line charts
   createLineChartConfig({
     dataPeer,
@@ -679,8 +725,13 @@ class ChartConfigFactory {
     const allValues = [...clientArray, ...peerAvg].filter(
       (val) => val !== null && val !== undefined
     );
-    const minValue = allValues.length > 0 ? (Math.min(...allValues) > 0 ? 0 : Math.min(...allValues) - 5) : 0;
-    const maxValue = allValues.length > 0 ? Math.max(...allValues) * 1.1 : 100;
+    let minValue = allValues.length > 0 ? (Math.min(...allValues) > 0 ? 0 : Math.min(...allValues)) : 0;
+    let maxValue = allValues.length > 0 ? Math.max(...allValues) : 100;
+    
+    // Add padding for better visualization
+    const padding = allValues.length > 0 ? (maxValue - minValue) * 0.1 : 0;
+    minValue = minValue - padding;
+    maxValue = maxValue + padding;
 
     // Configure y-axis
     let yAxisConfig = {
@@ -727,6 +778,55 @@ class ChartConfigFactory {
         enabled: true,
       }
     };
+
+    // Special case for changeInNetAssets chart - ensure evenly spaced, rounded ticks
+    if (mainName === "changeInNetAssets") {
+      const niceTicks = this._calculateNiceYAxisTicks(minValue, maxValue, 5);
+      yAxisConfig = {
+        min: niceTicks.min,
+        max: niceTicks.max,
+        tickAmount: niceTicks.tickAmount,
+        axisTicks: {
+          show: true,
+        },
+        axisBorder: {
+          show: true,
+          color: this.themeColors.chartColor,
+        },
+        labels: {
+          formatter: function(val) {
+            if (val === null || val === undefined || val === 0) {
+              return numType === "dollar" ? "$0" : numType === "percent" ? "0%" : "0";
+            }
+            
+            // Round to clean values for display
+            if (Math.abs(val) >= 1000000) {
+              // Round to whole millions for cleaner display
+              const roundedVal = Math.round(val / 1000000);
+              return numType === "dollar" ? `$${roundedVal}M` : 
+                     numType === "percent" ? `${roundedVal}%` : `${roundedVal}M`;
+            } else if (Math.abs(val) >= 1000) {
+              // Round to whole thousands
+              const roundedVal = Math.round(val / 1000);
+              return numType === "dollar" ? `$${roundedVal}K` : 
+                     numType === "percent" ? `${roundedVal}%` : `${roundedVal}K`;
+            } else {
+              // Round to integers
+              const roundedVal = Math.round(val);
+              return numType === "dollar" ? `$${roundedVal}` : 
+                     numType === "percent" ? `${roundedVal}%` : `${roundedVal}`;
+            }
+          },
+          style: {
+            colors: this.themeColors.chartColor,
+            fontSize: "1.25rem",
+          }
+        },
+        tooltip: {
+          enabled: true,
+        }
+      };
+    }
 
     // Special case for assetsWithoutPpeToLiabilitiesWithoutDebt chart
     if (mainName === "assetsWithoutPpeToLiabilitiesWithoutDebt") {
