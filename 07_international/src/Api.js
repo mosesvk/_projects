@@ -2317,6 +2317,54 @@ class DataProcessor {
     // Convert to array if it's not already one
     const recordsArray = Array.isArray(records) ? records : Array.from(records);
 
+    // First pass: Analyze year distribution in the input records
+    const yearDistribution = {};
+    const clientYearMap = {}; // Track which clients appear in which years
+    
+    recordsArray.forEach((record) => {
+      try {
+        let fiscalYear, clientName;
+        
+        if (record && typeof record.querySelector === "function") {
+          fiscalYear = record.querySelector("fiscal_ye_date_formatted_year_text")?.textContent?.trim();
+          clientName = record.querySelector("pe___client_informal_name")?.textContent || "Unknown";
+        } else if (record && record.fiscal_ye_date_formatted_year_text) {
+          fiscalYear = record.fiscal_ye_date_formatted_year_text?.trim();
+          clientName = record.pe___client_informal_name || "Unknown";
+        }
+        
+        if (fiscalYear) {
+          yearDistribution[fiscalYear] = (yearDistribution[fiscalYear] || 0) + 1;
+          
+          if (!clientYearMap[clientName]) {
+            clientYearMap[clientName] = new Set();
+          }
+          clientYearMap[clientName].add(fiscalYear);
+        }
+      } catch (error) {
+        // Skip errors in analysis phase
+      }
+    });
+    
+    // Log year distribution summary
+    console.log(`\n📊 filterRecordsByYear - Year Distribution Analysis (filtering for year ${year}):`);
+    console.log(`   Total records in input: ${recordsArray.length}`);
+    Object.keys(yearDistribution).sort().forEach((yr) => {
+      console.log(`   Year ${yr}: ${yearDistribution[yr]} records`);
+    });
+    
+    // Log clients that appear in multiple years (potential issue indicator)
+    const multiYearClients = Object.keys(clientYearMap).filter(
+      (client) => clientYearMap[client].size > 1
+    );
+    if (multiYearClients.length > 0) {
+      console.log(`\n   ⚠️ Clients appearing in multiple years:`);
+      multiYearClients.forEach((client) => {
+        const years = Array.from(clientYearMap[client]).sort().join(", ");
+        console.log(`      "${client}": years ${years}`);
+      });
+    }
+
     const filtered = recordsArray.filter((record) => {
       try {
         let fiscalYear, clientName;
@@ -2330,11 +2378,6 @@ class DataProcessor {
           // Use exact match instead of includes to avoid partial matches
           const matches = fiscalYear && fiscalYear.trim() === year.toString();
           
-          // Debug log mismatches
-          if (fiscalYear && !matches) {
-            console.log(`  ⚠️ Filter mismatch - Client: "${clientName}", Record Year: "${fiscalYear}", Filter Year: "${year}"`);
-          }
-          
           return matches;
         }
         // Check if record is an object with direct properties
@@ -2343,11 +2386,6 @@ class DataProcessor {
           clientName = record.pe___client_informal_name || "Unknown";
           // Use exact match instead of includes to avoid partial matches
           const matches = fiscalYear && fiscalYear.trim() === year.toString();
-          
-          // Debug log mismatches
-          if (fiscalYear && !matches) {
-            console.log(`  ⚠️ Filter mismatch - Client: "${clientName}", Record Year: "${fiscalYear}", Filter Year: "${year}"`);
-          }
           
           return matches;
         }
@@ -2362,7 +2400,7 @@ class DataProcessor {
       }
     });
     
-    console.log(`🔍 filterRecordsByYear: Filtered ${filtered.length} records for year ${year} from ${recordsArray.length} total records`);
+    console.log(`   ✅ Filtered result: ${filtered.length} records for year ${year}\n`);
     return filtered;
   }
 }
@@ -2511,7 +2549,30 @@ class ApiService {
       }
     }
 
-    console.log(`Total records collected from all batches: ${allRecords.length}`);
+    // Summary: Verify that all records match the requested year
+    const yearCheck = {};
+    allRecords.forEach((record) => {
+      const recordYear = record.querySelector("fiscal_ye_date_formatted_year_text")?.textContent?.trim();
+      const clientName = record.querySelector("pe___client_informal_name")?.textContent || "Unknown";
+      
+      if (!yearCheck[recordYear]) {
+        yearCheck[recordYear] = [];
+      }
+      yearCheck[recordYear].push(clientName);
+    });
+    
+    console.log(`\n📈 fetchPeerDataInBatches Summary for year ${year}:`);
+    console.log(`   Total records collected: ${allRecords.length}`);
+    Object.keys(yearCheck).sort().forEach((yr) => {
+      const uniqueClients = new Set(yearCheck[yr]);
+      console.log(`   Records with year "${yr}": ${yearCheck[yr].length} (${yr === year.toString() ? '✅' : '❌ WRONG YEAR'}) - ${uniqueClients.size} unique clients`);
+      if (yr !== year.toString()) {
+        console.log(`      ⚠️ WARNING: Found ${yearCheck[yr].length} records with year "${yr}" when querying for year "${year}"!`);
+        console.log(`      Clients: ${Array.from(uniqueClients).slice(0, 10).join(", ")}${uniqueClients.size > 10 ? '...' : ''}`);
+      }
+    });
+    console.log(``);
+    
     return allRecords;
   }
 
