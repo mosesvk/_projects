@@ -512,38 +512,12 @@ class ChartManager {
     
     chart.render();
 
-    // Prevent scroll capture on chart elements
-    this._preventScrollCapture(chartId);
-
     // Add event listener for dark mode changes
     document.addEventListener("dark-mode", function () {
       chart.updateOptions(config);
     });
 
     return chart;
-  }
-
-  /**
-   * Prevent scroll capture on chart elements to allow page scrolling
-   * Ensures that scrolling works even when hovering over chart SVG elements
-   * @param {string} chartId - The ID of the chart element
-   */
-  _preventScrollCapture(chartId) {
-    const chartElement = document.getElementById(chartId);
-    if (!chartElement) return;
-
-    // Wait for chart to render, then apply scroll-prevention styles
-    setTimeout(() => {
-      // Apply touch-action to the chart container for touch devices
-      chartElement.style.touchAction = 'pan-y';
-      
-      // Find all SVG elements within the chart and apply touch-action
-      const svgElements = chartElement.querySelectorAll('svg');
-      svgElements.forEach(svg => {
-        // Set touch-action to allow vertical scrolling on touch devices
-        svg.style.touchAction = 'pan-y';
-      });
-    }, 100);
   }
 
   // Get a chart instance by ID

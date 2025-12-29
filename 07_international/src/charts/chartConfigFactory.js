@@ -455,6 +455,9 @@ class ChartConfigFactory {
         height: 550,
         type: "line",
         stacked: false,
+        zoom: {
+          enabled: false,
+        },
         padding: {
           bottom: 20,
         },
@@ -1075,6 +1078,9 @@ class ChartConfigFactory {
       chart: {
         type: "bar",
         height: 550,
+        zoom: {
+          enabled: false,
+        },
         // Add numType to chart's global state
         events: {
           mounted: function(chart) {
@@ -1330,6 +1336,9 @@ class ChartConfigFactory {
           height: 550,
           type: "bar",
           stacked: true,
+          zoom: {
+            enabled: false,
+          },
           // Add numType to chart's global state
           events: {
             mounted: function(chart) {
@@ -1605,6 +1614,9 @@ class ChartConfigFactory {
         height: 550,
         type: "line",
         stacked: false,
+        zoom: {
+          enabled: false,
+        },
         events: {
           mounted: function(chart) {
             // Store axis values in chart's global state
@@ -1895,6 +1907,9 @@ class ChartConfigFactory {
       chart: {
         height: 550,
         type: "bar",
+        zoom: {
+          enabled: false,
+        },
         // Add numType to chart's global state
         events: {
           mounted: function(chart) {
