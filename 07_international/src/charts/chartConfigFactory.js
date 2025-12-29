@@ -2180,8 +2180,8 @@ class ChartConfigFactory {
       // Round to nearest 100,000
       roundedValue = Math.round(absValue / 100000) * 100000;
     } else if (absValue < 100000000) {
-      // Round to nearest 1,000,000
-      roundedValue = Math.round(absValue / 1000000) * 1000000;
+      // Round to nearest 100,000 (0.1M) for values >= 10M to preserve decimal precision
+      roundedValue = Math.round(absValue / 100000) * 100000;
     } else {
       // For larger values, round to nearest 10,000,000
       roundedValue = Math.round(absValue / 10000000) * 10000000;
