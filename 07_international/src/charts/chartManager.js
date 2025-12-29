@@ -646,7 +646,6 @@ class ChartManager {
       }
     });
     
-    // console.log("Chart numType fixing complete");
   }
 
   // Destroy all charts (cleanup)
