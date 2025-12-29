@@ -642,7 +642,6 @@ class ChartManager {
       const chart = this.getChart(chartId);
       if (chart && chart.w && chart.w.globals) {
         chart.w.globals.numType = 'percent';
-        // console.log(`Fixed ${chartId} to percent`);
       }
     });
     
