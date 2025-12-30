@@ -831,12 +831,13 @@ class ChartConfigFactory {
       };
     }
 
-    // Special case for assetsWithoutPpeToLiabilitiesWithoutDebt chart
+    // Special case for assetsWithoutPpeToLiabilitiesWithoutDebt chart - ensure evenly spaced, clean ticks
     if (mainName === "assetsWithoutPpeToLiabilitiesWithoutDebt") {
-      // Use the same formatter but ensure integers are displayed
+      const niceTicks = this._calculateNiceYAxisTicks(minValue, maxValue, 5);
       yAxisConfig = {
-        min: minValue,
-        max: maxValue,
+        min: niceTicks.min,
+        max: niceTicks.max,
+        tickAmount: niceTicks.tickAmount,
         labels: {
           formatter: function(val) {
             // For this special chart, always use integer values
