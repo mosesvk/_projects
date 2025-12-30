@@ -1632,13 +1632,14 @@ class ChartConfigFactory {
                 const numCategories = chart.w.globals.categoryLabels ? chart.w.globals.categoryLabels.length : 0;
                 
                 allLabels.forEach((label, index) => {
+                  // Make ALL labels visible - don't skip any
                   label.style.visibility = 'visible';
                   label.style.display = '';
                   label.style.opacity = '1';
                   label.style.pointerEvents = 'auto';
                   
-                  // Specifically handle first bar label (series 0, first data point, index 0)
-                  // When there are 2-3 years, this label needs special handling
+                  // Specifically handle first bar label (series 0, first data point)
+                  // Only adjust position for the very first label when 2-3 years selected
                   if (index === 0 && (numCategories === 2 || numCategories === 3)) {
                     label.style.zIndex = '10';
                     // Get the transform to check if label is positioned correctly
@@ -1655,6 +1656,9 @@ class ChartConfigFactory {
                         }
                       }
                     }
+                  } else {
+                    // For all other labels, ensure they're visible but don't adjust position
+                    label.style.zIndex = '1';
                   }
                 });
               }
@@ -1690,13 +1694,17 @@ class ChartConfigFactory {
                 }
                 
                 const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
+                const numCategories = chart.w.globals.categoryLabels ? chart.w.globals.categoryLabels.length : 0;
+                
                 allLabels.forEach((label, index) => {
+                  // Make ALL labels visible - don't skip any
                   label.style.visibility = 'visible';
                   label.style.display = '';
                   label.style.opacity = '1';
+                  label.style.pointerEvents = 'auto';
                   
-                  // Specifically handle first bar label
-                  if (index === 0) {
+                  // Specifically handle first bar label only
+                  if (index === 0 && (numCategories === 2 || numCategories === 3)) {
                     label.style.zIndex = '10';
                     const transform = label.getAttribute('transform');
                     if (transform) {
@@ -1704,11 +1712,16 @@ class ChartConfigFactory {
                       if (match) {
                         const x = parseFloat(match[1]);
                         const y = parseFloat(match[2]);
-                        if (x < 20) {
-                          label.setAttribute('transform', `translate(${Math.max(20, x + 10)},${y})`);
+                        // If label is too far left or negative, shift it significantly right
+                        if (x < 30) {
+                          const newX = Math.max(30, x + 20);
+                          label.setAttribute('transform', `translate(${newX},${y})`);
                         }
                       }
                     }
+                  } else {
+                    // For all other labels, ensure they're visible but don't adjust position
+                    label.style.zIndex = '1';
                   }
                 });
               }
@@ -1731,7 +1744,7 @@ class ChartConfigFactory {
             position: 'top',
             hideOverflowingLabels: false, // CRITICAL: Don't hide labels
             offsetX: function({ seriesIndex, dataPointIndex, w }) {
-              // Adjust horizontal position for first bar (series 0, dataPointIndex 0)
+              // Adjust horizontal position for first bar (series 0, dataPointIndex 0) ONLY
               // to prevent clipping when 2-3 years are selected
               if (seriesIndex === 0 && dataPointIndex === 0) {
                 // Check how many categories/years there are
@@ -1742,6 +1755,7 @@ class ChartConfigFactory {
                 }
                 return 10;
               }
+              // For all other labels, return 0 to keep them centered
               return 0;
             },
           },
@@ -1752,7 +1766,7 @@ class ChartConfigFactory {
         enabledOnSeries: [0, 1, 2, 3], // Explicitly enable on all series
         offsetY: -20,
         offsetX: function({ seriesIndex, dataPointIndex, w }) {
-          // Adjust horizontal position for first bar (series 0, dataPointIndex 0)
+          // Adjust horizontal position for first bar (series 0, dataPointIndex 0) ONLY
           // to prevent clipping when 2-3 years are selected
           if (seriesIndex === 0 && dataPointIndex === 0) {
             // Check how many categories/years there are
@@ -1763,6 +1777,7 @@ class ChartConfigFactory {
             }
             return 10;
           }
+          // For all other labels, return 0 to keep them centered
           return 0;
         },
         hideOverflowingLabels: false, // CRITICAL: Don't hide labels
