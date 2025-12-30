@@ -1688,7 +1688,7 @@ class ChartConfigFactory {
         },
         padding: {
           bottom: 20,
-          top: 80, // Increased top padding to ensure data labels (especially first bar) aren't clipped when 2-3 years are selected
+          top: 100, // Significantly increased top padding to prevent any label clipping
           left: 30, // Increased left padding significantly to prevent first bar label from being cut off
           right: 30, // Increased right padding for symmetry
         },
@@ -1700,6 +1700,9 @@ class ChartConfigFactory {
             offsetX: 0, // Center labels horizontally on bars
             hideOverflowingLabels: false, // CRITICAL: Don't hide labels that might overflow
             enabled: true, // Explicitly enable labels for bars
+            dropShadow: {
+              enabled: false, // Disable drop shadow to prevent rendering issues
+            },
           },
           columnWidth: '60%', // Ensure consistent bar width across different year counts
           distributed: false, // Don't distribute bars - keep them grouped
@@ -1707,17 +1710,19 @@ class ChartConfigFactory {
       },
       dataLabels: {
         enabled: true,
+        enabledOnSeries: [0, 1, 2, 3], // Explicitly enable labels on all series (bars 0,1 and lines 2,3)
         offsetY: function({ seriesIndex, dataPointIndex, w }) {
           // Stagger bar labels vertically to prevent overlap when 2-3 years selected
+          // Larger gap between bar labels to prevent collision detection from hiding them
           if (seriesIndex === 0) {
-            // First bar series (Fundraising Expenses) - position higher
-            return -30;
+            // First bar series (Fundraising Expenses) - position much higher
+            return -45;
           } else if (seriesIndex === 1) {
             // Second bar series (Total Contributions) - position lower
-            return -10;
+            return -15;
           }
-          // Line series (2 and 3) - default position
-          return -20;
+          // Line series (2 and 3) - default position, higher to avoid bars
+          return -25;
         },
         offsetX: 0, // Ensure labels are centered horizontally
         hideOverflowingLabels: false, // CRITICAL: Don't hide labels due to overflow
@@ -1893,7 +1898,7 @@ class ChartConfigFactory {
           bottom: 20,
           left: 30, // Add left padding to grid to prevent first bar label clipping
           right: 30, // Add right padding for symmetry
-          top: 20, // Add top padding for labels
+          top: 40, // Significantly increased top padding for labels to prevent clipping
         },
         xaxis: {
           lines: {
