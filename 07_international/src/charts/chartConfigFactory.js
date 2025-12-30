@@ -1635,8 +1635,8 @@ class ChartConfigFactory {
         },
         padding: {
           bottom: 20,
-          top: 60,
-          left: 10,
+          top: 70,
+          left: 40, // Increased to prevent first bar label clipping
           right: 10,
         },
       },
@@ -1644,12 +1644,14 @@ class ChartConfigFactory {
         bar: {
           dataLabels: {
             position: 'top',
+            hideOverflowingLabels: false, // CRITICAL: Don't hide labels
           },
         }
       },
       dataLabels: {
         enabled: true,
         offsetY: -20,
+        hideOverflowingLabels: false, // CRITICAL: Don't hide labels
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -1657,12 +1659,18 @@ class ChartConfigFactory {
           colors: seriesColors,
         },
         formatter: function(value, { seriesIndex }) {
-          if (value === null || value === undefined) {
-            return "";
-          }
-          
-          if (value === 0) {
-            return "$0";
+          // Always return a value for bar series to ensure labels show
+          if (seriesIndex === 0 || seriesIndex === 1) {
+            if (value === null || value === undefined || value === 0) {
+              return "$0";
+            }
+          } else {
+            if (value === null || value === undefined) {
+              return "";
+            }
+            if (value === 0) {
+              return "$0";
+            }
           }
           
           const isNegative = value < 0;

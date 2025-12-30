@@ -241,16 +241,16 @@ function restoreCompleteChartState(chart, originalState) {
 
     // For costOfContributions chart, use the saved y-axis configuration
     if (chartType === "costOfContributions" || chartId === "costOfContributionsDetailView_chart") {
-      // Clone the yaxis array and add forceNiceScale: false to prevent recalculation
-      const yaxisClone = originalState.chartConfig.yaxis.map(axis => ({
-        ...axis,
-        forceNiceScale: false, // Prevent ApexCharts from recalculating ticks
-      }));
-      
-      // Use the EXACT original y-axis configuration - don't modify anything else
+      // Restore EXACT y-axis configuration with min, max, and tickAmount preserved
       restoredConfig = {
         ...originalState.chartConfig,
-        yaxis: yaxisClone,
+        yaxis: originalState.chartConfig.yaxis.map(axis => ({
+          ...axis,
+          min: axis.min, // Explicitly preserve min
+          max: axis.max, // Explicitly preserve max
+          tickAmount: axis.tickAmount, // Explicitly preserve tickAmount
+          forceNiceScale: false, // Prevent ApexCharts from recalculating ticks
+        })),
       };
     } else {
       // Use existing restoration logic for other chart types
@@ -534,17 +534,17 @@ async function exportApexChart(chart, chartId) {
     // Handle each chart type specifically
     if (chartId === "costOfContributionsDetailView_chart") {
       // Cost of contributions chart - Use EXACT original yaxis configuration
-      // Don't modify anything, just use it as-is to preserve y-axis appearance
+      // Preserve min, max, and tickAmount exactly to maintain y-axis appearance
       if (Array.isArray(originalState.chartConfig.yaxis)) {
-        // Clone the yaxis array and add forceNiceScale: false to prevent recalculation
-        const yaxisClone = originalState.chartConfig.yaxis.map(axis => ({
-          ...axis,
-          forceNiceScale: false, // Prevent ApexCharts from recalculating ticks
-        }));
-        
         exportOptions = {
           ...baseExportOptions,
-          yaxis: yaxisClone,
+          yaxis: originalState.chartConfig.yaxis.map(axis => ({
+            ...axis,
+            min: axis.min, // Explicitly preserve min
+            max: axis.max, // Explicitly preserve max
+            tickAmount: axis.tickAmount, // Explicitly preserve tickAmount
+            forceNiceScale: false, // Prevent ApexCharts from recalculating ticks
+          })),
         };
 
         console.log("export ApexChart CHARTTYPE==costOfContributions", {
