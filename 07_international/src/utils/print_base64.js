@@ -236,7 +236,7 @@ function restoreCompleteChartState(chart, originalState) {
     }
 
     // For costOfContributions chart, use the saved y-axis configuration
-    if (chartType === "costOfContributions") {
+    if (chartType === "costOfContributions" || chartId === "costOfContributionsDetailView_chart") {
       // First, get the original y-axis configuration
       const originalYAxis = originalState.chartConfig.yaxis;
 
@@ -248,9 +248,12 @@ function restoreCompleteChartState(chart, originalState) {
       restoredConfig = {
         ...originalState.chartConfig,
         yaxis: [
-          // First y-axis (dollar values)
+          // First y-axis (dollar values) - preserve tickAmount for even spacing
           {
             ...originalYAxis[0],
+            min: originalYAxis[0]?.min,
+            max: originalYAxis[0]?.max,
+            tickAmount: originalYAxis[0]?.tickAmount || 5,
             labels: {
               ...originalYAxis[0].labels,
               formatter: function (value) {
@@ -286,13 +289,19 @@ function restoreCompleteChartState(chart, originalState) {
               },
             },
           },
-          // Second y-axis (hidden)
+          // Second y-axis (hidden) - preserve tickAmount
           {
             ...originalYAxis[1],
+            min: originalYAxis[1]?.min,
+            max: originalYAxis[1]?.max,
+            tickAmount: originalYAxis[1]?.tickAmount || 5,
           },
-          // Third y-axis (ratio values)
+          // Third y-axis (ratio values) - preserve tickAmount for even spacing
           {
             ...originalYAxis[2],
+            min: originalYAxis[2]?.min,
+            max: originalYAxis[2]?.max,
+            tickAmount: originalYAxis[2]?.tickAmount || 5,
             labels: {
               ...originalYAxis[2].labels,
               formatter: function (value) {
@@ -333,9 +342,12 @@ function restoreCompleteChartState(chart, originalState) {
               },
             },
           },
-          // Fourth y-axis (hidden)
+          // Fourth y-axis (hidden) - preserve tickAmount
           {
             ...originalYAxis[3],
+            min: originalYAxis[3]?.min,
+            max: originalYAxis[3]?.max,
+            tickAmount: originalYAxis[3]?.tickAmount || 5,
           },
         ],
       };
@@ -630,9 +642,12 @@ async function exportApexChart(chart, chartId) {
         exportOptions = {
           ...baseExportOptions,
           yaxis: [
-            // First y-axis (dollar values)
+            // First y-axis (dollar values) - preserve tickAmount for even spacing
             {
               ...originalState.chartConfig.yaxis[0],
+              min: originalState.chartConfig.yaxis[0]?.min,
+              max: originalState.chartConfig.yaxis[0]?.max,
+              tickAmount: originalState.chartConfig.yaxis[0]?.tickAmount || 5,
               labels: {
                 ...originalState.chartConfig.yaxis[0].labels,
                 formatter: function (value) {
@@ -662,13 +677,19 @@ async function exportApexChart(chart, chartId) {
                 },
               },
             },
-            // Second y-axis (hidden)
+            // Second y-axis (hidden) - preserve tickAmount
             {
               ...originalState.chartConfig.yaxis[1],
+              min: originalState.chartConfig.yaxis[1]?.min,
+              max: originalState.chartConfig.yaxis[1]?.max,
+              tickAmount: originalState.chartConfig.yaxis[1]?.tickAmount || 5,
             },
-            // Third y-axis (ratio values)
+            // Third y-axis (ratio values) - preserve tickAmount for even spacing
             {
               ...originalState.chartConfig.yaxis[2],
+              min: originalState.chartConfig.yaxis[2]?.min,
+              max: originalState.chartConfig.yaxis[2]?.max,
+              tickAmount: originalState.chartConfig.yaxis[2]?.tickAmount || 5,
               labels: {
                 ...originalState.chartConfig.yaxis[2].labels,
                 formatter: function (value) {
@@ -728,9 +749,12 @@ async function exportApexChart(chart, chartId) {
                   "#3a464f",
               },
             },
-            // Fourth y-axis (hidden)
+            // Fourth y-axis (hidden) - preserve tickAmount
             {
               ...originalState.chartConfig.yaxis[3],
+              min: originalState.chartConfig.yaxis[3]?.min,
+              max: originalState.chartConfig.yaxis[3]?.max,
+              tickAmount: originalState.chartConfig.yaxis[3]?.tickAmount || 5,
             },
           ],
         };

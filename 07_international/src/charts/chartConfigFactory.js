@@ -1524,57 +1524,46 @@ class ChartConfigFactory {
       costOfContributionsPeer = selectedYearsArray.map(() => 0);
     }
 
-    // Calculate dynamic axis limits with improved precision
+    // Calculate dynamic axis limits with evenly spaced ticks
     const allDollarValues = [
       ...fundraisingExpensesData,
       ...totalContributionsData,
     ].filter((v) => !isNaN(v) && v !== null);
 
-    // Improved function to calculate y-axis max with better precision
-    const calculateYAxisMax = (values) => {
-      if (!values || values.length === 0) return 1000000;
-
-      const maxVal = Math.max(...values) * 1.2; // Add 20% headroom
-
-      // For values under 100,000, use more precise increments
-      if (maxVal < 100000) {
-        // Round to nearest 10,000
-        return Math.ceil(maxVal / 10000) * 10000;
-      } else if (maxVal < 500000) {
-        // Round to nearest 50,000
-        return Math.ceil(maxVal / 50000) * 50000;
-      } else if (maxVal < 1000000) {
-        // Round to nearest 100,000
-        return Math.ceil(maxVal / 100000) * 100000;
-      } else {
-        // For very large values, round to nearest 500,000
-        return Math.ceil(maxVal / 500000) * 500000;
-      }
-    };
-
-    const safeMinDollarValue = 0;
-    const safeMaxDollarValue = calculateYAxisMax(allDollarValues);
+    // Use the nice y-axis ticks calculation for clean, evenly spaced intervals
+    const minDollarValue = allDollarValues.length > 0 ? Math.min(0, Math.min(...allDollarValues)) : 0;
+    const maxDollarValue = allDollarValues.length > 0 ? Math.max(...allDollarValues) : 1000000;
+    const dollarAxisTicks = this._calculateNiceYAxisTicks(minDollarValue, maxDollarValue, 5);
+    
+    const safeMinDollarValue = dollarAxisTicks.min;
+    const safeMaxDollarValue = dollarAxisTicks.max;
+    const dollarTickAmount = dollarAxisTicks.tickAmount;
 
     const allRatioValues = [
       ...costOfContributionsClient,
       ...costOfContributionsPeer,
     ].filter((v) => !isNaN(v) && v !== null);
 
-    // Improved ratio value calculation
-    const safeMinRatioValue = 0;
-    const safeMaxRatioValue = allRatioValues.length > 0 
-      ? Math.ceil(Math.max(...allRatioValues) * 1.2 * 100) / 100 // Round to 2 decimal places
-      : 0.3;
+    // Use nice y-axis ticks calculation for clean, evenly spaced ratio intervals
+    const minRatioValue = allRatioValues.length > 0 ? Math.min(0, Math.min(...allRatioValues)) : 0;
+    const maxRatioValue = allRatioValues.length > 0 ? Math.max(...allRatioValues) : 0.1;
+    const ratioAxisTicks = this._calculateNiceYAxisTicks(minRatioValue, maxRatioValue, 5);
+    
+    const safeMinRatioValue = ratioAxisTicks.min;
+    const safeMaxRatioValue = ratioAxisTicks.max;
+    const ratioTickAmount = ratioAxisTicks.tickAmount;
 
-    // Store axis values in chart's global state for persistence
+    // Store axis values in chart's global state for persistence (including tickAmount for proper restoration)
     const axisValues = {
       dollarAxis: {
         min: safeMinDollarValue,
-        max: safeMaxDollarValue
+        max: safeMaxDollarValue,
+        tickAmount: dollarTickAmount
       },
       ratioAxis: {
         min: safeMinRatioValue,
-        max: safeMaxRatioValue
+        max: safeMaxRatioValue,
+        tickAmount: ratioTickAmount
       }
     };
 
@@ -1627,15 +1616,15 @@ class ChartConfigFactory {
             chart.w.globals.numType = numType;
           },
           updated: function(chart) {
-            // Restore axis values when chart is updated
+            // Restore axis values when chart is updated (important for print/base64 export restoration)
             if (chart.w.globals.axisValues) {
               const { dollarAxis, ratioAxis } = chart.w.globals.axisValues;
               chart.updateOptions({
                 yaxis: [
-                  { ...chart.w.config.yaxis[0], min: dollarAxis.min, max: dollarAxis.max },
-                  { ...chart.w.config.yaxis[1], min: dollarAxis.min, max: dollarAxis.max },
-                  { ...chart.w.config.yaxis[2], min: ratioAxis.min, max: ratioAxis.max },
-                  { ...chart.w.config.yaxis[3], min: ratioAxis.min, max: ratioAxis.max }
+                  { ...chart.w.config.yaxis[0], min: dollarAxis.min, max: dollarAxis.max, tickAmount: dollarAxis.tickAmount },
+                  { ...chart.w.config.yaxis[1], min: dollarAxis.min, max: dollarAxis.max, tickAmount: dollarAxis.tickAmount },
+                  { ...chart.w.config.yaxis[2], min: ratioAxis.min, max: ratioAxis.max, tickAmount: ratioAxis.tickAmount },
+                  { ...chart.w.config.yaxis[3], min: ratioAxis.min, max: ratioAxis.max, tickAmount: ratioAxis.tickAmount }
                 ]
               });
             }
@@ -1646,13 +1635,39 @@ class ChartConfigFactory {
         },
         padding: {
           bottom: 20,
+          top: 80, // Increased top padding to ensure data labels (especially first bar) aren't clipped when 2-3 years are selected
+          left: 10, // Add left padding to prevent first bar label from being cut off
+          right: 10, // Add right padding for symmetry
         },
+      },
+      plotOptions: {
+        bar: {
+          dataLabels: {
+            position: 'top',
+          },
+          columnWidth: '60%', // Ensure consistent bar width across different year counts
+        }
       },
       dataLabels: {
         enabled: true,
+        // Enable labels on all series (bars and lines)
         offsetY: -20,
-        formatter: function(value, { seriesIndex }) {
-          if (!value && value !== 0) return "$0";
+        style: {
+          fontSize: "14px",
+          fontFamily: "Helvetica, Arial, sans-serif",
+          fontWeight: "bold",
+          colors: seriesColors,
+        },
+        formatter: function(value, { seriesIndex, dataPointIndex }) {
+          // Always return a label value, even for very small values
+          if (value === null || value === undefined) {
+            return "";
+          }
+          
+          // Always show label even for 0 values
+          if (value === 0) {
+            return "$0";
+          }
           
           const isNegative = value < 0;
           const absValue = Math.abs(value);
@@ -1671,12 +1686,6 @@ class ChartConfigFactory {
           
           // Add dollar sign to all data points
           return `${isNegative ? "-" : ""}$${formattedValue}`;
-        },
-        style: {
-          fontSize: "14px",
-          fontFamily: "Helvetica, Arial, sans-serif",
-          fontWeight: "bold",
-          colors: seriesColors,
         },
         background: {
           padding: 4,
@@ -1741,13 +1750,13 @@ class ChartConfigFactory {
           },
           min: safeMinDollarValue,
           max: safeMaxDollarValue,
-          tickAmount: 5,
+          tickAmount: dollarTickAmount,
         },
         {
           show: false,
           min: safeMinDollarValue,
           max: safeMaxDollarValue,
-          tickAmount: 5
+          tickAmount: dollarTickAmount
         },
         {
           labels: {
@@ -1767,13 +1776,13 @@ class ChartConfigFactory {
           opposite: true,
           min: safeMinRatioValue,
           max: safeMaxRatioValue,
-          tickAmount: 5
+          tickAmount: ratioTickAmount
         },
         {
           show: false,
           min: safeMinRatioValue,
           max: safeMaxRatioValue,
-          tickAmount: 5
+          tickAmount: ratioTickAmount
         }
       ],
       tooltip: {
