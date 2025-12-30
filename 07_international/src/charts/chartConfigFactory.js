@@ -1614,6 +1614,33 @@ class ChartConfigFactory {
             // Store axis values in chart's global state
             chart.w.globals.axisValues = axisValues;
             chart.w.globals.numType = numType;
+            
+            // Force all data labels to be visible after chart renders
+            // This is critical for ensuring first bar labels show when 2-3 years selected
+            setTimeout(() => {
+              if (chart.w && chart.w.globals && chart.w.globals.dom) {
+                // Remove clipping from data labels container
+                const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
+                if (dataLabelsEl) {
+                  dataLabelsEl.style.overflow = 'visible';
+                  dataLabelsEl.style.clipPath = 'none';
+                  dataLabelsEl.style.clip = 'auto';
+                }
+                
+                // Force all label elements to be visible
+                const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
+                allLabels.forEach((label, index) => {
+                  label.style.visibility = 'visible';
+                  label.style.display = '';
+                  label.style.opacity = '1';
+                  label.style.pointerEvents = 'auto';
+                  // Ensure first bar label (series 0, index 0) is especially visible
+                  if (index === 0) {
+                    label.style.zIndex = '10';
+                  }
+                });
+              }
+            }, 300);
           },
           updated: function(chart) {
             // Restore axis values when chart is updated (important for print/base64 export restoration)
@@ -1628,6 +1655,28 @@ class ChartConfigFactory {
                 ]
               });
             }
+            
+            // Re-apply label visibility fix after update
+            setTimeout(() => {
+              if (chart.w && chart.w.globals && chart.w.globals.dom) {
+                const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
+                if (dataLabelsEl) {
+                  dataLabelsEl.style.overflow = 'visible';
+                  dataLabelsEl.style.clipPath = 'none';
+                  dataLabelsEl.style.clip = 'auto';
+                }
+                
+                const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
+                allLabels.forEach((label, index) => {
+                  label.style.visibility = 'visible';
+                  label.style.display = '';
+                  label.style.opacity = '1';
+                  if (index === 0) {
+                    label.style.zIndex = '10';
+                  }
+                });
+              }
+            }, 300);
           }
         },
         toolbar: {
@@ -1635,8 +1684,8 @@ class ChartConfigFactory {
         },
         padding: {
           bottom: 20,
-          top: 70,
-          left: 40, // Increased to prevent first bar label clipping
+          top: 80,
+          left: 50, // Significantly increased to prevent first bar label clipping
           right: 10,
         },
       },
@@ -1650,6 +1699,7 @@ class ChartConfigFactory {
       },
       dataLabels: {
         enabled: true,
+        enabledOnSeries: [0, 1, 2, 3], // Explicitly enable on all series
         offsetY: -20,
         hideOverflowingLabels: false, // CRITICAL: Don't hide labels
         style: {
@@ -1658,36 +1708,57 @@ class ChartConfigFactory {
           fontWeight: "bold",
           colors: seriesColors,
         },
-        formatter: function(value, { seriesIndex }) {
-          // Always return a value for bar series to ensure labels show
+        formatter: function(value, { seriesIndex, dataPointIndex }) {
+          // For bar series, ALWAYS return a formatted value - never empty string
           if (seriesIndex === 0 || seriesIndex === 1) {
-            if (value === null || value === undefined || value === 0) {
+            // Bar series - always show label
+            if (value === null || value === undefined) {
               return "$0";
             }
+            if (value === 0) {
+              return "$0";
+            }
+            
+            const isNegative = value < 0;
+            const absValue = Math.abs(value);
+            
+            let formattedValue;
+            if (absValue >= 1000000) {
+              const millions = absValue / 1000000;
+              const isWholeNumber = millions === Math.floor(millions);
+              formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
+            } else if (absValue >= 1000) {
+              formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+            } else {
+              formattedValue = absValue.toFixed(2);
+            }
+            
+            return `${isNegative ? "-" : ""}$${formattedValue}`;
           } else {
+            // Line series
             if (value === null || value === undefined) {
               return "";
             }
             if (value === 0) {
               return "$0";
             }
+            
+            const isNegative = value < 0;
+            const absValue = Math.abs(value);
+            
+            let formattedValue;
+            if (absValue >= 1000000) {
+              const millions = absValue / 1000000;
+              const isWholeNumber = millions === Math.floor(millions);
+              formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
+            } else if (absValue >= 1000) {
+              formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+            } else {
+              formattedValue = absValue.toFixed(2);
+            }
+            
+            return `${isNegative ? "-" : ""}$${formattedValue}`;
           }
-          
-          const isNegative = value < 0;
-          const absValue = Math.abs(value);
-          
-          let formattedValue;
-          if (absValue >= 1000000) {
-            const millions = absValue / 1000000;
-            const isWholeNumber = millions === Math.floor(millions);
-            formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
-          } else if (absValue >= 1000) {
-            formattedValue = `${(absValue / 1000).toFixed(0)}K`;
-          } else {
-            formattedValue = absValue.toFixed(2);
-          }
-          
-          return `${isNegative ? "-" : ""}$${formattedValue}`;
         },
         background: {
           padding: 4,
@@ -2029,6 +2100,8 @@ class ChartConfigFactory {
       grid: {
         padding: {
           bottom: 20,
+          left: 50, // Match chart padding to prevent label clipping
+          top: 20, // Add top padding for labels
         },
       },
       toolbar: {
