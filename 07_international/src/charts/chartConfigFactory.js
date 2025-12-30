@@ -1698,16 +1698,29 @@ class ChartConfigFactory {
           dataLabels: {
             position: 'top',
             offsetX: 0, // Center labels horizontally on bars
-            hideOverflowingLabels: false, // Don't hide labels that might overflow
+            hideOverflowingLabels: false, // CRITICAL: Don't hide labels that might overflow
+            enabled: true, // Explicitly enable labels for bars
           },
           columnWidth: '60%', // Ensure consistent bar width across different year counts
+          distributed: false, // Don't distribute bars - keep them grouped
         }
       },
       dataLabels: {
         enabled: true,
-        // Enable labels on all series (bars and lines)
-        offsetY: -20,
+        offsetY: function({ seriesIndex, dataPointIndex, w }) {
+          // Stagger bar labels vertically to prevent overlap when 2-3 years selected
+          if (seriesIndex === 0) {
+            // First bar series (Fundraising Expenses) - position higher
+            return -30;
+          } else if (seriesIndex === 1) {
+            // Second bar series (Total Contributions) - position lower
+            return -10;
+          }
+          // Line series (2 and 3) - default position
+          return -20;
+        },
         offsetX: 0, // Ensure labels are centered horizontally
+        hideOverflowingLabels: false, // CRITICAL: Don't hide labels due to overflow
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -1715,12 +1728,14 @@ class ChartConfigFactory {
           colors: seriesColors,
         },
         formatter: function(value, { seriesIndex, dataPointIndex, w }) {
-          // Always return a label value, even for very small values
+          // For bar series (0 and 1), always return a label value
+          const isBarSeries = seriesIndex === 0 || seriesIndex === 1;
+          
           if (value === null || value === undefined) {
-            return "";
+            return isBarSeries ? "$0" : ""; // Always show something for bars
           }
           
-          // Always show label even for 0 values
+          // Always show label even for 0 values, especially for bars
           if (value === 0) {
             return "$0";
           }
