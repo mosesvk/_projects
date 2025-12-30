@@ -241,119 +241,16 @@ function restoreCompleteChartState(chart, originalState) {
 
     // For costOfContributions chart, use the saved y-axis configuration
     if (chartType === "costOfContributions" || chartId === "costOfContributionsDetailView_chart") {
-      // First, get the original y-axis configuration
-      const originalYAxis = originalState.chartConfig.yaxis;
-
-      // console.log("CHARTTYPE==costOfContributions", {
-      //   originalState,
-      //   originalYAxis,
-      // });
-
+      // Clone the yaxis array and add forceNiceScale: false to prevent recalculation
+      const yaxisClone = originalState.chartConfig.yaxis.map(axis => ({
+        ...axis,
+        forceNiceScale: false, // Prevent ApexCharts from recalculating ticks
+      }));
+      
+      // Use the EXACT original y-axis configuration - don't modify anything else
       restoredConfig = {
         ...originalState.chartConfig,
-        yaxis: [
-          // First y-axis (dollar values) - use EXACT values from original chart
-          {
-            ...originalYAxis[0],
-            min: originalYAxis[0]?.min,
-            max: originalYAxis[0]?.max,
-            tickAmount: originalYAxis[0]?.tickAmount, // Use exact value, no fallback
-            labels: {
-              ...originalYAxis[0].labels,
-              formatter: function (value) {
-                if (value === null || value === undefined || value === 0) {
-                  if (numType === "dollar") return "$0";
-                  if (numType === "percent") return "0%";
-                  return "0";
-                }
-
-                const isNegative = value < 0;
-                const absValue = Math.abs(value);
-
-                let formattedValue;
-                if (absValue >= 1000000) {
-                  // Remove decimal point for millions
-                  const millions = absValue / 1000000;
-                  formattedValue = `${Math.round(millions)}M`;
-                } else if (absValue >= 1000) {
-                  formattedValue = `${Math.round(absValue / 1000)}K`;
-                } else if (absValue < 1 && absValue > 0) {
-                  formattedValue = absValue.toFixed(2);
-                } else {
-                  formattedValue = Math.round(absValue).toString();
-                }
-
-                // Apply appropriate symbol based on numType
-                if (numType === "dollar") {
-                  return `${isNegative ? "-" : ""}$${formattedValue}`;
-                } else if (numType === "percent") {
-                  return `${isNegative ? "-" : ""}${formattedValue}%`;
-                }
-                return `${isNegative ? "-" : ""}${formattedValue}`;
-              },
-            },
-          },
-          // Second y-axis (hidden) - use EXACT values from original chart
-          {
-            ...originalYAxis[1],
-            min: originalYAxis[1]?.min,
-            max: originalYAxis[1]?.max,
-            tickAmount: originalYAxis[1]?.tickAmount, // Use exact value, no fallback
-          },
-          // Third y-axis (ratio values) - use EXACT values from original chart
-          {
-            ...originalYAxis[2],
-            min: originalYAxis[2]?.min,
-            max: originalYAxis[2]?.max,
-            tickAmount: originalYAxis[2]?.tickAmount, // Use exact value, no fallback
-            labels: {
-              ...originalYAxis[2].labels,
-              formatter: function (value) {
-                if (value === null || value === undefined || value === 0) {
-                  if (numType === "dollar") return "$0";
-                  if (numType === "percent") return "0%";
-                  return "0";
-                }
-
-                const isNegative = value < 0;
-                const absValue = Math.abs(value);
-
-                let formattedValue;
-                if (absValue >= 1000000) {
-                  // Remove decimal point for millions
-                  const millions = absValue / 1000000;
-                  formattedValue = `${Math.round(millions)}M`;
-                } else if (absValue >= 1000) {
-                  formattedValue = `${Math.round(absValue / 1000)}K`;
-                } else if (absValue < 1 && absValue > 0) {
-                  formattedValue = absValue.toFixed(2);
-                } else {
-                  formattedValue = Math.round(absValue).toString();
-                }
-
-                // Apply appropriate symbol based on numType
-                if (numType === "dollar") {
-                  return `${isNegative ? "-" : ""}$${formattedValue}`;
-                } else if (numType === "percent") {
-                  return `${isNegative ? "-" : ""}${formattedValue}%`;
-                }
-                return `${isNegative ? "-" : ""}${formattedValue}`;
-              },
-              style: {
-                ...originalYAxis[2].labels?.style,
-                colors: originalYAxis[2]?.labels?.style?.colors || "#3a464f",
-                fontSize: "1.25rem",
-              },
-            },
-          },
-          // Fourth y-axis (hidden) - use EXACT values from original chart
-          {
-            ...originalYAxis[3],
-            min: originalYAxis[3]?.min,
-            max: originalYAxis[3]?.max,
-            tickAmount: originalYAxis[3]?.tickAmount, // Use exact value, no fallback
-          },
-        ],
+        yaxis: yaxisClone,
       };
     } else {
       // Use existing restoration logic for other chart types
@@ -636,133 +533,18 @@ async function exportApexChart(chart, chartId) {
 
     // Handle each chart type specifically
     if (chartId === "costOfContributionsDetailView_chart") {
-      // Cost of contributions chart - Handle multiple axes
+      // Cost of contributions chart - Use EXACT original yaxis configuration
+      // Don't modify anything, just use it as-is to preserve y-axis appearance
       if (Array.isArray(originalState.chartConfig.yaxis)) {
-        // Use the EXACT min, max, and tickAmount from the original chart configuration
-        // This ensures the y-axis looks identical after printing
-        const dollarMin = originalState.chartConfig.yaxis[0]?.min;
-        const dollarMax = originalState.chartConfig.yaxis[0]?.max;
-        const dollarTickAmount = originalState.chartConfig.yaxis[0]?.tickAmount;
+        // Clone the yaxis array and add forceNiceScale: false to prevent recalculation
+        const yaxisClone = originalState.chartConfig.yaxis.map(axis => ({
+          ...axis,
+          forceNiceScale: false, // Prevent ApexCharts from recalculating ticks
+        }));
         
-        const ratioMin = originalState.chartConfig.yaxis[2]?.min;
-        const ratioMax = originalState.chartConfig.yaxis[2]?.max;
-        const ratioTickAmount = originalState.chartConfig.yaxis[2]?.tickAmount;
-
         exportOptions = {
           ...baseExportOptions,
-          yaxis: [
-            // First y-axis (dollar values) - use EXACT values from original chart
-            {
-              ...originalState.chartConfig.yaxis[0],
-              min: dollarMin,
-              max: dollarMax,
-              tickAmount: dollarTickAmount,
-              labels: {
-                ...originalState.chartConfig.yaxis[0].labels,
-                formatter: function (value) {
-                  if (value === null || value === undefined || value === 0) {
-                    if (numType === "dollar") return "$0";
-                    if (numType === "percent") return "0%";
-                    return "0";
-                  }
-
-                  const isNegative = value < 0;
-                  const absValue = Math.abs(value);
-
-                  let formattedValue;
-                  if (absValue >= 1000000) {
-                    const millions = absValue / 1000000;
-                    const isWholeNumber = millions === Math.floor(millions);
-                    formattedValue = isWholeNumber
-                      ? `${Math.floor(millions)}M`
-                      : `${millions.toFixed(1)}M`;
-                  } else if (absValue >= 1000) {
-                    formattedValue = `${(absValue / 1000).toFixed(0)}K`;
-                  } else {
-                    formattedValue = absValue.toFixed(2);
-                  }
-
-                  return `${isNegative ? "-" : ""}$${formattedValue}`;
-                },
-              },
-            },
-            // Second y-axis (hidden) - use EXACT values from original chart
-            {
-              ...originalState.chartConfig.yaxis[1],
-              min: dollarMin,
-              max: dollarMax,
-              tickAmount: dollarTickAmount,
-            },
-            // Third y-axis (ratio values) - use EXACT values from original chart
-            {
-              ...originalState.chartConfig.yaxis[2],
-              min: ratioMin,
-              max: ratioMax,
-              tickAmount: ratioTickAmount,
-              show: true,
-              opposite: true,
-              labels: {
-                ...originalState.chartConfig.yaxis[2].labels,
-                formatter: function (value) {
-                  if (value === null || value === undefined || value === 0) {
-                    if (numType === "dollar") return "$0";
-                    if (numType === "percent") return "0%";
-                    return "0";
-                  }
-
-                  const isNegative = value < 0;
-                  const absValue = Math.abs(value);
-
-                  let formattedValue;
-                  if (absValue >= 1000000) {
-                    // Remove decimal point for millions
-                    const millions = absValue / 1000000;
-                    formattedValue = `${Math.round(millions)}M`;
-                  } else if (absValue >= 1000) {
-                    formattedValue = `${Math.round(absValue / 1000)}K`;
-                  } else if (absValue < 1 && absValue > 0) {
-                    formattedValue = absValue.toFixed(2);
-                  } else {
-                    formattedValue = Math.round(absValue).toString();
-                  }
-
-                  // Apply appropriate symbol based on numType
-                  if (numType === "dollar") {
-                    return `${isNegative ? "-" : ""}$${formattedValue}`;
-                  } else if (numType === "percent") {
-                    return `${isNegative ? "-" : ""}${formattedValue}%`;
-                  }
-                  return `${isNegative ? "-" : ""}${formattedValue}`;
-                },
-                style: {
-                  ...originalState.chartConfig.yaxis[2].labels?.style,
-                  colors:
-                    originalState.chartConfig.yaxis[2]?.labels?.style?.colors ||
-                    "#3a464f",
-                  fontSize: "1.25rem",
-                },
-              },
-              axisBorder: {
-                show: true,
-                color:
-                  originalState.chartConfig.yaxis[2]?.axisBorder?.color ||
-                  "#3a464f",
-              },
-              axisTicks: {
-                show: true,
-                color:
-                  originalState.chartConfig.yaxis[2]?.axisTicks?.color ||
-                  "#3a464f",
-              },
-            },
-            // Fourth y-axis (hidden) - use EXACT values from original chart
-            {
-              ...originalState.chartConfig.yaxis[3],
-              min: ratioMin,
-              max: ratioMax,
-              tickAmount: ratioTickAmount,
-            },
-          ],
+          yaxis: yaxisClone,
         };
 
         console.log("export ApexChart CHARTTYPE==costOfContributions", {
