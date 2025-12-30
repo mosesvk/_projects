@@ -1614,6 +1614,34 @@ class ChartConfigFactory {
             // Store axis values in chart's global state
             chart.w.globals.axisValues = axisValues;
             chart.w.globals.numType = numType;
+            
+            // Ensure all data labels are visible, especially for first bar when 2-3 years selected
+            // Force a redraw after chart renders to fix label clipping
+            setTimeout(() => {
+              if (chart.w && chart.w.globals && chart.w.globals.dom) {
+                // Remove any clipping or overflow restrictions on data labels
+                const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
+                if (dataLabelsEl) {
+                  dataLabelsEl.style.overflow = 'visible';
+                  dataLabelsEl.style.clipPath = 'none';
+                  dataLabelsEl.style.clip = 'auto';
+                }
+                
+                // Also ensure the main chart SVG doesn't clip
+                const svgEl = chart.w.globals.dom.baseEl.querySelector('svg');
+                if (svgEl) {
+                  svgEl.style.overflow = 'visible';
+                }
+                
+                // Force all label elements to be visible
+                const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
+                allLabels.forEach(label => {
+                  label.style.visibility = 'visible';
+                  label.style.display = '';
+                  label.style.opacity = '1';
+                });
+              }
+            }, 200);
           },
           updated: function(chart) {
             // Restore axis values when chart is updated (important for print/base64 export restoration)
@@ -1628,6 +1656,31 @@ class ChartConfigFactory {
                 ]
               });
             }
+            
+            // Re-enforce data labels visibility after update
+            setTimeout(() => {
+              if (chart.w && chart.w.globals && chart.w.globals.dom) {
+                const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
+                if (dataLabelsEl) {
+                  dataLabelsEl.style.overflow = 'visible';
+                  dataLabelsEl.style.clipPath = 'none';
+                  dataLabelsEl.style.clip = 'auto';
+                }
+                
+                const svgEl = chart.w.globals.dom.baseEl.querySelector('svg');
+                if (svgEl) {
+                  svgEl.style.overflow = 'visible';
+                }
+                
+                // Force all label elements to be visible
+                const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
+                allLabels.forEach(label => {
+                  label.style.visibility = 'visible';
+                  label.style.display = '';
+                  label.style.opacity = '1';
+                });
+              }
+            }, 200);
           }
         },
         toolbar: {
@@ -1636,14 +1689,16 @@ class ChartConfigFactory {
         padding: {
           bottom: 20,
           top: 80, // Increased top padding to ensure data labels (especially first bar) aren't clipped when 2-3 years are selected
-          left: 10, // Add left padding to prevent first bar label from being cut off
-          right: 10, // Add right padding for symmetry
+          left: 30, // Increased left padding significantly to prevent first bar label from being cut off
+          right: 30, // Increased right padding for symmetry
         },
       },
       plotOptions: {
         bar: {
           dataLabels: {
             position: 'top',
+            offsetX: 0, // Center labels horizontally on bars
+            hideOverflowingLabels: false, // Don't hide labels that might overflow
           },
           columnWidth: '60%', // Ensure consistent bar width across different year counts
         }
@@ -1652,13 +1707,14 @@ class ChartConfigFactory {
         enabled: true,
         // Enable labels on all series (bars and lines)
         offsetY: -20,
+        offsetX: 0, // Ensure labels are centered horizontally
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
           colors: seriesColors,
         },
-        formatter: function(value, { seriesIndex, dataPointIndex }) {
+        formatter: function(value, { seriesIndex, dataPointIndex, w }) {
           // Always return a label value, even for very small values
           if (value === null || value === undefined) {
             return "";
@@ -1719,7 +1775,10 @@ class ChartConfigFactory {
             colors: this.themeColors.chartColors.labelColor,
             fontSize: "1rem",
           },
+          offsetX: 0, // Center labels on categories
         },
+        offsetX: 0, // Center the entire x-axis
+        offsetY: 0,
       },
       yaxis: [
         {
@@ -1817,6 +1876,19 @@ class ChartConfigFactory {
       grid: {
         padding: {
           bottom: 20,
+          left: 30, // Add left padding to grid to prevent first bar label clipping
+          right: 30, // Add right padding for symmetry
+          top: 20, // Add top padding for labels
+        },
+        xaxis: {
+          lines: {
+            show: true,
+          },
+        },
+        yaxis: {
+          lines: {
+            show: true,
+          },
         },
       },
       toolbar: {

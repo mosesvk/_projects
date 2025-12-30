@@ -103,14 +103,18 @@ function saveCompleteChartState(chart) {
         )
       : chartConfig.dataLabels?.fixedNum || 0;
 
-    // For costOfContributions chart, save the exact y-axis configuration
+    // For costOfContributions chart, save the exact y-axis configuration including min, max, tickAmount
     let yaxisConfig = null;
     if (
-      chartType === "costOfContributions" &&
+      (chartType === "costOfContributions" || chartId === "costOfContributionsDetailView_chart") &&
       Array.isArray(chartConfig.yaxis)
     ) {
       yaxisConfig = chartConfig.yaxis.map((axis) => ({
         ...axis,
+        // Explicitly preserve min, max, and tickAmount for even spacing
+        min: axis.min,
+        max: axis.max,
+        tickAmount: axis.tickAmount,
         labels: {
           ...axis.labels,
           formatter: axis.labels?.formatter?.toString(),
@@ -248,12 +252,12 @@ function restoreCompleteChartState(chart, originalState) {
       restoredConfig = {
         ...originalState.chartConfig,
         yaxis: [
-          // First y-axis (dollar values) - preserve tickAmount for even spacing
+          // First y-axis (dollar values) - use EXACT values from original chart
           {
             ...originalYAxis[0],
             min: originalYAxis[0]?.min,
             max: originalYAxis[0]?.max,
-            tickAmount: originalYAxis[0]?.tickAmount || 5,
+            tickAmount: originalYAxis[0]?.tickAmount, // Use exact value, no fallback
             labels: {
               ...originalYAxis[0].labels,
               formatter: function (value) {
@@ -289,19 +293,19 @@ function restoreCompleteChartState(chart, originalState) {
               },
             },
           },
-          // Second y-axis (hidden) - preserve tickAmount
+          // Second y-axis (hidden) - use EXACT values from original chart
           {
             ...originalYAxis[1],
             min: originalYAxis[1]?.min,
             max: originalYAxis[1]?.max,
-            tickAmount: originalYAxis[1]?.tickAmount || 5,
+            tickAmount: originalYAxis[1]?.tickAmount, // Use exact value, no fallback
           },
-          // Third y-axis (ratio values) - preserve tickAmount for even spacing
+          // Third y-axis (ratio values) - use EXACT values from original chart
           {
             ...originalYAxis[2],
             min: originalYAxis[2]?.min,
             max: originalYAxis[2]?.max,
-            tickAmount: originalYAxis[2]?.tickAmount || 5,
+            tickAmount: originalYAxis[2]?.tickAmount, // Use exact value, no fallback
             labels: {
               ...originalYAxis[2].labels,
               formatter: function (value) {
@@ -342,12 +346,12 @@ function restoreCompleteChartState(chart, originalState) {
               },
             },
           },
-          // Fourth y-axis (hidden) - preserve tickAmount
+          // Fourth y-axis (hidden) - use EXACT values from original chart
           {
             ...originalYAxis[3],
             min: originalYAxis[3]?.min,
             max: originalYAxis[3]?.max,
-            tickAmount: originalYAxis[3]?.tickAmount || 5,
+            tickAmount: originalYAxis[3]?.tickAmount, // Use exact value, no fallback
           },
         ],
       };
@@ -634,20 +638,25 @@ async function exportApexChart(chart, chartId) {
     if (chartId === "costOfContributionsDetailView_chart") {
       // Cost of contributions chart - Handle multiple axes
       if (Array.isArray(originalState.chartConfig.yaxis)) {
-        // Get the min and max values for ratio axes
-        const safeMinRatioValue = originalState.chartConfig.yaxis[2]?.min || 0;
-        const safeMaxRatioValue =
-          originalState.chartConfig.yaxis[2]?.max || 0.12;
+        // Use the EXACT min, max, and tickAmount from the original chart configuration
+        // This ensures the y-axis looks identical after printing
+        const dollarMin = originalState.chartConfig.yaxis[0]?.min;
+        const dollarMax = originalState.chartConfig.yaxis[0]?.max;
+        const dollarTickAmount = originalState.chartConfig.yaxis[0]?.tickAmount;
+        
+        const ratioMin = originalState.chartConfig.yaxis[2]?.min;
+        const ratioMax = originalState.chartConfig.yaxis[2]?.max;
+        const ratioTickAmount = originalState.chartConfig.yaxis[2]?.tickAmount;
 
         exportOptions = {
           ...baseExportOptions,
           yaxis: [
-            // First y-axis (dollar values) - preserve tickAmount for even spacing
+            // First y-axis (dollar values) - use EXACT values from original chart
             {
               ...originalState.chartConfig.yaxis[0],
-              min: originalState.chartConfig.yaxis[0]?.min,
-              max: originalState.chartConfig.yaxis[0]?.max,
-              tickAmount: originalState.chartConfig.yaxis[0]?.tickAmount || 5,
+              min: dollarMin,
+              max: dollarMax,
+              tickAmount: dollarTickAmount,
               labels: {
                 ...originalState.chartConfig.yaxis[0].labels,
                 formatter: function (value) {
@@ -677,19 +686,21 @@ async function exportApexChart(chart, chartId) {
                 },
               },
             },
-            // Second y-axis (hidden) - preserve tickAmount
+            // Second y-axis (hidden) - use EXACT values from original chart
             {
               ...originalState.chartConfig.yaxis[1],
-              min: originalState.chartConfig.yaxis[1]?.min,
-              max: originalState.chartConfig.yaxis[1]?.max,
-              tickAmount: originalState.chartConfig.yaxis[1]?.tickAmount || 5,
+              min: dollarMin,
+              max: dollarMax,
+              tickAmount: dollarTickAmount,
             },
-            // Third y-axis (ratio values) - preserve tickAmount for even spacing
+            // Third y-axis (ratio values) - use EXACT values from original chart
             {
               ...originalState.chartConfig.yaxis[2],
-              min: originalState.chartConfig.yaxis[2]?.min,
-              max: originalState.chartConfig.yaxis[2]?.max,
-              tickAmount: originalState.chartConfig.yaxis[2]?.tickAmount || 5,
+              min: ratioMin,
+              max: ratioMax,
+              tickAmount: ratioTickAmount,
+              show: true,
+              opposite: true,
               labels: {
                 ...originalState.chartConfig.yaxis[2].labels,
                 formatter: function (value) {
@@ -731,11 +742,6 @@ async function exportApexChart(chart, chartId) {
                   fontSize: "1.25rem",
                 },
               },
-              min: safeMinRatioValue,
-              max: safeMaxRatioValue,
-              tickAmount: 5,
-              show: true,
-              opposite: true,
               axisBorder: {
                 show: true,
                 color:
@@ -749,12 +755,12 @@ async function exportApexChart(chart, chartId) {
                   "#3a464f",
               },
             },
-            // Fourth y-axis (hidden) - preserve tickAmount
+            // Fourth y-axis (hidden) - use EXACT values from original chart
             {
               ...originalState.chartConfig.yaxis[3],
-              min: originalState.chartConfig.yaxis[3]?.min,
-              max: originalState.chartConfig.yaxis[3]?.max,
-              tickAmount: originalState.chartConfig.yaxis[3]?.tickAmount || 5,
+              min: ratioMin,
+              max: ratioMax,
+              tickAmount: ratioTickAmount,
             },
           ],
         };
