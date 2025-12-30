@@ -1273,10 +1273,12 @@ class ChartConfigFactory {
           );
 
           // Convert to percentage and format
+          // Use Math.round() to match the rounding behavior in functionalExpensePercent_program_chart
+          // which uses toFixed(0) for fixedNum=0, ensuring both charts display the same value
           weightedAvg *= 100;
           programPeerAvg[index] = isNaN(weightedAvg)
             ? null
-            : Math.floor(weightedAvg);
+            : Math.round(weightedAvg);
 
           // console.log(
           //   `Using weighted average for ${year}: ${programPeerAvg[index]}%`
