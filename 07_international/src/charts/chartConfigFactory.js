@@ -1617,7 +1617,7 @@ class ChartConfigFactory {
             
             // Force all data labels to be visible after chart renders
             // This is critical for ensuring first bar labels show when 2-3 years selected
-            setTimeout(() => {
+            const fixLabels = () => {
               if (chart.w && chart.w.globals && chart.w.globals.dom) {
                 // Remove clipping from data labels container
                 const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
@@ -1629,18 +1629,41 @@ class ChartConfigFactory {
                 
                 // Force all label elements to be visible
                 const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
+                const numCategories = chart.w.globals.categoryLabels ? chart.w.globals.categoryLabels.length : 0;
+                
                 allLabels.forEach((label, index) => {
                   label.style.visibility = 'visible';
                   label.style.display = '';
                   label.style.opacity = '1';
                   label.style.pointerEvents = 'auto';
-                  // Ensure first bar label (series 0, index 0) is especially visible
-                  if (index === 0) {
+                  
+                  // Specifically handle first bar label (series 0, first data point, index 0)
+                  // When there are 2-3 years, this label needs special handling
+                  if (index === 0 && (numCategories === 2 || numCategories === 3)) {
                     label.style.zIndex = '10';
+                    // Get the transform to check if label is positioned correctly
+                    const transform = label.getAttribute('transform');
+                    if (transform) {
+                      const match = transform.match(/translate\(([^,]+),([^)]+)\)/);
+                      if (match) {
+                        const x = parseFloat(match[1]);
+                        const y = parseFloat(match[2]);
+                        // If label is too far left or negative, shift it significantly right
+                        if (x < 30) {
+                          const newX = Math.max(30, x + 20);
+                          label.setAttribute('transform', `translate(${newX},${y})`);
+                        }
+                      }
+                    }
                   }
                 });
               }
-            }, 300);
+            };
+            
+            // Run multiple times to catch label rendering at different stages
+            setTimeout(fixLabels, 100);
+            setTimeout(fixLabels, 300);
+            setTimeout(fixLabels, 500);
           },
           updated: function(chart) {
             // Restore axis values when chart is updated (important for print/base64 export restoration)
@@ -1671,8 +1694,21 @@ class ChartConfigFactory {
                   label.style.visibility = 'visible';
                   label.style.display = '';
                   label.style.opacity = '1';
+                  
+                  // Specifically handle first bar label
                   if (index === 0) {
                     label.style.zIndex = '10';
+                    const transform = label.getAttribute('transform');
+                    if (transform) {
+                      const match = transform.match(/translate\(([^,]+),([^)]+)\)/);
+                      if (match) {
+                        const x = parseFloat(match[1]);
+                        const y = parseFloat(match[2]);
+                        if (x < 20) {
+                          label.setAttribute('transform', `translate(${Math.max(20, x + 10)},${y})`);
+                        }
+                      }
+                    }
                   }
                 });
               }
@@ -1685,7 +1721,7 @@ class ChartConfigFactory {
         padding: {
           bottom: 20,
           top: 80,
-          left: 50, // Significantly increased to prevent first bar label clipping
+          left: 60, // Even more padding to prevent first bar label clipping when 2-3 years selected
           right: 10,
         },
       },
@@ -1694,6 +1730,20 @@ class ChartConfigFactory {
           dataLabels: {
             position: 'top',
             hideOverflowingLabels: false, // CRITICAL: Don't hide labels
+            offsetX: function({ seriesIndex, dataPointIndex, w }) {
+              // Adjust horizontal position for first bar (series 0, dataPointIndex 0)
+              // to prevent clipping when 2-3 years are selected
+              if (seriesIndex === 0 && dataPointIndex === 0) {
+                // Check how many categories/years there are
+                const numCategories = w.globals.categoryLabels ? w.globals.categoryLabels.length : 0;
+                // When there are 2-3 years, bars are wider, so shift label more to the right
+                if (numCategories === 2 || numCategories === 3) {
+                  return 15; // Shift first bar label more to the right for 2-3 years
+                }
+                return 10;
+              }
+              return 0;
+            },
           },
         }
       },
@@ -1701,6 +1751,20 @@ class ChartConfigFactory {
         enabled: true,
         enabledOnSeries: [0, 1, 2, 3], // Explicitly enable on all series
         offsetY: -20,
+        offsetX: function({ seriesIndex, dataPointIndex, w }) {
+          // Adjust horizontal position for first bar (series 0, dataPointIndex 0)
+          // to prevent clipping when 2-3 years are selected
+          if (seriesIndex === 0 && dataPointIndex === 0) {
+            // Check how many categories/years there are
+            const numCategories = w.globals.categoryLabels ? w.globals.categoryLabels.length : 0;
+            // When there are 2-3 years, bars are wider, so shift label more to the right
+            if (numCategories === 2 || numCategories === 3) {
+              return 15; // Shift first bar label more to the right for 2-3 years
+            }
+            return 10;
+          }
+          return 0;
+        },
         hideOverflowingLabels: false, // CRITICAL: Don't hide labels
         style: {
           fontSize: "14px",
@@ -2100,7 +2164,7 @@ class ChartConfigFactory {
       grid: {
         padding: {
           bottom: 20,
-          left: 50, // Match chart padding to prevent label clipping
+          left: 60, // Match chart padding to prevent label clipping
           top: 20, // Add top padding for labels
         },
       },
