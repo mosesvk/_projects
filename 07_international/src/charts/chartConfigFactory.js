@@ -1614,34 +1614,6 @@ class ChartConfigFactory {
             // Store axis values in chart's global state
             chart.w.globals.axisValues = axisValues;
             chart.w.globals.numType = numType;
-            
-            // Ensure all data labels are visible, especially for first bar when 2-3 years selected
-            // Force a redraw after chart renders to fix label clipping
-            setTimeout(() => {
-              if (chart.w && chart.w.globals && chart.w.globals.dom) {
-                // Remove any clipping or overflow restrictions on data labels
-                const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
-                if (dataLabelsEl) {
-                  dataLabelsEl.style.overflow = 'visible';
-                  dataLabelsEl.style.clipPath = 'none';
-                  dataLabelsEl.style.clip = 'auto';
-                }
-                
-                // Also ensure the main chart SVG doesn't clip
-                const svgEl = chart.w.globals.dom.baseEl.querySelector('svg');
-                if (svgEl) {
-                  svgEl.style.overflow = 'visible';
-                }
-                
-                // Force all label elements to be visible
-                const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
-                allLabels.forEach(label => {
-                  label.style.visibility = 'visible';
-                  label.style.display = '';
-                  label.style.opacity = '1';
-                });
-              }
-            }, 200);
           },
           updated: function(chart) {
             // Restore axis values when chart is updated (important for print/base64 export restoration)
@@ -1656,31 +1628,6 @@ class ChartConfigFactory {
                 ]
               });
             }
-            
-            // Re-enforce data labels visibility after update
-            setTimeout(() => {
-              if (chart.w && chart.w.globals && chart.w.globals.dom) {
-                const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
-                if (dataLabelsEl) {
-                  dataLabelsEl.style.overflow = 'visible';
-                  dataLabelsEl.style.clipPath = 'none';
-                  dataLabelsEl.style.clip = 'auto';
-                }
-                
-                const svgEl = chart.w.globals.dom.baseEl.querySelector('svg');
-                if (svgEl) {
-                  svgEl.style.overflow = 'visible';
-                }
-                
-                // Force all label elements to be visible
-                const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
-                allLabels.forEach(label => {
-                  label.style.visibility = 'visible';
-                  label.style.display = '';
-                  label.style.opacity = '1';
-                });
-              }
-            }, 200);
           }
         },
         toolbar: {
@@ -1688,59 +1635,32 @@ class ChartConfigFactory {
         },
         padding: {
           bottom: 20,
-          top: 100, // Significantly increased top padding to prevent any label clipping
-          left: 30, // Increased left padding significantly to prevent first bar label from being cut off
-          right: 30, // Increased right padding for symmetry
+          top: 60,
+          left: 10,
+          right: 10,
         },
       },
       plotOptions: {
         bar: {
           dataLabels: {
             position: 'top',
-            offsetX: 0, // Center labels horizontally on bars
-            hideOverflowingLabels: false, // CRITICAL: Don't hide labels that might overflow
-            enabled: true, // Explicitly enable labels for bars
-            dropShadow: {
-              enabled: false, // Disable drop shadow to prevent rendering issues
-            },
           },
-          columnWidth: '60%', // Ensure consistent bar width across different year counts
-          distributed: false, // Don't distribute bars - keep them grouped
         }
       },
       dataLabels: {
         enabled: true,
-        enabledOnSeries: [0, 1, 2, 3], // Explicitly enable labels on all series (bars 0,1 and lines 2,3)
-        offsetY: function({ seriesIndex, dataPointIndex, w }) {
-          // Stagger bar labels vertically to prevent overlap when 2-3 years selected
-          // Larger gap between bar labels to prevent collision detection from hiding them
-          if (seriesIndex === 0) {
-            // First bar series (Fundraising Expenses) - position much higher
-            return -45;
-          } else if (seriesIndex === 1) {
-            // Second bar series (Total Contributions) - position lower
-            return -15;
-          }
-          // Line series (2 and 3) - default position, higher to avoid bars
-          return -25;
-        },
-        offsetX: 0, // Ensure labels are centered horizontally
-        hideOverflowingLabels: false, // CRITICAL: Don't hide labels due to overflow
+        offsetY: -20,
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
           colors: seriesColors,
         },
-        formatter: function(value, { seriesIndex, dataPointIndex, w }) {
-          // For bar series (0 and 1), always return a label value
-          const isBarSeries = seriesIndex === 0 || seriesIndex === 1;
-          
+        formatter: function(value, { seriesIndex }) {
           if (value === null || value === undefined) {
-            return isBarSeries ? "$0" : ""; // Always show something for bars
+            return "";
           }
           
-          // Always show label even for 0 values, especially for bars
           if (value === 0) {
             return "$0";
           }
@@ -1750,7 +1670,6 @@ class ChartConfigFactory {
           
           let formattedValue;
           if (absValue >= 1000000) {
-            // Check if the division has a fractional part
             const millions = absValue / 1000000;
             const isWholeNumber = millions === Math.floor(millions);
             formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
@@ -1760,7 +1679,6 @@ class ChartConfigFactory {
             formattedValue = absValue.toFixed(2);
           }
           
-          // Add dollar sign to all data points
           return `${isNegative ? "-" : ""}$${formattedValue}`;
         },
         background: {
@@ -1795,10 +1713,7 @@ class ChartConfigFactory {
             colors: this.themeColors.chartColors.labelColor,
             fontSize: "1rem",
           },
-          offsetX: 0, // Center labels on categories
         },
-        offsetX: 0, // Center the entire x-axis
-        offsetY: 0,
       },
       yaxis: [
         {
@@ -1896,9 +1811,6 @@ class ChartConfigFactory {
       grid: {
         padding: {
           bottom: 20,
-          left: 30, // Add left padding to grid to prevent first bar label clipping
-          right: 30, // Add right padding for symmetry
-          top: 40, // Significantly increased top padding for labels to prevent clipping
         },
         xaxis: {
           lines: {
