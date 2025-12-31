@@ -1655,7 +1655,7 @@ class ChartConfigFactory {
       dataLabels: {
         enabled: true,
         enabledOnSeries: [0, 1, 2, 3],
-        offsetY: -15,
+        offsetY: -25,
         offsetX: 0,
         textAnchor: 'middle',
         style: {

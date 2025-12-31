@@ -241,15 +241,50 @@ function restoreCompleteChartState(chart, originalState) {
 
     // For costOfContributions chart, use the saved y-axis configuration
     if (chartType === "costOfContributions" || chartId === "costOfContributionsDetailView_chart") {
-      // Restore EXACT y-axis configuration with min, max, and tickAmount preserved
+      // Dollar formatter for axes 0 and 1
+      const dollarFormatter = function(value) {
+        if (value === null || value === undefined || value === 0) return "$0";
+        const isNegative = value < 0;
+        const absValue = Math.abs(value);
+        let formattedValue;
+        if (absValue >= 1000000) {
+          const millions = absValue / 1000000;
+          const isWholeNumber = millions === Math.floor(millions);
+          formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
+        } else if (absValue >= 1000) {
+          formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+        } else {
+          formattedValue = absValue.toFixed(2);
+        }
+        return `${isNegative ? "-" : ""}$${formattedValue}`;
+      };
+
+      // Ratio formatter for axes 2 and 3
+      const ratioFormatter = function(value) {
+        if (value === null || value === undefined || value === 0) return "$0.00";
+        const isNegative = value < 0;
+        const absValue = Math.abs(value);
+        return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
+      };
+
+      // Restore EXACT y-axis configuration with min, max, tickAmount and proper formatters
       restoredConfig = {
         ...originalState.chartConfig,
-        yaxis: originalState.chartConfig.yaxis.map(axis => ({
+        yaxis: originalState.chartConfig.yaxis.map((axis, index) => ({
           ...axis,
-          min: axis.min, // Explicitly preserve min
-          max: axis.max, // Explicitly preserve max
-          tickAmount: axis.tickAmount, // Explicitly preserve tickAmount
-          forceNiceScale: false, // Prevent ApexCharts from recalculating ticks
+          min: axis.min,
+          max: axis.max,
+          tickAmount: axis.tickAmount,
+          forceNiceScale: false,
+          labels: {
+            ...axis.labels,
+            formatter: index < 2 ? dollarFormatter : ratioFormatter,
+            style: {
+              ...axis.labels?.style,
+              colors: axis.labels?.style?.colors || "#3a464f",
+              fontSize: axis.labels?.style?.fontSize || "1.25rem",
+            },
+          },
         })),
       };
     } else {
@@ -533,21 +568,56 @@ async function exportApexChart(chart, chartId) {
 
     // Handle each chart type specifically
     if (chartId === "costOfContributionsDetailView_chart") {
-      // Cost of contributions chart - Use EXACT original yaxis configuration
-      // Preserve min, max, and tickAmount exactly to maintain y-axis appearance
+      // Cost of contributions detail view chart - has 4 y-axes (2 dollar, 2 ratio)
+      // Need to preserve min, max, tickAmount AND apply proper formatters
       if (Array.isArray(originalState.chartConfig.yaxis)) {
+        // Dollar formatter for axes 0 and 1
+        const dollarFormatter = function(value) {
+          if (value === null || value === undefined || value === 0) return "$0";
+          const isNegative = value < 0;
+          const absValue = Math.abs(value);
+          let formattedValue;
+          if (absValue >= 1000000) {
+            const millions = absValue / 1000000;
+            const isWholeNumber = millions === Math.floor(millions);
+            formattedValue = isWholeNumber ? `${Math.floor(millions)}M` : `${millions.toFixed(1)}M`;
+          } else if (absValue >= 1000) {
+            formattedValue = `${(absValue / 1000).toFixed(0)}K`;
+          } else {
+            formattedValue = absValue.toFixed(2);
+          }
+          return `${isNegative ? "-" : ""}$${formattedValue}`;
+        };
+
+        // Ratio formatter for axes 2 and 3
+        const ratioFormatter = function(value) {
+          if (value === null || value === undefined || value === 0) return "$0.00";
+          const isNegative = value < 0;
+          const absValue = Math.abs(value);
+          return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
+        };
+
         exportOptions = {
           ...baseExportOptions,
-          yaxis: originalState.chartConfig.yaxis.map(axis => ({
+          yaxis: originalState.chartConfig.yaxis.map((axis, index) => ({
             ...axis,
-            min: axis.min, // Explicitly preserve min
-            max: axis.max, // Explicitly preserve max
-            tickAmount: axis.tickAmount, // Explicitly preserve tickAmount
-            forceNiceScale: false, // Prevent ApexCharts from recalculating ticks
+            min: axis.min,
+            max: axis.max,
+            tickAmount: axis.tickAmount,
+            forceNiceScale: false,
+            labels: {
+              ...axis.labels,
+              formatter: index < 2 ? dollarFormatter : ratioFormatter,
+              style: {
+                ...axis.labels?.style,
+                colors: axis.labels?.style?.colors || "#3a464f",
+                fontSize: axis.labels?.style?.fontSize || "1.25rem",
+              },
+            },
           })),
         };
 
-        console.log("export ApexChart CHARTTYPE==costOfContributions", {
+        console.log("export ApexChart CHARTTYPE==costOfContributionsDetailView", {
           exportOptions,
         });
       } else {
