@@ -125,6 +125,9 @@ function saveCompleteChartState(chart) {
       }));
     }
 
+    // Save axisValues from chart globals (used by costOfContributionsDetailView)
+    const axisValues = chart.w.globals.axisValues || null;
+
     // Save everything we'll need for proper restoration
     const originalConfig = {
       chartId: chartId,
@@ -155,6 +158,7 @@ function saveCompleteChartState(chart) {
       fixedNum: fixedNum,
       isYAxisArray: Array.isArray(chartConfig.yaxis),
       yaxisConfig: yaxisConfig,
+      axisValues: axisValues, // Save the axis values from globals
     };
     return originalConfig;
   } catch (error) {
@@ -241,6 +245,13 @@ function restoreCompleteChartState(chart, originalState) {
 
     // For costOfContributions chart, use the saved y-axis configuration
     if (chartType === "costOfContributions" || chartId === "costOfContributionsDetailView_chart") {
+      // CRITICAL: Restore axisValues to chart globals FIRST
+      // This is used by the chart's updated event to restore y-axis values
+      if (originalState.axisValues && chart.w.globals) {
+        chart.w.globals.axisValues = originalState.axisValues;
+        console.log("Restored axisValues to globals:", originalState.axisValues);
+      }
+
       // Dollar formatter for axes 0 and 1
       const dollarFormatter = function(value) {
         if (value === null || value === undefined || value === 0) return "$0";
@@ -267,31 +278,88 @@ function restoreCompleteChartState(chart, originalState) {
         return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
       };
 
-      // Use yaxisConfig which has explicitly preserved min, max, tickAmount
-      const savedYaxis = originalState.yaxisConfig || originalState.chartConfig.yaxis;
-      
-      // Restore EXACT y-axis configuration with min, max, tickAmount and proper formatters
-      restoredConfig = {
-        ...originalState.chartConfig,
-        yaxis: savedYaxis.map((axis, index) => ({
-          ...axis,
-          min: axis.min,
-          max: axis.max,
-          tickAmount: axis.tickAmount,
-          forceNiceScale: false,
-          labels: {
-            ...axis.labels,
-            formatter: index < 2 ? dollarFormatter : ratioFormatter,
-            style: {
-              ...axis.labels?.style,
-              colors: axis.labels?.style?.colors || "#3a464f",
-              fontSize: axis.labels?.style?.fontSize || "1.25rem",
+      // Use axisValues for min, max, tickAmount (the source of truth)
+      const axisValues = originalState.axisValues;
+      if (axisValues) {
+        const { dollarAxis, ratioAxis } = axisValues;
+        
+        // Restore EXACT y-axis configuration using axisValues
+        restoredConfig = {
+          ...originalState.chartConfig,
+          yaxis: [
+            {
+              ...originalState.chartConfig.yaxis[0],
+              min: dollarAxis.min,
+              max: dollarAxis.max,
+              tickAmount: dollarAxis.tickAmount,
+              forceNiceScale: false,
+              labels: {
+                ...originalState.chartConfig.yaxis[0]?.labels,
+                formatter: dollarFormatter,
+                style: {
+                  colors: originalState.chartConfig.yaxis[0]?.labels?.style?.colors || "#3a464f",
+                  fontSize: originalState.chartConfig.yaxis[0]?.labels?.style?.fontSize || "1.25rem",
+                },
+              },
             },
-          },
-        })),
-      };
-      
-      console.log("Restoring costOfContributionsDetailView yaxis:", savedYaxis.map(a => ({ min: a.min, max: a.max, tickAmount: a.tickAmount })));
+            {
+              ...originalState.chartConfig.yaxis[1],
+              show: false,
+              min: dollarAxis.min,
+              max: dollarAxis.max,
+              tickAmount: dollarAxis.tickAmount,
+              forceNiceScale: false,
+            },
+            {
+              ...originalState.chartConfig.yaxis[2],
+              min: ratioAxis.min,
+              max: ratioAxis.max,
+              tickAmount: ratioAxis.tickAmount,
+              forceNiceScale: false,
+              labels: {
+                ...originalState.chartConfig.yaxis[2]?.labels,
+                formatter: ratioFormatter,
+                style: {
+                  colors: originalState.chartConfig.yaxis[2]?.labels?.style?.colors || "#3a464f",
+                  fontSize: originalState.chartConfig.yaxis[2]?.labels?.style?.fontSize || "1.25rem",
+                },
+              },
+            },
+            {
+              ...originalState.chartConfig.yaxis[3],
+              show: false,
+              min: ratioAxis.min,
+              max: ratioAxis.max,
+              tickAmount: ratioAxis.tickAmount,
+              forceNiceScale: false,
+            },
+          ],
+        };
+        
+        console.log("Restoring costOfContributionsDetailView with axisValues:", { dollarAxis, ratioAxis });
+      } else {
+        // Fallback to yaxisConfig if axisValues not available
+        const savedYaxis = originalState.yaxisConfig || originalState.chartConfig.yaxis;
+        restoredConfig = {
+          ...originalState.chartConfig,
+          yaxis: savedYaxis.map((axis, index) => ({
+            ...axis,
+            min: axis.min,
+            max: axis.max,
+            tickAmount: axis.tickAmount,
+            forceNiceScale: false,
+            labels: {
+              ...axis.labels,
+              formatter: index < 2 ? dollarFormatter : ratioFormatter,
+              style: {
+                ...axis.labels?.style,
+                colors: axis.labels?.style?.colors || "#3a464f",
+                fontSize: axis.labels?.style?.fontSize || "1.25rem",
+              },
+            },
+          })),
+        };
+      }
     } else {
       // Use existing restoration logic for other chart types
       restoredConfig = {

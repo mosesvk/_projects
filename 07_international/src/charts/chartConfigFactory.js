@@ -635,12 +635,14 @@ class ChartConfigFactory {
     const niceMax = Math.ceil(maxValue / niceStep) * niceStep;
     
     // Calculate actual tick amount based on nice step
-    const actualTickAmount = Math.round((niceMax - niceMin) / niceStep) + 1;
+    // Note: ApexCharts tickAmount = number of intervals (not number of labels)
+    // So if we want 6 labels, we need tickAmount = 5
+    const numIntervals = Math.round((niceMax - niceMin) / niceStep);
     
     return {
       min: niceMin,
       max: niceMax,
-      tickAmount: Math.min(Math.max(actualTickAmount, tickCount), 7) // Ensure at least tickCount ticks, cap at 7
+      tickAmount: Math.min(Math.max(numIntervals, tickCount - 1), 6) // Number of intervals, cap at 6
     };
   }
 
@@ -1615,20 +1617,7 @@ class ChartConfigFactory {
             chart.w.globals.axisValues = axisValues;
             chart.w.globals.numType = numType;
           },
-          updated: function(chart) {
-            // Restore axis values when chart is updated (important for print/base64 export restoration)
-            if (chart.w.globals.axisValues) {
-              const { dollarAxis, ratioAxis } = chart.w.globals.axisValues;
-              chart.updateOptions({
-                yaxis: [
-                  { ...chart.w.config.yaxis[0], min: dollarAxis.min, max: dollarAxis.max, tickAmount: dollarAxis.tickAmount },
-                  { ...chart.w.config.yaxis[1], min: dollarAxis.min, max: dollarAxis.max, tickAmount: dollarAxis.tickAmount },
-                  { ...chart.w.config.yaxis[2], min: ratioAxis.min, max: ratioAxis.max, tickAmount: ratioAxis.tickAmount },
-                  { ...chart.w.config.yaxis[3], min: ratioAxis.min, max: ratioAxis.max, tickAmount: ratioAxis.tickAmount }
-                ]
-              });
-            }
-          }
+          // Note: Removed updated event - y-axis restoration is now handled by print_base64.js
         },
         toolbar: {
           show: false,
