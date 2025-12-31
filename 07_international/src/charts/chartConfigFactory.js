@@ -1614,69 +1614,6 @@ class ChartConfigFactory {
             // Store axis values in chart's global state
             chart.w.globals.axisValues = axisValues;
             chart.w.globals.numType = numType;
-            
-            // Force all data labels to be visible after chart renders
-            // This is critical for ensuring first bar labels show when 2-3 years selected
-            const fixLabels = () => {
-              if (chart.w && chart.w.globals && chart.w.globals.dom) {
-                // Remove clipping from data labels container
-                const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
-                if (dataLabelsEl) {
-                  dataLabelsEl.style.overflow = 'visible';
-                  dataLabelsEl.style.clipPath = 'none';
-                  dataLabelsEl.style.clip = 'auto';
-                }
-                
-                // Force all label elements to be visible - CRITICAL: process ALL labels
-                const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
-                const numCategories = chart.w.globals.categoryLabels ? chart.w.globals.categoryLabels.length : 0;
-                
-                // Count how many labels we should have: 2 bar series * numCategories + 2 line series * numCategories
-                const expectedLabelCount = (2 + 2) * numCategories;
-                console.log('Data labels check:', {
-                  found: allLabels.length,
-                  expected: expectedLabelCount,
-                  categories: numCategories
-                });
-                
-                allLabels.forEach((label, index) => {
-                  // Make EVERY label visible - critical for all years
-                  label.style.visibility = 'visible';
-                  label.style.display = '';
-                  label.style.opacity = '1';
-                  label.style.pointerEvents = 'auto';
-                  label.style.zIndex = '5';
-                  
-                  // Only adjust first bar label position when 2-3 years selected
-                  if (index === 0 && (numCategories === 2 || numCategories === 3)) {
-                    label.style.zIndex = '10';
-                    const transform = label.getAttribute('transform');
-                    if (transform) {
-                      const match = transform.match(/translate\(([^,]+),([^)]+)\)/);
-                      if (match) {
-                        const x = parseFloat(match[1]);
-                        const y = parseFloat(match[2]);
-                        // ALWAYS shift first bar label right when 2-3 years selected
-                        // Bars are wider, so label needs to be shifted more to prevent clipping
-                        const newX = Math.max(50, x + 30);
-                        label.setAttribute('transform', `translate(${newX},${y})`);
-                        // Also apply CSS transform as backup
-                        label.style.transform = `translate(${newX}px, ${y}px)`;
-                      }
-                    }
-                    // Force visibility with important flags
-                    label.style.setProperty('visibility', 'visible', 'important');
-                    label.style.setProperty('display', '', 'important');
-                    label.style.setProperty('opacity', '1', 'important');
-                  }
-                });
-              }
-            };
-            
-            // Run multiple times to catch label rendering at different stages
-            setTimeout(fixLabels, 100);
-            setTimeout(fixLabels, 300);
-            setTimeout(fixLabels, 500);
           },
           updated: function(chart) {
             // Restore axis values when chart is updated (important for print/base64 export restoration)
@@ -1691,54 +1628,6 @@ class ChartConfigFactory {
                 ]
               });
             }
-            
-            // Re-apply label visibility fix after update
-            setTimeout(() => {
-              if (chart.w && chart.w.globals && chart.w.globals.dom) {
-                const dataLabelsEl = chart.w.globals.dom.baseEl.querySelector('.apexcharts-datalabels');
-                if (dataLabelsEl) {
-                  dataLabelsEl.style.overflow = 'visible';
-                  dataLabelsEl.style.clipPath = 'none';
-                  dataLabelsEl.style.clip = 'auto';
-                }
-                
-                const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
-                const numCategories = chart.w.globals.categoryLabels ? chart.w.globals.categoryLabels.length : 0;
-                
-                // Process ALL labels to ensure visibility
-                allLabels.forEach((label, index) => {
-                  // Make EVERY label visible - critical for all years
-                  label.style.visibility = 'visible';
-                  label.style.display = '';
-                  label.style.opacity = '1';
-                  label.style.pointerEvents = 'auto';
-                  label.style.zIndex = '5';
-                  
-                  // Only adjust first bar label position when 2-3 years selected
-                  if (index === 0 && (numCategories === 2 || numCategories === 3)) {
-                    label.style.zIndex = '10';
-                    const transform = label.getAttribute('transform');
-                    if (transform) {
-                      const match = transform.match(/translate\(([^,]+),([^)]+)\)/);
-                      if (match) {
-                        const x = parseFloat(match[1]);
-                        const y = parseFloat(match[2]);
-                        // ALWAYS shift first bar label right when 2-3 years selected
-                        // Bars are wider, so label needs to be shifted more to prevent clipping
-                        const newX = Math.max(50, x + 30);
-                        label.setAttribute('transform', `translate(${newX},${y})`);
-                        // Also apply CSS transform as backup
-                        label.style.transform = `translate(${newX}px, ${y}px)`;
-                      }
-                    }
-                    // Force visibility with important flags
-                    label.style.setProperty('visibility', 'visible', 'important');
-                    label.style.setProperty('display', '', 'important');
-                    label.style.setProperty('opacity', '1', 'important');
-                  }
-                });
-              }
-            }, 300);
           }
         },
         toolbar: {
@@ -1746,17 +1635,18 @@ class ChartConfigFactory {
         },
         padding: {
           bottom: 20,
-          top: 80,
-          left: 80, // Maximum padding to prevent first bar label clipping when 2-3 years selected
+          top: 40,
+          left: 10,
           right: 10,
         },
       },
       plotOptions: {
         bar: {
+          columnWidth: '45%', // Limit bar width to prevent first bar label collision with y-axis
           dataLabels: {
             position: 'top',
-            hideOverflowingLabels: false, // CRITICAL: Don't hide labels
-            offsetX: 0, // Keep all bar labels centered
+            hideOverflowingLabels: false,
+            orientation: 'horizontal',
           },
         }
       },
