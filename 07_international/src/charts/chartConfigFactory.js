@@ -607,11 +607,10 @@ class ChartConfigFactory {
    */
   _calculateNiceYAxisTicks(minValue, maxValue, tickCount = 5) {
     if (minValue === maxValue) {
-      return { min: minValue - 1, max: maxValue + 1, tickAmount: tickCount };
+      return { min: minValue - 1, max: maxValue + 1, tickAmount: tickCount - 1 };
     }
 
     const range = maxValue - minValue;
-    const absMax = Math.max(Math.abs(minValue), Math.abs(maxValue));
     
     // Calculate nice step size using the range
     const rawStep = range / (tickCount - 1);
@@ -632,17 +631,42 @@ class ChartConfigFactory {
 
     // Round min down and max up to nice values that align with the step
     const niceMin = Math.floor(minValue / niceStep) * niceStep;
-    const niceMax = Math.ceil(maxValue / niceStep) * niceStep;
+    let niceMax = Math.ceil(maxValue / niceStep) * niceStep;
     
     // Calculate actual tick amount based on nice step
-    // Note: ApexCharts tickAmount = number of intervals (not number of labels)
-    // So if we want 6 labels, we need tickAmount = 5
-    const numIntervals = Math.round((niceMax - niceMin) / niceStep);
+    // CRITICAL: tickAmount MUST equal (niceMax - niceMin) / niceStep to get evenly spaced labels
+    let numIntervals = Math.round((niceMax - niceMin) / niceStep);
+    
+    // If we have fewer than 4 intervals, try using a smaller step to get more ticks
+    // This ensures we always have at least 4 evenly-spaced tick marks
+    if (numIntervals < 4) {
+      // Try halving the step
+      const smallerStep = niceStep / 2;
+      const newNumIntervals = Math.round((niceMax - niceMin) / smallerStep);
+      if (newNumIntervals >= 4 && newNumIntervals <= 8) {
+        niceStep = smallerStep;
+        numIntervals = newNumIntervals;
+      } else {
+        // Otherwise, extend the max to get at least 4 intervals
+        niceMax = niceMin + (niceStep * 4);
+        numIntervals = 4;
+      }
+    }
+    
+    // Cap at 8 intervals maximum for readability
+    if (numIntervals > 8) {
+      // Use double the step
+      const largerStep = niceStep * 2;
+      niceMax = Math.ceil(maxValue / largerStep) * largerStep;
+      numIntervals = Math.round((niceMax - niceMin) / largerStep);
+    }
+    
+    console.log("_calculateNiceYAxisTicks:", { minValue, maxValue, niceMin, niceMax, niceStep, numIntervals });
     
     return {
       min: niceMin,
       max: niceMax,
-      tickAmount: Math.min(Math.max(numIntervals, tickCount - 1), 6) // Number of intervals, cap at 6
+      tickAmount: numIntervals // MUST match the actual number of step intervals
     };
   }
 
