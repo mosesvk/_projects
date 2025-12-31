@@ -267,10 +267,13 @@ function restoreCompleteChartState(chart, originalState) {
         return `${isNegative ? "-" : ""}$${absValue.toFixed(2)}`;
       };
 
+      // Use yaxisConfig which has explicitly preserved min, max, tickAmount
+      const savedYaxis = originalState.yaxisConfig || originalState.chartConfig.yaxis;
+      
       // Restore EXACT y-axis configuration with min, max, tickAmount and proper formatters
       restoredConfig = {
         ...originalState.chartConfig,
-        yaxis: originalState.chartConfig.yaxis.map((axis, index) => ({
+        yaxis: savedYaxis.map((axis, index) => ({
           ...axis,
           min: axis.min,
           max: axis.max,
@@ -287,6 +290,8 @@ function restoreCompleteChartState(chart, originalState) {
           },
         })),
       };
+      
+      console.log("Restoring costOfContributionsDetailView yaxis:", savedYaxis.map(a => ({ min: a.min, max: a.max, tickAmount: a.tickAmount })));
     } else {
       // Use existing restoration logic for other chart types
       restoredConfig = {
