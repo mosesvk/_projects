@@ -1614,6 +1614,56 @@ class ChartConfigFactory {
             // Store axis values in chart's global state
             chart.w.globals.axisValues = axisValues;
             chart.w.globals.numType = numType;
+            
+            // WORKAROUND: ApexCharts has a bug where the first bar's label doesn't show
+            // when there are 2-3 categories in a grouped bar chart. 
+            // Add annotation manually for the first bar's label when 2-3 years selected.
+            const numCategories = chart.w.globals.labels ? chart.w.globals.labels.length : 0;
+            if (numCategories === 2 || numCategories === 3) {
+              const firstBarValue = chart.w.globals.series[0] ? chart.w.globals.series[0][0] : null;
+              if (firstBarValue !== null && firstBarValue !== undefined) {
+                // Format the value
+                let labelText;
+                if (firstBarValue >= 1000000) {
+                  const millions = firstBarValue / 1000000;
+                  labelText = millions === Math.floor(millions) ? `$${Math.floor(millions)}M` : `$${millions.toFixed(1)}M`;
+                } else if (firstBarValue >= 1000) {
+                  labelText = `$${(firstBarValue / 1000).toFixed(0)}K`;
+                } else {
+                  labelText = `$${firstBarValue.toFixed(0)}`;
+                }
+                
+                // Add point annotation for first bar
+                setTimeout(() => {
+                  chart.addPointAnnotation({
+                    x: chart.w.globals.labels[0], // First category
+                    y: firstBarValue,
+                    seriesIndex: 0,
+                    label: {
+                      text: labelText,
+                      borderColor: 'transparent',
+                      style: {
+                        background: '#fff',
+                        color: '#4472C4', // Blue color matching series 0
+                        fontSize: '14px',
+                        fontWeight: 'bold',
+                        padding: {
+                          left: 4,
+                          right: 4,
+                          top: 2,
+                          bottom: 2
+                        }
+                      },
+                      offsetY: -25,
+                      offsetX: -15, // Shift slightly left to center over bar
+                    },
+                    marker: {
+                      size: 0 // Hide the marker dot
+                    }
+                  });
+                }, 100);
+              }
+            }
           },
           updated: function(chart) {
             // Restore axis values when chart is updated (important for print/base64 export restoration)
@@ -1642,9 +1692,11 @@ class ChartConfigFactory {
       },
       plotOptions: {
         bar: {
-          columnWidth: '45%', // Limit bar width to prevent first bar label collision with y-axis
+          columnWidth: '40%',
+          distributed: false,
           dataLabels: {
             position: 'top',
+            maxItems: 100,
             hideOverflowingLabels: false,
             orientation: 'horizontal',
           },
@@ -1652,10 +1704,10 @@ class ChartConfigFactory {
       },
       dataLabels: {
         enabled: true,
-        enabledOnSeries: [0, 1, 2, 3], // Explicitly enable on all series
-        offsetY: -20,
-        offsetX: 0, // Keep all labels centered
-        hideOverflowingLabels: false, // CRITICAL: Don't hide labels
+        enabledOnSeries: [0, 1, 2, 3],
+        offsetY: -15,
+        offsetX: 0,
+        textAnchor: 'middle',
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
@@ -1715,19 +1767,11 @@ class ChartConfigFactory {
           }
         },
         background: {
+          enabled: true,
           padding: 4,
           borderRadius: 2,
-          borderWidth: 1,
-          borderColor: "#ffffff",
-          opacity: 0.7,
-          dropShadow: {
-            enabled: false,
-            top: 1,
-            left: 1,
-            blur: 1,
-            color: "#000",
-            opacity: 0.45,
-          },
+          borderWidth: 0,
+          opacity: 0.9,
         },
       },
       stroke: {
