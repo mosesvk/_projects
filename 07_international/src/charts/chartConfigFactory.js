@@ -1574,27 +1574,19 @@ class ChartConfigFactory {
       window.chartColors.grey, // Peer average ratio
     ];
 
-    // DIAGNOSTIC TEST: Swap series order to see if bug follows series index 0 or position
-    const swappedSeriesColors = [
-      window.chartColors.green, // Total contributions (now series 0)
-      window.chartColors.blue, // Fundraising expenses (now series 1)
-      window.chartColors.red, // Client cost ratio
-      window.chartColors.grey, // Peer average ratio
-    ];
-
     return {
-      colors: swappedSeriesColors,
+      colors: seriesColors,
       series: [
-        {
-          name: "Total Contributions",
-          type: "column",
-          data: totalContributionsData,
-          yAxisIndex: 0
-        },
         {
           name: "Fundraising Expenses",
           type: "column",
           data: fundraisingExpensesData,
+          yAxisIndex: 0
+        },
+        {
+          name: "Total Contributions",
+          type: "column",
+          data: totalContributionsData,
           yAxisIndex: 0
         },
         {
@@ -1664,13 +1656,20 @@ class ChartConfigFactory {
         enabled: true,
         enabledOnSeries: [0, 1, 2, 3],
         offsetY: -15,
-        offsetX: 0,
+        offsetX: function({ seriesIndex, dataPointIndex, w }) {
+          // Workaround for ApexCharts bug: series 0, first data point with 2 categories
+          // The label doesn't render, so we shift it slightly to force re-render
+          if (seriesIndex === 0 && dataPointIndex === 0 && w.globals.labels.length === 2) {
+            return 1; // Tiny offset to potentially trigger different positioning logic
+          }
+          return 0;
+        },
         textAnchor: 'middle',
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
-          colors: swappedSeriesColors,
+          colors: seriesColors,
         },
         formatter: function(value, { seriesIndex, dataPointIndex }) {
           // For bar series, ALWAYS return a formatted value - never empty string
