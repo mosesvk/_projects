@@ -1574,6 +1574,44 @@ class ChartConfigFactory {
       window.chartColors.grey, // Peer average ratio
     ];
 
+    // Build annotations for series 0 (Fundraising Expenses) labels
+    // This is a workaround for ApexCharts bug where first bar label doesn't show with 2-3 categories
+    const series0Annotations = [];
+    if (selectedYearsArray.length === 2 || selectedYearsArray.length === 3) {
+      // Only add annotation for the FIRST data point when 2-3 years selected
+      const firstValue = fundraisingExpensesData[0];
+      if (firstValue !== null && firstValue !== undefined && firstValue !== 0) {
+        let labelText;
+        if (firstValue >= 1000000) {
+          const millions = firstValue / 1000000;
+          labelText = millions === Math.floor(millions) ? `$${Math.floor(millions)}M` : `$${millions.toFixed(1)}M`;
+        } else if (firstValue >= 1000) {
+          labelText = `$${(firstValue / 1000).toFixed(0)}K`;
+        } else {
+          labelText = `$${firstValue.toFixed(0)}`;
+        }
+        
+        series0Annotations.push({
+          x: selectedYearsArray[0],
+          y: firstValue,
+          marker: { size: 0 },
+          label: {
+            text: labelText,
+            borderWidth: 0,
+            style: {
+              background: 'rgba(255,255,255,0.9)',
+              color: '#4472C4',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              padding: { left: 4, right: 4, top: 2, bottom: 2 }
+            },
+            offsetY: -20,
+            offsetX: 0,
+          }
+        });
+      }
+    }
+
     return {
       colors: seriesColors,
       series: [
@@ -1602,6 +1640,9 @@ class ChartConfigFactory {
           yAxisIndex: 2
         },
       ],
+      annotations: {
+        points: series0Annotations
+      },
       chart: {
         height: 550,
         type: "line",
@@ -1614,56 +1655,6 @@ class ChartConfigFactory {
             // Store axis values in chart's global state
             chart.w.globals.axisValues = axisValues;
             chart.w.globals.numType = numType;
-            
-            // WORKAROUND: ApexCharts has a bug where the first bar's label doesn't show
-            // when there are 2-3 categories in a grouped bar chart. 
-            // Add annotation manually for the first bar's label when 2-3 years selected.
-            const numCategories = chart.w.globals.labels ? chart.w.globals.labels.length : 0;
-            if (numCategories === 2 || numCategories === 3) {
-              const firstBarValue = chart.w.globals.series[0] ? chart.w.globals.series[0][0] : null;
-              if (firstBarValue !== null && firstBarValue !== undefined) {
-                // Format the value
-                let labelText;
-                if (firstBarValue >= 1000000) {
-                  const millions = firstBarValue / 1000000;
-                  labelText = millions === Math.floor(millions) ? `$${Math.floor(millions)}M` : `$${millions.toFixed(1)}M`;
-                } else if (firstBarValue >= 1000) {
-                  labelText = `$${(firstBarValue / 1000).toFixed(0)}K`;
-                } else {
-                  labelText = `$${firstBarValue.toFixed(0)}`;
-                }
-                
-                // Add point annotation for first bar
-                setTimeout(() => {
-                  chart.addPointAnnotation({
-                    x: chart.w.globals.labels[0], // First category
-                    y: firstBarValue,
-                    seriesIndex: 0,
-                    label: {
-                      text: labelText,
-                      borderColor: 'transparent',
-                      style: {
-                        background: '#fff',
-                        color: '#4472C4', // Blue color matching series 0
-                        fontSize: '14px',
-                        fontWeight: 'bold',
-                        padding: {
-                          left: 4,
-                          right: 4,
-                          top: 2,
-                          bottom: 2
-                        }
-                      },
-                      offsetY: -25,
-                      offsetX: -15, // Shift slightly left to center over bar
-                    },
-                    marker: {
-                      size: 0 // Hide the marker dot
-                    }
-                  });
-                }, 100);
-              }
-            }
           },
           updated: function(chart) {
             // Restore axis values when chart is updated (important for print/base64 export restoration)
