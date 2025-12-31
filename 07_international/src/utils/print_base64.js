@@ -456,8 +456,55 @@ function restoreCompleteChartState(chart, originalState) {
     }
 
     // Apply the restored configuration
+    // Use redrawPaths=true, animate=false for immediate update without animation
     if (chart.updateOptions) {
-      chart.updateOptions(restoredConfig, true, true);
+      // For costOfContributionsDetailView, do a more forceful update
+      if (chartId === "costOfContributionsDetailView_chart" && originalState.axisValues) {
+        const { dollarAxis, ratioAxis } = originalState.axisValues;
+        
+        console.log("RESTORING costOfContributionsDetailView - axisValues:", { dollarAxis, ratioAxis });
+        
+        // Directly modify the internal config before updating
+        if (chart.w && chart.w.config && Array.isArray(chart.w.config.yaxis)) {
+          chart.w.config.yaxis[0].min = dollarAxis.min;
+          chart.w.config.yaxis[0].max = dollarAxis.max;
+          chart.w.config.yaxis[0].tickAmount = dollarAxis.tickAmount;
+          chart.w.config.yaxis[0].forceNiceScale = false;
+          
+          chart.w.config.yaxis[1].min = dollarAxis.min;
+          chart.w.config.yaxis[1].max = dollarAxis.max;
+          chart.w.config.yaxis[1].tickAmount = dollarAxis.tickAmount;
+          chart.w.config.yaxis[1].forceNiceScale = false;
+          
+          chart.w.config.yaxis[2].min = ratioAxis.min;
+          chart.w.config.yaxis[2].max = ratioAxis.max;
+          chart.w.config.yaxis[2].tickAmount = ratioAxis.tickAmount;
+          chart.w.config.yaxis[2].forceNiceScale = false;
+          
+          chart.w.config.yaxis[3].min = ratioAxis.min;
+          chart.w.config.yaxis[3].max = ratioAxis.max;
+          chart.w.config.yaxis[3].tickAmount = ratioAxis.tickAmount;
+          chart.w.config.yaxis[3].forceNiceScale = false;
+        }
+        
+        // Also set globals to match
+        if (chart.w && chart.w.globals) {
+          chart.w.globals.yAxisScale = [
+            { min: dollarAxis.min, max: dollarAxis.max, niceMin: dollarAxis.min, niceMax: dollarAxis.max },
+            { min: dollarAxis.min, max: dollarAxis.max, niceMin: dollarAxis.min, niceMax: dollarAxis.max },
+            { min: ratioAxis.min, max: ratioAxis.max, niceMin: ratioAxis.min, niceMax: ratioAxis.max },
+            { min: ratioAxis.min, max: ratioAxis.max, niceMin: ratioAxis.min, niceMax: ratioAxis.max },
+          ];
+          chart.w.globals.axisValues = originalState.axisValues;
+        }
+        
+        // Now apply the full config with updateOptions
+        chart.updateOptions(restoredConfig, true, false);
+        
+        console.log("RESTORED costOfContributionsDetailView - check w.config.yaxis:", chart.w.config.yaxis);
+      } else {
+        chart.updateOptions(restoredConfig, true, false);
+      }
     }
   } catch (error) {
     console.warn("Error restoring chart state:", error);
