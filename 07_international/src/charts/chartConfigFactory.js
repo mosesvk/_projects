@@ -1627,38 +1627,47 @@ class ChartConfigFactory {
                   dataLabelsEl.style.clip = 'auto';
                 }
                 
-                // Force all label elements to be visible
+                // Force all label elements to be visible - CRITICAL: process ALL labels
                 const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
                 const numCategories = chart.w.globals.categoryLabels ? chart.w.globals.categoryLabels.length : 0;
                 
+                // Count how many labels we should have: 2 bar series * numCategories + 2 line series * numCategories
+                const expectedLabelCount = (2 + 2) * numCategories;
+                console.log('Data labels check:', {
+                  found: allLabels.length,
+                  expected: expectedLabelCount,
+                  categories: numCategories
+                });
+                
                 allLabels.forEach((label, index) => {
-                  // Make ALL labels visible - don't skip any
+                  // Make EVERY label visible - critical for all years
                   label.style.visibility = 'visible';
                   label.style.display = '';
                   label.style.opacity = '1';
                   label.style.pointerEvents = 'auto';
+                  label.style.zIndex = '5';
                   
-                  // Specifically handle first bar label (series 0, first data point)
-                  // Only adjust position for the very first label when 2-3 years selected
+                  // Only adjust first bar label position when 2-3 years selected
                   if (index === 0 && (numCategories === 2 || numCategories === 3)) {
                     label.style.zIndex = '10';
-                    // Get the transform to check if label is positioned correctly
                     const transform = label.getAttribute('transform');
                     if (transform) {
                       const match = transform.match(/translate\(([^,]+),([^)]+)\)/);
                       if (match) {
                         const x = parseFloat(match[1]);
                         const y = parseFloat(match[2]);
-                        // If label is too far left or negative, shift it significantly right
-                        if (x < 30) {
-                          const newX = Math.max(30, x + 20);
-                          label.setAttribute('transform', `translate(${newX},${y})`);
-                        }
+                        // ALWAYS shift first bar label right when 2-3 years selected
+                        // Bars are wider, so label needs to be shifted more to prevent clipping
+                        const newX = Math.max(50, x + 30);
+                        label.setAttribute('transform', `translate(${newX},${y})`);
+                        // Also apply CSS transform as backup
+                        label.style.transform = `translate(${newX}px, ${y}px)`;
                       }
                     }
-                  } else {
-                    // For all other labels, ensure they're visible but don't adjust position
-                    label.style.zIndex = '1';
+                    // Force visibility with important flags
+                    label.style.setProperty('visibility', 'visible', 'important');
+                    label.style.setProperty('display', '', 'important');
+                    label.style.setProperty('opacity', '1', 'important');
                   }
                 });
               }
@@ -1696,14 +1705,16 @@ class ChartConfigFactory {
                 const allLabels = chart.w.globals.dom.baseEl.querySelectorAll('.apexcharts-datalabel');
                 const numCategories = chart.w.globals.categoryLabels ? chart.w.globals.categoryLabels.length : 0;
                 
+                // Process ALL labels to ensure visibility
                 allLabels.forEach((label, index) => {
-                  // Make ALL labels visible - don't skip any
+                  // Make EVERY label visible - critical for all years
                   label.style.visibility = 'visible';
                   label.style.display = '';
                   label.style.opacity = '1';
                   label.style.pointerEvents = 'auto';
+                  label.style.zIndex = '5';
                   
-                  // Specifically handle first bar label only
+                  // Only adjust first bar label position when 2-3 years selected
                   if (index === 0 && (numCategories === 2 || numCategories === 3)) {
                     label.style.zIndex = '10';
                     const transform = label.getAttribute('transform');
@@ -1712,16 +1723,18 @@ class ChartConfigFactory {
                       if (match) {
                         const x = parseFloat(match[1]);
                         const y = parseFloat(match[2]);
-                        // If label is too far left or negative, shift it significantly right
-                        if (x < 30) {
-                          const newX = Math.max(30, x + 20);
-                          label.setAttribute('transform', `translate(${newX},${y})`);
-                        }
+                        // ALWAYS shift first bar label right when 2-3 years selected
+                        // Bars are wider, so label needs to be shifted more to prevent clipping
+                        const newX = Math.max(50, x + 30);
+                        label.setAttribute('transform', `translate(${newX},${y})`);
+                        // Also apply CSS transform as backup
+                        label.style.transform = `translate(${newX}px, ${y}px)`;
                       }
                     }
-                  } else {
-                    // For all other labels, ensure they're visible but don't adjust position
-                    label.style.zIndex = '1';
+                    // Force visibility with important flags
+                    label.style.setProperty('visibility', 'visible', 'important');
+                    label.style.setProperty('display', '', 'important');
+                    label.style.setProperty('opacity', '1', 'important');
                   }
                 });
               }
@@ -1734,7 +1747,7 @@ class ChartConfigFactory {
         padding: {
           bottom: 20,
           top: 80,
-          left: 60, // Even more padding to prevent first bar label clipping when 2-3 years selected
+          left: 80, // Maximum padding to prevent first bar label clipping when 2-3 years selected
           right: 10,
         },
       },
@@ -1743,21 +1756,7 @@ class ChartConfigFactory {
           dataLabels: {
             position: 'top',
             hideOverflowingLabels: false, // CRITICAL: Don't hide labels
-            offsetX: function({ seriesIndex, dataPointIndex, w }) {
-              // Adjust horizontal position for first bar (series 0, dataPointIndex 0) ONLY
-              // to prevent clipping when 2-3 years are selected
-              if (seriesIndex === 0 && dataPointIndex === 0) {
-                // Check how many categories/years there are
-                const numCategories = w.globals.categoryLabels ? w.globals.categoryLabels.length : 0;
-                // When there are 2-3 years, bars are wider, so shift label more to the right
-                if (numCategories === 2 || numCategories === 3) {
-                  return 15; // Shift first bar label more to the right for 2-3 years
-                }
-                return 10;
-              }
-              // For all other labels, return 0 to keep them centered
-              return 0;
-            },
+            offsetX: 0, // Keep all bar labels centered
           },
         }
       },
@@ -1765,21 +1764,7 @@ class ChartConfigFactory {
         enabled: true,
         enabledOnSeries: [0, 1, 2, 3], // Explicitly enable on all series
         offsetY: -20,
-        offsetX: function({ seriesIndex, dataPointIndex, w }) {
-          // Adjust horizontal position for first bar (series 0, dataPointIndex 0) ONLY
-          // to prevent clipping when 2-3 years are selected
-          if (seriesIndex === 0 && dataPointIndex === 0) {
-            // Check how many categories/years there are
-            const numCategories = w.globals.categoryLabels ? w.globals.categoryLabels.length : 0;
-            // When there are 2-3 years, bars are wider, so shift label more to the right
-            if (numCategories === 2 || numCategories === 3) {
-              return 15; // Shift first bar label more to the right for 2-3 years
-            }
-            return 10;
-          }
-          // For all other labels, return 0 to keep them centered
-          return 0;
-        },
+        offsetX: 0, // Keep all labels centered
         hideOverflowingLabels: false, // CRITICAL: Don't hide labels
         style: {
           fontSize: "14px",
