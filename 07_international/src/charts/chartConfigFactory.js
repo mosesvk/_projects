@@ -1574,19 +1574,27 @@ class ChartConfigFactory {
       window.chartColors.grey, // Peer average ratio
     ];
 
+    // DIAGNOSTIC TEST: Swap series order to see if bug follows series index 0 or position
+    const swappedSeriesColors = [
+      window.chartColors.green, // Total contributions (now series 0)
+      window.chartColors.blue, // Fundraising expenses (now series 1)
+      window.chartColors.red, // Client cost ratio
+      window.chartColors.grey, // Peer average ratio
+    ];
+
     return {
-      colors: seriesColors,
+      colors: swappedSeriesColors,
       series: [
-        {
-          name: "Fundraising Expenses",
-          type: "column",
-          data: fundraisingExpensesData,
-          yAxisIndex: 0
-        },
         {
           name: "Total Contributions",
           type: "column",
           data: totalContributionsData,
+          yAxisIndex: 0
+        },
+        {
+          name: "Fundraising Expenses",
+          type: "column",
+          data: fundraisingExpensesData,
           yAxisIndex: 0
         },
         {
@@ -1636,13 +1644,13 @@ class ChartConfigFactory {
         padding: {
           bottom: 20,
           top: 40,
-          left: selectedYearsArray.length === 2 ? 30 : 10, // More left padding for 2 years
+          left: 10,
           right: 10,
         },
       },
       plotOptions: {
         bar: {
-          columnWidth: selectedYearsArray.length === 2 ? '30%' : '40%', // Narrower bars for 2 years to prevent first label clipping
+          columnWidth: '40%',
           distributed: false,
           dataLabels: {
             position: 'top',
@@ -1662,7 +1670,7 @@ class ChartConfigFactory {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
-          colors: seriesColors,
+          colors: swappedSeriesColors,
         },
         formatter: function(value, { seriesIndex, dataPointIndex }) {
           // For bar series, ALWAYS return a formatted value - never empty string
@@ -1735,18 +1743,11 @@ class ChartConfigFactory {
       },
       xaxis: {
         categories: selectedYearsArray,
-        tickPlacement: 'on',
         labels: {
           style: {
             colors: this.themeColors.chartColors.labelColor,
             fontSize: "1rem",
           },
-        },
-        axisBorder: {
-          show: true,
-        },
-        axisTicks: {
-          show: true,
         },
       },
       yaxis: [
@@ -1845,7 +1846,6 @@ class ChartConfigFactory {
       grid: {
         padding: {
           bottom: 20,
-          left: selectedYearsArray.length === 2 ? 30 : 0, // More left padding for 2 years to prevent first label clipping
         },
         xaxis: {
           lines: {
