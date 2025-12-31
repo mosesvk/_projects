@@ -637,31 +637,25 @@ class ChartConfigFactory {
     // CRITICAL: tickAmount MUST equal (niceMax - niceMin) / niceStep to get evenly spaced labels
     let numIntervals = Math.round((niceMax - niceMin) / niceStep);
     
-    // If we have fewer than 4 intervals, try using a smaller step to get more ticks
-    // This ensures we always have at least 4 evenly-spaced tick marks
+    // Ensure at least 4 intervals by extending niceMax if needed (keeps same step size)
+    // This produces consistent results like: $0, $1M, $2M, $3M, $4M
     if (numIntervals < 4) {
-      // Try halving the step
-      const smallerStep = niceStep / 2;
-      const newNumIntervals = Math.round((niceMax - niceMin) / smallerStep);
-      if (newNumIntervals >= 4 && newNumIntervals <= 8) {
-        niceStep = smallerStep;
-        numIntervals = newNumIntervals;
-      } else {
-        // Otherwise, extend the max to get at least 4 intervals
-        niceMax = niceMin + (niceStep * 4);
-        numIntervals = 4;
-      }
+      niceMax = niceMin + (niceStep * 4);
+      numIntervals = 4;
     }
     
-    // Cap at 8 intervals maximum for readability
-    if (numIntervals > 8) {
-      // Use double the step
+    // Cap at 6 intervals maximum for readability
+    if (numIntervals > 6) {
+      // Use double the step to reduce intervals
       const largerStep = niceStep * 2;
       niceMax = Math.ceil(maxValue / largerStep) * largerStep;
       numIntervals = Math.round((niceMax - niceMin) / largerStep);
+      // Ensure still at least 4 after doubling
+      if (numIntervals < 4) {
+        niceMax = niceMin + (largerStep * 4);
+        numIntervals = 4;
+      }
     }
-    
-    console.log("_calculateNiceYAxisTicks:", { minValue, maxValue, niceMin, niceMax, niceStep, numIntervals });
     
     return {
       min: niceMin,
