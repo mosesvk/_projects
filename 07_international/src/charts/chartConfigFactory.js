@@ -1574,44 +1574,6 @@ class ChartConfigFactory {
       window.chartColors.grey, // Peer average ratio
     ];
 
-    // Build annotations for series 0 (Fundraising Expenses) labels
-    // This is a workaround for ApexCharts bug where first bar label doesn't show with 2-3 categories
-    const series0Annotations = [];
-    if (selectedYearsArray.length === 2 || selectedYearsArray.length === 3) {
-      // Only add annotation for the FIRST data point when 2-3 years selected
-      const firstValue = fundraisingExpensesData[0];
-      if (firstValue !== null && firstValue !== undefined && firstValue !== 0) {
-        let labelText;
-        if (firstValue >= 1000000) {
-          const millions = firstValue / 1000000;
-          labelText = millions === Math.floor(millions) ? `$${Math.floor(millions)}M` : `$${millions.toFixed(1)}M`;
-        } else if (firstValue >= 1000) {
-          labelText = `$${(firstValue / 1000).toFixed(0)}K`;
-        } else {
-          labelText = `$${firstValue.toFixed(0)}`;
-        }
-        
-        series0Annotations.push({
-          x: selectedYearsArray[0],
-          y: firstValue,
-          marker: { size: 0 },
-          label: {
-            text: labelText,
-            borderWidth: 0,
-            style: {
-              background: 'rgba(255,255,255,0.9)',
-              color: '#4472C4',
-              fontSize: '14px',
-              fontWeight: 'bold',
-              padding: { left: 4, right: 4, top: 2, bottom: 2 }
-            },
-            offsetY: -20,
-            offsetX: 0,
-          }
-        });
-      }
-    }
-
     return {
       colors: seriesColors,
       series: [
@@ -1640,9 +1602,6 @@ class ChartConfigFactory {
           yAxisIndex: 2
         },
       ],
-      annotations: {
-        points: series0Annotations
-      },
       chart: {
         height: 550,
         type: "line",
@@ -1677,13 +1636,13 @@ class ChartConfigFactory {
         padding: {
           bottom: 20,
           top: 40,
-          left: 10,
+          left: selectedYearsArray.length === 2 ? 30 : 10, // More left padding for 2 years
           right: 10,
         },
       },
       plotOptions: {
         bar: {
-          columnWidth: '40%',
+          columnWidth: selectedYearsArray.length === 2 ? '30%' : '40%', // Narrower bars for 2 years to prevent first label clipping
           distributed: false,
           dataLabels: {
             position: 'top',
@@ -1776,11 +1735,18 @@ class ChartConfigFactory {
       },
       xaxis: {
         categories: selectedYearsArray,
+        tickPlacement: 'on',
         labels: {
           style: {
             colors: this.themeColors.chartColors.labelColor,
             fontSize: "1rem",
           },
+        },
+        axisBorder: {
+          show: true,
+        },
+        axisTicks: {
+          show: true,
         },
       },
       yaxis: [
@@ -1879,6 +1845,7 @@ class ChartConfigFactory {
       grid: {
         padding: {
           bottom: 20,
+          left: selectedYearsArray.length === 2 ? 30 : 0, // More left padding for 2 years to prevent first label clipping
         },
         xaxis: {
           lines: {
