@@ -1604,7 +1604,7 @@ class ChartConfigFactory {
       ],
       chart: {
         height: 550,
-        type: "line",
+        type: "bar",
         stacked: false,
         zoom: {
           enabled: false,
@@ -1656,14 +1656,7 @@ class ChartConfigFactory {
         enabled: true,
         enabledOnSeries: [0, 1, 2, 3],
         offsetY: -15,
-        offsetX: function({ seriesIndex, dataPointIndex, w }) {
-          // Workaround for ApexCharts bug: series 0, first data point with 2 categories
-          // The label doesn't render, so we shift it slightly to force re-render
-          if (seriesIndex === 0 && dataPointIndex === 0 && w.globals.labels.length === 2) {
-            return 1; // Tiny offset to potentially trigger different positioning logic
-          }
-          return 0;
-        },
+        offsetX: 0,
         textAnchor: 'middle',
         style: {
           fontSize: "14px",

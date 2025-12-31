@@ -351,6 +351,12 @@ class ReportComponent {
           try {
             // For report, use weighted average across all years (pass null for year parameter)
             avg = getWeightedAverageOfArray(data, metricName, null);
+            // If weighted average function returns undefined (no case for this metric), fall back to regular average
+            if (avg === undefined || avg === null || isNaN(avg)) {
+              if (peerData["total"] && Array.isArray(peerData["total"])) {
+                avg = this.getAverageOfArray(peerData["total"]) || 0;
+              }
+            }
           } catch (error) {
             console.error(
               `Error calculating weighted average for ${metricName}:`,
