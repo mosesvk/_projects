@@ -152,7 +152,22 @@ const addClientDataToReportRow = (
 
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement("th");
-    const text = client ? styleNumber(client[year].value, type, fixedNum) : "";
+    
+    // Safely access client data and handle NaN
+    let text = "";
+    if (client && client[year] && client[year].value !== undefined && client[year].value !== null && client[year].value !== "") {
+      const value = client[year].value;
+      // Parse value to check if it's a valid number (allow 0)
+      const numValue = typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : Number(value);
+      // Only skip if it's actually NaN or Infinity (0 is valid)
+      if (!isNaN(numValue) && isFinite(numValue)) {
+        text = styleNumber(value, type, fixedNum);
+        // Double-check the result isn't NaN string
+        if (typeof text === 'string' && text === "NaN") {
+          text = "";
+        }
+      }
+    }
 
     // Create a new span element
     const spanElement = document.createElement("span");
@@ -204,10 +219,20 @@ const addClientDataToModalRow = (
 
   const dataPoint = document.createElement("th");
   
-  // Safely access client data
+  // Safely access client data and handle NaN
   let text = "";
-  if (client && client[year] && client[year].value !== undefined && client[year].value !== null) {
-    text = styleNumber(client[year].value, type, fixedNum);
+  if (client && client[year] && client[year].value !== undefined && client[year].value !== null && client[year].value !== "") {
+    const value = client[year].value;
+    // Parse value to check if it's a valid number (allow 0)
+    const numValue = typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : Number(value);
+    // Only skip if it's actually NaN or Infinity (0 is valid)
+    if (!isNaN(numValue) && isFinite(numValue)) {
+      text = styleNumber(value, type, fixedNum);
+      // Double-check the result isn't NaN string
+      if (typeof text === 'string' && text === "NaN") {
+        text = "";
+      }
+    }
   }
 
   dataPoint.className = propClass;

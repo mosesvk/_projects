@@ -781,26 +781,46 @@ const getPeerAndClientChartDataArrays = (
 };
 
 const styleNumber = (num, type, fixed) => {
-  let text = num;
+  // Handle null, undefined, or empty string - return empty
+  if (num === null || num === undefined || num === "") {
+    return "";
+  }
+
+  // Convert to number for validation
+  const numValue = typeof num === 'string' ? parseFloat(num.replace(/,/g, '')) : Number(num);
+  
+  // Check if it's actually NaN or Infinity (but allow 0)
+  if (isNaN(numValue) || !isFinite(numValue)) {
+    return "";
+  }
+
+  let text = numValue;
 
   // if (text == 0 || text == 0.00) text = "-";
 
-  if (!isNaN(text)) {
-    if (type === "num" && text != 0) {
-      text = Number(text).toFixed(fixed);
-      text = Number(text).toLocaleString(); // Add commas for thousands
-    }
+  if (type === "num" && text != 0) {
+    text = Number(text).toFixed(fixed);
+    text = Number(text).toLocaleString(); // Add commas for thousands
+  } else if (type === "num" && text == 0) {
+    text = "0";
+  }
 
-    if (type === "percent" && text != 0) {
-      text = parseFloat(text * 100).toFixed(fixed) + "%";
-    } else if (type === "percent" && text == 0.00) { 
-      text = "0%"
-    }
+  if (type === "percent" && text != 0) {
+    text = parseFloat(text * 100).toFixed(fixed) + "%";
+  } else if (type === "percent" && text == 0) { 
+    text = "0%"
+  }
 
-    if (type === "dollar" && text != 0) {
-      text = parseFloat(text).toFixed(fixed);
-      text = "$ " + Number(text).toLocaleString(); // Add commas for thousands
-    }
+  if (type === "dollar" && text != 0) {
+    text = parseFloat(text).toFixed(fixed);
+    text = "$ " + Number(text).toLocaleString(); // Add commas for thousands
+  } else if (type === "dollar" && text == 0) {
+    text = "$ 0";
+  }
+
+  // Final safety check to ensure we don't return NaN as string
+  if (typeof text === 'string' && (text === "NaN" || text === "undefined" || text === "null")) {
+    return "";
   }
 
   return text;
