@@ -780,18 +780,29 @@ const getPeerAndClientChartDataArrays = (
   return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
 };
 
+// Helper function to format zero based on type
+const formatZeroByType = (type) => {
+  if (type === "percent") {
+    return "0%";
+  } else if (type === "dollar") {
+    return "$ 0";
+  } else {
+    return "0";
+  }
+};
+
 const styleNumber = (num, type, fixed) => {
-  // Handle null, undefined, or empty string - return empty
+  // Handle null, undefined, or empty string - treat as 0
   if (num === null || num === undefined || num === "") {
-    return "";
+    return formatZeroByType(type);
   }
 
   // Convert to number for validation
   const numValue = typeof num === 'string' ? parseFloat(num.replace(/,/g, '')) : Number(num);
   
-  // Check if it's actually NaN or Infinity (but allow 0)
+  // If NaN or Infinity, treat as 0
   if (isNaN(numValue) || !isFinite(numValue)) {
-    return "";
+    return formatZeroByType(type);
   }
 
   let text = numValue;
@@ -821,9 +832,9 @@ const styleNumber = (num, type, fixed) => {
     }
   }
 
-  // Final safety check to ensure we don't return NaN as string
+  // Final safety check - if somehow we still have NaN, format as 0
   if (typeof text === 'string' && (text === "NaN" || text === "undefined" || text === "null")) {
-    return "";
+    return formatZeroByType(type);
   }
 
   return text;

@@ -153,20 +153,12 @@ const addClientDataToReportRow = (
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement("th");
     
-    // Safely access client data and handle NaN
+    // Safely access client data - styleNumber will handle NaN/empty as 0
     let text = "";
-    if (client && client[year] && client[year].value !== undefined && client[year].value !== null && client[year].value !== "") {
+    if (client && client[year] && client[year].value !== undefined && client[year].value !== null) {
       const value = client[year].value;
-      // Parse value to check if it's a valid number (allow 0)
-      const numValue = typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : Number(value);
-      // Only skip if it's actually NaN or Infinity (0 is valid)
-      if (!isNaN(numValue) && isFinite(numValue)) {
-        text = styleNumber(value, type, fixedNum);
-        // Double-check the result isn't NaN string
-        if (typeof text === 'string' && text === "NaN") {
-          text = "";
-        }
-      }
+      // Always call styleNumber - it will handle NaN/empty/null and format as 0 based on type
+      text = styleNumber(value, type, fixedNum);
     }
 
     // Create a new span element
@@ -219,20 +211,12 @@ const addClientDataToModalRow = (
 
   const dataPoint = document.createElement("th");
   
-  // Safely access client data and handle NaN
+  // Safely access client data - styleNumber will handle NaN/empty as 0
   let text = "";
-  if (client && client[year] && client[year].value !== undefined && client[year].value !== null && client[year].value !== "") {
+  if (client && client[year] && client[year].value !== undefined && client[year].value !== null) {
     const value = client[year].value;
-    // Parse value to check if it's a valid number (allow 0)
-    const numValue = typeof value === 'string' ? parseFloat(value.replace(/,/g, '')) : Number(value);
-    // Only skip if it's actually NaN or Infinity (0 is valid)
-    if (!isNaN(numValue) && isFinite(numValue)) {
-      text = styleNumber(value, type, fixedNum);
-      // Double-check the result isn't NaN string
-      if (typeof text === 'string' && text === "NaN") {
-        text = "";
-      }
-    }
+    // Always call styleNumber - it will handle NaN/empty/null and format as 0 based on type
+    text = styleNumber(value, type, fixedNum);
   }
 
   dataPoint.className = propClass;
