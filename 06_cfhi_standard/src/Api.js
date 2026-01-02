@@ -349,13 +349,23 @@ class DataStore {
     const targetData = this[`${category}Data`];
 
     const childElement = record.querySelector(child);
-    let innerData =
-      childElement && childElement.innerHTML.split("").length > 0
-        ? childElement.innerHTML.trim()
-        : 0;
+    let innerData;
+    if (childElement && childElement.innerHTML !== null && childElement.innerHTML !== undefined) {
+      const trimmedContent = childElement.innerHTML.trim();
+      // Store value even if it's "0" (valid data), but store null if truly empty
+      if (trimmedContent.length > 0) {
+        innerData = trimmedContent;
+      } else {
+        innerData = null; // Field exists but is empty
+      }
+    } else {
+      // Field doesn't exist in XML
+      innerData = null;
+    }
 
     // Decode HTML entities if the value is a string (typically for benchmark paragraphs)
-    if (typeof innerData === 'string' && innerData !== '0') {
+    // Don't decode "0" as it's a valid numeric value
+    if (typeof innerData === 'string' && innerData !== '0' && innerData !== null) {
       innerData = this.decodeHtmlEntities(innerData);
     }
 
@@ -363,11 +373,12 @@ class DataStore {
       const benchmarkField = dynamicValueClientPeer
         ? record.querySelector(dynamicValueClientPeer)?.textContent.trim()
         : undefined;
+      // Store data even if null (field missing/empty), so structure exists
       this.insertClientData(
         targetData,
         dataKey,
         year,
-        innerData,
+        innerData, // This will be null if field doesn't exist
         record,
         benchmarkField
       );
@@ -397,8 +408,9 @@ class DataStore {
     if (!targetData[dataKey][year]) {
       targetData[dataKey][year] = {};
     }
+    // Store value (which can be null if field doesn't exist or is empty)
     targetData[dataKey][year].value = value;
-    if (benchmarkField !== undefined) {
+    if (benchmarkField !== undefined && benchmarkField !== null && benchmarkField !== "") {
       targetData[dataKey][year].benchmark = benchmarkField;
     }
   }

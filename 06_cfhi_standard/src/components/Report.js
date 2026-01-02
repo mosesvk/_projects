@@ -203,7 +203,12 @@ const addClientDataToModalRow = (
   const propScope = "row";
 
   const dataPoint = document.createElement("th");
-  const text = styleNumber(client[year].value, type, fixedNum);
+  
+  // Safely access client data
+  let text = "";
+  if (client && client[year] && client[year].value !== undefined && client[year].value !== null) {
+    text = styleNumber(client[year].value, type, fixedNum);
+  }
 
   dataPoint.className = propClass;
   dataPoint.scope = propScope;
