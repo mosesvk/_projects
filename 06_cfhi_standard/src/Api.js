@@ -430,10 +430,21 @@ class DataStore {
         }
         targetData[dataKey]["total"].push(dataValue);
       } else {
+        // If name is provided, organize by name as well (for weighted averages)
         if (!targetData[dataKey][name]) {
-          targetData[dataKey][name] = [];
+          targetData[dataKey][name] = {};
         }
-        targetData[dataKey][name].push(dataValue);
+
+        if (!targetData[dataKey][name]["total"]) {
+          targetData[dataKey][name]["total"] = [];
+        }
+
+        if (!targetData[dataKey][name][year]) {
+          targetData[dataKey][name][year] = [];
+        }
+
+        targetData[dataKey][name]["total"].push(dataValue);
+        targetData[dataKey][name][year].push(dataValue);
       }
 
       targetData[dataKey][year].push(dataValue);
