@@ -180,7 +180,7 @@ const displayIncomeComponent = () => {
     1,
     'contributionsWithoutDonorPerGivingUnit',
     getBenchmarksForField('contributionsWithoutDonorPerGivingUnit'),
-    'Contributions Without Donor Per Giving Unit'
+    'Contributions without donor restrictions Per Giving Unit'
   );
 
   // totalContributionsPerGivingUnit
@@ -197,6 +197,7 @@ const displayIncomeComponent = () => {
   );
 
   // Use benchmark paragraph data from localStorage for income metrics
+  createBenchmark("contributionsWithoutDonorPerGivingUnit_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit");
   // createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit");
   // createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
   
