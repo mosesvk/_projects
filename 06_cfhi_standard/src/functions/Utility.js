@@ -46,11 +46,12 @@ const createChartFromParsedData = (
   mainName,
   benchmark,
   title,
-  wa = null
+  wa = null,
+  allData = null
 ) => {
   //console.log('parsedData', parsedData);
   if (parsedData) {
-    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum, mainName, benchmark, title, wa, parsedData);
+    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum, mainName, benchmark, title, wa, allData || parsedData);
     updateModal(mainName, parsedData[peer], parsedData[client]);
   }
 };

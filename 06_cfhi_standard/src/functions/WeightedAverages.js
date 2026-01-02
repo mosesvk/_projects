@@ -1,5 +1,5 @@
-const getWeightedAverageOfArray = (data, name) => {
-  // console.log(data, name);
+const getWeightedAverageOfArray = (data, name, year) => {
+  // console.log(data, name, year);
   switch (name) {
     case "attendeesToStaff":
       return attendeesToStaff_weightedAverage(data, name);
@@ -75,17 +75,17 @@ const getWeightedAverageOfArray = (data, name) => {
     case "cashExpendituresPerGivingUnit":
       return cashExpendituresPerGivingUnit_weightedAverage(data, name);
     case "personnelIncludingToTotalCashExpenditures":
-      return personnelIncludingToTotalCashExpenditures_weightedAverage(data, name);
+      return personnelIncludingToTotalCashExpenditures_weightedAverage(data, name, year);
     default:
       return;
   }
 };
 
-const personnelIncludingToTotalCashExpenditures_weightedAverage = (data, name) => {
-  const s10 = getSumOfArray(data.totalSalaries[name]);
-  const s162 = getSumOfArray(data.costOfOutsourcedEmployee[name]);
-  const s45 = getSumOfArray(data.totalExpense[name]);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name]);
+const personnelIncludingToTotalCashExpenditures_weightedAverage = (data, name, year) => {
+  const s10 = getSumOfArray(data.totalSalaries[name][year ? year : 'total']);
+  const s162 = getSumOfArray(data.costOfOutsourcedEmployee[name][year ? year : 'total']);
+  const s45 = getSumOfArray(data.totalExpense[name][year ? year : 'total']);
+  const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
 
   return (s10 + s162) / (s45 - s46) 
 }

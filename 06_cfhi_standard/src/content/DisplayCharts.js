@@ -233,7 +233,8 @@ const displayExpenseComponent = () => {
     'personnelIncludingToTotalCashExpenditures',
     getBenchmarksForField('personnelIncludingToTotalCashExpenditures'),
     'Personnel Including to Total Cash Expenditures',
-    'wa'
+    'wa',
+    savedData
   );
 
   // Use benchmark paragraph data from localStorage
