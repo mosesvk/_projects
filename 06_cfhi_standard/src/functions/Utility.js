@@ -798,24 +798,27 @@ const styleNumber = (num, type, fixed) => {
 
   // if (text == 0 || text == 0.00) text = "-";
 
-  if (type === "num" && text != 0) {
-    text = Number(text).toFixed(fixed);
-    text = Number(text).toLocaleString(); // Add commas for thousands
-  } else if (type === "num" && text == 0) {
-    text = "0";
-  }
-
-  if (type === "percent" && text != 0) {
-    text = parseFloat(text * 100).toFixed(fixed) + "%";
-  } else if (type === "percent" && text == 0) { 
-    text = "0%"
-  }
-
-  if (type === "dollar" && text != 0) {
-    text = parseFloat(text).toFixed(fixed);
-    text = "$ " + Number(text).toLocaleString(); // Add commas for thousands
-  } else if (type === "dollar" && text == 0) {
-    text = "$ 0";
+  // Handle formatting based on type
+  if (type === "num") {
+    if (text != 0) {
+      text = Number(text).toFixed(fixed);
+      text = Number(text).toLocaleString(); // Add commas for thousands
+    } else {
+      text = "0";
+    }
+  } else if (type === "percent") {
+    if (text != 0) {
+      text = parseFloat(text * 100).toFixed(fixed) + "%";
+    } else {
+      text = "0%";
+    }
+  } else if (type === "dollar") {
+    if (text != 0) {
+      text = parseFloat(text).toFixed(fixed);
+      text = "$ " + Number(text).toLocaleString(); // Add commas for thousands
+    } else {
+      text = "$ 0";
+    }
   }
 
   // Final safety check to ensure we don't return NaN as string
