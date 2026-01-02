@@ -1,5 +1,5 @@
 const displayReportComponent = () => {
-  const demoData = JSON.parse(localStorage.getItem("demoData"));
+  const generalData = JSON.parse(localStorage.getItem("generalData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
   const debtData = JSON.parse(localStorage.getItem("debtData"));
   const incomeData = JSON.parse(localStorage.getItem("incomeData"));
@@ -9,7 +9,7 @@ const displayReportComponent = () => {
 
   if (selectedYears) {
     addYearColumnsToReportTable(selectedYears);
-    insertDataToReport(demoData, selectedYears, [
+    insertDataToReport(generalData, selectedYears, [
       ["givingUnits", "num", 0],
       ["givingUnits_percentChange", "percent", 0],
       ["contributionsWithoutDonorExcludingLargeGifts", "dollar", 0],
@@ -443,7 +443,7 @@ function processTHElements() {
  */
 function processBenchmarkParagraphs() {
   // Get data from localStorage
-  const demoData = JSON.parse(localStorage.getItem("demoData") || "{}");
+  const generalData = JSON.parse(localStorage.getItem("generalData") || "{}");
   const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
   const debtData = JSON.parse(localStorage.getItem("debtData") || "{}");
   const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
@@ -451,9 +451,9 @@ function processBenchmarkParagraphs() {
 
   // Array of field mappings for Standard project: [fieldName, dataSource, modalBodySelector]
   const modalInfoFields = [
-    // Demo data
-    ["givingUnits", demoData, "#givingUnits-body-2 div"],
-    ["contributionsWithoutDonorExcludingLargeGifts", demoData, "#contributionsWithoutDonorExcludingLargeGifts-body-2 div"],
+    // General data
+    ["givingUnits", generalData, "#givingUnits-body-2 div"],
+    ["contributionsWithoutDonorExcludingLargeGifts", generalData, "#contributionsWithoutDonorExcludingLargeGifts-body-2 div"],
     
     // Cash data
     ["daysOperatingCash", cashData, "#daysOperatingCash-body-2 div"],

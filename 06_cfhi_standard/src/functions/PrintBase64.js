@@ -636,7 +636,7 @@ async function apexChartsExportPrint() {
   try {
     // Unhide any hidden sections to ensure all charts are available
     const sections = [
-      "demoContent",
+      "generalContent",
       "cashContent", 
       "debtContent",
       "incomeContent",

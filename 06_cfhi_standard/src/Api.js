@@ -1,7 +1,7 @@
 // Data Model and Business Logic Classes
 class DataStore {
   constructor() {
-    this.demoData = {};
+    this.generalData = {};
     this.cashData = {};
     this.debtData = {};
     this.incomeData = {};
@@ -52,7 +52,7 @@ class DataStore {
    */
   saveCompressedData() {
     const data = {
-      demoData: this.demoData,
+      generalData: this.generalData,
       cashData: this.cashData,
       debtData: this.debtData,
       incomeData: this.incomeData,
@@ -103,7 +103,7 @@ class DataStore {
    */
   saveDataInChunks() {
     const categories = [
-      "demoData",
+      "generalData",
       "cashData",
       "debtData",
       "incomeData",
@@ -180,7 +180,7 @@ class DataStore {
    */
   estimateDataSize() {
     const data = {
-      demoData: this.demoData,
+      generalData: this.generalData,
       cashData: this.cashData,
       debtData: this.debtData,
       incomeData: this.incomeData,
@@ -200,7 +200,7 @@ class DataStore {
    */
   loadFromLocalStorage() {
     const categories = [
-      "demoData",
+      "generalData",
       "cashData",
       "debtData",
       "incomeData",
@@ -249,7 +249,7 @@ class DataStore {
    */
   getAllData() {
     return {
-      demoData: this.demoData,
+      generalData: this.generalData,
       cashData: this.cashData,
       debtData: this.debtData,
       incomeData: this.incomeData,
@@ -263,7 +263,7 @@ class DataStore {
    */
   hasDataInStorage() {
     return (
-      localStorage.getItem("demoData") !== null ||
+      localStorage.getItem("generalData") !== null ||
       localStorage.getItem("cashData") !== null ||
       localStorage.getItem("debtData") !== null ||
       localStorage.getItem("incomeData") !== null ||
@@ -276,7 +276,7 @@ class DataStore {
    */
   clearAllStorage() {
     const categories = [
-      "demoData",
+      "generalData",
       "cashData",
       "debtData",
       "incomeData",
@@ -301,7 +301,7 @@ class DataStore {
    * Clear method for data model
    */
   clear() {
-    this.demoData = {};
+    this.generalData = {};
     this.cashData = {};
     this.debtData = {};
     this.incomeData = {};
@@ -327,7 +327,7 @@ class DataStore {
 
   /**
    * Insert data into the data store
-   * @param {string} category - Data category (demo, cash, debt, income, expense)
+   * @param {string} category - Data category (general, cash, debt, income, expense)
    * @param {string} type - Type of data (client or peer)
    * @param {string} year - Year
    * @param {string} dataKey - Key for the data
@@ -451,27 +451,27 @@ class DataProcessor {
    * Process all data categories
    */
   processAllData(years, recordsPeer, recordsClient) {
-    this.processDemoData(years, recordsPeer, recordsClient);
+    this.processGeneralData(years, recordsPeer, recordsClient);
     this.processCashData(years, recordsPeer, recordsClient);
     this.processDebtData(years, recordsPeer, recordsClient);
     this.processIncomeData(years, recordsPeer, recordsClient);
     this.processExpenseData(years, recordsPeer, recordsClient);
 
-    // Log demoData structure before saving
-    console.log("📦 demoData before saving to localStorage:");
-    console.log("Keys:", Object.keys(this.dataStore.demoData || {}));
-    const firstKey = Object.keys(this.dataStore.demoData || {})[0];
+    // Log generalData structure before saving
+    console.log("📦 generalData before saving to localStorage:");
+    console.log("Keys:", Object.keys(this.dataStore.generalData || {}));
+    const firstKey = Object.keys(this.dataStore.generalData || {})[0];
     if (firstKey) {
-      console.log(`Sample (${firstKey}):`, this.dataStore.demoData[firstKey]);
+      console.log(`Sample (${firstKey}):`, this.dataStore.generalData[firstKey]);
     }
 
     // Save to localStorage
     this.dataStore.saveAllToLocalStorage();
     
     // Verify what was saved
-    const savedDemo = JSON.parse(localStorage.getItem("demoData"));
-    console.log("💾 demoData after saving to localStorage:");
-    console.log("Keys:", Object.keys(savedDemo || {}));
+    const savedGeneral = JSON.parse(localStorage.getItem("generalData"));
+    console.log("💾 generalData after saving to localStorage:");
+    console.log("Keys:", Object.keys(savedGeneral || {}));
   }
 
   /**
@@ -513,11 +513,11 @@ class DataProcessor {
   }
 
   /**
-   * Process Demographics Data
+   * Process General Data
    */
-  processDemoData(years, recordsPeer, recordsClient) {
+  processGeneralData(years, recordsPeer, recordsClient) {
     // console.log(
-    //   `📊 processDemoData called with ${years.length} years, ${recordsPeer?.length || 0} peer records, ${recordsClient?.length || 0} client records`
+    //   `📊 processGeneralData called with ${years.length} years, ${recordsPeer?.length || 0} peer records, ${recordsClient?.length || 0} client records`
     // );
     
     years.forEach((year) => {
@@ -534,7 +534,7 @@ class DataProcessor {
         
         // givingUnits
         this.dataStore.insertData(
-          "demo",
+          "general",
           "peer",
           year,
           "givingUnits_Peer",
@@ -545,7 +545,7 @@ class DataProcessor {
 
         // contributionsWithoutDonorExcludingLargeGifts
         this.dataStore.insertData(
-          "demo",
+          "general",
           "peer",
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Peer",
@@ -556,7 +556,7 @@ class DataProcessor {
 
         // totalContributionsExclude
         this.dataStore.insertData(
-          "demo",
+          "general",
           "peer",
           year,
           "totalContributionsExclude_Peer",
@@ -582,7 +582,7 @@ class DataProcessor {
         
         // givingUnits
         this.dataStore.insertData(
-          "demo",
+          "general",
           "client",
           year,
           "givingUnits_Client",
@@ -593,7 +593,7 @@ class DataProcessor {
 
         // givingUnits_percentChange (client data only, no peer data)
         this.dataStore.insertData(
-          "demo",
+          "general",
           "client",
           year,
           "givingUnits_percentChange_Client",
@@ -603,7 +603,7 @@ class DataProcessor {
 
         // contributionsWithoutDonorExcludingLargeGifts
         this.dataStore.insertData(
-          "demo",
+          "general",
           "client",
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Client",
@@ -614,7 +614,7 @@ class DataProcessor {
 
         // totalContributionsExclude
         this.dataStore.insertData(
-          "demo",
+          "general",
           "client",
           year,
           "totalContributionsExclude_Client",
@@ -1354,6 +1354,16 @@ class DataProcessor {
           record,
           "cfhi_stand_09_ratio___personnel__including_outsourced_personnel__to_total_cash_expenditures",
           "cfhi_stand_09_bench_rating___personnel__including_outsourced_personnel__to_total_cash_expenditures"
+        );
+
+        // personnelIncludingToTotalCashExpenditures benchmark paragraph
+        this.dataStore.insertData(
+          "expense",
+          "client",
+          year,
+          "personnelIncludingToTotalCashExpenditures_benchmarkParagraph",
+          record,
+          "cfhi_stand_09_bench_paragraph___personnel__including_outsourced_personnel__to_total_cash_expenditures"
         );
       });
     });
@@ -2497,8 +2507,8 @@ class AppController {
    * Display all components
    */
   async displayAllComponents() {
-    if (typeof displayDemoComponent === "function") {
-      displayDemoComponent();
+    if (typeof displayGeneralComponent === "function") {
+      displayGeneralComponent();
     }
     if (typeof displayCashComponent === "function") {
       displayCashComponent();
@@ -2523,7 +2533,7 @@ class AppController {
   validateDataStructure() {
     const data = this.dataStore.getAllData();
     const categories = [
-      "demoData",
+      "generalData",
       "cashData",
       "debtData",
       "incomeData",

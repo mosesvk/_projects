@@ -9,7 +9,7 @@ if (sidebar) {
     sidebarContent.classList.toggle("px-3");
     sidebarContent.classList.toggle("px-2");
 
-    demoContentHeader.classList.toggle("hidden");
+    generalContentHeader.classList.toggle("hidden");
     cashContentHeader.classList.toggle("hidden");
     debtContentHeader.classList.toggle("hidden");
     incomeContentHeader.classList.toggle("hidden");
@@ -25,7 +25,7 @@ if (sidebar) {
   const tabContents = document.querySelectorAll(".tab-content");
   const mainContent = document.getElementById("main-content"); // Get the main content element
   const sidebarContent = document.getElementById("sidebar-content");
-  const demoContentHeader = document.getElementById("demoContentHeader");
+  const generalContentHeader = document.getElementById("generalContentHeader");
   const cashContentHeader = document.getElementById("cashContentHeader");
   const debtContentHeader = document.getElementById("debtContentHeader");
   const incomeContentHeader = document.getElementById("incomeContentHeader");

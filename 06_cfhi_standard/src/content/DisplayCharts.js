@@ -47,12 +47,12 @@ function fixUnicodeCharacters(content) {
   return fixedContent;
 }
 
-const displayDemoComponent = () => {
-  const savedData = getStoredData("demoData");
+const displayGeneralComponent = () => {
+  const savedData = getStoredData("generalData");
   const parseData = parseStoredData(savedData);
   
   // Debug: Check what keys exist in parseData
-  console.log("🔍 displayDemoComponent - parseData keys:", parseData ? Object.keys(parseData) : "parseData is null");
+  console.log("🔍 displayGeneralComponent - parseData keys:", parseData ? Object.keys(parseData) : "parseData is null");
   console.log("🔍 givingUnits_Client exists?", parseData?.givingUnits_Client ? "YES" : "NO");
   console.log("🔍 givingUnits_Peer exists?", parseData?.givingUnits_Peer ? "YES" : "NO");
   if (parseData?.givingUnits_Client) {
@@ -85,11 +85,11 @@ const displayDemoComponent = () => {
     "Contributions Without Donor Excluding Large Gifts"
   );
 
-  // Use benchmark paragraph data from localStorage for demo metrics
-  createBenchmark("givingUnits_benchmarkParagraph", "demoData", "row_givingUnits");
-  createBenchmark("contributionsWithoutDonorExcludingLargeGifts_benchmarkParagraph", "demoData", "row_contributionsWithoutDonorExcludingLargeGifts");
+  // Use benchmark paragraph data from localStorage for general metrics
+  createBenchmark("givingUnits_benchmarkParagraph", "generalData", "row_givingUnits");
+  createBenchmark("contributionsWithoutDonorExcludingLargeGifts_benchmarkParagraph", "generalData", "row_contributionsWithoutDonorExcludingLargeGifts");
 
-  closeSidebarAfterSelectingOption("demo");
+  closeSidebarAfterSelectingOption("general");
 };
 
 const displayCashComponent = () => {
@@ -232,11 +232,13 @@ const displayExpenseComponent = () => {
     0,
     'personnelIncludingToTotalCashExpenditures',
     getBenchmarksForField('personnelIncludingToTotalCashExpenditures'),
-    'Personnel Including to Total Cash Expenditures'
+    'Personnel Including to Total Cash Expenditures',
+    'wa'
   );
 
   // Use benchmark paragraph data from localStorage
   createBenchmark("cashExpendituresPerGivingUnit_benchmarkParagraph", "expenseData", "row_cashExpendituresPerGivingUnit");
+  createBenchmark("personnelIncludingToTotalCashExpenditures_benchmarkParagraph", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
 
   closeSidebarAfterSelectingOption("expense");
 };

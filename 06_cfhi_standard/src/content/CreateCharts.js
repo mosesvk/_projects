@@ -43,7 +43,7 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
       // Additional
       informationTechnologyCostPerFTE: null,
       
-      // Demo (standard project specific)
+      // General (standard project specific)
       givingUnits: null,
       givingUnitsToStaff: null,
       contributionsWithoutDonorExcludingLargeGifts: null,
@@ -137,7 +137,9 @@ const getMainChartOptions = (
   mainName,
   benchmark,
   title,
-  chartId
+  chartId,
+  wa = null,
+  allData = null
 ) => {
   const isDarkMode = document.documentElement.classList.contains("dark");
   const chartColors = isDarkMode
@@ -284,7 +286,9 @@ const getMainChartOptions = (
       fixedNum,
       mainName,
       benchmark,
-      numType
+      numType,
+      wa,
+      allData
     ));
 
   // Calculate smart y-axis range based on actual data (always needed)
@@ -315,28 +319,37 @@ const getMainChartOptions = (
     padding = 0.05;
   }
   
-  // Smart y-axis maximum calculation
+  // Smart y-axis maximum calculation - only use special logic for small values
   let yaxisMax;
   
   if (dataMax <= 10) {
     // Apply special scaling logic only for small values (≤10)
     if (dataMax >= 5) {
+      // For values 5-10, round up to nearest 5
       yaxisMax = Math.ceil(dataMax / 5) * 5;
     } else if (dataMax >= 2.5) {
+      // For values 2.5-5, round up to nearest 1
       yaxisMax = Math.ceil(dataMax);
     } else if (dataMax > 2) {
+      // For values just above 2, set to 2.5
       yaxisMax = 2.5;
     } else if (dataMax === 2) {
+      // For exactly 2, keep at 2
       yaxisMax = 2;
     } else if (dataMax >= 1.5) {
+      // For values 1.5-2, round up to nearest 0.5
       yaxisMax = Math.ceil(dataMax * 2) / 2;
     } else if (dataMax >= 1) {
+      // For values 1-1.5, round up to nearest 0.5
       yaxisMax = Math.ceil(dataMax * 2) / 2;
     } else if (dataMax >= 0.5) {
+      // For values 0.5-1, round up to nearest 0.2
       yaxisMax = Math.ceil(dataMax * 5) / 5;
     } else if (dataMax >= 0.1) {
+      // For values 0.1-0.5, round up to nearest 0.1
       yaxisMax = Math.ceil(dataMax * 10) / 10;
     } else {
+      // For very small values, round up to nearest 0.05
       yaxisMax = Math.ceil(dataMax * 20) / 20;
     }
     
@@ -345,7 +358,7 @@ const getMainChartOptions = (
       if (dataMax >= 5) {
         yaxisMax += 5;
       } else if (dataMax >= 2) {
-        yaxisMax += 0.5;
+        yaxisMax += 0.5; // Smaller increment for values around 2
       } else if (dataMax >= 1) {
         yaxisMax += 0.5;
       } else if (dataMax >= 0.5) {
@@ -357,8 +370,82 @@ const getMainChartOptions = (
       }
     }
   } else {
-    // For larger values (>10), use the original padding approach
-    yaxisMax = dataMax + padding;
+    // For larger values (>10), use smart rounding based on scale
+    // Ensure the max divides evenly by ideal tick intervals
+    const rawMax = dataMax + padding;
+    
+    // Check dataMax first for values under 20 to prevent rounding up too much
+    // This ensures maxVal 15 doesn't get yaxisMax 20 even if rawMax is higher
+    if (dataMax < 20) {
+      // For dataMax under 20, use dataMax directly to keep yaxisMax close to actual max
+      if (dataMax <= 12) {
+        yaxisMax = 12; // maxVal 12: use 12 for ticks 0, 3, 6, 9, 12
+      } else if (dataMax <= 15) {
+        yaxisMax = 15; // maxVal 15: use 15 for ticks 0, 3, 6, 9, 12, 15
+      } else if (dataMax <= 16) {
+        yaxisMax = 16; // maxVal 16: use 16 for ticks 0, 4, 8, 12, 16
+      } else if (dataMax <= 17) {
+        yaxisMax = 18; // maxVal 17: use 18 for ticks 0, 3, 6, 9, 12, 15, 18
+      } else if (dataMax <= 18) {
+        yaxisMax = 18; // maxVal 18: use 18 for ticks 0, 3, 6, 9, 12, 15, 18
+      } else {
+        yaxisMax = 20; // maxVal 19: use 20
+      }
+    } else if (rawMax >= 100000000) {
+      // For values >= 100M, round up to nearest 10M
+      yaxisMax = Math.ceil(rawMax / 10000000) * 10000000;
+    } else if (rawMax >= 50000000) {
+      // For values >= 50M, round up to nearest 10M for clean 10M intervals
+      yaxisMax = Math.ceil(rawMax / 10000000) * 10000000;
+    } else if (rawMax >= 10000000) {
+      // For values >= 10M, round up to nearest 5M
+      yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
+    } else if (rawMax >= 1000000) {
+      // For values >= 1M, round up to nearest 2M for clean 2M intervals
+      // This ensures ranges like 10.67M become 12M, giving ticks at 0, 2, 4, 6, 8, 10, 12
+      yaxisMax = Math.ceil(rawMax / 2000000) * 2000000;
+    } else if (rawMax >= 500000) {
+      // For values 500K-1M, round up to nearest 100K
+      yaxisMax = Math.ceil(rawMax / 100000) * 100000;
+    } else if (rawMax >= 200000) {
+      // For values 200K-500K, round up to nearest 50K for tighter spacing
+      yaxisMax = Math.ceil(rawMax / 50000) * 50000;
+    } else if (rawMax >= 100000) {
+      // For values 100K-200K, round up to nearest 20K for tighter spacing
+      // Example: 137K rounds to 140K instead of 200K
+      yaxisMax = Math.ceil(rawMax / 20000) * 20000;
+    } else if (rawMax >= 50000) {
+      // For values 50K-100K, round up to nearest 10K
+      yaxisMax = Math.ceil(rawMax / 10000) * 10000;
+    } else if (rawMax >= 20000) {
+      // For values 20K-50K, round up to nearest 5K for tighter spacing
+      // Example: 25K rounds to 30K instead of 30K (same), 35K rounds to 40K
+      yaxisMax = Math.ceil(rawMax / 5000) * 5000;
+    } else if (rawMax >= 10000) {
+      // For values 10K-20K, round up to nearest 4K for tighter spacing
+      // Example: 20K rounds to 24K instead of 30K
+      yaxisMax = Math.ceil(rawMax / 4000) * 4000;
+    } else if (rawMax >= 1000) {
+      // For values >= 1K, round up to nearest 1K
+      yaxisMax = Math.ceil(rawMax / 1000) * 1000;
+    } else if (rawMax >= 100) {
+      // For values >= 100, round up to nearest 100
+      yaxisMax = Math.ceil(rawMax / 100) * 100;
+    } else if (rawMax >= 50) {
+      // For values 50-100, round to nearest 10 but keep closer to actual max
+      // For maxVal 47, rawMax ~50, round to 50 (not 60) for cleaner ticks
+      if (rawMax <= 55) {
+        yaxisMax = 50; // Keep at 50 for values 45-55
+      } else {
+        yaxisMax = Math.ceil(rawMax / 10) * 10; // Round to nearest 10 (60, 70, 80, 90, 100)
+      }
+    } else if (rawMax >= 40) {
+      // For values 40-50, round to nearest 10
+      yaxisMax = Math.ceil(rawMax / 10) * 10; // 40, 50
+    } else {
+      // For values 20-40, round to nearest multiple of 4 for clean spacing
+      yaxisMax = Math.ceil(rawMax / 4) * 4; // Round to nearest multiple of 4 (20, 24, 28, etc.)
+    }
   }
 
   // Set up annotations based on mainName and benchmark
@@ -419,66 +506,107 @@ const getMainChartOptions = (
     
     // Handle very large numbers (millions and billions)
     if (value >= 100000000) {
+      // Round to nearest 10M for values >= 100M
       formattedValue = `${Math.round(value / 10000000) * 10}M`;
-    } else if (value >= 1000000) {
+    } else if (value >= 50000000) {
+      // Round to nearest 10M for values between 50M and 100M
+      formattedValue = `${Math.round(value / 10000000) * 10}M`;
+    } else if (value >= 10000000) {
+      // Round to nearest 5M for values between 10M and 50M
       formattedValue = `${Math.round(value / 5000000) * 5}M`;
+    } else if (value >= 1000000) {
+      // Round to nearest 1M for values between 1M and 10M
+      // This prevents small millions from rounding to 0M
+      formattedValue = `${Math.round(value / 1000000)}M`;
+    } else if (value >= 100000) {
+      // For values >= 100K, display actual K value without rounding
+      const kValue = value / 1000;
+      // Only show decimal if it's not a whole number
+      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
     } else if (value >= 10000) {
-      formattedValue = `${Math.round(value / 10000) * 10}K`;
+      // For values >= 10K, display actual K value without rounding
+      const kValue = value / 1000;
+      // Only show decimal if it's not a whole number
+      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
     } else if (value >= 1000) {
-      formattedValue = `${Math.round(value / 1000)}K`;
+      // For values >= 1K, display actual K value without rounding
+      const kValue = value / 1000;
+      // Only show decimal if it's not a whole number
+      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
     } else if (value >= 100) {
+      // Round to nearest 100 for values between 100 and 1000
+      // This handles cases like 510 -> 500, 410 -> 400, etc.
       formattedValue = Math.round(value / 100) * 100;
     } else if (value >= 10) {
+      // Round to nearest 10 for values between 10 and 100
       formattedValue = Math.round(value / 10) * 10;
     } else if (dataMax <= 10) {
+      // Special handling only for charts with small data ranges (≤10)
+      // Round to avoid floating point precision issues
       const roundedValue = Math.round(value * 1000) / 1000;
       
       if (yaxisMax === 2.5 || yaxisMax === 2) {
+        // For charts with max of 2 or 2.5, use 0.5 increments
+        // Ensure we handle 0.5 values correctly
         if (Math.abs(roundedValue - 0.5) < 0.01) {
           formattedValue = 0.5;
         } else {
           formattedValue = Math.round(roundedValue * 2) / 2;
         }
       } else if (roundedValue >= 1) {
+        // For values 1-10, show 0.5 increments
         formattedValue = Math.round(roundedValue * 2) / 2;
       } else if (roundedValue >= 0.1) {
+        // For values 0.1-1, show 0.1 increments
         formattedValue = Math.round(roundedValue * 10) / 10;
       } else if (roundedValue >= 0.01) {
+        // For values 0.01-0.1, show 0.01 increments
         formattedValue = Math.round(roundedValue * 100) / 100;
       } else if (roundedValue > 0) {
+        // For very small positive values, show 0.001 increments
         formattedValue = Math.round(roundedValue * 1000) / 1000;
       } else {
         formattedValue = roundedValue;
       }
     } else {
+      // For larger charts, use standard rounding
       if (value >= 1) {
+        // Round to nearest 1 for values between 1 and 10
         formattedValue = Math.round(value);
       } else if (value >= 0.1) {
+        // For values between 0.1 and 1, always use 0.05 increments to avoid repeating labels
+        // This ensures clean increments like 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, etc.
         formattedValue = Math.round(value * 20) / 20;
       } else if (value >= 0.01) {
+        // For values between 0.01 and 0.1, use 0.02 increments
         formattedValue = Math.round(value * 50) / 50;
       } else {
+        // For very small values, round to nearest 0.01
         formattedValue = Math.round(value * 100) / 100;
       }
     }
     
     // Apply prefix/suffix based on numType
     if (numType === "dollar") {
+      // For dollar values, ensure we get clean whole numbers when possible
       if (formattedValue >= 1 && formattedValue < 100) {
         formattedValue = Math.round(formattedValue);
       }
       return `$${formattedValue}`;
     } else if (numType === "percent") {
+      // For percentage values, use consistent precision
       if (value >= 1 && value < 100) {
+        // For percentages 1-100, use 0.5 increments
         formattedValue = Math.round(value * 2) / 2;
       } else if (value >= 0.1 && value < 1) {
+        // For small percentages, use 0.05 increments
         formattedValue = Math.round(value * 20) / 20;
       }
       return `${formattedValue}%`;
     } else {
-      return formattedValue;
-      }
-    };
+      return formattedValue; // "num" or "number" - no prefix/suffix
+    }
+  };
   
     const tooltipFormatter = (value) => {
       if (!value) return;
@@ -689,8 +817,94 @@ const getMainChartOptions = (
             hideOverlappingLabels: false,
           },
         } : {
-          forceNiceScale: true,
-          tickAmount: 5, // Ensures 6 evenly distributed ticks on Y-axis
+          // For larger values (>10), calculate dynamic tick amount for even spacing
+          forceNiceScale: false,
+          tickAmount: (() => {
+            const range = yaxisMax - (yaxisMin || 0);
+            
+            // Calculate ideal tick count based on range scale
+            if (range >= 100000000) {
+              // For ranges >= 100M, use 5-10 ticks
+              return Math.min(10, Math.max(5, Math.floor(range / 10000000)));
+            } else if (range >= 50000000) {
+              // For ranges >= 50M, aim for 5 ticks (e.g., 0, 10M, 20M, 30M, 40M, 50M)
+              return 5;
+            } else if (range >= 10000000) {
+              // For ranges >= 10M, aim for 5 ticks
+              return 5;
+            } else if (range >= 1000000) {
+              // For ranges >= 1M, calculate ticks based on the rounded max
+              // Since yaxisMax is rounded to nearest 2M, use 2M intervals
+              // Example: 12M range = 6 ticks (0, 2M, 4M, 6M, 8M, 10M, 12M = 7 labels)
+              const millionRange = range / 1000000;
+              if (millionRange <= 4) {
+                // For ranges 1-4M, use 1M intervals
+                return Math.floor(millionRange);
+              } else if (millionRange <= 20) {
+                // For ranges 4-20M (rounded to even 2M), use 2M intervals
+                // tickAmount = range / 2M
+                return Math.floor(range / 2000000);
+              } else if (millionRange <= 50) {
+                // For ranges 20-50M, use 5M intervals
+                return Math.floor(range / 5000000);
+              } else {
+                // For ranges > 50M, use 10M intervals
+                return Math.floor(range / 10000000);
+              }
+            } else if (range >= 500000) {
+              // For ranges 500K-1M, use 100K intervals
+              return Math.floor(range / 100000);
+            } else if (range >= 200000) {
+              // For ranges 200K-500K, use 50K intervals
+              return Math.floor(range / 50000);
+            } else if (range >= 100000) {
+              // For ranges 100K-200K, use 20K intervals
+              // Example: 140K range / 20K = 7 ticks (0, 20K, 40K, 60K, 80K, 100K, 120K, 140K)
+              return Math.floor(range / 20000);
+            } else if (range >= 50000) {
+              // For ranges 50K-100K, use 10K intervals
+              return Math.floor(range / 10000);
+            } else if (range >= 20000) {
+              // For ranges 20K-50K, use 5K intervals
+              // Example: 30K range / 5K = 6 ticks (0, 5K, 10K, 15K, 20K, 25K, 30K)
+              return Math.floor(range / 5000);
+            } else if (range >= 10000) {
+              // For ranges 10K-20K, use 4K intervals
+              // Example: 24K range / 4K = 6 ticks (0, 4K, 8K, 12K, 16K, 20K, 24K)
+              return Math.floor(range / 4000);
+            } else if (range >= 1000) {
+              // For ranges >= 1K, use 5 ticks
+              return 5;
+            } else if (range >= 100) {
+              // For ranges >= 100, use 5 ticks
+              return 5;
+            } else if (range < 20 && yaxisMax < 20) {
+              // For ranges under 20 with yaxisMax under 20, use simple tickAmount based on yaxisMax
+              // This approach matches how other projects handle small ranges
+              if (yaxisMax === 15) {
+                // maxVal 15: use tickAmount = 5 for interval of 3 → ticks: 0, 3, 6, 9, 12, 15 (6 ticks)
+                return 5;
+              } else if (yaxisMax === 16) {
+                // maxVal 16: use tickAmount = 4 for interval of 4 → ticks: 0, 4, 8, 12, 16 (5 ticks)
+                return 4;
+              } else if (yaxisMax === 18) {
+                // maxVal 18: use tickAmount = 6 for interval of 3 → ticks: 0, 3, 6, 9, 12, 15, 18 (7 ticks)
+                return 6;
+              } else if (yaxisMax === 12) {
+                // maxVal 12: use tickAmount = 4 for interval of 3 → ticks: 0, 3, 6, 9, 12 (5 ticks)
+                return 4;
+              } else if (yaxisMax === 20) {
+                // maxVal 20: use tickAmount = 4 for interval of 5 → ticks: 0, 5, 10, 15, 20 (5 ticks)
+                return 4;
+              } else {
+                // Fallback: use tickAmount = 5 for simplicity
+                return 5;
+              }
+            } else {
+              // For other ranges, use 5 ticks
+              return 5;
+            }
+          })(),
           labels: {
             formatter: yaxisLabelFormatter,
             style: {

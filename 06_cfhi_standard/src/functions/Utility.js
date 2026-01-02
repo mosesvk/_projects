@@ -45,17 +45,18 @@ const createChartFromParsedData = (
   fixedNum,
   mainName,
   benchmark,
-  title
+  title,
+  wa = null
 ) => {
   //console.log('parsedData', parsedData);
   if (parsedData) {
-    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum, mainName, benchmark, title);
+    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum, mainName, benchmark, title, wa, parsedData);
     updateModal(mainName, parsedData[peer], parsedData[client]);
   }
 };
 
-const createChart = (chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title) => {
-  // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title });
+const createChart = (chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, wa = null, allData = null) => {
+  // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, wa, allData });
   document.getElementById(chartId).innerHTML = "";
 
   // Create a new chart instance with all parameters
@@ -67,7 +68,9 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum, mainName, be
     mainName,
     benchmark,
     title,
-    chartId
+    chartId,
+    wa,
+    allData
   );
 
   // Check if chartOptions is null (invalid data)
@@ -89,7 +92,7 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum, mainName, be
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
     chart.updateOptions(
-      getMainChartOptions(dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, chartId)
+      getMainChartOptions(dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, chartId, wa, allData)
     );
   });
 };
@@ -527,7 +530,7 @@ const createToastSuccess = (textString) => {
  */
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
-  const storedData = localStorage.getItem("demo");
+  const storedData = localStorage.getItem("general");
   if (!storedSelectedYears && storedData) {
     console.error("Need to Select Year");
   }
@@ -618,7 +621,9 @@ const getPeerAndClientChartDataArrays = (
   fixedNum,
   mainName,
   benchmark,
-  type
+  type,
+  wa = null,
+  allData = null
 ) => {
   console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark, type });
 
@@ -668,8 +673,17 @@ const getPeerAndClientChartDataArrays = (
       if (type == "percent") numToTimesByIfPercent = 100;
 
       const array = dataPeer[year];
-      let avg = getAverageOfArray(array, mainName);
-      avg *= numToTimesByIfPercent;
+      // Use weighted average if "wa" is present, otherwise use simple average
+      let avg;
+      if (wa && allData) {
+        // Use weighted average for specific year
+        avg = getWeightedAverageOfArray(allData, mainName, year);
+        avg *= numToTimesByIfPercent;
+      } else {
+        // Use simple average
+        avg = getAverageOfArray(array, mainName);
+        avg *= numToTimesByIfPercent;
+      }
       let mid = getMidpointOfArray(array, mainName);
       mid *= numToTimesByIfPercent;
       let lower25 = get25thPercentileOfArray(array, mainName);

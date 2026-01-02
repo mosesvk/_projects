@@ -37,9 +37,9 @@ class ExcelReportGenerator {
     // Field metric mappings for Standard Project (9 metrics)
     // Format per entry: [metricName, [AVG, MIN, MID, MAX], begin, end, category]
     this.fieldMappings = [
-      // Demo
-      ["givingUnits", [6, 8, 7, 9], true, false, "demo"],
-      ["contributionsWithoutDonorExcludingLargeGifts", [10, 12, 11, 13], false, false, "demo"],
+      // General
+      ["givingUnits", [6, 8, 7, 9], true, false, "general"],
+      ["contributionsWithoutDonorExcludingLargeGifts", [10, 12, 11, 13], false, false, "general"],
       
       // Cash
       ["daysOperatingCash", [14, 16, 15, 17], false, false, "cash"],
@@ -136,7 +136,7 @@ class ExcelReportGenerator {
     }
 
     // Validate data is available (use Standard Project data categories)
-    if (!localStorage.getItem("demoData") &&
+    if (!localStorage.getItem("generalData") &&
         !localStorage.getItem("cashData") &&
         !localStorage.getItem("debtData") &&
         !localStorage.getItem("incomeData") &&
@@ -477,7 +477,7 @@ class ExcelReportGenerator {
 
     try {
       // Get all data from localStorage
-      const demoData = JSON.parse(localStorage.getItem("demoData") || "{}");
+      const generalData = JSON.parse(localStorage.getItem("generalData") || "{}");
       const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
       const debtData = JSON.parse(localStorage.getItem("debtData") || "{}");
       const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
@@ -492,8 +492,8 @@ class ExcelReportGenerator {
         // Find which data object contains this metric based on category
         let dataObject;
         switch (category) {
-          case "demo":
-            dataObject = demoData;
+          case "general":
+            dataObject = generalData;
             break;
           case "cash":
             dataObject = cashData;
