@@ -344,6 +344,10 @@ const getMinOfArray = (array) => {
 
 const getSumOfArray = (array) => {
   // console.log(array);
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
   if (array.length === 0) {
     return 0;
   }

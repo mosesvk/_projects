@@ -8,7 +8,7 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "daysExpendableNetAssets":
       return daysExpendableNetAssets_weightedAverage(data, name);
     case "daysOperatingCash":
-      return daysOperatingCash_weightedAverage(data, name);
+      return daysOperatingCash_weightedAverage(data, name, year);
     case "availableDaysOfCashFlow":
       return availableDaysOfCashFlow_weightedAverage(data, name);
     case "liquidityRatio":
@@ -22,7 +22,7 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "debtCoverage":
       return debtCoverage_weightedAverage(data, name);
     case "debtToContributionsWithout":
-      return debtToContributionsWithout_weightedAverage(data, name);
+      return debtToContributionsWithout_weightedAverage(data, name, year);
     case "currentRatio":
       return currentRatio_weightedAverage(data, name);
     case "mandatoryDebtServiceToContributionsWithout":
@@ -35,7 +35,7 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "debtPerAverageAdultAttendee_standard":
       return debtPerAverageAdultAttendee_standard_weightedAverage(data, name);
     case "debtPerGivingUnit":
-      return debtPerGivingUnit_weightedAverage(data, name);
+      return debtPerGivingUnit_weightedAverage(data, name, year);
     case "debtPerGivingUnit_standard":
       return debtPerGivingUnit_standard_weightedAverage(data, name);
     case "netIncomeRatio":
@@ -43,13 +43,13 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "contributionsWithoutDonorPerAverageAdultAttendee": 
       return contributionsWithoutDonorPerAverageAdultAttendee_weightedAverage(data, name);
     case "contributionsWithoutDonorPerGivingUnit":
-      return contributionsWithoutDonorPerGivingUnit_weightedAverage(data, name);
+      return contributionsWithoutDonorPerGivingUnit_weightedAverage(data, name, year);
     case "contributionsWithoutDonorPerGivingUnit_standard":
-      return contributionsWithoutDonorPerGivingUnit_standard(data, name);
+      return contributionsWithoutDonorPerGivingUnit_standard(data, name, year);
     case "totalContributionsPerAverageAdultAttendee":
       return totalContributionsPerAverageAdultAttendee_weightedAverage(data, name);
     case "totalContributionsPerGivingUnit":
-      return totalContributionsPerGivingUnit_weightedAverage(data, name);
+      return totalContributionsPerGivingUnit_weightedAverage(data, name, year);
     case "benefitsToSalaries":
       return benefitsToSalaries_weightedAverage(data, name);
     case "salaries":
@@ -73,7 +73,7 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "cashExpendituresPerAvgAdultAttendee":
       return cashExpendituresPerAvgAdultAttendee_weightedAverage(data, name);
     case "cashExpendituresPerGivingUnit":
-      return cashExpendituresPerGivingUnit_weightedAverage(data, name);
+      return cashExpendituresPerGivingUnit_weightedAverage(data, name, year);
     case "personnelIncludingToTotalCashExpenditures":
       return personnelIncludingToTotalCashExpenditures_weightedAverage(data, name, year);
     default:
@@ -106,12 +106,25 @@ const personnelIncludingToTotalCashExpenditures_weightedAverage = (data, name, y
   return (s10 + s162) / denominator;
 }
 
-const cashExpendituresPerGivingUnit_weightedAverage = (data, name) => {
-  const s45 = getSumOfArray(data.totalExpense[name]);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name]);
-  const s02 = getSumOfArray(data.givingUnits[name]);
+const cashExpendituresPerGivingUnit_weightedAverage = (data, name, year) => {
+  const yearKey = year ? year : 'total';
+  
+  // Safely access nested properties with fallback to empty arrays
+  const s45 = data.totalExpense && data.totalExpense[name] && data.totalExpense[name][yearKey]
+    ? getSumOfArray(data.totalExpense[name][yearKey])
+    : 0;
+  const s46 = data.totalDepreciationExpense && data.totalDepreciationExpense[name] && data.totalDepreciationExpense[name][yearKey]
+    ? getSumOfArray(data.totalDepreciationExpense[name][yearKey])
+    : 0;
+  const s02 = data.givingUnits && data.givingUnits[name] && data.givingUnits[name][yearKey]
+    ? getSumOfArray(data.givingUnits[name][yearKey])
+    : 0;
 
-  return (s45-s46)/s02
+  if (s02 === 0 || isNaN(s02)) {
+    return 0;
+  }
+
+  return (s45 - s46) / s02;
 }
 
 
@@ -123,58 +136,128 @@ const benefitsToSalaries_weightedAverage = (data, name) => {
   return s11 / s10;
 }
 
-const totalContributionsPerGivingUnit_weightedAverage = (data, name) => {
+const totalContributionsPerGivingUnit_weightedAverage = (data, name, year) => {
+  const yearKey = year ? year : 'total';
+  
+  // Safely access nested properties with fallback to empty arrays
+  const s40 = data.totalContributions && data.totalContributions[name] && data.totalContributions[name][yearKey]
+    ? getSumOfArray(data.totalContributions[name][yearKey])
+    : 0;
+  const s02 = data.givingUnits && data.givingUnits[name] && data.givingUnits[name][yearKey]
+    ? getSumOfArray(data.givingUnits[name][yearKey])
+    : 0;
 
-  const s40 = getSumOfArray(data.totalContributions[name]); 
-  const s02 = getSumOfArray(data.givingUnits[name]);
+  if (s02 === 0 || isNaN(s02)) {
+    return 0;
+  }
 
-  return  s40 / s02
+  return s40 / s02;
 }
 
 
 
-const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name) => {
-  // console.log(data, name);
-  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
-  const s02 = getSumOfArray(data.givingUnits[name]);
+const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name, year) => {
+  const yearKey = year ? year : 'total';
+  
+  // Safely access nested properties with fallback to empty arrays
+  const s39 = data.contributionWithoutDonor && data.contributionWithoutDonor[name] && data.contributionWithoutDonor[name][yearKey]
+    ? getSumOfArray(data.contributionWithoutDonor[name][yearKey])
+    : 0;
+  const s02 = data.givingUnits && data.givingUnits[name] && data.givingUnits[name][yearKey]
+    ? getSumOfArray(data.givingUnits[name][yearKey])
+    : 0;
 
-  return s39/s02
+  if (s02 === 0 || isNaN(s02)) {
+    return 0;
+  }
+
+  return s39 / s02;
 }
 
-const contributionsWithoutDonorPerGivingUnit_standard = (data, name) => {
-  // console.log(data, name);
-  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
-  const s02 = getSumOfArray(data.givingUnits[name]);
+const contributionsWithoutDonorPerGivingUnit_standard = (data, name, year) => {
+  const yearKey = year ? year : 'total';
+  
+  // Safely access nested properties with fallback to empty arrays
+  const s39 = data.contributionWithoutDonor && data.contributionWithoutDonor[name] && data.contributionWithoutDonor[name][yearKey]
+    ? getSumOfArray(data.contributionWithoutDonor[name][yearKey])
+    : 0;
+  const s02 = data.givingUnits && data.givingUnits[name] && data.givingUnits[name][yearKey]
+    ? getSumOfArray(data.givingUnits[name][yearKey])
+    : 0;
 
-  return 2 * (s39 / s02)
+  if (s02 === 0 || isNaN(s02)) {
+    return 0;
+  }
+
+  return 2 * (s39 / s02);
 }
 
 
 
 
-const debtPerGivingUnit_weightedAverage = (data, name) => {
-  const s32 = getSumOfArray(data.totalDebt[name]);
-  const s02 = getSumOfArray(data.givingUnits[name]);
+const debtPerGivingUnit_weightedAverage = (data, name, year) => {
+  const yearKey = year ? year : 'total';
+  
+  // Safely access nested properties with fallback to empty arrays
+  const s32 = data.totalDebt && data.totalDebt[name] && data.totalDebt[name][yearKey]
+    ? getSumOfArray(data.totalDebt[name][yearKey])
+    : 0;
+  const s02 = data.givingUnits && data.givingUnits[name] && data.givingUnits[name][yearKey]
+    ? getSumOfArray(data.givingUnits[name][yearKey])
+    : 0;
 
-  return s32/s02
+  if (s02 === 0 || isNaN(s02)) {
+    return 0;
+  }
+
+  return s32 / s02;
 };
 
 
-const debtToContributionsWithout_weightedAverage = (data, name) => {
-  const s32 = getSumOfArray(data.totalDebt[name]);
-  const s39 = getSumOfArray(data.contributionWithoutDonor[name]);
+const debtToContributionsWithout_weightedAverage = (data, name, year) => {
+  const yearKey = year ? year : 'total';
+  
+  // Safely access nested properties with fallback to empty arrays
+  const s32 = data.totalDebt && data.totalDebt[name] && data.totalDebt[name][yearKey]
+    ? getSumOfArray(data.totalDebt[name][yearKey])
+    : 0;
+  const s39 = data.contributionWithoutDonor && data.contributionWithoutDonor[name] && data.contributionWithoutDonor[name][yearKey]
+    ? getSumOfArray(data.contributionWithoutDonor[name][yearKey])
+    : 0;
 
-  return s32 / s39
+  if (s39 === 0 || isNaN(s39)) {
+    return 0;
+  }
+
+  return s32 / s39;
 };
 
-const daysOperatingCash_weightedAverage = (data, name) => {
-  const s18 = getSumOfArray(data.totalCash[name]);
-  const s20 = getSumOfArray(data.nonEndowmentInvestment[name]);
-  const s36 = getSumOfArray(data.netAssetWithDonorRestriction[name]);
-  const s45 = getSumOfArray(data.totalExpense[name]);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name]);
+const daysOperatingCash_weightedAverage = (data, name, year) => {
+  const yearKey = year ? year : 'total';
+  
+  // Safely access nested properties with fallback to empty arrays
+  const s18 = data.totalCash && data.totalCash[name] && data.totalCash[name][yearKey]
+    ? getSumOfArray(data.totalCash[name][yearKey])
+    : 0;
+  const s20 = data.nonEndowmentInvestment && data.nonEndowmentInvestment[name] && data.nonEndowmentInvestment[name][yearKey]
+    ? getSumOfArray(data.nonEndowmentInvestment[name][yearKey])
+    : 0;
+  const s36 = data.netAssetWithDonorRestriction && data.netAssetWithDonorRestriction[name] && data.netAssetWithDonorRestriction[name][yearKey]
+    ? getSumOfArray(data.netAssetWithDonorRestriction[name][yearKey])
+    : 0;
+  const s45 = data.totalExpense && data.totalExpense[name] && data.totalExpense[name][yearKey]
+    ? getSumOfArray(data.totalExpense[name][yearKey])
+    : 0;
+  const s46 = data.totalDepreciationExpense && data.totalDepreciationExpense[name] && data.totalDepreciationExpense[name][yearKey]
+    ? getSumOfArray(data.totalDepreciationExpense[name][yearKey])
+    : 0;
+
+  const denominator = s45 - s46;
+  if (denominator === 0 || isNaN(denominator)) {
+    return 0;
+  }
 
   return (
-    ((s18 + s20 - s36) / (s45 - s46)) * 365
+    ((s18 + s20 - s36) / denominator) * 365
   );
 };
