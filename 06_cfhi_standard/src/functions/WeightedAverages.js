@@ -82,12 +82,28 @@ const getWeightedAverageOfArray = (data, name, year) => {
 };
 
 const personnelIncludingToTotalCashExpenditures_weightedAverage = (data, name, year) => {
-  const s10 = getSumOfArray(data.totalSalaries[name][year ? year : 'total']);
-  const s162 = getSumOfArray(data.costOfOutsourcedEmployee[name][year ? year : 'total']);
-  const s45 = getSumOfArray(data.totalExpense[name][year ? year : 'total']);
-  const s46 = getSumOfArray(data.totalDepreciationExpense[name][year ? year : 'total']);
+  const yearKey = year ? year : 'total';
+  
+  // Safely access nested properties with fallback to empty arrays
+  const s10 = data.totalSalaries && data.totalSalaries[name] && data.totalSalaries[name][yearKey]
+    ? getSumOfArray(data.totalSalaries[name][yearKey])
+    : 0;
+  const s162 = data.costOfOutsourcedEmployee && data.costOfOutsourcedEmployee[name] && data.costOfOutsourcedEmployee[name][yearKey]
+    ? getSumOfArray(data.costOfOutsourcedEmployee[name][yearKey])
+    : 0;
+  const s45 = data.totalExpense && data.totalExpense[name] && data.totalExpense[name][yearKey]
+    ? getSumOfArray(data.totalExpense[name][yearKey])
+    : 0;
+  const s46 = data.totalDepreciationExpense && data.totalDepreciationExpense[name] && data.totalDepreciationExpense[name][yearKey]
+    ? getSumOfArray(data.totalDepreciationExpense[name][yearKey])
+    : 0;
 
-  return (s10 + s162) / (s45 - s46) 
+  const denominator = s45 - s46;
+  if (denominator === 0 || isNaN(denominator)) {
+    return 0;
+  }
+
+  return (s10 + s162) / denominator;
 }
 
 const cashExpendituresPerGivingUnit_weightedAverage = (data, name) => {

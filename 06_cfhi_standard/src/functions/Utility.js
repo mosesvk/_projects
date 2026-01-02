@@ -692,7 +692,7 @@ const getPeerAndClientChartDataArrays = (
       let higher75 = get75thPercentileOfArray(array, mainName);
       higher75 *= numToTimesByIfPercent;
 
-      peerAvg.push(avg.toFixed(fixedNum));
+    peerAvg.push(avg.toFixed(fixedNum));
       peerMid.push(mid.toFixed(fixedNum));
       peer25.push(lower25.toFixed(fixedNum));
       peer75.push(higher75.toFixed(fixedNum));
@@ -1254,11 +1254,23 @@ const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
   }
 
   // Set up click handlers for year columns
-  if (selectedYears) {
-    const children = await document.getElementById(elementId).children;
+  if (selectedYears && selectedYears.length > 0) {
+    const element = document.getElementById(elementId);
+    if (!element) {
+      console.warn(`Element with id ${elementId} not found for benchmark modal`);
+      return variable;
+    }
     
-    for (let i = 1; i < selectedYears.length + 1; i++) {
-      editElementChildren(children[i], variable, elementId);
+    const children = element.children;
+    if (!children || children.length === 0) {
+      console.warn(`Element ${elementId} has no children for benchmark modal`);
+      return variable;
+    }
+    
+    for (let i = 1; i < selectedYears.length + 1 && i < children.length; i++) {
+      if (children[i]) {
+        editElementChildren(children[i], variable, elementId);
+      }
     }
   }
 
@@ -1267,7 +1279,15 @@ const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
 
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
-  if (!element) console.log(elementId);
+  if (!element) {
+    console.warn(`Element not found for elementId: ${elementId}`);
+    return;
+  }
+
+  if (!variable) {
+    console.warn(`Variable (modal) not provided for elementId: ${elementId}`);
+    return;
+  }
 
   // console.log(element);
 
