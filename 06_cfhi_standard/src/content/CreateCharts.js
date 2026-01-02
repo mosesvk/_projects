@@ -484,15 +484,32 @@ const getMainChartOptions = (
       // Example: 25K rounds to 30K instead of 30K (same), 35K rounds to 40K
       yaxisMax = Math.ceil(rawMax / 5000) * 5000;
     } else if (rawMax >= 10000) {
-      // For values 10K-20K, round up to nearest 4K for tighter spacing
-      // Example: 20K rounds to 24K instead of 30K
-      yaxisMax = Math.ceil(rawMax / 4000) * 4000;
+      // For values 10K-20K, round up to nearest 2K for even spacing
+      // Example: 14K rounds to 14K, 15K rounds to 16K
+      yaxisMax = Math.ceil(rawMax / 2000) * 2000;
     } else if (rawMax >= 1000) {
-      // For values >= 1K, round up to nearest 1K
+      // For values 1K-10K, round up to nearest 1K for whole thousands
+      // Example: 5.8K rounds to 6K, 7.2K rounds to 8K
       yaxisMax = Math.ceil(rawMax / 1000) * 1000;
-    } else if (rawMax >= 100) {
-      // For values >= 100, round up to nearest 100
+    } else if (rawMax >= 800) {
+      // For values 800-1000, round up to nearest 100 for clean 100 intervals
       yaxisMax = Math.ceil(rawMax / 100) * 100;
+    } else if (rawMax >= 500) {
+      // For values 500-800, use 100 interval for even spacing
+      // Example: 600 rounds to 600 (0, 100, 200, 300, 400, 500, 600)
+      yaxisMax = Math.ceil(rawMax / 100) * 100;
+    } else if (rawMax >= 400) {
+      // For values 400-500, use 100 interval (400, 500)
+      yaxisMax = Math.ceil(rawMax / 100) * 100;
+    } else if (rawMax >= 300) {
+      // For values 300-400, use 100 interval (300, 400)
+      yaxisMax = Math.ceil(rawMax / 100) * 100;
+    } else if (rawMax >= 200) {
+      // For values 200-300, use 100 interval (200, 300)
+      yaxisMax = Math.ceil(rawMax / 100) * 100;
+    } else if (rawMax >= 100) {
+      // For values 100-200, use 50 interval (100, 150, 200)
+      yaxisMax = Math.ceil(rawMax / 50) * 50;
     } else if (rawMax >= 50) {
       // For values 50-100, round to nearest 10 but keep closer to actual max
       // For maxVal 47, rawMax ~50, round to 50 (not 60) for cleaner ticks
@@ -589,15 +606,13 @@ const getMainChartOptions = (
       // Only show decimal if it's not a whole number
       formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
     } else if (absValue >= 10000) {
-      // For values >= 10K, display actual K value without rounding
-      const kValue = absValue / 1000;
-      // Only show decimal if it's not a whole number
-      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
+      // For values >= 10K, round to nearest whole thousand
+      // Example: 14.2K -> 14K, 15.8K -> 16K
+      formattedValue = `${Math.round(absValue / 1000)}K`;
     } else if (absValue >= 1000) {
-      // For values >= 1K, display actual K value without rounding
-      const kValue = absValue / 1000;
-      // Only show decimal if it's not a whole number
-      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
+      // For values 1K-10K, round to nearest whole thousand for clean labels
+      // Example: 1.4K -> 1K, 2.8K -> 3K, 5.6K -> 6K, 7K -> 7K
+      formattedValue = `${Math.round(absValue / 1000)}K`;
     } else if (absValue >= 100) {
       // Round to nearest 100 for values between 100 and 1000
       // This handles cases like 510 -> 500, 410 -> 400, etc.
@@ -955,15 +970,25 @@ const getMainChartOptions = (
               // Example: 30K range / 5K = 6 ticks (0, 5K, 10K, 15K, 20K, 25K, 30K)
               return Math.floor(range / 5000);
             } else if (range >= 10000) {
-              // For ranges 10K-20K, use 4K intervals
-              // Example: 24K range / 4K = 6 ticks (0, 4K, 8K, 12K, 16K, 20K, 24K)
-              return Math.floor(range / 4000);
+              // For ranges 10K-20K, use 2K intervals
+              // Example: 14K range / 2K = 7 ticks (0, 2K, 4K, 6K, 8K, 10K, 12K, 14K)
+              return Math.floor(range / 2000);
             } else if (range >= 1000) {
-              // For ranges >= 1K, use 5 ticks
-              return 5;
+              // For ranges 1K-10K, use 1K intervals for whole thousands
+              // Example: 7K range / 1K = 7 ticks (0, 1K, 2K, 3K, 4K, 5K, 6K, 7K)
+              return Math.floor(range / 1000);
+            } else if (range >= 500) {
+              // For ranges 500-1000, use 100 intervals
+              // Example: 800 range / 100 = 8 ticks (0, 100, 200, ..., 800)
+              return Math.floor(range / 100);
+            } else if (range >= 200) {
+              // For ranges 200-500, use 100 intervals
+              // Example: 400 range / 100 = 4 ticks (0, 100, 200, 300, 400)
+              return Math.floor(range / 100);
             } else if (range >= 100) {
-              // For ranges >= 100, use 5 ticks
-              return 5;
+              // For ranges 100-200, use 50 intervals
+              // Example: 200 range / 50 = 4 ticks (0, 50, 100, 150, 200)
+              return Math.floor(range / 50);
             } else if (range < 20 && yaxisMax < 20) {
               // For ranges under 20 with yaxisMax under 20, use simple tickAmount based on yaxisMax
               // This approach matches how other projects handle small ranges
