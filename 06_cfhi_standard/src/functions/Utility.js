@@ -1050,9 +1050,15 @@ function getBenchmarks(obj) {
 }
 
 const getBackgroundColor = (array, row, i = 1) => {
-  if (!array.length) return;
+  if (!array || !array.length) return;
   
-  const trimmedArray = array.map(item => item.trim().replace(/\n/g, '').replace(/Action\s+Required/g, 'Action Required'));
+  // Filter out null/undefined values and safely process items
+  const trimmedArray = array
+    .filter(item => item != null && typeof item === 'string')
+    .map(item => item.trim().replace(/\n/g, '').replace(/Action\s+Required/g, 'Action Required'));
+  
+  if (!trimmedArray.length) return;
+  
   // console.log({ array, row, trimmedArray});
 
   let color =
