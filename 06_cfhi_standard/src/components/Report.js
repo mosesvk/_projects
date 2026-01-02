@@ -64,12 +64,17 @@ const addTotalDataToEveryRow = (data, selectedYears, arrayOfNames) => {
 
   for (let name of arrayOfNames) {
     // console.log('name', name);
+    const clientKey = `${name[0]}_Client`;
+    const peerKey = `${name[0]}_Peer`;
+    const client = data[clientKey] || null;
+    const peer = data[peerKey] || null;
+    
     addToSingleRow(
       selectedYears,
       name[0],
       data,
-      data[`${name[0]}_Client`],
-      data[`${name[0]}_Peer`],
+      client,
+      peer,
       name[1],
       name[2],
       name[3],
@@ -153,13 +158,10 @@ const addClientDataToReportRow = (
   selectedYears.forEach((year) => {
     const dataPoint = document.createElement("th");
     
-    // Safely access client data - styleNumber will handle NaN/empty as 0
-    let text = "";
-    if (client && client[year] && client[year].value !== undefined && client[year].value !== null) {
-      const value = client[year].value;
-      // Always call styleNumber - it will handle NaN/empty/null and format as 0 based on type
-      text = styleNumber(value, type, fixedNum);
-    }
+    // Get value from client data, or null if missing - styleNumber handles null as 0
+    const value = (client && client[year] && client[year].value !== undefined) ? client[year].value : null;
+    // Always call styleNumber - it handles null/NaN/empty and formats as 0 based on type
+    const text = styleNumber(value, type, fixedNum);
 
     // Create a new span element
     const spanElement = document.createElement("span");
@@ -211,13 +213,10 @@ const addClientDataToModalRow = (
 
   const dataPoint = document.createElement("th");
   
-  // Safely access client data - styleNumber will handle NaN/empty as 0
-  let text = "";
-  if (client && client[year] && client[year].value !== undefined && client[year].value !== null) {
-    const value = client[year].value;
-    // Always call styleNumber - it will handle NaN/empty/null and format as 0 based on type
-    text = styleNumber(value, type, fixedNum);
-  }
+  // Get value from client data, or null if missing - styleNumber handles null as 0
+  const value = (client && client[year] && client[year].value !== undefined) ? client[year].value : null;
+  // Always call styleNumber - it handles null/NaN/empty and formats as 0 based on type
+  const text = styleNumber(value, type, fixedNum);
 
   dataPoint.className = propClass;
   dataPoint.scope = propScope;

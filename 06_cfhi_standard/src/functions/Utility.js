@@ -630,7 +630,7 @@ const getPeerAndClientChartDataArrays = (
   wa = null,
   allData = null
 ) => {
-  console.log({ years, dataPeer, dataClient, fixedNum, mainName, benchmark, type });
+  // console.log(`getPeerAndClientChartDataArrays for ${mainName}:`, { years, dataPeer, dataClient, fixedNum, mainName, benchmark, type, wa: !!wa, allData: !!allData });
 
   const peerAvg = [];
   const peerMid = [];
@@ -767,13 +767,13 @@ const getPeerAndClientChartDataArrays = (
       } else {
         clientArray.push(null);
       }
-    } else if (!dataClient || !dataPeer) {
-      throw new Error(
-        `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
-      );
-      createToastWarning(
-        `check Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
-      );
+    } else {
+      // Handle missing data gracefully - push null values instead of throwing
+      peerAvg.push(null);
+      peerMid.push(null);
+      peer25.push(null);
+      peer75.push(null);
+      clientArray.push(null);
     }
   });
 
@@ -787,6 +787,7 @@ const formatZeroByType = (type) => {
   } else if (type === "dollar") {
     return "$ 0";
   } else {
+    // For "num", "number", or any unknown type, return "0"
     return "0";
   }
 };
@@ -809,8 +810,8 @@ const styleNumber = (num, type, fixed) => {
 
   // if (text == 0 || text == 0.00) text = "-";
 
-  // Handle formatting based on type
-  if (type === "num") {
+  // Handle formatting based on type - also accept "number" as alias for "num"
+  if (type === "num" || type === "number") {
     if (text != 0) {
       text = Number(text).toFixed(fixed);
       text = Number(text).toLocaleString(); // Add commas for thousands
@@ -829,6 +830,14 @@ const styleNumber = (num, type, fixed) => {
       text = "$ " + Number(text).toLocaleString(); // Add commas for thousands
     } else {
       text = "$ 0";
+    }
+  } else {
+    // Unknown type - treat as number
+    if (text != 0) {
+      text = Number(text).toFixed(fixed || 0);
+      text = Number(text).toLocaleString();
+    } else {
+      text = "0";
     }
   }
 
