@@ -61,6 +61,21 @@ const contrPerAvgAttAndGU_whatDoesThisMean = [
   `Again, the most apparent way to improve this calculation is to increase total contributions.`,
 ];
 
+// "What does this mean" text for contributionsWithoutDonorPerGivingUnit
+const contrWithoutPerAvgAttAndGU_whatDoesThisMean = [
+  `This calculation, which removes the effect of large one-time (unusual) gifts without donor restrictions, can be compared from year to year to see the trends and determine the impact on the church and budget. Another valuable comparison is to calculate what contributions would be if every giving unit made a certain amount (i.e., $50,000 a year) and tithed on that amount. The church could use this measurement to make the congregation aware of what the current giving per adult attendee and giving unit is, and what the projected giving would be if everyone participated.`,
+  `Churches today have to look at contributions differently than at any time in the past. Contributions are down, and generational differences are very strong even in the way people contribute to their church. Young people, who are more cause-driven, tend to give to specific purposes and causes and are less interested in giving to general operations. This creates budgeting concerns.`,
+  `Churches choose to communicate these needs in various ways. Some list them in the bulletin. Some annually communicate contributions per adult attendee or giving unit. Others may request contributions towards a specific need and tell the congregation what was received and how the funds were spent, and show pictures of the repairs or replacements.`,
+  `All churches, especially those that receive large amounts of donor-restricted contributions, should consider adopting a gift acceptance policy. Such a policy would include what types of gifts would be received (cash, stock, etc.). It could also include what donor-restricted amounts the church will accept. If the church is never going to buy a bus, for example, there is no reason to accept funds for such a purpose.`,
+  `The most obvious way to improve this calculation is to increase contributions without donor restrictions.`,
+];
+
+// "What does this mean" text for cashExpendituresPerGivingUnit
+const totalCashExpendExcludePerGU_whatDoesThisMean = [
+  `Has your church ever wondered what your cash financial cost per adult attendee and giving unit is? This measure provides the answer. First, it takes total expenses and subtracts out the largest non-cash expense, which is depreciation. Next, it adds back the largest cash outflow (which is not an expense) or current debt principal. The purpose of this is to approximate total annual cash expenditures for your church. Then it divides that total by the adult attendees or giving units.`,
+  `The power of this measure is in the peer group comparison. This allows your church to see if your total cash expenditures are high or low compared to your peers. It also shows the increases and decreases to this measure between years.`,
+];
+
 const displayGeneralComponent = () => {
   const savedData = getStoredData("generalData");
   const parseData = parseStoredData(savedData);
@@ -212,11 +227,13 @@ const displayIncomeComponent = () => {
 
   // Use benchmark paragraph data from localStorage for income metrics
   createBenchmark("contributionsWithoutDonorPerGivingUnit_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit");
+  createBenchmark("Good: Improving Trend", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
   // Use hardcoded benchmark text for totalContributionsPerGivingUnit (matches comp project)
   createBenchmark("Good: > 4,500 | Warning: 3,000 - 4,500 | Action: < 3,000", "incomeData", "row_totalContributionsPerGivingUnit");
   createBenchmark("Good: Improving Trend", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
   
   // Add "What does this mean?" content
+  createWhatDoesThisMean(contrWithoutPerAvgAttAndGU_whatDoesThisMean, "row_contributionsWithoutDonorPerGivingUnit");
   createWhatDoesThisMean(contrPerAvgAttAndGU_whatDoesThisMean, "row_totalContributionsPerGivingUnit");
 
   closeSidebarAfterSelectingOption("income");
@@ -260,6 +277,7 @@ const displayExpenseComponent = () => {
   createBenchmark("Good: 40-55 | Warning: 35-40 or 55-59 | Action: < 35 or > 59", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
   
   // Add "What does this mean?" content
+  createWhatDoesThisMean(totalCashExpendExcludePerGU_whatDoesThisMean, "row_cashExpendituresPerGivingUnit");
   createWhatDoesThisMean(personnelInclude_whatDoesThisMean, "row_personnelIncludingToTotalCashExpenditures");
 
   closeSidebarAfterSelectingOption("expense");

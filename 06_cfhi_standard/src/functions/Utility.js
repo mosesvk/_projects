@@ -1421,9 +1421,11 @@ const createWhatDoesThisMean = (whatDoesThisMeanArray, elementId) => {
       let innerDiv = body2Element.querySelector('div.p-5');
       if (!innerDiv) {
         innerDiv = document.createElement('div');
-        innerDiv.className = 'p-5 bg-gray-50 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800';
+        innerDiv.className = 'p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800';
         body2Element.appendChild(innerDiv);
       }
+      // Ensure white background (remove any gray background)
+      innerDiv.classList.remove('bg-gray-50');
       innerDiv.innerHTML = htmlContent;
     } else {
       console.warn(`_body-2 element not found for selector: ${body2Selector}`);
