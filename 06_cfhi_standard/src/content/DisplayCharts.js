@@ -47,6 +47,13 @@ function fixUnicodeCharacters(content) {
   return fixedContent;
 }
 
+// "What does this mean" text for personnelIncludingToTotalCashExpenditures
+const personnelInclude_whatDoesThisMean = [
+  `Salaries and benefits, interest, and debt service payments (which are not an expense but rather a reduction of a liability) represent the majority of resource outflows from the local church.`,
+  `Therefore, it is essential to continually monitor these levels as a percentage of total cash expenditures. It is also important to promptly follow up on changes in trends or unusual variances from peers to ensure that your ministry resources are continually maximized.`,
+  `This ratio allows your church to look at two of its largest cash outflows and determine the portion of the operating budget that will be used. Often a growth cycle results in an amount of debt the church anticipates being able to pay off as more people are able and encouraged to attend. However, the church needs to be able to pay the bills and provide the services that will attract new people with the current budget. Reviewing this ratio in advance of any major debt decisions will help you analyze the feasibility of your facility expansion goals.`
+];
+
 const displayGeneralComponent = () => {
   const savedData = getStoredData("generalData");
   const parseData = parseStoredData(savedData);
@@ -240,7 +247,11 @@ const displayExpenseComponent = () => {
 
   // Use benchmark paragraph data from localStorage
   createBenchmark("cashExpendituresPerGivingUnit_benchmarkParagraph", "expenseData", "row_cashExpendituresPerGivingUnit");
-  createBenchmark("personnelIncludingToTotalCashExpenditures_benchmarkParagraph", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
+  // Use hardcoded benchmark text for personnelIncludingToTotalCashExpenditures (matches personnelToCashExpenditure in comp project)
+  createBenchmark("Good: 40-55 | Warning: 35-40 or 55-59 | Action: < 35 or > 59", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
+  
+  // Add "What does this mean?" content
+  createWhatDoesThisMean(personnelInclude_whatDoesThisMean, "row_personnelIncludingToTotalCashExpenditures");
 
   closeSidebarAfterSelectingOption("expense");
 };

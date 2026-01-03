@@ -1226,23 +1226,59 @@ const processHtmlContent = (htmlContent) => {
  * @param {string} elementId - The row element ID (e.g., "row_daysOperatingCash")
  * @returns {Object} - The tingle modal instance
  */
-const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
-  // Get data from localStorage
-  const data = localStorage.getItem(dataCategory);
-  if (!data) {
-    console.warn(`No data found for category: ${dataCategory}`);
-    return null;
-  }
-
-  const parsedData = JSON.parse(data);
-  const benchmarkData = parsedData[benchmarkFieldName];
+const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId) => {
+  let benchmarkContent;
+  let fieldName;
   
-  if (!benchmarkData) {
-    console.warn(`No benchmark data found for field: ${benchmarkFieldName}`);
-    return null;
+  // Check if this is hardcoded text (contains "|" or "Good:" pattern) or a field name
+  const isHardcodedText = benchmarkTextOrFieldName.includes('|') || 
+                          benchmarkTextOrFieldName.includes('Good:') || 
+                          benchmarkTextOrFieldName.includes('Warning:') ||
+                          benchmarkTextOrFieldName.includes('Action:') ||
+                          !benchmarkTextOrFieldName.includes('_');
+  
+  if (isHardcodedText && benchmarkTextOrFieldName.trim() !== '') {
+    // Use hardcoded text directly
+    benchmarkContent = benchmarkTextOrFieldName;
+    // Extract field name from elementId
+    fieldName = elementId.replace(/^row_/, '');
+  } else {
+    // Try to get from localStorage (API data)
+    const data = localStorage.getItem(dataCategory);
+    if (!data) {
+      console.warn(`No data found for category: ${dataCategory}`);
+      return null;
+    }
+
+    const parsedData = JSON.parse(data);
+    const benchmarkData = parsedData[benchmarkTextOrFieldName];
+    
+    if (!benchmarkData) {
+      console.warn(`No benchmark data found for field: ${benchmarkTextOrFieldName}`);
+      return null;
+    }
+
+    // Get selected years to access benchmark paragraph
+    const selectedYears = getSelectedYearsFromLocalStorage();
+    if (!selectedYears || selectedYears.length === 0) {
+      console.warn('No selected years found');
+      return null;
+    }
+
+    // Use the first available year to get benchmark paragraph data
+    const targetYear = selectedYears[0];
+    benchmarkContent = benchmarkData[targetYear]?.value;
+
+    if (!benchmarkContent || benchmarkContent === '0') {
+      // Silently skip if benchmark content is missing (field may not exist in QuickBase)
+      return null;
+    }
+    
+    // Extract field name from benchmarkFieldName (remove _benchmarkParagraph suffix)
+    fieldName = benchmarkTextOrFieldName.replace(/_benchmarkParagraph$/, '');
   }
 
-  // Get selected years to access benchmark paragraph
+  // Get selected years for click handlers
   const selectedYears = getSelectedYearsFromLocalStorage();
   if (!selectedYears || selectedYears.length === 0) {
     console.warn('No selected years found');
@@ -1253,19 +1289,6 @@ const createBenchmark = async (benchmarkFieldName, dataCategory, elementId) => {
   if (typeof fixUnicodeCharacters !== 'function') {
     console.warn('fixUnicodeCharacters function not found, skipping Unicode processing');
   }
-
-  // Use the first available year to get benchmark paragraph data
-  const targetYear = selectedYears[0];
-  const benchmarkContent = benchmarkData[targetYear]?.value;
-
-  if (!benchmarkContent || benchmarkContent === '0') {
-    // Silently skip if benchmark content is missing (field may not exist in QuickBase)
-    // console.warn(`No benchmark content for field: ${benchmarkFieldName}, year: ${targetYear}`);
-    return null;
-  }
-
-  // Extract field name from benchmarkFieldName (remove _benchmarkParagraph suffix)
-  const fieldName = benchmarkFieldName.replace(/_benchmarkParagraph$/, '');
   
   // Generate title from field name
   const benchmarkTitle = generateBenchmarkTitle(fieldName);
@@ -1363,6 +1386,51 @@ const editElementChildren = (element, variable, elementId) => {
   element.classList.add("transition");
   element.classList.add("ease-in-out");
 
+};
+
+/**
+ * Create "What Does This Mean" content and populate the _body-2 section
+ * @param {Array<string>} whatDoesThisMeanArray - Array of strings describing what the metric means
+ * @param {string} elementId - The row element ID (e.g., "row_daysOperatingCash")
+ */
+const createWhatDoesThisMean = (whatDoesThisMeanArray, elementId) => {
+  if (!Array.isArray(whatDoesThisMeanArray) || whatDoesThisMeanArray.length === 0) {
+    console.warn(`Invalid whatDoesThisMeanArray for ${elementId}`);
+    return;
+  }
+
+  // Extract field name from elementId (e.g., "row_daysOperatingCash" -> "daysOperatingCash")
+  const fieldName = elementId.replace(/^row_/, '');
+
+  // Build HTML content from array - each item becomes a paragraph
+  let htmlContent = '';
+  whatDoesThisMeanArray.forEach((paragraph) => {
+    // Process each paragraph and apply fixUnicodeCharacters if available
+    let processedParagraph = typeof processHtmlContent === 'function' ? processHtmlContent(paragraph) : paragraph;
+    processedParagraph = typeof fixUnicodeCharacters === 'function' ? fixUnicodeCharacters(processedParagraph) : processedParagraph;
+    htmlContent += `<p class="mb-2 text-gray-500 dark:text-gray-400">${processedParagraph}</p>`;
+  });
+
+  // Populate the _body-2 section
+  try {
+    const body2Selector = `#${fieldName}-body-2`;
+    const body2Element = document.querySelector(body2Selector);
+    
+    if (body2Element) {
+      // Find the inner div with the p-5 class, or create it if it doesn't exist
+      let innerDiv = body2Element.querySelector('div.p-5');
+      if (!innerDiv) {
+        innerDiv = document.createElement('div');
+        innerDiv.className = 'p-5 bg-gray-50 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-800';
+        body2Element.appendChild(innerDiv);
+      }
+      innerDiv.innerHTML = htmlContent;
+    } else {
+      console.warn(`_body-2 element not found for selector: ${body2Selector}`);
+    }
+  } catch (error) {
+    console.error(`Error populating _body-2 section for ${elementId}:`, error);
+  }
 };
 
 /**

@@ -35,7 +35,7 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
       salariesBenefitsIncludingOutsourcedEmployees: null,
       personnelToCashExpenditure: [40, 55],
       mandatoryDebtServiceToCashExpenditure: [15],
-      personnelIncludingToTotalCashExpenditures: null,
+      personnelIncludingToTotalCashExpenditures: [40, 55],
       totalGlobalAndLocalOutreachExpenses: [10, 25],
       facilitiesExpenseToTotalCashExpenditures_lessThanTen: [20, 30],
       facilitiesExpenseToTotalCashExpenditures_greaterThanTen: [20, 30],
@@ -644,6 +644,9 @@ const getMainChartOptions = (
         } else {
           formattedValue = Math.round(roundedAbsValue * 2) / 2;
         }
+      } else if (Number.isInteger(yaxisMax) && yaxisMax >= 2 && yaxisMax <= 10) {
+        // For integer yaxisMax 2-10, round to nearest integer for clean labels
+        formattedValue = Math.round(roundedAbsValue);
       } else if (roundedAbsValue >= 1) {
         // For values 1-10, show 0.5 increments
         formattedValue = Math.round(roundedAbsValue * 2) / 2;
@@ -894,9 +897,14 @@ const getMainChartOptions = (
           },
         } : dataMax <= 10 ? {
           forceNiceScale: false,
+          // For integer yaxisMax 2-10, force exact integer ticks
+          ...(Number.isInteger(yaxisMax) && yaxisMax >= 2 && yaxisMax <= 10 ? {
+            min: 0,
+            max: yaxisMax,
+            tickAmount: yaxisMax,
+          } : {
           tickAmount: (() => {
             const range = yaxisMax - (yaxisMin || 0);
-            
             if (range >= 5) {
               return 5;
             } else if (range >= 2) {
@@ -907,8 +915,23 @@ const getMainChartOptions = (
               return 5;
             }
           })(),
+          }),
           labels: {
-            formatter: yaxisLabelFormatter,
+            formatter: (value) => {
+              // For integer yaxisMax 2-10, always show integers
+              if (Number.isInteger(yaxisMax) && yaxisMax >= 2 && yaxisMax <= 10) {
+                const intValue = Math.round(value);
+                if (numType === "dollar") {
+                  return `$${intValue}`;
+                } else if (numType === "percent") {
+                  return `${intValue}%`;
+                } else {
+                  return intValue;
+                }
+              }
+              // Otherwise use the standard formatter
+              return yaxisLabelFormatter(value);
+            },
             style: {
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
