@@ -232,7 +232,7 @@ const displayExpenseComponent = () => {
     'cashExpendituresPerGivingUnit_chart',
     'cashExpendituresPerGivingUnit_Peer',
     'cashExpendituresPerGivingUnit_Client',
-    'number',
+    'dollar',
     0,
     'cashExpendituresPerGivingUnit',
     getBenchmarksForField('cashExpendituresPerGivingUnit'),
@@ -249,7 +249,7 @@ const displayExpenseComponent = () => {
     0,
     'personnelIncludingToTotalCashExpenditures',
     getBenchmarksForField('personnelIncludingToTotalCashExpenditures'),
-    'Personnel Including to Total Cash Expenditures',
+    'Personnel (Including Outsourced Personnel) to Total Cash Expenditures',
     'wa',
     savedData
   );
