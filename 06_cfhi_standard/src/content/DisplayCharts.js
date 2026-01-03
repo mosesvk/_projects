@@ -191,7 +191,7 @@ const displayIncomeComponent = () => {
     'contributionsWithoutDonorPerGivingUnit_Peer',
     'contributionsWithoutDonorPerGivingUnit_Client',
     'dollar',
-    1,
+    0,
     'contributionsWithoutDonorPerGivingUnit',
     getBenchmarksForField('contributionsWithoutDonorPerGivingUnit'),
     'Contributions without donor restrictions Per Giving Unit'
@@ -199,12 +199,12 @@ const displayIncomeComponent = () => {
 
   // totalContributionsPerGivingUnit
   createChartFromParsedData(
-    parseData,
+    parseData,    
     'totalContributionsPerGivingUnit_chart',
     'totalContributionsPerGivingUnit_Peer',
     'totalContributionsPerGivingUnit_Client',
     'dollar',
-    1,
+    0,
     'totalContributionsPerGivingUnit',
     getBenchmarksForField('totalContributionsPerGivingUnit'),
     'Total Contributions Per Giving Unit'
@@ -233,7 +233,7 @@ const displayExpenseComponent = () => {
     'cashExpendituresPerGivingUnit_Peer',
     'cashExpendituresPerGivingUnit_Client',
     'number',
-    1,
+    0,
     'cashExpendituresPerGivingUnit',
     getBenchmarksForField('cashExpendituresPerGivingUnit'),
     'Cash Expenditures Per Giving Unit'
