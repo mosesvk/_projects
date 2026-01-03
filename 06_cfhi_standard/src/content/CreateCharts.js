@@ -383,10 +383,30 @@ const getMainChartOptions = (
     padding = 0.05;
   }
   
-    // Smart y-axis maximum calculation - only use special logic for small values
-  if (dataMax <= 10) {
-    // Apply special scaling logic only for small values (≤10)
-    if (dataMax >= 5) {
+  // Smart y-axis maximum calculation
+    // For percent type with values >= 10, treat like num/dollar - round to nearest 10
+  if (numType === "percent" && dataMax >= 10) {
+    // Percent type should round to nearest 10 for clean tick marks (0%, 10%, 20%, etc.)
+    const rawMax = dataMax + padding;
+    if (rawMax >= 100) {
+      yaxisMax = Math.ceil(rawMax / 10) * 10;
+    } else if (rawMax >= 50) {
+      yaxisMax = Math.ceil(rawMax / 10) * 10;
+    } else if (rawMax >= 20) {
+      yaxisMax = Math.ceil(rawMax / 10) * 10;
+    } else {
+      yaxisMax = Math.ceil(rawMax / 5) * 5;
+    }
+  } else if (dataMax <= 10) {
+    // Apply special scaling logic only for small values (≤10) - for num and dollar types
+    if (numType === "dollar" && dataMax >= 1) {
+      // For dollar type with values 1-10, round to nearest whole number for clean $1, $2, $3, etc.
+      yaxisMax = Math.ceil(dataMax);
+      // Add small headroom if at exact max
+      if (yaxisMax === dataMax) {
+        yaxisMax += 1;
+      }
+    } else if (dataMax >= 5) {
       // For values 5-10, round up to nearest 5
       yaxisMax = Math.ceil(dataMax / 5) * 5;
     } else if (dataMax >= 2.5) {
@@ -415,8 +435,8 @@ const getMainChartOptions = (
       yaxisMax = Math.ceil(dataMax * 20) / 20;
     }
     
-    // Only add headroom if we're at exactly the data max (no rounding occurred)
-    if (yaxisMax === dataMax && dataMax !== 2) {
+    // Only add headroom if we're at exactly the data max (no rounding occurred) - skip for dollar type already handled
+    if (yaxisMax === dataMax && dataMax !== 2 && !(numType === "dollar" && dataMax >= 1)) {
       if (dataMax >= 5) {
         yaxisMax += 5;
       } else if (dataMax >= 2) {
@@ -692,19 +712,34 @@ const getMainChartOptions = (
     
     // Apply prefix/suffix based on numType
     if (numType === "dollar") {
-      // For dollar values, ensure we get clean whole numbers when possible
-      if (Math.abs(formattedValue) >= 1 && Math.abs(formattedValue) < 100) {
+      // For dollar values, always show whole numbers for clean labels
+      if (Math.abs(formattedValue) >= 1) {
         formattedValue = isNegative ? -Math.round(absValue) : Math.round(absValue);
+      } else if (Math.abs(formattedValue) >= 0.1) {
+        // For values 0.1-1, round to 1 decimal place but prefer whole numbers
+        const rounded = Math.round(absValue * 10) / 10;
+        // If close to a whole number, use whole number
+        if (Math.abs(rounded - Math.round(rounded)) < 0.01) {
+          formattedValue = isNegative ? -Math.round(rounded) : Math.round(rounded);
+        } else {
+          formattedValue = isNegative ? -rounded : rounded;
+        }
       }
       return `$${formattedValue}`;
     } else if (numType === "percent") {
-      // For percentage values, use consistent precision
-      if (absValue >= 1 && absValue < 100) {
-        // For percentages 1-100, use 0.5 increments
-        formattedValue = isNegative ? -(Math.round(absValue * 2) / 2) : (Math.round(absValue * 2) / 2);
-      } else if (absValue >= 0.1 && absValue < 1) {
-        // For small percentages, use 0.05 increments
-        formattedValue = isNegative ? -(Math.round(absValue * 20) / 20) : (Math.round(absValue * 20) / 20);
+      // For percentage values, use whole numbers for clean labels (0%, 10%, 20%, etc.)
+      if (absValue >= 10) {
+        // For percentages >= 10, round to nearest whole number
+        formattedValue = isNegative ? -Math.round(absValue) : Math.round(absValue);
+      } else if (absValue >= 1) {
+        // For percentages 1-10, round to nearest whole number
+        formattedValue = isNegative ? -Math.round(absValue) : Math.round(absValue);
+      } else if (absValue >= 0.1) {
+        // For small percentages 0.1-1, use 0.1 increments
+        formattedValue = isNegative ? -(Math.round(absValue * 10) / 10) : (Math.round(absValue * 10) / 10);
+      } else {
+        // For very small percentages, use 0.01 increments
+        formattedValue = isNegative ? -(Math.round(absValue * 100) / 100) : (Math.round(absValue * 100) / 100);
       }
       return `${formattedValue}%`;
     } else {
