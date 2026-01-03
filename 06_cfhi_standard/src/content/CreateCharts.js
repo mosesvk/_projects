@@ -1047,6 +1047,11 @@ const getMainChartOptions = (
               // For ranges 100-200, use 50 intervals
               // Example: 200 range / 50 = 4 ticks (0, 50, 100, 150, 200)
               return Math.floor(range / 50);
+            } else if (range >= 20) {
+              // For ranges 20-100, use 10-unit intervals for clean ticks
+              // Example: 70 range / 10 = 7 ticks (0, 10, 20, 30, 40, 50, 60, 70)
+              // Example: 60 range / 10 = 6 ticks (0, 10, 20, 30, 40, 50, 60)
+              return Math.floor(range / 10);
             } else if (range < 20 && yaxisMax < 20) {
               // For ranges under 20 with yaxisMax under 20, use simple tickAmount based on yaxisMax
               // This approach matches how other projects handle small ranges
