@@ -54,6 +54,13 @@ const personnelInclude_whatDoesThisMean = [
   `This ratio allows your church to look at two of its largest cash outflows and determine the portion of the operating budget that will be used. Often a growth cycle results in an amount of debt the church anticipates being able to pay off as more people are able and encouraged to attend. However, the church needs to be able to pay the bills and provide the services that will attract new people with the current budget. Reviewing this ratio in advance of any major debt decisions will help you analyze the feasibility of your facility expansion goals.`
 ];
 
+// "What does this mean" text for totalContributionsPerGivingUnit
+const contrPerAvgAttAndGU_whatDoesThisMean = [
+  `The key difference between this result and Measurement 12 is that this is calculated on total contributions (both with and without donor restrictions) and removes the effect of pledges, which are essentially a non-cash accrual, and all large one-time gifts.`,
+  `When a church is in the midst of a specific campaign, it will likely receive some large one-time gifts. Since this ratio includes both gifts with and without donor restrictions, it is important that these are eliminated; otherwise, there could be large swings between years. As with Measurement 12, the power of this ratio is in analyzing trends in congregational giving habits between years. Keep in mind that during the period of a capital campaign this figure may be inflated even with the removal of large one-time gifts, because of an increase in smaller gifts as well.`,
+  `Again, the most apparent way to improve this calculation is to increase total contributions.`,
+];
+
 const displayGeneralComponent = () => {
   const savedData = getStoredData("generalData");
   const parseData = parseStoredData(savedData);
@@ -122,7 +129,7 @@ const displayCashComponent = () => {
     "netCashAvailability_chart",
     "netCashAvailability_Peer",
     "netCashAvailability_Client",
-    "number",
+    "dollar",
     0,
     "netCashAvailability",
     getBenchmarksForField("netCashAvailability"),
@@ -205,10 +212,12 @@ const displayIncomeComponent = () => {
 
   // Use benchmark paragraph data from localStorage for income metrics
   createBenchmark("contributionsWithoutDonorPerGivingUnit_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit");
-  // createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit");
-  // createBenchmark("totalContributionsPerGivingUnit_benchmarkParagraph", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
+  // Use hardcoded benchmark text for totalContributionsPerGivingUnit (matches comp project)
+  createBenchmark("Good: > 4,500 | Warning: 3,000 - 4,500 | Action: < 3,000", "incomeData", "row_totalContributionsPerGivingUnit");
+  createBenchmark("Good: Improving Trend", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
   
-  // createBenchmark("contributionsWithoutDonorPerGivingUnit_percentChange_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
+  // Add "What does this mean?" content
+  createWhatDoesThisMean(contrPerAvgAttAndGU_whatDoesThisMean, "row_totalContributionsPerGivingUnit");
 
   closeSidebarAfterSelectingOption("income");
 };

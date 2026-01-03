@@ -236,6 +236,8 @@ const addPeerDataToRow = (
   data
 ) => {
   // console.log({ tableRow, peer, type, fixedNum, dataArray, wa, data, name });
+  // personnelToCashExpenditure
+  // personnelIncludingToTotalCashExpenditures
 
   const propClass =
     "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white border-r-2 dark:border-gray-600";
