@@ -1404,6 +1404,126 @@ class ApiService {
   }
 
   /**
+   * Deduplicate peer records by keeping only the most recent record per client per year.
+   * Uses s52 - Fiscal YE Date (field 222) as the primary criterion, with Record ID# (field 3) as tiebreaker.
+   * This ensures that eligibility is determined per year by evaluating only the most recent YE record for each client.
+   * 
+   * @param {NodeList|Array} records - Array of peer XML record elements
+   * @returns {Array} - Deduplicated array of record elements
+   */
+  deduplicatePeerRecordsByClientAndYear(records) {
+    if (!records || records.length === 0) {
+      return [];
+    }
+
+    // Convert NodeList to Array if necessary
+    const recordsArray = Array.isArray(records) ? records : Array.from(records);
+    
+    // Map to store: { "clientName|year": { record, yeDate, recordId } }
+    const clientYearMap = new Map();
+    
+    let duplicatesFound = 0;
+    let recordsProcessed = 0;
+
+    recordsArray.forEach((record) => {
+      try {
+        // Extract client name - try multiple possible field names
+        const clientName = 
+          record.querySelector("client___merged_client_name")?.textContent?.trim() ||
+          record.querySelector("client_name")?.textContent?.trim();
+        
+        // Extract year (field 195 - s52 Formatted Year)
+        const year = 
+          record.querySelector("s52_formatted_year")?.textContent?.trim() ||
+          record.querySelector("year")?.textContent?.trim();
+        
+        // Extract fiscal YE date (field 222 - s52 - Fiscal YE Date)
+        const yeDateStr = 
+          record.querySelector("s52___fiscal_ye_date")?.textContent?.trim() ||
+          record.querySelector("fiscal_ye_date")?.textContent?.trim();
+        
+        // Extract record ID (field 3)
+        const recordIdStr = 
+          record.querySelector("record_id_")?.textContent?.trim() ||
+          record.querySelector("rid")?.textContent?.trim() ||
+          record.getAttribute("rid");
+
+        if (!clientName || !year) {
+          // Skip records without essential identification fields
+          console.warn("Skipping record without client name or year:", { clientName, year });
+          return;
+        }
+
+        recordsProcessed++;
+        const key = `${clientName}|${year}`;
+        
+        // Parse YE date - Quickbase dates are typically in format: YYYY-MM-DD or epoch
+        let yeDate = null;
+        if (yeDateStr) {
+          // Try parsing as date string or epoch
+          const parsed = Date.parse(yeDateStr);
+          if (!isNaN(parsed)) {
+            yeDate = parsed;
+          } else {
+            // Try as epoch number
+            const epoch = parseInt(yeDateStr, 10);
+            if (!isNaN(epoch)) {
+              yeDate = epoch;
+            }
+          }
+        }
+        
+        const recordId = parseInt(recordIdStr, 10) || 0;
+        
+        const existing = clientYearMap.get(key);
+        
+        if (!existing) {
+          // First record for this client-year combination
+          clientYearMap.set(key, { record, yeDate, recordId });
+        } else {
+          // Compare to determine which record to keep
+          duplicatesFound++;
+          let shouldReplace = false;
+          
+          if (yeDate !== null && existing.yeDate !== null) {
+            // Both have YE dates - compare dates (keep more recent)
+            if (yeDate > existing.yeDate) {
+              shouldReplace = true;
+            } else if (yeDate === existing.yeDate && recordId > existing.recordId) {
+              // Same YE date - use record ID as tiebreaker (higher = newer)
+              shouldReplace = true;
+            }
+          } else if (yeDate !== null && existing.yeDate === null) {
+            // Current has YE date, existing doesn't - prefer current
+            shouldReplace = true;
+          } else if (yeDate === null && existing.yeDate === null) {
+            // Neither has YE date - use record ID as tiebreaker
+            if (recordId > existing.recordId) {
+              shouldReplace = true;
+            }
+          }
+          // If existing has YE date and current doesn't, keep existing (no replace)
+          
+          if (shouldReplace) {
+            clientYearMap.set(key, { record, yeDate, recordId });
+          }
+        }
+      } catch (error) {
+        console.error("Error processing record for deduplication:", error);
+      }
+    });
+
+    // Extract just the records from the map
+    const deduplicatedRecords = Array.from(clientYearMap.values()).map(entry => entry.record);
+    
+    if (duplicatesFound > 0) {
+      console.log(`📊 Peer deduplication: Processed ${recordsProcessed} records, found ${duplicatesFound} duplicates, returning ${deduplicatedRecords.length} unique client-year records`);
+    }
+    
+    return deduplicatedRecords;
+  }
+
+  /**
    * Get records for peer organizations with filtering
    * @param {Array} years - Array of years to fetch
    * @param {string} dataStr - Accumulated XML data string
@@ -1426,7 +1546,10 @@ class ApiService {
           "text/xml"
         );
         const records = xmlDoc.querySelectorAll("record");
-        return records;
+        
+        // Deduplicate peer records: keep only the most recent YE record per client per year
+        const deduplicatedRecords = this.deduplicatePeerRecordsByClientAndYear(records);
+        return deduplicatedRecords;
       } catch (error) {
         console.error("Error parsing XML in getRecordsForPeer:", error);
         return [];
@@ -1473,7 +1596,8 @@ class ApiService {
       act: "API_DoQuery",
         query: queryCondition,
       clist:
-          "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.155.158.330.331.420.421.131.175",
+          // Added field 3 (Record ID#) and 222 (s52 - Fiscal YE Date) for proper deduplication by most recent YE
+          "3.222.195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.155.158.330.331.420.421.131.175",
       };
 
       // Use await to make the async operation more explicit
@@ -1626,8 +1750,9 @@ class ApiService {
 
     // apiCallForPeerDataBatched
     const apiCalls = [];
+    // Added field 3 (Record ID#) and 222 (s52 - Fiscal YE Date) for proper deduplication by most recent YE
     const clist =
-      "195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.158.155.330.331.420.421.131.175";
+      "3.222.195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.158.155.330.331.420.421.131.175";
 
     for (const currentYear of years) {
       for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
@@ -1737,13 +1862,16 @@ class ApiService {
 
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
-      const records = xmlDoc.querySelectorAll("record");
+      const rawRecords = xmlDoc.querySelectorAll("record");
 
-      // Build per-year record counts
+      // Deduplicate peer records: keep only the most recent YE record per client per year
+      const records = this.deduplicatePeerRecordsByClientAndYear(rawRecords);
+
+      // Build per-year record counts (now using deduplicated records)
       try {
         const yearTotals = {};
-        Array.from(records).forEach((rec) => {
-          const yearElem = rec.querySelector("year");
+        records.forEach((rec) => {
+          const yearElem = rec.querySelector("s52_formatted_year") || rec.querySelector("year");
           if (yearElem) {
             const yearKey = yearElem.textContent.trim();
             if (yearKey) {
@@ -1763,7 +1891,7 @@ class ApiService {
 
         Object.entries(yearTotals).forEach(([year, count]) => {
           window.peerRecordMapPerYear.set(String(year), count);
-          console.log(`Year ${year}: ${count} peer records`);
+          console.log(`Year ${year}: ${count} peer records (deduplicated)`);
         });
       } catch (e) {
         console.error(
@@ -1865,13 +1993,18 @@ class ApiService {
   }
 
   /**
-   * Get unique client names for dropdown
+   * Get unique client names for dropdown.
+   * Now properly stores the MOST RECENT YE record per client (by fiscal year-end date),
+   * rather than the first record encountered.
    */
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
       query: "{195.XEX.''} AND {193.EX.'Standard'}",
-      clist: "195.301.123.267.268.186.3",
+      // Added field 222 (s52 - Fiscal YE Date) and field 3 (Record ID#) for proper most-recent-YE selection
+      clist: "3.222.195.301.123.267.268.186",
+      slist: "195",      // Sort by year (field 195 = s52_formatted_year)
+      sortorder: "D",    // Descending - most recent year first
     };
 
     try {
@@ -1883,6 +2016,10 @@ class ApiService {
       if (!window.clientDataStore) {
         window.clientDataStore = {};
       }
+      
+      // Temporary storage to track the most recent record per client
+      // Structure: { clientName: { yeDate, recordId, record } }
+      const clientMostRecentMap = {};
 
       // Create a string to hold the XML data
       let xmlString = "<qdbapi>";
@@ -1895,10 +2032,59 @@ class ApiService {
         if (clientName) {
           uniquePeerClientNames.add(clientName);
 
-          // Store client data with all required fields
-          if (!window.clientDataStore[clientName]) {
+          // Extract fiscal YE date (field 222)
+          const yeDateStr = 
+            record.querySelector("s52___fiscal_ye_date")?.textContent?.trim() ||
+            record.querySelector("fiscal_ye_date")?.textContent?.trim();
+          
+          // Extract record ID (field 3)
+          const recordIdStr = 
+            record.querySelector("record_id_")?.textContent?.trim() ||
+            record.querySelector("rid")?.textContent?.trim() ||
+            record.getAttribute("rid");
+          
+          // Parse YE date
+          let yeDate = null;
+          if (yeDateStr) {
+            const parsed = Date.parse(yeDateStr);
+            if (!isNaN(parsed)) {
+              yeDate = parsed;
+            } else {
+              const epoch = parseInt(yeDateStr, 10);
+              if (!isNaN(epoch)) {
+                yeDate = epoch;
+              }
+            }
+          }
+          
+          const recordId = parseInt(recordIdStr, 10) || 0;
+          
+          // Check if we should update the stored record for this client
+          const existing = clientMostRecentMap[clientName];
+          let shouldStore = false;
+          
+          if (!existing) {
+            // First record for this client
+            shouldStore = true;
+          } else {
+            // Compare to determine if this is more recent
+            if (yeDate !== null && existing.yeDate !== null) {
+              if (yeDate > existing.yeDate) {
+                shouldStore = true;
+              } else if (yeDate === existing.yeDate && recordId > existing.recordId) {
+                shouldStore = true;
+              }
+            } else if (yeDate !== null && existing.yeDate === null) {
+              shouldStore = true;
+            } else if (yeDate === null && existing.yeDate === null && recordId > existing.recordId) {
+              shouldStore = true;
+            }
+          }
+          
+          if (shouldStore) {
             // Get fiscal year
-            const year = record.querySelector("year")?.textContent;
+            const year = record.querySelector("s52_formatted_year")?.textContent || 
+                        record.querySelector("year")?.textContent;
 
             // Get mission unit value
             const givingUnitVal =
@@ -1908,17 +2094,22 @@ class ApiService {
             const regionVal =
               record.querySelector("main_queryregions")?.textContent || "0";
 
-            // Get statevalue
+            // Get site value
             const siteVal =
               record.querySelector("main_querymultisite")?.textContent || "0";
 
-            // Store all client data
-            window.clientDataStore[clientName] = {
-              name: clientName,
-              year: year,
-              givingUnitVal: parseFloat(givingUnitVal) || 0,
-              region: regionVal,
-              site: siteVal,
+            // Store all client data (based on most recent YE)
+            clientMostRecentMap[clientName] = {
+              yeDate,
+              recordId,
+              record,
+              data: {
+                name: clientName,
+                year: year,
+                givingUnitVal: parseFloat(givingUnitVal) || 0,
+                region: regionVal,
+                site: siteVal,
+              }
             };
           }
 
@@ -1926,6 +2117,13 @@ class ApiService {
           xmlString += record.outerHTML;
         }
       });
+
+      // Populate window.clientDataStore with the most recent YE record per client
+      Object.entries(clientMostRecentMap).forEach(([clientName, entry]) => {
+        window.clientDataStore[clientName] = entry.data;
+      });
+      
+      console.log(`📊 Client data store populated with ${Object.keys(clientMostRecentMap).length} clients (using most recent YE per client)`);
 
       // Close the XML string
       xmlString += "</qdbapi>";
