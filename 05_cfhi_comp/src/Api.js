@@ -3644,13 +3644,10 @@ class ApiService {
       let queryCondition = `{195.EX.${currentYear}} AND ${clientQuery}`;
       // console.log(`Using query condition: ${queryCondition}`);
 
-      // Add giving units filter
-      if (
-        window.sliderValue !== undefined &&
-        window.sliderValue2 !== undefined
-      ) {
-        queryCondition += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
-      }
+      // NOTE: Giving units filter is NOT applied here.
+      // Client selection is already filtered by most recent year's giving units via clientDataStore.
+      // Once a client qualifies (based on their latest year), ALL their historical years are included.
+      // This ensures Scenario 2 behavior: if 2024 passes filter, 2023 data is also included regardless of 2023's giving units.
 
       // Add regions filter
       if (
@@ -4086,11 +4083,12 @@ class ApiService {
 
     // Pre-calculate all filter conditions once
     const filterParts = [];
-    if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
-      filterParts.push(
-        `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}} AND {193.EX.'Comprehensive'}`
-      );
-    }
+    // NOTE: Giving units filter ({123.GTE/LTE}) is NOT applied here.
+    // Client selection is already filtered by most recent year's giving units via clientDataStore.
+    // Once a client qualifies (based on their latest year), ALL their historical years are included.
+    // This ensures Scenario 2 behavior: if 2024 passes filter, 2023 data is also included regardless of 2023's giving units.
+    // Only add the Comprehensive filter for data type consistency
+    filterParts.push(`{193.EX.'Comprehensive'}`);
     if (window.selectedRegions_Array?.length > 0) {
       const regionConditions = window.selectedRegions_Array
         .map((region) => `{267.EX.${region}}`)
