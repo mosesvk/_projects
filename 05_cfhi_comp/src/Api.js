@@ -3916,6 +3916,11 @@ class ApiService {
         uniquePeerClientNames
       ).sort();
 
+      // Log unique clients after API call completes
+      // console.log(`[getRecordsForUniqueClientPeerNames] Unique clients found: ${sortedUniquePeerClientNames.length}`);
+      console.log("[getRecordsForUniqueClientPeerNames] Client list:", sortedUniquePeerClientNames);
+      console.log("[getRecordsForUniqueClientPeerNames] Client data (most recent YE):", window.clientDataStore);
+
       // Add to global selected clients array
       if (typeof selectedClients_Array !== "undefined") {
         sortedUniquePeerClientNames.forEach((item) =>
@@ -5328,6 +5333,9 @@ function countUniqueClients(records) {
   // Use a Set to track unique client names
   const uniqueClients = new Set();
 
+  // Track full client data from the fetched records (year, givingUnits, region, site)
+  const clientRecordsData = {};
+
   /**
    * Initializes uniqueClientsPerYearMap and uniqueClientsNamesPerYearMap based on selected years.
    * uniqueClientsPerYearMap: { [year]: Set<string> } - Set of unique client names per year.
@@ -5347,12 +5355,25 @@ function countUniqueClients(records) {
       const clientName = record
         .querySelector("client___merged_client_name")
         ?.textContent?.trim();
-        const year = record.querySelector("s52_formatted_year")?.textContent;
-    
+      const year = record.querySelector("s52_formatted_year")?.textContent;
+      const givingUnits = record.querySelector("s02___giving_units")?.textContent;
+      const region = record.querySelector("main_queryregions")?.textContent;
+      const site = record.querySelector("main_querymultisite")?.textContent;
 
       // Only count clients that are in the selectedClients_Array
       if (clientName && selectedClients.includes(clientName)) {
         uniqueClients.add(clientName);
+
+        // Store full record data for this client (track all years' data)
+        if (!clientRecordsData[clientName]) {
+          clientRecordsData[clientName] = [];
+        }
+        clientRecordsData[clientName].push({
+          year: year,
+          givingUnits: givingUnits,
+          region: region,
+          site: site,
+        });
 
         // Track unique clients per year
         if (
@@ -5373,6 +5394,9 @@ function countUniqueClients(records) {
         }
       }
     });
+
+    // Store for global access if needed for debugging
+    window.clientRecordsData = clientRecordsData;
 
     // Convert Sets to counts for the per-year map
     if (window.uniqueClientsPerYearMap) {
@@ -5397,8 +5421,29 @@ function countUniqueClients(records) {
       element.textContent = count;
     }
 
-    // console.log(`Counted ${count} unique clients after filtering`);
-    // console.log("Unique clients per year:", window.uniqueClientsPerYearMap);
+    // Log unique clients after Run API button is clicked
+    console.log(`[countUniqueClients] Unique clients after Run API: ${count}`);
+    console.log("[countUniqueClients] Client names in peer records:", Array.from(uniqueClients).sort());
+    console.log("[countUniqueClients] Unique clients per year:", window.uniqueClientsPerYearMap);
+    console.log("[countUniqueClients] Client names per year:", window.uniqueClientsNamesPerYearMap);
+    
+    // Log detailed client data with year, givingUnits, region, site for each record
+    console.log("[countUniqueClients] Full client records data (year, givingUnits, region, site):");
+    console.table(
+      Object.entries(clientRecordsData)
+        .flatMap(([clientName, records]) => 
+          records.map(r => ({
+            clientName,
+            year: r.year,
+            givingUnits: r.givingUnits,
+            region: r.region,
+            site: r.site
+          }))
+        )
+        .sort((a, b) => a.year - b.year)
+    );
+    // Also log as object for easier inspection
+    console.log("[countUniqueClients] Client data by name (all years):", clientRecordsData);
   } catch (error) {
     console.error("Error counting unique clients:", error);
     const element = document.getElementById("uniqueClients");

@@ -691,124 +691,12 @@ function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// Function to observe and format input values
-function setupNumberFormatting() {
-  const inputIds = ["givingUnitsMin", "givingUnitsMax"];
+// DEPRECATED: Old overlay span approach - now handled directly in Utility.js range() function
+// The range() function in Utility.js now manages formatting with toLocaleString() directly
+// function setupNumberFormatting() { ... }
 
-  // Process each input field
-  inputIds.forEach((id) => {
-    const input = document.getElementById(id);
-    if (!input) return;
-
-    // Set initial value if not set and format it
-    if (!input.value || input.value === "0") {
-      if (id === "givingUnitsMin") {
-        input.value = window.sliderValue || 0;
-      } else {
-        input.value = window.sliderValue2 || 25000;
-      }
-    }
-    
-    // Format initial value
-    if (input.value) {
-      const formattedValue = formatNumberWithCommas(input.value);
-      const displaySpan = getOrCreateDisplaySpan(input, id);
-      displaySpan.textContent = formattedValue;
-    }
-
-    // Setup MutationObserver to watch for value changes from slider movement
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "value"
-        ) {
-          const rawValue = input.value;
-          const formattedValue = formatNumberWithCommas(rawValue);
-          const displaySpan = getOrCreateDisplaySpan(input, id);
-          displaySpan.textContent = formattedValue;
-        }
-      });
-    });
-
-    // Start observing the input element for value changes
-    observer.observe(input, { attributes: true });
-
-    // Also handle direct input changes
-    input.addEventListener("input", function () {
-      const rawValue = this.value;
-      const formattedValue = formatNumberWithCommas(rawValue);
-      const displaySpan = getOrCreateDisplaySpan(this, id);
-      displaySpan.textContent = formattedValue;
-    });
-
-    // Handle change event to ensure formattedValue is updated
-    input.addEventListener("change", function () {
-      const rawValue = this.value;
-      const formattedValue = formatNumberWithCommas(rawValue);
-      const displaySpan = getOrCreateDisplaySpan(this, id);
-      displaySpan.textContent = formattedValue;
-    });
-  });
-
-  // Also listen for the custom filtersChanged event
-  document.addEventListener("filtersChanged", function () {
-    inputIds.forEach((id) => {
-      const input = document.getElementById(id);
-      if (!input) return;
-
-      const rawValue = input.value;
-      const formattedValue = formatNumberWithCommas(rawValue);
-      const displaySpan = getOrCreateDisplaySpan(input, id);
-      displaySpan.textContent = formattedValue;
-    });
-  });
-}
-
-// Helper function to get or create display span
-function getOrCreateDisplaySpan(inputElement, inputId) {
-  // Check if we already have a display span
-  let displaySpan = document.querySelector(`[data-format-for="${inputId}"]`);
-
-  // If not, create one and position it appropriately
-  if (!displaySpan) {
-    displaySpan = document.createElement("span");
-    displaySpan.setAttribute("data-format-for", inputId);
-    displaySpan.className = "formatted-value ml-2";
-
-    // Style the display span
-    displaySpan.style.position = "absolute";
-    displaySpan.style.zIndex = "10";
-    displaySpan.style.background = "transparent";
-    displaySpan.style.pointerEvents = "none"; // Don't interfere with input
-
-    // Hide the actual input value visually (keep it for functionality)
-    inputElement.style.color = "transparent";
-
-    // Position the display span over the input
-    const rect = inputElement.getBoundingClientRect();
-
-    // Create a wrapper if the input doesn't have one
-    let wrapper = inputElement.parentElement;
-    if (!wrapper.classList.contains("input-wrapper")) {
-      wrapper = document.createElement("div");
-      wrapper.className = "input-wrapper relative";
-      wrapper.style.position = "relative";
-      inputElement.parentNode.insertBefore(wrapper, inputElement);
-      wrapper.appendChild(inputElement);
-    }
-
-    // Add the span after the input in the same wrapper
-    wrapper.appendChild(displaySpan);
-
-    // Adjust positioning to overlay the input
-    displaySpan.style.left = "8px"; // Padding
-    displaySpan.style.top = "50%";
-    displaySpan.style.transform = "translateY(-50%)";
-  }
-
-  return displaySpan;
-}
+// DEPRECATED: Old overlay span approach - now handled directly in Utility.js range() function
+// function getOrCreateDisplaySpan(inputElement, inputId) { ... }
 
 // Add event listeners for key events - CRITICAL CONNECTION POINTS
 document.addEventListener("filtersChanged", updateClientDropdownFilters);
@@ -849,27 +737,9 @@ document.addEventListener("dataProcessingComplete", function (event) {
   checkAndInitializeClientData();
 });
 
-// Listen for custom slider events (but don't trigger filtering yet)
-document.addEventListener("sliderChanged", function (event) {
-  const { value, type } = event.detail;
-  const input = document.getElementById(
-    type === "min" ? "givingUnitsMin" : "givingUnitsMax"
-  );
-  if (input && input.value != value) {
-    input.value = value;
-
-    // Also update the formatted display if it exists
-    const displaySpan = document.querySelector(
-      `[data-format-for="${input.id}"]`
-    );
-    if (displaySpan) {
-      displaySpan.textContent = formatNumberWithCommas(value);
-    }
-  }
-  
-  // Note: We don't dispatch filtersChanged here anymore
-  // Instead, we listen for mouseup/touchend events on the actual sliders
-});
+// DEPRECATED: sliderChanged event no longer used
+// The range() function in Utility.js now dispatches filtersChanged directly
+// and handles all input formatting internally
 
 // Main initialization when DOM is loaded
 document.addEventListener("DOMContentLoaded", function () {
@@ -1047,9 +917,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize all filter triggers
   initializeFilterTriggers();
 
-  document.addEventListener("filtersChanged", function () {
-    setTimeout(setupNumberFormatting, 500);
-  });
+  // DEPRECATED: Old overlay approach removed - formatting now handled in Utility.js range()
+  // document.addEventListener("filtersChanged", function () {
+  //   setTimeout(setupNumberFormatting, 500);
+  // });
 
   // Export the filter update function to global scope so Utility.js can use it
   window.headerUpdateClientDropdown = updateClientDropdownFilters;
@@ -1061,16 +932,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // The flag will be set to true only when the first actual filter change occurs
   });
 
-  // Explicitly set giving units input values
-  const givingUnitsMin = document.getElementById("givingUnitsMin");
-  const givingUnitsMax = document.getElementById("givingUnitsMax");
-  if (givingUnitsMin) givingUnitsMin.value = window.sliderValue;
-  if (givingUnitsMax) givingUnitsMax.value = window.sliderValue2;
-  
-  // Format the initial values with commas
-  setTimeout(() => {
-    setupNumberFormatting();
-  }, 200);
+  // DEPRECATED: Manual value setting removed - now handled by Alpine.js range() x-init
+  // The range() function in Utility.js calls mintrigger() and maxtrigger() on init
+  // which sets and formats the input values automatically
 });
 
 // Keep the existing adjustDivHeight function call if it exists
