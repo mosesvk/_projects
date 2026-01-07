@@ -3830,10 +3830,18 @@ class ApiService {
     }
   }
 
+  /**
+   * Fetches unique client/peer names from Quickbase and stores their most recent year's data
+   * for filtering purposes. Records are sorted by year descending so the most recent YE data
+   * is encountered first and used for client eligibility determination.
+   * @returns {Promise<Array<string>>} Sorted array of unique client names
+   */
   async getRecordsForUniqueClientPeerNames() {
     const apiCallPeerData = {
       act: "API_DoQuery",
       clist: "195.301.123.267.268.186.3",
+      slist: "195",      // Sort by year (field 195 = s52_formatted_year)
+      sortorder: "D",    // Descending - most recent year first
     };
 
     try {
@@ -3857,24 +3865,30 @@ class ApiService {
         if (clientName) {
           uniquePeerClientNames.add(clientName);
 
-          // Store client data with all required fields
-          if (!window.clientDataStore[clientName]) {
-            // Get fiscal year
-            const year = record.querySelector("year")?.textContent;
+          // Get fiscal year from the correct field (s52_formatted_year, not "year")
+          const year = record.querySelector("s52_formatted_year")?.textContent;
 
-            // Get mission unit value
-            const givingUnitVal =
-              record.querySelector("s02___giving_units")?.textContent || "0";
+          // Get mission unit value
+          const givingUnitVal =
+            record.querySelector("s02___giving_units")?.textContent || "0";
 
-            // Get region value
-            const regionVal =
-              record.querySelector("main_queryregions")?.textContent || "0";
+          // Get region value
+          const regionVal =
+            record.querySelector("main_queryregions")?.textContent || "0";
 
-            // Get statevalue
-            const siteVal =
-              record.querySelector("main_querymultisite")?.textContent || "0";
+          // Get site value
+          const siteVal =
+            record.querySelector("main_querymultisite")?.textContent || "0";
 
-            // Store all client data
+          // Store client data - only keep the most recent year's data per client
+          // Since records are sorted by year descending, the first record for each
+          // client is their most recent YE data. We also add a safety check to compare
+          // years in case records arrive in unexpected order.
+          const existingData = window.clientDataStore[clientName];
+          const currentYear = parseInt(year) || 0;
+          const existingYear = existingData ? (parseInt(existingData.year) || 0) : 0;
+
+          if (!existingData || currentYear > existingYear) {
             window.clientDataStore[clientName] = {
               name: clientName,
               year: year,
