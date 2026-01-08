@@ -297,6 +297,20 @@ const createChart = (
   ];
 
   if (chartIds.includes(chartId)) {
+    // Store parameters for regenerating chart options on theme change
+    const chartParams = {
+      dataPeer,
+      dataClient,
+      type,
+      fixedNum,
+      mainName,
+      benchmark,
+      title,
+      chartId,
+      wa,
+      allData
+    };
+
     if (chartId === "givingUnits_chart") {
       window.givingUnits_chart = new ApexCharts(
         document.getElementById(chartId),
@@ -304,7 +318,21 @@ const createChart = (
       );
       window.givingUnits_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.givingUnits_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.givingUnits_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "givingUnitsToStaff_chart") {
       window.givingUnitsToStaff_chart = new ApexCharts(
@@ -313,7 +341,21 @@ const createChart = (
       );
       window.givingUnitsToStaff_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.givingUnitsToStaff_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.givingUnitsToStaff_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "daysExpendableNetAssets_chart") {
       window.daysExpendableNetAssets_chart = new ApexCharts(
@@ -322,7 +364,21 @@ const createChart = (
       );
       window.daysExpendableNetAssets_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.daysExpendableNetAssets_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.daysExpendableNetAssets_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "daysOperatingCash_chart") {
       window.daysOperatingCash_chart = new ApexCharts(
@@ -331,7 +387,21 @@ const createChart = (
       );
       window.daysOperatingCash_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.daysOperatingCash_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.daysOperatingCash_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "cashFlowsFromOperatingActivities_chart") {
       window.cashFlowsFromOperatingActivities_chart = new ApexCharts(
@@ -340,7 +410,21 @@ const createChart = (
       );
       window.cashFlowsFromOperatingActivities_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.cashFlowsFromOperatingActivities_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.cashFlowsFromOperatingActivities_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "liquidityRatio_chart") {
       window.liquidityRatio_chart = new ApexCharts(
@@ -349,7 +433,21 @@ const createChart = (
       );
       window.liquidityRatio_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.liquidityRatio_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.liquidityRatio_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "netCashAvailability_chart") {
       window.netCashAvailability_chart = new ApexCharts(
@@ -358,7 +456,21 @@ const createChart = (
       );
       window.netCashAvailability_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.netCashAvailability_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.netCashAvailability_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "debtToContributionsWithout_chart") {
       window.debtToContributionsWithout_chart = new ApexCharts(
@@ -367,7 +479,21 @@ const createChart = (
       );
       window.debtToContributionsWithout_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.debtToContributionsWithout_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.debtToContributionsWithout_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "currentRatio_chart") {
       window.currentRatio_chart = new ApexCharts(
@@ -376,7 +502,21 @@ const createChart = (
       );
       window.currentRatio_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.currentRatio_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.currentRatio_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "mandatoryDebtServiceToContributionsWithout_chart") {
       window.mandatoryDebtServiceToContributionsWithout_chart = new ApexCharts(
@@ -385,7 +525,21 @@ const createChart = (
       );
       window.mandatoryDebtServiceToContributionsWithout_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.mandatoryDebtServiceToContributionsWithout_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.mandatoryDebtServiceToContributionsWithout_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "debtPerGivingUnit_chart") {
       window.debtPerGivingUnit_chart = new ApexCharts(
@@ -394,7 +548,21 @@ const createChart = (
       );
       window.debtPerGivingUnit_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.debtPerGivingUnit_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.debtPerGivingUnit_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "debtCoverage_chart") {
       window.debtCoverage_chart = new ApexCharts(
@@ -403,7 +571,21 @@ const createChart = (
       );
       window.debtCoverage_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.debtCoverage_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.debtCoverage_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "netIncomeRatio_chart") {
       window.netIncomeRatio_chart = new ApexCharts(
@@ -412,7 +594,21 @@ const createChart = (
       );
       window.netIncomeRatio_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.netIncomeRatio_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.netIncomeRatio_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "contributionsWithoutDonorPerGivingUnit_chart") {
       window.contributionsWithoutDonorPerGivingUnit_chart = new ApexCharts(
@@ -421,7 +617,21 @@ const createChart = (
       );
       window.contributionsWithoutDonorPerGivingUnit_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.contributionsWithoutDonorPerGivingUnit_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.contributionsWithoutDonorPerGivingUnit_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "totalContributionsPerGivingUnit_chart") {
       window.totalContributionsPerGivingUnit_chart = new ApexCharts(
@@ -430,7 +640,21 @@ const createChart = (
       );
       window.totalContributionsPerGivingUnit_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.totalContributionsPerGivingUnit_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.totalContributionsPerGivingUnit_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "benefitsToSalaries_chart") {
       window.benefitsToSalaries_chart = new ApexCharts(
@@ -439,7 +663,21 @@ const createChart = (
       );
       window.benefitsToSalaries_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.benefitsToSalaries_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.benefitsToSalaries_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "salariesBenefitsIncludingOutsourcedEmployees_chart") {
       window.salariesBenefitsIncludingOutsourcedEmployees_chart = new ApexCharts(
@@ -448,7 +686,21 @@ const createChart = (
       );
       window.salariesBenefitsIncludingOutsourcedEmployees_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.salariesBenefitsIncludingOutsourcedEmployees_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.salariesBenefitsIncludingOutsourcedEmployees_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "personnelToCashExpenditure_chart") {
       window.personnelToCashExpenditure_chart = new ApexCharts(
@@ -457,7 +709,21 @@ const createChart = (
       );
       window.personnelToCashExpenditure_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.personnelToCashExpenditure_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.personnelToCashExpenditure_chart.updateOptions(updatedOptions);
+        }
       });
     } else if (chartId === "cashExpendituresPerGivingUnit_chart") {
       window.cashExpendituresPerGivingUnit_chart = new ApexCharts(
@@ -466,7 +732,21 @@ const createChart = (
       );
       window.cashExpendituresPerGivingUnit_chart.render();
       document.addEventListener("dark-mode", function () {
-        window.cashExpendituresPerGivingUnit_chart.updateOptions(chartOptions);
+        const updatedOptions = getMainChartOptions(
+          chartParams.dataPeer,
+          chartParams.dataClient,
+          chartParams.type,
+          chartParams.fixedNum,
+          chartParams.mainName,
+          chartParams.benchmark,
+          chartParams.title,
+          chartParams.chartId,
+          chartParams.wa,
+          chartParams.allData
+        );
+        if (updatedOptions) {
+          window.cashExpendituresPerGivingUnit_chart.updateOptions(updatedOptions);
+        }
       });
     }
   }

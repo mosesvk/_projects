@@ -84,9 +84,9 @@ class ExcelReportGenerator {
       ["benefits", [143, 145, 144, 146], "expense", true], // wa in Report.js
       ["salariesBenefits", [147, 149, 148, 150], "expense", true], // wa in Report.js
       ["salariesBenefitsIncludingOutsourcedEmployees", [151, 153, 152, 154], "expense", true], // wa in Report.js
-      ["personnelToCashExpenditure", [163, 165, 164, 166], "expense", true], // wa in Report.js - SWAPPED: was using 155-158
+      ["personnelToCashExpenditure", [155, 157, 156, 158], "expense", true], // wa in Report.js - SWAPPED: was using 155-158
       ["mandatoryDebtServiceToCashExpenditure", [159, 161, 160, 162], "expense", true], // wa in Report.js
-      ["personnelIncludingToTotalCashExpenditures", [155, 157, 156, 158], "expense", true], // wa in Report.js - SWAPPED: was using 163-166
+      ["personnelIncludingToTotalCashExpenditures", [163, 165, 164, 166], "expense", true], // wa in Report.js - SWAPPED: was using 163-166
       ["totalGlobalAndLocalOutreachExpenses", [175, 177, 176, 178], "expense", true], // wa in Report.js
       ["cashExpendituresPerGivingUnit", [183, 185, 184, 186], "expense", true], // wa in Report.js
 
