@@ -1,171 +1,145 @@
-### Dynamic Benchmarks
+# CFHI Comprehensive Dashboard
 
-Benchmarks for chart annotations are now centralized. The function `getBenchmarksForField(name)` in `src/content/CreateCharts.js` returns either `[low, high]`, `[threshold]`, or `null`. All chart creators now call this function so we can manage benchmarks from one place.
+## Project Overview
 
-# Quickbase Auto-Deploy
+The CFHI (Church Financial Health Indicator) Comprehensive Dashboard is a client-facing financial analysis application built for Capin Crouse, an accounting firm specializing in church and nonprofit financial services. The dashboard provides real-time financial health analysis by comparing client church financial data against peer benchmarks.
 
-Automatically deploy your local files to Quickbase using the `API_AddReplaceDBPage` API call. This script watches your local files and uploads them to Quickbase whenever they change.
+## Purpose
 
-## Features
+This dashboard enables accounting professionals and their church clients to:
 
-- 🔄 **File Watching**: Automatically detects when files are saved
-- ⚡ **Debounced Uploads**: Prevents multiple rapid uploads
-- 📤 **Quickbase Integration**: Uses the official Quickbase XML API
-- 🎯 **Targeted Deployment**: Uploads specific files to specific page IDs
-- 📊 **Real-time Logging**: See upload status and errors in real-time
+- **Visualize Financial Metrics**: Display key financial ratios and indicators through interactive charts
+- **Compare Against Peers**: Benchmark client performance against similar organizations
+- **Track Historical Trends**: Analyze financial health across multiple fiscal years
+- **Generate Reports**: Create comprehensive financial health reports for client presentations
 
-## Setup
+## Target Users
 
-### 1. Install Dependencies
+- **Accountants**: Primary users who analyze and present financial data to clients
+- **Church Leadership**: Secondary users who view dashboard data and reports for decision-making
 
-```bash
-npm install
-```
+## Architecture
 
-### 2. Configure Environment Variables
+### Frontend-Only Application
 
-Create a `.env` file in the project root with your Quickbase credentials:
+This is a **pure frontend solution** with no backend dependencies:
 
-```bash
-cp .env.example .env
-```
+- All data processing happens client-side
+- Data is fetched directly from Quickbase via XML API
+- Processed data is cached in `localStorage` for performance
+- All external libraries are loaded from CDN
 
-Then edit `.env` and add your actual values:
+### Technology Stack
 
-```env
-# Quickbase API Configuration
-QUICKBASE_REALM=capincrouse.quickbase.com
-QUICKBASE_USER_TOKEN=your-user-token-here
-QUICKBASE_APP_TOKEN=your-app-token-here
-QUICKBASE_APP_ID=your-app-id-here
-```
+| Category | Technology |
+|----------|------------|
+| Styling | Tailwind CSS, Flowbite |
+| Charting | ApexCharts.js |
+| UI Framework | Alpine.js |
+| DOM Manipulation | jQuery |
+| Tooltips | Tippy.js |
+| Modals | Tingle |
+| Data Source | Quickbase XML API |
 
-### 3. Get Your Quickbase Credentials
+## Core Modules
 
-#### Realm
-- Your Quickbase realm is in the URL: `https://yourcompany.quickbase.com`
-- Use: `yourcompany.quickbase.com`
+| Module | Path | Purpose |
+|--------|------|---------|
+| API Layer | `src/Api.js` | Quickbase integration, data fetching, and processing |
+| Charts | `src/content/CreateCharts.js` | Chart configuration and benchmark mappings |
+| Display | `src/content/DisplayCharts.js` | Chart rendering and component display |
+| Report | `src/components/Report.js` | Report table generation and data presentation |
+| UI Management | `src/content/uiManagement.js` | Sidebar, theme, and navigation handling |
+| Utilities | `src/functions/Utility.js` | Shared helper functions |
+| Weighted Averages | `src/functions/WeightedAverages.js` | Statistical calculations |
+| Print Excel | `src/functions/PrintExcel.js` | Excel export functionality |
+| Print Base64 | `src/functions/printBase64.js` | PDF/image export functionality |
 
-#### User Token
-1. Log into Quickbase
-2. Go to **Account Settings** > **My Preferences**
-3. Scroll to **User Token** section
-4. Copy your user token
+## Data Categories
 
-#### App Token
-- Found in your `Index.html` file (already configured)
-- Example: `bpat4pgu9t69yby5gbemdbej52j`
+The dashboard organizes financial data into six main categories:
 
-#### App ID
-- Found in your Quickbase URL: `https://yourcompany.quickbase.com/db/bps9da9i5`
-- The app ID is `bps9da9i5` (after `/db/`)
+1. **Demographics** (`demoData`): Giving units, FTE counts, facility info
+2. **Cash** (`cashData`): Liquidity ratios, operating cash, expendable assets
+3. **Debt** (`debtData`): Debt ratios, coverage, service metrics
+4. **Income** (`incomeData`): Net income ratios, contribution metrics
+5. **Expense** (`expenseData`): Personnel costs, benefits, cash expenditures
+6. **Additional** (`additionalData`): Supplementary financial metrics
 
-#### Page IDs
-- Each file maps to a specific page ID (143-151)
-- These are configured in the script and don't need to be changed
+## Getting Started
 
-## Usage
+### Prerequisites
 
-### Start the Auto-Deploy Script
+- Modern web browser with JavaScript enabled
+- Quickbase account with appropriate permissions
+- Valid Quickbase API credentials
 
-```bash
-npm start
-```
+### Development Setup
 
-or
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-```bash
-node qb-deploy.js
-```
+3. Create `.env` file with Quickbase credentials:
+   ```env
+   QUICKBASE_REALM=yourcompany.quickbase.com
+   QUICKBASE_USER_TOKEN=your-user-token
+   QUICKBASE_APP_TOKEN=your-app-token
+   QUICKBASE_APP_ID=your-app-id
+   ```
 
-### How It Works
+4. Start the auto-deploy script:
+   ```bash
+   npm start
+   ```
 
-1. **File Watching**: The script watches your specified files for changes
-2. **Debouncing**: When a file changes, it waits 2 seconds before uploading (prevents rapid uploads)
-3. **Upload**: Reads the file content and sends it to Quickbase via `API_AddReplaceDBPage`
-4. **Feedback**: Shows success/error messages in the console
+## Documentation
 
-### Example Output
+Detailed documentation is available in the `docs/` folder:
 
-```
-🚀 Starting Quickbase Auto-Deploy...
-📁 Watching files: Index.html, Api.js, components/**/*.js, content/**/*.js, functions/**/*.js
-⏱️  Debounce delay: 2000ms
+- **[Data Flow](docs/Architecture/DataFlow.md)**: How data flows from Quickbase through the application
+- **[ApexCharts](docs/Architecture/ApexCharts.md)**: Chart system implementation and configuration
+- **[Report Tab](docs/Architecture/ReportTab.md)**: Report generation and display logic
+- **[Troubleshooting](docs/Troubleshooting/troubleshooting.md)**: Common issues and solutions
 
-👀 File watcher is active. Make changes to your files to trigger uploads.
-Press Ctrl+C to stop watching.
+## Deployment
 
-📝 File changed: Index.html
-📤 Uploading Index.html to Quickbase...
-✅ Successfully uploaded Index.html to Quickbase!
-🔗 Page URL: https://yourcompany.quickbase.com/db/br8rqi6bk?a=dr&rid=123
-```
+The application uses a custom auto-deploy script (`qb-deploy.js`) that:
 
-## API Details
+- Watches local files for changes
+- Automatically uploads modified files to Quickbase
+- Uses the `API_AddReplaceDBPage` endpoint
+- Supports debounced uploads to prevent rapid deployments
 
-The script uses the Quickbase XML API with the `API_AddReplaceDBPage` call:
+## Key Features
 
-```xml
-<qdbapi version="1.0">
-  <action>API_AddReplaceDBPage</action>
-  <pageid>your-page-id</pageid>
-  <pagename>filename.html</pagename>
-  <pagetype>html</pagetype>
-  <pagecontent>file content here</pagecontent>
-</qdbapi>
-```
+### Dynamic Filtering
 
-## Customization
+- Year range selection (multi-year analysis)
+- Client selection with search
+- Region and site filtering
+- Giving units range slider
 
-### Watch Different Files
+### Interactive Charts
 
-Modify the `watchFiles` array in the config:
+- Bar charts with line overlays for peer comparisons
+- Benchmark annotations (industry standards)
+- Dark/light theme support
+- Responsive design
 
-```javascript
-watchFiles: [
-  'dashboard.html',
-  'styles.css',
-  'script.js',
-  'assets/**/*'
-]
-```
+### Report Generation
 
-### Change Debounce Delay
+- Comprehensive tabular reports
+- Color-coded benchmark indicators (Good/Warning/Action)
+- Export to Excel and PDF formats
+- Modal dialogs with detailed explanations
 
-Adjust the `debounceDelay` (in milliseconds):
+## License
 
-```javascript
-debounceDelay: 5000  // Wait 5 seconds after last change
-```
+Proprietary - Capin Crouse
 
-### Upload to Multiple Pages
+## Reference Files
 
-You can modify the script to upload different files to different pages by adding page-specific logic.
-
-## Troubleshooting
-
-### Configuration Errors
-- Ensure all required fields are set in the config
-- Verify your Quickbase credentials are correct
-- Check that the page ID exists and you have permission to modify it
-
-### API Errors
-- Verify your user token has the necessary permissions
-- Check that the app token is valid
-- Ensure the page ID is correct
-
-### File Watching Issues
-- Make sure the file paths in `watchFiles` are correct
-- Check file permissions
-- Verify the files exist in the expected locations
-
-## Security Notes
-
-- ✅ **Environment Variables**: All sensitive credentials are stored in `.env` file
-- ✅ **Git Ignored**: The `.env` file is excluded from version control
-- ✅ **Example File**: Use `.env.example` as a template for setup
-- ⚠️ **Never commit `.env`**: Make sure your `.env` file is never pushed to GitHub
-
-## Stopping the Script
-
-Press `Ctrl+C` to gracefully stop the file watcher and exit the script.
+The `src/intl/` folder contains reference implementations from the International project variant. These files are for comparison purposes only and should not be modified or imported into the main project.
