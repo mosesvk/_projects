@@ -136,7 +136,7 @@ const getMainChartOptions = (
   const chartColors = isDarkMode
     ? {
         borderColor: "#6B7280",      // Lighter border for dark mode
-        labelColor: "#F9FAFB",       // Lighter label color for dark mode
+        labelColor: "#FFFFFF",       // White label color for dark mode
         lineColor: "#E5E7EB",        // Lighter line color for dark mode
         opacityFrom: 0,
         opacityTo: 0.15,
@@ -852,6 +852,7 @@ const getMainChartOptions = (
       type: "line",
       stacked: false,
       events: chartEvents,
+      background: "transparent",
     },
     dataLabels: {
       enabled: true,
@@ -865,13 +866,13 @@ const getMainChartOptions = (
         colors: ["#ffffff"],
       },
       background: {
-        enabled: true,
-        foreColor: isDarkMode ? "#1F2937" : window.chartColors.green,
+        enabled: !isDarkMode,
+        foreColor: window.chartColors.green,
         padding: 4,
         borderRadius: 2,
         borderWidth: 1,
-        borderColor: isDarkMode ? "#374151" : "#ffffff",
-        opacity: isDarkMode ? 0.9 : 0.7,
+        borderColor: "#ffffff",
+        opacity: 0.7,
         dropShadow: {
           enabled: false,
           top: 1,
@@ -895,6 +896,12 @@ const getMainChartOptions = (
     },
     xaxis: {
       categories: selectedYearsArray,
+      axisTicks: {
+        color: chartColor,
+      },
+      axisBorder: {
+        color: chartColor,
+      },
       labels: {
         style: {
           colors: chartColors.labelColor,
@@ -906,6 +913,7 @@ const getMainChartOptions = (
       {
         axisTicks: {
           show: true,
+          color: chartColor,
         },
         axisBorder: {
           show: true,
@@ -1116,6 +1124,11 @@ const getMainChartOptions = (
         offsetY: 30,
         offsetX: 60,
       },
+      theme: isDarkMode ? "dark" : "light",
+      style: {
+        fontSize: "14px",
+        fontFamily: "Helvetica, Arial, sans-serif",
+      },
       y: {
         formatter: tooltipFormatter,
         title: {
@@ -1130,6 +1143,9 @@ const getMainChartOptions = (
       show: true,
       showForNullSeries: true,
       showForZeroSeries: true,
+      labels: {
+        colors: chartColors.labelColor,
+      },
     },
     grid: {
       row: {
