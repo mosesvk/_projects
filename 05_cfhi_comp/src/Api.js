@@ -1073,8 +1073,8 @@ class DataProcessor {
           year,
           "totalPropertyPlantAndEquipmentNet",
           record,
-          "s92___total_property_plant_and_equipment__net",
           "s92___total_ppe_net",
+          "cfhi_compre_01_yes_no___days_of_expendable_net_asset_reserves",
           "daysExpendableNetAssets"
         );
         this.dataStore.insertData(
