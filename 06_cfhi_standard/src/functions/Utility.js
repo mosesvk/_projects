@@ -1009,58 +1009,100 @@ function changeThWidth(elementId) {
   }
 }
 
-// <------------------------------------  SLIDER RANGE ------------------------------------------------------------------>
+/**
+ * Creates an Alpine.js data object for the Giving Units range slider.
+ * Manages min/max values, thumb positions, and formatted input display.
+ * @returns {Object} Alpine.js data object with minprice, maxprice, thumb positions, and trigger functions
+ */
 const range = () => {
   return {
-    minprice: window.sliderValue,
-    maxprice: window.sliderValue2,
+    minprice: 0,
+    maxprice: 25000,
     min: 0,
     max: 25000,
     minthumb: 1,
     maxthumb: 1,
 
-    mintrigger() {
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);
+    /**
+     * Updates the minimum value, recalculates thumb position, and updates the DOM.
+     * @param {boolean} shouldDispatchEvent - Whether to dispatch filtersChanged event
+     * @param {boolean} shouldRound - Whether to round the value to nearest 100 (used for slider input)
+     */
+    mintrigger(shouldDispatchEvent = true, shouldRound = false) {
+      // Remove any non-numeric characters except digits
+      let value = String(this.minprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.minprice = parseInt(value) || 0;
+      
+      // Round to nearest 100 only if from slider
+      if (shouldRound) {
+        this.minprice = Math.round(this.minprice / 100) * 100;
+      }
+      
+      // Constrain within valid range
+      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      
+      // Calculate thumb position
       this.minthumb =
         ((this.minprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update global variable
+      // Update global window variable
       window.sliderValue = this.minprice;
-
-      // Trigger a custom event to notify other components
-      const event = new CustomEvent("sliderChanged", {
-        detail: { value: this.minprice, type: "min" },
-      });
-      document.dispatchEvent(event);
-
-      if (sliderAmount) {
-        sliderAmount.value = window.sliderValue;
+      
+      // Update the text input element with formatted value (with commas)
+      const inputElement = document.getElementById("givingUnitsMin");
+      if (inputElement) {
+        inputElement.value = this.minprice.toLocaleString('en-US');
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.minprice);
       }
 
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
 
-    maxtrigger() {
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+    /**
+     * Updates the maximum value, recalculates thumb position, and updates the DOM.
+     * @param {boolean} shouldDispatchEvent - Whether to dispatch filtersChanged event
+     * @param {boolean} shouldRound - Whether to round the value to nearest 100 (used for slider input)
+     */
+    maxtrigger(shouldDispatchEvent = true, shouldRound = false) {
+      // Remove any non-numeric characters except digits
+      let value = String(this.maxprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.maxprice = parseInt(value) || this.max;
+      
+      // Round to nearest 100 only if from slider
+      if (shouldRound) {
+        this.maxprice = Math.round(this.maxprice / 100) * 100;
+      }
+      
+      // Constrain within valid range
+      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      
+      // Calculate thumb position
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
 
-      // Update global variable
+      // Update global window variable
       window.sliderValue2 = this.maxprice;
-
-      // Trigger a custom event to notify other components
-      const event = new CustomEvent("sliderChanged", {
-        detail: { value: this.maxprice, type: "max" },
-      });
-      document.dispatchEvent(event);
-
-      if (sliderRange) {
-        sliderRange.value = window.sliderValue2;
+      
+      // Update the text input element with formatted value (with commas)
+      const inputElement = document.getElementById("givingUnitsMax");
+      if (inputElement) {
+        inputElement.value = this.maxprice.toLocaleString('en-US');
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.maxprice);
       }
 
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
   };
 };
