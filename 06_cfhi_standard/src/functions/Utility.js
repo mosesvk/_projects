@@ -1257,6 +1257,26 @@ const processHtmlContent = (htmlContent) => {
     }
   });
   
+  // Find all div tags and add dark:text-white class if they don't have text color classes
+  const divTags = tempDiv.querySelectorAll('div');
+  divTags.forEach(div => {
+    const existingClasses = div.className.trim();
+    const classArray = existingClasses ? existingClasses.split(/\s+/) : [];
+    
+    // Only add dark:text-white if div doesn't already have text color classes
+    const hasTextColor = classArray.some(cls => 
+      cls.includes('text-') && !cls.includes('text-white') && !cls.includes('text-black')
+    );
+    
+    if (!hasTextColor && !classArray.includes('dark:text-white')) {
+      if (existingClasses) {
+        div.className = `${existingClasses} dark:text-white`;
+      } else {
+        div.className = 'dark:text-white';
+      }
+    }
+  });
+  
   return tempDiv.innerHTML;
 };
 
@@ -1358,7 +1378,7 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
   });
 
   // Build modal content (INCLUDE the title for the tingle modal)
-  const modalContent = `<div><p class="mb-2"><strong>${processedTitle}</strong></p>${processedContent}</div>`;
+  const modalContent = `<div class="dark:text-white"><p class="mb-2 dark:text-white"><strong class="dark:text-white">${processedTitle}</strong></p><div class="dark:text-white">${processedContent}</div></div>`;
   variable.setContent(modalContent);
 
   // Build report content (SKIP the title for the report tab _body-3 section)
