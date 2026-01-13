@@ -1382,23 +1382,11 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
   }
 
   // Set up click handlers for year columns
-  if (selectedYears && selectedYears.length > 0) {
-    const element = document.getElementById(elementId);
-    if (!element) {
-      console.warn(`Element with id ${elementId} not found for benchmark modal`);
-      return variable;
-    }
+  if (selectedYears) {
+    const children = await document.getElementById(elementId).children;
     
-    const children = element.children;
-    if (!children || children.length === 0) {
-      console.warn(`Element ${elementId} has no children for benchmark modal`);
-      return variable;
-    }
-    
-    for (let i = 1; i < selectedYears.length + 1 && i < children.length; i++) {
-      if (children[i]) {
-        editElementChildren(children[i], variable, elementId);
-      }
+    for (let i = 1; i < selectedYears.length + 1; i++) {
+      editElementChildren(children[i], variable, elementId);
     }
   }
 
@@ -1407,27 +1395,17 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
 
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
-  if (!element) {
-    console.warn(`Element not found for elementId: ${elementId}`);
-    return;
-  }
+  if (!element) console.log(elementId);
 
-  if (!variable) {
-    console.warn(`Variable (modal) not provided for elementId: ${elementId}`);
-    return;
-  }
-
-  // console.log(element);
+  // console.log(element.firstChild);
 
   element.addEventListener("click", () => {
     variable.open();
   });
   element.classList.add("cursor-pointer");
-  element.classList.add("hover:text-lg");
   element.classList.add("hover:opacity-100");
   element.classList.add("transition");
   element.classList.add("ease-in-out");
-
 };
 
 /**
