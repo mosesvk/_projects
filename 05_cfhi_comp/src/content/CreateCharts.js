@@ -583,7 +583,8 @@ const getMainChartOptions = (
           y: lowerValue,
           y2: higherValue,
           borderColor: 'transparent',
-          fillColor: isDarkMode ? '#374151' : window.chartColors.yellow,
+          // fillColor: isDarkMode ? '#374151' : window.chartColors.yellow,
+          fillColor: window.chartColors.yellow,
           opacity: 0.15,
           width: "100%",
           // Ensure range fill appears below data labels
