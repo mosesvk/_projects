@@ -1,0 +1,193 @@
+	 
+Field Label
+ 
+Type
+ 
+Relationship
+ 
+Field Id
+ 
+	 Client - Merged Client Name	Text	 	151	 
+	 Fiscal YE Date Formatted Year	Formula - Numeric	 	136	 
+	 00 Accounting Basis	Text - Multiple Choice	 	119	 
+	 00 Audited Statements	Text - Multiple Choice	 	126	 
+	 01 RATIO Students Enrollment	Formula - Numeric	 	49	 
+	 01 YES NO Students Enrollment	Formula - Text	 	157	 
+	 01-01 Students-average enrollment	Numeric	 	6	 
+	 01-02 Students-peak enrollment	Numeric	 	7	 
+	 01-03 FT Teachers	Numeric	 	8	 
+	 01-04 FT Admin/other	Numeric	 	9	 
+	 01-05 PT Teachers	Numeric	 	10	 
+	 01-06 PT Admin/other	Numeric	 	11	 
+	 01-07 Total Facility Square Footage	Numeric	 	12	 
+	 01A RATIO Students Enrollment % Change	Formula - Percent	 	50	 
+	 01A YES NO Students Enrollment % Change	Formula - Text	 	159	 
+	 01B RATIO Students Enrollment Average	Formula - Numeric	 	51	 
+	 01B YES NO Students Enrollment Average	Formula - Text	 	160	 
+	 01C RATIO Students Enrollment Peak Enrolmment	Formula - Numeric	 	52	 
+	 01C YES NO Students Enrollment Peak Enrolmment	Formula - Text	 	161	 
+	 02 RATIO Student Faculty Ratio	Formula - Percent	 	53	 
+	 02 YES NO Student Faculty Ratio	Formula - Text	 	162	 
+	 02-01 Total Teacher Salaries	Currency	 	13	 
+	 02-02 Total Teacher Benefits	Currency	 	14	 
+	 02-03 Total Personnel Costs Salaries & Benefits of all School Employees	Currency	 	15	 
+	 02-04 Total maintenance costs	Currency	 	16	 
+	 02-05 Information Technology costs	Currency	 	17	 
+	 02-06 Current maturities of LT Debt	Currency	 	18	 
+	 03 RATIO Expendable Reserves - In Days	Formula - Numeric	 	54	 
+	 03 YES NO Expendable Reserves - In Days	Formula - Text	 	163	 
+	 03-01 Current Assets	Currency	 	20	 
+	 03-02 Total Cash	Currency	 	21	 
+	 03-03 Non-Endowment Investments	Currency	 	22	 
+	 03-04 Pledges Receivable	Numeric	 	289	 
+	 03-05 Student Accounts Receivable	Currency	 	24	 
+	 03-06 Student Accounts Receivable Written-Off	Currency	 	25	 
+	 03-07 Land and Land Improvements	Currency	 	26	 
+	 03-08 Land, Buildings and Equipment, net	Currency	 	27	 
+	 03-09 Current Liabilities	Currency	 	28	 
+	 03-10 Deferred Revenue	Currency	 	29	 
+	 03-11 Total Debt	Currency	 	30	 
+	 03-12 Total Unrestricted Net Assets	Currency	 	31	 
+	 03-13 BOD Designated for Operations	Currency	 	32	 
+	 03-14 Temporarily Restricted Net Assets	Numeric	 	290	 
+	 04 RATIO Expendable Reserves -  % of total cash expenses	Formula - Numeric	 	55	 
+	 04 YES NO Expendable Reserves -  % of total cash expenses	Formula - Text	 	164	 
+	 04-01 Gross Tuition Revenues Excluding Fees	Currency	 	34	 
+	 04-02 Fees	Currency	 	35	 
+	 04-04 Financial Aid / Scholarships	Currency	 	37	 
+	 04-05 Total Support and Revenue	Currency	 	38	 
+	 04-06 Total Contributions	Currency	 	39	 
+	 04-07 Unrestricted Support, Revenues and Reclassifications for operating purposes	Currency	 	40	 
+	 04-08 Total Expenses	Currency	 	41	 
+	 04-09 Total Depreciation Expense	Currency	 	42	 
+	 04-10 Total Fundraising Expenses	Currency	 	43	 
+	 04-11 Current Year Interest Expense	Currency	 	44	 
+	 04-12 Change in Unrestricted Net Assets	Currency	 	45	 
+	 04-13 Fundraising Income	Currency	 	46	 
+	 05 RATIO Cash available to Deferred Revenues	Formula - Numeric	 	56	 
+	 05 YES NO Cash available to Deferred Revenues	Formula - Text	 	165	 
+	 05-01 Cash Flows from Operating Activities	Currency	 	47	 
+	 05-02 Capitalized Interest	Currency	 	48	 
+	 05.1 RATIO Days Cash on Hand	Formula - Numeric	 	282	 
+	 05.1 YES NO Days Cash on Hand	Formula - Text	 	285	 
+	 06 RATIO Liquidity Ratio	Formula - Numeric	 	57	 
+	 06 YES NO Liquidity Ratio	Formula - Text	 	166	 
+	 07a RATIO As per statement of cash flows	Formula - Numeric	 	58	 
+	 07a YES NO As per statement of cash flows	Formula - Text	 	167	 
+	 07b RATIO Depreciation Expenses on 3-7 year assets	Formula - Numeric	 	59	 
+	 07b YES NO Depreciation Expenses on 3-7 year assets	Formula - Text	 	168	 
+	 07c RATIO Over Under Benchmark	Formula - Numeric	 	60	 
+	 07c YES NO Over Under Benchmark	Formula - Text	 	169	 
+	 08 RATIO Property and equipment per student excluding land	Formula - Numeric	 	61	 
+	 08 YES NO Property and equipment per student excluding land	Formula - Text	 	170	 
+	 09 RATIO Net Tuition A/R as a % of Current Assets	Formula - Numeric	 	62	 
+	 09 YES NO Net Tuition A/R as a % of Current Assets	Formula - Text	 	171	 
+	 10 RATIO Receivable write offs as a % of Net Tuition and Fees	Formula - Numeric	 	63	 
+	 10 YES NO Receivable write offs as a % of Net Tuition and Fees	Formula - Text	 	186	 
+	 10a RATIO % Change	Formula - Numeric	 	64	 
+	 10a YES NO % Change	Formula - Text	 	187	 
+	 11 RATIO Debt to Property and Equipment	Formula - Numeric	 	65	 
+	 11 YES NO Debt to Property and Equipment	Formula - Text	 	188	 
+	 11.1  YES NO Debt to Net Assets	Formula - Text	 	284	 
+	 11.1 RATIO Debt to Net Assets	Formula - Numeric	 	283	 
+	 12 RATIO Current Ratio	Formula - Numeric	 	66	 
+	 12 YES NO Current Ratio	Formula - Text	 	189	 
+	 13 RATIO Current Liabilities to Available Net Assets	Formula - Numeric	 	67	 
+	 13 YES NO Current Liabilities to Available Net Assets	Formula - Text	 	190	 
+	 14 RATIO Debt per students	Formula - Numeric	 	68	 
+	 14 YES NO Debt per students	Formula - Text	 	191	 
+	 15 RATIO Debt Coverage	Formula - Numeric	 	69	 
+	 15 YES NO Debt Coverage	Formula - Text	 	192	 
+	 16 RATIO Net Income Ratio	Formula - Numeric	 	70	 
+	 16 YES NO Net Income Ratio	Formula - Text	 	193	 
+	 17 RATIO Net Income Ratio Excluding Depreciation	Formula - Numeric	 	71	 
+	 17 YES NO Net Income Ratio Excluding Depreciation	Formula - Text	 	194	 
+	 18 RATIO Percentage of average tuition increase between years	Formula - Numeric	 	72	 
+	 18 YES NO Percentage of average tuition increase between years	Formula - Text	 	195	 
+	 19 RATIO Financial Assistance as a % of Tuition and Fees	Formula - Numeric	 	73	 
+	 19 YES NO Financial Assistance as a % of Tuition and Fees	Formula - Text	 	196	 
+	 20 RATIO Tuition and Fees as a % of Total Income	Formula - Numeric	 	74	 
+	 20 YES NO Tuition and Fees as a % of Total Income	Formula - Text	 	197	 
+	 21 RATIO Contributions as a % of Total Income	Formula - Numeric	 	75	 
+	 21 YES NO Contributions as a % of Total Income	Formula - Text	 	198	 
+	 22a1 RATIO Gross Tuition	Formula - Numeric	 	76	 
+	 22a1 YES NO Gross Tuition	Formula - Text	 	199	 
+	 22a2 RATIO % Change	Formula - Numeric	 	77	 
+	 22a2 YES NO % Change	Formula - Text	 	200	 
+	 22b1 YES NO Financial Assistance Discount Based	Formula - Text	 	201	 
+	 22b2 YES NO % Change	Formula - Text	 	202	 
+	 22c1 YES NO Scholarship Awarded	Formula - Text	 	203	 
+	 22c2 YES NO % Change	Formula - Text	 	204	 
+	 22d1 RATIO Total Financial Assistance	Formula - Numeric	 	82	 
+	 22d1 YES NO Total Financial Assistance	Formula - Text	 	205	 
+	 22d2 RATIO % Change	Formula - Numeric	 	83	 
+	 22d2 YES NO % Change	Formula - Text	 	206	 
+	 22e1 RATIO Net Tuition	Formula - Numeric	 	84	 
+	 22e1 YES NO Net Tuition	Formula - Text	 	207	 
+	 22e2 RATIO % Change	Formula - Numeric	 	85	 
+	 22e2 YES NO % Change	Formula - Text	 	208	 
+	 23 RATIO Fees as a percent of net tuition	Formula - Numeric	 	86	 
+	 23 YES NO Fees as a percent of net tuition	Formula - Text	 	209	 
+	 24a RATIO Salaries as % of net tuition	Formula - Numeric	 	87	 
+	 24a YES NO Salaries as % of net tuition	Formula - Text	 	210	 
+	 24b RATIO Benefits as % of net tuition	Formula - Numeric	 	88	 
+	 24b YES NO Benefits as % of net tuition	Formula - Text	 	211	 
+	 24c RATIO Salaries Benefits as % of net tuition	Formula - Numeric	 	89	 
+	 24c YES NO Salaries Benefits as % of net tuition	Formula - Text	 	212	 
+	 25a RATIO Salaries per students	Formula - Numeric	 	90	 
+	 25a YES NO Salaries per students	Formula - Text	 	213	 
+	 25b RATIO Benefits per students	Formula - Numeric	 	91	 
+	 25b YES NO Benefits per students	Formula - Text	 	215	 
+	 25c RATIO Salaries and benefits per students	Formula - Numeric	 	92	 
+	 25c YES NO Salaries and benefits per students	Formula - Text	 	216	 
+	 26 RATIO Benefits as a percent of Salaries for teachers	Formula - Numeric	 	93	 
+	 26 YES NO Benefits as a percent of Salaries for teachers	Formula - Text	 	217	 
+	 27a1 RATIO Teachers Salaries and benefits per Total Expenses	Formula - Numeric	 	94	 
+	 27a1 YES NO Teachers Salaries and benefits per Total Expenses	Formula - Text	 	218	 
+	 27a2 RATIO Admin Salaries and benefits per Total Expenses	Formula - Numeric	 	95	 
+	 27a2 YES NO Admin Salaries and benefits per Total Expenses	Formula - Text	 	219	 
+	 27a3 RATIO All Salaries and benefits per Total Expenses	Formula - Numeric	 	96	 
+	 27a3 YES NO All Salaries and benefits per Total Expenses	Formula - Text	 	220	 
+	 27b RATIO  Mandatory debt service payments including interest per Total Expenses	Formula - Numeric	 	97	 
+	 27b YES NO Mandatory debt service payments including interest per Total Expenses	Formula - Text	 	221	 
+	 27c RATIO  Personnel and mandatory debt service payments per Total Expenses	Formula - Numeric	 	98	 
+	 27c YES NO  Personnel and mandatory debt service payments per Total Expenses	Formula - Text	 	222	 
+	 28 RATIO % of fund raising expenses exceeding or less than funds raised	Formula - Numeric	 	99	 
+	 28 YES NO % of fund raising expenses exceeding or less than funds raised	Formula - Text	 	223	 
+	 29a RATIO Funds raised	Formula - Numeric	 	100	 
+	 29a YES NO Funds raised	Formula - Text	 	224	 
+	 29b RATIO Cash expenses	Formula - Numeric	 	101	 
+	 29b YES NO Cash expenses	Formula - Text	 	225	 
+	 29c RATIO Net tuition	Formula - Numeric	 	102	 
+	 29c YES NO Net tuition	Formula - Text	 	226	 
+	 29d RATIO Cash expenses in excess of or less than net tuition	Formula - Numeric	 	103	 
+	 29d YES NO Cash expenses in excess of or less than net tuition	Formula - Text	 	227	 
+	 29e RATIO Funds raised over under to cover cash expenses overage or deficit	Formula - Numeric	 	104	 
+	 29e YES NO Funds raised over under to cover cash expenses overage or deficit	Formula - Text	 	228	 
+	 30a RATIO LT10 Facility cost per square foot no interest	Formula - Numeric	 	105	 
+	 30a YES NO LT10 Facility cost per square foot no interest	Formula - Text	 	229	 
+	 30b RATIO GTE10 Facility cost per square foot no interest	Formula - Numeric	 	106	 
+	 30b YES NO GTE10 Facility cost per square foot no interest	Formula - Text	 	230	 
+	 31a RATIO LT10 Facility cost per square foot with interest	Formula - Numeric	 	107	 
+	 31a YES NO LT10 Facility cost per square foot with interest	Formula - Text	 	231	 
+	 31b RATIO GTE10 Facility cost per square foot with interest	Formula - Numeric	 	108	 
+	 31b YES NO GTE10 Facility cost per square foot with interest	Formula - Text	 	232	 
+	 32 RATIO Information Technology Costs	Formula - Numeric	 	109	 
+	 32 YES NO Information Technology Costs	Formula - Text	 	233	 
+	 Client - AccountBasis	Text - Multiple Choice	 	149	 
+	 Client - CCLLP Office	Text - Multiple Choice	 	150	 
+	 Client - Church + School	Checkbox	 	288	 
+	 Client - Merged Denomination	Text - Multiple Choice	 	152	 
+	 Client - Merged State	Text - Multiple Choice	 	153	 
+	 Date Created	Date / Time	 	1	 
+	 Date Modified 	Date / Time	 	2	 
+	 Fiscal YE Date	Date	 	135	 
+	 Fiscal YE Date Formatted Year TEXT	Formula - Text	 	137	 
+	 Last Modified By	User	 	5	 
+	 MAIN  Related Client	Numeric	 	156	 
+	 MAIN QueryRegions	Formula - Text	 	154	 
+	 MAIN SourceID	Numeric	 	155	 
+	 09.1 RATIO Tuition Dependency	Formula - Numeric	 	291	 
+	 09.1 YES NO Tuition Dependency	Formula - Text	 	292	 
+	 Record ID# 	Numeric	 	3	 
+	 Record Owner	User	 	4

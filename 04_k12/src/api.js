@@ -68,9 +68,17 @@ const insertDataIntoObject = (
   name
 ) => {
   console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
+  
+  // Check if child field exists before accessing it
+  const childElement = record.querySelector(child);
+  if (!childElement) {
+    console.warn(`Field "${child}" not found in record for dataKey "${dataKey}"`);
+    return;
+  }
+  
   const innerData =
-    record.querySelector(child).innerHTML.split("").length > 0
-      ? record.querySelector(child).innerHTML.trim()
+    childElement.innerHTML.split("").length > 0
+      ? childElement.innerHTML.trim()
       : 0;
 
   if (type === "client") {
@@ -81,16 +89,23 @@ const insertDataIntoObject = (
       object[dataKey][year] = {};
     }
     object[dataKey][year].value = innerData;
+    const benchmarkFieldElement = dynamicValueClientPeer
+      ? record.querySelector(dynamicValueClientPeer)
+      : null;
     const benchmarkField =
-      dynamicValueClientPeer &&
-      record.querySelector(dynamicValueClientPeer).textContent.trim();
+      benchmarkFieldElement
+        ? benchmarkFieldElement.textContent.trim()
+        : null;
     object[dataKey][year].benchmark = benchmarkField;
   } else {
     // type === 'peer'
 
-    const yesNoField =
-      dynamicValueClientPeer &&
-      record.querySelector(dynamicValueClientPeer).textContent.trim();
+    const yesNoFieldElement = dynamicValueClientPeer
+      ? record.querySelector(dynamicValueClientPeer)
+      : null;
+    const yesNoField = yesNoFieldElement
+      ? yesNoFieldElement.textContent.trim()
+      : null;
 
     if (yesNoField == "Yes") {
       if (!object[dataKey]) {
@@ -2616,7 +2631,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "daysCashOnHand_Peer",
         record,
         "_05_1_ratio_days_cash_on_hand",
-        "_05_1_yes_no_ratio_days_cash_on_hand"
+        "_05_1_yes_no_ratio_days_cash_on_hand",
       );
       insertDataIntoObject(
         "peer",
