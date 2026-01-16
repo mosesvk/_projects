@@ -419,7 +419,7 @@ const getPeerAndClientChartDataArrays = (
   const clientArray = [];
 
   years.forEach((year) => {
-    if (dataPeer[year]) {
+    if (dataPeer && dataPeer[year]) {
       const array = dataPeer[year];
       const avg = parseFloat(getAverageOfArray(array));
       const mid = parseFloat(getMidpointOfArray(array));
@@ -433,10 +433,22 @@ const getPeerAndClientChartDataArrays = (
       
       // if (lower25 == 0.000) console.log({ avg, mid, lower25, higher75 });
 
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
-      clientArray.push(clientNum);
+      if (dataClient && dataClient[year] && dataClient[year].value !== undefined && dataClient[year].value !== null) {
+        const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
+        clientArray.push(clientNum);
+      } else {
+        // Use 0 as default if client data is missing for this year
+        clientArray.push("0");
+        console.warn(`Client data for year ${year} is undefined or missing value`);
+      }
     } else {
       console.error(`Data for year ${year} is undefined in dataPeer`);
+      // Push placeholder values to maintain array length
+      peerAvg.push("0");
+      peerMid.push("0");
+      peer25.push("0");
+      peer75.push("0");
+      clientArray.push("0");
     }
   });
 
@@ -799,7 +811,10 @@ const createBenchmark = async (benchmarkDesc, elementId) => {
 
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
-  if (!element) console.log(elementId);
+  if (!element) {
+    console.warn(`Element not found for elementId: ${elementId}`);
+    return;
+  }
 
   // console.log(element.firstChild);
 
