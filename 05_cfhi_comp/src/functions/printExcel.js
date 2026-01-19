@@ -880,9 +880,21 @@ class ExcelReportGenerator {
         let tpid = "";
         let fnName = "";
 
+        // Get client name (firmName) from window
+        let clientName = "";
+        if (window.firmName) {
+          clientName =
+            window.firmName instanceof HTMLElement
+              ? window.firmName.textContent || ""
+              : window.firmName;
+        }
+
         // Map year count to tpid based on report type
         if (reportType === "trends") {
-          fnName = "TrendsReport";
+          const reportSuffix = "Trends Report";
+          fnName = clientName 
+            ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+            : reportSuffix;
           switch (yearCount) {
             case 1:
               tpid = "5"; // Church Compre Trends 1 Year.xlsx
@@ -904,7 +916,10 @@ class ExcelReportGenerator {
               return "";
           }
         } else if (reportType === "benchmark") {
-          fnName = "BenchmarkReport";
+          const reportSuffix = "Benchmark Report";
+          fnName = clientName 
+            ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+            : reportSuffix;
           switch (yearCount) {
             case 1:
               tpid = "9"; // Church Compre Bench 1 Year.xlsx

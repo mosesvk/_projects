@@ -1523,6 +1523,21 @@ const updateCountyData = (trId, countyName, percentage, income, year) => {
   // Create the <tr> element if it doesn't exist
   let trElement = document.getElementById(`row_${trId}`);
 
+  // Format values
+  const formattedIncome = new Intl.NumberFormat().format(income);
+  const formattedPercentage = Math.round(percentage);
+
+  // Check if elements already exist for this year
+  const percentagePElement = document.getElementById(`percentage_${trId}_${year}`);
+  const incomePElement = document.getElementById(`income_${trId}_${year}`);
+
+  if (percentagePElement && incomePElement) {
+    // Elements already exist, just update their content
+    percentagePElement.textContent = `${formattedPercentage}%`;
+    incomePElement.textContent = `$${formattedIncome}`;
+    return;
+  }
+
   // Create the second <th> element and its children
   const secondThElement = document.createElement("th");
   secondThElement.scope = "row";
@@ -1535,31 +1550,18 @@ const updateCountyData = (trId, countyName, percentage, income, year) => {
   secondThElement.appendChild(spanElementSecond);
 
   // Create the <p> elements inside the second <th>
-  const percentagePElement = document.createElement("p");
-  percentagePElement.id = `percentage_${trId}_${year}`;
-  percentagePElement.className = "mb-2";
-  percentagePElement.textContent = "adfas";
-  secondThElement.appendChild(percentagePElement);
+  const newPercentagePElement = document.createElement("p");
+  newPercentagePElement.id = `percentage_${trId}_${year}`;
+  newPercentagePElement.className = "mb-2";
+  newPercentagePElement.textContent = `${formattedPercentage}%`;
+  secondThElement.appendChild(newPercentagePElement);
 
-  const incomePElement = document.createElement("p");
-  incomePElement.id = `income_${trId}_${year}`;
-  incomePElement.textContent = "fadf";
-  secondThElement.appendChild(incomePElement);
+  const newIncomePElement = document.createElement("p");
+  newIncomePElement.id = `income_${trId}_${year}`;
+  newIncomePElement.textContent = `$${formattedIncome}`;
+  secondThElement.appendChild(newIncomePElement);
 
   trElement.appendChild(secondThElement);
-
-  // Format values
-  const formattedIncome = new Intl.NumberFormat().format(income);
-  const formattedPercentage = Math.round(percentage);
-
-  // Update the content of the selected elements
-
-  document.getElementById(
-    `percentage_${trId}_${year}`
-  ).textContent = `${formattedPercentage}%`;
-  document.getElementById(
-    `income_${trId}_${year}`
-  ).textContent = `$${formattedIncome}`;
 };
 
 const checkForCountyDataIncomeTable = (
@@ -1574,6 +1576,21 @@ const checkForCountyDataIncomeTable = (
 
   const data = JSON.parse(localStorage.getItem("incomeData"));
   // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
+
+  // Clear ALL year columns to start fresh (similar to addToSingleRow)
+  const trElement = document.getElementById(`row_${trId}`);
+  if (trElement) {
+    // Find the label column (first <th> with id th_${trId})
+    const labelTh = trElement.querySelector(`#th_${trId}`);
+    
+    // Remove all <th> elements except the label column
+    const allThElements = Array.from(trElement.querySelectorAll('th'));
+    allThElements.forEach((th) => {
+      if (th !== labelTh) {
+        th.remove();
+      }
+    });
+  }
 
   // Create the first <th> element and its children if it doesn't exist
   let thElement = document.getElementById(`th_${trId}`);
@@ -1617,12 +1634,12 @@ const checkForCountyDataIncomeTable = (
   selectedYearsArray.forEach((year) => {
     let countyNameVal;
 
-    // Iterate over the years
-    for (const year of Object.keys(data[countyName])) {
+    // Iterate over the years to find the first non-empty county name
+    for (const dataYear of Object.keys(data[countyName])) {
       // Check if the value is not empty
-      if (data[countyName][year].value !== "") {
+      if (data[countyName][dataYear].value !== "") {
         // Store the value and break the loop
-        countyNameVal = data[countyName][year].value;
+        countyNameVal = data[countyName][dataYear].value;
         break;
       }
     }
