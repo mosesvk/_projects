@@ -427,12 +427,17 @@ const getMainChartOptions = (
       // For values >= 3M, round up to nearest 5M for clean 5M intervals
       yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
     } else if (rawMax >= 1000000) {
-      // For values 1M-3M, use 0.5M intervals and cap closer to actual max
-      // Example: max ~2M -> max = 2.5M with ticks at 0, 0.5M, 1M, 1.5M, 2M, 2.5M
-      yaxisMax = Math.ceil(rawMax / 500000) * 500000; // Round up to nearest 0.5M
+      // For values 1M-3M, use 1M intervals for cleaner spacing
+      // Example: max ~1.5M -> max = 2M with ticks at 0, 1M, 2M
+      // Example: max ~2M -> max = 3M with ticks at 0, 1M, 2M, 3M
+      yaxisMax = Math.ceil(rawMax / 1000000) * 1000000; // Round up to nearest 1M
+      // Cap at 3M max for this range to keep it clean
+      if (yaxisMax > 3000000) {
+        yaxisMax = 3000000;
+      }
       // Store step size for tickAmount calculation (in actual value, not millions)
-      yaxisStepSize = 500000; // 0.5M step size (500000)
-      yaxisTickAmount = yaxisMax / 500000; // Number of 0.5M intervals
+      yaxisStepSize = 1000000; // 1M step size (1000000)
+      yaxisTickAmount = yaxisMax / 1000000; // Number of 1M intervals
     } else if (rawMax >= 500000) {
       // For values 500K-1M, round up to nearest 100K
       yaxisMax = Math.ceil(rawMax / 100000) * 100000;
@@ -870,17 +875,17 @@ const getMainChartOptions = (
             show: true,
             hideOverlappingLabels: false,
           },
-        } : yaxisStepSize === 500000 && yaxisMax >= 1000000 && yaxisTickAmount ? {
-          // Handle million values with 0.5M step sizes (e.g., 0, 0.5M, 1M, 1.5M, 2M, 2.5M)
+        } : yaxisStepSize === 1000000 && yaxisMax >= 1000000 && yaxisMax <= 3000000 && yaxisTickAmount ? {
+          // Handle million values with 1M step sizes (e.g., 0, 1M, 2M, 3M)
           forceNiceScale: false,
           min: 0,
           max: yaxisMax,
           tickAmount: yaxisTickAmount,
           labels: {
             formatter: (value) => {
-              // Format as millions with 0.5M intervals
+              // Format as millions with 1M intervals
               const millionValue = value / 1000000;
-              const roundedValue = Math.round(millionValue * 2) / 2; // Round to nearest 0.5
+              const roundedValue = Math.round(millionValue); // Round to nearest integer
               if (numType === "dollar") {
                 return `$${roundedValue}M`;
               } else {
@@ -997,8 +1002,8 @@ const getMainChartOptions = (
               // For ranges >= 1M, use appropriate intervals based on range size
               const millionRange = range / 1000000;
               if (millionRange <= 3) {
-                // For ranges 1-3M, use 0.5M intervals (0, 0.5M, 1M, 1.5M, 2M, 2.5M, 3M)
-                return Math.floor(range / 500000);
+                // For ranges 1-3M, use 1M intervals (0, 1M, 2M, 3M)
+                return Math.floor(range / 1000000);
               } else if (millionRange <= 15) {
                 // For ranges 3-15M, use 5M intervals (0, 5M, 10M, 15M)
                 return Math.floor(range / 5000000);
