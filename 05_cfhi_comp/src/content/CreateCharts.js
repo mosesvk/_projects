@@ -159,11 +159,24 @@ const getMainChartOptions = (
   
   /**
    * Calculate clean y-axis max and step size following clean chart principles
-   * - Max should be dataMax + 1 (or appropriate padding) to minimize whitespace
-   * - Step size must be 1, 2, or 5 only
+   * - Max should be dataMax + appropriate padding to minimize whitespace
+   * - Step size must be 1, 2, or 5 (or 0.5 for small decimal values)
    * - Ensure even spacing by making max a multiple of step size
    */
-  const calculateCleanYAxis = (maxValue, minValue = 0) => {
+  const calculateCleanYAxis = (maxValue, minValue = 0, numType = "num") => {
+    // Handle small decimal values (e.g., maxValue = 1.3 should use 0.5 step, max = 2)
+    if (maxValue > 0 && maxValue < 2 && numType !== "percent") {
+      let cleanMax = Math.ceil(maxValue * 2) / 2; // Round up to nearest 0.5
+      if (cleanMax === maxValue) {
+        cleanMax += 0.5; // Add 0.5 if at exact max
+      }
+      // Ensure cleanMax is a multiple of 0.5
+      cleanMax = Math.ceil(cleanMax * 2) / 2;
+      const stepSize = 0.5;
+      const tickAmount = cleanMax / stepSize;
+      return { max: cleanMax, stepSize, tickAmount };
+    }
+    
     if (maxValue <= 20) {
       let cleanMax = Math.ceil(maxValue);
       // Add 1 if at exact max to create headroom
@@ -196,65 +209,81 @@ const getMainChartOptions = (
   let yaxisMin, yaxisMax, yaxisStepSize, yaxisTickAmount;
   
   if (dataMin < 0) {
-    // If we have negative values, create symmetric or balanced axis
-    const absMax = Math.max(Math.abs(dataMin), Math.abs(dataMax));
-    const maxMagnitude = absMax;
-    
-    // Calculate padding based on magnitude (not just positive range)
-    let paddingForNegative;
-    if (maxMagnitude <= 10) {
-      paddingForNegative = 1;
-    } else if (maxMagnitude <= 100) {
-      paddingForNegative = Math.ceil(maxMagnitude * 0.1);
-    } else if (maxMagnitude <= 1000) {
-      paddingForNegative = Math.ceil(maxMagnitude * 0.1);
-    } else if (maxMagnitude <= 10000) {
-      paddingForNegative = Math.ceil(maxMagnitude * 0.1);
-    } else if (maxMagnitude <= 100000) {
-      paddingForNegative = Math.ceil(maxMagnitude * 0.1);
+    // If we have negative values, cap based on actual data range with clean intervals
+    if (numType === "percent") {
+      // For percentages, cap at actual max/min with clean 15% intervals
+      // Example: max=30%, min=-11% -> max=30%, min=-15% (0, 15, 30 for positive, -15, 0 for negative)
+      let cleanMax = Math.ceil(dataMax / 15) * 15; // Round up to nearest multiple of 15
+      let cleanMin = Math.floor(dataMin / 15) * 15; // Round down to nearest multiple of 15
+      
+      // Ensure we have headroom
+      if (cleanMax === dataMax) {
+        cleanMax += 15;
+      }
+      if (cleanMin === dataMin) {
+        cleanMin -= 15;
+      }
+      
+      yaxisMin = cleanMin;
+      yaxisMax = cleanMax;
+      yaxisStepSize = 15;
+      yaxisTickAmount = (cleanMax - cleanMin) / 15;
     } else {
-      paddingForNegative = Math.ceil(maxMagnitude * 0.1);
+      // For non-percent types with negative values, use symmetric or balanced axis
+      const absMax = Math.max(Math.abs(dataMin), Math.abs(dataMax));
+      const maxMagnitude = absMax;
+      
+      // Calculate padding based on magnitude
+      let paddingForNegative;
+      if (maxMagnitude <= 10) {
+        paddingForNegative = 1;
+      } else if (maxMagnitude <= 100) {
+        paddingForNegative = Math.ceil(maxMagnitude * 0.1);
+      } else {
+        paddingForNegative = Math.ceil(maxMagnitude * 0.1);
+      }
+      
+      const paddedMagnitude = maxMagnitude + paddingForNegative;
+      
+      // Round the magnitude to nice values
+      let roundedMagnitude;
+      if (paddedMagnitude >= 100000000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 10000000) * 10000000;
+      } else if (paddedMagnitude >= 50000000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 10000000) * 10000000;
+      } else if (paddedMagnitude >= 10000000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 5000000) * 5000000;
+      } else if (paddedMagnitude >= 1000000) {
+        // For millions, use 5M intervals for clean spacing (0, 5M, 10M, 15M)
+        roundedMagnitude = Math.ceil(paddedMagnitude / 5000000) * 5000000;
+      } else if (paddedMagnitude >= 500000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 100000) * 100000;
+      } else if (paddedMagnitude >= 200000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 50000) * 50000;
+      } else if (paddedMagnitude >= 100000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 20000) * 20000;
+      } else if (paddedMagnitude >= 50000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 10000) * 10000;
+      } else if (paddedMagnitude >= 20000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 5000) * 5000;
+      } else if (paddedMagnitude >= 10000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 5000) * 5000; // Use 5K intervals
+      } else if (paddedMagnitude >= 1000) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 1000) * 1000;
+      } else if (paddedMagnitude >= 100) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 100) * 100;
+      } else if (paddedMagnitude >= 50) {
+        roundedMagnitude = paddedMagnitude <= 55 ? 50 : Math.ceil(paddedMagnitude / 10) * 10;
+      } else if (paddedMagnitude >= 40) {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 10) * 10;
+      } else {
+        roundedMagnitude = Math.ceil(paddedMagnitude / 5) * 5; // Use 5-unit intervals for small values
+      }
+      
+      // Set symmetric min and max
+      yaxisMin = -roundedMagnitude;
+      yaxisMax = roundedMagnitude;
     }
-    
-    const paddedMagnitude = maxMagnitude + paddingForNegative;
-    
-    // Round the magnitude to nice values using the same logic as positive values
-    let roundedMagnitude;
-    if (paddedMagnitude >= 100000000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 10000000) * 10000000;
-    } else if (paddedMagnitude >= 50000000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 10000000) * 10000000;
-    } else if (paddedMagnitude >= 10000000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 5000000) * 5000000;
-    } else if (paddedMagnitude >= 1000000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 2000000) * 2000000;
-    } else if (paddedMagnitude >= 500000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 100000) * 100000;
-    } else if (paddedMagnitude >= 200000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 50000) * 50000;
-    } else if (paddedMagnitude >= 100000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 20000) * 20000;
-    } else if (paddedMagnitude >= 50000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 10000) * 10000;
-    } else if (paddedMagnitude >= 20000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 5000) * 5000;
-    } else if (paddedMagnitude >= 10000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 4000) * 4000;
-    } else if (paddedMagnitude >= 1000) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 1000) * 1000;
-    } else if (paddedMagnitude >= 100) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 100) * 100;
-    } else if (paddedMagnitude >= 50) {
-      roundedMagnitude = paddedMagnitude <= 55 ? 50 : Math.ceil(paddedMagnitude / 10) * 10;
-    } else if (paddedMagnitude >= 40) {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 10) * 10;
-    } else {
-      roundedMagnitude = Math.ceil(paddedMagnitude / 4) * 4;
-    }
-    
-    // Set symmetric min and max
-    yaxisMin = -roundedMagnitude;
-    yaxisMax = roundedMagnitude;
   } else {
     // All values are positive - use existing logic
     yaxisMin = 0;
@@ -294,7 +323,7 @@ const getMainChartOptions = (
     }
   } else if (dataMax <= 20 && numType !== "percent") {
     // Use clean chart principles for values <= 20 (non-percent types)
-    const cleanAxis = calculateCleanYAxis(dataMax, 0);
+    const cleanAxis = calculateCleanYAxis(dataMax, 0, numType);
     if (cleanAxis) {
       yaxisMax = cleanAxis.max;
       yaxisStepSize = cleanAxis.stepSize;
@@ -395,9 +424,9 @@ const getMainChartOptions = (
       // For values >= 10M, round up to nearest 5M
       yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
     } else if (rawMax >= 1000000) {
-      // For values >= 1M, round up to nearest 2M for clean 2M intervals
-      // This ensures ranges like 10.67M become 12M, giving ticks at 0, 2, 4, 6, 8, 10, 12
-      yaxisMax = Math.ceil(rawMax / 2000000) * 2000000;
+      // For values >= 1M, round up to nearest 5M for clean 5M intervals
+      // This ensures ranges like 11.5M become 15M, giving ticks at 0, 5M, 10M, 15M
+      yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
     } else if (rawMax >= 500000) {
       // For values 500K-1M, round up to nearest 100K
       yaxisMax = Math.ceil(rawMax / 100000) * 100000;
@@ -815,14 +844,45 @@ const getMainChartOptions = (
             },
             align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
           },
-        } : dataMax <= 20 && yaxisStepSize && yaxisTickAmount ? {
-          // Use clean chart principles for values <= 20 with step sizes of 1, 2, or 5 only
+        } : dataMin < 0 && numType === "percent" && yaxisStepSize && yaxisTickAmount ? {
+          // Handle percentage charts with negative values (e.g., -15% to 30% with 15% intervals)
           forceNiceScale: false,
-          min: 0,
+          min: yaxisMin,
           max: yaxisMax,
           tickAmount: yaxisTickAmount,
           labels: {
             formatter: (value) => {
+              // Round to nearest 15 for percentage intervals
+              const roundedValue = Math.round(value / 15) * 15;
+              return `${roundedValue}%`;
+            },
+            style: {
+              colors: chartColors.labelColor,
+              fontSize: "1.25rem",
+            },
+            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+            show: true,
+            hideOverlappingLabels: false,
+          },
+        } : dataMax <= 20 && yaxisStepSize && yaxisTickAmount ? {
+          // Use clean chart principles for values <= 20 with step sizes of 0.5, 1, 2, or 5
+          forceNiceScale: false,
+          min: yaxisMin !== undefined ? yaxisMin : 0,
+          max: yaxisMax,
+          tickAmount: yaxisTickAmount,
+          labels: {
+            formatter: (value) => {
+              // Handle 0.5 step size for small decimal values
+              if (yaxisStepSize === 0.5) {
+                const roundedValue = Math.round(value * 2) / 2; // Round to nearest 0.5
+                if (numType === "dollar") {
+                  return `$${roundedValue}`;
+                } else if (numType === "percent") {
+                  return `${roundedValue}%`;
+                } else {
+                  return roundedValue;
+                }
+              }
               // Round to ensure clean integer labels when stepSize is 1, 2, or 5
               const roundedValue = Math.round(value);
               if (numType === "dollar") {
@@ -903,19 +963,14 @@ const getMainChartOptions = (
               // For ranges >= 10M, aim for 5 ticks
               return 5;
             } else if (range >= 1000000) {
-              // For ranges >= 1M, calculate ticks based on the rounded max
-              // Since yaxisMax is rounded to nearest 2M, use 2M intervals
-              // Example: 12M range = 6 ticks (0, 2M, 4M, 6M, 8M, 10M, 12M = 7 labels)
+              // For ranges >= 1M, use 5M intervals for clean spacing
+              // Example: 15M range = 3 ticks (0, 5M, 10M, 15M = 4 labels)
               const millionRange = range / 1000000;
-              if (millionRange <= 4) {
-                // For ranges 1-4M, use 1M intervals
-                return Math.floor(millionRange);
-              } else if (millionRange <= 20) {
-                // For ranges 4-20M (rounded to even 2M), use 2M intervals
-                // tickAmount = range / 2M
-                return Math.floor(range / 2000000);
+              if (millionRange <= 15) {
+                // For ranges 1-15M, use 5M intervals (0, 5M, 10M, 15M)
+                return Math.floor(range / 5000000);
               } else if (millionRange <= 50) {
-                // For ranges 20-50M, use 5M intervals
+                // For ranges 15-50M, use 5M intervals
                 return Math.floor(range / 5000000);
               } else {
                 // For ranges > 50M, use 10M intervals
