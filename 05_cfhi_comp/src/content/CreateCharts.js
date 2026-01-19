@@ -49,32 +49,6 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
     : null;
 };
 
-/**
- * Get the appropriate benchmark label based on field name and benchmark values
- * @param {string} fieldName - The field name to get benchmark label for
- * @param {Array} benchmarkArray - Array of benchmark values (1 or 2 values)
- * @param {number} index - Index of current benchmark (0 or 1)
- * @returns {string} The appropriate benchmark label
- */
-window.getBenchmarkLabel = function getBenchmarkLabel(fieldName, benchmarkArray, index) {
-  if (benchmarkArray.length === 1) {
-    return "Benchmark";
-  }
-
-  // For two benchmarks, determine which is higher/lower based on field type
-  const isHigherBetter = isFieldHigherBetter(fieldName);
-  const lowerValue = Math.min(...benchmarkArray);
-  const higherValue = Math.max(...benchmarkArray);
-  const currentValue = benchmarkArray[index];
-
-  if (isHigherBetter) {
-    // For fields where higher values are better
-    return currentValue === higherValue ? "Benchmark - higher end" : "Benchmark - lower end";
-  } else {
-    // For fields where lower values are better
-    return currentValue === lowerValue ? "Benchmark - higher end" : "Benchmark - lower end";
-  }
-};
 
 /**
  * Determine if higher values are better for a given field
@@ -161,115 +135,6 @@ const getMainChartOptions = (
     return null; // Return null to prevent chart creation
   }
 
-  // Initialize annotation variables
-  let yaxisAnnotation;
-  let previousData;
-
-  // Chart events for annotation positioning
-  const chartEvents = {
-    beforeMount: function (chartContext, config) {
-      // First, wait for the chart and annotations to be rendered
-      setTimeout(() => {
-        const chartElement = document.getElementById(chartId);
-        if (!chartElement) return;
-
-        // Get the first grid line to use as reference
-        const gridLine = chartElement.querySelector(
-          `.apexcharts-gridlines-horizontal line`
-        );
-        if (!gridLine) return;
-
-        // Get the annotation line (y-axis annotation)
-        const annotationLine = chartElement.querySelector(
-          `.apexcharts-yaxis-annotations line`
-        );
-        if (!annotationLine) return;
-
-        // Get the exact x1 and x2 values from the grid line
-        const x1 = gridLine.getAttribute("x1");
-        const x2 = gridLine.getAttribute("x2");
-
-        // Set the annotation line to match exactly
-        annotationLine.setAttribute("x1", x1);
-        annotationLine.setAttribute("x2", x2);
-
-        // Ensure all annotation lines extend fully across the chart
-        const allAnnotationLines = chartElement.querySelectorAll(
-          `.apexcharts-yaxis-annotations line`
-        );
-        allAnnotationLines.forEach((line) => {
-          line.setAttribute("x1", x1);
-          line.setAttribute("x2", x2);
-        });
-
-        // Annotation label positioning handled by offsetX in annotation configuration
-
-        // Ensure data labels appear on top of annotations
-        const dataLabels = chartElement.querySelectorAll('.apexcharts-datalabels');
-        dataLabels.forEach(label => {
-          label.style.zIndex = '999';
-          label.style.position = 'relative';
-        });
-
-        // Ensure annotations appear below data labels
-        const annotations = chartElement.querySelectorAll('.apexcharts-annotations');
-        annotations.forEach(annotation => {
-          annotation.style.zIndex = '1';
-          annotation.style.position = 'relative';
-        });
-      }, 200); // Extra delay to ensure annotations are rendered
-    },
-    updated: function (chartContext, config) {
-      // First, wait for the chart and annotations to be rendered
-      const chartElement = document.getElementById(chartId);
-      if (!chartElement) return;
-
-      // Get the first grid line to use as reference
-      const gridLine = chartElement.querySelector(
-        `.apexcharts-gridlines-horizontal line`
-      );
-      if (!gridLine) return;
-
-      // Get the annotation line (y-axis annotation)
-      const annotationLine = chartElement.querySelector(
-        `.apexcharts-yaxis-annotations line`
-      );
-      if (!annotationLine) return;
-
-      // Get the exact x1 and x2 values from the grid line
-      const x1 = gridLine.getAttribute("x1");
-      const x2 = gridLine.getAttribute("x2");
-
-      // Set the annotation line to match exactly
-      annotationLine.setAttribute("x1", x1);
-      annotationLine.setAttribute("x2", x2);
-
-      // Ensure all annotation lines extend fully across the chart
-      const allAnnotationLines = chartElement.querySelectorAll(
-        `.apexcharts-yaxis-annotations line`
-      );
-      allAnnotationLines.forEach((line) => {
-        line.setAttribute("x1", x1);
-        line.setAttribute("x2", x2);
-      });
-
-      // Annotation label positioning handled by offsetX in annotation configuration
-
-      // Ensure data labels appear on top of annotations
-      const dataLabels = chartElement.querySelectorAll('.apexcharts-datalabels');
-      dataLabels.forEach(label => {
-        label.style.zIndex = '999';
-        label.style.position = 'relative';
-      });
-
-      // Ensure annotations appear below data labels
-      const annotations = chartElement.querySelectorAll('.apexcharts-annotations');
-      annotations.forEach(annotation => {
-        annotation.style.zIndex = '1';
-        annotation.style.position = 'relative';
-      });
-    },
-  };
 
   const formatNumber = (value) => value.toLocaleString();
 
@@ -292,8 +157,43 @@ const getMainChartOptions = (
   const dataMax = Math.max(...allDataValues);
   const dataRange = dataMax - dataMin;
   
+  /**
+   * Calculate clean y-axis max and step size following clean chart principles
+   * - Max should be dataMax + 1 (or appropriate padding) to minimize whitespace
+   * - Step size must be 1, 2, or 5 only
+   * - Ensure even spacing by making max a multiple of step size
+   */
+  const calculateCleanYAxis = (maxValue, minValue = 0) => {
+    if (maxValue <= 20) {
+      let cleanMax = Math.ceil(maxValue);
+      // Add 1 if at exact max to create headroom
+      if (cleanMax === maxValue) {
+        cleanMax += 1;
+      }
+      
+      // Determine step size (must be 1, 2, or 5)
+      let stepSize;
+      if (cleanMax <= 10) {
+        stepSize = 1; // For max 1-10, use step of 1
+      } else if (cleanMax <= 15) {
+        stepSize = 2; // For max 11-15, use step of 2
+      } else {
+        stepSize = 5; // For max 16-20, use step of 5
+      }
+      
+      // Ensure cleanMax is a multiple of stepSize for even spacing
+      cleanMax = Math.ceil(cleanMax / stepSize) * stepSize;
+      
+      // Calculate tickAmount (number of intervals)
+      const tickAmount = cleanMax / stepSize;
+      
+      return { max: cleanMax, stepSize, tickAmount };
+    }
+    return null;
+  };
+  
   // Calculate y-axis minimum and maximum, handling negative values
-  let yaxisMin, yaxisMax;
+  let yaxisMin, yaxisMax, yaxisStepSize, yaxisTickAmount;
   
   if (dataMin < 0) {
     // If we have negative values, create symmetric or balanced axis
@@ -391,6 +291,23 @@ const getMainChartOptions = (
       yaxisMax = Math.ceil(rawMax / 10) * 10;
     } else {
       yaxisMax = Math.ceil(rawMax / 5) * 5;
+    }
+  } else if (dataMax <= 20 && numType !== "percent") {
+    // Use clean chart principles for values <= 20 (non-percent types)
+    const cleanAxis = calculateCleanYAxis(dataMax, 0);
+    if (cleanAxis) {
+      yaxisMax = cleanAxis.max;
+      yaxisStepSize = cleanAxis.stepSize;
+      yaxisTickAmount = cleanAxis.tickAmount;
+    } else {
+      // Fallback
+      yaxisMax = Math.ceil(dataMax);
+      if (yaxisMax === dataMax) {
+        yaxisMax += 1;
+      }
+      yaxisStepSize = yaxisMax <= 10 ? 1 : yaxisMax <= 15 ? 2 : 5;
+      yaxisMax = Math.ceil(yaxisMax / yaxisStepSize) * yaxisStepSize;
+      yaxisTickAmount = yaxisMax / yaxisStepSize;
     }
   } else if (dataMax <= 10) {
     // Apply special scaling logic only for small values (≤10) - for num and dollar types
@@ -543,61 +460,6 @@ const getMainChartOptions = (
   }
   }
 
-  // Set up annotations based on mainName and benchmark (only if benchmark is provided)
-  if (benchmark !== undefined && benchmark !== null) {
-    // Benchmark is always an array with 1 or 2 values
-    if (Array.isArray(benchmark)) {
-      // Create annotation lines for each benchmark value (1 or 2 lines)
-      const benchmarkAnnotations = benchmark.map((value, index) => ({
-        id: `annotation_${index}`,
-        y: value,
-        borderColor: chartColors.labelColor,
-        strokeDashArray: 0,
-        width: "100%", // Full width across entire chart area
-        label: {
-          text: getBenchmarkLabel(mainName, benchmark, index),
-          borderColor: "transparent",
-          borderWidth: 0,
-          position: "left",
-          textAnchor: "start",
-          offsetX: -50, // Small negative offset to position text just to the right of y-axis border
-          offsetY: 0,
-          style: {
-            background: "transparent",
-            color: chartColors.labelColor,
-            fontSize: "16px",
-            fontWeight: 600,
-          },
-        },
-        // Ensure annotations appear below data labels
-        zIndex: 1,
-      }));
-
-      // Add range fill between two benchmarks if there are exactly 2 values
-      if (benchmark.length === 2) {
-        const lowerValue = Math.min(...benchmark);
-        const higherValue = Math.max(...benchmark);
-        
-        benchmarkAnnotations.push({
-          id: 'benchmark_range',
-          y: lowerValue,
-          y2: higherValue,
-          borderColor: 'transparent',
-          // fillColor: isDarkMode ? '#374151' : window.chartColors.yellow,
-          fillColor: window.chartColors.yellow,
-          opacity: 0.15,
-          width: "100%",
-          // Ensure range fill appears below data labels
-          zIndex: 0,
-        });
-      }
-      yaxisAnnotation = benchmarkAnnotations;
-      previousData = clientArray;
-    }
-  } else {
-    // Ensure yaxisAnnotation is always a valid value (empty array) when no benchmark
-    yaxisAnnotation = [];
-  }
 
   const yaxisLabelFormatter = (value) => {
     let formattedValue;
@@ -852,7 +714,6 @@ const getMainChartOptions = (
       height: 350,
       type: "line",
       stacked: false,
-      events: chartEvents,
       background: "transparent",
     },
     dataLabels: {
@@ -883,7 +744,6 @@ const getMainChartOptions = (
           opacity: 0.45,
         },
       },
-      // Ensure data labels appear on top of annotations
       zIndex: 999,
     },
     stroke: {
@@ -954,6 +814,32 @@ const getMainChartOptions = (
               fontSize: "1.25rem",
             },
             align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+          },
+        } : dataMax <= 20 && yaxisStepSize && yaxisTickAmount ? {
+          // Use clean chart principles for values <= 20 with step sizes of 1, 2, or 5 only
+          forceNiceScale: false,
+          min: 0,
+          max: yaxisMax,
+          tickAmount: yaxisTickAmount,
+          labels: {
+            formatter: (value) => {
+              // Round to ensure clean integer labels when stepSize is 1, 2, or 5
+              const roundedValue = Math.round(value);
+              if (numType === "dollar") {
+                return `$${roundedValue}`;
+              } else if (numType === "percent") {
+                return `${roundedValue}%`;
+              } else {
+                return roundedValue;
+              }
+            },
+            style: {
+              colors: chartColors.labelColor,
+              fontSize: "1.25rem",
+            },
+            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+            show: true,
+            hideOverlappingLabels: false,
           },
         } : dataMax <= 10 ? {
           forceNiceScale: false,
@@ -1072,10 +958,16 @@ const getMainChartOptions = (
               // For ranges 100-200, use 50 intervals
               // Example: 200 range / 50 = 4 ticks (0, 50, 100, 150, 200)
               return Math.floor(range / 50);
-            } else if (range >= 20) {
-              // For ranges 20-100, use 10-unit intervals for clean ticks
-              // Example: 70 range / 10 = 7 ticks (0, 10, 20, 30, 40, 50, 60, 70)
-              return Math.floor(range / 10);
+            } else if (range >= 20 && range < 100) {
+              // For ranges 20-100, ensure step sizes are multiples of 1, 2, or 5
+              // Use step sizes of 5 or 10 for clean spacing
+              let stepSize;
+              if (yaxisMax <= 30) {
+                stepSize = 5; // For max 20-30, use step of 5 (0, 5, 10, 15, 20, 25, 30)
+              } else {
+                stepSize = 10; // For max 31-100, use step of 10 (0, 10, 20, 30, 40, 50, ...)
+              }
+              return Math.floor(range / stepSize);
             } else if (range < 20 && yaxisMax < 20) {
               // For ranges under 20 with yaxisMax under 20, use simple tickAmount based on yaxisMax
               // This approach matches how other projects handle small ranges
@@ -1115,9 +1007,6 @@ const getMainChartOptions = (
         }),
       },
     ],
-    annotations: {
-      yaxis: yaxisAnnotation,
-    },
     tooltip: {
       fixed: {
         enabled: true,
@@ -1164,70 +1053,3 @@ const getMainChartOptions = (
   };
 };
 
-// Global function to position annotation labels for all charts
-window.positionAllAnnotationLabels = function() {
-  const chartIds = [
-    "givingUnits_chart",
-    "givingUnitsToStaff_chart", 
-    "daysExpendableNetAssets_chart",
-    "daysOperatingCash_chart",
-    "cashFlowsFromOperatingActivities_chart",
-    "liquidityRatio_chart",
-    "netCashAvailability_chart",
-    "debtToContributionsWithout_chart",
-    "currentRatio_chart",
-    "mandatoryDebtServiceToContributionsWithout_chart",
-    "debtPerGivingUnit_chart",
-    "debtCoverage_chart",
-    "netIncomeRatio_chart",
-    "contributionsWithoutDonorPerGivingUnit_chart",
-    "totalContributionsPerGivingUnit_chart",
-    "benefitsToSalaries_chart",
-    "salariesBenefitsIncludingOutsourcedEmployees_chart",
-    "personnelToCashExpenditure_chart",
-    "cashExpendituresPerGivingUnit_chart",
-  ];
-
-  chartIds.forEach(chartId => {
-    const chartElement = document.getElementById(chartId);
-    if (!chartElement) return;
-
-    // Get the first grid line to use as reference
-    const gridLine = chartElement.querySelector(
-      `.apexcharts-gridlines-horizontal line`
-    );
-    if (!gridLine) return;
-
-    // Get the annotation line (y-axis annotation)
-    const annotationLine = chartElement.querySelector(
-      `.apexcharts-yaxis-annotations line`
-    );
-    if (!annotationLine) return;
-
-    // Get the exact x1 and x2 values from the grid line
-    const x1 = gridLine.getAttribute("x1");
-    const x2 = gridLine.getAttribute("x2");
-
-    // Set the annotation line to match exactly
-    annotationLine.setAttribute("x1", x1);
-    annotationLine.setAttribute("x2", x2);
-
-    // Ensure all annotation lines extend fully across the chart
-    const allAnnotationLines = chartElement.querySelectorAll(
-      `.apexcharts-yaxis-annotations line`
-    );
-    allAnnotationLines.forEach((line) => {
-      line.setAttribute("x1", x1);
-      line.setAttribute("x2", x2);
-    });
-
-    // Annotation label positioning handled by offsetX in annotation configuration
-  });
-};
-
-// Call the function after a delay to ensure all charts are rendered
-setTimeout(() => {
-  if (typeof window.positionAllAnnotationLabels === 'function') {
-    window.positionAllAnnotationLabels();
-  }
-}, 1000);

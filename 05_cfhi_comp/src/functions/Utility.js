@@ -1894,7 +1894,7 @@ const generateBenchmarkTitle = (fieldName) => {
  * @param {string} htmlContent - The HTML content string
  * @returns {string} - Processed HTML content
  */
-const processHtmlContent = (htmlContent) => {
+const processHtmlContent = (htmlContent, addColorClasses = false) => {
   if (typeof htmlContent !== 'string') {
     return '';
   }
@@ -1908,6 +1908,12 @@ const processHtmlContent = (htmlContent) => {
   pTags.forEach(p => {
     if (!p.classList.contains('mb-2')) {
       p.classList.add('mb-2');
+    }
+    // Add color classes if requested (for benchmark content)
+    if (addColorClasses) {
+      if (!p.classList.contains('text-gray-600')) {
+        p.classList.add('text-gray-600', 'dark:text-gray-400');
+      }
     }
   });
   
@@ -1938,7 +1944,8 @@ const createBenchmark = async (benchmarkText, dataCategory, elementId) => {
   const benchmarkTitle = generateBenchmarkTitle(fieldName);
 
   // Process the static benchmark text and apply fixUnicodeCharacters
-  let processedContent = processHtmlContent(benchmarkText);
+  // Pass true to addColorClasses to ensure proper text colors for light/dark mode
+  let processedContent = processHtmlContent(benchmarkText, true);
   processedContent = fixUnicodeCharacters(processedContent);
   const processedTitle = fixUnicodeCharacters(benchmarkTitle);
 
@@ -1955,11 +1962,13 @@ const createBenchmark = async (benchmarkText, dataCategory, elementId) => {
   });
 
   // Build modal content (INCLUDE the title for the tingle modal)
-  const modalContent = `<div><p class="mb-2"><strong>${processedTitle}</strong></p>${processedContent}</div>`;
+  // Add proper text color classes for light/dark mode
+  const modalContent = `<div class="text-gray-700 dark:text-gray-300"><p class="mb-2"><strong>${processedTitle}</strong></p><div class="text-gray-600 dark:text-gray-400">${processedContent}</div></div>`;
   variable.setContent(modalContent);
 
   // Build report content (SKIP the title for the report tab _body-3 section)
-  const reportContent = `<div>${processedContent}</div>`;
+  // Add proper text color classes for light/dark mode
+  const reportContent = `<div class="text-gray-600 dark:text-gray-400">${processedContent}</div>`;
 
   // Populate the _body-3 section with the benchmark description (without title)
   try {

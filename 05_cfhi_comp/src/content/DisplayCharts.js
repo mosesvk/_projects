@@ -266,9 +266,9 @@ const displayCashComponent = () => {
 
   createBenchmark("Good: > 60 | Warning: 30-60 | Action: < 30", "cashData", "row_daysExpendableNetAssets");
   createBenchmark("Good: > 90 | Warning: 60-90 | Action: < 60", "cashData", "row_daysOperatingCash");
-  createBenchmark("Good: > 0 | Warning: 1 year of negative results  Action:  2+ years of negative results", "cashData", "row_cashFlowsFromOperatingActivities");
+  createBenchmark("Good: > 0 | Warning: 1 year of negative results | Action:  2+ years of negative results", "cashData", "row_cashFlowsFromOperatingActivities");
   createBenchmark("Good: > 4 | Warning: 1-4 | Action: < 1", "cashData", "row_liquidityRatio");
-  createBenchmark("Good: > 1 month expenses  Warning: > 0 and < 1 month expenses | Action: < 0", "cashData", "row_netCashAvailability");
+  createBenchmark("Good: > 1 month expenses | Warning: > 0 and < 1 month expenses | Action: < 0", "cashData", "row_netCashAvailability");
 
   createWhatDoesThisMean(daysExpendable_whatDoesThisMean, "row_daysExpendableNetAssets");
   createWhatDoesThisMean(daysOperatingCash_whatDoesThisMean, "row_daysOperatingCash");
