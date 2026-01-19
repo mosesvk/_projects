@@ -239,6 +239,47 @@ const createChartFromParsedData = (
   }
 };
 
+/**
+ * Destroy an existing chart instance if it exists
+ * @param {string} chartId - The chart ID to destroy
+ */
+const destroyChartIfExists = (chartId) => {
+  const chartIds = [
+    "givingUnits_chart",
+    "givingUnitsToStaff_chart",
+    "daysExpendableNetAssets_chart",
+    "daysOperatingCash_chart",
+    "cashFlowsFromOperatingActivities_chart",
+    "liquidityRatio_chart",
+    "netCashAvailability_chart",
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart",
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart",
+    "netIncomeRatio_chart",
+    "contributionsWithoutDonorPerGivingUnit_chart",
+    "totalContributionsPerGivingUnit_chart",
+    "benefitsToSalaries_chart",
+    "salariesBenefitsIncludingOutsourcedEmployees_chart",
+    "personnelToCashExpenditure_chart",
+    "cashExpendituresPerGivingUnit_chart",
+  ];
+
+  if (chartIds.includes(chartId)) {
+    // Get the chart instance from window object
+    const chartInstance = window[chartId];
+    if (chartInstance && typeof chartInstance.destroy === "function") {
+      try {
+        chartInstance.destroy();
+      } catch (error) {
+        console.warn(`Error destroying chart ${chartId}:`, error);
+      }
+      window[chartId] = null;
+    }
+  }
+};
+
 const createChart = (
   chartId,
   dataPeer,
@@ -251,7 +292,14 @@ const createChart = (
   wa = null,
   allData = null
 ) => {
-  document.getElementById(chartId).innerHTML = "";
+  // Destroy existing chart instance before creating a new one
+  destroyChartIfExists(chartId);
+  
+  // Clear the DOM element
+  const chartElement = document.getElementById(chartId);
+  if (chartElement) {
+    chartElement.innerHTML = "";
+  }
 
   dataUrLObj[mainName] = chartId;
 
@@ -422,7 +470,7 @@ const createChart = (
           chartParams.wa,
           chartParams.allData
         );
-        if (updatedOptions) {
+        if (updatedOptions && window.cashFlowsFromOperatingActivities_chart && typeof window.cashFlowsFromOperatingActivities_chart.updateOptions === "function") {
           window.cashFlowsFromOperatingActivities_chart.updateOptions(updatedOptions);
         }
       });
