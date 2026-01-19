@@ -423,10 +423,16 @@ const getMainChartOptions = (
     } else if (rawMax >= 10000000) {
       // For values >= 10M, round up to nearest 5M
       yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
-    } else if (rawMax >= 1000000) {
-      // For values >= 1M, round up to nearest 5M for clean 5M intervals
-      // This ensures ranges like 11.5M become 15M, giving ticks at 0, 5M, 10M, 15M
+    } else if (rawMax >= 3000000) {
+      // For values >= 3M, round up to nearest 5M for clean 5M intervals
       yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
+    } else if (rawMax >= 1000000) {
+      // For values 1M-3M, use 0.5M intervals and cap closer to actual max
+      // Example: max ~2M -> max = 2.5M with ticks at 0, 0.5M, 1M, 1.5M, 2M, 2.5M
+      yaxisMax = Math.ceil(rawMax / 500000) * 500000; // Round up to nearest 0.5M
+      // Store step size for tickAmount calculation (in actual value, not millions)
+      yaxisStepSize = 500000; // 0.5M step size (500000)
+      yaxisTickAmount = yaxisMax / 500000; // Number of 0.5M intervals
     } else if (rawMax >= 500000) {
       // For values 500K-1M, round up to nearest 100K
       yaxisMax = Math.ceil(rawMax / 100000) * 100000;
@@ -864,6 +870,31 @@ const getMainChartOptions = (
             show: true,
             hideOverlappingLabels: false,
           },
+        } : yaxisStepSize === 500000 && yaxisMax >= 1000000 && yaxisTickAmount ? {
+          // Handle million values with 0.5M step sizes (e.g., 0, 0.5M, 1M, 1.5M, 2M, 2.5M)
+          forceNiceScale: false,
+          min: 0,
+          max: yaxisMax,
+          tickAmount: yaxisTickAmount,
+          labels: {
+            formatter: (value) => {
+              // Format as millions with 0.5M intervals
+              const millionValue = value / 1000000;
+              const roundedValue = Math.round(millionValue * 2) / 2; // Round to nearest 0.5
+              if (numType === "dollar") {
+                return `$${roundedValue}M`;
+              } else {
+                return `${roundedValue}M`;
+              }
+            },
+            style: {
+              colors: chartColors.labelColor,
+              fontSize: "1.25rem",
+            },
+            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+            show: true,
+            hideOverlappingLabels: false,
+          },
         } : dataMax <= 20 && yaxisStepSize && yaxisTickAmount ? {
           // Use clean chart principles for values <= 20 with step sizes of 0.5, 1, 2, or 5
           forceNiceScale: false,
@@ -963,11 +994,13 @@ const getMainChartOptions = (
               // For ranges >= 10M, aim for 5 ticks
               return 5;
             } else if (range >= 1000000) {
-              // For ranges >= 1M, use 5M intervals for clean spacing
-              // Example: 15M range = 3 ticks (0, 5M, 10M, 15M = 4 labels)
+              // For ranges >= 1M, use appropriate intervals based on range size
               const millionRange = range / 1000000;
-              if (millionRange <= 15) {
-                // For ranges 1-15M, use 5M intervals (0, 5M, 10M, 15M)
+              if (millionRange <= 3) {
+                // For ranges 1-3M, use 0.5M intervals (0, 0.5M, 1M, 1.5M, 2M, 2.5M, 3M)
+                return Math.floor(range / 500000);
+              } else if (millionRange <= 15) {
+                // For ranges 3-15M, use 5M intervals (0, 5M, 10M, 15M)
                 return Math.floor(range / 5000000);
               } else if (millionRange <= 50) {
                 // For ranges 15-50M, use 5M intervals
