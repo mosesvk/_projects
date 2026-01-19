@@ -208,9 +208,14 @@ const getMainChartOptions = (
     
     if (maxValue <= 20) {
       let cleanMax = Math.ceil(maxValue);
-      // Add 1 if at exact max to create headroom
+      // Add 1 if at exact max to create headroom, but handle 11-14 range specially
       if (cleanMax === maxValue) {
-        cleanMax += 1;
+        // For values 11-14, we want to round up to 15, not just add 1
+        if (maxValue > 10 && maxValue < 15) {
+          cleanMax = 15;
+        } else {
+          cleanMax += 1;
+        }
       }
       
       // Determine step size (must be 1, 2, or 5)
@@ -224,7 +229,10 @@ const getMainChartOptions = (
       }
       
       // Ensure cleanMax is a multiple of stepSize for even spacing
-      cleanMax = Math.ceil(cleanMax / stepSize) * stepSize;
+      // But preserve 15 if we set it above for the 11-14 range
+      if (!(maxValue > 10 && maxValue < 15 && cleanMax === 15)) {
+        cleanMax = Math.ceil(cleanMax / stepSize) * stepSize;
+      }
       
       // Calculate tickAmount (number of intervals)
       const tickAmount = cleanMax / stepSize;
@@ -499,21 +507,28 @@ const getMainChartOptions = (
       yaxisMax = Math.ceil(rawMax / 5) * 5;
     }
   } else if (dataMax <= 20 && numType !== "percent") {
-    // Use clean chart principles for values <= 20 (non-percent types)
-    const cleanAxis = calculateCleanYAxis(dataMax, 0, numType);
-    if (cleanAxis) {
-      yaxisMax = cleanAxis.max;
-      yaxisStepSize = cleanAxis.stepSize;
-      yaxisTickAmount = cleanAxis.tickAmount;
+    // Special handling for values 11-14: always use 15 as yaxisMax
+    if (dataMax > 10 && dataMax < 15) {
+      yaxisMax = 15;
+      yaxisStepSize = 2; // Use step of 2 for 15 (0, 2, 4, 6, 8, 10, 12, 14, 15)
+      yaxisTickAmount = 8; // 8 intervals (0-2, 2-4, ..., 14-15)
     } else {
-      // Fallback
-      yaxisMax = Math.ceil(dataMax);
-      if (yaxisMax === dataMax) {
-        yaxisMax += 1;
+      // Use clean chart principles for other values <= 20 (non-percent types)
+      const cleanAxis = calculateCleanYAxis(dataMax, 0, numType);
+      if (cleanAxis) {
+        yaxisMax = cleanAxis.max;
+        yaxisStepSize = cleanAxis.stepSize;
+        yaxisTickAmount = cleanAxis.tickAmount;
+      } else {
+        // Fallback
+        yaxisMax = Math.ceil(dataMax);
+        if (yaxisMax === dataMax) {
+          yaxisMax += 1;
+        }
+        yaxisStepSize = yaxisMax <= 10 ? 1 : yaxisMax <= 15 ? 2 : 5;
+        yaxisMax = Math.ceil(yaxisMax / yaxisStepSize) * yaxisStepSize;
+        yaxisTickAmount = yaxisMax / yaxisStepSize;
       }
-      yaxisStepSize = yaxisMax <= 10 ? 1 : yaxisMax <= 15 ? 2 : 5;
-      yaxisMax = Math.ceil(yaxisMax / yaxisStepSize) * yaxisStepSize;
-      yaxisTickAmount = yaxisMax / yaxisStepSize;
     }
   } else if (dataMax <= 10) {
     // Apply special scaling logic only for small values (≤10) - for num and dollar types
@@ -701,6 +716,8 @@ const getMainChartOptions = (
   ].filter(v => v !== null && v !== undefined && !isNaN(v));
   
   // Find the actual min and max values from all series that will be rendered
+  // IMPORTANT: Use the actual rendered arrays, not the filtered data used for initial calculation
+  // This ensures we catch ALL values that will be displayed, even if they were filtered out earlier
   const actualMinRenderedValue = allRenderedSeriesData.length > 0 ? Math.min(...allRenderedSeriesData) : dataMin;
   const actualMaxRenderedValue = allRenderedSeriesData.length > 0 ? Math.max(...allRenderedSeriesData) : dataMax;
   
@@ -739,7 +756,9 @@ const getMainChartOptions = (
     yaxisMin = newMin;
   }
   
-  // Ensure y-axis max is never lower than the highest rendered data point
+  // CRITICAL: Ensure y-axis max is NEVER lower than the highest rendered data point
+  // This is the final safety check that MUST run to prevent any data from being cut off
+  // This check runs AFTER all initial calculations to ensure ALL rendered values are visible
   if (yaxisMax < actualMaxRenderedValue) {
     // Calculate new max with padding
     let newMax = actualMaxRenderedValue;
@@ -758,26 +777,62 @@ const getMainChartOptions = (
     
     // For small values (<= 20), re-apply clean chart principles to ensure proper rounding
     if (newMax <= 20 && numType !== "percent") {
-      const cleanAxis = calculateCleanYAxis(newMax, yaxisMin || 0, numType);
-      if (cleanAxis) {
-        yaxisMax = cleanAxis.max;
-        yaxisStepSize = cleanAxis.stepSize;
-        yaxisTickAmount = cleanAxis.tickAmount;
+      // Special handling for values 11-14: always use 15
+      if (actualMaxRenderedValue > 10 && actualMaxRenderedValue < 15) {
+        yaxisMax = 15;
+        yaxisStepSize = 2;
+        yaxisTickAmount = 8;
       } else {
-        // Fallback: round up to next clean value
-        if (newMax <= 10) {
-          yaxisMax = Math.ceil(newMax);
-          if (yaxisMax === newMax) yaxisMax += 1;
-        } else if (newMax <= 15) {
-          yaxisMax = Math.ceil(newMax / 2) * 2; // Round to nearest 2
-          if (yaxisMax < newMax) yaxisMax += 2;
+        const cleanAxis = calculateCleanYAxis(newMax, yaxisMin || 0, numType);
+        if (cleanAxis) {
+          yaxisMax = cleanAxis.max;
+          yaxisStepSize = cleanAxis.stepSize;
+          yaxisTickAmount = cleanAxis.tickAmount;
         } else {
-          yaxisMax = Math.ceil(newMax / 5) * 5; // Round to nearest 5
-          if (yaxisMax < newMax) yaxisMax += 5;
+          // Fallback: round up to next clean value
+          if (newMax <= 10) {
+            yaxisMax = Math.ceil(newMax);
+            if (yaxisMax === newMax) yaxisMax += 1;
+          } else if (newMax <= 15) {
+            yaxisMax = Math.ceil(newMax / 2) * 2; // Round to nearest 2
+            if (yaxisMax < newMax) yaxisMax += 2;
+          } else {
+            yaxisMax = Math.ceil(newMax / 5) * 5; // Round to nearest 5
+            if (yaxisMax < newMax) yaxisMax += 5;
+          }
         }
       }
     } else {
       yaxisMax = newMax;
+    }
+  }
+  
+  // FINAL ABSOLUTE CHECK: Ensure yaxisMax is at least actualMaxRenderedValue + minimum padding
+  // This is a failsafe to catch any edge cases where the above logic might have failed
+  if (yaxisMax < actualMaxRenderedValue) {
+    // Special handling for values 11-14: always use 15
+    if (actualMaxRenderedValue > 10 && actualMaxRenderedValue < 15 && numType !== "percent") {
+      yaxisMax = 15;
+      yaxisStepSize = 2;
+      yaxisTickAmount = 8;
+    } else {
+      // If somehow yaxisMax is still too low, force it to be at least actualMaxRenderedValue + padding
+      const minRequiredMax = actualMaxRenderedValue + (actualMaxRenderedValue >= 10 ? 1 : 0.1);
+      if (minRequiredMax <= 20 && numType !== "percent") {
+        // Round to clean value
+        if (minRequiredMax <= 10) {
+          yaxisMax = Math.ceil(minRequiredMax);
+          if (yaxisMax === minRequiredMax) yaxisMax += 1;
+        } else if (minRequiredMax <= 15) {
+          yaxisMax = Math.ceil(minRequiredMax / 2) * 2;
+          if (yaxisMax < minRequiredMax) yaxisMax += 2;
+        } else {
+          yaxisMax = Math.ceil(minRequiredMax / 5) * 5;
+          if (yaxisMax < minRequiredMax) yaxisMax += 5;
+        }
+      } else {
+        yaxisMax = minRequiredMax;
+      }
     }
   }
   }

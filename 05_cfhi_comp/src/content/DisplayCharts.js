@@ -284,6 +284,11 @@ const displayCashComponent = () => {
   createWhatDoesThisMean(liquidityRatio_whatDoesThisMean, "row_liquidityRatio");
   createWhatDoesThisMean(netCashAvailable_whatDoesThisMean, "row_netCashAvailability");
 
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
+
   closeSidebarAfterSelectingOption("cash");
 };
 
@@ -373,6 +378,11 @@ const displayDebtComponent = () => {
   createWhatDoesThisMean(debtPerGivingUnit_whatDoesThisMean, "row_debtPerGivingUnit");
   createWhatDoesThisMean(debtCoverage_whatDoesThisMean, "row_debtCoverage");
 
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
+
   closeSidebarAfterSelectingOption("debt");
 };
 
@@ -432,6 +442,11 @@ const displayIncomeComponent = () => {
   createWhatDoesThisMean(netIncome_whatDoesThisMean, "row_netIncomeRatio");
   createWhatDoesThisMean(contrWithoutPerAvgAttAndGU_whatDoesThisMean, "row_contributionsWithoutDonorPerGivingUnit");
   createWhatDoesThisMean(contrPerAvgAttAndGU_whatDoesThisMean, "row_totalContributionsPerGivingUnit");
+
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
 
   closeSidebarAfterSelectingOption("income");
 };
@@ -513,5 +528,113 @@ const displayExpenseComponent = () => {
 
   // Removed facility expense and cost per square foot ratios per todo
 
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
+
   closeSidebarAfterSelectingOption("expense");
+};
+
+/**
+ * Map of field names to their benchmark text for display above Expand Info buttons
+ * @type {Object<string, string>}
+ */
+const fieldBenchmarkMap = {
+  daysExpendableNetAssets: "Good: > 60 | Warning: 30-60 | Action: < 30",
+  daysOperatingCash: "Good: > 90 | Warning: 60-90 | Action: < 60",
+  cashFlowsFromOperatingActivities: "Good: > 0 | Warning: 1 year of negative results | Action:  2+ years of negative results",
+  liquidityRatio: "Good: > 4 | Warning: 1-4 | Action: < 1",
+  netCashAvailability: "Good: > 1 month expenses | Warning: > 0 and < 1 month expenses | Action: < 0",
+  debtToContributionsWithout: "Good: < 2 | Warning: 2-3 | Action: > 3",
+  currentRatio: "Good: > 2 | Warning: 1-2 | Action: < 1",
+  mandatoryDebtServiceToContributionsWithout: "Good: < 15 | Warning: 15-20 | Action: > 20",
+  debtPerGivingUnit: "Good: < 2x | Warning: 2x - 3x | Action: > 3x contributions w/o donor restrictions",
+  debtCoverage: "Good: > 1.25 | Warning: 1 - 1.25 | Action: < 1",
+  netIncomeRatio: "Good: > 0 | Warning: = 0 | Action: < 0",
+  contributionsWithoutDonorPerGivingUnit: "", // No benchmark text
+  totalContributionsPerGivingUnit: "Good: > 4,500 | Warning: 3,000 - 4,500 | Action: < 3,000",
+  benefitsToSalaries: "", // No benchmark text
+  salariesBenefitsIncludingOutsourcedEmployees: "", // No benchmark text
+  personnelToCashExpenditure: "Good: 40-55 | Warning: 35-40 or 55-59 | Action: < 35 or > 59",
+  cashExpendituresPerGivingUnit: "", // No benchmark text
+};
+
+/**
+ * Display benchmark text above the Expand Info button for charts that have benchmarks
+ * This function should be called after charts are displayed
+ * Ensures "Expand Info" button is always aligned to the right, even when no benchmark text exists
+ */
+const displayBenchmarksAboveExpandInfo = () => {
+  Object.entries(fieldBenchmarkMap).forEach(([fieldName, benchmarkText]) => {
+    // Find the Expand Info button by modal target
+    const modalTarget = `${fieldName}_modal`;
+    const button = document.querySelector(
+      `button[data-modal-target="${modalTarget}"]`
+    );
+
+    if (!button) {
+      // console.warn(`Expand Info button not found for ${fieldName}`);
+      return;
+    }
+
+    // Find the parent container with the flex layout (match by border-t class)
+    let flexContainer = button.parentElement;
+    while (flexContainer && !flexContainer.classList.contains("border-t")) {
+      flexContainer = flexContainer.parentElement;
+    }
+
+    if (!flexContainer) {
+      console.warn(`Flex container not found for ${fieldName}`);
+      return;
+    }
+
+    // Find the flex-shrink-0 div that contains the button
+    const buttonContainer = button.closest(".flex-shrink-0");
+
+    // Check if benchmark text already exists
+    const existingBenchmark = flexContainer.querySelector(
+      `[data-benchmark-field="${fieldName}"]`
+    );
+
+    // Handle benchmark text
+    if (benchmarkText && benchmarkText.trim() !== "") {
+      // We have benchmark text to display
+      if (existingBenchmark) {
+        // Update existing benchmark text
+        existingBenchmark.textContent = benchmarkText;
+      } else {
+        // Create the paragraph element with benchmark text
+        const benchmarkP = document.createElement("p");
+        benchmarkP.className =
+          "mb-2 text-sm font-medium text-gray-500 dark:text-white";
+        benchmarkP.textContent = benchmarkText;
+        benchmarkP.setAttribute("data-benchmark-field", fieldName);
+
+        if (buttonContainer) {
+          // Insert the benchmark text as a sibling before the button container
+          buttonContainer.parentNode.insertBefore(benchmarkP, buttonContainer);
+        } else {
+          // Fallback: insert at the beginning of flex container
+          flexContainer.insertBefore(benchmarkP, flexContainer.firstChild);
+        }
+      }
+      
+      // Remove ml-auto from button container if it exists (benchmark text will push it right via justify-between)
+      if (buttonContainer && buttonContainer.classList.contains("ml-auto")) {
+        buttonContainer.classList.remove("ml-auto");
+      }
+    } else {
+      // No benchmark text - ensure button is pushed to the right
+      if (existingBenchmark) {
+        // Remove existing empty benchmark text
+        existingBenchmark.remove();
+      }
+      
+      // Add ml-auto to button container to push it to the right when no benchmark text exists
+      if (buttonContainer && !buttonContainer.classList.contains("ml-auto")) {
+        buttonContainer.classList.add("ml-auto");
+      }
+    }
+  });
 };
