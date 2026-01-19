@@ -152,9 +152,54 @@ const getMainChartOptions = (
     ));
 
   // Calculate smart y-axis range based on actual data (always needed)
-  const allDataValues = [...clientArray, ...peerAvg, ...peerMid, ...peer25, ...peer75, ...(benchmark || [])].filter(v => v !== null && v !== undefined);
-  const dataMin = Math.min(...allDataValues);
-  const dataMax = Math.max(...allDataValues);
+  // Filter out null, undefined, and NaN values
+  const validClientData = clientArray.filter(v => v !== null && v !== undefined && !isNaN(v));
+  const validPeerAvg = peerAvg.filter(v => v !== null && v !== undefined && !isNaN(v));
+  const validPeerMid = peerMid.filter(v => v !== null && v !== undefined && !isNaN(v));
+  const validPeer25 = peer25.filter(v => v !== null && v !== undefined && !isNaN(v));
+  const validPeer75 = peer75.filter(v => v !== null && v !== undefined && !isNaN(v));
+  const validBenchmark = (benchmark || []).filter(v => v !== null && v !== undefined && !isNaN(v));
+  
+  // Calculate client data range first (client data is most reliable and should drive y-axis)
+  const clientMin = validClientData.length > 0 ? Math.min(...validClientData) : 0;
+  const clientMax = validClientData.length > 0 ? Math.max(...validClientData) : 0;
+  const clientRange = clientMax - clientMin;
+  
+  // For small peer groups, peer percentiles can be unreliable/outliers
+  // Filter peer data to only include values within a reasonable range of client data
+  // Use 2x client max as threshold (e.g., if client max is 1.5M, include peer data up to ~3M)
+  // This prevents extreme outliers from small peer groups from inflating y-axis
+  // For million values, be more conservative - cap at 3M if client max is in 1-2M range
+  let maxReasonableValue;
+  if (clientMax >= 1000000 && clientMax < 3000000) {
+    // For million values in 1-3M range, cap peer data at 3M to match our y-axis cap
+    maxReasonableValue = 3000000;
+  } else if (clientMax > 0) {
+    // For other values, use 2x client max or client max + 1.5x range, whichever is smaller
+    maxReasonableValue = Math.min(clientMax * 2, clientMax + (clientRange * 1.5));
+  } else {
+    maxReasonableValue = Infinity;
+  }
+  
+  const filteredPeerAvg = validPeerAvg.filter(v => v <= maxReasonableValue);
+  const filteredPeerMid = validPeerMid.filter(v => v <= maxReasonableValue);
+  const filteredPeer25 = validPeer25.filter(v => v <= maxReasonableValue);
+  const filteredPeer75 = validPeer75.filter(v => v <= maxReasonableValue);
+  
+  // Combine all valid data, prioritizing client data
+  const allDataValues = [
+    ...validClientData, 
+    ...filteredPeerAvg, 
+    ...filteredPeerMid, 
+    ...filteredPeer25, 
+    ...filteredPeer75, 
+    ...validBenchmark
+  ];
+  
+  // Calculate min/max from filtered data
+  // If no valid data, fall back to client data only
+  const dataMin = allDataValues.length > 0 ? Math.min(...allDataValues) : clientMin;
+  const dataMax = allDataValues.length > 0 ? Math.max(...allDataValues) : clientMax;
   const dataRange = dataMax - dataMin;
   
   /**
@@ -298,6 +343,10 @@ const getMainChartOptions = (
     padding = 0.2; // Medium padding for medium ranges
   } else if (dataRange <= 10) {
     padding = 1; // Larger padding for larger ranges
+  } else if (dataMax >= 1000000 && dataMax < 3000000) {
+    // For million values in 1M-3M range, use smaller padding to prevent jumping to 5M
+    // Use 5% padding instead of 10% to keep rawMax closer to dataMax
+    padding = Math.ceil(dataRange * 0.05);
   } else {
     padding = Math.ceil(dataRange * 0.1); // 10% padding for large ranges
   }
@@ -423,15 +472,16 @@ const getMainChartOptions = (
     } else if (rawMax >= 10000000) {
       // For values >= 10M, round up to nearest 5M
       yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
-    } else if (rawMax >= 3000000) {
-      // For values >= 3M, round up to nearest 5M for clean 5M intervals
+    } else if (dataMax >= 3000000) {
+      // For values where actual dataMax >= 3M, round up to nearest 5M for clean 5M intervals
       yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
     } else if (rawMax >= 1000000) {
-      // For values 1M-3M, use 1M intervals for cleaner spacing
+      // For values 1M-3M (where dataMax < 3M), use 1M intervals for cleaner spacing
       // Example: max ~1.5M -> max = 2M with ticks at 0, 1M, 2M
       // Example: max ~2M -> max = 3M with ticks at 0, 1M, 2M, 3M
+      // Always cap at 3M max for this range to keep it clean, even if padding pushes rawMax higher
       yaxisMax = Math.ceil(rawMax / 1000000) * 1000000; // Round up to nearest 1M
-      // Cap at 3M max for this range to keep it clean
+      // Cap at 3M max for this range to keep it clean (prevents jumping to 5M when padding inflates rawMax)
       if (yaxisMax > 3000000) {
         yaxisMax = 3000000;
       }
