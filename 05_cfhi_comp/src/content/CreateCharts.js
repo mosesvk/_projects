@@ -152,54 +152,22 @@ const getMainChartOptions = (
     ));
 
   // Calculate smart y-axis range based on actual data (always needed)
-  // Filter out null, undefined, and NaN values
+  // Include peer data for y-axis scaling, but filter outliers to prevent small peer groups from causing issues
   const validClientData = clientArray.filter(v => v !== null && v !== undefined && !isNaN(v));
-  const validPeerAvg = peerAvg.filter(v => v !== null && v !== undefined && !isNaN(v));
-  const validPeerMid = peerMid.filter(v => v !== null && v !== undefined && !isNaN(v));
-  const validPeer25 = peer25.filter(v => v !== null && v !== undefined && !isNaN(v));
-  const validPeer75 = peer75.filter(v => v !== null && v !== undefined && !isNaN(v));
-  const validBenchmark = (benchmark || []).filter(v => v !== null && v !== undefined && !isNaN(v));
-  
-  // Calculate client data range first (client data is most reliable and should drive y-axis)
   const clientMin = validClientData.length > 0 ? Math.min(...validClientData) : 0;
   const clientMax = validClientData.length > 0 ? Math.max(...validClientData) : 0;
   const clientRange = clientMax - clientMin;
   
-  // For small peer groups, peer percentiles can be unreliable/outliers
-  // Filter peer data to only include values within a reasonable range of client data
-  // Use 2x client max as threshold (e.g., if client max is 1.5M, include peer data up to ~3M)
-  // This prevents extreme outliers from small peer groups from inflating y-axis
-  // For million values, be more conservative - cap at 3M if client max is in 1-2M range
-  let maxReasonableValue;
-  if (clientMax >= 1000000 && clientMax < 3000000) {
-    // For million values in 1-3M range, cap peer data at 3M to match our y-axis cap
-    maxReasonableValue = 3000000;
-  } else if (clientMax > 0) {
-    // For other values, use 2x client max or client max + 1.5x range, whichever is smaller
-    maxReasonableValue = Math.min(clientMax * 2, clientMax + (clientRange * 1.5));
-  } else {
-    maxReasonableValue = Infinity;
-  }
+  // Include peer data that's within a reasonable range to ensure trendlines are visible
+  // Use 1.5x client max as threshold (prevents extreme outliers from small peer groups)
+  const peerMaxThreshold = clientMax > 0 ? Math.max(clientMax * 1.5, clientMax + (clientRange * 0.5)) : Infinity;
+  const validPeerData = [...peerAvg, ...peerMid, ...peer25, ...peer75]
+    .filter(v => v !== null && v !== undefined && !isNaN(v) && v <= peerMaxThreshold);
   
-  const filteredPeerAvg = validPeerAvg.filter(v => v <= maxReasonableValue);
-  const filteredPeerMid = validPeerMid.filter(v => v <= maxReasonableValue);
-  const filteredPeer25 = validPeer25.filter(v => v <= maxReasonableValue);
-  const filteredPeer75 = validPeer75.filter(v => v <= maxReasonableValue);
-  
-  // Combine all valid data, prioritizing client data
-  const allDataValues = [
-    ...validClientData, 
-    ...filteredPeerAvg, 
-    ...filteredPeerMid, 
-    ...filteredPeer25, 
-    ...filteredPeer75, 
-    ...validBenchmark
-  ];
-  
-  // Calculate min/max from filtered data
-  // If no valid data, fall back to client data only
-  const dataMin = allDataValues.length > 0 ? Math.min(...allDataValues) : clientMin;
-  const dataMax = allDataValues.length > 0 ? Math.max(...allDataValues) : clientMax;
+  // Calculate dataMin and dataMax from client + reasonable peer data
+  const allReasonableValues = [...validClientData, ...validPeerData];
+  const dataMin = allReasonableValues.length > 0 ? Math.min(...allReasonableValues) : clientMin;
+  const dataMax = allReasonableValues.length > 0 ? Math.max(...allReasonableValues) : clientMax;
   const dataRange = dataMax - dataMin;
   
   /**
@@ -476,18 +444,22 @@ const getMainChartOptions = (
       // For values where actual dataMax >= 3M, round up to nearest 5M for clean 5M intervals
       yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
     } else if (rawMax >= 1000000) {
-      // For values 1M-3M (where dataMax < 3M), use 1M intervals for cleaner spacing
-      // Example: max ~1.5M -> max = 2M with ticks at 0, 1M, 2M
-      // Example: max ~2M -> max = 3M with ticks at 0, 1M, 2M, 3M
-      // Always cap at 3M max for this range to keep it clean, even if padding pushes rawMax higher
+      // For values 1M-3M (where dataMax < 3M), use appropriate intervals
       yaxisMax = Math.ceil(rawMax / 1000000) * 1000000; // Round up to nearest 1M
       // Cap at 3M max for this range to keep it clean (prevents jumping to 5M when padding inflates rawMax)
       if (yaxisMax > 3000000) {
         yaxisMax = 3000000;
       }
-      // Store step size for tickAmount calculation (in actual value, not millions)
-      yaxisStepSize = 1000000; // 1M step size (1000000)
-      yaxisTickAmount = yaxisMax / 1000000; // Number of 1M intervals
+      
+      // Special case: If max is exactly 1M, use 250k intervals (0, 250k, 500k, 750k, 1M)
+      if (yaxisMax === 1000000) {
+        yaxisStepSize = 250000; // 250k step size
+        yaxisTickAmount = 4; // 0, 250k, 500k, 750k, 1M = 5 labels
+      } else {
+        // For 2M and 3M, use 1M intervals (0, 1M, 2M, 3M)
+        yaxisStepSize = 1000000; // 1M step size (1000000)
+        yaxisTickAmount = yaxisMax / 1000000; // Number of 1M intervals
+      }
     } else if (rawMax >= 500000) {
       // For values 500K-1M, round up to nearest 100K
       yaxisMax = Math.ceil(rawMax / 100000) * 100000;
@@ -546,6 +518,38 @@ const getMainChartOptions = (
     } else {
       // For values 20-40, round to nearest multiple of 4 for clean spacing
       yaxisMax = Math.ceil(rawMax / 4) * 4; // Round to nearest multiple of 4 (20, 24, 28, etc.)
+    }
+  }
+  
+  // CRITICAL: Ensure y-axis max is never lower than the greatest ACTUAL rendered value
+  // This prevents data points from being cut off at the top of the chart
+  // Check ALL actual series data that will be rendered (including all peer lines, even if filtered earlier)
+  const allRenderedSeriesData = [
+    ...clientArray,
+    ...peerAvg,
+    ...peerMid,
+    ...peer25,
+    ...peer75
+  ].filter(v => v !== null && v !== undefined && !isNaN(v));
+  
+  // Find the actual maximum value from all series that will be rendered
+  const actualMaxRenderedValue = allRenderedSeriesData.length > 0 ? Math.max(...allRenderedSeriesData) : dataMax;
+  
+  // Ensure y-axis max is at least as high as the highest rendered data point
+  if (yaxisMax < actualMaxRenderedValue) {
+    yaxisMax = actualMaxRenderedValue;
+    // Add a small buffer to prevent data points from touching the top edge
+    if (actualMaxRenderedValue > 0) {
+      // Add padding based on scale
+      if (actualMaxRenderedValue >= 1000000) {
+        yaxisMax = actualMaxRenderedValue + Math.max(50000, Math.ceil(actualMaxRenderedValue * 0.01)); // At least 50K or 1% for million values
+      } else if (actualMaxRenderedValue >= 1000) {
+        yaxisMax = actualMaxRenderedValue + Math.max(10, Math.ceil(actualMaxRenderedValue * 0.01)); // At least 10 or 1% for thousand values
+      } else if (actualMaxRenderedValue >= 10) {
+        yaxisMax = actualMaxRenderedValue + Math.max(1, Math.ceil(actualMaxRenderedValue * 0.02)); // At least 1 or 2% for values 10-999
+      } else {
+        yaxisMax = actualMaxRenderedValue + Math.max(0.1, actualMaxRenderedValue * 0.02); // At least 0.1 or 2% for small values
+      }
     }
   }
   }
@@ -925,6 +929,40 @@ const getMainChartOptions = (
             show: true,
             hideOverlappingLabels: false,
           },
+        } : yaxisStepSize === 250000 && yaxisMax === 1000000 && yaxisTickAmount ? {
+          // Handle 1M max with 250k intervals (0, 250k, 500k, 750k, 1M)
+          forceNiceScale: false,
+          min: 0,
+          max: yaxisMax,
+          tickAmount: yaxisTickAmount,
+          labels: {
+            formatter: (value) => {
+              // Format as thousands with 250k intervals, but show 1M instead of 1000k
+              const thousandValue = value / 1000;
+              const roundedValue = Math.round(thousandValue / 250) * 250; // Round to nearest 250k
+              if (roundedValue === 1000) {
+                // Show 1M instead of 1000k
+                if (numType === "dollar") {
+                  return `$1M`;
+                } else {
+                  return `1M`;
+                }
+              } else {
+                if (numType === "dollar") {
+                  return `$${roundedValue}k`;
+                } else {
+                  return `${roundedValue}k`;
+                }
+              }
+            },
+            style: {
+              colors: chartColors.labelColor,
+              fontSize: "1.25rem",
+            },
+            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
+            show: true,
+            hideOverlappingLabels: false,
+          },
         } : yaxisStepSize === 1000000 && yaxisMax >= 1000000 && yaxisMax <= 3000000 && yaxisTickAmount ? {
           // Handle million values with 1M step sizes (e.g., 0, 1M, 2M, 3M)
           forceNiceScale: false,
@@ -1051,8 +1089,11 @@ const getMainChartOptions = (
             } else if (range >= 1000000) {
               // For ranges >= 1M, use appropriate intervals based on range size
               const millionRange = range / 1000000;
-              if (millionRange <= 3) {
-                // For ranges 1-3M, use 1M intervals (0, 1M, 2M, 3M)
+              if (millionRange === 1 && yaxisMax === 1000000) {
+                // For exactly 1M range, use 250k intervals (0, 250k, 500k, 750k, 1M)
+                return 4; // 4 intervals = 5 labels
+              } else if (millionRange <= 3) {
+                // For ranges 1-3M (but not exactly 1M), use 1M intervals (0, 1M, 2M, 3M)
                 return Math.floor(range / 1000000);
               } else if (millionRange <= 15) {
                 // For ranges 3-15M, use 5M intervals (0, 5M, 10M, 15M)
