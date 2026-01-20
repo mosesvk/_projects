@@ -208,33 +208,34 @@ const getMainChartOptions = (
     
     if (maxValue <= 20) {
       let cleanMax = Math.ceil(maxValue);
-      // Add 1 if at exact max to create headroom, but handle 11-14 range specially
+      // Add 1 if at exact max to create headroom
       if (cleanMax === maxValue) {
-        // For values 11-14, we want to round up to 15, not just add 1
-        if (maxValue > 10 && maxValue < 15) {
-          cleanMax = 15;
-        } else {
-          cleanMax += 1;
-        }
+        cleanMax += 1;
       }
       
-      // Determine step size (must be 1, 2, or 5)
+      // Determine step size (must be 1, 2, 3, or 5) and ensure cleanMax is evenly divisible
       let stepSize;
       if (cleanMax <= 10) {
         stepSize = 1; // For max 1-10, use step of 1
-      } else if (cleanMax <= 15) {
-        stepSize = 2; // For max 11-15, use step of 2
-      } else {
-        stepSize = 5; // For max 16-20, use step of 5
-      }
-      
-      // Ensure cleanMax is a multiple of stepSize for even spacing
-      // But preserve 15 if we set it above for the 11-14 range
-      if (!(maxValue > 10 && maxValue < 15 && cleanMax === 15)) {
         cleanMax = Math.ceil(cleanMax / stepSize) * stepSize;
+      } else if (cleanMax <= 12) {
+        stepSize = 3; // For max 11-12, use step of 3 -> cleanMax becomes 12 (0, 3, 6, 9, 12)
+        cleanMax = 12;
+      } else if (cleanMax <= 15) {
+        stepSize = 3; // For max 13-15, use step of 3 -> cleanMax becomes 15 (0, 3, 6, 9, 12, 15)
+        cleanMax = 15;
+      } else if (cleanMax <= 16) {
+        stepSize = 4; // For max 16, use step of 4 -> cleanMax becomes 16 (0, 4, 8, 12, 16)
+        cleanMax = 16;
+      } else if (cleanMax <= 18) {
+        stepSize = 3; // For max 17-18, use step of 3 -> cleanMax becomes 18 (0, 3, 6, 9, 12, 15, 18)
+        cleanMax = 18;
+      } else {
+        stepSize = 5; // For max 19-20, use step of 5 -> cleanMax becomes 20 (0, 5, 10, 15, 20)
+        cleanMax = 20;
       }
       
-      // Calculate tickAmount (number of intervals)
+      // Calculate tickAmount (number of intervals) - must result in integer
       const tickAmount = cleanMax / stepSize;
       
       return { max: cleanMax, stepSize, tickAmount };
@@ -248,23 +249,37 @@ const getMainChartOptions = (
   if (dataMin < 0) {
     // If we have negative values, cap based on actual data range with clean intervals
     if (numType === "percent") {
-      // For percentages, cap at actual max/min with clean 15% intervals
-      // Example: max=30%, min=-11% -> max=30%, min=-15% (0, 15, 30 for positive, -15, 0 for negative)
-      let cleanMax = Math.ceil(dataMax / 15) * 15; // Round up to nearest multiple of 15
-      let cleanMin = Math.floor(dataMin / 15) * 15; // Round down to nearest multiple of 15
+      // For percentages with negative values, use scale-aware intervals
+      const totalRange = Math.abs(dataMax) + Math.abs(dataMin);
+      let stepSize;
+      
+      // Determine appropriate step size based on total range
+      if (totalRange >= 100) {
+        stepSize = 20; // 20% intervals for very large ranges
+      } else if (totalRange >= 60) {
+        stepSize = 10; // 10% intervals for 60-100% range
+      } else if (totalRange >= 30) {
+        stepSize = 5; // 5% intervals for 30-60% range
+      } else {
+        stepSize = 3; // 3% intervals for smaller ranges
+      }
+      
+      // Round max and min to multiples of step size
+      let cleanMax = Math.ceil(dataMax / stepSize) * stepSize;
+      let cleanMin = Math.floor(dataMin / stepSize) * stepSize;
       
       // Ensure we have headroom
       if (cleanMax === dataMax) {
-        cleanMax += 15;
+        cleanMax += stepSize;
       }
       if (cleanMin === dataMin) {
-        cleanMin -= 15;
+        cleanMin -= stepSize;
       }
       
       yaxisMin = cleanMin;
       yaxisMax = cleanMax;
-      yaxisStepSize = 15;
-      yaxisTickAmount = (cleanMax - cleanMin) / 15;
+      yaxisStepSize = stepSize;
+      yaxisTickAmount = (cleanMax - cleanMin) / stepSize;
     } else {
       // For non-percent types with negative values, use smart approach based on value distribution
       const negativeMagnitude = Math.abs(dataMin);
@@ -493,42 +508,65 @@ const getMainChartOptions = (
   }
   
   // Smart y-axis maximum calculation
-    // For percent type with values >= 10, treat like num/dollar - round to nearest 10
+    // For percent type with values >= 10, use clean intervals with explicit step size
   if (numType === "percent" && dataMax >= 10) {
-    // Percent type should round to nearest 10 for clean tick marks (0%, 10%, 20%, etc.)
+    // Percent type should use clean intervals for professional appearance
     const rawMax = dataMax + padding;
     if (rawMax >= 100) {
       yaxisMax = Math.ceil(rawMax / 10) * 10;
+      yaxisStepSize = 10; // 10% intervals (0%, 10%, 20%, ...)
+      yaxisTickAmount = yaxisMax / 10;
     } else if (rawMax >= 50) {
       yaxisMax = Math.ceil(rawMax / 10) * 10;
-    } else if (rawMax >= 20) {
-      yaxisMax = Math.ceil(rawMax / 10) * 10;
-    } else {
+      yaxisStepSize = 10; // 10% intervals (0%, 10%, 20%, ...)
+      yaxisTickAmount = yaxisMax / 10;
+    } else if (rawMax >= 30) {
       yaxisMax = Math.ceil(rawMax / 5) * 5;
+      yaxisStepSize = 5; // 5% intervals (0%, 5%, 10%, 15%, 20%, ...)
+      yaxisTickAmount = yaxisMax / 5;
+    } else if (rawMax >= 20) {
+      yaxisMax = Math.ceil(rawMax / 5) * 5;
+      yaxisStepSize = 5; // 5% intervals (0%, 5%, 10%, 15%, 20%)
+      yaxisTickAmount = yaxisMax / 5;
+    } else {
+      // For 10-20% range, use 3% intervals for professional look
+      yaxisMax = Math.ceil(rawMax / 3) * 3;
+      yaxisStepSize = 3; // 3% intervals (0%, 3%, 6%, 9%, 12%, 15%, 18%)
+      yaxisTickAmount = yaxisMax / 3;
     }
   } else if (dataMax <= 20 && numType !== "percent") {
-    // Special handling for values 11-14: always use 15 as yaxisMax
-    if (dataMax > 10 && dataMax < 15) {
-      yaxisMax = 15;
-      yaxisStepSize = 2; // Use step of 2 for 15 (0, 2, 4, 6, 8, 10, 12, 14, 15)
-      yaxisTickAmount = 8; // 8 intervals (0-2, 2-4, ..., 14-15)
+    // Use clean chart principles for values <= 20 (non-percent types)
+    const cleanAxis = calculateCleanYAxis(dataMax, 0, numType);
+    if (cleanAxis) {
+      yaxisMax = cleanAxis.max;
+      yaxisStepSize = cleanAxis.stepSize;
+      yaxisTickAmount = cleanAxis.tickAmount;
     } else {
-      // Use clean chart principles for other values <= 20 (non-percent types)
-      const cleanAxis = calculateCleanYAxis(dataMax, 0, numType);
-      if (cleanAxis) {
-        yaxisMax = cleanAxis.max;
-        yaxisStepSize = cleanAxis.stepSize;
-        yaxisTickAmount = cleanAxis.tickAmount;
-      } else {
-        // Fallback
-        yaxisMax = Math.ceil(dataMax);
-        if (yaxisMax === dataMax) {
-          yaxisMax += 1;
-        }
-        yaxisStepSize = yaxisMax <= 10 ? 1 : yaxisMax <= 15 ? 2 : 5;
-        yaxisMax = Math.ceil(yaxisMax / yaxisStepSize) * yaxisStepSize;
-        yaxisTickAmount = yaxisMax / yaxisStepSize;
+      // Fallback: ensure max is evenly divisible by step size
+      yaxisMax = Math.ceil(dataMax);
+      if (yaxisMax === dataMax) {
+        yaxisMax += 1;
       }
+      // Determine step size and round max to be evenly divisible
+      if (yaxisMax <= 10) {
+        yaxisStepSize = 1;
+      } else if (yaxisMax <= 12) {
+        yaxisStepSize = 3;
+        yaxisMax = 12;
+      } else if (yaxisMax <= 15) {
+        yaxisStepSize = 3;
+        yaxisMax = 15;
+      } else if (yaxisMax <= 16) {
+        yaxisStepSize = 4;
+        yaxisMax = 16;
+      } else if (yaxisMax <= 18) {
+        yaxisStepSize = 3;
+        yaxisMax = 18;
+      } else {
+        yaxisStepSize = 5;
+        yaxisMax = 20;
+      }
+      yaxisTickAmount = yaxisMax / yaxisStepSize;
     }
   } else if (dataMax <= 10) {
     // Apply special scaling logic only for small values (≤10) - for num and dollar types
@@ -592,19 +630,31 @@ const getMainChartOptions = (
     // Check dataMax first for values under 20 to prevent rounding up too much
     // This ensures maxVal 15 doesn't get yaxisMax 20 even if rawMax is higher
     if (dataMax < 20) {
-      // For dataMax under 20, use dataMax directly to keep yaxisMax close to actual max
+      // For dataMax under 20, use dataMax directly with explicit step size for even spacing
       if (dataMax <= 12) {
         yaxisMax = 12; // maxVal 12: use 12 for ticks 0, 3, 6, 9, 12
+        yaxisStepSize = 3;
+        yaxisTickAmount = 4; // 12 / 3 = 4 intervals
       } else if (dataMax <= 15) {
         yaxisMax = 15; // maxVal 15: use 15 for ticks 0, 3, 6, 9, 12, 15
+        yaxisStepSize = 3;
+        yaxisTickAmount = 5; // 15 / 3 = 5 intervals
       } else if (dataMax <= 16) {
         yaxisMax = 16; // maxVal 16: use 16 for ticks 0, 4, 8, 12, 16
+        yaxisStepSize = 4;
+        yaxisTickAmount = 4; // 16 / 4 = 4 intervals
       } else if (dataMax <= 17) {
         yaxisMax = 18; // maxVal 17: use 18 for ticks 0, 3, 6, 9, 12, 15, 18
+        yaxisStepSize = 3;
+        yaxisTickAmount = 6; // 18 / 3 = 6 intervals
       } else if (dataMax <= 18) {
         yaxisMax = 18; // maxVal 18: use 18 for ticks 0, 3, 6, 9, 12, 15, 18
+        yaxisStepSize = 3;
+        yaxisTickAmount = 6; // 18 / 3 = 6 intervals
       } else {
-        yaxisMax = 20; // maxVal 19: use 20
+        yaxisMax = 20; // maxVal 19: use 20 for ticks 0, 5, 10, 15, 20
+        yaxisStepSize = 5;
+        yaxisTickAmount = 4; // 20 / 5 = 4 intervals
       }
     } else if (rawMax >= 100000000) {
       // For values >= 100M, round up to nearest 10M
@@ -621,27 +671,29 @@ const getMainChartOptions = (
       yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
       yaxisStepSize = 5000000; // 5M step size
       yaxisTickAmount = yaxisMax / 5000000; // Number of 5M intervals
-    } else if (dataMax >= 3000000) {
-      // For values where actual dataMax >= 3M, round up to nearest 5M for clean 5M intervals
-      yaxisMax = Math.ceil(rawMax / 5000000) * 5000000;
-      yaxisStepSize = 5000000; // 5M step size
-      yaxisTickAmount = yaxisMax / 5000000; // Number of 5M intervals
+    } else if (dataMax >= 5000000) {
+      // For values where actual dataMax >= 5M, round up to nearest 1M with 1M intervals
+      yaxisMax = Math.ceil(rawMax / 1000000) * 1000000;
+      yaxisStepSize = 1000000; // 1M step size for professional accounting charts
+      yaxisTickAmount = yaxisMax / 1000000;
+    } else if (dataMax >= 2500000) {
+      // For values 2.5M-5M, use 500K intervals for professional appearance
+      // Round up to nearest 500K for tight, professional spacing
+      yaxisMax = Math.ceil(rawMax / 500000) * 500000;
+      yaxisStepSize = 500000; // 500K step size (0, 500K, 1M, 1.5M, 2M, 2.5M, 3M...)
+      yaxisTickAmount = yaxisMax / 500000;
     } else if (rawMax >= 1000000) {
-      // For values 1M-3M (where dataMax < 3M), use appropriate intervals
-      yaxisMax = Math.ceil(rawMax / 1000000) * 1000000; // Round up to nearest 1M
-      // Cap at 3M max for this range to keep it clean (prevents jumping to 5M when padding inflates rawMax)
-      if (yaxisMax > 3000000) {
-        yaxisMax = 3000000;
-      }
+      // For values 1M-2.5M, use 250K or 500K intervals depending on scale
+      yaxisMax = Math.ceil(rawMax / 500000) * 500000; // Round to nearest 500K
       
-      // Special case: If max is exactly 1M, use 250k intervals (0, 250k, 500k, 750k, 1M)
-      if (yaxisMax === 1000000) {
-        yaxisStepSize = 250000; // 250k step size
-        yaxisTickAmount = 4; // 0, 250k, 500k, 750k, 1M = 5 labels
+      // Use 250K intervals for values < 1.5M for finer granularity
+      if (yaxisMax <= 1500000) {
+        yaxisStepSize = 250000; // 250K step size (0, 250K, 500K, 750K, 1M, 1.25M, 1.5M)
+        yaxisTickAmount = yaxisMax / 250000;
       } else {
-        // For 2M and 3M, use 1M intervals (0, 1M, 2M, 3M)
-        yaxisStepSize = 1000000; // 1M step size (1000000)
-        yaxisTickAmount = yaxisMax / 1000000; // Number of 1M intervals
+        // Use 500K intervals for values 1.5M-2.5M
+        yaxisStepSize = 500000; // 500K step size
+        yaxisTickAmount = yaxisMax / 500000;
       }
     } else if (rawMax >= 500000) {
       // For values 500K-1M, round up to nearest 100K
@@ -877,7 +929,16 @@ const getMainChartOptions = (
       // Calculate appropriate padding based on value magnitude
       let padding;
       if (numType === "percent") {
-        padding = 15; // Add 15% padding for percentages
+        // Scale-aware padding for percentages
+        if (actualMaxValue >= 50) {
+          padding = 10; // 10% padding for large percentages
+        } else if (actualMaxValue >= 20) {
+          padding = 5; // 5% padding for medium percentages
+        } else if (actualMaxValue >= 10) {
+          padding = 3; // 3% padding for 10-20% range
+        } else {
+          padding = Math.max(1, actualMaxValue * 0.2); // 20% for very small percentages
+        }
       } else if (actualMaxValue < 10) {
         padding = Math.max(1, actualMaxValue * 0.2); // 20% padding, minimum 1
       } else if (actualMaxValue < 100) {
@@ -892,7 +953,20 @@ const getMainChartOptions = (
       
       // Round to clean values
       if (numType === "percent") {
-        yaxisMax = Math.ceil(minRequiredMax / 15) * 15;
+        // Scale-aware rounding for percentages
+        if (minRequiredMax >= 100) {
+          yaxisMax = Math.ceil(minRequiredMax / 10) * 10; // Round to 10%
+        } else if (minRequiredMax >= 50) {
+          yaxisMax = Math.ceil(minRequiredMax / 10) * 10; // Round to 10%
+        } else if (minRequiredMax >= 30) {
+          yaxisMax = Math.ceil(minRequiredMax / 5) * 5; // Round to 5%
+        } else if (minRequiredMax >= 20) {
+          yaxisMax = Math.ceil(minRequiredMax / 5) * 5; // Round to 5%
+        } else if (minRequiredMax >= 10) {
+          yaxisMax = Math.ceil(minRequiredMax / 3) * 3; // Round to 3% (professional look)
+        } else {
+          yaxisMax = Math.ceil(minRequiredMax); // Round to 1% for very small percentages
+        }
       } else if (minRequiredMax <= 2) {
         yaxisMax = Math.ceil(minRequiredMax * 2) / 2; // Round to 0.5
       } else if (minRequiredMax <= 10) {
@@ -918,10 +992,16 @@ const getMainChartOptions = (
         yaxisMax = Math.ceil(minRequiredMax / 500) * 500; // Round to 500
       } else if (minRequiredMax <= 100000) {
         yaxisMax = Math.ceil(minRequiredMax / 5000) * 5000; // Round to 5K
-      } else if (minRequiredMax <= 1000000) {
+      } else if (minRequiredMax <= 500000) {
         yaxisMax = Math.ceil(minRequiredMax / 50000) * 50000; // Round to 50K
+      } else if (minRequiredMax <= 1000000) {
+        yaxisMax = Math.ceil(minRequiredMax / 100000) * 100000; // Round to 100K
+      } else if (minRequiredMax <= 1500000) {
+        yaxisMax = Math.ceil(minRequiredMax / 250000) * 250000; // Round to 250K for professional spacing
+      } else if (minRequiredMax <= 5000000) {
+        yaxisMax = Math.ceil(minRequiredMax / 500000) * 500000; // Round to 500K (tight, professional)
       } else if (minRequiredMax <= 10000000) {
-        yaxisMax = Math.ceil(minRequiredMax / 500000) * 500000; // Round to 500K
+        yaxisMax = Math.ceil(minRequiredMax / 1000000) * 1000000; // Round to 1M
       } else {
         yaxisMax = Math.ceil(minRequiredMax / 5000000) * 5000000; // Round to 5M
       }
@@ -939,7 +1019,16 @@ const getMainChartOptions = (
       // Calculate appropriate padding for negative values
       let negativePadding;
       if (numType === "percent") {
-        negativePadding = 15;
+        // Scale-aware padding for negative percentages
+        if (minValueMagnitude >= 50) {
+          negativePadding = 10;
+        } else if (minValueMagnitude >= 20) {
+          negativePadding = 5;
+        } else if (minValueMagnitude >= 10) {
+          negativePadding = 3;
+        } else {
+          negativePadding = Math.max(1, minValueMagnitude * 0.2);
+        }
       } else if (minValueMagnitude < 10) {
         negativePadding = Math.max(1, minValueMagnitude * 0.2);
       } else if (minValueMagnitude < 100) {
@@ -954,7 +1043,20 @@ const getMainChartOptions = (
       
       // Round to clean negative values
       if (numType === "percent") {
-        yaxisMin = Math.floor(minRequiredMin / 15) * 15;
+        // Scale-aware rounding for negative percentages
+        if (Math.abs(minRequiredMin) >= 100) {
+          yaxisMin = Math.floor(minRequiredMin / 10) * 10;
+        } else if (Math.abs(minRequiredMin) >= 50) {
+          yaxisMin = Math.floor(minRequiredMin / 10) * 10;
+        } else if (Math.abs(minRequiredMin) >= 30) {
+          yaxisMin = Math.floor(minRequiredMin / 5) * 5;
+        } else if (Math.abs(minRequiredMin) >= 20) {
+          yaxisMin = Math.floor(minRequiredMin / 5) * 5;
+        } else if (Math.abs(minRequiredMin) >= 10) {
+          yaxisMin = Math.floor(minRequiredMin / 3) * 3;
+        } else {
+          yaxisMin = Math.floor(minRequiredMin);
+        }
       } else if (minRequiredMin >= -2) {
         yaxisMin = Math.floor(minRequiredMin * 2) / 2; // Round to -0.5
       } else if (minRequiredMin >= -10) {
@@ -1000,9 +1102,27 @@ const getMainChartOptions = (
     const finalMax = yaxisMax;
     const axisRange = finalMax - finalMin;
     if (numType === "percent") {
-      // For percentages, use 15% intervals
-      yaxisStepSize = 15;
-      yaxisTickAmount = Math.round(axisRange / 15);
+      // For percentages, use appropriate intervals based on TOTAL range (not just max)
+      // This properly handles charts with negative values
+      if (axisRange >= 100) {
+        yaxisStepSize = 20; // 20% intervals for very large ranges
+        yaxisTickAmount = Math.round(axisRange / 20);
+      } else if (axisRange >= 60) {
+        yaxisStepSize = 10; // 10% intervals for 60-100% range
+        yaxisTickAmount = Math.round(axisRange / 10);
+      } else if (axisRange >= 30) {
+        yaxisStepSize = 5; // 5% intervals for 30-60% range
+        yaxisTickAmount = Math.round(axisRange / 5);
+      } else if (axisRange >= 20) {
+        yaxisStepSize = 5; // 5% intervals for 20-30% range
+        yaxisTickAmount = Math.round(axisRange / 5);
+      } else if (axisRange >= 10) {
+        yaxisStepSize = 3; // 3% intervals for 10-20% range (professional look)
+        yaxisTickAmount = Math.round(axisRange / 3);
+      } else {
+        yaxisStepSize = 1; // 1% intervals for very small percentages
+        yaxisTickAmount = Math.round(axisRange / 1);
+      }
     } else if (finalMax <= 2) {
       // For very small values (≤2), use 0.5 steps
       yaxisStepSize = 0.5;
@@ -1016,25 +1136,38 @@ const getMainChartOptions = (
       }
       yaxisTickAmount = Math.round(axisRange / yaxisStepSize);
     } else if (finalMax <= 20) {
-      // For values 10-20, use appropriate steps
+      // For values 10-20, use appropriate steps to ensure even spacing
       if (finalMax === 12) {
         yaxisStepSize = 3;
-        yaxisTickAmount = 4;
+        yaxisTickAmount = Math.round(axisRange / 3);
       } else if (finalMax === 15) {
         yaxisStepSize = 3;
-        yaxisTickAmount = 5;
+        yaxisTickAmount = Math.round(axisRange / 3);
       } else if (finalMax === 16) {
         yaxisStepSize = 4;
-        yaxisTickAmount = 4;
+        yaxisTickAmount = Math.round(axisRange / 4);
       } else if (finalMax === 18) {
         yaxisStepSize = 3;
-        yaxisTickAmount = 6;
+        yaxisTickAmount = Math.round(axisRange / 3);
       } else if (finalMax === 20) {
         yaxisStepSize = 5;
-        yaxisTickAmount = 4;
-      } else {
+        yaxisTickAmount = Math.round(axisRange / 5);
+      } else if (finalMax === 14) {
         yaxisStepSize = 2;
         yaxisTickAmount = Math.round(axisRange / 2);
+      } else {
+        // For any other value in 10-20 range, find best step size
+        // Prioritize 3, then 4, then 5, then 2 based on what divides evenly
+        if (finalMax % 3 === 0 || (finalMax - finalMin) % 3 === 0) {
+          yaxisStepSize = 3;
+        } else if (finalMax % 4 === 0 || (finalMax - finalMin) % 4 === 0) {
+          yaxisStepSize = 4;
+        } else if (finalMax % 5 === 0 || (finalMax - finalMin) % 5 === 0) {
+          yaxisStepSize = 5;
+        } else {
+          yaxisStepSize = 2;
+        }
+        yaxisTickAmount = Math.round(axisRange / yaxisStepSize);
       }
     } else if (finalMax <= 50) {
       yaxisStepSize = 5;
@@ -1054,34 +1187,65 @@ const getMainChartOptions = (
     } else if (finalMax <= 100000) {
       yaxisStepSize = 10000;
       yaxisTickAmount = Math.round(axisRange / 10000);
+    } else if (finalMax <= 500000) {
+      yaxisStepSize = 50000; // 50K intervals for professional charts
+      yaxisTickAmount = Math.round(axisRange / 50000);
     } else if (finalMax <= 1000000) {
-      yaxisStepSize = 100000;
+      yaxisStepSize = 100000; // 100K intervals
       yaxisTickAmount = Math.round(axisRange / 100000);
+    } else if (finalMax <= 1500000) {
+      yaxisStepSize = 250000; // 250K intervals for 1M-1.5M range
+      yaxisTickAmount = Math.round(axisRange / 250000);
+    } else if (finalMax <= 5000000) {
+      yaxisStepSize = 500000; // 500K intervals for 1.5M-5M range (professional accounting charts)
+      yaxisTickAmount = Math.round(axisRange / 500000);
     } else if (finalMax <= 10000000) {
-      yaxisStepSize = 1000000;
+      yaxisStepSize = 1000000; // 1M intervals for 5M-10M range
       yaxisTickAmount = Math.round(axisRange / 1000000);
     } else {
-      yaxisStepSize = 10000000;
-      yaxisTickAmount = Math.round(axisRange / 10000000);
+      yaxisStepSize = 5000000; // 5M intervals for > 10M
+      yaxisTickAmount = Math.round(axisRange / 5000000);
     }
     
-    // Ensure tickAmount is reasonable (between 2 and 10 for best visualization)
-    if (yaxisTickAmount < 2) yaxisTickAmount = 2;
-    if (yaxisTickAmount > 10) {
-      // Too many ticks, increase step size
-      const targetTicks = 5;
-      yaxisStepSize = Math.ceil(axisRange / targetTicks);
-      // Round step size to nearest clean value
-      if (yaxisStepSize <= 10) {
-        yaxisStepSize = Math.ceil(yaxisStepSize);
-      } else if (yaxisStepSize <= 100) {
-        yaxisStepSize = Math.ceil(yaxisStepSize / 10) * 10;
-      } else if (yaxisStepSize <= 1000) {
-        yaxisStepSize = Math.ceil(yaxisStepSize / 100) * 100;
-      } else if (yaxisStepSize <= 10000) {
-        yaxisStepSize = Math.ceil(yaxisStepSize / 1000) * 1000;
+    // Ensure tickAmount is appropriate for professional accounting charts
+    // Aim for 4-12 intervals (5-13 labels) for easy reading
+    if (yaxisTickAmount < 4) {
+      // Too few ticks, decrease step size
+      yaxisStepSize = Math.floor(axisRange / 5); // Target 5 intervals minimum
+      // Round to clean value
+      if (yaxisStepSize >= 1000000) {
+        yaxisStepSize = Math.floor(yaxisStepSize / 500000) * 500000; // Round to 500K
+      } else if (yaxisStepSize >= 100000) {
+        yaxisStepSize = Math.floor(yaxisStepSize / 50000) * 50000; // Round to 50K
+      } else if (yaxisStepSize >= 10000) {
+        yaxisStepSize = Math.floor(yaxisStepSize / 5000) * 5000; // Round to 5K
+      } else if (yaxisStepSize >= 1000) {
+        yaxisStepSize = Math.floor(yaxisStepSize / 500) * 500; // Round to 500
+      } else if (yaxisStepSize >= 100) {
+        yaxisStepSize = Math.floor(yaxisStepSize / 50) * 50; // Round to 50
       } else {
-        yaxisStepSize = Math.ceil(yaxisStepSize / 10000) * 10000;
+        yaxisStepSize = Math.floor(yaxisStepSize / 5) * 5; // Round to 5
+      }
+      if (yaxisStepSize < 1) yaxisStepSize = 1;
+      yaxisTickAmount = Math.floor(axisRange / yaxisStepSize);
+    } else if (yaxisTickAmount > 12) {
+      // Too many ticks, increase step size
+      yaxisStepSize = Math.ceil(axisRange / 8); // Target 8 intervals
+      // Round step size to nearest clean value
+      if (yaxisStepSize >= 1000000) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 500000) * 500000; // Round to 500K
+      } else if (yaxisStepSize >= 100000) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 50000) * 50000; // Round to 50K
+      } else if (yaxisStepSize >= 10000) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 5000) * 5000; // Round to 5K
+      } else if (yaxisStepSize >= 1000) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 500) * 500; // Round to 500
+      } else if (yaxisStepSize >= 100) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 50) * 50; // Round to 50
+      } else if (yaxisStepSize >= 10) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 5) * 5; // Round to 5
+      } else {
+        yaxisStepSize = Math.ceil(yaxisStepSize);
       }
       yaxisTickAmount = Math.round(axisRange / yaxisStepSize);
     }
@@ -1459,15 +1623,15 @@ const getMainChartOptions = (
             align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
           },
         } : dataMin < 0 && numType === "percent" && yaxisStepSize && yaxisTickAmount ? {
-          // Handle percentage charts with negative values (e.g., -15% to 30% with 15% intervals)
+          // Handle percentage charts with negative values with scale-aware intervals
           forceNiceScale: false,
           min: yaxisMin,
           max: yaxisMax,
           tickAmount: yaxisTickAmount,
           labels: {
             formatter: (value) => {
-              // Round to nearest 15 for percentage intervals
-              const roundedValue = Math.round(value / 15) * 15;
+              // Round to nearest stepSize for even spacing (3%, 5%, 10%, 15%, or 20%)
+              const roundedValue = Math.round(value / yaxisStepSize) * yaxisStepSize;
               return `${roundedValue}%`;
             },
             style: {
