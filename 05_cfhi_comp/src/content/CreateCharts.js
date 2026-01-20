@@ -293,9 +293,28 @@ const getMainChartOptions = (
       
       if (isNegativeOutlier) {
         // For small negative outliers, use asymmetric axis
-        // Set negative min to a reasonable rounded value that accommodates the negative data
+        // Special handling for very small negative values (< 5) with larger positive range
         let roundedNegMin;
-        if (negativeMagnitude <= 100) {
+        
+        if (negativeMagnitude < 1 && positiveMagnitude >= 10) {
+          // For tiny negative outliers (like -0.1) with large positive range (like 20)
+          // Just round to -1 or -2 for clean professional look
+          if (negativeMagnitude <= 0.5) {
+            roundedNegMin = -1; // -0.1 to -0.5 rounds to -1
+          } else {
+            roundedNegMin = -2; // -0.6 to -1.0 rounds to -2
+          }
+        } else if (negativeMagnitude < 5 && positiveMagnitude >= 10) {
+          // For small negative values (1-5) with larger positive range
+          // Round to clean values: -1, -2, -5
+          if (negativeMagnitude <= 1) {
+            roundedNegMin = -1;
+          } else if (negativeMagnitude <= 2) {
+            roundedNegMin = -2;
+          } else {
+            roundedNegMin = -5;
+          }
+        } else if (negativeMagnitude <= 100) {
           roundedNegMin = Math.floor(dataMin / 5) * 5; // Round to nearest 5
         } else if (negativeMagnitude <= 1000) {
           roundedNegMin = Math.floor(dataMin / 10) * 10; // Round to nearest 10
@@ -311,20 +330,19 @@ const getMainChartOptions = (
           roundedNegMin = Math.floor(dataMin / 100000) * 100000; // Round to nearest 100K
         }
         
-        // Add small padding to negative side
-        if (negativeMagnitude <= 10000) {
+        // Only add padding for larger negative values (not tiny outliers)
+        if (negativeMagnitude >= 5 && negativeMagnitude <= 10000) {
           roundedNegMin -= Math.max(5000, negativeMagnitude * 0.5); // Add 5K or 50% padding
-        } else {
-          roundedNegMin -= Math.max(10000, negativeMagnitude * 0.3); // Add 10K or 30% padding
-        }
-        
-        // Round the negative min to a clean value
-        if (negativeMagnitude <= 10000) {
+          // Round the negative min to a clean value
           roundedNegMin = Math.floor(roundedNegMin / 5000) * 5000; // Round to 5K intervals
-        } else if (negativeMagnitude <= 50000) {
-          roundedNegMin = Math.floor(roundedNegMin / 10000) * 10000; // Round to 10K intervals
-        } else {
-          roundedNegMin = Math.floor(roundedNegMin / 50000) * 50000; // Round to 50K intervals
+        } else if (negativeMagnitude > 10000) {
+          roundedNegMin -= Math.max(10000, negativeMagnitude * 0.3); // Add 10K or 30% padding
+          // Round to clean intervals
+          if (negativeMagnitude <= 50000) {
+            roundedNegMin = Math.floor(roundedNegMin / 10000) * 10000; // Round to 10K intervals
+          } else {
+            roundedNegMin = Math.floor(roundedNegMin / 50000) * 50000; // Round to 50K intervals
+          }
         }
         
         yaxisMin = roundedNegMin;
@@ -766,6 +784,33 @@ const getMainChartOptions = (
       if (yaxisMax === rawMax) {
         yaxisMax += 1;
       }
+    }
+  }
+  
+  // SPECIAL HANDLING: For asymmetric axis with negative min and positive max
+  // Recalculate tickAmount to account for the full range including negative portion
+  if (yaxisMin !== undefined && yaxisMin < 0 && yaxisMax > 0 && yaxisStepSize && dataMin < 0) {
+    // For ranges like -1 to 20, we need to count ticks across the full range
+    // The positive range uses stepSize intervals (e.g., 0, 5, 10, 15, 20 with stepSize=5)
+    // Plus we add the negative segment(s)
+    
+    // Calculate how many steps needed from min to max
+    const fullRange = yaxisMax - yaxisMin;
+    
+    // For small negative outliers with clean positive intervals (like -1 to 20 with step=5)
+    // Use the positive stepSize for the main range, with the negative as a single segment
+    if (Math.abs(yaxisMin) < yaxisStepSize && yaxisMax <= 20) {
+      // Single negative segment + positive segments
+      // Example: -1 to 20 with stepSize 5 = (-1 to 0) + (0, 5, 10, 15, 20) = 5 intervals
+      yaxisTickAmount = 1 + (yaxisMax / yaxisStepSize); // 1 + 4 = 5 intervals
+    } else if (Math.abs(yaxisMin) < yaxisStepSize * 2) {
+      // Small negative range (1-2 steps) + positive range
+      const negativeSteps = Math.ceil(Math.abs(yaxisMin) / yaxisStepSize);
+      const positiveSteps = Math.ceil(yaxisMax / yaxisStepSize);
+      yaxisTickAmount = negativeSteps + positiveSteps;
+    } else {
+      // For larger negative ranges, use uniform step size across entire range
+      yaxisTickAmount = Math.ceil(fullRange / yaxisStepSize);
     }
   }
   
@@ -1689,8 +1734,8 @@ const getMainChartOptions = (
             show: true,
             hideOverlappingLabels: false,
           },
-        } : yaxisStepSize === 1000000 && yaxisMax >= 1000000 && yaxisMax <= 3000000 && yaxisTickAmount ? {
-          // Handle million values with 1M step sizes (e.g., 0, 1M, 2M, 3M)
+        } : yaxisStepSize === 1000000 && yaxisMax >= 1000000 && yaxisTickAmount ? {
+          // Handle million values with 1M step sizes (e.g., 0, 1M, 2M, 3M, ..., 10M)
           forceNiceScale: false,
           min: 0,
           max: yaxisMax,
@@ -1864,70 +1909,67 @@ const getMainChartOptions = (
               return 5;
             } else if (range >= 1000000) {
               // For ranges >= 1M, use appropriate intervals based on range size
+              // ALWAYS ensure minimum 4 intervals (5 labels) for professional appearance
               const millionRange = range / 1000000;
               if (millionRange === 1 && yaxisMax === 1000000) {
                 // For exactly 1M range, use 250k intervals (0, 250k, 500k, 750k, 1M)
                 return 4; // 4 intervals = 5 labels
               } else if (millionRange <= 3) {
-                // For ranges 1-3M (but not exactly 1M), use 1M intervals (0, 1M, 2M, 3M)
-                return Math.floor(range / 1000000);
-              } else if (millionRange <= 15) {
-                // For ranges 3-15M, use 5M intervals (0, 5M, 10M, 15M)
-                return Math.floor(range / 5000000);
+                // For ranges 1-3M, use 500K or 1M intervals for at least 4-6 ticks
+                return Math.max(4, Math.floor(range / 500000));
+              } else if (millionRange <= 10) {
+                // For ranges 3-10M, use 1M intervals (at least 4-10 ticks)
+                return Math.max(4, Math.floor(range / 1000000));
+              } else if (millionRange <= 20) {
+                // For ranges 10-20M, use 2M intervals (at least 5-10 ticks)
+                return Math.max(5, Math.floor(range / 2000000));
               } else if (millionRange <= 50) {
-                // For ranges 15-50M, use 5M intervals
-                return Math.floor(range / 5000000);
+                // For ranges 20-50M, use 5M intervals (at least 4-10 ticks)
+                return Math.max(4, Math.floor(range / 5000000));
               } else {
-                // For ranges > 50M, use 10M intervals
-                return Math.floor(range / 10000000);
+                // For ranges > 50M, use 10M intervals (at least 5 ticks)
+                return Math.max(5, Math.floor(range / 10000000));
               }
             } else if (range >= 500000) {
-              // For ranges 500K-1M, use 100K intervals
-              return Math.floor(range / 100000);
+              // For ranges 500K-1M, use 100K intervals (minimum 5 ticks)
+              return Math.max(5, Math.floor(range / 100000));
             } else if (range >= 200000) {
-              // For ranges 200K-500K, use 50K intervals
-              return Math.floor(range / 50000);
+              // For ranges 200K-500K, use 50K intervals (minimum 4 ticks)
+              return Math.max(4, Math.floor(range / 50000));
             } else if (range >= 100000) {
-              // For ranges 100K-200K, use 20K intervals
-              // Example: 140K range / 20K = 7 ticks (0, 20K, 40K, 60K, 80K, 100K, 120K, 140K)
-              return Math.floor(range / 20000);
+              // For ranges 100K-200K, use 20K intervals (minimum 5 ticks)
+              return Math.max(5, Math.floor(range / 20000));
             } else if (range >= 50000) {
-              // For ranges 50K-100K, use 10K intervals
-              return Math.floor(range / 10000);
+              // For ranges 50K-100K, use 10K intervals (minimum 5 ticks)
+              return Math.max(5, Math.floor(range / 10000));
             } else if (range >= 20000) {
-              // For ranges 20K-50K, use 5K intervals
-              // Example: 30K range / 5K = 6 ticks (0, 5K, 10K, 15K, 20K, 25K, 30K)
-              return Math.floor(range / 5000);
+              // For ranges 20K-50K, use 5K intervals (minimum 4 ticks)
+              return Math.max(4, Math.floor(range / 5000));
             } else if (range >= 10000) {
-              // For ranges 10K-20K, use 2K intervals
-              // Example: 14K range / 2K = 7 ticks (0, 2K, 4K, 6K, 8K, 10K, 12K, 14K)
-              return Math.floor(range / 2000);
+              // For ranges 10K-20K, use 2K intervals (minimum 5 ticks)
+              return Math.max(5, Math.floor(range / 2000));
             } else if (range >= 1000) {
-              // For ranges 1K-10K, use 1K intervals for whole thousands
-              // Example: 7K range / 1K = 7 ticks (0, 1K, 2K, 3K, 4K, 5K, 6K, 7K)
-              return Math.floor(range / 1000);
+              // For ranges 1K-10K, use 1K intervals (minimum 5 ticks)
+              return Math.max(5, Math.floor(range / 1000));
             } else if (range >= 500) {
-              // For ranges 500-1000, use 100 intervals
-              // Example: 800 range / 100 = 8 ticks (0, 100, 200, ..., 800)
-              return Math.floor(range / 100);
+              // For ranges 500-1000, use 100 intervals (minimum 5 ticks)
+              return Math.max(5, Math.floor(range / 100));
             } else if (range >= 200) {
-              // For ranges 200-500, use 100 intervals
-              // Example: 400 range / 100 = 4 ticks (0, 100, 200, 300, 400)
-              return Math.floor(range / 100);
+              // For ranges 200-500, use 50 intervals (minimum 4 ticks)
+              return Math.max(4, Math.floor(range / 50));
             } else if (range >= 100) {
-              // For ranges 100-200, use 50 intervals
-              // Example: 200 range / 50 = 4 ticks (0, 50, 100, 150, 200)
-              return Math.floor(range / 50);
+              // For ranges 100-200, use 20 intervals (minimum 5 ticks)
+              return Math.max(5, Math.floor(range / 20));
             } else if (range >= 20 && range < 100) {
-              // For ranges 20-100, ensure step sizes are multiples of 1, 2, or 5
-              // Use step sizes of 5 or 10 for clean spacing
+              // For ranges 20-100, ensure step sizes are multiples of 5 or 10
+              // ALWAYS ensure minimum 4 ticks for professional appearance
               let stepSize;
               if (yaxisMax <= 30) {
                 stepSize = 5; // For max 20-30, use step of 5 (0, 5, 10, 15, 20, 25, 30)
               } else {
                 stepSize = 10; // For max 31-100, use step of 10 (0, 10, 20, 30, 40, 50, ...)
               }
-              return Math.floor(range / stepSize);
+              return Math.max(4, Math.floor(range / stepSize));
             } else if (range < 20 && yaxisMax < 20) {
               // For ranges under 20 with yaxisMax under 20, use simple tickAmount based on yaxisMax
               // This approach matches how other projects handle small ranges
