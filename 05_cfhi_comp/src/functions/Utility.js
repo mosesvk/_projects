@@ -1316,7 +1316,11 @@ const getPeerAndClientChartDataArrays = (
       if (wa && allData) {
         // Use weighted average for specific year
         avg = getWeightedAverageOfArray(allData, mainName, year);
-        avg *= numToTimesByIfPercent;
+        if (avg !== null && avg !== undefined && !Number.isNaN(avg)) {
+          avg *= numToTimesByIfPercent;
+        } else {
+          avg = null;
+        }
       } else {
         // Use simple average
         avg = getAverageOfArray(array);
@@ -1331,10 +1335,22 @@ const getPeerAndClientChartDataArrays = (
       higher75 *= numToTimesByIfPercent;
 
       // Round quartile values to match fixedNum decimal places (same as Report.js formatting)
-      avg = parseFloat(avg.toFixed(fixedNum));
-      mid = parseFloat(mid.toFixed(fixedNum));
-      lower25 = parseFloat(lower25.toFixed(fixedNum));
-      higher75 = parseFloat(higher75.toFixed(fixedNum));
+      avg =
+        avg !== null && avg !== undefined && !Number.isNaN(avg)
+          ? parseFloat(avg.toFixed(fixedNum))
+          : null;
+      mid =
+        mid !== null && mid !== undefined && !Number.isNaN(mid)
+          ? parseFloat(mid.toFixed(fixedNum))
+          : null;
+      lower25 =
+        lower25 !== null && lower25 !== undefined && !Number.isNaN(lower25)
+          ? parseFloat(lower25.toFixed(fixedNum))
+          : null;
+      higher75 =
+        higher75 !== null && higher75 !== undefined && !Number.isNaN(higher75)
+          ? parseFloat(higher75.toFixed(fixedNum))
+          : null;
 
       // if (mainName == 'cfi_netIncomeOperationsRatio') console.log({mainName, avg, mid, lower25, higher75 });
 
