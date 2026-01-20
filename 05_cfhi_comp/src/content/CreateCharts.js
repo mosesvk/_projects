@@ -1209,10 +1209,6 @@ const getMainChartOptions = (
     let formattedValue;
     const absValue = Math.abs(value);
     const isNegative = value < 0;
-    const axisAbsMax = Math.max(
-      Math.abs(yaxisMin ?? 0),
-      Math.abs(yaxisMax ?? 0)
-    );
     
     // Handle very large numbers (millions and billions) - use absolute value for range checks
     if (absValue >= 100000000) {
@@ -1267,80 +1263,17 @@ const getMainChartOptions = (
         const roundedValue = Math.round(absValue / 10) * 10;
         formattedValue = isNegative ? -roundedValue : roundedValue;
       }
-    } else if (axisAbsMax <= 10) {
-      // Special handling only for charts with small data ranges (≤10)
-      // Round to avoid floating point precision issues
-      const roundedValue = Math.round(value * 1000) / 1000;
-      const roundedAbsValue = Math.abs(roundedValue);
-      
-      if (Math.abs(yaxisMax) === 2.5 || Math.abs(yaxisMax) === 2) {
-        // For charts with max of 2 or 2.5, use 0.5 increments
-        // Ensure we handle 0.5 values correctly
-        if (roundedAbsValue === 0.5 || Math.abs(roundedAbsValue - 0.5) < 0.01) {
-          formattedValue = 0.5;
-        } else {
-          formattedValue = Math.round(roundedAbsValue * 2) / 2;
-        }
-      } else if (Number.isInteger(yaxisMax) && yaxisMax >= 2 && yaxisMax <= 10) {
-        // For integer yaxisMax 2-10, round to nearest integer for clean labels
-        formattedValue = Math.round(roundedAbsValue);
-      } else if (roundedAbsValue >= 1) {
-        // For values 1-10, show 0.5 increments
-        formattedValue = Math.round(roundedAbsValue * 2) / 2;
-      } else if (roundedAbsValue >= 0.1) {
-        // For values 0.1-1, show 0.1 increments
-        formattedValue = Math.round(roundedAbsValue * 10) / 10;
-      } else if (roundedAbsValue >= 0.01) {
-        // For values 0.01-0.1, show 0.01 increments
-        formattedValue = Math.round(roundedAbsValue * 100) / 100;
-      } else if (roundedAbsValue > 0) {
-        // For very small positive values, show 0.001 increments
-        formattedValue = Math.round(roundedAbsValue * 1000) / 1000;
-      } else {
-        formattedValue = 0;
-      }
-      
-      // Apply sign
-      if (isNegative && formattedValue !== 0) {
-        formattedValue = -formattedValue;
-      }
     } else {
-      // For larger charts, use standard rounding
-      if (absValue >= 1) {
-        // Round to nearest 1 for values between 1 and 10
-        formattedValue = Math.round(absValue);
-      } else if (absValue >= 0.1) {
-        // For values between 0.1 and 1, always use 0.05 increments to avoid repeating labels
-        // This ensures clean increments like 0.05, 0.10, 0.15, 0.20, 0.25, 0.30, etc.
-        formattedValue = Math.round(absValue * 20) / 20;
-      } else if (absValue >= 0.01) {
-        // For values between 0.01 and 0.1, use 0.02 increments
-        formattedValue = Math.round(absValue * 50) / 50;
-      } else {
-        // For very small values, round to nearest 0.01
-        formattedValue = Math.round(absValue * 100) / 100;
-      }
-      
-      // Apply sign
-      if (isNegative && formattedValue !== 0) {
-        formattedValue = -formattedValue;
-      }
+      // For values under 10, keep one decimal if needed
+      const roundedValue = absValue >= 1 ? Math.round(absValue) : Math.round(absValue * 10) / 10;
+      formattedValue = isNegative ? -roundedValue : roundedValue;
     }
     
     // Apply prefix/suffix based on numType
     if (numType === "dollar") {
-      // For dollar values, always show whole numbers for clean labels
+      // For dollar values, keep whole numbers for labels
       if (Math.abs(formattedValue) >= 1) {
         formattedValue = isNegative ? -Math.round(absValue) : Math.round(absValue);
-      } else if (Math.abs(formattedValue) >= 0.1) {
-        // For values 0.1-1, round to 1 decimal place but prefer whole numbers
-        const rounded = Math.round(absValue * 10) / 10;
-        // If close to a whole number, use whole number
-        if (Math.abs(rounded - Math.round(rounded)) < 0.01) {
-          formattedValue = isNegative ? -Math.round(rounded) : Math.round(rounded);
-        } else {
-          formattedValue = isNegative ? -rounded : rounded;
-        }
       }
       // For negative dollar values, format as -$X instead of $-X
       if (isNegative && formattedValue !== 0) {
@@ -1579,7 +1512,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
           },
         } : dataMin < 0 && numType === "percent" && yaxisStepSize && yaxisTickAmount ? {
           // Handle percentage charts with negative values with scale-aware intervals
@@ -1597,7 +1529,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             show: true,
             hideOverlappingLabels: false,
           },
@@ -1631,7 +1562,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             show: true,
             hideOverlappingLabels: false,
           },
@@ -1656,7 +1586,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             show: true,
             hideOverlappingLabels: false,
           },
@@ -1681,7 +1610,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             show: true,
             hideOverlappingLabels: false,
           },
@@ -1706,7 +1634,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             show: true,
             hideOverlappingLabels: false,
           },
@@ -1722,7 +1649,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             show: true,
             hideOverlappingLabels: false,
           },
@@ -1760,7 +1686,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             show: true,
             hideOverlappingLabels: false,
           },
@@ -1805,7 +1730,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             show: true,
             hideOverlappingLabels: false,
           },
@@ -1915,7 +1839,6 @@ const getMainChartOptions = (
               colors: chartColors.labelColor,
               fontSize: "1.25rem",
             },
-            align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
             hideOverlappingLabels: true,
           },
         }),
@@ -1941,7 +1864,6 @@ const getMainChartOptions = (
             colors: chartColors.labelColor,
             fontSize: "1.25rem",
           },
-          align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
           show: true,
           hideOverlappingLabels: false,
         },
