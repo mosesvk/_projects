@@ -1,0 +1,116 @@
+What is a multi-axis chart?
+It is a kind of chart where you have more than 1 y-axis to be rendered on the same graph. When you have a significant difference in value ranges, multi-axis charts allow you to plot multiple data sets with different types of units.
+
+You can draw separate y-axis for each scale, or have multiple series on the same scale. We will explore all the different options on how to handle different scales on the same chart.
+
+Basic example with 2 Y-axis
+We will start by creating a basic example with 2 Y-axis drawn on the left and right side of the chart area. The main configuration to take care of is the options.yaxis property. For multiple scales chart, the y-axis property will accept array instead of object
+
+  
+
+  series: [
+    {
+      data: [1.4, 2, 2.5, 1.5, 2.5, 2.8, 3.8, 4.6]
+    },
+    {
+      data: [20, 29, 37, 36, 44, 45, 50, 58]
+    }
+  ],
+  yaxis: [
+    {
+      title: {
+        text: "Series A"
+      },
+    },
+    {
+      opposite: true,
+      title: {
+        text: "Series B"
+      }
+    }
+  ],
+  
+
+  
+That’s it. ApexCharts will autoScale the chart for 2 Y-axis as we have provided 2 objects in the array. Note that, the array index matches the same index in the series array.
+
+ When you provide an array in yaxis instead of object, ApexCharts automatically scales the datasets using auto-generated min/max values.
+If you don’t want this behavior, you can target a single scale by providing seriesName: 'Name' in the yaxis to target that dataset’s scale.
+
+Below is an example plotting two series with different y-axis scales.
+
+
+3 series with 2 Scales
+We will add 1 more series in the chart which makes our chart with 3 series. We will draw 2 Y-axis. So we will target same scale for 2 series (columns) while the remaining scale for the other series (line).
+
+How to associate a series with a Y-axis?
+By default, each index of Y-axis corresponds to the index of series. But, if you want to associate a series with a y-axis, you can target by specifying yaxis.seriesName when building y-axes array.
+
+  
+
+  series: [
+    {
+      name: 'TEAM A',
+      data: [1, 2, 4, 5, 15, 28, 38, 46]
+    },
+    {
+      name: 'TEAM B',
+      data: [20, 29, 37, 36, 44, 45, 50, 58]
+    },
+    {
+      name: 'TEAM C',
+      data: [10, 19, 17, 36, 44, 45, 20, 38]
+    }
+  ],
+  yaxis: [
+    {
+      seriesName: 'TEAM A'
+    },
+    {
+      seriesName: 'TEAM B'
+    },
+    {
+      seriesName: 'TEAM B'
+    }
+  ],
+  
+
+  
+In the above code, 2 series share the same scale (TEAM B), while 1 series plots on another scale (TEAM A)
+
+You’ll get a clear idea by running the below example with 3 series and 2 scales.
+
+
+Linear and Log Scales on the same chart
+A primary reason to utilize logarithmic scales in graphs is to react to skewness towards large numbers; i.e., cases in which one or a couple of data-points are substantially bigger than the main part of the data. In the below example, we will mix linear scale with a logarithmic scale.
+
+  
+
+  series: [
+    {
+      name: 'Linear',
+      data: [1, 20, 14, 45, 15, 28, 38, 46]
+    },
+    {
+      name: 'Logarithmic',
+      data: [10000, 124400, 244223, 3665232, 73452344, 875230623]
+    }
+  ],
+  yaxis: [
+    {
+      seriesName: 'Linear',
+    },
+    {
+      seriesName: 'Logarithmic',
+      logarithmic: true
+    }
+  ],
+  
+
+  
+By setting the yaxis[].logarithmic option to TRUE, you can turn that scale into a log-scale
+
+An example of a linear scale mixed with log scale in the same chart
+
+
+In the above example, the same dataset is used for both the series. Visually, you can see the difference easily how the logarithmic series grow towards the larger numbers in a different manner unlike the linear scale.

@@ -1,0 +1,307 @@
+  
+
+  yaxis: {
+      show: true,
+      showAlways: false,
+      showForNullSeries: true,
+      seriesName: undefined,
+      opposite: false,
+      reversed: false,
+      logarithmic: false,
+      logBase: 10,
+      tickAmount: undefined,
+      min: undefined,
+      max: undefined,
+      stepSize: undefined,
+      forceNiceScale: false,
+      floating: false,
+      decimalsInFloat: undefined,
+      labels: {
+          show: true,
+          showDuplicates: false,
+          align: 'right',
+          minWidth: 0,
+          maxWidth: 160,
+          style: {
+              colors: [],
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 400,
+              cssClass: 'apexcharts-yaxis-label',
+          },
+          offsetX: 0,
+          offsetY: 0,
+          rotate: 0,
+          formatter: (value) => { return val },
+      },
+      axisBorder: {
+          show: true,
+          color: '#78909C',
+          offsetX: 0,
+          offsetY: 0
+      },
+      axisTicks: {
+          show: true,
+          borderType: 'solid',
+          color: '#78909C',
+          width: 6,
+          offsetX: 0,
+          offsetY: 0
+      },
+      title: {
+          text: undefined,
+          rotate: -90,
+          offsetX: 0,
+          offsetY: 0,
+          style: {
+              color: undefined,
+              fontSize: '12px',
+              fontFamily: 'Helvetica, Arial, sans-serif',
+              fontWeight: 600,
+              cssClass: 'apexcharts-yaxis-title',
+          },
+      },
+      crosshairs: {
+          show: true,
+          position: 'back',
+          stroke: {
+              color: '#b6b6b6',
+              width: 1,
+              dashArray: 0,
+          },
+      },
+      tooltip: {
+          enabled: true,
+          offsetX: 0,
+      },
+      
+  }
+  
+  
+
+  
+yaxis
+show: Boolean
+Whether to display the y-axis or not.
+
+showAlways: Boolean
+Whether to hide y-axis when user toggles series through legend.
+
+showForNullSeries: Boolean
+When turned off, it will hide the y-axis completely for a series which has no data or a series with all null values.
+
+seriesName: String || Array of Strings
+In a multiple y-axis chart, you can target the scale of a y-axis to a particular series by referencing through the seriesName. The series item which have the same name property will be used to calculate the scale of the y-axis.
+
+Note: You can either map a single series to y-axis or multiple series to the same y-axis.
+opposite: Boolean
+When enabled, will draw the yaxis on the right side of the chart
+
+reversed: Boolean
+Flip the chart upside down making it inversed and draw the y-axis from bigger to smaller numbers.
+
+logarithmic: Boolean
+A non-linear scale when there is a large range of values.
+
+logBase: Number
+Controls the logarithmic base. Default is 10
+
+tickAmount: Number
+Number of Tick Intervals to show
+
+min: Number || Function
+The lowest number to be set for the y-axis. The graph drawing beyond this number will be clipped off
+You can also pass a function here which should return a number. The function accepts an argument which by default is the smallest value in the y-axis. function(min) { return min }
+
+max: Number || Function
+The highest number to be set for the y-axis. The graph drawing beyond this number will be clipped off.
+You can also pass a function here which should return a number. The function accepts an argument which by default is the biggest value in the y-axis. function(max) { return max }
+
+stepSize: Number
+stepSize refers to the interval between consecutive values on a y-axis. It determines how the values on the axis are spaced or displayed. If the step size is set to 10, the axis might display values like 0, 10, 20, 30, and so on.
+
+forceNiceScale: Boolean
+If set to true, the y-axis scales are forced to generate nice looking rounded numbers even when min/max are provided. Turn this off if you manually set min/max and want it to be unchanged.
+
+floating: Boolean
+Setting this options takes the y-axis out of the plotting area. Much behaves like position: absolute property of CSS
+
+decimalsInFloat: Number
+The number of fractions to display when there are floating values in y-axis.
+Note: If you have defined a custom formatter function in yaxis.labels.formatter, this won’t have any effect.
+
+labels:
+show: Boolean
+Show labels on y-axis
+
+showDuplicates: Boolean
+Allow duplicate labels on y-axis. Default is false
+
+align: String
+Available Options
+
+left
+center
+right
+minWidth: Number
+Minimum width for the y-axis labels
+
+maxWidth: Number
+Maximum width for the y-axis labels
+
+style
+colors: Single Colors || Array of Colors
+ForeColor for the y-axis label
+
+fontSize: String
+FontSize for the y-axis label
+
+fontFamily: String
+Font-family for the y-axis label.
+
+fontWeight: String | Number
+Font-weight for the y-axis label.
+
+cssClass: String
+A custom Css Class to give to the label elements
+
+offsetX: Number
+Sets the left offset for label
+
+offsetY: Number
+Sets the top offset for label
+
+rotate: Number
+Rotate y-axis text label to a specific angle from it’s center
+
+formatter: function
+Applies a custom function for the yaxis value.
+
+  
+
+  yaxis: {
+    labels: {
+      /**
+      * Allows users to apply a custom formatter function to yaxis labels.
+      *
+      * @param { String } value - The generated value of the y-axis tick
+      * @param { index } index of the tick / currently executing iteration in yaxis labels array
+      */
+      formatter: function(val, index) {
+        return val.toFixed(2);
+      }
+    }
+  }
+  
+
+  
+Note: In horizantal bar charts, the second parameters also contains additional data like dataPointIndex & seriesIndex.
+axisBorder:
+show: Boolean
+Draw a vertical border on the y-axis
+
+color: Color
+Color of the horizontal axis border
+
+offsetX: Number
+Sets the left offset of the axis border
+
+offsetY: Number
+Sets the top offset of the axis border
+
+axisTicks:
+show: Boolean
+Draw ticks on the y-axis to specify intervals
+
+borderType: String
+Available Options
+
+solid
+dotted
+color: Color
+Color of the ticks
+
+width: Boolean
+Width of the ticks
+
+offsetX: Number
+Sets the left offset of the ticks
+
+offsetY: Number
+Sets the top offset of the ticks
+
+tickAmount: Number
+Number of Tick Intervals to show
+
+min: Number
+Lowest number to be set for the y-axis. The graph drawing beyond this number will be clipped off
+
+max: Number
+Highest number to be set for the y-axis. The graph drawing beyond this number will be clipped off
+
+range: Number
+range takes the max value of y-axis, subtracts the provided range value and gets the min value based on that. So, technically it helps to keep the same range when min and max values gets updated dynamically
+
+floating: Boolean
+Floating takes y-axis is taken out of normal flow and places y-axis on svg element directly, similar to an absolutely positioned element. Set the offsetX and offsetY then to adjust the position manually
+
+position: String
+Setting this option allows you to change the y-axis position
+Available options
+
+bottom
+top
+title
+text: String
+Give the y-axis a title which will be displayed below the axis labels by default.
+
+rotate: Number
+Rotate the yaxis title either 90 or -90.
+
+offsetX: String
+Sets the left offset for yaxis title.
+
+offsetY: String
+Sets the top offset for the yaxis title.
+
+style
+color: Color
+ForeColor of the y-axis title
+
+fontSize: String
+FontSize for the y-axis title
+
+fontFamily: String
+FontFamily for the y-axis title
+
+fontWeight: String | Number
+Font-weight for the y-axis title
+
+cssClass: String
+A custom Css Class to give to the y-axis title
+
+crosshairs
+show: Boolean
+Show crosshairs on y-axis when user moves the mouse over chart area. Note: Make sure to have yaxis.tooltip.enabled: 'true' to make the crosshair visible.
+
+position: String
+Possible Options
+
+back
+front
+stroke
+color: Color
+Border Color of crosshairs
+
+width: Color
+Border Width of crosshairs
+
+dashArray: Color
+Creates dashes in borders of crosshairs. Higher number creates more space between dashes in the border.
+
+tooltip
+enabled
+Show tooltip on y-axis
+
+offsetX
+Sets the top offset for y-axis tooltip
