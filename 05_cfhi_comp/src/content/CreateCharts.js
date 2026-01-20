@@ -217,7 +217,7 @@ const getMainChartOptions = (
       let stepSize;
       if (cleanMax <= 10) {
         stepSize = 1; // For max 1-10, use step of 1
-        cleanMax = Math.ceil(cleanMax / stepSize) * stepSize;image.png
+        cleanMax = Math.ceil(cleanMax / stepSize) * stepSize;
       } else if (cleanMax <= 12) {
         stepSize = 3; // For max 11-12, use step of 3 -> cleanMax becomes 12 (0, 3, 6, 9, 12)
         cleanMax = 12;
@@ -852,33 +852,36 @@ const getMainChartOptions = (
       newMin = actualMinRenderedValue - Math.max(0.1, Math.abs(actualMinRenderedValue) * 0.02);
     }
     
-    // SPECIAL: For 0-20 range with tiny negative outliers, keep min at 0 for clean spacing
-    // Let the negative data point be visible below 0 line (0, 5, 10, 15 ticks)
-    if (yaxisMax <= 20 && Math.abs(actualMinRenderedValue) < 2 && numType !== "percent") {
-      // Keep min at 0, don't adjust - negative outlier like -0.1 will be visible below 0
-      yaxisMin = 0;
-      // Don't set safetyCheckAdjustedAxis, so recalculation won't run
-    } else {
-      // For other ranges, round to clean values
-      if (Math.abs(newMin) <= 20 && numType !== "percent") {
-        // For small negatives, round down to clean intervals
-        if (Math.abs(newMin) < 2) {
-          newMin = -1; // For outliers like -0.1 in larger contexts
-        } else if (Math.abs(newMin) <= 10) {
-          newMin = Math.floor(newMin); // Round down to nearest integer
-        } else if (Math.abs(newMin) <= 15) {
-          newMin = Math.floor(newMin / 2) * 2; // Round down to nearest 2
-        } else {
-          newMin = Math.floor(newMin / 5) * 5; // Round down to nearest 5
-        }
-      } else if (Math.abs(newMin) <= 10000) {
-        newMin = Math.floor(newMin / 1000) * 1000; // Round to 1K intervals
-      } else if (Math.abs(newMin) <= 50000) {
-        newMin = Math.floor(newMin / 10000) * 10000; // Round to 10K intervals
+    // CHECKPOINT 1 REVERT: For 0-20 range with tiny negative outliers
+    // Extend min by exactly one step size based on the positive max's step pattern
+    if (yaxisMax <= 20 && numType !== "percent") {
+      // Determine what step size the positive axis is using
+      let stepSize;
+      if (yaxisMax === 15 || yaxisMax === 20) {
+        stepSize = 5; // Max 15 or 20 uses 5-unit steps
+      } else if (yaxisMax === 12 || yaxisMax === 18) {
+        stepSize = 3; // Max 12 or 18 uses 3-unit steps
+      } else if (yaxisMax === 16) {
+        stepSize = 4; // Max 16 uses 4-unit steps
       } else {
-        newMin = Math.floor(newMin / 50000) * 50000; // Round to 50K intervals
+        stepSize = 5; // Default to 5 for safety
       }
       
+      // Extend min by exactly one step to accommodate negative outlier
+      yaxisMin = -stepSize;
+      
+      // Recalculate tickAmount immediately to account for extended range
+      if (yaxisMax && yaxisStepSize) {
+        yaxisTickAmount = (yaxisMax - yaxisMin) / yaxisStepSize;
+      }
+    } else if (Math.abs(newMin) <= 10000) {
+      newMin = Math.floor(newMin / 1000) * 1000;
+      yaxisMin = newMin;
+    } else if (Math.abs(newMin) <= 50000) {
+      newMin = Math.floor(newMin / 10000) * 10000;
+      yaxisMin = newMin;
+    } else {
+      newMin = Math.floor(newMin / 50000) * 50000;
       yaxisMin = newMin;
     }
   }
@@ -891,8 +894,10 @@ const getMainChartOptions = (
     // This must be checked FIRST before any other calculations
     if (actualMaxRenderedValue > 10 && actualMaxRenderedValue <= 15 && numType !== "percent") {
       yaxisMax = 15;
-      yaxisStepSize = 5; // Clean 5-unit intervals (0, 5, 10, 15)
-      yaxisTickAmount = 3; // 3 intervals = 4 ticks (0, 5, 10, 15)
+      yaxisStepSize = 5; // Clean 5-unit intervals
+      // Recalculate tickAmount based on actual min (which may be negative)
+      const currentMin = yaxisMin !== undefined ? yaxisMin : 0;
+      yaxisTickAmount = (yaxisMax - currentMin) / yaxisStepSize;
     } else {
       // Calculate new max with padding
       let newMax = actualMaxRenderedValue;
@@ -1213,10 +1218,10 @@ const getMainChartOptions = (
         yaxisStepSize = 5; // 0, 5, 10, 15, 20
       }
       
-      // Handle negative values: For 0-20 range, DON'T extend axis for negative outliers
-      // Let the negative data points be visible below 0, but keep axis at 0, 5, 10, 15...
-      yaxisMin = 0;
-      yaxisTickAmount = finalMax / yaxisStepSize;
+      // Handle negative values: Account for negative min if it exists
+      // Use the actual min that was set by safety check, or default to 0
+      const actualMin = yaxisMin !== undefined ? yaxisMin : 0;
+      yaxisTickAmount = (finalMax - actualMin) / yaxisStepSize;
     } else if (finalMax <= 50) {
       yaxisStepSize = 5;
       if (finalMin < 0) {
