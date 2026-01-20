@@ -151,12 +151,6 @@ const getMainChartOptions = (
       allData
     ));
 
-  // y-axis values are now handled by ApexCharts; keep these for formatter context
-  let yaxisMin;
-  let yaxisMax;
-
-  const useApexYAxisDefaults = true;
-  if (!useApexYAxisDefaults) {
   // Calculate smart y-axis range based on actual data (always needed)
   // Include peer data for y-axis scaling, but filter outliers to prevent small peer groups from causing issues
   const validClientData = clientArray.filter(v => v !== null && v !== undefined && !isNaN(v));
@@ -249,52 +243,12 @@ const getMainChartOptions = (
     return null;
   };
   
-  // Calculate y-axis minimum and maximum, handling negative values
+  // ============================================================================
+  // Y-AXIS LOGIC: Removed - ApexCharts handles automatically with forceNiceScale
+  // ============================================================================
   let yaxisMin, yaxisMax, yaxisStepSize, yaxisTickAmount;
-  
-  if (dataMin < 0) {
-    // If we have negative values, cap based on actual data range with clean intervals
-    if (numType === "percent") {
-      // For percentages with negative values, use scale-aware intervals
-      const totalRange = Math.abs(dataMax) + Math.abs(dataMin);
-      let stepSize;
-      
-      // Determine appropriate step size based on total range
-      if (totalRange >= 100) {
-        stepSize = 20; // 20% intervals for very large ranges
-      } else if (totalRange >= 60) {
-        stepSize = 10; // 10% intervals for 60-100% range
-      } else if (totalRange >= 10) {
-        // SIMPLIFIED: For ALL ranges 10-100%, use clean 5% intervals
-        stepSize = 5; // 5% intervals for professional appearance
-      } else {
-        stepSize = 1; // 1% intervals for very small ranges
-      }
-      
-      // Round max and min to multiples of step size
-      let cleanMax = Math.ceil(dataMax / stepSize) * stepSize;
-      let cleanMin = Math.floor(dataMin / stepSize) * stepSize;
-      
-      // Ensure we have headroom
-      if (cleanMax === dataMax) {
-        cleanMax += stepSize;
-      }
-      if (cleanMin === dataMin) {
-        cleanMin -= stepSize;
-      }
-      
-      yaxisMin = cleanMin;
-      yaxisMax = cleanMax;
-      yaxisStepSize = stepSize;
-      yaxisTickAmount = (cleanMax - cleanMin) / stepSize;
-    } else {
-      // For non-percent types with negative values, use smart approach based on value distribution
-      const negativeMagnitude = Math.abs(dataMin);
-      const positiveMagnitude = dataMax;
-      
-      // Check if negative is a small outlier compared to positive (e.g., -15k among millions)
-      // Use ratio to determine if we should use symmetric or asymmetric axis
-      const isNegativeOutlier = positiveMagnitude > 0 && negativeMagnitude > 0 && 
+
+  const yaxisLabelFormatter = (value) => { 
                                  (positiveMagnitude / negativeMagnitude > 10 || 
                                   negativeMagnitude < positiveMagnitude * 0.05);
       
@@ -1203,16 +1157,11 @@ const getMainChartOptions = (
       // This keeps the code simple and leverages ApexCharts' native spacing algorithm
     }
   }
-  }
 
   const yaxisLabelFormatter = (value) => {
     let formattedValue;
     const absValue = Math.abs(value);
     const isNegative = value < 0;
-    const axisAbsMax = Math.max(
-      Math.abs(yaxisMin ?? 0),
-      Math.abs(yaxisMax ?? 0)
-    );
     
     // Handle very large numbers (millions and billions) - use absolute value for range checks
     if (absValue >= 100000000) {
@@ -1267,7 +1216,7 @@ const getMainChartOptions = (
         const roundedValue = Math.round(absValue / 10) * 10;
         formattedValue = isNegative ? -roundedValue : roundedValue;
       }
-    } else if (axisAbsMax <= 10) {
+    } else if (Math.max(Math.abs(dataMin), Math.abs(dataMax)) <= 10) {
       // Special handling only for charts with small data ranges (≤10)
       // Round to avoid floating point precision issues
       const roundedValue = Math.round(value * 1000) / 1000;
@@ -1535,7 +1484,6 @@ const getMainChartOptions = (
         },
       },
     },
-    /*
     yaxis: [
       {
         axisTicks: {
@@ -1919,32 +1867,6 @@ const getMainChartOptions = (
             hideOverlappingLabels: true,
           },
         }),
-      },
-    ],
-    */
-    yaxis: [
-      {
-        axisTicks: {
-          show: true,
-          color: chartColor,
-        },
-        axisBorder: {
-          show: true,
-          color: chartColor,
-        },
-        tooltip: {
-          enabled: true,
-        },
-        labels: {
-          formatter: yaxisLabelFormatter,
-          style: {
-            colors: chartColors.labelColor,
-            fontSize: "1.25rem",
-          },
-          align: chartId === "personnelToCashExpenditure_chart" || chartId === "benefitsToSalaries_chart" ? "left" : undefined,
-          show: true,
-          hideOverlappingLabels: false,
-        },
       },
     ],
     tooltip: {
