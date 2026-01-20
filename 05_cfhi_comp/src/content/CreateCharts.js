@@ -1204,99 +1204,36 @@ const getMainChartOptions = (
   }
 
   const yaxisLabelFormatter = (value) => {
-    let formattedValue;
     const absValue = Math.abs(value);
     const isNegative = value < 0;
-    
-    // Handle very large numbers (millions and billions) - use absolute value for range checks
-    if (absValue >= 100000000) {
-      // Round to nearest 10M for values >= 100M
-      const roundedValue = Math.round(absValue / 10000000) * 10;
-      formattedValue = isNegative ? `-${roundedValue}M` : `${roundedValue}M`;
-    } else if (absValue >= 50000000) {
-      // Round to nearest 10M for values between 50M and 100M
-      const roundedValue = Math.round(absValue / 10000000) * 10;
-      formattedValue = isNegative ? `-${roundedValue}M` : `${roundedValue}M`;
-    } else if (absValue >= 10000000) {
-      // Round to nearest 5M for values between 10M and 50M
-      const roundedValue = Math.round(absValue / 5000000) * 5;
-      formattedValue = isNegative ? `-${roundedValue}M` : `${roundedValue}M`;
-    } else if (absValue >= 1000000) {
-      // Round to nearest 1M for values between 1M and 10M
-      // This prevents small millions from rounding to 0M
-      const roundedValue = Math.round(absValue / 1000000);
-      formattedValue = isNegative ? `-${roundedValue}M` : `${roundedValue}M`;
-    } else if (absValue >= 100000) {
-      // For values >= 100K, display actual K value without rounding
-      const kValue = absValue / 1000;
-      // Only show decimal if it's not a whole number
-      const kFormatted = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
-      formattedValue = isNegative ? `-${kFormatted}` : kFormatted;
-    } else if (absValue >= 10000) {
-      // For values >= 10K, round to nearest whole thousand
-      // Example: 14.2K -> 14K, 15.8K -> 16K
-      const roundedValue = Math.round(absValue / 1000);
-      formattedValue = isNegative ? `-${roundedValue}K` : `${roundedValue}K`;
-    } else if (absValue >= 1000) {
-      // For values 1K-10K, round to nearest whole thousand for clean labels
-      // Example: 1.4K -> 1K, 2.8K -> 3K, 5.6K -> 6K, 7K -> 7K
-      const roundedValue = Math.round(absValue / 1000);
-      formattedValue = isNegative ? `-${roundedValue}K` : `${roundedValue}K`;
-    } else if (absValue >= 100) {
-      // Round to nearest 100 for values between 100 and 1000
-      // This handles cases like 510 -> 500, 410 -> 400, etc.
-      // Only round if not already a multiple of 100 to avoid duplicate labels
-      if (absValue % 100 === 0) {
-        formattedValue = isNegative ? -absValue : absValue;
-      } else {
-        const roundedValue = Math.round(absValue / 100) * 100;
-        formattedValue = isNegative ? -roundedValue : roundedValue;
+    const sign = isNegative ? "-" : "";
+
+    const formatCompact = (val) => {
+      if (val >= 1000000) {
+        const m = val / 1000000;
+        const display = m % 1 === 0 ? m.toString() : m.toFixed(1);
+        return `${display}M`;
       }
-    } else if (absValue >= 10) {
-      // Round to nearest 10 for values between 10 and 100
-      // Only round if not already a multiple of 10 to avoid duplicate labels
-      if (absValue % 10 === 0) {
-        formattedValue = isNegative ? -absValue : absValue;
-      } else {
-        const roundedValue = Math.round(absValue / 10) * 10;
-        formattedValue = isNegative ? -roundedValue : roundedValue;
+      if (val >= 1000) {
+        const k = val / 1000;
+        const display = k % 1 === 0 ? k.toString() : k.toFixed(1);
+        return `${display}K`;
       }
-    } else {
-      // For values under 10, keep one decimal if needed
-      const roundedValue = absValue >= 1 ? Math.round(absValue) : Math.round(absValue * 10) / 10;
-      formattedValue = isNegative ? -roundedValue : roundedValue;
+      const display = val % 1 === 0 ? val.toString() : val.toFixed(1);
+      return display;
+    };
+
+    if (numType === "percent") {
+      const display = absValue % 1 === 0 ? absValue.toString() : absValue.toFixed(1);
+      return `${sign}${display}%`;
     }
-    
-    // Apply prefix/suffix based on numType
+
     if (numType === "dollar") {
-      // For dollar values, keep whole numbers for labels
-      if (Math.abs(formattedValue) >= 1) {
-        formattedValue = isNegative ? -Math.round(absValue) : Math.round(absValue);
-      }
-      // For negative dollar values, format as -$X instead of $-X
-      if (isNegative && formattedValue !== 0) {
-        return `-$${Math.abs(formattedValue)}`;
-      }
-      return `$${formattedValue}`;
-    } else if (numType === "percent") {
-      // For percentage values, use whole numbers for clean labels (0%, 10%, 20%, etc.)
-      if (absValue >= 10) {
-        // For percentages >= 10, round to nearest whole number
-        formattedValue = isNegative ? -Math.round(absValue) : Math.round(absValue);
-      } else if (absValue >= 1) {
-        // For percentages 1-10, round to nearest whole number
-        formattedValue = isNegative ? -Math.round(absValue) : Math.round(absValue);
-      } else if (absValue >= 0.1) {
-        // For small percentages 0.1-1, use 0.1 increments
-        formattedValue = isNegative ? -(Math.round(absValue * 10) / 10) : (Math.round(absValue * 10) / 10);
-      } else {
-        // For very small percentages, use 0.01 increments
-        formattedValue = isNegative ? -(Math.round(absValue * 100) / 100) : (Math.round(absValue * 100) / 100);
-      }
-      return `${formattedValue}%`;
-    } else {
-      return formattedValue; // "num" or "number" - no prefix/suffix
+      const display = formatCompact(absValue);
+      return `${sign}$${display}`;
     }
+
+    return `${sign}${formatCompact(absValue)}`;
   };
 
   const tooltipFormatter = (value) => {
