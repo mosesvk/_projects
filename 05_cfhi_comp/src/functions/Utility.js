@@ -1319,7 +1319,9 @@ const getPeerAndClientChartDataArrays = (
         if (avg !== null && avg !== undefined && !Number.isNaN(avg)) {
           avg *= numToTimesByIfPercent;
         } else {
-          avg = null;
+          // Fallback to simple average when weighted average is unavailable
+          avg = getAverageOfArray(array);
+          avg *= numToTimesByIfPercent;
         }
       } else {
         // Use simple average
@@ -2009,7 +2011,12 @@ const createBenchmark = async (benchmarkText, dataCategory, elementId) => {
 
   // Process the static benchmark text and apply fixUnicodeCharacters
   // Pass true to addColorClasses to ensure proper text colors for light/dark mode
-  let processedContent = processHtmlContent(benchmarkText, true);
+  const defaultBenchmarkText = "No Benchmark has been established";
+  const normalizedBenchmarkText =
+    benchmarkText && benchmarkText.trim().length > 0
+      ? benchmarkText
+      : defaultBenchmarkText;
+  let processedContent = processHtmlContent(normalizedBenchmarkText, true);
   processedContent = fixUnicodeCharacters(processedContent);
   const processedTitle = fixUnicodeCharacters(benchmarkTitle);
 
