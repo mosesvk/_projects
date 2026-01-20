@@ -217,7 +217,7 @@ const getMainChartOptions = (
       let stepSize;
       if (cleanMax <= 10) {
         stepSize = 1; // For max 1-10, use step of 1
-        cleanMax = Math.ceil(cleanMax / stepSize) * stepSize;
+        cleanMax = Math.ceil(cleanMax / stepSize) * stepSize;image.png
       } else if (cleanMax <= 12) {
         stepSize = 3; // For max 11-12, use step of 3 -> cleanMax becomes 12 (0, 3, 6, 9, 12)
         cleanMax = 12;
@@ -696,63 +696,76 @@ const getMainChartOptions = (
         yaxisTickAmount = yaxisMax / 500000;
       }
     } else if (rawMax >= 500000) {
-      // For values 500K-1M, round up to nearest 100K
+      // For values 500K-1M, round up to nearest 100K with explicit step size
       yaxisMax = Math.ceil(rawMax / 100000) * 100000;
+      yaxisStepSize = 100000; // 100K intervals
+      yaxisTickAmount = yaxisMax / 100000;
     } else if (rawMax >= 200000) {
-      // For values 200K-500K, round up to nearest 50K for tighter spacing
+      // For values 200K-500K, round up to nearest 50K for professional spacing
       yaxisMax = Math.ceil(rawMax / 50000) * 50000;
+      yaxisStepSize = 50000; // 50K intervals
+      yaxisTickAmount = yaxisMax / 50000;
     } else if (rawMax >= 100000) {
-      // For values 100K-200K, round up to nearest 20K for tighter spacing
-      // Example: 137K rounds to 140K instead of 200K
+      // For values 100K-200K, use 20K intervals for professional spacing
       yaxisMax = Math.ceil(rawMax / 20000) * 20000;
+      yaxisStepSize = 20000; // 20K intervals
+      yaxisTickAmount = yaxisMax / 20000;
     } else if (rawMax >= 50000) {
-      // For values 50K-100K, round up to nearest 10K
+      // For values 50K-100K, use 10K intervals
       yaxisMax = Math.ceil(rawMax / 10000) * 10000;
+      yaxisStepSize = 10000; // 10K intervals
+      yaxisTickAmount = yaxisMax / 10000;
     } else if (rawMax >= 20000) {
-      // For values 20K-50K, round up to nearest 5K for tighter spacing
-      // Example: 25K rounds to 30K instead of 30K (same), 35K rounds to 40K
+      // For values 20K-50K, use 5K intervals
       yaxisMax = Math.ceil(rawMax / 5000) * 5000;
+      yaxisStepSize = 5000; // 5K intervals
+      yaxisTickAmount = yaxisMax / 5000;
     } else if (rawMax >= 10000) {
-      // For values 10K-20K, round up to nearest 2K for even spacing
-      // Example: 14K rounds to 14K, 15K rounds to 16K
+      // For values 10K-20K, use 2K intervals
       yaxisMax = Math.ceil(rawMax / 2000) * 2000;
+      yaxisStepSize = 2000; // 2K intervals
+      yaxisTickAmount = yaxisMax / 2000;
     } else if (rawMax >= 1000) {
-      // For values 1K-10K, round up to nearest 1K for whole thousands
-      // Example: 5.8K rounds to 6K, 7.2K rounds to 8K
+      // For values 1K-10K, use 1K intervals
       yaxisMax = Math.ceil(rawMax / 1000) * 1000;
-    } else if (rawMax >= 800) {
-      // For values 800-1000, round up to nearest 100 for clean 100 intervals
-      yaxisMax = Math.ceil(rawMax / 100) * 100;
+      yaxisStepSize = 1000; // 1K intervals
+      yaxisTickAmount = yaxisMax / 1000;
     } else if (rawMax >= 500) {
-      // For values 500-800, use 100 interval for even spacing
-      // Example: 600 rounds to 600 (0, 100, 200, 300, 400, 500, 600)
+      // For values 500-1000, use 100 intervals
       yaxisMax = Math.ceil(rawMax / 100) * 100;
-    } else if (rawMax >= 400) {
-      // For values 400-500, use 100 interval (400, 500)
-      yaxisMax = Math.ceil(rawMax / 100) * 100;
-    } else if (rawMax >= 300) {
-      // For values 300-400, use 100 interval (300, 400)
-      yaxisMax = Math.ceil(rawMax / 100) * 100;
+      yaxisStepSize = 100; // 100 intervals (0, 100, 200, 300, ...)
+      yaxisTickAmount = yaxisMax / 100;
     } else if (rawMax >= 200) {
-      // For values 200-300, use 100 interval (200, 300)
-      yaxisMax = Math.ceil(rawMax / 100) * 100;
-    } else if (rawMax >= 100) {
-      // For values 100-200, use 50 interval (100, 150, 200)
+      // For values 200-500, use 50 intervals for professional spacing
       yaxisMax = Math.ceil(rawMax / 50) * 50;
+      yaxisStepSize = 50; // 50 intervals (0, 50, 100, 150, 200, ...)
+      yaxisTickAmount = yaxisMax / 50;
+    } else if (rawMax >= 100) {
+      // For values 100-200, use 20 intervals for professional spacing
+      yaxisMax = Math.ceil(rawMax / 20) * 20;
+      yaxisStepSize = 20; // 20 intervals (0, 20, 40, 60, 80, 100, ...)
+      yaxisTickAmount = yaxisMax / 20;
     } else if (rawMax >= 50) {
-      // For values 50-100, round to nearest 10 but keep closer to actual max
-      // For maxVal 47, rawMax ~50, round to 50 (not 60) for cleaner ticks
-      if (rawMax <= 55) {
-        yaxisMax = 50; // Keep at 50 for values 45-55
-      } else {
-        yaxisMax = Math.ceil(rawMax / 10) * 10; // Round to nearest 10 (60, 70, 80, 90, 100)
-      }
+      // For values 50-100, use 10 intervals
+      yaxisMax = Math.ceil(rawMax / 10) * 10;
+      yaxisStepSize = 10; // 10 intervals (0, 10, 20, 30, ...)
+      yaxisTickAmount = yaxisMax / 10;
     } else if (rawMax >= 40) {
-      // For values 40-50, round to nearest 10
-      yaxisMax = Math.ceil(rawMax / 10) * 10; // 40, 50
+      // For values 40-50, use 5 intervals
+      yaxisMax = Math.ceil(rawMax / 5) * 5;
+      yaxisStepSize = 5; // 5 intervals (0, 5, 10, 15, 20, ...)
+      yaxisTickAmount = yaxisMax / 5;
+    } else if (rawMax >= 20) {
+      // For values 20-40, use 5 intervals
+      yaxisMax = Math.ceil(rawMax / 5) * 5;
+      yaxisStepSize = 5; // 5 intervals (0, 5, 10, 15, 20, 25, ...)
+      yaxisTickAmount = yaxisMax / 5;
     } else {
-      // For values 20-40, round to nearest multiple of 4 for clean spacing
-      yaxisMax = Math.ceil(rawMax / 4) * 4; // Round to nearest multiple of 4 (20, 24, 28, etc.)
+      // For values < 20, handled by earlier logic
+      yaxisMax = Math.ceil(rawMax);
+      if (yaxisMax === rawMax) {
+        yaxisMax += 1;
+      }
     }
   }
   
