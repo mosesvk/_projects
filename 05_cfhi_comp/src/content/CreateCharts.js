@@ -258,10 +258,11 @@ const getMainChartOptions = (
         stepSize = 20; // 20% intervals for very large ranges
       } else if (totalRange >= 60) {
         stepSize = 10; // 10% intervals for 60-100% range
-      } else if (totalRange >= 30) {
-        stepSize = 5; // 5% intervals for 30-60% range
+      } else if (totalRange >= 10) {
+        // SIMPLIFIED: For ALL ranges 10-100%, use clean 5% intervals
+        stepSize = 5; // 5% intervals for professional appearance
       } else {
-        stepSize = 3; // 3% intervals for smaller ranges
+        stepSize = 1; // 1% intervals for very small ranges
       }
       
       // Round max and min to multiples of step size
@@ -542,15 +543,16 @@ const getMainChartOptions = (
       yaxisMax = Math.ceil(rawMax / 5) * 5;
       yaxisStepSize = 5; // 5% intervals (0%, 5%, 10%, 15%, 20%, ...)
       yaxisTickAmount = yaxisMax / 5;
-    } else if (rawMax >= 20) {
+    } else if (rawMax >= 10) {
+      // SIMPLIFIED: For ALL 10-100% ranges, use clean 5% intervals (0%, 5%, 10%, 15%, 20%)
       yaxisMax = Math.ceil(rawMax / 5) * 5;
-      yaxisStepSize = 5; // 5% intervals (0%, 5%, 10%, 15%, 20%)
+      yaxisStepSize = 5; // Clean 5% intervals
       yaxisTickAmount = yaxisMax / 5;
     } else {
-      // For 10-20% range, use 3% intervals for professional look
-      yaxisMax = Math.ceil(rawMax / 3) * 3;
-      yaxisStepSize = 3; // 3% intervals (0%, 3%, 6%, 9%, 12%, 15%, 18%)
-      yaxisTickAmount = yaxisMax / 3;
+      // For very small percentages < 10%, use 1-2% intervals
+      yaxisMax = Math.ceil(rawMax);
+      yaxisStepSize = rawMax <= 5 ? 1 : 2;
+      yaxisTickAmount = yaxisMax / yaxisStepSize;
     }
   } else if (dataMax <= 20 && numType !== "percent") {
     // Use clean chart principles for values <= 20 (non-percent types)
@@ -1023,10 +1025,9 @@ const getMainChartOptions = (
           yaxisMax = Math.ceil(minRequiredMax / 10) * 10; // Round to 10%
         } else if (minRequiredMax >= 30) {
           yaxisMax = Math.ceil(minRequiredMax / 5) * 5; // Round to 5%
-        } else if (minRequiredMax >= 20) {
-          yaxisMax = Math.ceil(minRequiredMax / 5) * 5; // Round to 5%
         } else if (minRequiredMax >= 10) {
-          yaxisMax = Math.ceil(minRequiredMax / 3) * 3; // Round to 3% (professional look)
+          // SIMPLIFIED: For ALL 10-100% values, use clean 5% rounding
+          yaxisMax = Math.ceil(minRequiredMax / 5) * 5; // Round to 5%
         } else {
           yaxisMax = Math.ceil(minRequiredMax); // Round to 1% for very small percentages
         }
@@ -1169,12 +1170,9 @@ const getMainChartOptions = (
         yaxisStepSize = 20; // 20% intervals for very large ranges
       } else if (axisRange >= 60) {
         yaxisStepSize = 10; // 10% intervals for 60-100% range
-      } else if (axisRange >= 30) {
-        yaxisStepSize = 5; // 5% intervals for 30-60% range
-      } else if (axisRange >= 20) {
-        yaxisStepSize = 5; // 5% intervals for 20-30% range
       } else if (axisRange >= 10) {
-        yaxisStepSize = 3; // 3% intervals for 10-20% range (professional look)
+        // SIMPLIFIED: For ALL 10-100% ranges, use clean 5% intervals
+        yaxisStepSize = 5; // 5% intervals for professional look
       } else {
         yaxisStepSize = 1; // 1% intervals for very small percentages
       }
