@@ -743,11 +743,27 @@ const getMainChartOptions = (
       yaxisMax = Math.ceil(rawMax / 2000) * 2000;
       yaxisStepSize = 2000; // 2K intervals
       yaxisTickAmount = yaxisMax / 2000;
-    } else if (rawMax >= 1000) {
-      // For values 1K-10K, use 1K intervals
+    } else if (rawMax >= 5000) {
+      // For values 5K-10K, use 1K intervals for professional spacing
       yaxisMax = Math.ceil(rawMax / 1000) * 1000;
-      yaxisStepSize = 1000; // 1K intervals
+      yaxisStepSize = 1000; // 1K intervals (0, 1K, 2K, 3K, ...)
       yaxisTickAmount = yaxisMax / 1000;
+    } else if (rawMax >= 2500) {
+      // For values 2.5K-5K, use intelligent rounding
+      if (rawMax <= 3000) {
+        yaxisMax = Math.ceil(rawMax / 500) * 500;
+        yaxisStepSize = 500; // 500 intervals for cleaner spacing up to 3K
+        yaxisTickAmount = yaxisMax / 500;
+      } else {
+        yaxisMax = Math.ceil(rawMax / 1000) * 1000;
+        yaxisStepSize = 1000; // 1K intervals for 3K-5K range
+        yaxisTickAmount = yaxisMax / 1000;
+      }
+    } else if (rawMax >= 1000) {
+      // For values 1K-2.5K, use 500 intervals for professional spacing
+      yaxisMax = Math.ceil(rawMax / 500) * 500;
+      yaxisStepSize = 500; // 500 intervals (0, 500, 1000, 1500, 2000, 2500)
+      yaxisTickAmount = yaxisMax / 500;
     } else if (rawMax >= 500) {
       // For values 500-1000, use 100 intervals
       yaxisMax = Math.ceil(rawMax / 100) * 100;
@@ -790,26 +806,40 @@ const getMainChartOptions = (
   // SPECIAL HANDLING: For asymmetric axis with negative min and positive max
   // Recalculate tickAmount to account for the full range including negative portion
   if (yaxisMin !== undefined && yaxisMin < 0 && yaxisMax > 0 && yaxisStepSize && dataMin < 0) {
-    // For ranges like -1 to 20, we need to count ticks across the full range
-    // The positive range uses stepSize intervals (e.g., 0, 5, 10, 15, 20 with stepSize=5)
-    // Plus we add the negative segment(s)
-    
-    // Calculate how many steps needed from min to max
+    // For ranges with negative values, we need to ensure even spacing
     const fullRange = yaxisMax - yaxisMin;
+    const negativeMagnitude = Math.abs(yaxisMin);
     
-    // For small negative outliers with clean positive intervals (like -1 to 20 with step=5)
-    // Use the positive stepSize for the main range, with the negative as a single segment
-    if (Math.abs(yaxisMin) < yaxisStepSize && yaxisMax <= 20) {
-      // Single negative segment + positive segments
-      // Example: -1 to 20 with stepSize 5 = (-1 to 0) + (0, 5, 10, 15, 20) = 5 intervals
-      yaxisTickAmount = 1 + (yaxisMax / yaxisStepSize); // 1 + 4 = 5 intervals
-    } else if (Math.abs(yaxisMin) < yaxisStepSize * 2) {
-      // Small negative range (1-2 steps) + positive range
-      const negativeSteps = Math.ceil(Math.abs(yaxisMin) / yaxisStepSize);
-      const positiveSteps = Math.ceil(yaxisMax / yaxisStepSize);
-      yaxisTickAmount = negativeSteps + positiveSteps;
+    // For small negative outliers (< step size) with clean positive ranges
+    // Adjust min to fit the step pattern for even spacing
+    if (negativeMagnitude < yaxisStepSize && yaxisMax <= 20 && yaxisStepSize >= 3) {
+      // For tiny outliers like -0.1 with range 0-20 and step 5:
+      // Best approach is to adjust min to fit the pattern (e.g., -5, 0, 5, 10, 15, 20)
+      // This gives perfectly even spacing at the cost of a little vertical space
+      yaxisMin = -yaxisStepSize;
+      const newRange = yaxisMax - yaxisMin;
+      yaxisTickAmount = newRange / yaxisStepSize;
+    } else if (negativeMagnitude < yaxisStepSize && yaxisMax > 20) {
+      // For larger positive ranges with tiny negative outliers
+      // Adjust min to fit pattern based on step size
+      if (yaxisStepSize >= 1000) {
+        yaxisMin = -yaxisStepSize; // Round to nearest step
+      } else if (yaxisStepSize >= 100) {
+        yaxisMin = -yaxisStepSize;
+      } else if (yaxisStepSize >= 10) {
+        yaxisMin = -yaxisStepSize;
+      } else {
+        yaxisMin = -yaxisStepSize;
+      }
+      const newRange = yaxisMax - yaxisMin;
+      yaxisTickAmount = newRange / yaxisStepSize;
+    } else if (negativeMagnitude < yaxisStepSize * 2) {
+      // For small negative ranges (1-2 steps), adjust to fit pattern
+      yaxisMin = Math.floor(yaxisMin / yaxisStepSize) * yaxisStepSize;
+      const newRange = yaxisMax - yaxisMin;
+      yaxisTickAmount = newRange / yaxisStepSize;
     } else {
-      // For larger negative ranges, use uniform step size across entire range
+      // For larger negative ranges, calculate based on full range
       yaxisTickAmount = Math.ceil(fullRange / yaxisStepSize);
     }
   }
@@ -1046,8 +1076,17 @@ const getMainChartOptions = (
         yaxisMax = Math.ceil(minRequiredMax / 10) * 10; // Round to 10
       } else if (minRequiredMax <= 1000) {
         yaxisMax = Math.ceil(minRequiredMax / 50) * 50; // Round to 50
+      } else if (minRequiredMax <= 2500) {
+        yaxisMax = Math.ceil(minRequiredMax / 500) * 500; // Round to 500 for professional 500-interval charts
+      } else if (minRequiredMax <= 5000) {
+        // For 2.5K-5K range, round intelligently based on value
+        if (minRequiredMax <= 3000) {
+          yaxisMax = Math.ceil(minRequiredMax / 500) * 500; // Keep 500 intervals up to 3K
+        } else {
+          yaxisMax = Math.ceil(minRequiredMax / 1000) * 1000; // Use 1K intervals for 3K-5K
+        }
       } else if (minRequiredMax <= 10000) {
-        yaxisMax = Math.ceil(minRequiredMax / 500) * 500; // Round to 500
+        yaxisMax = Math.ceil(minRequiredMax / 1000) * 1000; // Round to 1K for 5K-10K range
       } else if (minRequiredMax <= 100000) {
         yaxisMax = Math.ceil(minRequiredMax / 5000) * 5000; // Round to 5K
       } else if (minRequiredMax <= 500000) {
@@ -1239,7 +1278,20 @@ const getMainChartOptions = (
     } else if (finalMax <= 1000) {
       yaxisStepSize = 100;
       yaxisTickAmount = Math.round(axisRange / 100);
+    } else if (finalMax <= 2500) {
+      // For values 1K-2.5K, use 500 intervals for professional spacing (0, 500, 1000, 1500, 2000, 2500)
+      yaxisStepSize = 500;
+      yaxisTickAmount = Math.round(axisRange / 500);
+    } else if (finalMax <= 5000) {
+      // For values 2.5K-5K, use 500 or 1000 intervals based on exact value
+      if (finalMax <= 3000) {
+        yaxisStepSize = 500; // 0, 500, 1000, 1500, 2000, 2500, 3000
+      } else {
+        yaxisStepSize = 1000; // 0, 1000, 2000, 3000, 4000, 5000
+      }
+      yaxisTickAmount = Math.round(axisRange / yaxisStepSize);
     } else if (finalMax <= 10000) {
+      // For values 5K-10K, use 1K intervals
       yaxisStepSize = 1000;
       yaxisTickAmount = Math.round(axisRange / 1000);
     } else if (finalMax <= 100000) {
@@ -1948,9 +2000,19 @@ const getMainChartOptions = (
             } else if (range >= 10000) {
               // For ranges 10K-20K, use 2K intervals (minimum 5 ticks)
               return Math.max(5, Math.floor(range / 2000));
-            } else if (range >= 1000) {
-              // For ranges 1K-10K, use 1K intervals (minimum 5 ticks)
+            } else if (range >= 5000) {
+              // For ranges 5K-10K, use 1K intervals (minimum 5 ticks)
               return Math.max(5, Math.floor(range / 1000));
+            } else if (range >= 2500) {
+              // For ranges 2.5K-5K, use 500 intervals for better granularity
+              if (yaxisMax <= 3000) {
+                return Math.max(5, Math.floor(range / 500)); // 500 intervals (0, 500, 1000, 1500, 2000, 2500, 3000)
+              } else {
+                return Math.max(5, Math.floor(range / 1000)); // 1K intervals for 3K-5K
+              }
+            } else if (range >= 1000) {
+              // For ranges 1K-2.5K, use 500 intervals (minimum 5 ticks for professional charts)
+              return Math.max(5, Math.floor(range / 500));
             } else if (range >= 500) {
               // For ranges 500-1000, use 100 intervals (minimum 5 ticks)
               return Math.max(5, Math.floor(range / 100));
