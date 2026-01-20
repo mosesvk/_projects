@@ -566,17 +566,27 @@ const fieldBenchmarkMap = {
  * Ensures "Expand Info" button is always aligned to the right, even when no benchmark text exists
  */
 const displayBenchmarksAboveExpandInfo = () => {
-  Object.entries(fieldBenchmarkMap).forEach(([fieldName, benchmarkText]) => {
-    // Find the Expand Info button by modal target
-    const modalTarget = `${fieldName}_modal`;
-    const button = document.querySelector(
-      `button[data-modal-target="${modalTarget}"]`
-    );
+  // Find ALL Expand Info buttons (those with data-modal-target ending in "_modal")
+  const allExpandInfoButtons = document.querySelectorAll(
+    'button[data-modal-target$="_modal"]'
+  );
 
-    if (!button) {
-      // console.warn(`Expand Info button not found for ${fieldName}`);
+  allExpandInfoButtons.forEach((button) => {
+    // Extract field name from modal target (e.g., "givingUnits_modal" -> "givingUnits")
+    const modalTarget = button.getAttribute("data-modal-target");
+    if (!modalTarget || !modalTarget.endsWith("_modal")) {
       return;
     }
+
+    const fieldName = modalTarget.replace("_modal", "");
+
+    // Skip non-chart modals (like options_modal, print_modal)
+    if (fieldName === "options" || fieldName === "print") {
+      return;
+    }
+
+    // Get benchmark text from map (undefined if not in map)
+    const benchmarkText = fieldBenchmarkMap[fieldName];
 
     // Find the parent container with the flex layout (match by border-t class)
     let flexContainer = button.parentElement;
@@ -585,12 +595,17 @@ const displayBenchmarksAboveExpandInfo = () => {
     }
 
     if (!flexContainer) {
-      console.warn(`Flex container not found for ${fieldName}`);
+      // console.warn(`Flex container not found for ${fieldName}`);
       return;
     }
 
     // Find the flex-shrink-0 div that contains the button
     const buttonContainer = button.closest(".flex-shrink-0");
+
+    if (!buttonContainer) {
+      // console.warn(`Button container not found for ${fieldName}`);
+      return;
+    }
 
     // Check if benchmark text already exists
     const existingBenchmark = flexContainer.querySelector(
@@ -611,17 +626,12 @@ const displayBenchmarksAboveExpandInfo = () => {
         benchmarkP.textContent = benchmarkText;
         benchmarkP.setAttribute("data-benchmark-field", fieldName);
 
-        if (buttonContainer) {
-          // Insert the benchmark text as a sibling before the button container
-          buttonContainer.parentNode.insertBefore(benchmarkP, buttonContainer);
-        } else {
-          // Fallback: insert at the beginning of flex container
-          flexContainer.insertBefore(benchmarkP, flexContainer.firstChild);
-        }
+        // Insert the benchmark text as a sibling before the button container
+        buttonContainer.parentNode.insertBefore(benchmarkP, buttonContainer);
       }
       
       // Remove ml-auto from button container if it exists (benchmark text will push it right via justify-between)
-      if (buttonContainer && buttonContainer.classList.contains("ml-auto")) {
+      if (buttonContainer.classList.contains("ml-auto")) {
         buttonContainer.classList.remove("ml-auto");
       }
     } else {
@@ -632,7 +642,7 @@ const displayBenchmarksAboveExpandInfo = () => {
       }
       
       // Add ml-auto to button container to push it to the right when no benchmark text exists
-      if (buttonContainer && !buttonContainer.classList.contains("ml-auto")) {
+      if (!buttonContainer.classList.contains("ml-auto")) {
         buttonContainer.classList.add("ml-auto");
       }
     }

@@ -721,6 +721,16 @@ const getMainChartOptions = (
   const actualMinRenderedValue = allRenderedSeriesData.length > 0 ? Math.min(...allRenderedSeriesData) : dataMin;
   const actualMaxRenderedValue = allRenderedSeriesData.length > 0 ? Math.max(...allRenderedSeriesData) : dataMax;
   
+  // CRITICAL FIX: If actualMaxRenderedValue is higher than dataMax (due to filtering),
+  // and it's in the 11-14 range, we MUST use 15 for yaxisMax regardless of initial calculation
+  // This fixes the issue where liquidityRatio with max value 14 was getting yaxisMax = 10
+  if (actualMaxRenderedValue > dataMax && actualMaxRenderedValue > 10 && actualMaxRenderedValue < 15 && numType !== "percent") {
+    // Override any previous yaxisMax calculation - this takes priority
+    yaxisMax = 15;
+    yaxisStepSize = 2;
+    yaxisTickAmount = 8;
+  }
+  
   // Ensure y-axis min is never higher than the lowest rendered data point (for negative values)
   if (actualMinRenderedValue < 0 && (yaxisMin === undefined || yaxisMin > actualMinRenderedValue)) {
     let newMin = actualMinRenderedValue;
@@ -760,29 +770,30 @@ const getMainChartOptions = (
   // This is the final safety check that MUST run to prevent any data from being cut off
   // This check runs AFTER all initial calculations to ensure ALL rendered values are visible
   if (yaxisMax < actualMaxRenderedValue) {
-    // Calculate new max with padding
-    let newMax = actualMaxRenderedValue;
-    if (actualMaxRenderedValue > 0) {
-      // Add padding based on scale
-      if (actualMaxRenderedValue >= 1000000) {
-        newMax = actualMaxRenderedValue + Math.max(50000, Math.ceil(actualMaxRenderedValue * 0.01));
-      } else if (actualMaxRenderedValue >= 1000) {
-        newMax = actualMaxRenderedValue + Math.max(10, Math.ceil(actualMaxRenderedValue * 0.01));
-      } else if (actualMaxRenderedValue >= 10) {
-        newMax = actualMaxRenderedValue + Math.max(1, Math.ceil(actualMaxRenderedValue * 0.02));
-      } else {
-        newMax = actualMaxRenderedValue + Math.max(0.1, actualMaxRenderedValue * 0.02);
+    // PRIORITY: Special handling for values 11-14 must always use 15
+    // This must be checked FIRST before any other calculations
+    if (actualMaxRenderedValue > 10 && actualMaxRenderedValue < 15 && numType !== "percent") {
+      yaxisMax = 15;
+      yaxisStepSize = 2;
+      yaxisTickAmount = 8;
+    } else {
+      // Calculate new max with padding
+      let newMax = actualMaxRenderedValue;
+      if (actualMaxRenderedValue > 0) {
+        // Add padding based on scale
+        if (actualMaxRenderedValue >= 1000000) {
+          newMax = actualMaxRenderedValue + Math.max(50000, Math.ceil(actualMaxRenderedValue * 0.01));
+        } else if (actualMaxRenderedValue >= 1000) {
+          newMax = actualMaxRenderedValue + Math.max(10, Math.ceil(actualMaxRenderedValue * 0.01));
+        } else if (actualMaxRenderedValue >= 10) {
+          newMax = actualMaxRenderedValue + Math.max(1, Math.ceil(actualMaxRenderedValue * 0.02));
+        } else {
+          newMax = actualMaxRenderedValue + Math.max(0.1, actualMaxRenderedValue * 0.02);
+        }
       }
-    }
-    
-    // For small values (<= 20), re-apply clean chart principles to ensure proper rounding
-    if (newMax <= 20 && numType !== "percent") {
-      // Special handling for values 11-14: always use 15
-      if (actualMaxRenderedValue > 10 && actualMaxRenderedValue < 15) {
-        yaxisMax = 15;
-        yaxisStepSize = 2;
-        yaxisTickAmount = 8;
-      } else {
+      
+      // For small values (<= 20), re-apply clean chart principles to ensure proper rounding
+      if (newMax <= 20 && numType !== "percent") {
         const cleanAxis = calculateCleanYAxis(newMax, yaxisMin || 0, numType);
         if (cleanAxis) {
           yaxisMax = cleanAxis.max;
@@ -801,9 +812,9 @@ const getMainChartOptions = (
             if (yaxisMax < newMax) yaxisMax += 5;
           }
         }
+      } else {
+        yaxisMax = newMax;
       }
-    } else {
-      yaxisMax = newMax;
     }
   }
   
@@ -837,6 +848,244 @@ const getMainChartOptions = (
   }
   }
 
+  // ============================================================================
+  // UNIVERSAL SAFETY CHECK: Ensure ALL data points and trendlines are ALWAYS visible
+  // ============================================================================
+  // This final check guarantees no data is ever cut off, regardless of outliers or data changes.
+  // It examines the ACTUAL data that will be rendered on the chart (not the filtered data used
+  // for initial axis calculations) and ensures yaxisMax and yaxisMin accommodate ALL values.
+  // This prevents the issue where peer data filtering (lines 180-181) removes outliers from
+  // axis calculation, but those "outliers" are still rendered, causing them to be cut off.
+  const allSeriesValues = [
+    ...(clientArray || []),
+    ...(peerAvg || []),
+    ...(peerMid || []),
+    ...(peer25 || []),
+    ...(peer75 || [])
+  ].filter(v => v !== null && v !== undefined && !isNaN(v));
+  
+  let safetyCheckAdjustedAxis = false; // Track if we made changes
+  
+  if (allSeriesValues.length > 0) {
+    const actualMaxValue = Math.max(...allSeriesValues);
+    const actualMinValue = Math.min(...allSeriesValues);
+    
+    // === MAXIMUM VALUE CHECK ===
+    // Ensure yaxisMax is always high enough to show the highest data point
+    if (!yaxisMax || yaxisMax < actualMaxValue) {
+      safetyCheckAdjustedAxis = true;
+      // Calculate appropriate padding based on value magnitude
+      let padding;
+      if (numType === "percent") {
+        padding = 15; // Add 15% padding for percentages
+      } else if (actualMaxValue < 10) {
+        padding = Math.max(1, actualMaxValue * 0.2); // 20% padding, minimum 1
+      } else if (actualMaxValue < 100) {
+        padding = Math.max(5, actualMaxValue * 0.15); // 15% padding, minimum 5
+      } else if (actualMaxValue < 1000) {
+        padding = Math.max(50, actualMaxValue * 0.1); // 10% padding, minimum 50
+      } else {
+        padding = actualMaxValue * 0.1; // 10% padding for large values
+      }
+      
+      const minRequiredMax = actualMaxValue + padding;
+      
+      // Round to clean values
+      if (numType === "percent") {
+        yaxisMax = Math.ceil(minRequiredMax / 15) * 15;
+      } else if (minRequiredMax <= 2) {
+        yaxisMax = Math.ceil(minRequiredMax * 2) / 2; // Round to 0.5
+      } else if (minRequiredMax <= 10) {
+        yaxisMax = Math.ceil(minRequiredMax);
+      } else if (minRequiredMax <= 20) {
+        // Special handling for 11-15 range
+        if (minRequiredMax <= 15) {
+          yaxisMax = 15;
+        } else if (minRequiredMax <= 16) {
+          yaxisMax = 16;
+        } else if (minRequiredMax <= 18) {
+          yaxisMax = 18;
+        } else {
+          yaxisMax = 20;
+        }
+      } else if (minRequiredMax <= 50) {
+        yaxisMax = Math.ceil(minRequiredMax / 5) * 5; // Round to 5
+      } else if (minRequiredMax <= 100) {
+        yaxisMax = Math.ceil(minRequiredMax / 10) * 10; // Round to 10
+      } else if (minRequiredMax <= 1000) {
+        yaxisMax = Math.ceil(minRequiredMax / 50) * 50; // Round to 50
+      } else if (minRequiredMax <= 10000) {
+        yaxisMax = Math.ceil(minRequiredMax / 500) * 500; // Round to 500
+      } else if (minRequiredMax <= 100000) {
+        yaxisMax = Math.ceil(minRequiredMax / 5000) * 5000; // Round to 5K
+      } else if (minRequiredMax <= 1000000) {
+        yaxisMax = Math.ceil(minRequiredMax / 50000) * 50000; // Round to 50K
+      } else if (minRequiredMax <= 10000000) {
+        yaxisMax = Math.ceil(minRequiredMax / 500000) * 500000; // Round to 500K
+      } else {
+        yaxisMax = Math.ceil(minRequiredMax / 5000000) * 5000000; // Round to 5M
+      }
+    }
+    
+    // === MINIMUM VALUE CHECK ===
+    // Ensure yaxisMin is always low enough to show the lowest data point (including negatives)
+    if (actualMinValue < 0) {
+      const existingMin = yaxisMin !== undefined ? yaxisMin : 0;
+      if (existingMin > actualMinValue) {
+        safetyCheckAdjustedAxis = true;
+      }
+      const minValueMagnitude = Math.abs(actualMinValue);
+      
+      // Calculate appropriate padding for negative values
+      let negativePadding;
+      if (numType === "percent") {
+        negativePadding = 15;
+      } else if (minValueMagnitude < 10) {
+        negativePadding = Math.max(1, minValueMagnitude * 0.2);
+      } else if (minValueMagnitude < 100) {
+        negativePadding = Math.max(5, minValueMagnitude * 0.15);
+      } else if (minValueMagnitude < 1000) {
+        negativePadding = Math.max(50, minValueMagnitude * 0.1);
+      } else {
+        negativePadding = minValueMagnitude * 0.1;
+      }
+      
+      const minRequiredMin = actualMinValue - negativePadding;
+      
+      // Round to clean negative values
+      if (numType === "percent") {
+        yaxisMin = Math.floor(minRequiredMin / 15) * 15;
+      } else if (minRequiredMin >= -2) {
+        yaxisMin = Math.floor(minRequiredMin * 2) / 2; // Round to -0.5
+      } else if (minRequiredMin >= -10) {
+        yaxisMin = Math.floor(minRequiredMin);
+      } else if (minRequiredMin >= -20) {
+        yaxisMin = Math.floor(minRequiredMin / 2) * 2; // Round to -2
+      } else if (minRequiredMin >= -50) {
+        yaxisMin = Math.floor(minRequiredMin / 5) * 5; // Round to -5
+      } else if (minRequiredMin >= -100) {
+        yaxisMin = Math.floor(minRequiredMin / 10) * 10; // Round to -10
+      } else if (minRequiredMin >= -1000) {
+        yaxisMin = Math.floor(minRequiredMin / 50) * 50; // Round to -50
+      } else if (minRequiredMin >= -10000) {
+        yaxisMin = Math.floor(minRequiredMin / 500) * 500; // Round to -500
+      } else if (minRequiredMin >= -100000) {
+        yaxisMin = Math.floor(minRequiredMin / 5000) * 5000; // Round to -5K
+      } else if (minRequiredMin >= -1000000) {
+        yaxisMin = Math.floor(minRequiredMin / 50000) * 50000; // Round to -50K
+      } else if (minRequiredMin >= -10000000) {
+        yaxisMin = Math.floor(minRequiredMin / 500000) * 500000; // Round to -500K
+      } else {
+        yaxisMin = Math.floor(minRequiredMin / 5000000) * 5000000; // Round to -5M
+      }
+    } else if (yaxisMin === undefined) {
+      // No negative values, default to 0
+      yaxisMin = 0;
+    }
+  } else {
+    // No valid data, use defaults
+    if (yaxisMax === undefined) yaxisMax = 10;
+    if (yaxisMin === undefined) yaxisMin = 0;
+  }
+
+  // ============================================================================
+  // RECALCULATE STEP SIZE AND TICK AMOUNT for professional, evenly-spaced axis
+  // ============================================================================
+  // After safety check adjustments, ensure step size and tick amount are appropriate
+  // for the final yaxisMax and yaxisMin values to maintain visual professionalism.
+  // ONLY recalculate if the safety check actually adjusted the axis values - this preserves
+  // the existing careful step size/tick amount calculations when they're already correct.
+  if (safetyCheckAdjustedAxis) {
+    const finalMin = yaxisMin !== undefined ? yaxisMin : 0;
+    const finalMax = yaxisMax;
+    const axisRange = finalMax - finalMin;
+    if (numType === "percent") {
+      // For percentages, use 15% intervals
+      yaxisStepSize = 15;
+      yaxisTickAmount = Math.round(axisRange / 15);
+    } else if (finalMax <= 2) {
+      // For very small values (≤2), use 0.5 steps
+      yaxisStepSize = 0.5;
+      yaxisTickAmount = Math.round(axisRange / 0.5);
+    } else if (finalMax <= 10) {
+      // For values ≤10, use 1 or 2 steps
+      if (finalMax <= 5) {
+        yaxisStepSize = 1;
+      } else {
+        yaxisStepSize = finalMax === 6 ? 1 : 2;
+      }
+      yaxisTickAmount = Math.round(axisRange / yaxisStepSize);
+    } else if (finalMax <= 20) {
+      // For values 10-20, use appropriate steps
+      if (finalMax === 12) {
+        yaxisStepSize = 3;
+        yaxisTickAmount = 4;
+      } else if (finalMax === 15) {
+        yaxisStepSize = 3;
+        yaxisTickAmount = 5;
+      } else if (finalMax === 16) {
+        yaxisStepSize = 4;
+        yaxisTickAmount = 4;
+      } else if (finalMax === 18) {
+        yaxisStepSize = 3;
+        yaxisTickAmount = 6;
+      } else if (finalMax === 20) {
+        yaxisStepSize = 5;
+        yaxisTickAmount = 4;
+      } else {
+        yaxisStepSize = 2;
+        yaxisTickAmount = Math.round(axisRange / 2);
+      }
+    } else if (finalMax <= 50) {
+      yaxisStepSize = 5;
+      yaxisTickAmount = Math.round(axisRange / 5);
+    } else if (finalMax <= 100) {
+      yaxisStepSize = 10;
+      yaxisTickAmount = Math.round(axisRange / 10);
+    } else if (finalMax <= 500) {
+      yaxisStepSize = 50;
+      yaxisTickAmount = Math.round(axisRange / 50);
+    } else if (finalMax <= 1000) {
+      yaxisStepSize = 100;
+      yaxisTickAmount = Math.round(axisRange / 100);
+    } else if (finalMax <= 10000) {
+      yaxisStepSize = 1000;
+      yaxisTickAmount = Math.round(axisRange / 1000);
+    } else if (finalMax <= 100000) {
+      yaxisStepSize = 10000;
+      yaxisTickAmount = Math.round(axisRange / 10000);
+    } else if (finalMax <= 1000000) {
+      yaxisStepSize = 100000;
+      yaxisTickAmount = Math.round(axisRange / 100000);
+    } else if (finalMax <= 10000000) {
+      yaxisStepSize = 1000000;
+      yaxisTickAmount = Math.round(axisRange / 1000000);
+    } else {
+      yaxisStepSize = 10000000;
+      yaxisTickAmount = Math.round(axisRange / 10000000);
+    }
+    
+    // Ensure tickAmount is reasonable (between 2 and 10 for best visualization)
+    if (yaxisTickAmount < 2) yaxisTickAmount = 2;
+    if (yaxisTickAmount > 10) {
+      // Too many ticks, increase step size
+      const targetTicks = 5;
+      yaxisStepSize = Math.ceil(axisRange / targetTicks);
+      // Round step size to nearest clean value
+      if (yaxisStepSize <= 10) {
+        yaxisStepSize = Math.ceil(yaxisStepSize);
+      } else if (yaxisStepSize <= 100) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 10) * 10;
+      } else if (yaxisStepSize <= 1000) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 100) * 100;
+      } else if (yaxisStepSize <= 10000) {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 1000) * 1000;
+      } else {
+        yaxisStepSize = Math.ceil(yaxisStepSize / 10000) * 10000;
+      }
+      yaxisTickAmount = Math.round(axisRange / yaxisStepSize);
+    }
+  }
 
   const yaxisLabelFormatter = (value) => {
     let formattedValue;
@@ -846,46 +1095,55 @@ const getMainChartOptions = (
     // Handle very large numbers (millions and billions) - use absolute value for range checks
     if (absValue >= 100000000) {
       // Round to nearest 10M for values >= 100M
-      formattedValue = `${Math.round(absValue / 10000000) * 10}M`;
+      const roundedValue = Math.round(absValue / 10000000) * 10;
+      formattedValue = isNegative ? `-${roundedValue}M` : `${roundedValue}M`;
     } else if (absValue >= 50000000) {
       // Round to nearest 10M for values between 50M and 100M
-      formattedValue = `${Math.round(absValue / 10000000) * 10}M`;
+      const roundedValue = Math.round(absValue / 10000000) * 10;
+      formattedValue = isNegative ? `-${roundedValue}M` : `${roundedValue}M`;
     } else if (absValue >= 10000000) {
       // Round to nearest 5M for values between 10M and 50M
-      formattedValue = `${Math.round(absValue / 5000000) * 5}M`;
+      const roundedValue = Math.round(absValue / 5000000) * 5;
+      formattedValue = isNegative ? `-${roundedValue}M` : `${roundedValue}M`;
     } else if (absValue >= 1000000) {
       // Round to nearest 1M for values between 1M and 10M
       // This prevents small millions from rounding to 0M
-      formattedValue = `${Math.round(absValue / 1000000)}M`;
+      const roundedValue = Math.round(absValue / 1000000);
+      formattedValue = isNegative ? `-${roundedValue}M` : `${roundedValue}M`;
     } else if (absValue >= 100000) {
       // For values >= 100K, display actual K value without rounding
       const kValue = absValue / 1000;
       // Only show decimal if it's not a whole number
-      formattedValue = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
+      const kFormatted = kValue % 1 === 0 ? `${kValue}K` : `${kValue.toFixed(1)}K`;
+      formattedValue = isNegative ? `-${kFormatted}` : kFormatted;
     } else if (absValue >= 10000) {
       // For values >= 10K, round to nearest whole thousand
       // Example: 14.2K -> 14K, 15.8K -> 16K
-      formattedValue = `${Math.round(absValue / 1000)}K`;
+      const roundedValue = Math.round(absValue / 1000);
+      formattedValue = isNegative ? `-${roundedValue}K` : `${roundedValue}K`;
     } else if (absValue >= 1000) {
       // For values 1K-10K, round to nearest whole thousand for clean labels
       // Example: 1.4K -> 1K, 2.8K -> 3K, 5.6K -> 6K, 7K -> 7K
-      formattedValue = `${Math.round(absValue / 1000)}K`;
+      const roundedValue = Math.round(absValue / 1000);
+      formattedValue = isNegative ? `-${roundedValue}K` : `${roundedValue}K`;
     } else if (absValue >= 100) {
       // Round to nearest 100 for values between 100 and 1000
       // This handles cases like 510 -> 500, 410 -> 400, etc.
       // Only round if not already a multiple of 100 to avoid duplicate labels
       if (absValue % 100 === 0) {
-        formattedValue = absValue;
+        formattedValue = isNegative ? -absValue : absValue;
       } else {
-        formattedValue = Math.round(absValue / 100) * 100;
+        const roundedValue = Math.round(absValue / 100) * 100;
+        formattedValue = isNegative ? -roundedValue : roundedValue;
       }
     } else if (absValue >= 10) {
       // Round to nearest 10 for values between 10 and 100
       // Only round if not already a multiple of 10 to avoid duplicate labels
       if (absValue % 10 === 0) {
-        formattedValue = absValue;
+        formattedValue = isNegative ? -absValue : absValue;
       } else {
-        formattedValue = Math.round(absValue / 10) * 10;
+        const roundedValue = Math.round(absValue / 10) * 10;
+        formattedValue = isNegative ? -roundedValue : roundedValue;
       }
     } else if (Math.max(Math.abs(dataMin), Math.abs(dataMax)) <= 10) {
       // Special handling only for charts with small data ranges (≤10)
@@ -962,6 +1220,10 @@ const getMainChartOptions = (
           formattedValue = isNegative ? -rounded : rounded;
         }
       }
+      // For negative dollar values, format as -$X instead of $-X
+      if (isNegative && formattedValue !== 0) {
+        return `-$${Math.abs(formattedValue)}`;
+      }
       return `$${formattedValue}`;
     } else if (numType === "percent") {
       // For percentage values, use whole numbers for clean labels (0%, 10%, 20%, etc.)
@@ -985,9 +1247,13 @@ const getMainChartOptions = (
   };
 
   const tooltipFormatter = (value) => {
-    if (!value) return;
+    if (value === null || value === undefined) return;
     const formattedValue = value.toLocaleString();
     if (numType === "dollar") {
+      // For negative dollar values, format as -$X instead of $-X
+      if (value < 0) {
+        return `-$${Math.abs(value).toLocaleString()}`;
+      }
       return `$${formattedValue}`;
     } else if (numType === "percent") {
       return `${formattedValue}%`;
