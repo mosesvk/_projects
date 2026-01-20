@@ -852,28 +852,37 @@ const getMainChartOptions = (
       newMin = actualMinRenderedValue - Math.max(0.1, Math.abs(actualMinRenderedValue) * 0.02);
     }
     
-    // CHECKPOINT 1 REVERT: For 0-20 range with tiny negative outliers
-    // Extend min by exactly one step size based on the positive max's step pattern
-    if (yaxisMax <= 20 && numType !== "percent") {
-      // Determine what step size the positive axis is using
-      let stepSize;
-      if (yaxisMax === 15 || yaxisMax === 20) {
-        stepSize = 5; // Max 15 or 20 uses 5-unit steps
-      } else if (yaxisMax === 12 || yaxisMax === 18) {
-        stepSize = 3; // Max 12 or 18 uses 3-unit steps
-      } else if (yaxisMax === 16) {
-        stepSize = 4; // Max 16 uses 4-unit steps
+    // SIMPLE APPROACH: For number charts with negative values
+    // Calculate clean min/max with minimal whitespace and even spacing
+    if (numType !== "percent") {
+      // Determine appropriate rounding based on scale of actual max value
+      let roundingFactor;
+      if (actualMaxRenderedValue <= 10) {
+        roundingFactor = 1; // Round to nearest 1
+      } else if (actualMaxRenderedValue <= 20) {
+        roundingFactor = 2; // Round to nearest 2 for values like 14 → 16
+      } else if (actualMaxRenderedValue <= 100) {
+        roundingFactor = 10; // Round to nearest 10
+      } else if (actualMaxRenderedValue <= 1000) {
+        roundingFactor = 100; // Round to nearest 100
+      } else if (actualMaxRenderedValue <= 10000) {
+        roundingFactor = 1000; // Round to nearest 1K
+      } else if (actualMaxRenderedValue <= 100000) {
+        roundingFactor = 10000; // Round to nearest 10K
+      } else if (actualMaxRenderedValue <= 1000000) {
+        roundingFactor = 100000; // Round to nearest 100K
+      } else if (actualMaxRenderedValue <= 10000000) {
+        roundingFactor = 500000; // Round to nearest 500K for millions (less critical)
       } else {
-        stepSize = 5; // Default to 5 for safety
+        roundingFactor = 5000000; // Round to nearest 5M
       }
       
-      // Extend min by exactly one step to accommodate negative outlier
-      yaxisMin = -stepSize;
+      // Round min/max to clean values
+      yaxisMin = Math.floor(actualMinRenderedValue / roundingFactor) * roundingFactor;
+      yaxisMax = Math.ceil(actualMaxRenderedValue / roundingFactor) * roundingFactor;
       
-      // Recalculate tickAmount immediately to account for extended range
-      if (yaxisMax && yaxisStepSize) {
-        yaxisTickAmount = (yaxisMax - yaxisMin) / yaxisStepSize;
-      }
+      // Don't set yaxisStepSize or yaxisTickAmount - let ApexCharts calculate even spacing
+      // ApexCharts will automatically create evenly-spaced ticks between min and max
     } else if (Math.abs(newMin) <= 10000) {
       newMin = Math.floor(newMin / 1000) * 1000;
       yaxisMin = newMin;
@@ -1190,112 +1199,195 @@ const getMainChartOptions = (
       } else {
         yaxisTickAmount = Math.round(axisRange / yaxisStepSize);
       }
-    } else if (finalMax <= 2) {
-      // For very small values (≤2), use 0.5 steps
-      yaxisStepSize = 0.5;
-      yaxisTickAmount = Math.round(axisRange / 0.5);
-    } else if (finalMax <= 10) {
-      // For values ≤10, use 1 or 2 steps
-      if (finalMax <= 5) {
-        yaxisStepSize = 1;
-      } else {
-        yaxisStepSize = finalMax === 6 ? 1 : 2;
-      }
-      yaxisTickAmount = Math.round(axisRange / yaxisStepSize);
-    } else if (finalMax <= 20) {
-      // SIMPLIFIED: For values 10-20, use clean step sizes
-      // Determine step size based on max
-      if (finalMax <= 12) {
-        yaxisStepSize = 3; // 0, 3, 6, 9, 12
-      } else if (finalMax <= 16) {
-        yaxisStepSize = 4; // 0, 4, 8, 12, 16 OR use 5 for 15: 0, 5, 10, 15
-        if (finalMax === 15) {
-          yaxisStepSize = 5; // 0, 5, 10, 15
+    } else {
+      // For number types (non-percent): Skip recalculation - let ApexCharts handle it
+      // We've already set clean min/max values in the safety check above
+      // ApexCharts will automatically create evenly-spaced ticks between min and max
+      // This keeps the code simple and leverages ApexCharts' native spacing algorithm
+    }
+  }
+
+  const yaxisLabelFormatter = (value) => {
+    let formattedValue;
+    const absValue = Math.abs(value);
+    const isNegative = value < 0;
+    
+    // Handle very large numbers (millions and billions) - use absolute value for range checks
+    if (absValue >= 100000000) {
+        // Calculate total range
+        const totalRange = finalMax - finalMin;
+        
+        // Determine appropriate step size based on total range
+        let candidateSteps;
+        if (totalRange <= 10) {
+          candidateSteps = [1, 2]; // For very small ranges
+        } else if (totalRange <= 30) {
+          candidateSteps = [2, 5]; // For small-medium ranges
+        } else if (totalRange <= 50) {
+          candidateSteps = [5, 10]; // For medium ranges
+        } else {
+          candidateSteps = [10, 20]; // For larger ranges
         }
-      } else if (finalMax <= 18) {
-        yaxisStepSize = 3; // 0, 3, 6, 9, 12, 15, 18
+        
+        // Pick step size that results in 4-12 intervals
+        for (let step of candidateSteps) {
+          const intervals = totalRange / step;
+          if (intervals >= 4 && intervals <= 12) {
+            yaxisStepSize = step;
+            break;
+          }
+        }
+        // Default to first candidate if none match
+        if (!yaxisStepSize) yaxisStepSize = candidateSteps[0];
+        
+        // Round min/max to multiples of step size
+        yaxisMin = Math.floor(finalMin / yaxisStepSize) * yaxisStepSize;
+        yaxisMax = Math.ceil(finalMax / yaxisStepSize) * yaxisStepSize;
+        yaxisTickAmount = (yaxisMax - yaxisMin) / yaxisStepSize;
       } else {
-        yaxisStepSize = 5; // 0, 5, 10, 15, 20
-      }
-      
-      // Handle negative values: Account for negative min if it exists
-      // Use the actual min that was set by safety check, or default to 0
-      const actualMin = yaxisMin !== undefined ? yaxisMin : 0;
-      yaxisTickAmount = (finalMax - actualMin) / yaxisStepSize;
-    } else if (finalMax <= 50) {
-      yaxisStepSize = 5;
-      if (finalMin < 0) {
-        yaxisMin = Math.floor(finalMin / 5) * 5;
-        yaxisTickAmount = (finalMax - yaxisMin) / 5;
-      } else {
-        yaxisTickAmount = Math.round(axisRange / 5);
+        // Positive only - use standard step sizes
+        if (finalMax <= 12) {
+          yaxisStepSize = 3; // 0, 3, 6, 9, 12
+        } else if (finalMax <= 16) {
+          yaxisStepSize = 4; // 0, 4, 8, 12, 16 OR use 5 for 15: 0, 5, 10, 15
+          if (finalMax === 15) {
+            yaxisStepSize = 5; // 0, 5, 10, 15
+          }
+        } else if (finalMax <= 18) {
+          yaxisStepSize = 3; // 0, 3, 6, 9, 12, 15, 18
+        } else {
+          yaxisStepSize = 5; // 0, 5, 10, 15, 20
+        }
+        yaxisTickAmount = finalMax / yaxisStepSize;
       }
     } else if (finalMax <= 100) {
-      yaxisStepSize = 10;
+      // Dynamic step size for 20-100 range
       if (finalMin < 0) {
-        yaxisMin = Math.floor(finalMin / 10) * 10;
-        yaxisTickAmount = (finalMax - yaxisMin) / 10;
+        const totalRange = finalMax - finalMin;
+        // Choose between 5, 10, 20 based on total range
+        let candidateSteps = [5, 10, 20];
+        for (let step of candidateSteps) {
+          const intervals = totalRange / step;
+          if (intervals >= 4 && intervals <= 12) {
+            yaxisStepSize = step;
+            break;
+          }
+        }
+        if (!yaxisStepSize) yaxisStepSize = 10; // Default
+        
+        yaxisMin = Math.floor(finalMin / yaxisStepSize) * yaxisStepSize;
+        yaxisMax = Math.ceil(finalMax / yaxisStepSize) * yaxisStepSize;
+        yaxisTickAmount = (yaxisMax - yaxisMin) / yaxisStepSize;
       } else {
-        yaxisTickAmount = Math.round(axisRange / 10);
-      }
-    } else if (finalMax <= 500) {
-      yaxisStepSize = 50;
-      if (finalMin < 0) {
-        yaxisMin = Math.floor(finalMin / 50) * 50;
-        yaxisTickAmount = (finalMax - yaxisMin) / 50;
-      } else {
-        yaxisTickAmount = Math.round(axisRange / 50);
+        // Positive only
+        yaxisStepSize = finalMax <= 50 ? 5 : 10;
+        yaxisTickAmount = finalMax / yaxisStepSize;
       }
     } else if (finalMax <= 1000) {
-      yaxisStepSize = 100;
+      // Dynamic step size for 100-1000 range
       if (finalMin < 0) {
-        yaxisMin = Math.floor(finalMin / 100) * 100;
-        yaxisTickAmount = (finalMax - yaxisMin) / 100;
+        const totalRange = finalMax - finalMin;
+        // Choose between 50, 100, 200 based on total range
+        let candidateSteps = [50, 100, 200];
+        for (let step of candidateSteps) {
+          const intervals = totalRange / step;
+          if (intervals >= 4 && intervals <= 12) {
+            yaxisStepSize = step;
+            break;
+          }
+        }
+        if (!yaxisStepSize) yaxisStepSize = 100; // Default
+        
+        yaxisMin = Math.floor(finalMin / yaxisStepSize) * yaxisStepSize;
+        yaxisMax = Math.ceil(finalMax / yaxisStepSize) * yaxisStepSize;
+        yaxisTickAmount = (yaxisMax - yaxisMin) / yaxisStepSize;
       } else {
-        yaxisTickAmount = Math.round(axisRange / 100);
+        // Positive only
+        yaxisStepSize = finalMax <= 500 ? 50 : 100;
+        yaxisTickAmount = finalMax / yaxisStepSize;
       }
     } else if (finalMax <= 10000) {
-      // SIMPLIFIED: For ALL values 1K-10K, use 1K intervals (0, 1K, 2K, ...)
-      yaxisStepSize = 1000;
+      // Dynamic step size for 1K-10K range
       if (finalMin < 0) {
-        // For negative values, adjust min to fit 1K pattern
-        yaxisMin = Math.floor(finalMin / 1000) * 1000;
-        yaxisTickAmount = (finalMax - yaxisMin) / 1000;
+        const totalRange = finalMax - finalMin;
+        // Choose between 500, 1000, 2000 based on total range
+        let candidateSteps = [500, 1000, 2000];
+        for (let step of candidateSteps) {
+          const intervals = totalRange / step;
+          if (intervals >= 4 && intervals <= 12) {
+            yaxisStepSize = step;
+            break;
+          }
+        }
+        if (!yaxisStepSize) yaxisStepSize = 1000; // Default
+        
+        yaxisMin = Math.floor(finalMin / yaxisStepSize) * yaxisStepSize;
+        yaxisMax = Math.ceil(finalMax / yaxisStepSize) * yaxisStepSize;
+        yaxisTickAmount = (yaxisMax - yaxisMin) / yaxisStepSize;
       } else {
-        yaxisTickAmount = finalMax / 1000; // Simple division
-      }
-    } else if (finalMax <= 100000) {
-      yaxisStepSize = 10000;
-      if (finalMin < 0) {
-        yaxisMin = Math.floor(finalMin / 10000) * 10000;
-        yaxisTickAmount = (finalMax - yaxisMin) / 10000;
-      } else {
-        yaxisTickAmount = Math.round(axisRange / 10000);
-      }
-    } else if (finalMax <= 500000) {
-      yaxisStepSize = 50000; // 50K intervals for professional charts
-      if (finalMin < 0) {
-        yaxisMin = Math.floor(finalMin / 50000) * 50000;
-        yaxisTickAmount = (finalMax - yaxisMin) / 50000;
-      } else {
-        yaxisTickAmount = Math.round(axisRange / 50000);
+        // Positive only - use 1K intervals
+        yaxisStepSize = 1000;
+        yaxisTickAmount = finalMax / 1000;
       }
     } else if (finalMax <= 1000000) {
-      yaxisStepSize = 100000; // 100K intervals
+      // Dynamic step size for 10K-1M range
       if (finalMin < 0) {
-        yaxisMin = Math.floor(finalMin / 100000) * 100000;
-        yaxisTickAmount = (finalMax - yaxisMin) / 100000;
+        const totalRange = finalMax - finalMin;
+        // Choose appropriate step based on scale
+        let candidateSteps;
+        if (finalMax <= 100000) {
+          candidateSteps = [5000, 10000, 20000];
+        } else if (finalMax <= 500000) {
+          candidateSteps = [25000, 50000, 100000];
+        } else {
+          candidateSteps = [50000, 100000, 200000];
+        }
+        
+        for (let step of candidateSteps) {
+          const intervals = totalRange / step;
+          if (intervals >= 4 && intervals <= 12) {
+            yaxisStepSize = step;
+            break;
+          }
+        }
+        if (!yaxisStepSize) yaxisStepSize = candidateSteps[1]; // Default to middle
+        
+        yaxisMin = Math.floor(finalMin / yaxisStepSize) * yaxisStepSize;
+        yaxisMax = Math.ceil(finalMax / yaxisStepSize) * yaxisStepSize;
+        yaxisTickAmount = (yaxisMax - yaxisMin) / yaxisStepSize;
       } else {
-        yaxisTickAmount = Math.round(axisRange / 100000);
+        // Positive only
+        if (finalMax <= 100000) {
+          yaxisStepSize = 10000;
+        } else if (finalMax <= 500000) {
+          yaxisStepSize = 50000;
+        } else {
+          yaxisStepSize = 100000;
+        }
+        yaxisTickAmount = finalMax / yaxisStepSize;
       }
     } else if (finalMax <= 10000000) {
-      // SIMPLIFIED: For ALL values 1M-10M, use clean 1M intervals (0, 1M, 2M, 3M, ...)
-      yaxisStepSize = 1000000;
+      // Dynamic step size for 1M-10M range
       if (finalMin < 0) {
-        yaxisMin = Math.floor(finalMin / 1000000) * 1000000;
-        yaxisTickAmount = (finalMax - yaxisMin) / 1000000;
+        const totalRange = finalMax - finalMin;
+        // Choose between 500K, 1M, 2M based on total range
+        let candidateSteps = [500000, 1000000, 2000000];
+        for (let step of candidateSteps) {
+          const intervals = totalRange / step;
+          if (intervals >= 4 && intervals <= 12) {
+            yaxisStepSize = step;
+            break;
+          }
+        }
+        if (!yaxisStepSize) yaxisStepSize = 1000000; // Default
+        
+        yaxisMin = Math.floor(finalMin / yaxisStepSize) * yaxisStepSize;
+        yaxisMax = Math.ceil(finalMax / yaxisStepSize) * yaxisStepSize;
+        yaxisTickAmount = (yaxisMax - yaxisMin) / yaxisStepSize;
       } else {
-        yaxisTickAmount = finalMax / 1000000; // Simple division
+        // Positive only - use 1M intervals
+        yaxisStepSize = 1000000;
+        yaxisTickAmount = finalMax / 1000000;
       }
     } else {
       yaxisStepSize = 5000000; // 5M intervals for > 10M
