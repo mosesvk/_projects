@@ -300,7 +300,7 @@ const createToastSuccess = (textString, bigger = false) => {
     "delay-150",
     "fixed",
     "top-20",
-    "left-250",
+    "left-1/2",
     "transform",
     "-translate-x-1/2",
     "z-50",
