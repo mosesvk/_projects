@@ -63,7 +63,13 @@ function setupDropdownToggle(selectElementId, optionsListId) {
     closeOtherDropdowns(optionsListId);
 
     // Toggle visibility
+    const isVisible = !optionsListElement.classList.contains("invisible");
     optionsListElement.classList.toggle("invisible");
+    
+    // Ensure z-index is set high when dropdown is visible (especially for options-list-year)
+    if (optionsListId === "options-list-year" && !isVisible) {
+      optionsListElement.style.zIndex = "9999";
+    }
   }
 
   // Function to close dropdown when clicking outside
