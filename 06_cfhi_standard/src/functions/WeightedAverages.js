@@ -48,7 +48,7 @@ const getWeightedAverageOfArray = (data, name, year) => {
       return contributionsWithoutDonorPerGivingUnit_standard(data, name, year);
     case "totalContributionsPerAverageAdultAttendee":
       return totalContributionsPerAverageAdultAttendee_weightedAverage(data, name);
-    case "totalContributionsPerGdivingUnit":
+    case "totalContributionsPerGivingUnit":
       return totalContributionsPerGivingUnit_weightedAverage(data, name, year);
     case "benefitsToSalaries":
       return benefitsToSalaries_weightedAverage(data, name);

@@ -1291,7 +1291,6 @@ async function apexChartsExportPrint() {
     showApiLoadingFunction("close", "print");
 
     if (errorCode === "0") {
-      const recordId = xmlResponse.find("qdbapi").find("rid").text();
       createToastSuccess(
         `The presentation will be sent to your email address in the next 5 minutes from clientportal@capincrouse.com.  If you do not receive it, please email capindata@capincrouse.com for assistance.`, 
         true

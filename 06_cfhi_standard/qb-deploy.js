@@ -25,6 +25,8 @@ const config = {
     'CreateCharts.js': '158',       // cfhi_standard_chartCreate.js
     'uiManagement.js': '159',       // cfhi_standard_uiManagement.js
     'Report.js': '160',             // cfhi_standard_report.js
+    'PrintBase64.js': '220',        // cfhi_standard_printBase64.js
+    'PrintExcel.js': '221',         // cfhi_standard_printExcel.js
   },
   
   // Default page ID (fallback)
