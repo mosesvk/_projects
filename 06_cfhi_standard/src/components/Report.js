@@ -1,3 +1,31 @@
+/**
+ * Clear all report tables before rerunning API
+ */
+const clearAllReportTables = () => {
+  // Get all report table headers
+  const tableHeaders = document.querySelectorAll('[id$="_tableHeader"]');
+  
+  tableHeaders.forEach((header) => {
+    // Clear all header cells except the first one (which contains the category name)
+    while (header.children.length > 1) {
+      header.removeChild(header.children[1]);
+    }
+    
+    // Get all rows in the same table as this header
+    const tableBody = header.closest("table")?.querySelector("tbody");
+    if (tableBody) {
+      const rows = tableBody.querySelectorAll("tr");
+      
+      rows.forEach((row) => {
+        // Clear all cells in the row except the first one (which contains the metric name)
+        while (row.children.length > 1) {
+          row.removeChild(row.children[1]);
+        }
+      });
+    }
+  });
+};
+
 const displayReportComponent = () => {
   const generalData = JSON.parse(localStorage.getItem("generalData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
@@ -8,6 +36,9 @@ const displayReportComponent = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   if (selectedYears) {
+    // Clear all report tables before adding new data
+    clearAllReportTables();
+    
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(generalData, selectedYears, [
       ["givingUnits", "num", 0],
@@ -52,6 +83,9 @@ const displayReportComponent = () => {
   processTHElements();
   closeSidebarAfterSelectingOption("report");
 };
+
+// Make clearAllReportTables globally accessible
+window.clearAllReportTables = clearAllReportTables;
 
 const insertDataToReport = (data, selectedYears, arrayOfNames) => {
   if (data && selectedYears) {

@@ -2480,6 +2480,16 @@ class AppController {
         this.apiService.clearRecords();
       }
 
+      // Clear all charts before rerunning API
+      if (typeof destroyAllCharts === "function") {
+        destroyAllCharts();
+      }
+
+      // Clear all report tables before rerunning API
+      if (typeof clearAllReportTables === "function") {
+        clearAllReportTables();
+      }
+
       // Fetch peer data with improved error handling
       let recordsPeer;
       try {

@@ -56,9 +56,106 @@ const createChartFromParsedData = (
   }
 };
 
+/**
+ * Destroy an existing chart instance if it exists
+ * @param {string} chartId - The chart ID to destroy
+ */
+const destroyChartIfExists = (chartId) => {
+  const chartIds = [
+    "givingUnits_chart",
+    "givingUnitsToStaff_chart",
+    "contributionsWithoutDonorExcludingLargeGifts_chart",
+    "daysExpendableNetAssets_chart",
+    "daysOperatingCash_chart",
+    "cashFlowsFromOperatingActivities_chart",
+    "liquidityRatio_chart",
+    "netCashAvailability_chart",
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart",
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart",
+    "netIncomeRatio_chart",
+    "contributionsWithoutDonorPerGivingUnit_chart",
+    "totalContributionsPerGivingUnit_chart",
+    "benefitsToSalaries_chart",
+    "salariesBenefitsIncludingOutsourcedEmployees_chart",
+    "personnelToCashExpenditure_chart",
+    "cashExpendituresPerGivingUnit_chart",
+  ];
+
+  if (chartIds.includes(chartId)) {
+    // Get the chart instance from window object
+    const chartInstance = window[chartId];
+    if (chartInstance && typeof chartInstance.destroy === "function") {
+      try {
+        chartInstance.destroy();
+      } catch (error) {
+        console.warn(`Error destroying chart ${chartId}:`, error);
+      }
+      window[chartId] = null;
+    }
+  }
+};
+
+/**
+ * Destroy all chart instances before rerunning API
+ */
+const destroyAllCharts = () => {
+  const chartIds = [
+    "givingUnits_chart",
+    "givingUnitsToStaff_chart",
+    "contributionsWithoutDonorExcludingLargeGifts_chart",
+    "daysExpendableNetAssets_chart",
+    "daysOperatingCash_chart",
+    "cashFlowsFromOperatingActivities_chart",
+    "liquidityRatio_chart",
+    "netCashAvailability_chart",
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart",
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart",
+    "netIncomeRatio_chart",
+    "contributionsWithoutDonorPerGivingUnit_chart",
+    "totalContributionsPerGivingUnit_chart",
+    "benefitsToSalaries_chart",
+    "salariesBenefitsIncludingOutsourcedEmployees_chart",
+    "personnelToCashExpenditure_chart",
+    "cashExpendituresPerGivingUnit_chart",
+  ];
+
+  chartIds.forEach((chartId) => {
+    // Destroy chart instance
+    const chartInstance = window[chartId];
+    if (chartInstance && typeof chartInstance.destroy === "function") {
+      try {
+        chartInstance.destroy();
+      } catch (error) {
+        console.warn(`Error destroying chart ${chartId}:`, error);
+      }
+      window[chartId] = null;
+    }
+
+    // Clear the DOM element
+    const chartElement = document.getElementById(chartId);
+    if (chartElement) {
+      chartElement.innerHTML = "";
+    }
+  });
+};
+
 const createChart = (chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, wa = null, allData = null) => {
   // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, wa, allData });
-  document.getElementById(chartId).innerHTML = "";
+  
+  // Destroy existing chart instance before creating a new one
+  destroyChartIfExists(chartId);
+  
+  // Clear the DOM element
+  const chartElement = document.getElementById(chartId);
+  if (chartElement) {
+    chartElement.innerHTML = "";
+  }
 
   // Create a new chart instance with all parameters
   const chartOptions = getMainChartOptions(
@@ -611,8 +708,8 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-years");
-  // If more than 5 years available, show "select recent 5", otherwise "select all"
-  selectAllSpan.innerText = sortedYears.length > 5 ? "(select recent 5)" : "(select all)";
+  // Always show "select recent 5 yrs"
+  selectAllSpan.innerText = "(select recent 5)";
   selectAllSpan.setAttribute("class", "text-lg font-semibold");
 
   selectAllLabel.appendChild(selectAllInput);
@@ -657,8 +754,8 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
         (cb) => cb.id !== "select-all-checkbox-years"
       );
 
-      // Determine target state based on number of years
-      const maxToSelect = sortedYears.length > 5 ? 5 : nonSelectAllCheckboxes.length;
+      // Always select the 5 most recent years (or all if less than 5)
+      const maxToSelect = Math.min(5, nonSelectAllCheckboxes.length);
       
       // Check if the first N checkboxes (most recent years) are all checked
       const targetCheckboxes = nonSelectAllCheckboxes.slice(0, maxToSelect);
@@ -696,8 +793,8 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
       (cb) => cb.id !== "select-all-checkbox-years"
     );
     
-    // Determine how many to select: all if <= 5 years, otherwise just 5
-    const maxToSelect = sortedYears.length > 5 ? 5 : nonSelectAllCheckboxes.length;
+    // Always select the 5 most recent years (or all if less than 5)
+    const maxToSelect = Math.min(5, nonSelectAllCheckboxes.length);
 
     nonSelectAllCheckboxes.forEach((checkbox, index) => {
       const year = parseInt(checkbox.value);
@@ -1624,3 +1721,6 @@ function showApiLoadingFunction(action, mode) {
     }
   }
 }
+
+// Make destroyAllCharts globally accessible
+window.destroyAllCharts = destroyAllCharts;
