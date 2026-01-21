@@ -469,30 +469,26 @@ class DataStore {
   // Clear all data including chunks
   clearAllStorage() {
     try {
-      const categories = [
-        "demoData",
-        "cashData",
-        "debtData",
-        "incomeData",
-        "expenseData",
-        "additionalData",
-      ];
-
-      categories.forEach((category) => {
-        // Remove regular storage
-        localStorage.removeItem(category);
-
-        // Remove chunk metadata
-        localStorage.removeItem(`${category}_chunks`);
-
-        // Remove all chunks for this category
-        for (let i = 0; i < 10; i++) {
-          // Assume max 10 chunks
-          localStorage.removeItem(`${category}_chunk_${i}`);
+      // Preserve selectedYears before clearing (like HigherEducation)
+      const preservedKeys = ["selectedYears"];
+      const savedValues = {};
+      
+      // Save values we want to keep
+      preservedKeys.forEach((key) => {
+        savedValues[key] = localStorage.getItem(key);
+      });
+      
+      // Clear all localStorage (like HigherEducation project)
+      localStorage.clear();
+      
+      // Restore preserved values
+      Object.keys(savedValues).forEach((key) => {
+        if (savedValues[key]) {
+          localStorage.setItem(key, savedValues[key]);
         }
       });
 
-      console.log("Cleared all data from localStorage");
+      console.log("Cleared all data from localStorage (preserved selectedYears)");
     } catch (error) {
       console.error("Error clearing localStorage:", error);
     }
@@ -4536,10 +4532,18 @@ class AppController {
         console.error("Unable to initialize peerRecordMapPerYear:", e);
       }
 
-      // Process selected years
+      // Process selected years FIRST - use Set as source of truth, not localStorage
       let selectedYears;
       try {
-        selectedYears = this.processSelectedYears();
+        // CRITICAL: Check Set first (user's current selections), then fallback to localStorage
+        if (typeof selectedYears_Set !== "undefined" && selectedYears_Set.size > 0) {
+          // Use Set as source of truth - this is what the user actually selected
+          selectedYears = Array.from(selectedYears_Set).sort((a, b) => a - b);
+          console.log("Using selectedYears_Set:", selectedYears);
+        } else {
+          // Fallback to processSelectedYears if Set is empty
+          selectedYears = this.processSelectedYears();
+        }
       } catch (error) {
         console.error("Error processing selected years:", error);
         if (typeof showApiLoadingFunction === "function") {
@@ -4548,7 +4552,31 @@ class AppController {
         return;
       }
 
+      if (!selectedYears || selectedYears.length === 0) {
+        console.error("No years selected");
+        if (typeof createToastWarning === "function") {
+          createToastWarning("Please select at least one year");
+        }
+        if (typeof showApiLoadingFunction === "function") {
+          showApiLoadingFunction("close");
+        }
+        return;
+      }
+
+      // Save selected years to localStorage BEFORE clearing data
+      // This ensures localStorage matches the Set (source of truth)
       this.saveSelectedYearsToLocalStorage(selectedYears);
+      
+      // Also ensure the Set is synced (in case it got out of sync)
+      if (typeof selectedYears_Set !== "undefined") {
+        selectedYears.forEach(year => selectedYears_Set.add(year));
+        // Remove any years from Set that aren't in selectedYears
+        Array.from(selectedYears_Set).forEach(year => {
+          if (!selectedYears.includes(year)) {
+            selectedYears_Set.delete(year);
+          }
+        });
+      }
 
       // Check for selected clients
       if (

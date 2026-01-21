@@ -987,17 +987,23 @@ const resetSelectedYearsFromLocalStorage = () => {
 };
 
 let selectedYears_Set = new Set();
+// Shared flag to prevent "select recent 5" checkbox from interfering with individual checkbox updates
+// Must be outside function scope so all event listeners can access the same flag
+let isSelectAllUpdating = false;
 
 const changeListenerForInputYears = (input, year) => {
+  // Normalize year to number for type consistency
+  const yearNum = typeof year === 'string' ? parseInt(year, 10) : year;
   if (input.checked) {
-    selectedYears_Set.add(year);
+    selectedYears_Set.add(yearNum);
   } else {
-    selectedYears_Set.delete(year);
+    selectedYears_Set.delete(yearNum);
   }
 
-  const selectedYearsArray = Array.from(selectedYears_Set).sort(
-    (a, b) => a - b
-  );
+  // Normalize years to numbers before storing
+  const selectedYearsArray = Array.from(selectedYears_Set)
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => a - b);
   localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 };
 
@@ -1017,11 +1023,32 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     window.yearSelectionsInitialized = true;
   }
 
-  // Initialize selectedYears_Set from local storage if data exists
-  const storedYears = getSelectedYearsFromLocalStorage();
-
-  if (Array.isArray(storedYears)) {
-    selectedYears_Set = new Set(storedYears);
+  // Initialize selectedYears_Set from local storage ONLY if Set is empty
+  // This prevents overwriting user selections when function is called multiple times
+  // The Set is the source of truth - localStorage is updated when checkboxes change
+  // CRITICAL: Normalize all years to numbers for type consistency
+  if (selectedYears_Set.size === 0) {
+    const storedYears = getSelectedYearsFromLocalStorage();
+    if (Array.isArray(storedYears) && storedYears.length > 0) {
+      // Normalize all years to numbers
+      const normalizedYears = storedYears.map(y => typeof y === 'string' ? parseInt(y, 10) : y);
+      selectedYears_Set = new Set(normalizedYears);
+      console.log("Initialized selectedYears_Set from localStorage:", Array.from(selectedYears_Set));
+    }
+  } else {
+    // If Set already has values, normalize existing Set values and sync to localStorage
+    // This ensures type consistency (all numbers) even if Set has mixed types
+    const normalizedSet = new Set();
+    selectedYears_Set.forEach(year => {
+      const normalizedYear = typeof year === 'string' ? parseInt(year, 10) : year;
+      normalizedSet.add(normalizedYear);
+    });
+    selectedYears_Set = normalizedSet;
+    
+    // Sync localStorage with the normalized Set
+    const selectedYearsArray = Array.from(selectedYears_Set).sort((a, b) => a - b);
+    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    console.log("Preserved and normalized selectedYears_Set, synced to localStorage:", selectedYearsArray);
   }
 
   // Clear existing content
@@ -1045,8 +1072,30 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   // Set to unchecked by default
   selectAllInput.checked = false;
 
-  // Sort years in descending order first (to determine button text)
-  const sortedYears = yearsArray.sort((a, b) => b - a);
+  // Set initial state based on current selectedYears_Set
+  // Check if the first 5 most recent years (or all if <= 5) are selected
+  // CRITICAL: Normalize years to numbers for Set lookup
+  const sortedYearsForCheck = [...yearsArray]
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => b - a);
+  const maxToSelect = Math.min(5, sortedYearsForCheck.length);
+  const firstNSelected = sortedYearsForCheck.slice(0, maxToSelect).every(year => selectedYears_Set.has(year));
+  const allSelected = sortedYearsForCheck.every(year => selectedYears_Set.has(year));
+  const noneSelected = sortedYearsForCheck.every(year => !selectedYears_Set.has(year));
+  
+  // Set flag to prevent triggering change event when setting initial state
+  // CRITICAL: This prevents the "select recent 5" checkbox from re-selecting all years
+  // when the dropdown is recreated during API runs
+  isSelectAllUpdating = true;
+  selectAllInput.checked = firstNSelected && allSelected;
+  selectAllInput.indeterminate = firstNSelected && !allSelected && !noneSelected;
+  isSelectAllUpdating = false;
+
+  // Sort years in descending order (most recent first)
+  // CRITICAL: Normalize all years to numbers for type consistency
+  const sortedYears = [...yearsArray]
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => b - a);
   
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-years");
@@ -1061,8 +1110,11 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 
   // Add year options
   sortedYears.forEach((year) => {
+    // CRITICAL: Normalize year to number to ensure type consistency in Set
+    // Years from API might be strings, but Set needs consistent types
+    const yearNum = typeof year === 'string' ? parseInt(year, 10) : year;
     const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", `option-${year}`);
+    newLabel.setAttribute("for", `option-${yearNum}`);
     newLabel.setAttribute(
       "class",
       "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
@@ -1070,52 +1122,106 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 
     const newInput = document.createElement("input");
     newInput.setAttribute("type", "checkbox");
-    newInput.setAttribute("id", `option-${year}`);
+    newInput.setAttribute("id", `option-${yearNum}`);
     newInput.setAttribute(
       "class",
       `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
     );
-    newInput.setAttribute("value", year);
+    newInput.setAttribute("value", yearNum);
     // Check the input only if the year is in the selectedYears_Set
-    newInput.checked = selectedYears_Set.has(year);
+    // CRITICAL: This ensures checkboxes reflect the actual Set state, not localStorage
+    // This prevents the "select recent 5" checkbox from overriding user selections
+    // Use number for Set lookup to ensure type consistency
+    newInput.checked = selectedYears_Set.has(yearNum);
 
-    newInput.addEventListener("change", (e) => {
-      const isChecked = e.target.checked;
+    // Use an IIFE to capture the year value correctly in the closure
+    ((yearValue) => {
+      newInput.addEventListener("change", (e) => {
+        // Skip if "select recent 5" is currently updating to avoid double-updating
+        if (isSelectAllUpdating) {
+          console.log(`Individual checkbox ${yearValue} change blocked by isSelectAllUpdating flag`);
+          return;
+        }
+        
+        const isChecked = e.target.checked;
+        // Use the captured yearValue from closure (already normalized to number)
+        const actualYear = yearValue;
 
-      if (isChecked) {
-        selectedYears_Set.add(year);
-      } else {
-        selectedYears_Set.delete(year);
-      }
+        console.log(`Individual checkbox ${actualYear} (type: ${typeof actualYear}) changed to:`, isChecked);
+        console.log(`Set before:`, Array.from(selectedYears_Set));
+        console.log(`Set contains ${actualYear}?`, selectedYears_Set.has(actualYear));
 
-      // Update "Select All/Recent 5" checkbox state
-      const yearCheckboxes = document.querySelectorAll(
-        "#options-list-year input[type='checkbox']"
-      );
-      const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
-        (cb) => cb.id !== "select-all-checkbox-years"
-      );
+        if (isChecked) {
+          selectedYears_Set.add(actualYear);
+          console.log(`Added ${actualYear} to Set. Set now:`, Array.from(selectedYears_Set));
+        } else {
+          // Try deleting as both number and string to handle type mismatches
+          let deleted = selectedYears_Set.delete(actualYear);
+          if (!deleted && typeof actualYear === 'number') {
+            // Try as string
+            deleted = selectedYears_Set.delete(String(actualYear));
+          } else if (!deleted && typeof actualYear === 'string') {
+            // Try as number
+            deleted = selectedYears_Set.delete(parseInt(actualYear, 10));
+          }
+          console.log(`Removed ${actualYear} from Set (deleted: ${deleted}). Set now:`, Array.from(selectedYears_Set));
+        }
 
-      // Determine target state based on number of years
-      const maxToSelect = sortedYears.length > 5 ? 5 : nonSelectAllCheckboxes.length;
-      
-      // Check if the first N checkboxes (most recent years) are all checked
-      const targetCheckboxes = nonSelectAllCheckboxes.slice(0, maxToSelect);
-      const allTargetChecked = targetCheckboxes.every((cb) => cb.checked);
-      const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
+        // Update "Select All/Recent 5" checkbox state based on actual selections
+        const yearCheckboxes = document.querySelectorAll(
+          "#options-list-year input[type='checkbox']"
+        );
+        const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
+          (cb) => cb.id !== "select-all-checkbox-years"
+        );
 
-      selectAllInput.checked = allTargetChecked;
-      selectAllInput.indeterminate = !allTargetChecked && !noneChecked;
+        // Determine target state based on number of years
+        const maxToSelect = sortedYears.length > 5 ? 5 : nonSelectAllCheckboxes.length;
+        
+        // Check if the first N checkboxes (most recent years) are all checked
+        const targetCheckboxes = nonSelectAllCheckboxes.slice(0, maxToSelect);
+        const allTargetChecked = targetCheckboxes.every((cb) => cb.checked);
+        const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
+        const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
 
-      // Save to local storage
-      const selectedYearsArray = Array.from(selectedYears_Set).sort(
-        (a, b) => a - b
-      );
-      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
-    });
+        // Only check "select recent 5" if ALL of the first 5 (or all years if <= 5) are checked
+        // Use flag to prevent triggering the selectAllInput change event
+        // CRITICAL: This prevents the "select recent 5" checkbox from deleting all years
+        // when individual checkboxes are unchecked
+        isSelectAllUpdating = true;
+        const previousCheckedState = selectAllInput.checked;
+        const previousIndeterminateState = selectAllInput.indeterminate;
+        
+        selectAllInput.checked = allTargetChecked && allChecked;
+        selectAllInput.indeterminate = allTargetChecked && !allChecked && !noneChecked;
+        
+        // Only clear flag if state actually changed (to prevent unnecessary event blocking)
+        // But keep it set long enough for any synchronous change event to see it
+        if (previousCheckedState !== selectAllInput.checked || previousIndeterminateState !== selectAllInput.indeterminate) {
+          // Change event will fire synchronously, flag is still true so it will be blocked
+          // Clear flag in next tick to allow future programmatic changes
+          setTimeout(() => {
+            isSelectAllUpdating = false;
+          }, 0);
+        } else {
+          // No state change, no event will fire, safe to clear immediately
+          isSelectAllUpdating = false;
+        }
+
+        // Save to local storage immediately (like HigherEducation)
+        // Normalize years to numbers before storing
+        const selectedYearsArray = Array.from(selectedYears_Set)
+          .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+          .sort((a, b) => a - b);
+        localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+        
+        // Debug: log the Set state to verify it's updating
+        console.log("selectedYears_Set updated:", Array.from(selectedYears_Set));
+      });
+    })(yearNum); // IIFE to capture year value (normalized to number)
 
     const newSpan = document.createElement("span");
-    newSpan.innerText = year;
+    newSpan.innerText = yearNum;
 
     newLabel.appendChild(newInput);
     newLabel.appendChild(newSpan);
@@ -1124,7 +1230,17 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 
   // "Select All" (or "Select Recent 5") checkbox behavior
-  selectAllInput.addEventListener("change", function () {
+  selectAllInput.addEventListener("change", function (e) {
+    // Prevent this from running if we're programmatically setting the checkbox state
+    // CRITICAL: This prevents the "select recent 5" checkbox from interfering when
+    // individual checkboxes update its state
+    if (isSelectAllUpdating) {
+      console.log("selectRecent5 change event blocked by isSelectAllUpdating flag");
+      return;
+    }
+    
+    console.log("selectRecent5 change event fired, isChecked:", selectAllInput.checked);
+    
     const isChecked = selectAllInput.checked;
     const yearCheckboxes = document.querySelectorAll(
       "#options-list-year input[type='checkbox']"
@@ -1138,30 +1254,41 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     // Determine how many to select: all if <= 5 years, otherwise just 5
     const maxToSelect = sortedYears.length > 5 ? 5 : nonSelectAllCheckboxes.length;
 
+    // Set flag to prevent individual checkbox change events from interfering
+    isSelectAllUpdating = true;
+
+    // Update Set and checkboxes
     nonSelectAllCheckboxes.forEach((checkbox, index) => {
       const year = parseInt(checkbox.value);
       
       if (isChecked) {
         // If checking: select first 5 (most recent) or all if <= 5 years
         if (index < maxToSelect) {
-          checkbox.checked = true;
           selectedYears_Set.add(year);
+          checkbox.checked = true;
         } else {
-          checkbox.checked = false;
           selectedYears_Set.delete(year);
+          checkbox.checked = false;
         }
       } else {
         // If unchecking: uncheck all
-        checkbox.checked = false;
         selectedYears_Set.delete(year);
+        checkbox.checked = false;
       }
     });
 
+    // Clear flag
+    isSelectAllUpdating = false;
+
     // Save to local storage
-    const selectedYearsArray = Array.from(selectedYears_Set).sort(
-      (a, b) => a - b
-    );
+    // Normalize years to numbers before storing
+    const selectedYearsArray = Array.from(selectedYears_Set)
+      .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+      .sort((a, b) => a - b);
     localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    
+    // Debug: log the Set state to verify it's updating
+    console.log("selectRecent5 - selectedYears_Set updated:", Array.from(selectedYears_Set));
   });
 };
 

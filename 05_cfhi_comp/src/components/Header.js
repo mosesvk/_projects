@@ -19,9 +19,9 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   const optionsListElement = document.getElementById(optionsListId);
 
   if (!selectElement || !optionsListElement) {
-    console.warn(
-      `Dropdown elements not found: ${selectElementId}, ${optionsListId}`
-    );
+    // console.warn(
+    //   `Dropdown elements not found: ${selectElementId}, ${optionsListId}`
+    // );
     return;
   }
 

@@ -1,5 +1,5 @@
 
-// console.log('utility.js----')
+console.log('utility.js----')
 
 // Initialize global variables for client filtering and data management
 window.yearsData_Array = window.yearsData_Array || [];
@@ -221,7 +221,7 @@ const createChartFromParsedData = (
   wa = null
 ) => {
   if (parsedData) {
-    // console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName, wa });
+    console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName, wa });
 
     createChart(
       chart,
@@ -513,7 +513,7 @@ const getAverageOfArray = (array, name, num = 1) => {
 };
 
 const getMidpointOfArray = (array, mainName) => {
-  // console.log({ mainName, array });
+  console.log({ mainName, array });
   const filteredArray = array
     .filter((value) => Number(value) !== 0)
     .map((value) => Number(value));
@@ -526,7 +526,7 @@ const getMidpointOfArray = (array, mainName) => {
   filteredArray.sort((a, b) => a - b); // Sort the array
 
   // if (mainName == "cfi_netIncomeOperationsRatio")
-  //   console.log("getMidpointOfArray", { filteredArray, mainName });
+  console.log("getMidpointOfArray", { filteredArray, mainName });
 
   const midpoint = Math.floor(filteredArray.length / 2); // Calculate the midpoint index
 
@@ -551,7 +551,7 @@ const get25thPercentileOfArray = (array, mainName) => {
   //   console.log("get25thPercentileOfArray", { filteredArray, mainName });
 
   const sortedArray = filteredArray.sort((a, b) => a - b);
-  // console.log(sortedArray);
+  console.log(sortedArray);
 
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
@@ -617,7 +617,7 @@ const get75thPercentileOfArray = (array, mainName) => {
 };
 
 const getSumOfArray = (array) => {
-  // console.log('getSumOfArray', array);
+  console.log('getSumOfArray', array);
   
   if (array === null || array === undefined) return 0;
   const filteredArray = array.filter((value) => Number(value) !== 0);
@@ -640,7 +640,7 @@ const formatCurrency = (value, fixedNum = 0) => {
 
 const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
-  // console.log({'getSelectedYearsFrmLS': storedSelectedYears});
+  console.log({'getSelectedYearsFrmLS': storedSelectedYears});
 
   const storedData = localStorage.getItem("demo");
   if (!storedSelectedYears && storedData) {

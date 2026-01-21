@@ -181,6 +181,9 @@ const contributionsWithoutDonorPerGivingUnit_standard = (data, name, year) => {
   const s39 = data.contributionWithoutDonor && data.contributionWithoutDonor[name] && data.contributionWithoutDonor[name][yearKey]
     ? getSumOfArray(data.contributionWithoutDonor[name][yearKey])
     : 0;
+  const s152 = data.largeOneTimeGiftWithoutDonor && data.largeOneTimeGiftWithoutDonor[name] && data.largeOneTimeGiftWithoutDonor[name][yearKey]
+    ? getSumOfArray(data.largeOneTimeGiftWithoutDonor[name][yearKey])
+    : 0;
   const s02 = data.givingUnits && data.givingUnits[name] && data.givingUnits[name][yearKey]
     ? getSumOfArray(data.givingUnits[name][yearKey])
     : 0;
@@ -189,7 +192,12 @@ const contributionsWithoutDonorPerGivingUnit_standard = (data, name, year) => {
     return 0;
   }
 
-  return 2 * (s39 / s02);
+  console.log('contributionsWithoutDonorPerGivingUnit_standard values:', { s39, s152, s02, name, yearKey });
+  console.log('data.contributionWithoutDonor[name]:', data.contributionWithoutDonor && data.contributionWithoutDonor[name]);
+  console.log('data.largeOneTimeGiftWithoutDonor[name]:', data.largeOneTimeGiftWithoutDonor && data.largeOneTimeGiftWithoutDonor[name]);
+  console.log('data.givingUnits[name]:', data.givingUnits && data.givingUnits[name]);
+
+  return 2 * ((s39 - s152) / s02);
 }
 
 

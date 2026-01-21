@@ -49,7 +49,7 @@ const createChartFromParsedData = (
   wa = null,
   allData = null
 ) => {
-  //console.log('parsedData', parsedData);
+  // console.log('parsedData', parsedData);
   if (parsedData) {
     createChart(chart, parsedData[peer], parsedData[client], type, fixedNum, mainName, benchmark, title, wa, allData || parsedData);
     updateModal(mainName, parsedData[peer], parsedData[client]);
@@ -91,7 +91,7 @@ const destroyChartIfExists = (chartId) => {
       try {
         chartInstance.destroy();
       } catch (error) {
-        console.warn(`Error destroying chart ${chartId}:`, error);
+        // console.warn(`Error destroying chart ${chartId}:`, error);
       }
       window[chartId] = null;
     }
@@ -132,7 +132,7 @@ const destroyAllCharts = () => {
       try {
         chartInstance.destroy();
       } catch (error) {
-        console.warn(`Error destroying chart ${chartId}:`, error);
+        // console.warn(`Error destroying chart ${chartId}:`, error);
       }
       window[chartId] = null;
     }
@@ -173,7 +173,7 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum, mainName, be
 
   // Check if chartOptions is null (invalid data)
   if (!chartOptions) {
-    console.warn(`Cannot create chart ${chartId} - invalid chart options`);
+    // console.warn(`Cannot create chart ${chartId} - invalid chart options`);
     return;
   }
 
@@ -634,7 +634,7 @@ const getSelectedYearsFromLocalStorage = () => {
   const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
   const storedData = localStorage.getItem("general");
   if (!storedSelectedYears && storedData) {
-    console.error("Need to Select Year");
+    // console.error("Need to Select Year");
   }
 
   return storedSelectedYears;
@@ -645,17 +645,23 @@ const resetSelectedYearsFromLocalStorage = () => {
 };
 
 let selectedYears_Set = new Set();
+// Shared flag to prevent "select recent 5" checkbox from interfering with individual checkbox updates
+// Must be outside function scope so all event listeners can access the same flag
+let isSelectAllUpdating = false;
 
 const changeListenerForInputYears = (input, year) => {
+  // Normalize year to number for type consistency
+  const yearNum = typeof year === 'string' ? parseInt(year, 10) : year;
   if (input.checked) {
-    selectedYears_Set.add(year);
+    selectedYears_Set.add(yearNum);
   } else {
-    selectedYears_Set.delete(year);
+    selectedYears_Set.delete(yearNum);
   }
 
-  const selectedYearsArray = Array.from(selectedYears_Set).sort(
-    (a, b) => a - b
-  );
+  // Normalize years to numbers before storing
+  const selectedYearsArray = Array.from(selectedYears_Set)
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => a - b);
   localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
 };
 
@@ -664,9 +670,12 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   const optionsListElement = document.getElementById("options-list-year");
 
   if (!optionsListElement) {
-    console.error("Options list element not found for years dropdown");
+    // console.error("Options list element not found for years dropdown");
     return;
   }
+  
+  // Use the shared flag (declared outside function scope)
+  // This ensures all event listeners (even from previous calls) can see the same flag
 
   // Clear the selected years on page load
   if (!window.yearSelectionsInitialized) {
@@ -675,11 +684,32 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     window.yearSelectionsInitialized = true;
   }
 
-  // Initialize selectedYears_Set from local storage if data exists
-  const storedYears = getSelectedYearsFromLocalStorage();
-
-  if (Array.isArray(storedYears)) {
-    selectedYears_Set = new Set(storedYears);
+  // Initialize selectedYears_Set from local storage ONLY if Set is empty
+  // This prevents overwriting user selections when function is called multiple times
+  // The Set is the source of truth - localStorage is updated when checkboxes change
+  // CRITICAL: Normalize all years to numbers for type consistency
+  if (selectedYears_Set.size === 0) {
+    const storedYears = getSelectedYearsFromLocalStorage();
+    if (Array.isArray(storedYears) && storedYears.length > 0) {
+      // Normalize all years to numbers
+      const normalizedYears = storedYears.map(y => typeof y === 'string' ? parseInt(y, 10) : y);
+      selectedYears_Set = new Set(normalizedYears);
+      // console.log("Initialized selectedYears_Set from localStorage:", Array.from(selectedYears_Set));
+    }
+  } else {
+    // If Set already has values, normalize existing Set values and sync to localStorage
+    // This ensures type consistency (all numbers) even if Set has mixed types
+    const normalizedSet = new Set();
+    selectedYears_Set.forEach(year => {
+      const normalizedYear = typeof year === 'string' ? parseInt(year, 10) : year;
+      normalizedSet.add(normalizedYear);
+    });
+    selectedYears_Set = normalizedSet;
+    
+    // Sync localStorage with the normalized Set
+    const selectedYearsArray = Array.from(selectedYears_Set).sort((a, b) => a - b);
+    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    // console.log("Preserved and normalized selectedYears_Set, synced to localStorage:", selectedYearsArray);
   }
 
   // Clear existing content
@@ -700,11 +730,31 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     "class",
     "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
   );
-  // Set to unchecked by default
-  selectAllInput.checked = false;
+  
+  // Set initial state based on current selectedYears_Set
+  // Check if the first 5 most recent years (or all if <= 5) are selected
+  // CRITICAL: Normalize years to numbers for Set lookup
+  const sortedYearsForCheck = [...yearsArray]
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => b - a);
+  const maxToSelect = Math.min(5, sortedYearsForCheck.length);
+  const firstNSelected = sortedYearsForCheck.slice(0, maxToSelect).every(year => selectedYears_Set.has(year));
+  const allSelected = sortedYearsForCheck.every(year => selectedYears_Set.has(year));
+  const noneSelected = sortedYearsForCheck.every(year => !selectedYears_Set.has(year));
+  
+  // Set flag to prevent triggering change event when setting initial state
+  // CRITICAL: This prevents the "select recent 5" checkbox from re-selecting all years
+  // when the dropdown is recreated during API runs
+  isSelectAllUpdating = true;
+  selectAllInput.checked = firstNSelected && allSelected;
+  selectAllInput.indeterminate = firstNSelected && !allSelected && !noneSelected;
+  isSelectAllUpdating = false;
 
-  // Sort years in descending order first (to determine button text)
-  const sortedYears = yearsArray.sort((a, b) => b - a);
+  // Sort years in descending order (most recent first)
+  // CRITICAL: Normalize all years to numbers for type consistency
+  const sortedYears = [...yearsArray]
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => b - a);
   
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-years");
@@ -718,9 +768,14 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   optionsListElement.appendChild(selectAllLabel);
 
   // Add year options
+  // Note: sortedYears is already sorted in descending order (most recent first)
   sortedYears.forEach((year) => {
+    // CRITICAL: Normalize year to number to ensure type consistency in Set
+    // Years from API might be strings, but Set needs consistent types
+    const yearNum = typeof year === 'string' ? parseInt(year, 10) : year;
+    
     const newLabel = document.createElement("label");
-    newLabel.setAttribute("for", `option-${year}`);
+    newLabel.setAttribute("for", `option-${yearNum}`);
     newLabel.setAttribute(
       "class",
       "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
@@ -728,25 +783,57 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 
     const newInput = document.createElement("input");
     newInput.setAttribute("type", "checkbox");
-    newInput.setAttribute("id", `option-${year}`);
+    newInput.setAttribute("id", `option-${yearNum}`);
     newInput.setAttribute(
       "class",
       `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
     );
-    newInput.setAttribute("value", year);
+    newInput.setAttribute("value", yearNum);
     // Check the input only if the year is in the selectedYears_Set
-    newInput.checked = selectedYears_Set.has(year);
+    // CRITICAL: This ensures checkboxes reflect the actual Set state, not localStorage
+    // This prevents the "select recent 5" checkbox from overriding user selections
+    // Use number for Set lookup to ensure type consistency
+    newInput.checked = selectedYears_Set.has(yearNum);
 
-    newInput.addEventListener("change", (e) => {
-      const isChecked = e.target.checked;
+    // Use an IIFE to capture the year value correctly in the closure
+    ((yearValue) => {
+      newInput.addEventListener("change", (e) => {
+        // Skip if "select recent 5" is currently updating to avoid double-updating
+        if (isSelectAllUpdating) {
+          // console.log(`Individual checkbox ${yearValue} change blocked by isSelectAllUpdating flag`);
+          return;
+        }
+        
+        const isChecked = e.target.checked;
+        // Use the captured yearValue from closure (already normalized to number)
+        const actualYear = yearValue;
 
-      if (isChecked) {
-        selectedYears_Set.add(year);
-      } else {
-        selectedYears_Set.delete(year);
-      }
+        // console.log(`Individual checkbox ${actualYear} (type: ${typeof actualYear}) changed to:`, isChecked);
+        // console.log(`Set before:`, Array.from(selectedYears_Set));
+        // console.log(`Set contains ${actualYear}?`, selectedYears_Set.has(actualYear));
+        // Check if Set has the year as a different type
+        const asString = String(actualYear);
+        const asNumber = Number(actualYear);
+        // console.log(`Set contains "${asString}" (string)?`, selectedYears_Set.has(asString));
+        // console.log(`Set contains ${asNumber} (number)?`, selectedYears_Set.has(asNumber));
 
-      // Update "Select All/Recent 5" checkbox state
+        if (isChecked) {
+          selectedYears_Set.add(actualYear);
+          // console.log(`Added ${actualYear} to Set. Set now:`, Array.from(selectedYears_Set));
+        } else {
+          // Try deleting as both number and string to handle type mismatches
+          let deleted = selectedYears_Set.delete(actualYear);
+          if (!deleted && typeof actualYear === 'number') {
+            // Try as string
+            deleted = selectedYears_Set.delete(String(actualYear));
+          } else if (!deleted && typeof actualYear === 'string') {
+            // Try as number
+            deleted = selectedYears_Set.delete(parseInt(actualYear, 10));
+          }
+          // console.log(`Removed ${actualYear} from Set (deleted: ${deleted}). Set now:`, Array.from(selectedYears_Set));
+        }
+
+      // Update "Select All/Recent 5" checkbox state based on actual selections
       const yearCheckboxes = document.querySelectorAll(
         "#options-list-year input[type='checkbox']"
       );
@@ -760,20 +847,47 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
       // Check if the first N checkboxes (most recent years) are all checked
       const targetCheckboxes = nonSelectAllCheckboxes.slice(0, maxToSelect);
       const allTargetChecked = targetCheckboxes.every((cb) => cb.checked);
+      const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
       const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
 
-      selectAllInput.checked = allTargetChecked;
-      selectAllInput.indeterminate = !allTargetChecked && !noneChecked;
+        // Only check "select recent 5" if ALL of the first 5 (or all years if <= 5) are checked
+        // Use flag to prevent triggering the selectAllInput change event
+        // CRITICAL: This prevents the "select recent 5" checkbox from deleting all years
+        // when individual checkboxes are unchecked
+        isSelectAllUpdating = true;
+        const previousCheckedState = selectAllInput.checked;
+        const previousIndeterminateState = selectAllInput.indeterminate;
+        
+        selectAllInput.checked = allTargetChecked && allChecked;
+        selectAllInput.indeterminate = allTargetChecked && !allChecked && !noneChecked;
+        
+        // Only clear flag if state actually changed (to prevent unnecessary event blocking)
+        // But keep it set long enough for any synchronous change event to see it
+        if (previousCheckedState !== selectAllInput.checked || previousIndeterminateState !== selectAllInput.indeterminate) {
+          // Change event will fire synchronously, flag is still true so it will be blocked
+          // Clear flag in next tick to allow future programmatic changes
+          setTimeout(() => {
+            isSelectAllUpdating = false;
+          }, 0);
+        } else {
+          // No state change, no event will fire, safe to clear immediately
+          isSelectAllUpdating = false;
+        }
 
-      // Save to local storage
-      const selectedYearsArray = Array.from(selectedYears_Set).sort(
-        (a, b) => a - b
-      );
-      localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
-    });
+        // Save to local storage immediately (like HigherEducation)
+        // Normalize years to numbers before storing
+        const selectedYearsArray = Array.from(selectedYears_Set)
+          .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+          .sort((a, b) => a - b);
+        localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+        
+        // Debug: log the Set state to verify it's updating
+        // console.log("selectedYears_Set updated:", Array.from(selectedYears_Set));
+      });
+    })(yearNum); // IIFE to capture year value (normalized to number)
 
     const newSpan = document.createElement("span");
-    newSpan.innerText = year;
+    newSpan.innerText = yearNum;
 
     newLabel.appendChild(newInput);
     newLabel.appendChild(newSpan);
@@ -782,7 +896,17 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   });
 
   // "Select All" (or "Select Recent 5") checkbox behavior
-  selectAllInput.addEventListener("change", function () {
+  selectAllInput.addEventListener("change", function (e) {
+    // Prevent this from running if we're programmatically setting the checkbox state
+    // CRITICAL: This prevents the "select recent 5" checkbox from interfering when
+    // individual checkboxes update its state
+    if (isSelectAllUpdating) {
+      // console.log("selectRecent5 change event blocked by isSelectAllUpdating flag");
+      return;
+    }
+    
+    // console.log("selectRecent5 change event fired, isChecked:", selectAllInput.checked);
+    
     const isChecked = selectAllInput.checked;
     const yearCheckboxes = document.querySelectorAll(
       "#options-list-year input[type='checkbox']"
@@ -796,30 +920,41 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     // Always select the 5 most recent years (or all if less than 5)
     const maxToSelect = Math.min(5, nonSelectAllCheckboxes.length);
 
+    // Set flag to prevent individual checkbox change events from interfering
+    isSelectAllUpdating = true;
+
+    // Update Set and checkboxes
     nonSelectAllCheckboxes.forEach((checkbox, index) => {
       const year = parseInt(checkbox.value);
       
       if (isChecked) {
         // If checking: select first 5 (most recent) or all if <= 5 years
         if (index < maxToSelect) {
-          checkbox.checked = true;
           selectedYears_Set.add(year);
+          checkbox.checked = true;
         } else {
-          checkbox.checked = false;
           selectedYears_Set.delete(year);
+          checkbox.checked = false;
         }
       } else {
         // If unchecking: uncheck all
-        checkbox.checked = false;
         selectedYears_Set.delete(year);
+        checkbox.checked = false;
       }
     });
 
+    // Clear flag
+    isSelectAllUpdating = false;
+
     // Save to local storage
-    const selectedYearsArray = Array.from(selectedYears_Set).sort(
-      (a, b) => a - b
-    );
+    // Normalize years to numbers before storing
+    const selectedYearsArray = Array.from(selectedYears_Set)
+      .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+      .sort((a, b) => a - b);
     localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    
+    // Debug: log the Set state to verify it's updating
+    // console.log("selectRecent5 - selectedYears_Set updated:", Array.from(selectedYears_Set));
   });
 };
 
@@ -859,7 +994,7 @@ const getPeerAndClientChartDataArrays = (
       } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
         clientValue = dataClient[year];
       } else {
-        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        // console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
         clientValue = null;
       }
 
@@ -917,7 +1052,7 @@ const getPeerAndClientChartDataArrays = (
       } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
         clientValue = dataClient[year];
       } else {
-        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        // console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
         clientValue = null;
       }
 
@@ -953,7 +1088,7 @@ const getPeerAndClientChartDataArrays = (
       } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
         clientValue = dataClient[year];
       } else {
-        console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        // console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
         clientValue = null;
       }
 
@@ -971,6 +1106,13 @@ const getPeerAndClientChartDataArrays = (
       } else {
         clientArray.push(null);
       }
+    } else if (dataClient == undefined || dataPeer == undefined) {
+      throw new Error(
+        `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
+      createToastWarning(
+        `check Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
     } else {
       // Handle missing data gracefully - push null values instead of throwing
       peerAvg.push(null);
@@ -1059,6 +1201,21 @@ const updateCountyData = (trId, countyName, percentage, income, year) => {
   // Create the <tr> element if it doesn't exist
   let trElement = document.getElementById(`row_${trId}`);
 
+  // Format values
+  const formattedIncome = new Intl.NumberFormat().format(income);
+  const formattedPercentage = Math.round(percentage);
+
+  // Check if elements already exist for this year
+  const percentagePElement = document.getElementById(`percentage_${trId}_${year}`);
+  const incomePElement = document.getElementById(`income_${trId}_${year}`);
+
+  if (percentagePElement && incomePElement) {
+    // Elements already exist, just update their content
+    percentagePElement.textContent = `${formattedPercentage}%`;
+    incomePElement.textContent = `$${formattedIncome}`;
+    return;
+  }
+
   // Create the second <th> element and its children
   const secondThElement = document.createElement("th");
   secondThElement.scope = "row";
@@ -1071,31 +1228,18 @@ const updateCountyData = (trId, countyName, percentage, income, year) => {
   secondThElement.appendChild(spanElementSecond);
 
   // Create the <p> elements inside the second <th>
-  const percentagePElement = document.createElement("p");
-  percentagePElement.id = `percentage_${trId}_${year}`;
-  percentagePElement.className = "mb-2";
-  percentagePElement.textContent = "adfas";
-  secondThElement.appendChild(percentagePElement);
+  const newPercentagePElement = document.createElement("p");
+  newPercentagePElement.id = `percentage_${trId}_${year}`;
+  newPercentagePElement.className = "mb-2";
+  newPercentagePElement.textContent = `${formattedPercentage}%`;
+  secondThElement.appendChild(newPercentagePElement);
 
-  const incomePElement = document.createElement("p");
-  incomePElement.id = `income_${trId}_${year}`;
-  incomePElement.textContent = "fadf";
-  secondThElement.appendChild(incomePElement);
+  const newIncomePElement = document.createElement("p");
+  newIncomePElement.id = `income_${trId}_${year}`;
+  newIncomePElement.textContent = `$${formattedIncome}`;
+  secondThElement.appendChild(newIncomePElement);
 
   trElement.appendChild(secondThElement);
-
-  // Format values
-  const formattedIncome = new Intl.NumberFormat().format(income);
-  const formattedPercentage = Math.round(percentage);
-
-  // Update the content of the selected elements
-
-  document.getElementById(
-    `percentage_${trId}_${year}`
-  ).textContent = `${formattedPercentage}%`;
-  document.getElementById(
-    `income_${trId}_${year}`
-  ).textContent = `$${formattedIncome}`;
 };
 
 const checkForCountyDataIncomeTable = (
@@ -1110,6 +1254,21 @@ const checkForCountyDataIncomeTable = (
 
   const data = JSON.parse(localStorage.getItem("incomeData"));
   // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
+
+  // Clear ALL year columns to start fresh (similar to addToSingleRow)
+  const trElement = document.getElementById(`row_${trId}`);
+  if (trElement) {
+    // Find the label column (first <th> with id th_${trId})
+    const labelTh = trElement.querySelector(`#th_${trId}`);
+    
+    // Remove all <th> elements except the label column
+    const allThElements = Array.from(trElement.querySelectorAll('th'));
+    allThElements.forEach((th) => {
+      if (th !== labelTh) {
+        th.remove();
+      }
+    });
+  }
 
   // Create the first <th> element and its children if it doesn't exist
   let thElement = document.getElementById(`th_${trId}`);
@@ -1153,15 +1312,15 @@ const checkForCountyDataIncomeTable = (
   selectedYearsArray.forEach((year) => {
     let countyNameVal;
 
-    // Iterate over the years
-    for (const year of Object.keys(data[countyName])) {
-      // Check if the value is not empty
-      if (data[countyName][year].value !== "") {
-        // Store the value and break the loop
-        countyNameVal = data[countyName][year].value;
-        break;
+      // Iterate over the years in data to find first non-empty county name
+      for (const year of Object.keys(data[countyName])) {
+        // Check if the value is not empty
+        if (data[countyName][year].value !== "") {
+          // Store the value and break the loop
+          countyNameVal = data[countyName][year].value;
+          break;
+        }
       }
-    }
     // console.log(countyNameVal, trId);
 
     // If countyNameVal is still undefined, all values were empty
@@ -1186,7 +1345,7 @@ const checkForCountyDataIncomeTable = (
     const benchmarkArray = getBenchmarks(data[percentData]);
     const row = document.getElementById(`row_${trId}`);
 
-    console.log(row, benchmarkArray, trId);
+    // console.log(row, benchmarkArray, trId);
 
     getBackgroundColor(benchmarkArray, row);
   }
@@ -1206,10 +1365,10 @@ function changeThWidth(elementId) {
       // Change the width of the <th> to 50rem
       thElement.style.width = "50rem";
     } else {
-      console.error("No <th> element found inside the specified <tr>.");
+      // console.error("No <th> element found inside the specified <tr>.");
     }
   } else {
-    console.error("Element with ID " + elementId + " not found.");
+    // console.error("Element with ID " + elementId + " not found.");
   }
 }
 
@@ -1392,7 +1551,7 @@ const getBackgroundColor = (array, row, i = 1) => {
 const addClickEventToBenchmark = (elementId, fieldName, dataCategory) => {
   const element = document.getElementById(elementId);
   if (!element) {
-    console.warn(`Element not found: ${elementId}`);
+    // console.warn(`Element not found: ${elementId}`);
     return;
   }
   
@@ -1512,7 +1671,7 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
     // Try to get from localStorage (API data)
     const data = localStorage.getItem(dataCategory);
     if (!data) {
-      console.warn(`No data found for category: ${dataCategory}`);
+      // console.warn(`No data found for category: ${dataCategory}`);
       return null;
     }
 
@@ -1520,14 +1679,14 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
     const benchmarkData = parsedData[benchmarkTextOrFieldName];
     
     if (!benchmarkData) {
-      console.warn(`No benchmark data found for field: ${benchmarkTextOrFieldName}`);
+      // console.warn(`No benchmark data found for field: ${benchmarkTextOrFieldName}`);
       return null;
     }
 
     // Get selected years to access benchmark paragraph
     const selectedYears = getSelectedYearsFromLocalStorage();
     if (!selectedYears || selectedYears.length === 0) {
-      console.warn('No selected years found');
+      // console.warn('No selected years found');
       return null;
     }
 
@@ -1547,13 +1706,13 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
   // Get selected years for click handlers
   const selectedYears = getSelectedYearsFromLocalStorage();
   if (!selectedYears || selectedYears.length === 0) {
-    console.warn('No selected years found');
+    // console.warn('No selected years found');
     return null;
   }
 
   // Ensure fixUnicodeCharacters is available (defined in DisplayCharts.js)
   if (typeof fixUnicodeCharacters !== 'function') {
-    console.warn('fixUnicodeCharacters function not found, skipping Unicode processing');
+    // console.warn('fixUnicodeCharacters function not found, skipping Unicode processing');
   }
   
   // Generate title from field name
@@ -1602,7 +1761,7 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
       // console.warn(`_body-3 element not found for selector: ${body3Selector}`);
     }
   } catch (error) {
-    console.error(`Error populating _body-3 section for ${elementId}:`, error);
+    // console.error(`Error populating _body-3 section for ${elementId}:`, error);
   }
 
   // Set up click handlers for year columns
@@ -1619,7 +1778,7 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
 
 const editElementChildren = (element, variable, elementId) => {
   // console.log({ element, variable });
-  if (!element) console.log(elementId);
+  if (!element) // console.log(elementId);
 
   // console.log(element.firstChild);
 
@@ -1639,7 +1798,7 @@ const editElementChildren = (element, variable, elementId) => {
  */
 const createWhatDoesThisMean = (whatDoesThisMeanArray, elementId) => {
   if (!Array.isArray(whatDoesThisMeanArray) || whatDoesThisMeanArray.length === 0) {
-    console.warn(`Invalid whatDoesThisMeanArray for ${elementId}`);
+    // console.warn(`Invalid whatDoesThisMeanArray for ${elementId}`);
     return;
   }
 
@@ -1672,10 +1831,10 @@ const createWhatDoesThisMean = (whatDoesThisMeanArray, elementId) => {
       innerDiv.classList.remove('bg-gray-50');
       innerDiv.innerHTML = htmlContent;
     } else {
-      console.warn(`_body-2 element not found for selector: ${body2Selector}`);
+      // console.warn(`_body-2 element not found for selector: ${body2Selector}`);
     }
   } catch (error) {
-    console.error(`Error populating _body-2 section for ${elementId}:`, error);
+    // console.error(`Error populating _body-2 section for ${elementId}:`, error);
   }
 };
 

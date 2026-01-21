@@ -1,50 +1,3 @@
-/**
- * Clear all report tables before rerunning API
- * This preserves benchmark columns (Avg, 25th, 50th, 75th) like clearTableColumns does
- */
-const clearAllReportTables = () => {
-  // Get all report table headers
-  const tableHeaders = document.querySelectorAll('[id$="_tableHeader"]');
-  const columnsToPreserve = ["Avg", "25th", "50th", "75th"];
-  
-  tableHeaders.forEach((header) => {
-    // First, identify which column indices to preserve by checking the header row
-    const preserveIndices = [];
-    Array.from(header.children).forEach((th, index) => {
-      const columnName = th.textContent.trim();
-      if (index === 0 || columnsToPreserve.includes(columnName)) {
-        preserveIndices.push(index);
-      }
-    });
-    
-    // Clear year columns but preserve benchmark columns
-    // Work backwards to avoid index shifting issues
-    for (let i = header.children.length - 1; i >= 1; i--) {
-      const th = header.children[i];
-      const columnName = th.textContent.trim();
-      if (!columnsToPreserve.includes(columnName)) {
-        th.remove();
-      }
-    }
-    
-    // Get all rows in the same table as this header
-    const tableBody = header.closest("table")?.querySelector("tbody");
-    if (tableBody) {
-      const rows = tableBody.querySelectorAll("tr");
-      
-      rows.forEach((row) => {
-        // Clear year columns but preserve benchmark columns by index
-        // Work backwards to avoid index shifting issues
-        for (let i = row.children.length - 1; i >= 1; i--) {
-          if (!preserveIndices.includes(i)) {
-            row.children[i].remove();
-          }
-        }
-      });
-    }
-  });
-};
-
 const displayReportComponent = () => {
   const generalData = JSON.parse(localStorage.getItem("generalData"));
   const cashData = JSON.parse(localStorage.getItem("cashData"));
@@ -52,9 +5,21 @@ const displayReportComponent = () => {
   const incomeData = JSON.parse(localStorage.getItem("incomeData"));
   const expenseData = JSON.parse(localStorage.getItem("expenseData"));
 
-  const selectedYears = getSelectedYearsFromLocalStorage();
+  // Get selected years - ensure we get the most up-to-date version
+  let selectedYears = getSelectedYearsFromLocalStorage();
+  
+  // Validate and ensure selectedYears is an array
+  if (!Array.isArray(selectedYears)) {
+    // console.warn("selectedYears is not an array, converting:", selectedYears);
+    selectedYears = [];
+  }
+  
+  // Sort years to ensure consistent ordering
+  if (selectedYears && selectedYears.length > 0) {
+    selectedYears = selectedYears.sort((a, b) => a - b);
+  }
 
-  if (selectedYears) {
+  if (selectedYears && selectedYears.length > 0) {
     // addYearColumnsToReportTable will call clearTableColumns to clear year columns
     // while preserving benchmark columns (Avg, 25th, 50th, 75th)
     addYearColumnsToReportTable(selectedYears);
@@ -101,9 +66,6 @@ const displayReportComponent = () => {
   processTHElements();
   closeSidebarAfterSelectingOption("report");
 };
-
-// Make clearAllReportTables globally accessible
-window.clearAllReportTables = clearAllReportTables;
 
 const insertDataToReport = (data, selectedYears, arrayOfNames) => {
   if (data && selectedYears) {
@@ -244,7 +206,7 @@ const addClientDataToReportRow = (
   if (cb) {
     let clientBenchmarkArray = getBenchmarks(client);
 
-    //  console.log(clientBenchmarkArray, tableRow);
+    // console.log(clientBenchmarkArray, tableRow);
 
     getBackgroundColor(clientBenchmarkArray, tableRow);
   }
@@ -387,63 +349,96 @@ const addSingleNewColumnToReportTable = (tableHeader, yearsArray) => {
   // Find the table header row by its ID
   const tableHeaderRow = document.getElementById(tableHeader);
 
-  // Get the reference to the "avg" <th> element
-  const avgTh = tableHeaderRow.children[1];
-  // const existingColumns = Array.from(tableHeader.children).slice(1
-  // console.log(existingColumns);
+  // Find the "avg" <th> element by text content (not by index, in case clearing didn't work perfectly)
+  let avgTh = null;
+  Array.from(tableHeaderRow.children).forEach((th) => {
+    if (th.textContent.trim() === "Avg") {
+      avgTh = th;
+    }
+  });
+
+  // Fallback to children[1] if "Avg" not found (shouldn't happen, but safety check)
+  if (!avgTh && tableHeaderRow.children.length > 1) {
+    avgTh = tableHeaderRow.children[1];
+  }
+
+  // If still no avgTh found, append to end
+  if (!avgTh) {
+    // console.warn(`Could not find "Avg" column in ${tableHeader}, appending years to end`);
+    yearsArray.forEach((year) => {
+      const newTh = document.createElement("th");
+      newTh.setAttribute("scope", "col");
+      newTh.setAttribute("class", "px-6 py-3");
+      newTh.innerText = year;
+      tableHeaderRow.appendChild(newTh);
+    });
+    return;
+  }
 
   // Iterate through the selectedYearArray and add new columns
   yearsArray.forEach((year) => {
-    // Create a new <th> element for each selected year
-    const newTh = document.createElement("th");
-    newTh.setAttribute("scope", "col");
-    newTh.setAttribute("class", "px-6 py-3");
-    newTh.innerText = year;
+    // Check if this year column already exists to avoid duplicates
+    let yearExists = false;
+    Array.from(tableHeaderRow.children).forEach((th) => {
+      if (th.textContent.trim() === String(year)) {
+        yearExists = true;
+      }
+    });
 
-    // Insert the new <th> element before the "avg" <th>
-    tableHeaderRow.insertBefore(newTh, avgTh);
+    // Only add if it doesn't already exist
+    if (!yearExists) {
+      // Create a new <th> element for each selected year
+      const newTh = document.createElement("th");
+      newTh.setAttribute("scope", "col");
+      newTh.setAttribute("class", "px-6 py-3");
+      newTh.innerText = year;
+
+      // Insert the new <th> element before the "avg" <th>
+      tableHeaderRow.insertBefore(newTh, avgTh);
+    }
   });
 };
 
 const clearTableColumns = (idName) => {
   const headerRow = document.getElementById(idName);
+  if (!headerRow) {
+    // console.warn(`Header row not found: ${idName}`);
+    return;
+  }
+  
   const columnsToPreserve = ["Avg", "25th", "50th", "75th"];
 
-  // First, identify which column indices to preserve by checking the header row
-  const preserveIndices = [];
-  Array.from(headerRow.children).forEach((th, index) => {
-    const columnName = th.textContent.trim();
-    if (index === 0 || columnsToPreserve.includes(columnName)) {
-      preserveIndices.push(index);
-    }
-  });
-
+  // Create a static copy of all children to avoid live node list issues
+  const allColumns = Array.from(headerRow.children);
+  
   // Remove all existing th elements except the first one and those to be preserved
   // Work backwards to avoid index shifting issues
-  for (let i = headerRow.children.length - 1; i >= 1; i--) {
-    const th = headerRow.children[i];
+  for (let i = allColumns.length - 1; i >= 1; i--) {
+    const th = allColumns[i];
     const columnName = th.textContent.trim();
+    // Remove if it's not in the preserve list (this includes all year columns)
     if (!columnsToPreserve.includes(columnName)) {
       th.remove();
     }
   }
 
   // Clear corresponding columns from other rows in the table body
-  // Use index-based approach to match the header structure
-  clearColumnsFromOtherRowsInTable(idName, preserveIndices);
+  clearColumnsFromOtherRowsInTable(idName, columnsToPreserve);
 };
 
-const clearColumnsFromOtherRowsInTable = (idName, preserveIndices) => {
+const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
   const rows = document.querySelectorAll(`#${idName} + tbody tr`);
 
   rows.forEach((row) => {
-    // Remove all existing cells except those at preserved indices
-    // Work backwards to avoid index shifting issues
-    for (let i = row.children.length - 1; i >= 1; i--) {
-      if (!preserveIndices.includes(i)) {
-        row.children[i].remove();
-      }
-    }
+    // Remove all existing td elements except the first one and those to be preserved
+    Array.from(row.children)
+      .slice(1)
+      .forEach((td) => {
+        const columnName = td.textContent.trim();
+        if (!columnsToPreserve.includes(columnName)) {
+          td.remove();
+        }
+      });
   });
 };
 
@@ -566,7 +561,7 @@ function processBenchmarkParagraphs() {
       }
 
       if (!dataSource) {
-        console.warn(`Data source not available for field: ${fieldName}`);
+        // console.warn(`Data source not available for field: ${fieldName}`);
         return;
       }
 
@@ -592,7 +587,7 @@ function processBenchmarkParagraphs() {
       targetElement.innerHTML = benchmarkContent;
 
     } catch (error) {
-      console.error(`Error processing benchmark paragraph for ${fieldName}:`, error);
+      // console.error(`Error processing benchmark paragraph for ${fieldName}:`, error);
     }
   });
 }

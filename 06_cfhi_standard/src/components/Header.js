@@ -19,9 +19,9 @@ function setupDropdownToggle(selectElementId, optionsListId) {
   const optionsListElement = document.getElementById(optionsListId);
 
   if (!selectElement || !optionsListElement) {
-    console.warn(
-      `Dropdown elements not found: ${selectElementId}, ${optionsListId}`
-    );
+    // console.warn(
+    //    `Dropdown elements not found: ${selectElementId}, ${optionsListId}`
+    // );
     return;
   }
 
@@ -105,7 +105,7 @@ function setupDropdownToggle(selectElementId, optionsListId) {
 function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
   const optionsListRegion = document.getElementById("options-list-region");
   if (!optionsListRegion) {
-    console.error("Region options list element not found");
+    // console.error("Region options list element not found");
     return;
   }
 
@@ -252,7 +252,7 @@ const addUniqueRegionsToOptionsSelectRegion = addUniqueRegionsToOptionsSelectReg
 function addUniqueSitesToOptionsSelectSitesDropdown(siteArray) {
   const optionsListSite = document.getElementById("options-list-site");
   if (!optionsListSite) {
-    console.error("Site options list element not found");
+    // console.error("Site options list element not found");
     return;
   }
 
@@ -411,7 +411,7 @@ function clientMatchesFilters(
     clientData.givingUnitVal <= maxGivingUnits;
 
   if (selectedRegions.length === 0 || selectedSites.length === 0) {
-    console.warn("No regions or sites selected, returning false");
+    // console.warn("No regions or sites selected, returning false");
     return false;
   }
 
@@ -451,7 +451,7 @@ function executeClientDropdownFilters() {
   if (!window.clientDataStore) {
     setTimeout(() => {
       if (!window.clientDataStore) {
-        console.warn("Client data store not initialized");
+        // console.warn("Client data store not initialized");
         return;
       }
       executeClientDropdownFilters();
@@ -489,7 +489,7 @@ function executeClientDropdownFilters() {
     const clientData = window.clientDataStore[clientName];
 
     if (!clientData) {
-      console.warn(`No data found for client: ${clientName}`);
+      // console.warn(`No data found for client: ${clientName}`);
       checkbox.checked = false;
       return;
     }
@@ -581,7 +581,7 @@ function formatNumberWithCommas(number) {
 function addUniqueClientsToOptionsSelectClientDropdown(clientArray) {
   const optionsListClient = document.getElementById("options-list-client");
   if (!optionsListClient) {
-    console.error("Client options list element not found");
+    // console.error("Client options list element not found");
     return;
   }
 

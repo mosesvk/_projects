@@ -162,13 +162,24 @@ const getMainChartOptions = (
     ? "#E5E7EB"                      // Lighter axis color for dark mode
     : "#3a464f";
 
-  const selectedYearsArray = getSelectedYearsFromLocalStorage() || [];
+  // Get selected years - ensure we get the most up-to-date version
+  let selectedYearsArray = getSelectedYearsFromLocalStorage() || [];
+  
+  // Validate and ensure selectedYearsArray is an array
+  if (!Array.isArray(selectedYearsArray)) {
+    // console.warn("selectedYears is not an array, converting:", selectedYearsArray);
+    selectedYearsArray = [];
+  }
 
   // Validate that we have years selected
   if (!selectedYearsArray || selectedYearsArray.length === 0) {
-    console.warn("No years selected for chart:", mainName);
+    // console.warn("No years selected for chart:", mainName);
     return null; // Return null to prevent chart creation
   }
+  
+  // Ensure we only use the selected years (defensive check)
+  // Sort years to ensure consistent ordering
+  selectedYearsArray = selectedYearsArray.sort((a, b) => a - b);
 
   // Initialize annotation variables
   let yaxisAnnotation;

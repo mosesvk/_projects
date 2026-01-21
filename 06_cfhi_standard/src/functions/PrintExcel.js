@@ -120,7 +120,7 @@ class ExcelReportGenerator {
   handleGenerateReport() {
     // Check if this function is already running to prevent duplicate calls
     if (this.isGenerating) {
-      console.warn("Generation already in progress, ignoring duplicate call");
+      // console.warn("Generation already in progress, ignoring duplicate call");
       return;
     }
 
@@ -174,7 +174,7 @@ class ExcelReportGenerator {
           this.isGenerating = false;
         })
         .catch((error) => {
-          console.error("Report generation failed:", error);
+          // console.error("Report generation failed:", error);
 
           if (typeof createToastWarning === "function") {
             createToastWarning(
@@ -266,7 +266,7 @@ class ExcelReportGenerator {
    */
   uploadToFile(avg, mid, min, max, fIdArray, begin, end) {
     if (!fIdArray || !Array.isArray(fIdArray) || fIdArray.length < 4) {
-      console.warn("Invalid fIdArray provided to uploadToFile:", fIdArray);
+      // console.warn("Invalid fIdArray provided to uploadToFile:", fIdArray);
       return;
     }
 
@@ -301,7 +301,7 @@ class ExcelReportGenerator {
    */
   uploadSingleToFile(id, val, end = false) {
     if (id === undefined || id === null) {
-      console.warn("Invalid field ID provided to uploadSingleToFile");
+      // console.warn("Invalid field ID provided to uploadSingleToFile");
       return;
     }
 
@@ -428,7 +428,7 @@ class ExcelReportGenerator {
           fieldId.toString() === this.FIELD_IDS.SLIDER_MIN ||
           fieldId.toString() === this.FIELD_IDS.SLIDER_MAX
         ) {
-          console.error(
+          // console.error(
             `Field ID conflict detected: Year field ID ${fieldId} conflicts with slider/mission field IDs`
           );
           continue;
@@ -449,7 +449,7 @@ class ExcelReportGenerator {
       this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
 
       // Send to QuickBase with delay to ensure data is properly prepared
-      console.log("Adding delay before sending to QuickBase API...");
+      // console.log("Adding delay before sending to QuickBase API...");
 
       return new Promise((resolve) => {
         setTimeout(async () => {
@@ -457,13 +457,13 @@ class ExcelReportGenerator {
             const result = await this.printToExcel(this.xmlPayload);
             resolve(result);
           } catch (error) {
-            console.error("Error sending data to QuickBase:", error);
+            // console.error("Error sending data to QuickBase:", error);
             throw error;
           }
         }, 1500); // Add a 1.5-second delay
       });
     } catch (error) {
-      console.error("Error creating Excel report:", error);
+      // console.error("Error creating Excel report:", error);
       throw error;
     }
   }
@@ -544,7 +544,7 @@ class ExcelReportGenerator {
         }
       });
     } catch (error) {
-      console.error("Error generating metrics XML:", error);
+      // console.error("Error generating metrics XML:", error);
     }
 
     return metricsXml;
@@ -578,10 +578,10 @@ class ExcelReportGenerator {
           url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=13&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
           break;
         default:
-          console.error("Invalid year count");
+          // console.error("Invalid year count");
       }
 
-      console.log(
+      // console.log(
         `Generated URL for format ${format} and RecordId ${RecordId}: ${url}`
       );
       return url;
@@ -589,13 +589,13 @@ class ExcelReportGenerator {
     
     return new Promise((resolve, reject) => {
       // Debug: Log the XML payload to console
-      console.log("XML Payload being prepared for QuickBase:");
+      // console.log("XML Payload being prepared for QuickBase:");
 
       // Optional: Save to localStorage for inspection if needed
       try {
         localStorage.setItem("lastXmlPayload", dataString);
       } catch (e) {
-        console.warn("Could not save XML payload to localStorage:", e);
+        // console.warn("Could not save XML payload to localStorage:", e);
       }
 
       // Try to validate XML structure before sending
@@ -604,16 +604,16 @@ class ExcelReportGenerator {
         const xmlDoc = parser.parseFromString(dataString, "text/xml");
         const parseError = xmlDoc.querySelector("parsererror");
         if (parseError) {
-          console.error("XML validation failed:", parseError.textContent);
+          // console.error("XML validation failed:", parseError.textContent);
           // Continue anyway but log the error
         }
       } catch (validationError) {
-        console.error("Error validating XML:", validationError);
+        // console.error("Error validating XML:", validationError);
         // Continue anyway but log the error
       }
 
       // Add delay before sending the request to ensure data is ready
-      console.log("Adding delay before sending to QuickBase API...");
+      // console.log("Adding delay before sending to QuickBase API...");
       setTimeout(() => {
         $.ajax({
           type: "POST",
@@ -625,14 +625,14 @@ class ExcelReportGenerator {
           data: dataString,
           success: function (response) {
             try {
-              console.log("QuickBase response received:", response);
+              // console.log("QuickBase response received:", response);
 
               const xmlUpload = $(response);
               const errorCode = xmlUpload.find("qdbapi").find("errcode").text();
 
               if (errorCode === "0") {
                 const recordId = xmlUpload.find("qdbapi").find("rid").text();
-                console.log(
+                // console.log(
                   "Successfully uploaded to QuickBase, Record ID:",
                   recordId
                 );
@@ -668,7 +668,7 @@ class ExcelReportGenerator {
                 const error = new Error(
                   `QuickBase error (${errorCode}): ${errorText}`
                 );
-                console.error("QuickBase API error:", {
+                // console.error("QuickBase API error:", {
                   errorCode,
                   errorText,
                   xmlPayload: dataString,
@@ -681,7 +681,7 @@ class ExcelReportGenerator {
                 reject(error);
               }
             } catch (parseError) {
-              console.error(
+              // console.error(
                 "Error parsing QuickBase response:",
                 parseError,
                 "Response:",
@@ -705,7 +705,7 @@ class ExcelReportGenerator {
             // Extract meaningful error information
             let errorMessage = "Unknown error";
 
-            console.error("QuickBase API request failed:", {
+            // console.error("QuickBase API request failed:", {
               status,
               error,
               response: xhr.responseText,

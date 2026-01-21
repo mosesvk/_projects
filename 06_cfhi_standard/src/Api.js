@@ -19,28 +19,28 @@ class DataStore {
 
       // Estimate new data size
       const sizeInfo = this.estimateDataSize();
-      console.log(`New data size: ${sizeInfo.sizeMB}MB`);
+      // console.log(`New data size: ${sizeInfo.sizeMB}MB`);
 
       // Check if we're approaching quota limits
       if (parseFloat(quotaInfo.percentage) > 80) {
-        console.warn("Storage quota is high, clearing old data before saving");
+        // console.warn("Storage quota is high, clearing old data before saving");
         this.clearAllStorage();
       }
 
       // Only log if there's an issue
       if (parseFloat(quotaInfo.percentage) > 50) {
-        console.log(
-          `Storage usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`
-        );
+        // console.log(
+        //   `Storage usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`
+        // );
       }
 
       // Try to save all data at once first
       this.saveCompressedData();
     } catch (error) {
-      console.warn(
-        "Failed to save all data at once, trying chunked approach:",
-        error
-      );
+      // console.warn(
+      //   "Failed to save all data at once, trying chunked approach:",
+      //   error
+      // );
 
       // If bulk save fails, try chunked approach
       this.saveDataInChunks();
@@ -66,11 +66,11 @@ class DataStore {
 
     // Only log if there's an issue
     if (dataSize > maxSize) {
-      console.log(
-        `Data size: ${(dataSize / 1024 / 1024).toFixed(
-          2
-        )}MB - exceeds limit, using chunked approach`
-      );
+      // console.log(
+      //   `Data size: ${(dataSize / 1024 / 1024).toFixed(
+      //     2
+      //   )}MB - exceeds limit, using chunked approach`
+      // );
       throw new Error(
         `Data size (${(dataSize / 1024 / 1024).toFixed(
           2
@@ -85,13 +85,13 @@ class DataStore {
 
       if (categorySize > 1 * 1024 * 1024) {
         // 1MB per category limit
-        console.warn(
-          `Category ${category} is large: ${(
-            categorySize /
-            1024 /
-            1024
-          ).toFixed(2)}MB`
-        );
+        // console.warn(
+        //   `Category ${category} is large: ${(
+        //     categorySize /
+        //     1024 /
+        //     1024
+        //   ).toFixed(2)}MB`
+        // );
       }
 
       localStorage.setItem(category, categoryData);
@@ -170,7 +170,7 @@ class DataStore {
         percentage: percentage,
       };
     } catch (error) {
-      console.error("Error checking storage quota:", error);
+      // console.error("Error checking storage quota:", error);
       return { usedMB: "unknown", totalMB: 10, percentage: "unknown" };
     }
   }
@@ -275,24 +275,22 @@ class DataStore {
    * Clear all storage
    */
   clearAllStorage() {
-    const categories = [
-      "generalData",
-      "cashData",
-      "debtData",
-      "incomeData",
-      "expenseData",
-      "additionalData",
-    ];
-
-    categories.forEach((category) => {
-      localStorage.removeItem(category);
-      localStorage.removeItem(`${category}_metadata`);
-
-      // Remove any chunks
-      let i = 0;
-      while (localStorage.getItem(`${category}_chunk_${i}`)) {
-        localStorage.removeItem(`${category}_chunk_${i}`);
-        i++;
+    // Preserve selectedYears before clearing
+    const preservedKeys = ["selectedYears"];
+    const savedValues = {};
+    
+    // Save values we want to keep
+    preservedKeys.forEach((key) => {
+      savedValues[key] = localStorage.getItem(key);
+    });
+    
+    // Clear all localStorage (like HigherEducation project)
+    localStorage.clear();
+    
+    // Restore preserved values
+    Object.keys(savedValues).forEach((key) => {
+      if (savedValues[key]) {
+        localStorage.setItem(key, savedValues[key]);
       }
     });
   }
@@ -307,6 +305,9 @@ class DataStore {
     this.incomeData = {};
     this.expenseData = {};
     this.additionalData = {};
+
+    // Also clear localStorage
+    this.clearAllStorage();
   }
 
   /**
@@ -422,7 +423,7 @@ class DataStore {
     // Log first few calls for debugging
     if (!this._peerDataLogCount) this._peerDataLogCount = 0;
     if (this._peerDataLogCount < 3) {
-      console.log(`insertPeerData called: dataKey=${dataKey}, year=${year}, value=${value}, yesNoField=${yesNoField}`);
+      // console.log(`insertPeerData called: dataKey=${dataKey}, year=${year}, value=${value}, yesNoField=${yesNoField}`);
       this._peerDataLogCount++;
     }
     
@@ -481,11 +482,11 @@ class DataProcessor {
     this.processExpenseData(years, recordsPeer, recordsClient);
 
     // Log generalData structure before saving
-    console.log("📦 generalData before saving to localStorage:");
-    console.log("Keys:", Object.keys(this.dataStore.generalData || {}));
+    // console.log("📦 generalData before saving to localStorage:");
+    // console.log("Keys:", Object.keys(this.dataStore.generalData || {}));
     const firstKey = Object.keys(this.dataStore.generalData || {})[0];
     if (firstKey) {
-      console.log(`Sample (${firstKey}):`, this.dataStore.generalData[firstKey]);
+      // console.log(`Sample (${firstKey}):`, this.dataStore.generalData[firstKey]);
     }
 
     // Save to localStorage
@@ -493,8 +494,8 @@ class DataProcessor {
     
     // Verify what was saved
     const savedGeneral = JSON.parse(localStorage.getItem("generalData"));
-    console.log("💾 generalData after saving to localStorage:");
-    console.log("Keys:", Object.keys(savedGeneral || {}));
+    // console.log("💾 generalData after saving to localStorage:");
+    // console.log("Keys:", Object.keys(savedGeneral || {}));
   }
 
   /**
@@ -503,7 +504,7 @@ class DataProcessor {
   filterRecordsByYear(records, year) {
     // Handle null or undefined records
     if (!records) {
-      console.warn("Records is null or undefined");
+      // console.warn("Records is null or undefined");
       return [];
     }
 
@@ -525,11 +526,11 @@ class DataProcessor {
         }
         // If neither format works, log and skip this record
         else {
-          console.warn("Unrecognized record format:", record);
+          // console.warn("Unrecognized record format:", record);
           return false;
         }
       } catch (error) {
-        console.error("Error filtering record by year:", error, record);
+        // console.error("Error filtering record by year:", error, record);
         return false;
       }
     });
@@ -545,14 +546,14 @@ class DataProcessor {
     
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
-      console.log(`Year ${year}: ${filteredPeerRecords.length} peer records filtered`);
+      // console.log(`Year ${year}: ${filteredPeerRecords.length} peer records filtered`);
       
       filteredPeerRecords.forEach((record, idx) => {
         // Log first record for debugging
         if (idx === 0) {
           const givingUnits = record.querySelector("s02___giving_units")?.textContent;
           const yesNo = record.querySelector("cfhi_stand_00a_yes_no___giving_units")?.textContent;
-          console.log(`  First record - Giving Units: ${givingUnits}, YesNo: ${yesNo}`);
+          // console.log(`  First record - Giving Units: ${givingUnits}, YesNo: ${yesNo}`);
         }
         
         // givingUnits
@@ -593,14 +594,14 @@ class DataProcessor {
         recordsClient,
         year
       );
-      console.log(`Year ${year}: ${filteredClientRecords.length} client records filtered`);
-      console.log(`Total client records passed: ${recordsClient?.length || 0}`);
+      // console.log(`Year ${year}: ${filteredClientRecords.length} client records filtered`);
+      // console.log(`Total client records passed: ${recordsClient?.length || 0}`);
       
       filteredClientRecords.forEach((record, idx) => {
         // Log first record for debugging
         if (idx === 0) {
           const givingUnits = record.querySelector("s02___giving_units")?.textContent;
-          console.log(`  First client record - Giving Units: ${givingUnits}`);
+          // console.log(`  First client record - Giving Units: ${givingUnits}`);
         }
         
         // givingUnits
@@ -958,7 +959,17 @@ class DataProcessor {
           year,
           "contributionWithoutDonor",
           record,
-          "s39___contribution_without_donor_retriction",
+          "s39___contribution_without_donor_restriction",
+          "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
+          "contributionsWithoutDonorPerGivingUnit_standard"
+        );
+        this.dataStore.insertData(
+          "debt",
+          "peer",
+          year,
+          "largeOneTimeGiftWithoutDonor",
+          record,
+          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
           "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
           "contributionsWithoutDonorPerGivingUnit_standard"
         );
@@ -1450,7 +1461,7 @@ class ApiService {
 
         if (!clientName || !year) {
           // Skip records without essential identification fields
-          console.warn("Skipping record without client name or year:", { clientName, year });
+          // console.warn("Skipping record without client name or year:", { clientName, year });
           return;
         }
 
@@ -1509,7 +1520,7 @@ class ApiService {
           }
         }
       } catch (error) {
-        console.error("Error processing record for deduplication:", error);
+        // console.error("Error processing record for deduplication:", error);
       }
     });
 
@@ -1517,7 +1528,7 @@ class ApiService {
     const deduplicatedRecords = Array.from(clientYearMap.values()).map(entry => entry.record);
     
     if (duplicatesFound > 0) {
-      console.log(`📊 Peer deduplication: Processed ${recordsProcessed} records, found ${duplicatesFound} duplicates, returning ${deduplicatedRecords.length} unique client-year records`);
+      // console.log(`📊 Peer deduplication: Processed ${recordsProcessed} records, found ${duplicatesFound} duplicates, returning ${deduplicatedRecords.length} unique client-year records`);
     }
     
     return deduplicatedRecords;
@@ -1534,7 +1545,7 @@ class ApiService {
       try {
         // If no data was collected, return empty array
         if (dataStr === "<qdbapi>") {
-          console.warn("No records collected, returning empty array");
+          // console.warn("No records collected, returning empty array");
           return [];
         }
 
@@ -1551,7 +1562,7 @@ class ApiService {
         const deduplicatedRecords = this.deduplicatePeerRecordsByClientAndYear(records);
         return deduplicatedRecords;
       } catch (error) {
-        console.error("Error parsing XML in getRecordsForPeer:", error);
+        // console.error("Error parsing XML in getRecordsForPeer:", error);
         return [];
       }
     }
@@ -1602,7 +1613,7 @@ class ApiService {
 
       // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
-      console.log("PEER XML", xml);
+      // console.log("PEER XML", xml);
       const recordsForPeer = $("record", xml).toArray();
 
       // Collect records for later use
@@ -1619,7 +1630,7 @@ class ApiService {
           dataStr += newRecord.outerHTML;
         }
       } else {
-        console.warn(`No records found for year ${currentYear}`);
+        // console.warn(`No records found for year ${currentYear}`);
       }
 
       // Update per-year record count map
@@ -1635,19 +1646,19 @@ class ApiService {
           recordsForPeer.length
         );
       } catch (e) {
-        console.error("Unable to update peerRecordMapPerYear:", e);
+        // console.error("Unable to update peerRecordMapPerYear:", e);
       }
 
       // Recursive call with updated years and dataStr
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching peer data for year", currentYear, error);
+      // console.error("Error fetching peer data for year", currentYear, error);
 
       // Log error details
       if (error.status) {
-        console.error(
-          `Status: ${error.status}, StatusText: ${error.statusText}`
-        );
+        // console.error(
+        //   `Status: ${error.status}, StatusText: ${error.statusText}`
+        // );
       }
 
       // Continue with next year even if this one failed
@@ -1660,10 +1671,10 @@ class ApiService {
         }
         window.peerRecordMapPerYear.set(String(currentYear), 0);
       } catch (e) {
-        console.error(
-          "Unable to set 0 count in peerRecordMapPerYear after error:",
-          e
-        );
+        // console.error(
+        //   "Unable to set 0 count in peerRecordMapPerYear after error:",
+        //   e
+        // );
       }
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
@@ -1692,9 +1703,9 @@ class ApiService {
       return await this.getRecordsForPeer(years, dataStr);
     }
 
-    console.log(
-      `Using batching for ${selectedClients.length} clients across ${years.length} years`
-    );
+    // console.log(
+    //   `Using batching for ${selectedClients.length} clients across ${years.length} years`
+    // );
 
     // Pre-calculate all filter conditions once
     const filterParts = [];
@@ -1703,12 +1714,12 @@ class ApiService {
     filterParts.push(`{193.EX.'Standard'}`);
     
     // Add giving units filter if defined
-    console.log("🎚️ Slider values:", {
-      sliderValue: window.sliderValue,
-      sliderValue2: window.sliderValue2,
-      selectedRegions: window.selectedRegions_Array?.length || 0,
-      selectedSites: window.selectedSites_Array?.length || 0
-    });
+    // console.log("🎚️ Slider values:", {
+    //   sliderValue: window.sliderValue,
+    //   sliderValue2: window.sliderValue2,
+    //   selectedRegions: window.selectedRegions_Array?.length || 0,
+    //   selectedSites: window.selectedSites_Array?.length || 0
+    // });
     
     if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
       filterParts.push(
@@ -1730,7 +1741,7 @@ class ApiService {
     }
     const additionalFilters = ` AND ${filterParts.join(" AND ")}`;
     
-    console.log("📝 Filter parts:", filterParts);
+    // console.log("📝 Filter parts:", filterParts);
 
     // Pre-escape all client names once
     const escapedClients = selectedClients.map((client) =>
@@ -1744,9 +1755,9 @@ class ApiService {
       clientBatches.push(escapedClients.slice(i, i + BATCH_SIZE));
     }
 
-    console.log(
-      `Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`
-    );
+    // console.log(
+    //   `Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`
+    // );
 
     // apiCallForPeerDataBatched
     const apiCalls = [];
@@ -1764,9 +1775,9 @@ class ApiService {
 
         // Log first query for debugging
         if (currentYear === years[0] && batchIndex === 0) {
-          console.log("🔍 Sample query for year", currentYear, "batch 1:");
-          console.log("Query:", queryCondition);
-          console.log("clist:", clist);
+          // console.log("🔍 Sample query for year", currentYear, "batch 1:");
+          // console.log("Query:", queryCondition);
+          // console.log("clist:", clist);
         }
 
         const apiCallPeerData = {
@@ -1779,9 +1790,9 @@ class ApiService {
       }
     }
 
-    console.log(
-      `Executing ${apiCalls.length} API calls (${years.length} years × ${clientBatches.length} batches)`
-    );
+    // console.log(
+    //   `Executing ${apiCalls.length} API calls (${years.length} years × ${clientBatches.length} batches)`
+    // );
 
     // Execute all API calls in parallel with limited concurrency
     const CONCURRENCY_LIMIT = 5; // Limit concurrent requests to avoid overwhelming server
@@ -1793,16 +1804,16 @@ class ApiService {
         const batchResults = await Promise.allSettled(batch);
         results.push(...batchResults);
 
-        console.log(
-          `Completed batch ${Math.floor(i / CONCURRENCY_LIMIT) + 1}/${Math.ceil(apiCalls.length / CONCURRENCY_LIMIT)}`
-        );
+        // console.log(
+        //   `Completed batch ${Math.floor(i / CONCURRENCY_LIMIT) + 1}/${Math.ceil(apiCalls.length / CONCURRENCY_LIMIT)}`
+        // );
 
         // Small delay between batches to be API-friendly
         if (i + CONCURRENCY_LIMIT < apiCalls.length) {
           await new Promise((resolve) => setTimeout(resolve, 50));
         }
       } catch (error) {
-        console.error("Error in batch execution:", error);
+        // console.error("Error in batch execution:", error);
       }
     }
 
@@ -1824,9 +1835,9 @@ class ApiService {
           
           // Log record count for first batch
           if (idx === 0) {
-            console.log("Records found in first response:", $records.length);
+            // console.log("Records found in first response:", $records.length);
             if ($records.length > 0) {
-              console.log("First record preview:", $records[0].outerHTML.substring(0, 300));
+              // console.log("First record preview:", $records[0].outerHTML.substring(0, 300));
             }
           }
 
@@ -1837,22 +1848,22 @@ class ApiService {
             this.recordPeerHTMLArray.push(recordHtml);
           }
         } catch (error) {
-          console.error("Error processing XML result at index", idx, ":", error);
+          // console.error("Error processing XML result at index", idx, ":", error);
         }
         } else {
         failedCalls++;
-        console.warn("API call", idx + 1, "failed:", result.reason);
+        // console.warn("API call", idx + 1, "failed:", result.reason);
       }
     }
     
-    console.log(`✅ Successful calls: ${successfulCalls}, ❌ Failed calls: ${failedCalls}`);
+    // console.log(`✅ Successful calls: ${successfulCalls}, ❌ Failed calls: ${failedCalls}`);
 
-    console.log(`Total records collected: ${recordHtmlParts.length}`);
+    // console.log(`Total records collected: ${recordHtmlParts.length}`);
 
     // Parse and return final results
     try {
       if (recordHtmlParts.length === 0) {
-        console.warn("No records collected from batched requests");
+        // console.warn("No records collected from batched requests");
         return [];
       }
 
@@ -1891,18 +1902,18 @@ class ApiService {
 
         Object.entries(yearTotals).forEach(([year, count]) => {
           window.peerRecordMapPerYear.set(String(year), count);
-          console.log(`Year ${year}: ${count} peer records (deduplicated)`);
+          // console.log(`Year ${year}: ${count} peer records (deduplicated)`);
         });
       } catch (e) {
-        console.error(
-          "Unable to compute/set peerRecordMapPerYear in batched approach:",
-          e
-        );
+        // console.error(
+        //   "Unable to compute/set peerRecordMapPerYear in batched approach:",
+        //   e
+        // );
       }
 
       return records;
     } catch (error) {
-      console.error("Error parsing XML in batched approach:", error);
+      // console.error("Error parsing XML in batched approach:", error);
       return [];
     }
   }
@@ -1918,7 +1929,7 @@ class ApiService {
       try {
         // If no data was collected, return empty array
         if (dataStr === "<qdbapi>") {
-          console.warn("No client records collected, returning empty array");
+          // console.warn("No client records collected, returning empty array");
           return [];
         }
 
@@ -1931,7 +1942,7 @@ class ApiService {
 
         return records;
       } catch (error) {
-        console.error("Error parsing client XML:", error);
+        // console.error("Error parsing client XML:", error);
         return [];
       }
     }
@@ -1946,14 +1957,14 @@ class ApiService {
         "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.700.698.702.703.421.420",
     };
 
-    console.log(`🔵 Fetching client data for year ${currentYear}, ClientRid: ${ClientRid}, clientData URL: ${clientData}`);
-    console.log(`🔵 Query: ${apiCallClientData.query}`);
+    // console.log(`🔵 Fetching client data for year ${currentYear}, ClientRid: ${ClientRid}, clientData URL: ${clientData}`);
+    // console.log(`🔵 Query: ${apiCallClientData.query}`);
 
     try {
       // Use await to make the async operation more explicit
       const xml = await $.get(clientData, apiCallClientData);
       const recordsForClient = $("record", xml).toArray();
-      console.log(`🔵 Year ${currentYear}: Found ${recordsForClient.length} client records`);
+      // console.log(`🔵 Year ${currentYear}: Found ${recordsForClient.length} client records`);
 
       // Process the records
       for (const record of recordsForClient) {
@@ -1967,24 +1978,24 @@ class ApiService {
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
 
-        console.log('client records', dataStr);
+        // console.log('client records', dataStr);
       }
 
       // Recursive call with updated years and dataStr
       return await this.getRecordsForClient(years.slice(1), dataStr);
     } catch (error) {
-      console.error(`🔴 Error fetching client data for year ${currentYear}:`, error);
-      console.error(`🔴 Error details:`, {
-        status: error.status,
-        statusText: error.statusText,
-        responseText: error.responseText?.substring(0, 200)
-      });
+      // console.error(`🔴 Error fetching client data for year ${currentYear}:`, error);
+      // console.error(`🔴 Error details:`, {
+      //   status: error.status,
+      //   statusText: error.statusText,
+      //   responseText: error.responseText?.substring(0, 200)
+      // });
 
       // Log error details
       if (error.status) {
-        console.error(
-          `Status: ${error.status}, StatusText: ${error.statusText}`
-        );
+        // console.error(
+        //   `Status: ${error.status}, StatusText: ${error.statusText}`
+        // );
       }
 
       // Continue with next year even if this one failed
@@ -2123,7 +2134,7 @@ class ApiService {
         window.clientDataStore[clientName] = entry.data;
       });
       
-      console.log(`📊 Client data store populated with ${Object.keys(clientMostRecentMap).length} clients (using most recent YE per client)`);
+      // console.log(`📊 Client data store populated with ${Object.keys(clientMostRecentMap).length} clients (using most recent YE per client)`);
 
       // Close the XML string
       xmlString += "</qdbapi>";
@@ -2145,9 +2156,9 @@ class ApiService {
           sortedUniquePeerClientNames
         );
       } else {
-        console.error(
-          "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
-        );
+        // console.error(
+        //   "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
+        // );
 
         // Provide a simple fallback for populating clients if needed
         this._populateClientsDropdownFallback(sortedUniquePeerClientNames);
@@ -2157,16 +2168,16 @@ class ApiService {
       if (sortedUniquePeerClientNames.length > 0) {
         this._initializeFilterHandlers();
       } else {
-        console.log(
-          "No client data loaded, skipping filter handler initialization"
-        );
+        // console.log(
+        //   "No client data loaded, skipping filter handler initialization"
+        // );
       }
 
       window.sortedUniquePeerClientNames = sortedUniquePeerClientNames;
 
       return sortedUniquePeerClientNames;
     } catch (error) {
-      console.error("Error fetching unique client names:", error);
+      // console.error("Error fetching unique client names:", error);
       return [];
     }
   }
@@ -2260,7 +2271,7 @@ class ApiService {
   _populateClientsDropdownFallback(clientArray) {
     const clientSelect = document.getElementById("options-list-client");
     if (clientSelect) {
-      console.log("Using fallback to populate clients dropdown");
+      // console.log("Using fallback to populate clients dropdown");
       // Simple fallback implementation
     }
   }
@@ -2426,15 +2437,23 @@ class AppController {
           window.peerRecordMapPerYear.clear();
         }
       } catch (e) {
-        console.error("Unable to initialize peerRecordMapPerYear:", e);
+        // console.error("Unable to initialize peerRecordMapPerYear:", e);
       }
 
-      // Process selected years
+      // Process selected years FIRST - use Set as source of truth, not localStorage
       let selectedYears;
       try {
-        selectedYears = this.processSelectedYears();
+        // CRITICAL: Check Set first (user's current selections), then fallback to localStorage
+        if (typeof selectedYears_Set !== "undefined" && selectedYears_Set.size > 0) {
+          // Use Set as source of truth - this is what the user actually selected
+          selectedYears = Array.from(selectedYears_Set).sort((a, b) => a - b);
+          // console.log("Using selectedYears_Set:", selectedYears);
+        } else {
+          // Fallback to processSelectedYears if Set is empty
+          selectedYears = this.processSelectedYears();
+        }
       } catch (error) {
-        console.error("Error processing selected years:", error);
+        // console.error("Error processing selected years:", error);
         if (typeof showApiLoadingFunction === "function") {
           showApiLoadingFunction("close");
         }
@@ -2442,7 +2461,7 @@ class AppController {
       }
 
       if (!selectedYears || selectedYears.length === 0) {
-        console.error("No years selected");
+        // console.error("No years selected");
         if (typeof createToastWarning === "function") {
           createToastWarning("Please select at least one year");
         }
@@ -2452,14 +2471,27 @@ class AppController {
         return;
       }
 
+      // Save selected years to localStorage BEFORE clearing data
+      // This ensures localStorage matches the Set (source of truth)
       this.saveSelectedYearsToLocalStorage(selectedYears);
+      
+      // Also ensure the Set is synced (in case it got out of sync)
+      if (typeof selectedYears_Set !== "undefined") {
+        selectedYears.forEach(year => selectedYears_Set.add(year));
+        // Remove any years from Set that aren't in selectedYears
+        Array.from(selectedYears_Set).forEach(year => {
+          if (!selectedYears.includes(year)) {
+            selectedYears_Set.delete(year);
+          }
+        });
+      }
 
       // Check for selected clients
       if (
         !window.selectedClients_Array ||
         window.selectedClients_Array.size === 0
       ) {
-        console.warn("No clients selected");
+        // console.warn("No clients selected");
         if (typeof createToastWarning === "function") {
           createToastWarning("Please select at least one client");
         } else {
@@ -2471,7 +2503,7 @@ class AppController {
         return;
       }
 
-      // Clear existing data
+      // Clear existing data (clearAllStorage will preserve selectedYears)
       if (this.dataStore && typeof this.dataStore.clear === "function") {
         this.dataStore.clear();
       }
@@ -2485,19 +2517,14 @@ class AppController {
         destroyAllCharts();
       }
 
-      // Clear all report tables before rerunning API
-      if (typeof clearAllReportTables === "function") {
-        clearAllReportTables();
-      }
-
       // Fetch peer data with improved error handling
       let recordsPeer;
       try {
         // Use batching if more than 15 clients selected
         if (window.selectedClients_Array.size > 15) {
-          console.log(
-            `Using batching for ${window.selectedClients_Array.size} clients`
-          );
+          // console.log(
+        //   `Using batching for ${window.selectedClients_Array.size} clients`
+        // );
           recordsPeer = await this.apiService.getRecordsForPeerWithBatching(
         selectedYears,
             window.selectedClients_Array
@@ -2508,7 +2535,7 @@ class AppController {
 
         // Validate records
         if (!recordsPeer || recordsPeer.length === 0) {
-          console.warn("No peer records returned");
+          // console.warn("No peer records returned");
           if (typeof createToastWarning === "function") {
             createToastWarning(
               "No peer records extracted. Please select more filters"
@@ -2529,7 +2556,7 @@ class AppController {
           countUniqueClients(recordsPeer);
         }
     } catch (error) {
-        console.error("Error fetching peer data:", error);
+        // console.error("Error fetching peer data:", error);
         if (typeof createToastWarning === "function") {
           createToastWarning(
             "Error fetching peer data. Please try again or adjust your filters."
@@ -2555,7 +2582,7 @@ class AppController {
         window.testRecordsClient = recordsClient;
 
         if (!recordsClient || recordsClient.length === 0) {
-          console.warn("No client records returned");
+          // console.warn("No client records returned");
           // Continue anyway, we might have peer data
         } else {
           // Process client records
@@ -2577,7 +2604,7 @@ class AppController {
           }
         }
       } catch (error) {
-        console.error("Error fetching client data:", error);
+        // console.error("Error fetching client data:", error);
         if (typeof createToastWarning === "function") {
           createToastWarning("Error fetching client data. Please try again.");
         } else {
@@ -2591,7 +2618,7 @@ class AppController {
         (!recordsPeer || recordsPeer.length === 0) &&
         (!recordsClient || recordsClient.length === 0)
       ) {
-        console.error("No data available for either peer or client");
+        // console.error("No data available for either peer or client");
         if (typeof createToastWarning === "function") {
           createToastWarning(
             "No data retrieved. Try selecting fewer clients or different years."
@@ -2615,14 +2642,14 @@ class AppController {
           recordsClient || []
         );
       } catch (error) {
-        console.error("Error processing data:", error);
+        // console.error("Error processing data:", error);
 
         // Check if it's a storage quota error
         if (
           error.name === "QuotaExceededError" ||
           error.message.includes("quota")
         ) {
-          console.warn("Storage quota exceeded, showing management options");
+          // console.warn("Storage quota exceeded, showing management options");
           const message =
             "Storage limit exceeded. Try selecting fewer years or clear browser data.";
           if (typeof createToastWarning === "function") {
@@ -2648,18 +2675,18 @@ class AppController {
       try {
       await this.displayAllComponents();
 
-      console.log("✅ Data processing complete");
+      // console.log("✅ Data processing complete");
     } catch (error) {
-        console.error("Error displaying components:", error);
+        // console.error("Error displaying components:", error);
 
         // Check if it's a data-related error
         if (
           error.message &&
           error.message.includes("Cannot read properties of undefined")
         ) {
-          console.warn(
-            "Data structure issue detected, attempting to continue with available data"
-          );
+          // console.warn(
+          //   "Data structure issue detected, attempting to continue with available data"
+          // );
           // Continue anyway since some data might be available
         } else {
           if (typeof createToastWarning === "function") {
@@ -2677,7 +2704,7 @@ class AppController {
         }
       }
     } catch (err) {
-      console.error("Unexpected error in handleRunButtonClick:", err);
+      // console.error("Unexpected error in handleRunButtonClick:", err);
       if (typeof createToastWarning === "function") {
         createToastWarning("An unexpected error occurred. Please try again.");
       } else {
@@ -2774,7 +2801,7 @@ class AppController {
     let isValid = true;
     categories.forEach((category) => {
       if (!data[category] || Object.keys(data[category]).length === 0) {
-        console.warn(`Warning: ${category} is empty`);
+        // console.warn(`Warning: ${category} is empty`);
         isValid = false;
       }
     });
@@ -2800,7 +2827,7 @@ function restoreInitialClientSelection() {
       }
     }
   } catch (error) {
-    console.error("Error restoring client selection:", error);
+    // console.error("Error restoring client selection:", error);
   }
 }
 
@@ -2808,7 +2835,7 @@ function restoreInitialClientSelection() {
 function countUniqueClients(records) {
   // Check if records is valid and has a forEach method
   if (!records || typeof records.forEach !== "function") {
-    console.error("Invalid records provided to countUniqueClients:", records);
+    // console.error("Invalid records provided to countUniqueClients:", records);
     const element = document.getElementById("uniqueClients");
     if (element) {
       element.textContent = "0";
@@ -2895,7 +2922,7 @@ function countUniqueClients(records) {
     // console.log(`Counted ${count} unique clients after filtering`);
     // console.log("Unique clients per year:", window.uniqueClientsPerYearMap);
   } catch (error) {
-    console.error("Error counting unique clients:", error);
+    // console.error("Error counting unique clients:", error);
     const element = document.getElementById("uniqueClients");
     if (element) {
       element.textContent = "0";
@@ -2966,12 +2993,12 @@ $.get(clientData, apiCallClientDataForUniqueYears)
       document.querySelector("#firmName").textContent = firmName;
       findUniqueYears(recordsClient);
     } else {
-      console.error(
-        "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
-      );
+      // console.error(
+      //   "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
+      // );
     }
   })
-  .catch((err) => console.error(err));
+  .catch((err) => { /* console.error(err); */ });
 
 // Find and add unique years from data
 const findUniqueYears = (data) => {
@@ -3002,7 +3029,7 @@ const findUniqueYears = (data) => {
 async function validateAndNormalizeRecords(records) {
   // Handle empty or invalid input
   if (!records) {
-    console.warn("Empty records received");
+    // console.warn("Empty records received");
     return [];
   }
 
@@ -3036,7 +3063,7 @@ async function validateAndNormalizeRecords(records) {
       }
     }
 
-    console.log(`Validated ${result.length} out of ${records.length} records`);
+    // console.log(`Validated ${result.length} out of ${records.length} records`);
     return result;
   }
 
@@ -3050,7 +3077,7 @@ async function validateAndNormalizeRecords(records) {
     return [records];
   }
 
-  console.error("Unrecognized records format:", records);
+  // console.error("Unrecognized records format:", records);
   return [];
 }
 
@@ -3095,7 +3122,7 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
 
     return processedData;
   } else {
-    console.error("processApiCalls function not available");
+    // console.error("processApiCalls function not available");
 
     // Create a fallback function
     if (!window.dataStore) {
@@ -3155,7 +3182,7 @@ window.ensureDataStoreMethods = function () {
         }
       }
     );
-    console.log("DataStore methods updated");
+    // console.log("DataStore methods updated");
   }
 };
 
@@ -3169,7 +3196,7 @@ window.clearAppStorage = function () {
     typeof window.dataStore.clearAllStorage === "function"
   ) {
     window.dataStore.clearAllStorage();
-    console.log("App storage cleared successfully");
+    // console.log("App storage cleared successfully");
 
     if (typeof createToastWarning === "function") {
       createToastWarning(
@@ -3181,7 +3208,7 @@ window.clearAppStorage = function () {
       );
     }
   } else {
-    console.error("DataStore or clearAllStorage method not available");
+    // console.error("DataStore or clearAllStorage method not available");
   }
 };
 
@@ -3202,7 +3229,7 @@ window.checkAppStorage = function () {
       alert(message);
     }
   } else {
-    console.error("DataStore or checkStorageQuota method not available");
+    // console.error("DataStore or checkStorageQuota method not available");
   }
 };
 
@@ -3214,9 +3241,9 @@ window.onload = async () => {
     // Initialize client dropdown by fetching unique client names
     try {
       await window.appController.apiService.getRecordsForUniqueClientPeerNames();
-      console.log("✅ Client dropdown initialized");
+      // console.log("✅ Client dropdown initialized");
     } catch (error) {
-      console.error("Error initializing client dropdown:", error);
+      // console.error("Error initializing client dropdown:", error);
       if (typeof createToastWarning === "function") {
         createToastWarning("Failed to load client list. Please refresh the page.");
       }
@@ -3248,26 +3275,26 @@ window.checkStorage = function () {
     const quotaInfo = window.dataStore.checkStorageQuota();
     const sizeInfo = window.dataStore.estimateDataSize();
 
-    console.log("=== Storage Information ===");
-    console.log(
-      `Current Usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`
-    );
-    console.log(`Estimated New Data: ${sizeInfo.sizeMB}MB`);
-    console.log(
-      `Available Space: ${(
-        (quotaInfo.maxQuota - quotaInfo.used) /
-        1024 /
-        1024
-      ).toFixed(2)}MB`
-    );
+    // console.log("=== Storage Information ===");
+    // console.log(
+    //   `Current Usage: ${quotaInfo.usedMB}MB (${quotaInfo.percentage}%)`
+    // );
+    // console.log(`Estimated New Data: ${sizeInfo.sizeMB}MB`);
+    // console.log(
+    //   `Available Space: ${(
+    //     (quotaInfo.maxQuota - quotaInfo.used) /
+    //     1024 /
+    //     1024
+    //   ).toFixed(2)}MB`
+    // );
 
     if (parseFloat(quotaInfo.percentage) > 80) {
-      console.warn("⚠️ Storage usage is high! Consider clearing old data.");
+      // console.warn("⚠️ Storage usage is high! Consider clearing old data.");
     }
 
     return { quotaInfo, sizeInfo };
   } else {
-    console.error("DataStore not available");
+    // console.error("DataStore not available");
     return null;
   }
 };
@@ -3284,14 +3311,14 @@ window.clearStorage = function () {
     window.dataStore.clearAllStorage();
     const after = window.dataStore.checkStorageQuota();
 
-    console.log("=== Storage Cleared ===");
-    console.log(`Before: ${before.usedMB}MB`);
-    console.log(`After: ${after.usedMB}MB`);
-    console.log(`Freed: ${(before.used - after.used) / 1024 / 1024}MB`);
+    // console.log("=== Storage Cleared ===");
+    // console.log(`Before: ${before.usedMB}MB`);
+    // console.log(`After: ${after.usedMB}MB`);
+    // console.log(`Freed: ${(before.used - after.used) / 1024 / 1024}MB`);
 
     return { before, after };
   } else {
-    console.error("DataStore not available");
+    // console.error("DataStore not available");
     return null;
   }
 };
@@ -3305,8 +3332,8 @@ window.optimizeStorage = function () {
     "5. Try a different browser",
   ];
 
-  console.log("=== Storage Optimization Suggestions ===");
-  suggestions.forEach((suggestion) => console.log(suggestion));
+  // console.log("=== Storage Optimization Suggestions ===");
+  // suggestions.forEach((suggestion) => console.log(suggestion));
 
   return suggestions;
 };
@@ -3347,12 +3374,12 @@ window.getStorageInfo = function () {
       );
     }
 
-    console.log("=== Detailed Storage Information ===");
-    console.log(info);
+    // console.log("=== Detailed Storage Information ===");
+    // console.log(info);
 
     return info;
   } else {
-    console.error("DataStore not available");
+    // console.error("DataStore not available");
     return null;
   }
 };
@@ -3369,7 +3396,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ) {
       const quotaInfo = window.dataStore.checkStorageQuota();
       if (parseFloat(quotaInfo.percentage) > 90) {
-        console.warn("⚠️ Storage usage is very high! Consider clearing data.");
+        // console.warn("⚠️ Storage usage is very high! Consider clearing data.");
         if (typeof createToastWarning === "function") {
           createToastWarning(
             "Storage is nearly full. Use checkStorage() in console for details."

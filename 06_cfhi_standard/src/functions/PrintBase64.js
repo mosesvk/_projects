@@ -34,7 +34,7 @@ async function processChartsWithSpacing(chartMappings) {
       // Get the chart element and instance
       const chartElement = document.getElementById(chartId);
       if (!chartElement) {
-        console.warn(`Chart element not found: ${chartId}`);
+        // console.warn(`Chart element not found: ${chartId}`);
         results.push({ chartId, fieldId, base64String: null });
         continue;
       }
@@ -57,7 +57,7 @@ async function processChartsWithSpacing(chartMappings) {
       // Prevent UI freezing
       await new Promise((resolve) => setTimeout(resolve, 100));
     } catch (error) {
-      console.error(`Error processing chart ${chartId}:`, error);
+      // console.error(`Error processing chart ${chartId}:`, error);
       results.push({ chartId, fieldId, base64String: null });
     }
   }
@@ -468,7 +468,7 @@ async function exportApexChart(chart, chartId) {
     const base64String = uri.imgURI.split(",")[1];
     return base64String;
   } catch (error) {
-    console.error("Error in exportApexChart:", error);
+    // console.error("Error in exportApexChart:", error);
     return null;
   }
 }
@@ -530,7 +530,7 @@ async function exportWithHtml2Canvas(chartElement) {
 
     return base64String;
   } catch (error) {
-    console.error("Error in html2canvas export:", error);
+    // console.error("Error in html2canvas export:", error);
     if (container.parentNode) {
       document.body.removeChild(container);
     }
@@ -617,7 +617,7 @@ async function apexChartsExportPrint() {
 
   const printButton = document.getElementById("printBase64");
   if (!printButton) {
-    console.error("Print button not found");
+    // console.error("Print button not found");
     return;
   }
 
@@ -717,7 +717,7 @@ async function apexChartsExportPrint() {
     }
   } catch (error) {
     showApiLoadingFunction("close", "print");
-    console.error("Error in apexChartsExportPrint:", error);
+    // console.error("Error in apexChartsExportPrint:", error);
     createToastWarning(
       `Error creating presentation: ${error.message || "Unknown error"}`
     );
@@ -885,7 +885,7 @@ async function sendToQuickbase(xml) {
 function initApexChartsPrintFunction() {
   const printButton = document.getElementById("printBase64");
   if (!printButton) {
-    console.error(
+    // console.error(
       "Print button not found for ApexCharts export print functionality"
     );
     return;
