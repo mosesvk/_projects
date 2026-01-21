@@ -1,14 +1,30 @@
 /**
  * Clear all report tables before rerunning API
+ * This preserves benchmark columns (Avg, 25th, 50th, 75th) like clearTableColumns does
  */
 const clearAllReportTables = () => {
   // Get all report table headers
   const tableHeaders = document.querySelectorAll('[id$="_tableHeader"]');
+  const columnsToPreserve = ["Avg", "25th", "50th", "75th"];
   
   tableHeaders.forEach((header) => {
-    // Clear all header cells except the first one (which contains the category name)
-    while (header.children.length > 1) {
-      header.removeChild(header.children[1]);
+    // First, identify which column indices to preserve by checking the header row
+    const preserveIndices = [];
+    Array.from(header.children).forEach((th, index) => {
+      const columnName = th.textContent.trim();
+      if (index === 0 || columnsToPreserve.includes(columnName)) {
+        preserveIndices.push(index);
+      }
+    });
+    
+    // Clear year columns but preserve benchmark columns
+    // Work backwards to avoid index shifting issues
+    for (let i = header.children.length - 1; i >= 1; i--) {
+      const th = header.children[i];
+      const columnName = th.textContent.trim();
+      if (!columnsToPreserve.includes(columnName)) {
+        th.remove();
+      }
     }
     
     // Get all rows in the same table as this header
@@ -17,9 +33,12 @@ const clearAllReportTables = () => {
       const rows = tableBody.querySelectorAll("tr");
       
       rows.forEach((row) => {
-        // Clear all cells in the row except the first one (which contains the metric name)
-        while (row.children.length > 1) {
-          row.removeChild(row.children[1]);
+        // Clear year columns but preserve benchmark columns by index
+        // Work backwards to avoid index shifting issues
+        for (let i = row.children.length - 1; i >= 1; i--) {
+          if (!preserveIndices.includes(i)) {
+            row.children[i].remove();
+          }
         }
       });
     }
@@ -36,9 +55,8 @@ const displayReportComponent = () => {
   const selectedYears = getSelectedYearsFromLocalStorage();
 
   if (selectedYears) {
-    // Clear all report tables before adding new data
-    clearAllReportTables();
-    
+    // addYearColumnsToReportTable will call clearTableColumns to clear year columns
+    // while preserving benchmark columns (Avg, 25th, 50th, 75th)
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(generalData, selectedYears, [
       ["givingUnits", "num", 0],
@@ -391,33 +409,41 @@ const clearTableColumns = (idName) => {
   const headerRow = document.getElementById(idName);
   const columnsToPreserve = ["Avg", "25th", "50th", "75th"];
 
+  // First, identify which column indices to preserve by checking the header row
+  const preserveIndices = [];
+  Array.from(headerRow.children).forEach((th, index) => {
+    const columnName = th.textContent.trim();
+    if (index === 0 || columnsToPreserve.includes(columnName)) {
+      preserveIndices.push(index);
+    }
+  });
+
   // Remove all existing th elements except the first one and those to be preserved
-  Array.from(headerRow.children)
-    .slice(1)
-    .forEach((th) => {
-      const columnName = th.textContent.trim();
-      if (!columnsToPreserve.includes(columnName)) {
-        th.remove();
-      }
-    });
+  // Work backwards to avoid index shifting issues
+  for (let i = headerRow.children.length - 1; i >= 1; i--) {
+    const th = headerRow.children[i];
+    const columnName = th.textContent.trim();
+    if (!columnsToPreserve.includes(columnName)) {
+      th.remove();
+    }
+  }
 
   // Clear corresponding columns from other rows in the table body
-  clearColumnsFromOtherRowsInTable(idName, columnsToPreserve);
+  // Use index-based approach to match the header structure
+  clearColumnsFromOtherRowsInTable(idName, preserveIndices);
 };
 
-const clearColumnsFromOtherRowsInTable = (idName, columnsToPreserve) => {
+const clearColumnsFromOtherRowsInTable = (idName, preserveIndices) => {
   const rows = document.querySelectorAll(`#${idName} + tbody tr`);
 
   rows.forEach((row) => {
-    // Remove all existing td elements except the first one and those to be preserved
-    Array.from(row.children)
-      .slice(1)
-      .forEach((td) => {
-        const columnName = td.textContent.trim();
-        if (!columnsToPreserve.includes(columnName)) {
-          td.remove();
-        }
-      });
+    // Remove all existing cells except those at preserved indices
+    // Work backwards to avoid index shifting issues
+    for (let i = row.children.length - 1; i >= 1; i--) {
+      if (!preserveIndices.includes(i)) {
+        row.children[i].remove();
+      }
+    }
   });
 };
 
