@@ -893,7 +893,7 @@ class DataProcessor {
           year,
           "totalDebt",
           record,
-          "s32___total_debt",
+          "s155___total_debt",
           "cfhi_stand_03_yes_no___debt_to_contribution_w_o_donor_rest",
           "debtToContributionsWithout"
         );
@@ -925,7 +925,7 @@ class DataProcessor {
           year,
           "totalDebt",
           record,
-          "s32___total_debt",
+          "s155___total_debt",
           "cfhi_stand_04_yes_no___debt_per_givingunit",
           "debtPerGivingUnit"
         );
