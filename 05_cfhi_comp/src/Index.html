@@ -264,7 +264,7 @@
             <!-- year -->
             <button
               id="custom-select-year"
-              class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              class="relative flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <div class="flex px-1">
                 <span class="text-xl">Years</span>
@@ -288,7 +288,7 @@
               </div>
               <div
                 id="options-list-year"
-                class="text-2xl absolute left-0 top-8 z-[9999] mt-2 w-fit colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-80 invisible"
+                class="text-2xl absolute left-0 top-8 z-50 mt-2 w-fit colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-scroll h-80 invisible"
               >
                 <label
                   for="option-2024"
@@ -450,7 +450,8 @@
               data-modal-target="options_modal"
               data-modal-toggle="options_modal"
               type="button"
-              class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              class="relative flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              style="z-index: 1;"
             >
               <span class="text-lg">Options</span>
               <svg

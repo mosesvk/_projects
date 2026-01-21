@@ -63,12 +63,20 @@ function setupDropdownToggle(selectElementId, optionsListId) {
     closeOtherDropdowns(optionsListId);
 
     // Toggle visibility
-    const isVisible = !optionsListElement.classList.contains("invisible");
+    const isCurrentlyVisible = !optionsListElement.classList.contains("invisible");
     optionsListElement.classList.toggle("invisible");
     
-    // Ensure z-index is set high when dropdown is visible (especially for options-list-year)
-    if (optionsListId === "options-list-year" && !isVisible) {
-      optionsListElement.style.zIndex = "9999";
+    // For years dropdown, ensure button and dropdown have proper z-index
+    if (optionsListId === "options-list-year") {
+      if (!isCurrentlyVisible) {
+        // Opening dropdown - set high z-index
+        selectElement.style.zIndex = "60";
+        optionsListElement.style.zIndex = "60";
+      } else {
+        // Closing dropdown - reset z-index
+        selectElement.style.zIndex = "";
+        optionsListElement.style.zIndex = "";
+      }
     }
   }
 
