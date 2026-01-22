@@ -3453,8 +3453,22 @@
                   </div>
                   <div
                     id="options-list-client"
-                    class="absolute top-36 right-80 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-scroll h-full"
+                    class="absolute top-36 right-80 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-96 max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[calc(100vh-10rem)]"
                   ></div>
+                </div>
+                <!-- Include Comprehensive checkbox -->
+                <div class="flex items-center py-4 w-full justify-center border-2 rounded-lg" style="border-color: #326eaa;">
+                  <input
+                    type="checkbox"
+                    id="includeComprehensive"
+                    class="w-5 h-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600 cursor-pointer"
+                  />
+                  <label
+                    for="includeComprehensive"
+                    class="ml-3 text-xl font-medium text-gray-900 dark:text-white cursor-pointer"
+                  >
+                    Include Comprehensive
+                  </label>
                 </div>
                 <!-- Giving Units - slider -->
                 <div
