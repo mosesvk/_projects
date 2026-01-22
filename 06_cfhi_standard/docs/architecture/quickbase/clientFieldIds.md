@@ -3,7 +3,7 @@
 	 Record ID# 	Numeric	 	3	 
 	 Record Owner	User	 	4	 
 	 Last Modified By	User	 	5	 
-	 s01 Average Adult Attendees Excluding children	Numeric	 	21	 
+	 OLD s01 Average Adult Attendees Excluding children	Numeric	 	21	 
 	 s02 - Giving Units	Numeric	 	22	 
 	 CFHI NOT USED s03	Numeric	 	23	 
 	 CFHI NOT USED s04	Numeric	 	24	 
@@ -15,41 +15,41 @@
 	 s10 - Total Salaries and Housing	Numeric	 	30	 
 	 s11 - Total Benefit	Numeric	 	31	 
 	 s12 - Total maint & occupancy cost	Numeric	 	32	 
-	 s53 - How old is your facility factoring in improvement? 	Text - Multiple Choice	 	33	 
-	 s150 - Total attendee including children	Numeric	 	34	 
+	 OLD s53 - How old is your facility factoring in improvement	Text - Multiple Choice	 	33	 
+	 OLD s150 - Total attendee including children	Numeric	 	34	 
 	 s151 - Church only full-time equivalent excluding childcare worker	Numeric	 	35	 
-	 s152 - Large one-time gift without donor retriction (non-recurring)	Numeric	 	36	 
+	 s152 - Large one-time gift without donor restriction (non-recurring)	Numeric	 	36	 
 	 s153 - Large one-time gift with donor restriction (non-recurring)	Numeric	 	37	 
-	 s154 - Required minimum debt principal payment for the next year-	Numeric	 	38	 
+	 s154 - Required minimum debt principal payment for the next year	Numeric	 	38	 
 	 s15 - Global Outreach Expense	Numeric	 	39	 
 	 s14 - Local Outreach Expense	Numeric	 	40	 
 	 s17 - Current Assets	Numeric	 	41	 
 	 s18 - Total Cash	Numeric	 	42	 
-	 s318 - Total Cash at the beginning of the year	Numeric	 	43	 
+	 OLD s318 - Total Cash at the beginning of the year	Numeric	 	43	 
 	 s20 - Non-Endowment Investment	Numeric	 	44	 
-	 s320 - Non-Endowment Investment at the beginning of the year	Numeric	 	45	 
+	 OLD s320 - Non-Endowment Investment at the beginning of the year	Numeric	 	45	 
 	 s21 - Pledge Receivable	Numeric	 	46	 
-	 s321 - Pledge Receivable at the beginning of the year	Numeric	 	47	 
+	 OLD s321 - Pledge Receivable at the beginning of the year	Numeric	 	47	 
 	 s26 - Current Liabilities	Numeric	 	48	 
-	 s27 - Accrued Interest	Numeric	 	49	 
-	 s28 - Accrued Construction Cost	Numeric	 	50	 
+	 OLD s27 - Accrued Interest	Numeric	 	49	 
+	 OLD s28 - Accrued Construction Cost	Numeric	 	50	 
 	 s29 - Deferred Revenue	Numeric	 	51	 
 	 s30 - Available Operating Line of Credit	Numeric	 	52	 
 	 s31 - Short-Term Construction Line of Credit	Numeric	 	53	 
 	 s155 - Total debt	Numeric	 	54	 
 	 s34 - Net asset without donor restriction, undesignated	Numeric	 	55	 
-	 s35 - BOD Designated for Operations	Numeric	 	56	 
+	 OLD s35 - BOD Designated for Operations	Numeric	 	56	 
 	 s36 - Net asset with donor restriction	Numeric	 	57	 
-	 s336 - Net asset with donor restriction at the beginning of the year	Numeric	 	58	 
-	 s39 - Contribution without donor retriction	Numeric	 	59	 
+	 OLD s336 - Net asset with donor restriction at the beginning of the year	Numeric	 	58	 
+	 s39 - Contribution without donor restriction	Numeric	 	59	 
 	 s40 - Total Contribution	Numeric	 	60	 
-	 s41 - Total contribution w/o donor restriction, other rev and reclasification	Numeric	 	61	 
-	 s44 - Revenue from Pledge	Numeric	 	62	 
+	 s41 - Total contribution w/o donor restriction, other rev and reclassification	Numeric	 	61	 
+	 OLD s44 - Revenue from Pledge	Numeric	 	62	 
 	 s45 - Total Expense	Numeric	 	63	 
 	 s46 - Total Depreciation Expense	Numeric	 	64	 
 	 s47 - CY Interest Expense	Numeric	 	65	 
 	 s48 - Change in net asset without donor restriction	Numeric	 	66	 
-	 s49 - Csah Flow from Operating Activities	Numeric	 	67	 
+	 s49 - Cash Flow from Operating Activities	Numeric	 	67	 
 	 s51 - Capitalized Interest	Numeric	 	68	 
 	 s157 - Total Outsourced Employee (FTE)	Numeric	 	69	 
 	 s158 - Average annual accounting department full-time employee	Numeric	 	70	 
@@ -59,18 +59,18 @@
 	 s162 - Cost of outsourced employee	Numeric	 	74	 
 	 s163 - Total Contribution given online	Numeric	 	75	 
 	 s164 - One-time payoff of debt due in the next year	Numeric	 	76	 
-	 s13 - IT Cost	Numeric	 	77	 
-	 s165 - Finance lease right-of-use asset and liability	Numeric	 	78	 
-	 s166 - Future minimum lease payment	Numeric	 	79	 
+	 OLD s13 - IT Cost	Numeric	 	77	 
+	 OLD s165 - Finance lease right-of-use asset and liability	Numeric	 	78	 
+	 OLD s166 - Future minimum lease payment	Numeric	 	79	 
 	 s167 - Amortization of finance lease right-of-use asset	Numeric	 	80	 
-	 s168 - Internet on finance lease right-of-use lease liabilitie	Numeric	 	81	 
+	 OLD s168 - Internet on finance lease right-of-use lease liabilities	Numeric	 	81	 
 	 CFHI NOT USED s55	Numeric	 	93	 
 	 s32 - Total Debt	Numeric	 	94	 
 	 CFHI NOT USED s50	Numeric	 	95	 
 	 Related Client 	Numeric	Client  Many cdata	98	 
 	 CFHI OLD - SurveyDataId	Numeric	 	102	 
 	 CFHI OLD - Org_ID	Numeric	 	103	 
-	 CFHI OLD - IndividualID	Numeric	 	104	 
+	 CFHI OLD - Individual ID	Numeric	 	104	 
 	 Main_SurveyType	Text - Multiple Choice	 	105	 
 	 CFHI OLD -SurveyStatus	Text	 	106	 
 	 CFHI OLD - MAIN_FiscalYear	Numeric	 	107	 
@@ -80,7 +80,7 @@
 	 s54 County Code 3054 	Numeric	CountyCode  Many cdata	112	 
 	 s54 County Code 4054 	Numeric	CountyCode  Many cdata	113	 
 	 s54 County Code 5054 	Numeric	CountyCode  Many cdata	114	 
-	 CFHI OLD - CCrouse_Email	Email	 	115	 
+	 CFHI OLD - CapinCrouse_Email	Email	 	115	 
 	 CFHI NOT USED s115	Numeric	 	116	 
 	 CFHI NOT USED s118	Numeric	 	117	 
 	 CFHI NOT USED s119	Numeric	 	118	 
@@ -127,35 +127,28 @@
 	 CFHI STAND 06and08 BENCH Paragraph Total Contributions per Giving Unit Less Cash Expense per Giving Unit	Formula - Rich Text	 	236	 
 	 CFHI COMPRE 17.1 RATIO - Personnel to Total Cash Expenditures	Formula - Percent	 	242	 
 	 CFHI COMPRE 17.2 RATIO - Mandatory Debt to Total Cash Expenditures	Formula - Percent	 	243	 
-	 CFHI COMPRE 17.3 RATIO - Mandatory Debt AND Personnel to Total Cash Expenditures	Formula - Percent	 	244	 
+	 CFHI COMPRE 17.3 RATIO - Personnel and Outsourced to Total Cash Expenditures	Formula - Percent	 	244	 
 	 CFHI COMPRE 18c RATIO - Total Outreach to Total Cash Expend	Formula - Percent	 	245	 
-	 CFHI COMPRE 22 RATIO - Facilities Expenses of Total Cash Expend	Formula - Percent	 	246	 
-	 CFHI COMPRE 22 BENCH Paragraph - Facilities Expenses of Total Cash Expend	Formula - Rich Text	 	247	 
 	 CFHI COMPRE 18c BENCH Paragraph - Total Outreach to Total Cash Expend	Formula - Rich Text	 	248	 
-	 CFHI COMPRE 17.3 BENCH Paragraph - Mandatory Debt AND Personnel to Total Cash Expenditures	Formula - Rich Text	 	249	 
+	 CFHI COMPRE 17.3 BENCH Paragraph - Personnel and Outsourced to Total Cash Expenditures	Formula - Rich Text	 	249	 
 	 CFHI COMPRE 17.2 BENCH Paragraph - Mandatory Debt to Total Cash Expenditures	Formula - Rich Text	 	250	 
 	 CFHI COMPRE 17.1 BENCH Paragraph - Personnel to Total Cash Expenditures	Formula - Rich Text	 	251	 
-	 CFHI COMPRE 22 BENCH Rating - Facilities Expenses of Total Cash Expend	Formula - Rich Text	 	252	 
 	 CFHI COMPRE 18c BENCH Rating - Total Outreach to Total Cash Expend	Formula - Rich Text	 	253	 
-	 CFHI COMPRE 17.3 BENCH Rating - Mandatory Debt AND Personnel to Total Cash Expenditures	Formula - Rich Text	 	254	 
+	 CFHI COMPRE 17.3 BENCH Rating - Personnel and Outsourced to Total Cash Expenditures	Formula - Rich Text	 	254	 
 	 CFHI COMPRE 17.2 BENCH Rating - Mandatory Debt to Total Cash Expenditures	Formula - Rich Text	 	255	 
 	 CFHI COMPRE 17.1 BENCH Rating - Personnel to Total Cash Expenditures	Formula - Rich Text	 	256	 
 	 CFHI COMPRE 01 RATIO - Days of Expendable Net Asset Reserves	Formula - Numeric	 	257	 
 	 CFHI COMPRE 02 RATIO - Days Operating Cash and Investments on Hand to Fund Annual Cash Expenditures	Formula - Numeric	 	258	 
-	 CFHI COMPRE 00a RATIO - Attendees to Staff	Formula - Numeric	 	259	 
-	 CFHI COMPRE 03 RATIO - Available Days of Cash Flow Coverage	Formula - Numeric	 	260	 
+	 CFHI COMPRE 03 RATIO - Cash Flows from Operating Activities	Formula - Numeric	 	260	 
 	 CFHI COMPRE 04 RATIO - Liquidity Ratio	Formula - Numeric	 	261	 
 	 CFHI COMPRE 07 RATIO - Current Ratio	Formula - Numeric	 	262	 
 	 CFHI COMPRE 05 RATIO - Net Cash Availability	Formula - Currency	 	263	 
 	 CFHI COMPRE 06 RATIO - Debt to Contributions w/o donor restrictions	Formula - Numeric	 	264	 
-	 CFHI COMPRE 08 RATIO -Mandatory Debt Service to Contributions w/o donor restrictuions	Formula - Percent	 	265	 
-	 CFHI COMPRE 09a RATIO - Debt per Average Adult Attendee	Formula - Currency	 	266	 
+	 CFHI COMPRE 08 RATIO -Mandatory Debt Service to Contributions w/o donor restrictions	Formula - Percent	 	265	 
 	 CFHI COMPRE 09d RATIO - Debt per Giving Unit	Formula - Currency	 	267	 
 	 CFHI COMPRE 10 RATIO - Debt Coverage	Formula - Numeric	 	268	 
 	 CFHI COMPRE 11 RATIO - Net Income Ratio	Formula - Percent	 	269	 
-	 CFHI COMPRE 12a RATIO - Contributions Without Donor Restrictions per Average Adult Attendee	Formula - Numeric	 	270	 
 	 CFHI COMPRE 12b RATIO - Contributions Without Donor Restrictions per Giving Unit	Formula - Numeric	 	271	 
-	 CFHI COMPRE 13a RATIO - Total Contributions Per Average Adult Attendee	Formula - Numeric	 	272	 
 	 CFHI COMPRE 13b RATIO - Total Contributions Per Giving Unit	Formula - Numeric	 	273	 
 	 CFHI COMPRE 14 RATIO - Median Household Income Given to Church	Formula - Percent	 	274	 
 	 CFHI COMPRE 15 RATIO - Benefits to Salaries	Formula - Percent	 	275	 
@@ -163,7 +156,6 @@
 	 CFHI COMPRE 16 RATIO - Average Benefits per FTE	Formula - Numeric	 	277	 
 	 CFHI COMPRE 16 RATIO - Average Salaries per FTE	Formula - Numeric	 	278	 
 	 CFHI COMPRE 16a RATIO - Average Salaries and Benefits per FTE + Outsourced	Formula - Numeric	 	279	 
-	 CFHI COMPRE 09c RATIO - Std 2 x Contributions w/o restrictions per Avg Adult Attendee	Formula - Numeric	 	280	 
 	 CFHI COMPRE 09f RATIO -  Std 2 x Contributions w/o restrictions per Giving Unit	Formula - Numeric	 	281	 
 	 s54 County Code 1054 - Data 	Currency	CountyCode  Many cdata	282	 
 	 s54 County Code 2054 - Data 	Currency	CountyCode  Many cdata	283	 
@@ -176,26 +168,20 @@
 	 s54 County Code 3054 - County 	Text	CountyCode  Many cdata	297	 
 	 s54 County Code 4054 - County 	Text	CountyCode  Many cdata	298	 
 	 s54 County Code 5054 - County 	Text	CountyCode  Many cdata	299	 
-	 CFHI COMPRE 00b RATIO - Contributions w/o donor restrictions exclude lage	Formula - Currency	 	300	 
+	 CFHI COMPRE 00b RATIO - Contributions w/o donor restrictions exclude large	Formula - Currency	 	300	 
 	 CFHI COMPRE 00c RATIO - Total Contributions Exclude Large Gifts	Formula - Currency	 	301	 
 	 CFHI COMPRE 00d RATIO - Percent of Total Given Online	Formula - Percent	 	302	 
 	 CFHI COMPRE 05a RATIO - Net Cash Availability Including Unused Line of Credit	Formula - Currency	 	303	 
 	 CFHI COMPRE 05b RATIO - Std: At least one months worth cash expenses	Formula - Currency	 	304	 
-	 CFHI COMPRE 18a RATIO - Local Outreach to Total Cash Expend	Formula - Percent	 	305	 
-	 CFHI COMPRE 18b RATIO - Global Outreach to Total Cash Expend	Formula - Percent	 	306	 
-	 CFHI COMPRE 19a RATIO - Cash Exp per Average Adult	Formula - Numeric	 	307	 
 	 CFHI COMPRE 19b RATIO - Cash Exp per Giving Unit	Formula - Numeric	 	308	 
 	 CFHI COMPRE 20 RATIO - Contributions per Accounting FTE	Formula - Numeric	 	309	 
 	 CFHI COMPRE 21 RATIO - Expenses per Accounting FTE	Formula - Numeric	 	310	 
-	 CFHI COMPRE 23RATIO - Facility Cost per Square Foot (Excluding Interest Expense)	Formula - Numeric	 	311	 
-	 CFHI COMPRE 24 RATIO - Facility Cost per Square Foot (Including Principal and Interest Expense)	Formula - Numeric	 	312	 
-	 CFHI COMPRE 25 RATIO - Information Technology Cost per FTE	Formula - Numeric	 	313	 
 	 CFHI COMPRE 01 BENCH PARAGRAPH - Days of Expendable Net Asset Reserves	Formula - Rich Text	 	316	 
 	 CFHI COMPRE 01 BENCH RATING - Days of Expendable Net Asset Reserves	Formula - Rich Text	 	317	 
 	 CFHI COMPRE 02 BENCH RATING - Days Operating Cash and Investments on Hand to Fund Annual Cash Expenditures	Formula - Rich Text	 	318	 
 	 CFHI COMPRE 02 BENCH PARAGRAPH - Days Operating Cash and Investments on Hand to Fund Annual Cash Expenditures	Formula - Rich Text	 	319	 
-	 CFHI COMPRE 03 BENCH PARAGRAPH - Available Days of Cash Flow Coverage	Formula - Rich Text	 	320	 
-	 CFHI COMPRE 03 BENCH RATING - Available Days of Cash Flow Coverage	Formula - Rich Text	 	321	 
+	 CFHI COMPRE 03 BENCH PARAGRAPH - Cash Flows from Operating Activities	Formula - Rich Text	 	320	 
+	 CFHI COMPRE 03 BENCH RATING - Cash Flows from Operating Activities	Formula - Rich Text	 	321	 
 	 CFHI COMPRE 04 BENCH PARAGRAPH - Liquidity Ratio	Formula - Rich Text	 	326	 
 	 CFHI COMPRE 04 BENCH RATING - Liquidity Ratio	Formula - Rich Text	 	327	 
 	 CFHI COMPRE 05 BENCH PARAGRAPH - Net Cash Availability	Formula - Rich Text	 	328	 
@@ -204,12 +190,9 @@
 	 CFHI COMPRE 06 BENCH PARAGRAPH - Debt to Contributions w/o donor restrictions	Formula - Rich Text	 	331	 
 	 CFHI COMPRE 07 BENCH PARAGRAPH - Current Ratio	Formula - Rich Text	 	332	 
 	 CFHI COMPRE 07 BENCH RATING - Current Ratio	Formula - Rich Text	 	333	 
-	 CFHI COMPRE 08 BENCH PARAGRAPH -Mandatory Debt Service to Contributions w/o donor restrictuions	Formula - Rich Text	 	334	 
-	 CFHI COMPRE 08 BENCH RATING - Mandatory Debt Service to Contributions w/o donor restrictuions	Formula - Rich Text	 	335	 
-	 CFHI COMPRE 09c RATIO - Std 3 x Contributions w/o restrictions per Avg Adult Attendee	Formula - Numeric	 	336	 
+	 CFHI COMPRE 08 BENCH PARAGRAPH -Mandatory Debt Service to Contributions w/o donor restrictions	Formula - Rich Text	 	334	 
+	 CFHI COMPRE 08 BENCH RATING - Mandatory Debt Service to Contributions w/o donor restrictions	Formula - Rich Text	 	335	 
 	 CFHI COMPRE 09f RATIO -  Std 3 x Contributions w/o restrictions per Giving Unit	Formula - Numeric	 	337	 
-	 CFHI COMPRE 09a BENCH PARAGRAPH - Debt per Average Adult Attendee	Formula - Rich Text	 	338	 
-	 CFHI COMPRE 09a BENCH RATING - Debt per Average Adult Attendee	Formula - Rich Text	 	339	 
 	 CFHI COMPRE 09d BENCH PARAGRAPH - Debt per Giving Unit	Formula - Rich Text	 	340	 
 	 CFHI COMPRE 09d BENCH RATING - Debt per Giving Unit	Formula - Rich Text	 	341	 
 	 CFHI COMPRE 10 BENCH RATING - Debt Coverage	Formula - Rich Text	 	342	 
@@ -224,12 +207,8 @@
 	 s54 County Code 5054 (ref) 	Numeric	CountyCode  Many cdata	372	 
 	 Related CountyYear 	Numeric	CountyYear  Many cdata	375	 
 	 CountyYear - Year 	Text	CountyYear  Many cdata	376	 
-	 CFHI COMPRE 13a BENCH RATING - Total Contributions Per Average Adult Attendee	Formula - Rich Text	 	377	 
-	 CFHI COMPRE 13a BENCH PARAGRAPH - Total Contributions Per Average Adult Attendee	Formula - Rich Text	 	378	 
 	 CFHI COMPRE 14 BENCH RATING - Median Household Income Given to Church	Formula - Rich Text	 	379	 
 	 CFHI COMPRE 14 BENCH PARAGRAPH - Median Household Income Given to Church	Formula - Rich Text	 	380	 
-	 CFHI COMPRE 13v19a BENCH PARAGRAPH - Total Contr vs Exp per Adult	Formula - Rich Text	 	381	 
-	 CFHI COMPRE 13v19a BENCH RATING - Total Contr vs Exp per Adult	Formula - Rich Text	 	382	 
 	 CFHI COMPRE 13v19b BENCH PARAGRAPH - Total Contr vs Exp per GU	Formula - Rich Text	 	383	 
 	 CFHI COMPRE 13v19b BENCH RATING - Total Contr vs Exp per GU	Formula - Rich Text	 	384	 
 	 CFHI COMPRE 14a RATIO - Median Household Income Given to Church	Formula - Percent	 	389	 
@@ -237,17 +216,11 @@
 	 CFHI COMPRE 14c RATIO - Median Household Income Given to Church	Formula - Percent	 	391	 
 	 CFHI COMPRE 14d RATIO - Median Household Income Given to Church	Formula - Percent	 	392	 
 	 CFHI COMPRE 14e RATIO - Median Household Income Given to Church	Formula - Percent	 	393	 
-	 CFHI COMPRE 09a RATIO CHANGE - Debt per Average Adult Attendee	Formula - Percent	 	399	 
 	 CFHI COMPRE 09d RATIO CHANGE - Debt per Giving Unit	Formula - Percent	 	401	 
 	 CFHI COMPRE 11a RATIO - Two Year Net Income Ratio	Formula - Percent	 	402	 
-	 CFHI COMPRE 12a RATIO CHANGE - Contributions Without Donor Restrictions per Average Adult Attendee	Formula - Percent	 	403	 
 	 CFHI COMPRE 12b RATIO CHANGE- Contributions Without Donor Restrictions per Giving Unit	Formula - Percent	 	404	 
-	 CFHI COMPRE 13a RATIO CHANGE - Total Contributions Per Average Adult Attendee	Formula - Percent	 	405	 
 	 CFHI COMPRE 13b RATIO CHANGE - Total Contributions Per Giving Unit	Formula - Percent	 	406	 
-	 CFHI COMPRE 19a RATIO CHANGE - Cash Exp per Average Adult	Formula - Percent	 	407	 
 	 CFHI COMPRE 19b RATIO CHANGE - Cash Exp per Giving Unit	Formula - Percent	 	408	 
-	 CFHI COMPRE 00a BENCH RATING - Attendees to Staff	Formula - Rich Text	 	409	 
-	 CFHI COMPRE 00a BENCH PARAGRAPH - Attendees to Staff	Formula - Rich Text	 	410	 
 	 CFHI STAND 05a RATIO CHANGE - Contribution w/o Donor Restriction per Giving Unit	Formula - Percent	 	415	 
 	 CFHI COMPRE 14 TITLE - Median Household Income Given to Church	Formula - Rich Text	 	422	 
 	 CFHI COMPRE 14 VALUE - Median Household Income Given to Church	Formula - Rich Text	 	423	 
@@ -261,18 +234,8 @@
 	 CFHI COMPRE 14c TITLE - Median Household Income Given to Church	Formula - Rich Text	 	434	 
 	 CFHI COMPRE 14d TITLE - Median Household Income Given to Church	Formula - Rich Text	 	435	 
 	 CFHI COMPRE 14e TITLE - Median Household Income Given to Church	Formula - Rich Text	 	436	 
-	 CFHI COMPRE 22 Value Under10 - Facilities Expenses of Total Cash Expend	Formula - Percent	 	437	 
-	 CFHI COMPRE 22 Value Over10 - Facilities Expenses of Total Cash Expend	Formula - Percent	 	438	 
-	 CFHI COMPRE 23 Value Under10 - Facility Cost per Square Foot (Excluding Interest Expense)	Formula - Currency	 	439	 
-	 CFHI COMPRE 23 Value Over10 - Facility Cost per Square Foot (Excluding Interest Expense)	Formula - Currency	 	440	 
-	 CFHI COMPRE 24 Value Over10 - Facility Cost per Square Foot (Including Principal and Interest Expense)	Formula - Currency	 	441	 
-	 CFHI COMPRE 24 Value Under10 - Facility Cost per Square Foot (Including Principal and Interest Expense)	Formula - Currency	 	442	 
-	 CFHI COMPRE 22 Rating Over10 - Facilities Expenses of Total Cash Expend	Formula - Text	 	443	 
-	 CFHI COMPRE 22 Rating Under10 - Facilities Expenses of Total Cash Expend	Formula - Text	 	444	 
 	 CFHI COMPRE 11a BENCH RATINGS - Two Year Net Income Ratio	Formula - Rich Text	 	445	 
-	 CFHI COMPRE 12a BENCH RATINGS - PERCENT CHANGE - Contributions Without Donor Restrictions per Adult	Formula - Rich Text	 	446	 
 	 CFHI COMPRE 12b BENCH RATINGS - PERCENT CHANGE - Contributions Without Donor Restrictions per GU	Formula - Rich Text	 	447	 
-	 CFHI COMPRE 13a BENCH RATINGS - PERCENT CHANGE - Total Contributions Per Adult	Formula - Rich Text	 	448	 
 	 CFHI COMPRE 13b BENCH RATINGS - PERCENT CHANGE - Total Contributions Per Giving Unit	Formula - Rich Text	 	449	 
 	 Merged Client Name 	Text	Client  Many cdata	452	 
 	 Client - Merged Denomination 	Text	Client  Many cdata	453	 
@@ -307,7 +270,6 @@
 	 Client - CFHI Type 	Text	Client  Many cdata	570	 
 	 00 Return to Dashboard	Formula - Rich Text	 	571	 
 	 Client - PE - CCLLP Region 	Text	Client  Many cdata	589	 
-	 CFHI COMPRE 25a RATIO - IT to Total Cash Expenditures 	Formula - Percent	 	591	 
 	 PYs54 County Code - County_Standard	Formula - Text	 	598	 
 	 9999 - Financial Data Entry	Text - Multiple Choice	 	602	 
 	 9999 Pipeline Copy2Peer Trigger	Formula - Text	 	603	 
@@ -323,7 +285,6 @@
 	 8888 - Repeat s47 - CY Interest Expense	Formula - Numeric	 	616	 
 	 00 Open Compre 06 Ratio2	Formula - URL	 	617	 
 	 00 Open Compre 08 Ratio	Formula - URL	 	618	 
-	 00 Open Compre 13a Ratio	Formula - URL	 	619	 
 	 00 Open Compre 13b	Formula - URL	 	620	 
 	 00 Open Compre 16.1 Ratio	Formula - URL	 	621	 
 	 00 Open Compre 16.2 Ratio	Formula - URL	 	622	 
@@ -332,38 +293,24 @@
 	 00 Open Compre 17.1 Ratio	Formula - URL	 	625	 
 	 00 Open Compre 17.2 Ratio	Formula - URL	 	626	 
 	 00 Open Compre 17.3 Ratio	Formula - URL	 	627	 
-	 00 Open Compre 18a Ratio	Formula - URL	 	628	 
-	 00 Open Compre 18b Ratio	Formula - URL	 	629	 
 	 00 Open Compre 18c Ratio	Formula - URL	 	630	 
-	 00 Open Compre 19a Ratio	Formula - URL	 	631	 
 	 00 Open Compre 19b Ratio	Formula - URL	 	632	 
 	 00 Open Compre 20 Ratio	Formula - URL	 	633	 
 	 00 Open Compre 21 Ratio	Formula - URL	 	634	 
-	 00 Open Compre 22 Ratio	Formula - URL	 	635	 
-	 00 Open Compre 23 Ratio	Formula - URL	 	636	 
-	 00 Open Compre 24 Ratio	Formula - URL	 	637	 
-	 8888- Repeat s154 - Required minimum debt principal payment for the next year-	Numeric	 	638	 
+	 8888 - Repeat s154 - Required minimum debt principal payment for the next year	Numeric	 	638	 
 	 00 Open Compre 05a Ratio	Formula - URL	 	639	 
 	 00 Open Compre 05b Ratio	Formula - URL	 	640	 
-	 00 Open Compre 09a Debt Ratio	Formula - URL	 	641	 
-	 00 Open Compre 09a % Change Debt Ratio	Formula - URL	 	642	 
-	 00 Open Compre 09c  Ratio	Formula - URL	 	643	 
 	 00 Open Compre 09d Debt Ratio	Formula - URL	 	644	 
 	 00 Open Compre 09d % Change Debt Ratio	Formula - URL	 	645	 
 	 00 Open Compre 09f Ratio	Formula - URL	 	646	 
 	 00 Open Compre 11 Ratio	Formula - URL	 	647	 
 	 00 Open Compre 11a Ratio	Formula - URL	 	648	 
-	 00 Open Compre 12a Adult  Ratio	Formula - URL	 	649	 
-	 00 Open Compre 12a % Change Ratio	Formula - URL	 	650	 
 	 00 Open Compre 12b Giving Unit Ratio	Formula - URL	 	651	 
 	 00 Open Compre 12b % Change Ratio	Formula - URL	 	652	 
 	 00 Open Compre 13b % Ratio	Formula - URL	 	653	 
-	 00 Open Compre 13a  %  Ratio	Formula - URL	 	654	 
 	 PE Client Code 	Text	Client  Many cdata	655	 
-	 00 Open Compre 19a % Change Ratio	Formula - URL	 	656	 
 	 00 Open Compre 19b %  Ratio	Formula - URL	 	657	 
 	 00 Open Compre 15 Ratio	Formula - URL	 	658	 
-	 00 Open Compre 25 Ratio	Formula - URL	 	659	 
 	 00 Open Ratios	Formula - Rich Text	 	661	 
 	 00 Open Standard 01 Ratio	Formula - URL	 	662	 
 	 00 Open Standard 02 Ratio	Formula - URL	 	663	 
@@ -374,6 +321,26 @@
 	 00 Open Standard 07 Ratio	Formula - URL	 	668	 
 	 00 Open Standard 08 Ratio	Formula - URL	 	669	 
 	 CFHI COMPRE 00a RATIO - Giving Units to Staff	Formula - Numeric	 	672	 
-	 CFHI COMPRE 00a BENCH RATING - Giving Units to Staff	Formula - Text	 	674	 
-	 CFHI COMPRE 00a BENCH PARAGRAPH - Giving Units  to Staff	Formula - Rich Text	 	675	 
 	 Print Report Card	Formula - URL	 	677	 
+	 CFHI STAND 04b RATIO - 3 x Contributions w/o donor restrictions per Giving Unit	Formula - Currency	 	678	 
+	 s90 - next fiscal years refinanced loan payments	Numeric	 	679	 
+	 s91 - Accounts receivable	Numeric	 	680	 
+	 s92 - Total PPE net	Numeric	 	681	 
+	 s93 - reclassifications or releases for expenditures	Numeric	 	682	 
+	 s94 - accounting dept outsourced labor	Numeric	 	683	 
+	 s95 - debt due in CY will be refinanced	Numeric	 	684	 
+	 8888 Repeat s91 - Accounts receivable	Numeric	 	685	 
+	 8888 Reapeat s164 - One-time payoff of debt due in the next year	Numeric	 	686	 
+	 8888 Repeat s90 - next fiscal year refinanced loan payments	Numeric	 	687	 
+	 CFHI COMPRE 22 RATIO - Facilities Expenses of Total Cash Expend	Formula - Percent	 	688	 
+	 CFHI COMPRE 25a RATIO - IT to Total Cash Expenditures	Formula - Percent	 	689	 
+	 CFHI COMPRE 13b BENCH RATING - Total Contributions Per Giving Unit	Formula - Rich Text	 	695	 
+	 CFHI COMPRE 13b BENCH PARAGRAPH - Total Contributions Per Giving Unit	Formula - Rich Text	 	696	 
+	 CFHI STAND 06 BENCH Rating - Total Contributions per Giving Unit	Formula - Rich Text	 	698	 
+	 CFHI STAND 00 RATIO CHANGE - Giving Units	Formula - Percent	 	700	 
+	 CFHI COMPRE 00 RATIO CHANGE - Giving Units	Formula - Percent	 	701	 
+	 CFHI STAND 09 RATIO - Personnel (Including Outsourced Personnel) to Total Cash Expenditures	Formula - Percent	 	702	 
+	 CFHI STAND 09 BENCH Rating - Personnel (Including Outsourced Personnel) to Total Cash Expenditures	Formula - Text	 	703	 
+	 Client - Church + School 	Checkbox	Client  Many cdata	704	 
+	 00 Open Standard 09 Ratio	Formula - URL	 	705	 
+	 PY S161 Num Locations	Formula - Text	 	706	 

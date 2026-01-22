@@ -23,7 +23,6 @@ class ExcelReportGenerator {
       TOTAL_RECORDS_PEER: "224",
       TYPE: "287",
       FIRM_NAME: "223",
-      UNIQUE_CLIENTS: "298",
       SLIDER_MIN: "296",
       SLIDER_MAX: "297",
       SITES: "329",
@@ -35,26 +34,29 @@ class ExcelReportGenerator {
     this.xmlPayload = "";
 
     // Field metric mappings for Standard Project (9 metrics)
-    // Format per entry: [metricName, [AVG, MIN, MID, MAX], begin, end, category]
+    // Format per entry: [metricName, [AVG, MIN, MID, MAX], category, useWeightedAvg]
+    // useWeightedAvg matches "wa" flag from Report.js
+    // Field IDs: Standard uses 6-41 (different from Comprehensive's S-prefix 239-286)
+    // Both use same upload table (btcc8gq3r) but different field ranges based on TYPE field
     this.fieldMappings = [
-      // General
-      ["givingUnits", [6, 8, 7, 9], true, false, "general"],
-      ["contributionsWithoutDonorExcludingLargeGifts", [10, 12, 11, 13], false, false, "general"],
-      
+      // General (Standard uses "general" category, Comprehensive uses "demo")
+      ["givingUnits", [6, 8, 7, 9], "general", false],
+      ["contributionsWithoutDonorExcludingLargeGifts", [10, 12, 11, 13], "general", false],
+
       // Cash
-      ["daysOperatingCash", [14, 16, 15, 17], false, false, "cash"],
-      ["netCashAvailability", [18, 20, 19, 21], false, false, "cash"],
-      
+      ["daysOperatingCash", [14, 16, 15, 17], "cash", true],
+      ["netCashAvailability_standard", [18, 20, 19, 21], "cash", false],
+
       // Debt
-      ["debtToContributionsWithout", [22, 24, 23, 25], false, false, "debt"],
-      ["debtPerGivingUnit", [26, 28, 27, 29], false, false, "debt"],
-      
+      ["debtToContributionsWithout", [22, 24, 23, 25], "debt", true],
+      ["debtPerGivingUnit", [26, 28, 27, 29], "debt", true],
+
       // Income
-      ["contributionsWithoutDonorPerGivingUnit", [30, 32, 31, 33], false, false, "income"],
-      ["totalContributionsPerGivingUnit", [34, 36, 35, 37], false, false, "income"],
-      
+      ["contributionsWithoutDonorPerGivingUnit", [30, 32, 31, 33], "income", true],
+      ["totalContributionsPerGivingUnit", [34, 36, 35, 37], "income", true],
+
       // Expense
-      ["cashExpendituresPerGivingUnit", [38, 40, 39, 41], false, false, "expense"],
+      ["cashExpendituresPerGivingUnit", [38, 40, 39, 41], "expense", true],
     ];
 
     this.init();
@@ -212,9 +214,12 @@ class ExcelReportGenerator {
   }
 
   /**
-   * Process data arrays and calculate statistics
+   * Process data arrays and calculate statistics.
+   * @param {Object} data - Data object containing _Peer and optional _Stats
+   * @param {string} metricName - Metric name
+   * @param {boolean} useWeightedAvg - If true, use getWeightedAverageOfArray for avg (matches Report "wa" flag)
    */
-  calculateStatistics(data, metricName) {
+  calculateStatistics(data, metricName, useWeightedAvg = false) {
     if (data[`${metricName}_Stats`]) {
       return {
         avg: data[`${metricName}_Stats`].avg || 0,
@@ -223,39 +228,44 @@ class ExcelReportGenerator {
         max: data[`${metricName}_Stats`].q3 || 0
       };
     }
-    // Get peer data
     const peerData = data[`${metricName}_Peer`];
     if (!peerData || !peerData.total || !Array.isArray(peerData.total)) {
       return { avg: 0, mid: 0, min: 0, max: 0 };
     }
 
     const values = peerData.total.filter((v) => !isNaN(parseFloat(v)));
-
-    // Calculate statistics
     let avg, mid, min, max;
 
-    // Average
-    if (typeof getWeightedAverageOfArray === "function") {
-      avg = getWeightedAverageOfArray(data, metricName, null);
+    if (useWeightedAvg && typeof getWeightedAverageOfArray === "function") {
+      try {
+        avg = getWeightedAverageOfArray(data, metricName, null);
+      } catch (e) {
+        avg = values.length
+          ? values.reduce((sum, val) => sum + Number(val), 0) / values.length
+          : 0;
+      }
+    } else if (typeof getAverageOfArray === "function") {
+      avg = getAverageOfArray(peerData.total, metricName);
     } else {
-      avg = values.reduce((sum, val) => sum + Number(val), 0) / values.length;
+      avg = values.length
+        ? values.reduce((sum, val) => sum + Number(val), 0) / values.length
+        : 0;
     }
+    if (avg === undefined || avg === null || isNaN(avg)) avg = 0;
 
-    // Percentiles
     if (
       typeof get25thPercentileOfArray === "function" &&
       typeof getMidpointOfArray === "function" &&
       typeof get75thPercentileOfArray === "function"
     ) {
-      min = get25thPercentileOfArray(values, metricName);
-      mid = getMidpointOfArray(values, metricName);
-      max = get75thPercentileOfArray(values, metricName);
+      min = get25thPercentileOfArray(peerData.total, metricName);
+      mid = getMidpointOfArray(peerData.total, metricName);
+      max = get75thPercentileOfArray(peerData.total, metricName);
     } else {
-      // Fallback manual calculation
       const sorted = [...values].sort((a, b) => a - b);
-      min = sorted[Math.floor(sorted.length * 0.25)] || 0;
-      mid = sorted[Math.floor(sorted.length * 0.5)] || 0;
-      max = sorted[Math.floor(sorted.length * 0.75)] || 0;
+      min = sorted[Math.floor(sorted.length * 0.25)] ?? 0;
+      mid = sorted[Math.floor(sorted.length * 0.5)] ?? 0;
+      max = sorted[Math.floor(sorted.length * 0.75)] ?? 0;
     }
 
     return { avg, mid, min, max };
@@ -334,26 +344,16 @@ class ExcelReportGenerator {
             : window.firmName;
       }
 
-      // Get uniqueClients - convert to a valid choice value
+      // Get uniqueClients (peer group size) - this is the actual count of unique clients
+      // NOT totalRecordsPeer which includes multiple years (matches Comprehensive)
       let uniqueClientsSize =
-        document.getElementById("uniqueClients")?.textContent || 0;
+        document.getElementById("uniqueClients")?.textContent || 
+        window.uniqueClientSize || 
+        0;
       
-      // Convert numeric value to choice value for field 298
-      let uniqueClientsChoice = "";
-      const clientCount = parseInt(uniqueClientsSize);
-      if (clientCount <= 50) {
-        uniqueClientsChoice = "1-50";
-      } else if (clientCount <= 100) {
-        uniqueClientsChoice = "51-100";
-      } else if (clientCount <= 250) {
-        uniqueClientsChoice = "101-250";
-      } else if (clientCount <= 500) {
-        uniqueClientsChoice = "251-500";
-      } else if (clientCount <= 1000) {
-        uniqueClientsChoice = "501-1000";
-      } else {
-        uniqueClientsChoice = "1000+";
-      }
+      // Parse to integer - this will be used for TOTAL_RECORDS_PEER field
+      // Fallback to totalRecordsPeer if uniqueClients not available
+      const clientCount = parseInt(uniqueClientsSize) || window.totalRecordsPeer || 0;
 
       // Direct access to global variables for filters
       const sliderValue = window.sliderValue || 0;
@@ -385,18 +385,17 @@ class ExcelReportGenerator {
       this.xmlPayload += `<field fid='${
         this.FIELD_IDS.CLIENT_RID
       }'>${this.escapeXml(ClientRid)}</field>`;
+      // IMPORTANT: Use clientCount (unique clients) NOT totalRecordsPeer (total records across years)
+      // This ensures "Sample Size in Peer Averages" matches the dashboard's "Peer group size" (matches Comprehensive)
       this.xmlPayload += `<field fid='${
         this.FIELD_IDS.TOTAL_RECORDS_PEER
-      }'>${this.escapeXml(window.totalRecordsPeer || 0)}</field>`;
+      }'>${this.escapeXml(clientCount)}</field>`;
       this.xmlPayload += `<field fid='${
         this.FIELD_IDS.TYPE
       }'>Standard</field>`;
       this.xmlPayload += `<field fid='${
         this.FIELD_IDS.FIRM_NAME
       }'>${this.escapeXml(firmName)}</field>`;
-      this.xmlPayload += `<field fid='${
-        this.FIELD_IDS.UNIQUE_CLIENTS
-      }'>${this.escapeXml(uniqueClientsChoice)}</field>`;
       this.xmlPayload += `<field fid='${
         this.FIELD_IDS.SLIDER_MIN
       }'>${this.escapeXml(sliderValue)}</field>`;
@@ -423,14 +422,10 @@ class ExcelReportGenerator {
           fieldId = Number(this.FIELD_IDS.YEARS_START) + i;
         }
 
-        // Ensure we're not using the same field IDs as slider fields
         if (
           fieldId.toString() === this.FIELD_IDS.SLIDER_MIN ||
           fieldId.toString() === this.FIELD_IDS.SLIDER_MAX
         ) {
-          // console.error(
-            `Field ID conflict detected: Year field ID ${fieldId} conflicts with slider/mission field IDs`
-          );
           continue;
         }
 
@@ -486,10 +481,9 @@ class ExcelReportGenerator {
       );
 
       // Process each field mapping
-      this.fieldMappings.forEach((mapping, index) => {
-        const [metricName, fieldIds, begin, end, category] = mapping;
+      this.fieldMappings.forEach((mapping) => {
+        const [metricName, fieldIds, category, useWeightedAvg] = mapping;
 
-        // Find which data object contains this metric based on category
         let dataObject;
         switch (category) {
           case "general":
@@ -508,21 +502,15 @@ class ExcelReportGenerator {
             dataObject = expenseData;
             break;
           default:
-            return; // Skip if no valid category
+            return;
         }
 
-        // Check if data exists for this metric
         if (!dataObject || !dataObject[`${metricName}_Peer`]) {
-          return; // Skip if no data found
+          return;
         }
 
-        // Get peer data
-        const peerData = dataObject[`${metricName}_Peer`];
+        const stats = this.calculateStatistics(dataObject, metricName, useWeightedAvg);
 
-        // Calculate statistics
-        const stats = this.calculateStatistics(dataObject, metricName);
-
-        // Add to metrics XML
         if (fieldIds && fieldIds.length >= 4) {
           const avgId = fieldIds[0];
           const midId = fieldIds[2];
@@ -556,34 +544,58 @@ class ExcelReportGenerator {
    * @returns {Promise} Promise that resolves with the QuickBase response
    */
   printToExcel(dataString) {
+    /**
+     * Generate URL for Benchmark reports based on year count (matches Comprehensive)
+     * @param {string} format - File format ("xls" or "pdf")
+     * @param {string} RecordId - QuickBase record ID
+     * @returns {string} Generated URL for the report
+     */
     function getUrlBasedOnYearCount(format, RecordId) {
       const selectedYears = getSelectedYearsFromLocalStorage() || [];
       const yearCount = selectedYears.length;
-      let url = "";
-
+      let tpid = "";
+      
+      // Get client name (firmName) from window
+      let clientName = "";
+      if (window.firmName) {
+        clientName =
+          window.firmName instanceof HTMLElement
+            ? window.firmName.textContent || ""
+            : window.firmName;
+      }
+      
+      // Map year count to tpid for Benchmark reports (matches Comprehensive)
+      const reportSuffix = "Benchmark Report";
+      const fnName = clientName 
+        ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+        : reportSuffix;
+      
       switch (yearCount) {
         case 1:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=9&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "9"; // Church Compre Bench 1 Year.xlsx
           break;
         case 2:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=10&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "10"; // Church Compre Bench 2 Year.xlsx
           break;
         case 3:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=11&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "11"; // Church Compre Bench 3 Year.xlsx
           break;
         case 4:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=12&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "12"; // Church Compre Bench 4 Year.xlsx
           break;
         case 5:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=13&fn=BenchmarkReport&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "13"; // Church Compre Bench 5 Year.xlsx
           break;
         default:
-          // console.error("Invalid year count");
+          break;
       }
-
-      // console.log(
-        `Generated URL for format ${format} and RecordId ${RecordId}: ${url}`
-      );
+      
+      if (!tpid) {
+        return "";
+      }
+      
+      const url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=${tpid}&fn=${fnName}&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      
       return url;
     }
     
@@ -632,11 +644,6 @@ class ExcelReportGenerator {
 
               if (errorCode === "0") {
                 const recordId = xmlUpload.find("qdbapi").find("rid").text();
-                // console.log(
-                  "Successfully uploaded to QuickBase, Record ID:",
-                  recordId
-                );
-
                 if (typeof createToastSuccess === "function") {
                   createToastSuccess(
                     "Generated Reports successfully to Quickbase."
@@ -668,11 +675,6 @@ class ExcelReportGenerator {
                 const error = new Error(
                   `QuickBase error (${errorCode}): ${errorText}`
                 );
-                // console.error("QuickBase API error:", {
-                  errorCode,
-                  errorText,
-                  xmlPayload: dataString,
-                });
 
                 if (typeof createToastWarning === "function") {
                   createToastWarning(error.message);
@@ -681,13 +683,6 @@ class ExcelReportGenerator {
                 reject(error);
               }
             } catch (parseError) {
-              // console.error(
-                "Error parsing QuickBase response:",
-                parseError,
-                "Response:",
-                response
-              );
-
               if (typeof createToastWarning === "function") {
                 createToastWarning(
                   `Failed to parse QuickBase response: ${parseError.message}`
@@ -702,15 +697,7 @@ class ExcelReportGenerator {
             }
           },
           error: function (xhr, status, error) {
-            // Extract meaningful error information
             let errorMessage = "Unknown error";
-
-            // console.error("QuickBase API request failed:", {
-              status,
-              error,
-              response: xhr.responseText,
-              xmlPayload: dataString,
-            });
 
             if (xhr && xhr.responseText) {
               try {

@@ -574,7 +574,7 @@ class DataProcessor {
           year,
           "contributionsWithoutDonorExcludingLargeGifts_Peer",
           record,
-          "cfhi_compre_00f_ratio___contributions_without_donor_restrictions",
+          "s39___contribution_without_donor_restriction",
           "cfhi_stand_00b_yes_no___contribution_w_o_dr"
         );
 
@@ -656,7 +656,7 @@ class DataProcessor {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
       filteredPeerRecords.forEach((record) => {
-        // daysOperatingCash
+        // f
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -960,16 +960,6 @@ class DataProcessor {
           "contributionWithoutDonor",
           record,
           "s39___contribution_without_donor_restriction",
-          "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
-          "contributionsWithoutDonorPerGivingUnit_standard"
-        );
-        this.dataStore.insertData(
-          "debt",
-          "peer",
-          year,
-          "largeOneTimeGiftWithoutDonor",
-          record,
-          "s152___large_one_time_gift_without_donor_restriction__non_recurring_",
           "cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit",
           "contributionsWithoutDonorPerGivingUnit_standard"
         );

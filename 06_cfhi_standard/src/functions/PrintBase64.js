@@ -143,17 +143,23 @@ function saveCompleteChartState(chart) {
     }
 
     // Save everything we'll need for proper restoration
+    // Get dimensions for fallback values
+    const defaultWidth = chart.w.globals?.svgWidth || 1000;
+    const defaultHeight = chart.w.globals?.svgHeight || 600;
+    const savedViewBox = paperNode.getAttribute("viewBox");
+    const savedPreserveAspectRatio = paperNode.getAttribute("preserveAspectRatio");
+    
     const originalConfig = {
       chartId: chartId,
       chartType: chartType,
       mainName: mainName,
       svgAttributes: {
-        width: paperNode.getAttribute("width"),
-        height: paperNode.getAttribute("height"),
-        viewBox: paperNode.getAttribute("viewBox"),
-        styleWidth: paperNode.style.width,
-        styleHeight: paperNode.style.height,
-        preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
+        width: paperNode.getAttribute("width") || null,
+        height: paperNode.getAttribute("height") || null,
+        viewBox: savedViewBox || `0 0 ${defaultWidth} ${defaultHeight}`,
+        styleWidth: paperNode.style.width || null,
+        styleHeight: paperNode.style.height || null,
+        preserveAspectRatio: savedPreserveAspectRatio || "xMidYMid meet",
       },
       chartConfig: clonedConfig,
       dimensions: {
@@ -197,17 +203,43 @@ function restoreCompleteChartState(chart, originalState) {
     }
 
     const paperNode = chart.w.globals.dom.Paper.node;
-    // Restore SVG attributes
     const { svgAttributes } = originalState;
-    paperNode.setAttribute("width", svgAttributes.width);
-    paperNode.setAttribute("height", svgAttributes.height);
-    paperNode.style.width = svgAttributes.styleWidth;
-    paperNode.style.height = svgAttributes.styleHeight;
-    paperNode.setAttribute("viewBox", svgAttributes.viewBox);
-    paperNode.setAttribute(
-      "preserveAspectRatio",
-      svgAttributes.preserveAspectRatio
-    );
+    const w = originalState.dimensions?.width ?? chart.w.globals?.svgWidth ?? 1000;
+    const h = originalState.dimensions?.height ?? chart.w.globals?.svgHeight ?? 600;
+    
+    // Ensure viewBox and preserveAspectRatio are never null/undefined/empty
+    const safeViewBox = (svgAttributes?.viewBox && 
+                         svgAttributes.viewBox !== null && 
+                         svgAttributes.viewBox !== "" && 
+                         svgAttributes.viewBox !== "null")
+      ? svgAttributes.viewBox
+      : `0 0 ${w} ${h}`;
+    const safePreserveAspectRatio = (svgAttributes?.preserveAspectRatio && 
+                                     svgAttributes.preserveAspectRatio !== null && 
+                                     svgAttributes.preserveAspectRatio !== "" && 
+                                     svgAttributes.preserveAspectRatio !== "null")
+      ? svgAttributes.preserveAspectRatio
+      : "xMidYMid meet";
+
+    // Restore width/height attributes only if they exist and are valid
+    if (svgAttributes?.width && svgAttributes.width !== null && svgAttributes.width !== "" && svgAttributes.width !== "null") {
+      paperNode.setAttribute("width", svgAttributes.width);
+    }
+    if (svgAttributes?.height && svgAttributes.height !== null && svgAttributes.height !== "" && svgAttributes.height !== "null") {
+      paperNode.setAttribute("height", svgAttributes.height);
+    }
+    
+    // Restore style properties
+    if (svgAttributes?.styleWidth != null && svgAttributes.styleWidth !== "") {
+      paperNode.style.width = svgAttributes.styleWidth;
+    }
+    if (svgAttributes?.styleHeight != null && svgAttributes.styleHeight !== "") {
+      paperNode.style.height = svgAttributes.styleHeight;
+    }
+    
+    // Always set viewBox and preserveAspectRatio with safe values
+    paperNode.setAttribute("viewBox", String(safeViewBox));
+    paperNode.setAttribute("preserveAspectRatio", String(safePreserveAspectRatio));
 
     // Get the original chart configuration
     const originalConfig = chart.w.config;
@@ -885,9 +917,6 @@ async function sendToQuickbase(xml) {
 function initApexChartsPrintFunction() {
   const printButton = document.getElementById("printBase64");
   if (!printButton) {
-    // console.error(
-      "Print button not found for ApexCharts export print functionality"
-    );
     return;
   }
 

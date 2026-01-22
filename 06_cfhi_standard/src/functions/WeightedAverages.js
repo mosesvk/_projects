@@ -45,7 +45,7 @@ const getWeightedAverageOfArray = (data, name, year) => {
     case "contributionsWithoutDonorPerGivingUnit":
       return contributionsWithoutDonorPerGivingUnit_weightedAverage(data, name, year);
     case "contributionsWithoutDonorPerGivingUnit_standard":
-      return contributionsWithoutDonorPerGivingUnit_standard(data, name, year);
+      return contributionsWithoutDonorPerGivingUnit_standard_weightedAverage(data, name, year);
     case "totalContributionsPerAverageAdultAttendee":
       return totalContributionsPerAverageAdultAttendee_weightedAverage(data, name);
     case "totalContributionsPerGivingUnit":
@@ -127,6 +127,38 @@ const cashExpendituresPerGivingUnit_weightedAverage = (data, name, year) => {
   return (s45 - s46) / s02;
 }
 
+/**
+ * Weighted average for netCashAvailability_standard (one month of cash expenses).
+ * Standard project: (s45 - s46) / 12.
+ * @param {Object} data - Data object
+ * @param {string} name - Metric name (netCashAvailability_standard)
+ * @returns {number}
+ */
+const netCashAvailability_standard_weightedAverage = (data, name) => {
+  const yearKey = 'total';
+  const s45 = data.totalExpense && data.totalExpense[name] && data.totalExpense[name][yearKey]
+    ? getSumOfArray(data.totalExpense[name][yearKey])
+    : 0;
+  const s46 = data.totalDepreciationExpense && data.totalDepreciationExpense[name] && data.totalDepreciationExpense[name][yearKey]
+    ? getSumOfArray(data.totalDepreciationExpense[name][yearKey])
+    : 0;
+  const denominator = s45 - s46;
+  if (!denominator || isNaN(denominator)) return 0;
+  return denominator / 12;
+};
+
+/**
+ * Weighted average for netCashAvailability. Delegates to netCashAvailability_standard
+ * when used in Standard project (same underlying inputs).
+ * @param {Object} data - Data object
+ * @param {string} name - Metric name
+ * @returns {number}
+ */
+const netCashAvailability_weightedAverage = (data, name) => {
+  const v = netCashAvailability_standard_weightedAverage(data, 'netCashAvailability_standard');
+  return (v != null && !isNaN(v)) ? v : 0;
+};
+
 
 const benefitsToSalaries_weightedAverage = (data, name) => {
 
@@ -174,34 +206,23 @@ const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name, year
   return s39 / s02;
 }
 
-const contributionsWithoutDonorPerGivingUnit_standard = (data, name, year) => {
-  const yearKey = year ? year : 'total';
+/**
+ * Calculate weighted average for contributionsWithoutDonorPerGivingUnit_standard
+ * This is the weighted average of contributionsWithoutDonorPerGivingUnit multiplied by 2
+ * @param {Object} data - The data object containing contribution and giving unit data
+ * @param {string} name - The name key for accessing data (typically "contributionsWithoutDonorPerGivingUnit_standard")
+ * @param {string|number} year - The year key or 'total' for all years
+ * @returns {number} - The weighted average multiplied by 2
+ */
+const contributionsWithoutDonorPerGivingUnit_standard_weightedAverage = (data, name, year) => {
+  // Use the same underlying data as contributionsWithoutDonorPerGivingUnit
+  // but access it using the base name "contributionsWithoutDonorPerGivingUnit"
+  const baseName = "contributionsWithoutDonorPerGivingUnit";
+  const weightedAvg = contributionsWithoutDonorPerGivingUnit_weightedAverage(data, baseName, year);
   
-  // Safely access nested properties with fallback to empty arrays
-  const s39 = data.contributionWithoutDonor && data.contributionWithoutDonor[name] && data.contributionWithoutDonor[name][yearKey]
-    ? getSumOfArray(data.contributionWithoutDonor[name][yearKey])
-    : 0;
-  const s152 = data.largeOneTimeGiftWithoutDonor && data.largeOneTimeGiftWithoutDonor[name] && data.largeOneTimeGiftWithoutDonor[name][yearKey]
-    ? getSumOfArray(data.largeOneTimeGiftWithoutDonor[name][yearKey])
-    : 0;
-  const s02 = data.givingUnits && data.givingUnits[name] && data.givingUnits[name][yearKey]
-    ? getSumOfArray(data.givingUnits[name][yearKey])
-    : 0;
-
-  if (s02 === 0 || isNaN(s02)) {
-    return 0;
-  }
-
-  console.log('contributionsWithoutDonorPerGivingUnit_standard values:', { s39, s152, s02, name, yearKey });
-  console.log('data.contributionWithoutDonor[name]:', data.contributionWithoutDonor && data.contributionWithoutDonor[name]);
-  console.log('data.largeOneTimeGiftWithoutDonor[name]:', data.largeOneTimeGiftWithoutDonor && data.largeOneTimeGiftWithoutDonor[name]);
-  console.log('data.givingUnits[name]:', data.givingUnits && data.givingUnits[name]);
-
-  return 2 * ((s39 - s152) / s02);
+  // Multiply by 2 as specified
+  return weightedAvg * 2;
 }
-
-
-
 
 const debtPerGivingUnit_weightedAverage = (data, name, year) => {
   const yearKey = year ? year : 'total';
