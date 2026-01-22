@@ -595,7 +595,6 @@ class ExcelReportGenerator {
       }
       
       const url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=${tpid}&fn=${fnName}&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
-      
       return url;
     }
     
@@ -665,6 +664,9 @@ class ExcelReportGenerator {
                 const trendPDFFinal = document.getElementById("trendPDFFinal");
                 if (trendPDFFinal) {
                   trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
+                  // Open PDF in new tab instead of navigating away from current page
+                  trendPDFFinal.target = "_blank";
+                  trendPDFFinal.rel = "noopener noreferrer";
                 }
 
                 resolve({ recordId });
