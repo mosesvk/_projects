@@ -573,7 +573,7 @@ const createToastSuccess = (textString) => {
     "delay-150",
     "fixed",
     "top-20",
-    "left-250",
+    "left-265",
     "transform",
     "-translate-x-1/2",
     "z-50",
@@ -1776,13 +1776,22 @@ const createWhatDoesThisMean = (whatDoesThisMeanArray, elementId) => {
   // Extract field name from elementId (e.g., "row_daysOperatingCash" -> "daysOperatingCash")
   const fieldName = elementId.replace(/^row_/, '');
 
-  // Build HTML content from array - each item becomes a paragraph
+  // Build HTML content from array - each item becomes a paragraph or uses existing HTML
   let htmlContent = '';
   whatDoesThisMeanArray.forEach((paragraph) => {
     // Process each paragraph and apply fixUnicodeCharacters if available
     let processedParagraph = typeof processHtmlContent === 'function' ? processHtmlContent(paragraph) : paragraph;
     processedParagraph = typeof fixUnicodeCharacters === 'function' ? fixUnicodeCharacters(processedParagraph) : processedParagraph;
-    htmlContent += `<p class="mb-2 text-gray-500 dark:text-gray-400">${processedParagraph}</p>`;
+    
+    // Check if the paragraph already contains HTML tags (starts with <)
+    // If it does, use it as-is; otherwise wrap it in a paragraph tag
+    if (processedParagraph.trim().startsWith('<')) {
+      // Already contains HTML, use as-is
+      htmlContent += processedParagraph;
+    } else {
+      // Plain text, wrap in paragraph tag
+      htmlContent += `<p class="mb-2 text-gray-500 dark:text-gray-400">${processedParagraph}</p>`;
+    }
   });
 
   // Populate the _body-2 section
