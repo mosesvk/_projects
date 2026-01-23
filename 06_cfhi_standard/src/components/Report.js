@@ -37,7 +37,7 @@ const displayReportComponent = () => {
     insertDataToReport(debtData, selectedYears, [
       ["debtToContributionsWithout", "num", 1, "wa", 'cb'],
       ["debtPerGivingUnit", "dollar", 0, "wa", 'cb'],
-      ["contributionsWithoutDonorPerGivingUnit_standard", "dollar", 0, "wa"],
+      ["contributionsWithoutDonorPerGivingUnit_standard", "dollar", 0],
     ]);
 
     checkForCountyDataIncomeTable(
@@ -60,59 +60,11 @@ const displayReportComponent = () => {
       ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa", 'cb'],
     ])
 
-    // Update contributionsWithoutDonorPerGivingUnit_standard after contributionsWithoutDonorPerGivingUnit is calculated
-    updateContributionsWithoutDonorPerGivingUnitStandard(incomeData, selectedYears);
-
     processBenchmarkParagraphs();
   }
 
   processTHElements();
   closeSidebarAfterSelectingOption("report");
-};
-
-/**
- * Update contributionsWithoutDonorPerGivingUnit_standard average value
- * This function waits until contributionsWithoutDonorPerGivingUnit is calculated,
- * then multiplies it by 2 and updates the average cell in the standard row.
- * @param {Object} incomeData - The income data object containing contributionsWithoutDonorPerGivingUnit data
- * @param {Array} selectedYears - Array of selected years
- */
-const updateContributionsWithoutDonorPerGivingUnitStandard = (incomeData, selectedYears) => {
-  if (!incomeData || !selectedYears || selectedYears.length === 0) {
-    return;
-  }
-
-  // Get the weighted average of contributionsWithoutDonorPerGivingUnit for 'total'
-  const baseName = "contributionsWithoutDonorPerGivingUnit";
-  const weightedAvg = getWeightedAverageOfArray(incomeData, baseName, "total");
-  
-  // Check if weightedAvg is valid (not undefined, null, or NaN)
-  if (weightedAvg === undefined || weightedAvg === null || isNaN(weightedAvg)) {
-    // console.warn("Could not calculate weighted average for contributionsWithoutDonorPerGivingUnit");
-    return;
-  }
-  
-  // Multiply by 2 as specified
-  const standardAvg = weightedAvg * 2;
-
-  // Find the row for contributionsWithoutDonorPerGivingUnit_standard
-  const standardRow = document.getElementById("row_contributionsWithoutDonorPerGivingUnit_standard");
-  if (!standardRow) {
-    // console.warn("Row not found: row_contributionsWithoutDonorPerGivingUnit_standard");
-    return;
-  }
-
-  // Find the average cell (first peer data cell after year columns)
-  // The structure is: [label cell, year cells..., avg cell, 25th cell, 50th cell, 75th cell]
-  // So the avg cell is at index: 1 (label) + selectedYears.length (years) = selectedYears.length + 1
-  const avgCellIndex = selectedYears.length + 1;
-  const avgCell = standardRow.children[avgCellIndex];
-  
-  if (avgCell) {
-    // Format the value as dollar with 0 decimal places
-    const formattedValue = styleNumber(standardAvg, "dollar", 0);
-    avgCell.textContent = formattedValue;
-  }
 };
 
 const insertDataToReport = (data, selectedYears, arrayOfNames) => {

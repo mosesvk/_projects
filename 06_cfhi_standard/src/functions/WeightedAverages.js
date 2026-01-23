@@ -44,8 +44,6 @@ const getWeightedAverageOfArray = (data, name, year) => {
       return contributionsWithoutDonorPerAverageAdultAttendee_weightedAverage(data, name);
     case "contributionsWithoutDonorPerGivingUnit":
       return contributionsWithoutDonorPerGivingUnit_weightedAverage(data, name, year);
-    case "contributionsWithoutDonorPerGivingUnit_standard":
-      return contributionsWithoutDonorPerGivingUnit_standard_weightedAverage(data, name, year);
     case "totalContributionsPerAverageAdultAttendee":
       return totalContributionsPerAverageAdultAttendee_weightedAverage(data, name);
     case "totalContributionsPerGivingUnit":
@@ -206,23 +204,6 @@ const contributionsWithoutDonorPerGivingUnit_weightedAverage = (data, name, year
   return s39 / s02;
 }
 
-/**
- * Calculate weighted average for contributionsWithoutDonorPerGivingUnit_standard
- * This is the weighted average of contributionsWithoutDonorPerGivingUnit multiplied by 2
- * @param {Object} data - The data object containing contribution and giving unit data
- * @param {string} name - The name key for accessing data (typically "contributionsWithoutDonorPerGivingUnit_standard")
- * @param {string|number} year - The year key or 'total' for all years
- * @returns {number} - The weighted average multiplied by 2
- */
-const contributionsWithoutDonorPerGivingUnit_standard_weightedAverage = (data, name, year) => {
-  // Use the same underlying data as contributionsWithoutDonorPerGivingUnit
-  // but access it using the base name "contributionsWithoutDonorPerGivingUnit"
-  const baseName = "contributionsWithoutDonorPerGivingUnit";
-  const weightedAvg = contributionsWithoutDonorPerGivingUnit_weightedAverage(data, baseName, year);
-  
-  // Multiply by 2 as specified
-  return weightedAvg * 2;
-}
 
 const debtPerGivingUnit_weightedAverage = (data, name, year) => {
   const yearKey = year ? year : 'total';

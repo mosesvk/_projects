@@ -656,7 +656,7 @@ class DataProcessor {
     years.forEach((year) => {
       const filteredPeerRecords = this.filterRecordsByYear(recordsPeer, year);
       filteredPeerRecords.forEach((record) => {
-        // f
+        // daysOperatingCash
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -666,7 +666,6 @@ class DataProcessor {
           "cfhi_stand_01_ratio___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
           "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
         );
-
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -677,7 +676,6 @@ class DataProcessor {
           "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
           "daysOperatingCash"
         );
-
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -688,7 +686,6 @@ class DataProcessor {
           "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
           "daysOperatingCash"
         );
-
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -699,7 +696,6 @@ class DataProcessor {
           "cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures",
           "daysOperatingCash"
         );
-
         this.dataStore.insertData(
           "cash",
           "peer",
@@ -733,49 +729,6 @@ class DataProcessor {
           "cfhi_stand_02_yes_no___net_cash_availability"
         );
 
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "totalCash",
-          record,
-          "s18___total_cash",
-          "cfhi_stand_02_yes_no___net_cash_availability",
-          "netCashAvailability"
-        );
-
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "nonEndowmentInvestment",
-          record,
-          "s20___non_endowment_investment",
-          "cfhi_stand_02_yes_no___net_cash_availability",
-          "netCashAvailability"
-        );
-
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "currentLiabilities",
-          record,
-          "s26___current_liabilities",
-          "cfhi_stand_02_yes_no___net_cash_availability",
-          "netCashAvailability"
-        );
-
-        this.dataStore.insertData(
-          "cash",
-          "peer",
-          year,
-          "shortTermConstructionLineOfCredit",
-          record,
-          "s31___short_term_construction_line_of_credit",
-          "cfhi_stand_02_yes_no___net_cash_availability",
-          "netCashAvailability"
-        );
 
         // netCashAvailability_standard
         this.dataStore.insertData(
@@ -1979,7 +1932,7 @@ class ApiService {
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
 
-        console.log('client records', dataStr);
+        // console.log('client records', dataStr);
       }
 
       // Recursive call with updated years and dataStr
@@ -2568,6 +2521,7 @@ class AppController {
           totalRecordsPeer = recordsPeer.length;
           window.totalRecordsPeer = totalRecordsPeer;
           countUniqueClients(recordsPeer);
+          logUniqueClientsTable(recordsPeer);
         }
     } catch (error) {
         // console.error("Error fetching peer data:", error);
@@ -2941,6 +2895,101 @@ function countUniqueClients(records) {
     if (element) {
       element.textContent = "0";
     }
+  }
+}
+
+/**
+ * Log a table of unique clients used in peer calculations
+ * Shows client name, giving units, site, region, and survey type
+ * @param {Array} records - Array of peer record elements
+ */
+function logUniqueClientsTable(records) {
+  if (!records || typeof records.forEach !== "function") {
+    console.warn("Invalid records provided to logUniqueClientsTable");
+    return;
+  }
+
+  // Map to store unique clients with their data
+  // Key: clientName, Value: { givingUnits, site, region, surveyType }
+  const uniqueClientsMap = new Map();
+
+  try {
+    records.forEach((record) => {
+      // Extract client nameio
+      const clientName = 
+        record.querySelector("client___merged_client_name")?.textContent?.trim() ||
+        record.querySelector("client_name")?.textContent?.trim();
+      
+      if (!clientName) {
+        return; // Skip records without client name
+      }
+
+      // Only add if not already in map (use first occurrence)
+      if (!uniqueClientsMap.has(clientName)) {
+        // Extract giving units (field 123 - s02___giving_units)
+        const givingUnits = 
+          record.querySelector("s02___giving_units")?.textContent?.trim() || "0";
+        
+        // Extract site (field 268 - main_querymultisite)
+        const site = 
+          record.querySelector("main_querymultisite")?.textContent?.trim() || "N/A";
+        
+        // Extract region (field 267 - main_queryregions)
+        const region = 
+          record.querySelector("main_queryregions")?.textContent?.trim() || "N/A";
+        
+        // Extract survey type (field 193 - main_surveytype)
+        const surveyType = 
+          record.querySelector("main_surveytype")?.textContent?.trim() ||
+          record.querySelector("surveytype")?.textContent?.trim() ||
+          "Standard";
+
+        uniqueClientsMap.set(clientName, {
+          givingUnits: parseFloat(givingUnits) || 0,
+          site: site,
+          region: region,
+          surveyType: surveyType
+        });
+      }
+    });
+
+    // Convert map to array and sort by client name
+    const clientsArray = Array.from(uniqueClientsMap.entries())
+      .map(([name, data]) => ({
+        client: name,
+        givingUnits: data.givingUnits,
+        site: data.site,
+        region: data.region,
+        surveyType: data.surveyType
+      }))
+      .sort((a, b) => a.client.localeCompare(b.client));
+
+    // Log header
+    console.log("\n%c📊 UNIQUE CLIENTS IN PEER CALCULATIONS", "font-size: 16px; font-weight: bold; color: #2563eb;");
+    console.log(`Total unique clients: ${clientsArray.length}`);
+    console.log("─".repeat(120));
+
+    // Create table header
+    console.table(clientsArray.map(client => ({
+      "Client Name": client.client,
+      "Giving Units": client.givingUnits.toLocaleString(),
+      "Site": client.site,
+      "Region": client.region,
+      "Type": client.surveyType
+    })));
+
+    // Also log summary statistics
+    const standardCount = clientsArray.filter(c => c.surveyType === "Standard").length;
+    const comprehensiveCount = clientsArray.filter(c => c.surveyType === "Comprehensive").length;
+    
+    console.log("\n%c📈 SUMMARY", "font-size: 14px; font-weight: bold; color: #059669;");
+    console.log(`  Standard: ${standardCount}`);
+    console.log(`  Comprehensive: ${comprehensiveCount}`);
+    console.log(`  Total: ${clientsArray.length}`);
+    console.log("─".repeat(120));
+
+  } catch (error) {
+    console.error("Error logging unique clients table:", error);
   }
 }
 
