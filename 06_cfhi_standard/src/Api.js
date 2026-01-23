@@ -2900,7 +2900,7 @@ function countUniqueClients(records) {
 
 /**
  * Log a table of unique clients used in peer calculations
- * Shows client name, giving units, site, region, and survey type
+ * Shows client name, giving units, site, region, survey type, and cfhi_stand_04a fields
  * @param {Array} records - Array of peer record elements
  */
 function logUniqueClientsTable(records) {
@@ -2910,12 +2910,12 @@ function logUniqueClientsTable(records) {
   }
 
   // Map to store unique clients with their data
-  // Key: clientName, Value: { givingUnits, site, region, surveyType }
+  // Key: clientName, Value: { givingUnits, site, region, surveyType, cfhiStand04aRatio, cfhiStand04aYesNo }
   const uniqueClientsMap = new Map();
 
   try {
     records.forEach((record) => {
-      // Extract client nameio
+      // Extract client name
       const clientName = 
         record.querySelector("client___merged_client_name")?.textContent?.trim() ||
         record.querySelector("client_name")?.textContent?.trim();
@@ -2944,11 +2944,21 @@ function logUniqueClientsTable(records) {
           record.querySelector("surveytype")?.textContent?.trim() ||
           "Standard";
 
+        // Extract cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit
+        const cfhiStand04aRatio = 
+          record.querySelector("cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit")?.textContent?.trim() || "N/A";
+        
+        // Extract cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit
+        const cfhiStand04aYesNo = 
+          record.querySelector("cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit")?.textContent?.trim() || "N/A";
+
         uniqueClientsMap.set(clientName, {
           givingUnits: parseFloat(givingUnits) || 0,
           site: site,
           region: region,
-          surveyType: surveyType
+          surveyType: surveyType,
+          cfhiStand04aRatio: cfhiStand04aRatio,
+          cfhiStand04aYesNo: cfhiStand04aYesNo
         });
       }
     });
@@ -2960,7 +2970,9 @@ function logUniqueClientsTable(records) {
         givingUnits: data.givingUnits,
         site: data.site,
         region: data.region,
-        surveyType: data.surveyType
+        surveyType: data.surveyType,
+        cfhiStand04aRatio: data.cfhiStand04aRatio,
+        cfhiStand04aYesNo: data.cfhiStand04aYesNo
       }))
       .sort((a, b) => a.client.localeCompare(b.client));
 
@@ -2970,13 +2982,26 @@ function logUniqueClientsTable(records) {
     console.log("─".repeat(120));
 
     // Create table header
-    console.table(clientsArray.map(client => ({
-      "Client Name": client.client,
-      "Giving Units": client.givingUnits.toLocaleString(),
-      "Site": client.site,
-      "Region": client.region,
-      "Type": client.surveyType
-    })));
+    console.table(clientsArray.map(client => {
+      // Format the ratio value - handle empty strings, N/A, and numeric values
+      let formattedRatio = "N/A";
+      if (client.cfhiStand04aRatio && client.cfhiStand04aRatio !== "N/A" && client.cfhiStand04aRatio.trim() !== "") {
+        const ratioValue = parseFloat(client.cfhiStand04aRatio);
+        if (!isNaN(ratioValue)) {
+          formattedRatio = ratioValue.toLocaleString();
+        }
+      }
+      
+      return {
+        "Client Name": client.client,
+        "Giving Units": client.givingUnits.toLocaleString(),
+        "Site": client.site,
+        "Region": client.region,
+        "Type": client.surveyType,
+        "2x Contrib w/o Donor/GU": formattedRatio,
+        "2x Contrib Yes/No": client.cfhiStand04aYesNo || "N/A"
+      };
+    }));
 
     // Also log summary statistics
     const standardCount = clientsArray.filter(c => c.surveyType === "Standard").length;
