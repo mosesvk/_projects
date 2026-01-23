@@ -3277,6 +3277,16 @@ window.onload = async () => {
       if (window.appController && window.appController.apiService) {
         try {
           await window.appController.apiService.getRecordsForUniqueClientPeerNames();
+          
+          // After client list is refreshed, apply filters and show toast with count
+          // Use a small delay to ensure DOM is updated
+          setTimeout(() => {
+            if (typeof updateClientDropdownFilters === "function") {
+              updateClientDropdownFilters();
+            } else if (typeof executeClientDropdownFilters === "function") {
+              executeClientDropdownFilters();
+            }
+          }, 100);
         } catch (error) {
           // console.error("Error refreshing client list:", error);
           if (typeof createToastWarning === "function") {

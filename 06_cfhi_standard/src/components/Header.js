@@ -31,6 +31,7 @@ function setupDropdownToggle(selectElementId, optionsListId) {
       { selectId: "custom-select-year", optionsId: "options-list-year" },
       { selectId: "custom-select-region", optionsId: "options-list-region" },
       { selectId: "custom-select-site", optionsId: "options-list-site" },
+      { selectId: "custom-select-client", optionsId: "options-list-client" },
     ];
 
     dropdownConfigs.forEach((config) => {
@@ -169,7 +170,7 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
     newLabel.setAttribute("for", `region_${regionString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-nowrap cursor-pointer"
     );
     newLabel.innerText = regionName;
 
@@ -316,7 +317,7 @@ function addUniqueSitesToOptionsSelectSitesDropdown(siteArray) {
     newLabel.setAttribute("for", `site_${siteString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-nowrap cursor-pointer"
     );
     newLabel.innerText = siteName;
 
@@ -445,6 +446,9 @@ function updateClientDropdownFilters() {
     executeClientDropdownFilters();
   }, 100);
 }
+
+// Expose function globally for use in Api.js
+window.updateClientDropdownFilters = updateClientDropdownFilters;
 
 function executeClientDropdownFilters() {
   // Ensure client data store exists
