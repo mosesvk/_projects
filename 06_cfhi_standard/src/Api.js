@@ -3281,6 +3281,16 @@ window.onload = async () => {
           // After client list is refreshed, apply filters and show toast with count
           // Use a small delay to ensure DOM is updated
           setTimeout(() => {
+            // Reset prevMatchCount to force toast to show
+            if (typeof window !== 'undefined' && window.prevMatchCount !== undefined) {
+              window.prevMatchCount = -1;
+            }
+            
+            // Ensure hasRunInitialClientDropdownFilter is set so toast will show
+            if (typeof window !== 'undefined') {
+              window.hasRunInitialClientDropdownFilter = true;
+            }
+            
             if (typeof updateClientDropdownFilters === "function") {
               updateClientDropdownFilters();
             } else if (typeof executeClientDropdownFilters === "function") {

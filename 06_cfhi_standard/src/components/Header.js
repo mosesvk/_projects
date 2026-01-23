@@ -436,6 +436,9 @@ function clientMatchesFilters(
 let prevMatchCount = 0;
 let updateTimeout = null;
 
+// Expose prevMatchCount globally so it can be reset when includeComprehensive changes
+window.prevMatchCount = 0;
+
 function updateClientDropdownFilters() {
   // Clear any existing timeout to debounce rapid calls
   if (updateTimeout) {
@@ -528,8 +531,11 @@ function executeClientDropdownFilters() {
   // console.log("Selected clients:", Array.from(window.selectedClients_Array));
 
   // Only show toast if matchCount has changed and not on initial load
+  // Also check window.prevMatchCount in case it was reset externally (e.g., by includeComprehensive)
+  const currentPrevCount = window.prevMatchCount !== undefined ? window.prevMatchCount : prevMatchCount;
+  
   if (window.hasRunInitialClientDropdownFilter) {
-    if (matchCount !== prevMatchCount) {
+    if (matchCount !== currentPrevCount) {
       if (typeof createToastSuccess === "function") {
         createToastSuccess(`${matchCount} clients match your filter criteria`);
       }
@@ -540,6 +546,7 @@ function executeClientDropdownFilters() {
   
   // Update prevMatchCount for next comparison
   prevMatchCount = matchCount;
+  window.prevMatchCount = matchCount;
 }
 
 /**
