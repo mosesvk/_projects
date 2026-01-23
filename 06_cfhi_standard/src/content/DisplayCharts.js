@@ -114,9 +114,14 @@ const displayGeneralComponent = () => {
     "Contributions Without Donor Excluding Large Gifts"
   );
 
-  // Use benchmark paragraph data from localStorage for general metrics
-  createBenchmark("givingUnits_benchmarkParagraph", "generalData", "row_givingUnits");
-  createBenchmark("contributionsWithoutDonorExcludingLargeGifts_benchmarkParagraph", "generalData", "row_contributionsWithoutDonorExcludingLargeGifts");
+  // Use hardcoded benchmark text (empty strings for metrics without benchmarks)
+  createBenchmark("", "generalData", "row_givingUnits");
+  createBenchmark("", "generalData", "row_contributionsWithoutDonorExcludingLargeGifts");
+
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
 
   closeSidebarAfterSelectingOption("general");
 };
@@ -151,9 +156,14 @@ const displayCashComponent = () => {
     "Net Cash Availability"
   );
 
-  // Use benchmark paragraph data from localStorage
-  createBenchmark("daysOperatingCash_benchmarkParagraph", "cashData", "row_daysOperatingCash");
-  createBenchmark("netCashAvailability_benchmarkParagraph", "cashData", "row_netCashAvailability");
+  // Use hardcoded benchmark text (matching Comprehensive project)
+  createBenchmark("Good: > 90 | Warning: 60-90 | Action: < 60", "cashData", "row_daysOperatingCash");
+  createBenchmark("Good: > 1 month expenses | Warning: > 0 and < 1 month expenses | Action: < 0", "cashData", "row_netCashAvailability");
+
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
 
   closeSidebarAfterSelectingOption("cash");
 };
@@ -188,9 +198,14 @@ const displayDebtComponent = () => {
     "Debt Per Giving Unit"
   );
 
-  // Use benchmark paragraph data from localStorage
-  createBenchmark("debtToContributionsWithout_benchmarkParagraph", "debtData", "row_debtToContributionsWithout");
-  createBenchmark("debtPerGivingUnit_benchmarkParagraph", "debtData", "row_debtPerGivingUnit");
+  // Use hardcoded benchmark text (matching Comprehensive project)
+  createBenchmark("Good: < 2 | Warning: 2-3 | Action: > 3", "debtData", "row_debtToContributionsWithout");
+  createBenchmark("Good: < 2x | Warning: 2x - 3x | Action: > 3x contributions w/o donor restrictions", "debtData", "row_debtPerGivingUnit");
+
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
 
   closeSidebarAfterSelectingOption("debt");
 };
@@ -225,16 +240,20 @@ const displayIncomeComponent = () => {
     'Total Contributions Per Giving Unit'
   );
 
-  // Use benchmark paragraph data from localStorage for income metrics
-  createBenchmark("contributionsWithoutDonorPerGivingUnit_benchmarkParagraph", "incomeData", "row_contributionsWithoutDonorPerGivingUnit");
+  // Use hardcoded benchmark text (matching Comprehensive project)
+  createBenchmark("", "incomeData", "row_contributionsWithoutDonorPerGivingUnit");
   createBenchmark("Good: Improving Trend", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
-  // Use hardcoded benchmark text for totalContributionsPerGivingUnit (matches comp project)
   createBenchmark("Good: > 4,500 | Warning: 3,000 - 4,500 | Action: < 3,000", "incomeData", "row_totalContributionsPerGivingUnit");
   createBenchmark("Good: Improving Trend", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
   
   // Add "What does this mean?" content
   createWhatDoesThisMean(contrWithoutPerAvgAttAndGU_whatDoesThisMean, "row_contributionsWithoutDonorPerGivingUnit");
   createWhatDoesThisMean(contrPerAvgAttAndGU_whatDoesThisMean, "row_totalContributionsPerGivingUnit");
+
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
 
   closeSidebarAfterSelectingOption("income");
 };
@@ -271,14 +290,125 @@ const displayExpenseComponent = () => {
     savedData
   );
 
-  // Use benchmark paragraph data from localStorage
-  createBenchmark("cashExpendituresPerGivingUnit_benchmarkParagraph", "expenseData", "row_cashExpendituresPerGivingUnit");
-  // Use hardcoded benchmark text for personnelIncludingToTotalCashExpenditures (matches personnelToCashExpenditure in comp project)
+  // Use hardcoded benchmark text (matching Comprehensive project)
+  createBenchmark("", "expenseData", "row_cashExpendituresPerGivingUnit");
   createBenchmark("Good: 40-55 | Warning: 35-40 or 55-59 | Action: < 35 or > 59", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
   
   // Add "What does this mean?" content
   createWhatDoesThisMean(totalCashExpendExcludePerGU_whatDoesThisMean, "row_cashExpendituresPerGivingUnit");
   createWhatDoesThisMean(personnelInclude_whatDoesThisMean, "row_personnelIncludingToTotalCashExpenditures");
 
+  // Display benchmarks above Expand Info buttons
+  setTimeout(() => {
+    displayBenchmarksAboveExpandInfo();
+  }, 100);
+
   closeSidebarAfterSelectingOption("expense");
+};
+
+/**
+ * Map of field names to their benchmark text for display above Expand Info buttons
+ * Matches Comprehensive project where metrics are the same
+ * @type {Object<string, string>}
+ */
+const fieldBenchmarkMap = {
+  givingUnits: "", // No benchmark text
+  contributionsWithoutDonorExcludingLargeGifts: "", // No benchmark text
+  daysOperatingCash: "Good: > 90 | Warning: 60-90 | Action: < 60",
+  netCashAvailability: "Good: > 1 month expenses | Warning: > 0 and < 1 month expenses | Action: < 0",
+  debtToContributionsWithout: "Good: < 2 | Warning: 2-3 | Action: > 3",
+  debtPerGivingUnit: "Good: < 2x | Warning: 2x - 3x | Action: > 3x contributions w/o donor restrictions",
+  contributionsWithoutDonorPerGivingUnit: "", // No benchmark text
+  totalContributionsPerGivingUnit: "Good: > 4,500 | Warning: 3,000 - 4,500 | Action: < 3,000",
+  cashExpendituresPerGivingUnit: "", // No benchmark text
+  personnelIncludingToTotalCashExpenditures: "Good: 40-55 | Warning: 35-40 or 55-59 | Action: < 35 or > 59",
+};
+
+/**
+ * Display benchmark text above the Expand Info button for charts that have benchmarks
+ * This function should be called after charts are displayed
+ * Ensures "Expand Info" button is always aligned to the right, even when no benchmark text exists
+ */
+const displayBenchmarksAboveExpandInfo = () => {
+  // Find ALL Expand Info buttons (those with data-modal-target ending in "_modal")
+  const allExpandInfoButtons = document.querySelectorAll(
+    'button[data-modal-target$="_modal"]'
+  );
+
+  allExpandInfoButtons.forEach((button) => {
+    // Extract field name from modal target (e.g., "givingUnits_modal" -> "givingUnits")
+    const modalTarget = button.getAttribute("data-modal-target");
+    if (!modalTarget || !modalTarget.endsWith("_modal")) {
+      return;
+    }
+
+    const fieldName = modalTarget.replace("_modal", "");
+
+    // Skip non-chart modals (like options_modal, print_modal)
+    if (fieldName === "options" || fieldName === "print") {
+      return;
+    }
+
+    // Get benchmark text from map (undefined if not in map)
+    const benchmarkText = fieldBenchmarkMap[fieldName];
+
+    // Find the parent container with the flex layout (match by border-t class)
+    let flexContainer = button.parentElement;
+    while (flexContainer && !flexContainer.classList.contains("border-t")) {
+      flexContainer = flexContainer.parentElement;
+    }
+
+    if (!flexContainer) {
+      // console.warn(`Flex container not found for ${fieldName}`);
+      return;
+    }
+
+    // Find the flex-shrink-0 div that contains the button
+    const buttonContainer = button.closest(".flex-shrink-0");
+
+    if (!buttonContainer) {
+      // console.warn(`Button container not found for ${fieldName}`);
+      return;
+    }
+
+    // Check if benchmark text already exists
+    const existingBenchmark = flexContainer.querySelector(
+      `[data-benchmark-field="${fieldName}"]`
+    );
+
+    // Handle benchmark text
+    if (benchmarkText && benchmarkText.trim() !== "") {
+      // We have benchmark text to display
+      if (existingBenchmark) {
+        // Update existing benchmark text
+        existingBenchmark.textContent = benchmarkText;
+      } else {
+        // Create the paragraph element with benchmark text
+        const benchmarkP = document.createElement("p");
+        benchmarkP.className =
+          "mb-2 text-sm font-medium text-gray-500 dark:text-white";
+        benchmarkP.textContent = benchmarkText;
+        benchmarkP.setAttribute("data-benchmark-field", fieldName);
+
+        // Insert the benchmark text as a sibling before the button container
+        buttonContainer.parentNode.insertBefore(benchmarkP, buttonContainer);
+      }
+      
+      // Remove ml-auto from button container if it exists (benchmark text will push it right via justify-between)
+      if (buttonContainer.classList.contains("ml-auto")) {
+        buttonContainer.classList.remove("ml-auto");
+      }
+    } else {
+      // No benchmark text - ensure button is pushed to the right
+      if (existingBenchmark) {
+        // Remove existing empty benchmark text
+        existingBenchmark.remove();
+      }
+      
+      // Add ml-auto to button container to push it to the right when no benchmark text exists
+      if (!buttonContainer.classList.contains("ml-auto")) {
+        buttonContainer.classList.add("ml-auto");
+      }
+    }
+  });
 };

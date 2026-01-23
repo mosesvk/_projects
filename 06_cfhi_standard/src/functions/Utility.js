@@ -1580,7 +1580,7 @@ const generateBenchmarkTitle = (fieldName) => {
  * @param {string} htmlContent - The HTML content string
  * @returns {string} - Processed HTML content
  */
-const processHtmlContent = (htmlContent) => {
+const processHtmlContent = (htmlContent, addColorClasses = false) => {
   if (typeof htmlContent !== 'string') {
     return '';
   }
@@ -1589,53 +1589,16 @@ const processHtmlContent = (htmlContent) => {
   const tempDiv = document.createElement('div');
   tempDiv.innerHTML = htmlContent;
   
-  // Find all p tags and add mb-2 class and text styling
+  // Find all p tags and add mb-2 class
   const pTags = tempDiv.querySelectorAll('p');
   pTags.forEach(p => {
-    const existingClasses = p.className.trim();
-    const classArray = existingClasses ? existingClasses.split(/\s+/) : [];
-    const newClasses = [];
-    
-    // Add mb-2 if not present
-    if (!classArray.includes('mb-2')) {
-      newClasses.push('mb-2');
+    if (!p.classList.contains('mb-2')) {
+      p.classList.add('mb-2');
     }
-    
-    // Add text color classes if not present
-    if (!classArray.some(cls => cls.includes('text-gray-500'))) {
-      newClasses.push('text-gray-500');
-    }
-    
-    if (!classArray.some(cls => cls.includes('dark:text-gray-400'))) {
-      newClasses.push('dark:text-gray-400');
-    }
-    
-    // Apply new classes
-    if (newClasses.length > 0) {
-      if (existingClasses) {
-        p.className = `${newClasses.join(' ')} ${existingClasses}`;
-      } else {
-        p.className = newClasses.join(' ');
-      }
-    }
-  });
-  
-  // Find all div tags and add dark:text-white class if they don't have text color classes
-  const divTags = tempDiv.querySelectorAll('div');
-  divTags.forEach(div => {
-    const existingClasses = div.className.trim();
-    const classArray = existingClasses ? existingClasses.split(/\s+/) : [];
-    
-    // Only add dark:text-white if div doesn't already have text color classes
-    const hasTextColor = classArray.some(cls => 
-      cls.includes('text-') && !cls.includes('text-white') && !cls.includes('text-black')
-    );
-    
-    if (!hasTextColor && !classArray.includes('dark:text-white')) {
-      if (existingClasses) {
-        div.className = `${existingClasses} dark:text-white`;
-      } else {
-        div.className = 'dark:text-white';
+    // Add color classes if requested (for benchmark content)
+    if (addColorClasses) {
+      if (!p.classList.contains('text-gray-600')) {
+        p.classList.add('text-gray-600', 'dark:text-gray-400');
       }
     }
   });
@@ -1718,8 +1681,14 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
   // Generate title from field name
   const benchmarkTitle = generateBenchmarkTitle(fieldName);
 
-  // Process HTML content and apply fixUnicodeCharacters
-  let processedContent = processHtmlContent(benchmarkContent);
+  // Process the benchmark text and apply fixUnicodeCharacters
+  // Pass true to addColorClasses to ensure proper text colors for light/dark mode
+  const defaultBenchmarkText = "No Benchmark has been established";
+  const normalizedBenchmarkText =
+    benchmarkContent && benchmarkContent.trim().length > 0
+      ? benchmarkContent
+      : defaultBenchmarkText;
+  let processedContent = processHtmlContent(normalizedBenchmarkText, true);
   let processedTitle; 
   if (typeof fixUnicodeCharacters === 'function') {
     processedContent = fixUnicodeCharacters(processedContent);
@@ -1741,11 +1710,13 @@ const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId
   });
 
   // Build modal content (INCLUDE the title for the tingle modal)
-  const modalContent = `<div class="dark:text-white"><p class="mb-2 dark:text-white"><strong class="dark:text-white">${processedTitle}</strong></p><div class="dark:text-white">${processedContent}</div></div>`;
+  // Add proper text color classes for light/dark mode
+  const modalContent = `<div class="text-gray-700 dark:text-gray-300"><p class="mb-2"><strong>${processedTitle}</strong></p><div class="text-gray-600 dark:text-gray-400">${processedContent}</div></div>`;
   variable.setContent(modalContent);
 
   // Build report content (SKIP the title for the report tab _body-3 section)
-  const reportContent = `<div>${processedContent}</div>`;
+  // Add proper text color classes for light/dark mode
+  const reportContent = `<div class="text-gray-600 dark:text-gray-400">${processedContent}</div>`;
 
   // Populate the _body-3 section with the benchmark description (without title)
   try {

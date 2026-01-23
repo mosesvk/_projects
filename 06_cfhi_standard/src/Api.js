@@ -1944,7 +1944,7 @@ class ApiService {
         {98.EX.${ClientRid}} AND {474.EX.${currentYear}} 
       `,
       clist:
-        "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.700.698.702.703.421.420",
+        "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.700.698.702.703.704.421.420",
     };
 
     // console.log(`🔵 Fetching client data for year ${currentYear}, ClientRid: ${ClientRid}, clientData URL: ${clientData}`);
@@ -1968,7 +1968,7 @@ class ApiService {
         this.recordClientHTMLArray.push(newRecord.outerHTML);
         dataStr += newRecord.outerHTML;
 
-        // console.log('client records', dataStr);
+        console.log('client records', dataStr);
       }
 
       // Recursive call with updated years and dataStr
