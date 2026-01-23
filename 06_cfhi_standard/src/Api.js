@@ -2900,7 +2900,7 @@ function countUniqueClients(records) {
 
 /**
  * Log a table of unique clients used in peer calculations
- * Shows client name, giving units, site, region, survey type, and cfhi_stand_04a fields
+ * Shows client name, giving units, site, region, survey type, and daysOperatingCash related fields
  * @param {Array} records - Array of peer record elements
  */
 function logUniqueClientsTable(records) {
@@ -2910,7 +2910,7 @@ function logUniqueClientsTable(records) {
   }
 
   // Map to store unique clients with their data
-  // Key: clientName, Value: { givingUnits, site, region, surveyType, cfhiStand04aRatio, cfhiStand04aYesNo }
+  // Key: clientName, Value: { givingUnits, site, region, surveyType, s18TotalCash, s20NonEndowmentInvestment, s36NetAssetWithDonorRestriction, s45TotalExpense, s46TotalDepreciationExpense }
   const uniqueClientsMap = new Map();
 
   try {
@@ -2944,21 +2944,36 @@ function logUniqueClientsTable(records) {
           record.querySelector("surveytype")?.textContent?.trim() ||
           "Standard";
 
-        // Extract cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit
-        const cfhiStand04aRatio = 
-          record.querySelector("cfhi_stand_04a_ratio___2_x_contributions_w_o_donor_restrictions_per_giving_unit")?.textContent?.trim() || "N/A";
+        // Extract s18___total_cash
+        const s18TotalCash = 
+          record.querySelector("s18___total_cash")?.textContent?.trim() || "0";
         
-        // Extract cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit
-        const cfhiStand04aYesNo = 
-          record.querySelector("cfhi_stand_04a_yes_no___2_x_contributions_w_o_donor_restrictions_per_giving_unit")?.textContent?.trim() || "N/A";
+        // Extract s20___non_endowment_investment
+        const s20NonEndowmentInvestment = 
+          record.querySelector("s20___non_endowment_investment")?.textContent?.trim() || "0";
+        
+        // Extract s36___net_asset_with_donor_restriction
+        const s36NetAssetWithDonorRestriction = 
+          record.querySelector("s36___net_asset_with_donor_restriction")?.textContent?.trim() || "0";
+        
+        // Extract s45___total_expense
+        const s45TotalExpense = 
+          record.querySelector("s45___total_expense")?.textContent?.trim() || "0";
+        
+        // Extract s46___total_depreciation_expense
+        const s46TotalDepreciationExpense = 
+          record.querySelector("s46___total_depreciation_expense")?.textContent?.trim() || "0";
 
         uniqueClientsMap.set(clientName, {
           givingUnits: parseFloat(givingUnits) || 0,
           site: site,
           region: region,
           surveyType: surveyType,
-          cfhiStand04aRatio: cfhiStand04aRatio,
-          cfhiStand04aYesNo: cfhiStand04aYesNo
+          s18TotalCash: parseFloat(s18TotalCash) || 0,
+          s20NonEndowmentInvestment: parseFloat(s20NonEndowmentInvestment) || 0,
+          s36NetAssetWithDonorRestriction: parseFloat(s36NetAssetWithDonorRestriction) || 0,
+          s45TotalExpense: parseFloat(s45TotalExpense) || 0,
+          s46TotalDepreciationExpense: parseFloat(s46TotalDepreciationExpense) || 0
         });
       }
     });
@@ -2971,8 +2986,11 @@ function logUniqueClientsTable(records) {
         site: data.site,
         region: data.region,
         surveyType: data.surveyType,
-        cfhiStand04aRatio: data.cfhiStand04aRatio,
-        cfhiStand04aYesNo: data.cfhiStand04aYesNo
+        s18TotalCash: data.s18TotalCash,
+        s20NonEndowmentInvestment: data.s20NonEndowmentInvestment,
+        s36NetAssetWithDonorRestriction: data.s36NetAssetWithDonorRestriction,
+        s45TotalExpense: data.s45TotalExpense,
+        s46TotalDepreciationExpense: data.s46TotalDepreciationExpense
       }))
       .sort((a, b) => a.client.localeCompare(b.client));
 
@@ -2983,25 +3001,68 @@ function logUniqueClientsTable(records) {
 
     // Create table header
     console.table(clientsArray.map(client => {
-      // Format the ratio value - handle empty strings, N/A, and numeric values
-      let formattedRatio = "N/A";
-      if (client.cfhiStand04aRatio && client.cfhiStand04aRatio !== "N/A" && client.cfhiStand04aRatio.trim() !== "") {
-        const ratioValue = parseFloat(client.cfhiStand04aRatio);
-        if (!isNaN(ratioValue)) {
-          formattedRatio = ratioValue.toLocaleString();
-        }
-      }
-      
       return {
         "Client Name": client.client,
         "Giving Units": client.givingUnits.toLocaleString(),
         "Site": client.site,
         "Region": client.region,
         "Type": client.surveyType,
-        "2x Contrib w/o Donor/GU": formattedRatio,
-        "2x Contrib Yes/No": client.cfhiStand04aYesNo || "N/A"
+        "Total Cash (s18)": client.s18TotalCash.toLocaleString(),
+        "Non-Endowment Investment (s20)": client.s20NonEndowmentInvestment.toLocaleString(),
+        "Net Asset w/ Donor Restriction (s36)": client.s36NetAssetWithDonorRestriction.toLocaleString(),
+        "Total Expense (s45)": client.s45TotalExpense.toLocaleString(),
+        "Total Depreciation Expense (s46)": client.s46TotalDepreciationExpense.toLocaleString()
       };
     }));
+
+    // Calculate sums for each field - sum ALL peer records (not just unique clients)
+    // IMPORTANT: Filter by yes/no field to match what's used in weighted average calculation
+    // Only records where cfhi_stand_01_yes_no is "Yes" or "empty" are included
+    let sumS18TotalCash = 0;
+    let sumS20NonEndowmentInvestment = 0;
+    let sumS36NetAssetWithDonorRestriction = 0;
+    let sumS45TotalExpense = 0;
+    let sumS46TotalDepreciationExpense = 0;
+    let totalRecordsIncluded = 0;
+    let totalRecordsExcluded = 0;
+    
+    records.forEach((record) => {
+      // Check the yes/no field - this is how insertPeerData filters records
+      const yesNoField = record.querySelector("cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures")?.textContent?.trim();
+      
+      // Only include records where yesNoField is "Yes" or "empty" (matching insertPeerData logic)
+      if (yesNoField === "Yes" || yesNoField === "empty" || !yesNoField) {
+        totalRecordsIncluded++;
+        
+        // Extract and sum s18___total_cash
+        const s18 = record.querySelector("s18___total_cash")?.textContent?.trim() || "0";
+        // If yesNoField is "empty", use 0 (matching insertPeerData logic: yesNoField === "Yes" ? value : 0)
+        const s18Value = yesNoField === "Yes" ? (parseFloat(s18) || 0) : 0;
+        sumS18TotalCash += s18Value;
+        
+        // Extract and sum s20___non_endowment_investment
+        const s20 = record.querySelector("s20___non_endowment_investment")?.textContent?.trim() || "0";
+        const s20Value = yesNoField === "Yes" ? (parseFloat(s20) || 0) : 0;
+        sumS20NonEndowmentInvestment += s20Value;
+        
+        // Extract and sum s36___net_asset_with_donor_restriction
+        const s36 = record.querySelector("s36___net_asset_with_donor_restriction")?.textContent?.trim() || "0";
+        const s36Value = yesNoField === "Yes" ? (parseFloat(s36) || 0) : 0;
+        sumS36NetAssetWithDonorRestriction += s36Value;
+        
+        // Extract and sum s45___total_expense
+        const s45 = record.querySelector("s45___total_expense")?.textContent?.trim() || "0";
+        const s45Value = yesNoField === "Yes" ? (parseFloat(s45) || 0) : 0;
+        sumS45TotalExpense += s45Value;
+        
+        // Extract and sum s46___total_depreciation_expense
+        const s46 = record.querySelector("s46___total_depreciation_expense")?.textContent?.trim() || "0";
+        const s46Value = yesNoField === "Yes" ? (parseFloat(s46) || 0) : 0;
+        sumS46TotalDepreciationExpense += s46Value;
+      } else {
+        totalRecordsExcluded++;
+      }
+    });
 
     // Also log summary statistics
     const standardCount = clientsArray.filter(c => c.surveyType === "Standard").length;
@@ -3011,6 +3072,24 @@ function logUniqueClientsTable(records) {
     console.log(`  Standard: ${standardCount}`);
     console.log(`  Comprehensive: ${comprehensiveCount}`);
     console.log(`  Total: ${clientsArray.length}`);
+    console.log("─".repeat(120));
+    
+    console.log("\n%c💰 FIELD SUMS (from raw peer records)", "font-size: 14px; font-weight: bold; color: #dc2626;");
+    console.log(`  Total Records: ${records.length}`);
+    console.log(`  Total Cash (s18): $${sumS18TotalCash.toLocaleString()}`);
+    console.log(`  Non-Endowment Investment (s20): $${sumS20NonEndowmentInvestment.toLocaleString()}`);
+    console.log(`  Net Asset w/ Donor Restriction (s36): $${sumS36NetAssetWithDonorRestriction.toLocaleString()}`);
+    console.log(`  Total Expense (s45): $${sumS45TotalExpense.toLocaleString()}`);
+    console.log(`  Total Depreciation Expense (s46): $${sumS46TotalDepreciationExpense.toLocaleString()}`);
+    console.log("─".repeat(120));
+    
+    // Compare with actual data structure values used in weighted average
+    // This will be logged when the weighted average is calculated (see WeightedAverages.js)
+    console.log("\n%c💡 NOTE: Compare these sums with the weighted average debug output above", "font-size: 12px; font-style: italic; color: #6b7280;");
+    console.log("  The weighted average uses values from localStorage (cashData), which may differ if:");
+    console.log("  - Records are filtered by yes/no fields (cfhi_stand_01_yes_no)");
+    console.log("  - Some records are excluded during data processing");
+    console.log("  - Data structure paths don't match expected format");
     console.log("─".repeat(120));
 
   } catch (error) {
