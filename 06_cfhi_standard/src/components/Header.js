@@ -586,7 +586,8 @@ function addUniqueClientsToOptionsSelectClientDropdown(clientArray) {
   }
 
   // Ensure global scoping and initialization
-  window.selectedClients_Array = window.selectedClients_Array || new Set();
+  // Clear and rebuild selectedClients_Array to match current dropdown contents
+  window.selectedClients_Array = new Set();
 
   // Clear existing content
   optionsListClient.innerHTML = "";
@@ -618,8 +619,8 @@ function addUniqueClientsToOptionsSelectClientDropdown(clientArray) {
 
   optionsListClient.appendChild(selectAllLabel);
 
-  // Populate all clients by default
-  clientArray.forEach((clientName) => {
+  // Helper function to create a client checkbox item
+  const createClientItem = (clientName) => {
     const newListItem = document.createElement("li");
     newListItem.style.listStyleType = "none";
 
@@ -654,8 +655,7 @@ function addUniqueClientsToOptionsSelectClientDropdown(clientArray) {
     newDiv.appendChild(newLabel);
 
     newListItem.appendChild(newDiv);
-    optionsListClient.appendChild(newListItem);
-
+    
     // Event listener to update selectedClients_Array
     newInput.addEventListener("change", function () {
       if (this.checked) {
@@ -667,7 +667,81 @@ function addUniqueClientsToOptionsSelectClientDropdown(clientArray) {
       // Update "Select All" checkbox state
       updateSelectAllClientCheckboxState();
     });
-  });
+    
+    return newListItem;
+  };
+
+  // Helper function to create a section header
+  const createSectionHeader = (text) => {
+    const headerItem = document.createElement("li");
+    headerItem.style.listStyleType = "none";
+    const headerDiv = document.createElement("div");
+    headerDiv.setAttribute(
+      "class",
+      "px-4 py-6 font-bold text-white dark:text-gray-300 backgroundBlue dark:bg-gray-800"
+    );
+    headerDiv.innerText = text;
+    headerItem.appendChild(headerDiv);
+    return headerItem;
+  };
+
+  // Helper function to create a horizontal line separator
+  const createSeparator = () => {
+    const separatorItem = document.createElement("li");
+    separatorItem.style.listStyleType = "none";
+    const hr = document.createElement("hr");
+    hr.setAttribute("class", "my-2 border-gray-300 dark:border-gray-600");
+    separatorItem.appendChild(hr);
+    return separatorItem;
+  };
+
+  // Check if we should separate Standard and Comprehensive clients
+  if (window.includeComprehensive === true) {
+    // Separate clients into Standard and Comprehensive
+    const standardClients = [];
+    const comprehensiveClients = [];
+    
+    clientArray.forEach((clientName) => {
+      const clientData = window.clientDataStore?.[clientName];
+      const surveyType = clientData?.surveyType || "Standard";
+      
+      if (surveyType === "Comprehensive") {
+        comprehensiveClients.push(clientName);
+      } else {
+        standardClients.push(clientName);
+      }
+    });
+    
+    // Sort each array
+    standardClients.sort();
+    comprehensiveClients.sort();
+    
+    // Display Standard Clients section
+    if (standardClients.length > 0) {
+      optionsListClient.appendChild(createSectionHeader("Standard Clients"));
+      standardClients.forEach((clientName) => {
+        optionsListClient.appendChild(createClientItem(clientName));
+      });
+    }
+    
+    // Add separator if both sections have clients
+    if (standardClients.length > 0 && comprehensiveClients.length > 0) {
+      optionsListClient.appendChild(createSeparator());
+    }
+    
+    // Display Comprehensive Clients section
+    if (comprehensiveClients.length > 0) {
+      optionsListClient.appendChild(createSectionHeader("Comprehensive Clients"));
+      comprehensiveClients.forEach((clientName) => {
+        optionsListClient.appendChild(createClientItem(clientName));
+      });
+    }
+  } else {
+    // Populate all clients normally (original behavior)
+    clientArray.forEach((clientName) => {
+      optionsListClient.appendChild(createClientItem(clientName));
+    });
+  }
 
   // "Select All" checkbox behavior
   selectAllInput.addEventListener("change", function () {

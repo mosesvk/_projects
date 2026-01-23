@@ -1566,6 +1566,13 @@ class ApiService {
       // Basic query condition with year and client query
       let queryCondition = `{195.EX.${currentYear}} AND ${clientQuery}`;
 
+      // Add survey type filter based on includeComprehensive state
+      if (window.includeComprehensive === true) {
+        queryCondition += " AND ({193.EX.'Standard'} OR {193.EX.'Comprehensive'})";
+      } else {
+        queryCondition += " AND {193.EX.'Standard'}";
+      }
+
       // Add giving units filter
       if (
         window.sliderValue !== undefined &&
@@ -1700,8 +1707,12 @@ class ApiService {
     // Pre-calculate all filter conditions once
     const filterParts = [];
     
-    // Always include Standard mode filter
-    filterParts.push(`{193.EX.'Standard'}`);
+    // Include survey type filter based on includeComprehensive state
+    if (window.includeComprehensive === true) {
+      filterParts.push(`({193.EX.'Standard'} OR {193.EX.'Comprehensive'})`);
+    } else {
+      filterParts.push(`{193.EX.'Standard'}`);
+    }
     
     // Add giving units filter if defined
     // console.log("🎚️ Slider values:", {
@@ -1999,11 +2010,17 @@ class ApiService {
    * rather than the first record encountered.
    */
   async getRecordsForUniqueClientPeerNames() {
+    // Build query based on includeComprehensive state
+    let surveyTypeFilter = "{193.EX.'Standard'}";
+    if (window.includeComprehensive === true) {
+      surveyTypeFilter = "({193.EX.'Standard'} OR {193.EX.'Comprehensive'})";
+    }
+    
     const apiCallPeerData = {
       act: "API_DoQuery",
-      query: "{195.XEX.''} AND {193.EX.'Standard'}",
-      // Added field 222 (s52 - Fiscal YE Date) and field 3 (Record ID#) for proper most-recent-YE selection
-      clist: "3.222.195.301.123.267.268.186",
+      query: `{195.XEX.''} AND ${surveyTypeFilter}`,
+      // Added field 222 (s52 - Fiscal YE Date), field 3 (Record ID#), and field 193 (Survey Type) for proper most-recent-YE selection
+      clist: "3.222.195.301.123.267.268.186.193",
       slist: "195",      // Sort by year (field 195 = s52_formatted_year)
       sortorder: "D",    // Descending - most recent year first
     };
@@ -2099,6 +2116,12 @@ class ApiService {
             const siteVal =
               record.querySelector("main_querymultisite")?.textContent || "0";
 
+            // Get survey type (field 193)
+            const surveyType =
+              record.querySelector("main_surveytype")?.textContent?.trim() ||
+              record.querySelector("surveytype")?.textContent?.trim() ||
+              "Standard";
+
             // Store all client data (based on most recent YE)
             clientMostRecentMap[clientName] = {
               yeDate,
@@ -2110,6 +2133,7 @@ class ApiService {
                 givingUnitVal: parseFloat(givingUnitVal) || 0,
                 region: regionVal,
                 site: siteVal,
+                surveyType: surveyType,
               }
             };
           }
@@ -3224,6 +3248,9 @@ window.checkAppStorage = function () {
 };
 
 window.onload = async () => {
+  // Initialize global state for includeComprehensive checkbox
+  window.includeComprehensive = false;
+  
   if (!window.appController) {
     // console.log("Initializing AppController");
     window.appController = new AppController();
@@ -3238,6 +3265,26 @@ window.onload = async () => {
         createToastWarning("Failed to load client list. Please refresh the page.");
       }
     }
+  }
+  
+  // Add event listener for includeComprehensive checkbox
+  const includeComprehensiveCheckbox = document.getElementById("includeComprehensive");
+  if (includeComprehensiveCheckbox) {
+    includeComprehensiveCheckbox.addEventListener("change", async function() {
+      window.includeComprehensive = this.checked;
+      
+      // Re-fetch unique client names with updated query
+      if (window.appController && window.appController.apiService) {
+        try {
+          await window.appController.apiService.getRecordsForUniqueClientPeerNames();
+        } catch (error) {
+          // console.error("Error refreshing client list:", error);
+          if (typeof createToastWarning === "function") {
+            createToastWarning("Failed to refresh client list. Please try again.");
+          }
+        }
+      }
+    });
   }
 };
 
