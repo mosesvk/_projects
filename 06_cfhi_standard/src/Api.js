@@ -780,16 +780,6 @@ class DataProcessor {
           "cfhi_stand_01_bench_rating___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
         );
 
-        // daysOperatingCash benchmark paragraph
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "daysOperatingCash_benchmarkParagraph",
-          record,
-          "cfhi_stand_01_bench_paragraph___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures"
-        );
-
         // netCashAvailability
         this.dataStore.insertData(
           "cash",
@@ -799,16 +789,6 @@ class DataProcessor {
           record,
           "cfhi_stand_02_ratio___net_cash_availability",
           "cfhi_stand_02_bench_rating___net_cash_availability"
-        );
-
-        // netCashAvailability benchmark paragraph
-        this.dataStore.insertData(
-          "cash",
-          "client",
-          year,
-          "netCashAvailability_benchmarkParagraph",
-          record,
-          "cfhi_stand_02_bench_paragraph___net_cash_availability"
         );
 
         // netCashAvailability_standard
@@ -945,16 +925,6 @@ class DataProcessor {
           "cfhi_stand_03_bench_rating___debt_to_contribution_w_o_donor_rest"
         );
 
-        // debtToContributionsWithout benchmark paragraph
-        this.dataStore.insertData(
-          "debt",
-          "client",
-          year,
-          "debtToContributionsWithout_benchmarkParagraph",
-          record,
-          "cfhi_stand_03_bench_paragraph___debt_to_contribution_w_o_donor_rest"
-        );
-
         // debtPerGivingUnit
         this.dataStore.insertData(
           "debt",
@@ -964,16 +934,6 @@ class DataProcessor {
           record,
           "cfhi_stand_04_ratio___debt_per_givingunit",
           "cfhi_stand_04_bench_rating___debt_per_givingunit"
-        );
-
-        // debtPerGivingUnit benchmark paragraph
-        this.dataStore.insertData(
-          "debt",
-          "client",
-          year,
-          "debtPerGivingUnit_benchmarkParagraph",
-          record,
-          "cfhi_stand_04_bench_paragraph___debt_per_givingunit"
         );
 
         // contributionsWithoutDonorPerGivingUnit_standard
@@ -1078,16 +1038,6 @@ class DataProcessor {
           "cfhi_stand_05_ratio___contribution_w_o_donor_restriction_per_giving_unit"
         );
 
-        // contributionsWithoutDonorPerGivingUnit benchmark paragraph
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsWithoutDonorPerGivingUnit_benchmarkParagraph",
-          record,
-          "cfhi_stand_05_bench_paragraph___contribution_w_o_donor_restriction_per_giving_unit"
-        );
-
         // contributionsWithoutDonorPerGivingUnit_percentChange
         this.dataStore.insertData(
           "income",
@@ -1097,16 +1047,6 @@ class DataProcessor {
           record,
           "cfhi_stand_05a_ratio_change___contribution_w_o_donor_restriction_per_giving_unit",
           "cfhi_stand_05a_bench_rating__percent_change___contribution_w_o_donor_restriction_per_giving_unit"
-        );
-
-        // contributionsWithoutDonorPerGivingUnit_percentChange benchmark paragraph
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "contributionsWithoutDonorPerGivingUnit_percentChange_benchmarkParagraph",
-          record,
-          "cfhi_stand_05a_bench_paragraph___percent_change___contribution_w_o_donor_restriction_per_giving_unit"
         );
 
         // totalContributionsPerGivingUnit
@@ -1125,20 +1065,6 @@ class DataProcessor {
         //   "income",
         //   "client",
         //   year,
-        //   "totalContributionsPerGivingUnit_benchmarkParagraph",
-        //   record,
-        //   "cfhi_compre_06_bench_paragraph___debt_to_contributions_w_o_donor_restrictions"
-        // );
-
-        this.dataStore.insertData(
-          "debt",
-          "client",
-          year,
-          "debtPerGivingUnit_benchmarkParagraph",
-          record,
-          "cfhi_stand_04_bench_paragraph___debt_per_givingunit"
-        );
-
         // totalContributionsPerGivingUnit_percentChange
         this.dataStore.insertData(
           "income",
@@ -1148,16 +1074,6 @@ class DataProcessor {
           record,
           "cfhi_stand_06a_ratio_change__total_contributions_per_giving_unit",
           "cfhi_stand_06a_bench_rating___percentage_change__total_contributions_per_giving_unit"
-        );
-
-        // totalContributionsPerGivingUnit_percentChange benchmark paragraph
-        this.dataStore.insertData(
-          "income",
-          "client",
-          year,
-          "totalContributionsPerGivingUnit_percentChange_benchmarkParagraph",
-          record,
-          "cfhi_stand_06a_bench_paragraph___percent_change__total_contributions_per_giving_unit"
         );
 
         // localCountyPerGivingUnit
@@ -1312,16 +1228,6 @@ class DataProcessor {
           "cfhi_stand_08_ratio___cash_expenses_per_giving_unit"
         );
 
-        // cashExpendituresPerGivingUnit benchmark paragraph
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "cashExpendituresPerGivingUnit_benchmarkParagraph",
-          record,
-          "cfhi_stand_08_bench_paragraph___cash_expenses_per_giving_unit"
-        );
-
         // personnelIncludingToTotalCashExpenditures
         this.dataStore.insertData(
           "expense",
@@ -1333,15 +1239,6 @@ class DataProcessor {
           "cfhi_stand_09_bench_rating___personnel__including_outsourced_personnel__to_total_cash_expenditures"
         );
 
-        // personnelIncludingToTotalCashExpenditures benchmark paragraph
-        this.dataStore.insertData(
-          "expense",
-          "client",
-          year,
-          "personnelIncludingToTotalCashExpenditures_benchmarkParagraph",
-          record,
-          "cfhi_stand_09_bench_paragraph___personnel__including_outsourced_personnel__to_total_cash_expenditures"
-        );
       });
     });
   }
@@ -2521,7 +2418,7 @@ class AppController {
           totalRecordsPeer = recordsPeer.length;
           window.totalRecordsPeer = totalRecordsPeer;
           countUniqueClients(recordsPeer);
-          logUniqueClientsTable(recordsPeer);
+          // logUniqueClientsTable(recordsPeer);
         }
     } catch (error) {
         // console.error("Error fetching peer data:", error);
@@ -3065,32 +2962,35 @@ function logUniqueClientsTable(records) {
     });
 
     // Also log summary statistics
-    const standardCount = clientsArray.filter(c => c.surveyType === "Standard").length;
-    const comprehensiveCount = clientsArray.filter(c => c.surveyType === "Comprehensive").length;
+    // const standardCount = clientsArray.filter(c => c.surveyType === "Standard").length;
+    // const comprehensiveCount = clientsArray.filter(c => c.surveyType === "Comprehensive").length;
     
-    console.log("\n%c📈 SUMMARY", "font-size: 14px; font-weight: bold; color: #059669;");
-    console.log(`  Standard: ${standardCount}`);
-    console.log(`  Comprehensive: ${comprehensiveCount}`);
-    console.log(`  Total: ${clientsArray.length}`);
-    console.log("─".repeat(120));
+    // console.log("\n%c📈 SUMMARY", "font-size: 14px; font-weight: bold; color: #059669;");
+    // console.log(`  Standard: ${standardCount}`);
+    // console.log(`  Comprehensive: ${comprehensiveCount}`);
+    // console.log(`  Total: ${clientsArray.length}`);
+    // console.log("─".repeat(120));
     
-    console.log("\n%c💰 FIELD SUMS (from raw peer records)", "font-size: 14px; font-weight: bold; color: #dc2626;");
-    console.log(`  Total Records: ${records.length}`);
-    console.log(`  Total Cash (s18): $${sumS18TotalCash.toLocaleString()}`);
-    console.log(`  Non-Endowment Investment (s20): $${sumS20NonEndowmentInvestment.toLocaleString()}`);
-    console.log(`  Net Asset w/ Donor Restriction (s36): $${sumS36NetAssetWithDonorRestriction.toLocaleString()}`);
-    console.log(`  Total Expense (s45): $${sumS45TotalExpense.toLocaleString()}`);
-    console.log(`  Total Depreciation Expense (s46): $${sumS46TotalDepreciationExpense.toLocaleString()}`);
-    console.log("─".repeat(120));
+    // console.log("\n%c💰 FIELD SUMS (filtered by yes/no field)", "font-size: 14px; font-weight: bold; color: #dc2626;");
+    // console.log(`  Total Records: ${records.length}`);
+    // console.log(`  Records Included (Yes/empty): ${totalRecordsIncluded}`);
+    // console.log(`  Records Excluded (No): ${totalRecordsExcluded}`);
+    // console.log(`  Total Cash (s18): $${sumS18TotalCash.toLocaleString()}`);
+    // console.log(`  Non-Endowment Investment (s20): $${sumS20NonEndowmentInvestment.toLocaleString()}`);
+    // console.log(`  Net Asset w/ Donor Restriction (s36): $${sumS36NetAssetWithDonorRestriction.toLocaleString()}`);
+    // console.log(`  Total Expense (s45): $${sumS45TotalExpense.toLocaleString()}`);
+    // console.log(`  Total Depreciation Expense (s46): $${sumS46TotalDepreciationExpense.toLocaleString()}`);
+    // console.log("─".repeat(120));
     
-    // Compare with actual data structure values used in weighted average
-    // This will be logged when the weighted average is calculated (see WeightedAverages.js)
-    console.log("\n%c💡 NOTE: Compare these sums with the weighted average debug output above", "font-size: 12px; font-style: italic; color: #6b7280;");
-    console.log("  The weighted average uses values from localStorage (cashData), which may differ if:");
-    console.log("  - Records are filtered by yes/no fields (cfhi_stand_01_yes_no)");
-    console.log("  - Some records are excluded during data processing");
-    console.log("  - Data structure paths don't match expected format");
-    console.log("─".repeat(120));
+    // // Compare with actual data structure values used in weighted average
+    // console.log("\n%c💡 COMPARISON", "font-size: 12px; font-weight: bold; color: #6b7280;");
+    // console.log("  These sums should match the weighted average debug output (from WeightedAverages.js)");
+    // console.log("  Filter: Only records where 'cfhi_stand_01_yes_no___days_oper_cash_and_inv_on_hand_to_fund_annual_expenditures' = 'Yes' or 'empty'");
+    // console.log("  If values differ, check:");
+    // console.log("    - Data structure paths in localStorage (cashData.totalCash['daysOperatingCash_Peer']['total'])");
+    // console.log("    - Whether records are being filtered correctly during insertPeerData");
+    // console.log("    - Whether the 'name' parameter matches ('daysOperatingCash_Peer' vs 'daysOperatingCash')");
+    // console.log("─".repeat(120));
 
   } catch (error) {
     console.error("Error logging unique clients table:", error);

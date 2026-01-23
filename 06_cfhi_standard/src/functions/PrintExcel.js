@@ -36,27 +36,36 @@ class ExcelReportGenerator {
     // Field metric mappings for Standard Project (9 metrics)
     // Format per entry: [metricName, [AVG, MIN, MID, MAX], category, useWeightedAvg]
     // useWeightedAvg matches "wa" flag from Report.js
-    // Field IDs: Standard uses 6-41 (different from Comprehensive's S-prefix 239-286)
+    // Field IDs: Standard uses S-prefix fields (239-286) as defined in printTableFields.md
     // Both use same upload table (btcc8gq3r) but different field ranges based on TYPE field
     this.fieldMappings = [
-      // General (Standard uses "general" category, Comprehensive uses "demo")
-      ["givingUnits", [6, 8, 7, 9], "general", false],
-      ["contributionsWithoutDonorExcludingLargeGifts", [10, 12, 11, 13], "general", false],
+      // General - S01.x fields
+      // S01.1 Giving Units: 239 (AVG), 240 (MID), 241 (MIN), 242 (MAX)
+      ["givingUnits", [239, 241, 240, 242], "general", false],
+      // S01.2 Contributions Without Donor Restrictions: 243 (AVG), 244 (MID), 245 (MIN), 246 (MAX)
+      ["contributionsWithoutDonorExcludingLargeGifts", [243, 245, 244, 246], "general", false],
 
-      // Cash
-      ["daysOperatingCash", [14, 16, 15, 17], "cash", true],
-      ["netCashAvailability_standard", [18, 20, 19, 21], "cash", false],
+      // Cash - S02.x fields
+      // S02.1 Days of Operating Cash: 251 (AVG), 252 (MID), 253 (MIN), 254 (MAX)
+      ["daysOperatingCash", [251, 253, 252, 254], "cash", true],
+      // S02.3 Std: One month of cash expenses: 259 (AVG), 260 (MID), 261 (MIN), 262 (MAX)
+      ["netCashAvailability_standard", [259, 261, 260, 262], "cash", false],
 
-      // Debt
-      ["debtToContributionsWithout", [22, 24, 23, 25], "debt", true],
-      ["debtPerGivingUnit", [26, 28, 27, 29], "debt", true],
+      // Debt - S03.x fields
+      // S03.1 Debt to Contributions Without Donor Restrictions: 263 (AVG), 264 (MID), 265 (MIN), 266 (MAX)
+      ["debtToContributionsWithout", [263, 265, 264, 266], "debt", true],
+      // S03.2 Debt per Giving Unit: 267 (AVG), 268 (MID), 269 (MIN), 270 (MAX)
+      ["debtPerGivingUnit", [267, 269, 268, 270], "debt", true],
 
-      // Income
-      ["contributionsWithoutDonorPerGivingUnit", [30, 32, 31, 33], "income", true],
-      ["totalContributionsPerGivingUnit", [34, 36, 35, 37], "income", true],
+      // Income - S04.x fields
+      // S04.1 Contributions Without Donor Restrictions per Giving Unit: 275 (AVG), 276 (MID), 277 (MIN), 278 (MAX)
+      ["contributionsWithoutDonorPerGivingUnit", [275, 277, 276, 278], "income", true],
+      // S04.2 Total Contributions per Giving Unit: 279 (AVG), 280 (MID), 281 (MIN), 282 (MAX)
+      ["totalContributionsPerGivingUnit", [279, 281, 280, 282], "income", true],
 
-      // Expense
-      ["cashExpendituresPerGivingUnit", [38, 40, 39, 41], "expense", true],
+      // Expense - S05.x fields
+      // S05.1 Cash Expenses per Giving Unit: 283 (AVG), 284 (MID), 285 (MIN), 286 (MAX)
+      ["cashExpendituresPerGivingUnit", [283, 285, 284, 286], "expense", true],
     ];
 
     this.init();
@@ -545,16 +554,18 @@ class ExcelReportGenerator {
    */
   printToExcel(dataString) {
     /**
-     * Generate URL for Benchmark reports based on year count (matches Comprehensive)
+     * Generate URL for Trends or Benchmark reports based on year count (matches Comprehensive)
+     * @param {string} reportType - Either "trends" or "benchmark"
      * @param {string} format - File format ("xls" or "pdf")
      * @param {string} RecordId - QuickBase record ID
      * @returns {string} Generated URL for the report
      */
-    function getUrlBasedOnYearCount(format, RecordId) {
+    function getUrlBasedOnYearCount(reportType, format, RecordId) {
       const selectedYears = getSelectedYearsFromLocalStorage() || [];
       const yearCount = selectedYears.length;
       let tpid = "";
-      
+      let fnName = "";
+
       // Get client name (firmName) from window
       let clientName = "";
       if (window.firmName) {
@@ -563,37 +574,63 @@ class ExcelReportGenerator {
             ? window.firmName.textContent || ""
             : window.firmName;
       }
-      
-      // Map year count to tpid for Benchmark reports (matches Comprehensive)
-      const reportSuffix = "Benchmark Report";
-      const fnName = clientName 
-        ? `${encodeURIComponent(clientName)} ${reportSuffix}`
-        : reportSuffix;
-      
-      switch (yearCount) {
-        case 1:
-          tpid = "9"; // Church Compre Bench 1 Year.xlsx
-          break;
-        case 2:
-          tpid = "10"; // Church Compre Bench 2 Year.xlsx
-          break;
-        case 3:
-          tpid = "11"; // Church Compre Bench 3 Year.xlsx
-          break;
-        case 4:
-          tpid = "12"; // Church Compre Bench 4 Year.xlsx
-          break;
-        case 5:
-          tpid = "13"; // Church Compre Bench 5 Year.xlsx
-          break;
-        default:
-          break;
-      }
-      
-      if (!tpid) {
+
+      // Map year count to tpid based on report type
+      if (reportType === "trends") {
+        const reportSuffix = "Trends Report";
+        fnName = clientName 
+          ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+          : reportSuffix;
+        switch (yearCount) {
+          case 1:
+            tpid = "14"; // Church Stand Trends 1 Year.xlsx
+            break;
+          case 2:
+            tpid = "23"; // Church Stand Trends 2 Year.xlsx
+            break;
+          case 3:
+            tpid = "15"; // Church Stand Trends 3 Year.xlsx
+            break;
+          case 4:
+            tpid = "16"; // Church Stand Trends 4 Year.xlsx
+            break;
+          case 5:
+            tpid = "17"; // Church Stand Trends 5 Year.xlsx
+            break;
+          default:
+            console.error("Invalid year count for Trends report:", yearCount);
+            return "";
+        }
+      } else if (reportType === "benchmark") {
+        const reportSuffix = "Benchmark Report";
+        fnName = clientName 
+          ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+          : reportSuffix;
+        switch (yearCount) {
+          case 1:
+            tpid = "18"; // Church Stand Bench 1 Year.xlsx
+            break;
+          case 2:
+            tpid = "19"; // Church Stand Bench 2 Year.xlsx
+            break;
+          case 3:
+            tpid = "20"; // Church Stand Bench 3 Year.xlsx
+            break;
+          case 4:
+            tpid = "21"; // Church Stand Bench 4 Year.xlsx
+            break;
+          case 5:
+            tpid = "22"; // Church Stand Bench 5 Year.xlsx
+            break;
+          default:
+            console.error("Invalid year count for Benchmark report:", yearCount);
+            return "";
+        }
+      } else {
+        console.error("Invalid report type:", reportType);
         return "";
       }
-      
+
       const url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=${tpid}&fn=${fnName}&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
       return url;
     }
@@ -655,18 +692,32 @@ class ExcelReportGenerator {
                   printModalFooter.classList.remove("hidden");
                 }
 
-                // Update download links if they exist
+                // Update Trends download links
                 const trendXLSFinal = document.getElementById("trendXLSFinal");
                 if (trendXLSFinal) {
-                  trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
+                  trendXLSFinal.href = getUrlBasedOnYearCount("trends", "xls", recordId);
                 }
 
                 const trendPDFFinal = document.getElementById("trendPDFFinal");
                 if (trendPDFFinal) {
-                  trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
+                  trendPDFFinal.href = getUrlBasedOnYearCount("trends", "pdf", recordId);
                   // Open PDF in new tab instead of navigating away from current page
                   trendPDFFinal.target = "_blank";
                   trendPDFFinal.rel = "noopener noreferrer";
+                }
+
+                // Update Benchmark download links
+                const benchXLSFinal = document.getElementById("benchXLSFinal");
+                if (benchXLSFinal) {
+                  benchXLSFinal.href = getUrlBasedOnYearCount("benchmark", "xls", recordId);
+                }
+
+                const benchPDFFinal = document.getElementById("benchPDFFinal");
+                if (benchPDFFinal) {
+                  benchPDFFinal.href = getUrlBasedOnYearCount("benchmark", "pdf", recordId);
+                  // Open PDF in new tab instead of navigating away from current page
+                  benchPDFFinal.target = "_blank";
+                  benchPDFFinal.rel = "noopener noreferrer";
                 }
 
                 resolve({ recordId });

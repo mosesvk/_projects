@@ -1834,7 +1834,7 @@
               class="rounded-t-lg backgroundGreen dark:border dark:border-2 px-5 py-2 flex"
             >
               <h1 class="text-white font-bold text-center self-center">
-                Days of Expendable Net Asset Reserves
+                Days of Operating Cash and Investments on Hand to Fund Annual Cash Expenditures
               </h1>
               <button
                 type="button"
@@ -3694,10 +3694,47 @@
                     Generate Trends and Benchmark Reports
                   </button>
                   <div id="print_modal_footer" class="hidden flex flex-col items-center p-4 border-t border-gray-200 rounded-b-lg dark:border-gray-600">
-                    <p class="text-lg font-semibold mb-4">Download Options:</p>
-                    <div class="flex gap-4">
-                      <a id="trendXLSFinal" href="#" class="backgroundBlue py-3 px-6 rounded-lg text-white font-bold hover:opacity-90">Excel (.xls)</a>
-                      <a id="trendPDFFinal" href="#" class="backgroundBlue py-3 px-6 rounded-lg text-white font-bold hover:opacity-90">PDF</a>
+                    <p class="text-center pb-4 pt-2 text-lg font-medium text-gray-900 dark:text-white">
+                      Please use the buttons below to download the reports in
+                      your preferred format.
+                    </p>
+                    <!-- Trends Reports -->
+                    <div class="flex justify-center flex-col sm:flex-row gap-4 mb-4">
+                      <a
+                        href=""
+                        class="flex backgroundGreen font-bold py-3 px-6 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-green-300/50 opacity-90 hover:opacity-100 cursor-pointer"
+                        id="trendXLSFinal"
+                        target="_blank"
+                      >
+                        Trends XLS
+                      </a>
+                      <a
+                        href=""
+                        class="flex backgroundBlue font-bold py-3 px-6 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-blue-300/50 opacity-90 hover:opacity-100 cursor-pointer"
+                        id="trendPDFFinal"
+                        target="_blank"
+                      >
+                        Trends PDF
+                      </a>
+                    </div>
+                    <!-- Benchmark Reports -->
+                    <div class="flex justify-center flex-col sm:flex-row gap-4">
+                      <a
+                        href=""
+                        class="flex backgroundGreen font-bold py-3 px-6 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-green-300/50 opacity-90 hover:opacity-100 cursor-pointer"
+                        id="benchXLSFinal"
+                        target="_blank"
+                      >
+                        Benchmark XLS
+                      </a>
+                      <a
+                        href=""
+                        class="flex backgroundBlue font-bold py-3 px-6 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-blue-300/50 opacity-90 hover:opacity-100 cursor-pointer"
+                        id="benchPDFFinal"
+                        target="_blank"
+                      >
+                        Benchmark PDF
+                      </a>
                     </div>
                   </div>
                   

@@ -449,7 +449,17 @@ const getSumOfArray = (array) => {
     return 0;
   }
 
-  return array.reduce((sum, value) => sum + parseFloat(value) || 0, 0);
+  // Handle null, undefined, and empty string values properly
+  // Filter out null/undefined/empty, then parse and sum
+  return array.reduce((sum, value) => {
+    // Skip null, undefined, or empty string values
+    if (value === null || value === undefined || value === '') {
+      return sum;
+    }
+    // Parse the value and add to sum, defaulting to 0 if parsing fails
+    const numValue = parseFloat(value);
+    return sum + (isNaN(numValue) ? 0 : numValue);
+  }, 0);
 };
 
 const calculateAveragePercentageChange = (values) => {
@@ -1543,22 +1553,46 @@ const getBackgroundColor = (array, row, i = 1) => {
 
 /**
  * Add click event to benchmark element
- * Updated to use benchmark paragraph data from localStorage
+d * Uses hardcoded benchmark text from fieldBenchmarkMap (static text, not from API)
  * @param {string} elementId - The row element ID (e.g., "row_daysOperatingCash")
  * @param {string} fieldName - The field name (e.g., "daysOperatingCash")
  * @param {string} dataCategory - The data category (e.g., "cashData", "debtData")
  */
-const addClickEventToBenchmark = (elementId, fieldName, dataCategory) => {
+const addClickEventToBenchmark = async (elementId, fieldName, dataCategory) => {
   const element = document.getElementById(elementId);
   if (!element) {
     // console.warn(`Element not found: ${elementId}`);
     return;
   }
   
-  const benchmarkFieldName = `${fieldName}_benchmarkParagraph`;
-  element.onclick = () => {
-    createBenchmark(benchmarkFieldName, dataCategory, elementId);
-  };
+  // Get hardcoded benchmark text from fieldBenchmarkMap (defined in DisplayCharts.js)
+  // This ensures the modal shows the same static benchmark text as outside the chart
+  // Check both global scope and window object for fieldBenchmarkMap
+  const benchmarkMap = typeof fieldBenchmarkMap !== 'undefined' 
+    ? fieldBenchmarkMap 
+    : (typeof window !== 'undefined' && window.fieldBenchmarkMap) 
+      ? window.fieldBenchmarkMap 
+      : null;
+  
+  let benchmarkText = "";
+  if (benchmarkMap && benchmarkMap[fieldName]) {
+    benchmarkText = benchmarkMap[fieldName];
+  }
+  
+  // If no benchmark text found, use default
+  if (!benchmarkText || benchmarkText.trim() === "") {
+    benchmarkText = "No Benchmark has been established";
+  }
+  
+  // Create the modal with hardcoded benchmark text (not from API)
+  const modal = await createBenchmark(benchmarkText, dataCategory, elementId);
+  
+  if (modal) {
+    element.onclick = () => {
+      modal.open();
+    };
+    element.classList.add("cursor-pointer");
+  }
 };
 
 /**

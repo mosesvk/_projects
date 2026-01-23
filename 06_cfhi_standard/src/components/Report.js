@@ -60,7 +60,22 @@ const displayReportComponent = () => {
       ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa", 'cb'],
     ])
 
-    processBenchmarkParagraphs();
+    // Process benchmark paragraphs and set up click handlers (async)
+    processBenchmarkParagraphs().then(() => {
+      // Set up click handlers for fields with hardcoded benchmark text
+      // These fields may not have benchmark paragraph data in localStorage
+      // but still need click handlers to show modals with hardcoded text
+      if (typeof createBenchmark === 'function') {
+        // PercentChange fields use hardcoded "Good: Improving Trend" text
+        createBenchmark("Good: Improving Trend", "incomeData", "row_contributionsWithoutDonorPerGivingUnit_percentChange");
+        createBenchmark("Good: Improving Trend", "incomeData", "row_totalContributionsPerGivingUnit_percentChange");
+        
+        // personnelIncludingToTotalCashExpenditures uses hardcoded benchmark text
+        createBenchmark("Good: 40-55% | Warning: 35-40% or 55-59% | Action: < 35% or > 59%", "expenseData", "row_personnelIncludingToTotalCashExpenditures");
+      }
+    }).catch(error => {
+      console.error("Error processing benchmark paragraphs:", error);
+    });
   }
 
   processTHElements();
@@ -511,7 +526,7 @@ function processTHElements() {
  * Process benchmark paragraphs and display them in modals
  * Based on comp project implementation, adapted for Standard project's 9 metrics
  */
-function processBenchmarkParagraphs() {
+async function processBenchmarkParagraphs() {
   // Get data from localStorage
   const generalData = JSON.parse(localStorage.getItem("generalData") || "{}");
   const cashData = JSON.parse(localStorage.getItem("cashData") || "{}");
@@ -519,77 +534,69 @@ function processBenchmarkParagraphs() {
   const incomeData = JSON.parse(localStorage.getItem("incomeData") || "{}");
   const expenseData = JSON.parse(localStorage.getItem("expenseData") || "{}");
 
-  // Array of field mappings for Standard project: [fieldName, dataSource, modalBodySelector]
+  // Array of field mappings for Standard project: [fieldName, dataSource]
+  // Note: body-2 sections are populated by createWhatDoesThisMean() in DisplayCharts.js
+  // body-3 sections are populated by createBenchmark() in Utility.js
+  // This function only sets up click handlers for benchmark modals
   const modalInfoFields = [
     // General data
-    ["givingUnits", generalData, "#givingUnits-body-2 div"],
-    ["contributionsWithoutDonorExcludingLargeGifts", generalData, "#contributionsWithoutDonorExcludingLargeGifts-body-2 div"],
+    ["givingUnits", generalData],
+    ["contributionsWithoutDonorExcludingLargeGifts", generalData],
     
     // Cash data
-    ["daysOperatingCash", cashData, "#daysOperatingCash-body-2 div"],
-    ["netCashAvailability", cashData, "#netCashAvailability-body-2 div"],
+    ["daysOperatingCash", cashData],
+    ["netCashAvailability", cashData],
     
     // Debt data
-    ["debtToContributionsWithout", debtData, "#debtToContributionsWithout-body-2 div"],
-    ["debtPerGivingUnit", debtData, "#debtPerGivingUnit-body-2 div"],
+    ["debtToContributionsWithout", debtData],
+    ["debtPerGivingUnit", debtData],
     
     // Income data
-    ["contributionsWithoutDonorPerGivingUnit", incomeData, "#contributionsWithoutDonorPerGivingUnit-body-2 div"],
-    ["totalContributionsPerGivingUnit", incomeData, "#totalContributionsPerGivingUnit-body-2 div"],
+    ["contributionsWithoutDonorPerGivingUnit", incomeData],
+    ["contributionsWithoutDonorPerGivingUnit_percentChange", incomeData],
+    ["totalContributionsPerGivingUnit", incomeData],
+    ["totalContributionsPerGivingUnit_percentChange", incomeData],
     
     // Expense data
-    ["cashExpendituresPerGivingUnit", expenseData, "#cashExpendituresPerGivingUnit-body-2 div"],
+    ["cashExpendituresPerGivingUnit", expenseData],
+    ["personnelIncludingToTotalCashExpenditures", expenseData],
   ];
 
-  // Get the selected years to access the benchmark data
-  const selectedYears = getSelectedYearsFromLocalStorage();
-  
-  if (!selectedYears || selectedYears.length === 0) {
-    return;
-  }
+  // Note: We don't need selectedYears here anymore since we're only setting up click handlers
+  // The benchmark content is handled by createBenchmark() which is called from DisplayCharts.js
 
-  // Use the first available year to get benchmark paragraph data
-  const targetYear = selectedYears[0];
-
-  modalInfoFields.forEach(([fieldName, dataSource, selector]) => {
+  // Process all fields and set up click handlers (using Promise.all to handle async)
+  // Note: We don't populate body-2 here - that's handled by createWhatDoesThisMean() in DisplayCharts.js
+  // We only set up click handlers for the benchmark modals
+  const setupPromises = modalInfoFields.map(async ([fieldName, dataSource]) => {
     try {
-      const targetElement = document.querySelector(selector);
-      
-      if (!targetElement) {
-        // console.warn(`Element not found for selector: ${selector}`);
-        return;
+      // Determine data category based on dataSource (needed for click handler)
+      let dataCategory;
+      if (dataSource === generalData) {
+        dataCategory = "generalData";
+      } else if (dataSource === cashData) {
+        dataCategory = "cashData";
+      } else if (dataSource === debtData) {
+        dataCategory = "debtData";
+      } else if (dataSource === incomeData) {
+        dataCategory = "incomeData";
+      } else if (dataSource === expenseData) {
+        dataCategory = "expenseData";
       }
 
-      if (!dataSource) {
-        // console.warn(`Data source not available for field: ${fieldName}`);
-        return;
+      // Set up click handler on the row element (e.g., "row_daysOperatingCash")
+      const rowElementId = `row_${fieldName}`;
+      if (dataCategory && typeof addClickEventToBenchmark === 'function') {
+        await addClickEventToBenchmark(rowElementId, fieldName, dataCategory);
       }
-
-      const benchmarkKey = `${fieldName}_benchmarkParagraph`;
-      const benchmarkData = dataSource[benchmarkKey];
-
-      if (!benchmarkData || !benchmarkData[targetYear]) {
-        // console.warn(`Benchmark data not found for field: ${fieldName}, year: ${targetYear}`);
-        return;
-      }
-
-      let benchmarkContent = benchmarkData[targetYear].value;
-
-      if (!benchmarkContent || benchmarkContent === '0') {
-        // console.warn(`No benchmark content for field: ${fieldName}`);
-        return;
-      }
-
-      // Process the HTML content to add mb-2 class to p tags
-      benchmarkContent = addMb2ClassToPTags(benchmarkContent);
-
-      // Set the innerHTML of the target element
-      targetElement.innerHTML = benchmarkContent;
 
     } catch (error) {
-      // console.error(`Error processing benchmark paragraph for ${fieldName}:`, error);
+      // console.error(`Error setting up click handler for ${fieldName}:`, error);
     }
   });
+
+  // Wait for all click handlers to be set up
+  await Promise.all(setupPromises);
 }
 
 /**

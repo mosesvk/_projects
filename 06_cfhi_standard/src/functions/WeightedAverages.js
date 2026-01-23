@@ -268,24 +268,11 @@ const daysOperatingCash_weightedAverage = (data, name, year) => {
   const s45 = getSumOfArray(s45Array);
   const s46 = getSumOfArray(s46Array);
 
-  // Detailed logging for debugging daysOperatingCash weighted average
-  console.log("\n%c🔍 DAYS OPERATING CASH WEIGHTED AVERAGE DEBUG (Ratio 1)", "font-size: 14px; font-weight: bold; color: #7c3aed;");
-  console.log(`  Name: ${name}, Year: ${yearKey}`);
-  console.log(`  s18 (Total Cash) Array (${s18Array.length} values):`, s18Array);
-  console.log(`  s18 Sum: $${s18.toLocaleString()}`);
-  console.log(`  s20 (Non-Endowment Investment) Array (${s20Array.length} values):`, s20Array);
-  console.log(`  s20 Sum: $${s20.toLocaleString()}`);
-  console.log(`  s36 (Net Asset w/ Donor Restriction) Array (${s36Array.length} values):`, s36Array);
-  console.log(`  s36 Sum: $${s36.toLocaleString()}`);
-  console.log(`  s45 (Total Expense) Array (${s45Array.length} values):`, s45Array);
-  console.log(`  s45 Sum: $${s45.toLocaleString()}`);
-  console.log(`  s46 (Total Depreciation Expense) Array (${s46Array.length} values):`, s46Array);
-  console.log(`  s46 Sum: $${s46.toLocaleString()}`);
   
   const numerator = s18 + s20 - s36;
   const denominator = s45 - s46;
-  console.log(`  Numerator (s18 + s20 - s36): $${numerator.toLocaleString()}`);
-  console.log(`  Denominator (s45 - s46): $${denominator.toLocaleString()}`);
+  // console.log(`  Numerator (s18 + s20 - s36): $${numerator.toLocaleString()}`);
+  // console.log(`  Denominator (s45 - s46): $${denominator.toLocaleString()}`);
   
   if (denominator === 0 || isNaN(denominator)) {
     console.warn("  ⚠️ Denominator is 0 or NaN - returning 0");
@@ -293,8 +280,8 @@ const daysOperatingCash_weightedAverage = (data, name, year) => {
   }
 
   const result = ((numerator / denominator) * 365);
-  console.log(`  Result: (${numerator.toLocaleString()} / ${denominator.toLocaleString()}) * 365 = ${result.toFixed(2)} days`);
-  console.log("─".repeat(120));
+  // console.log(`  Result: (${numerator.toLocaleString()} / ${denominator.toLocaleString()}) * 365 = ${result.toFixed(2)} days`);
+  // console.log("─".repeat(120));
 
   return result;
 };

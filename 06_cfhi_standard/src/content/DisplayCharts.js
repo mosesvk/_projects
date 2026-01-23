@@ -55,11 +55,15 @@ const daysOperatingCash_whatDoesThisMean = [
 // "What does this mean" text for netCashAvailability
 const netCashAvailability_whatDoesThisMean = [
   `<p>This measurement calculates the amount of cash available for other uses after the church has satisfied its current liabilities and set aside funds donors have restricted for specific uses. Any debt that is part of current liabilities but expected to be refinanced within the next year is excluded.</p>`,
-  `<p>This may be one of the most important measures provided to your church leadership. Many churches today find that senior management (pastoral staff) and the governing board want to know how much cash the church has. The most important question is not "How much do we have?" but rather, "Whose cash is it and how much of it can we spend?" Those are typically two very different answers. </p>`,
-  `<p>A net cash availability number factors in the cash required for the immediate future (less than 10 days) to determine what can safely be spent. </p>`,
-  `<p>Net assets with donor restrictions are not to be expended for general operating purposes and therefore are excluded from the operating cash balance. Some churches have in essence "borrowed" from reserves with donor restrictions because they overspent in operations. This calculation will help management and the governing board identify if this is happening in your church, so it is crucial to provide this information to the decision makers. </p>`,
+  `<p>This may be one of the most important measures provided to your church leadership. Many churches today find that senior management (pastoral staff) and the governing board want to know how much cash the church has. The most important question is not &ldquo;How much do we have?&rdquo; but rather, &ldquo;Whose cash is it and how much of it can we spend?&rdquo; Those are typically two very different answers.&nbsp;</p>`,
+  `<p>A net cash availability number factors in the cash required for the immediate future (less than 10 days) to determine what can safely be spent.&nbsp;</p>`,
+  `<p>Net assets with donor restrictions are not to be expended for general operating purposes and therefore are excluded from the operating cash balance. Some churches have in essence &ldquo;borrowed&rdquo; from reserves with donor restrictions because they overspent in operations. This calculation will help management and the governing board identify if this is happening in your church, so it is crucial to provide this information to the decision makers.&nbsp;</p>`,
   `<p>To improve this figure, you must change one or a combination of the following factors:</p>`,
-  `<ul><li>Increase operating cash and investments </li><li>Decrease current liabilities <br /> </li></ul>`
+  `<ul>
+	<li>Increase operating cash and investments&nbsp;</li>
+	<li>Decrease current liabilities&nbsp;<br />
+	&nbsp;</li>
+</ul>`
 ];
 
 // "What does this mean" text for debtToContributionsWithout
@@ -82,35 +86,35 @@ const contributionsWithoutDonorPerGivingUnit_whatDoesThisMean = [
   `<p>Churches today have to look at contributions differently than at any time in the past. Contributions are down, and generational differences are very strong even in the way people contribute to their church. Young people, who are more cause-driven, tend to give to specific purposes and causes and are less interested in giving to general operations. This creates budgeting concerns.</p>`,
   `<p>Churches choose to communicate needs in various ways. Some annually communicate contributions per giving unit. Others may request contributions towards a specific need and tell the congregation what was received and how the funds were spent, and show pictures of the repairs or replacements.</p>`,
   `<p>All churches, especially those that receive large amounts of donor-restricted contributions, should consider adopting a gift acceptance policy. Such a policy would include what types of gifts would be received (cash, stock, etc.). It could also include what donor-restricted amounts the church will accept. If the church is never going to buy a bus, for example, there is no reason to accept funds for such a purpose.</p>`,
-  `<p>The most obvious way to improve this calculation is to increase contributions without donor restrictions. </p>`
+  `<p>The most obvious way to improve this calculation is to increase contributions without donor restrictions.&nbsp;</p>`
 ];
 
 // "What does this mean" text for medianHouseholdIncome
 const medianHouseholdIncome_whatDoesThisMean = [
   `<p>The purpose of this ratio is to see what percentage of the local median county household income giving units are contributing to your church.</p>`,
-  `<p>This is calculated by dividing the total contributions (both with and without donor restrictions) per giving unit by the median household income in the local county where the majority of the church's giving units reside. The median income figure is obtained from the most recent U.S. Census data available, which is usually one year in arrears.</p>`,
+  `<p>This is calculated by dividing the total contributions (both with and without donor restrictions) per giving unit by the median household income in the local county where the majority of the church&rsquo;s giving units reside. The median income figure is obtained from the most recent U.S. Census data available, which is usually one year in arrears.</p>`,
   `<p>This allows your church to see the percentage of median household income your giving units contribute to your church. Trends between years in this data are very important. This percentage and the changes between years allow management and the board to see how much additional giving capacity the congregation has. It also is great feedback for the senior pastor to see changes in giving habits between years and in response to stewardship teaching and focus.</p>`,
-  `<p>This ratio will improve as total contributions improve relative to the giving units. Because this ratio is a measure of the stewardship discipline of the congregation, however, the best way to improve it is to raise the level of stewardship awareness in the congregation. </p>`
+  `<p>This ratio will improve as total contributions improve relative to the giving units. Because this ratio is a measure of the stewardship discipline of the congregation, however, the best way to improve it is to raise the level of stewardship awareness in the congregation.&nbsp;</p>`
 ];
 
 // "What does this mean" text for cashExpendituresPerGivingUnit
 const cashExpendituresPerGivingUnit_whatDoesThisMean = [
-  `<p>Has your church ever wondered what your financial cost per giving unit is? This measure provides the answer. It takes cash expenses (excluding depreciation and amortization expense, which most churches on the cash or modified cash basis of accounting don't record), plus current-year debt principal, and divides that total by the number of giving units.</p>`,
+  `<p>Has your church ever wondered what your financial cost per giving unit is? This measure provides the answer. It takes cash expenses (excluding depreciation and amortization expense, which most churches on the cash or modified cash basis of accounting don&rsquo;t record), plus current-year debt principal, and divides that total by the number of giving units.</p>`,
   `<p>The power of this measure is in the peer group comparison. This allows your church to see if your expenses are high or low compared to your peers. It also shows the increases and decreases to this measure between years.</p>`,
-  `<p>Another useful comparison is to determine what the net position is (per giving unit) when compared to the financial cost of total contributions received. By taking the net between this measure and Measurement 6, you get the information to know if your contributions are high enough to cover cash operations though current contributions received. </p>`
+  `<p>Another useful comparison is to determine what the net position is (per giving unit) when compared to the financial cost of total contributions received. By taking the net between this measure and Measurement 6, you get the information to know if your contributions are high enough to cover cash operations though current contributions received.&nbsp;</p>`
 ];
 
 // "What does this mean" text for personnelIncludingToTotalCashExpenditures
 const personnelInclude_whatDoesThisMean = [
-  `<p>Many churches have moved to outsourcing certain key functions in their operations (such as custodial, information technology, and accounting functions, to name a few). Outsourcing allows churches to rely on vendors who specialize in a particular field and avoid hiring that expertise in-house, particularly when they don't need that skill on a full-time basis. This also reduces the associated recruiting and operational costs of these functions.</p>`,
-  `<p>As many churches turn to outsourcing to take advantage of specialists with expertise and technical equipment, it's important to measure the cost of outsourcing when looking at personnel costs. This ratio incorporates those factors and calculates a fully loaded cost, including outsourced employees. This will allow the church to compare its total personnel cost with peers who may or may not outsource. </p>`
+  `<p>Many churches have moved to outsourcing certain key functions in their operations (such as custodial, information technology, and accounting functions, to name a few). Outsourcing allows churches to rely on vendors who specialize in a particular field and avoid hiring that expertise in-house, particularly when they don&rsquo;t need that skill on a full-time basis. This also reduces the associated recruiting and operational costs of these functions.</p>`,
+  `<p>As many churches turn to outsourcing to take advantage of specialists with expertise and technical equipment, it&rsquo;s important to measure the cost of outsourcing when looking at personnel costs. This ratio incorporates those factors and calculates a fully loaded cost, including outsourced employees. This will allow the church to compare its total personnel cost with peers who may or may not outsource.&nbsp;</p>`
 ];
 
 // "What does this mean" text for totalContributionsPerGivingUnit
 const contrPerAvgAttAndGU_whatDoesThisMean = [
   `<p>The key difference between this result and Measurement 5 is that this is calculated on total contributions (both with and without donor restrictions).</p>`,
   `<p>When a church is in the midst of a specific campaign, it will likely receive some large one-time gifts. Since this measurement includes both gifts with and without donor restrictions, it is important that these are eliminated; otherwise, there could be large swings between years. As with Measurement 5, the power of this measurement is in analyzing trends in congregational giving habits between years. Keep in mind that during the period of a capital campaign, this figure may be inflated, even with the removal of large or one-time gifts, due to an increase in smaller gifts as well.</p>`,
-  `<p>Again, the most apparent way to improve this calculation is to increase total contributions. </p>`
+  `<p>Again, the most apparent way to improve this calculation is to increase total contributions. &nbsp;</p>`
 ];
 
 const displayGeneralComponent = () => {
@@ -195,7 +199,7 @@ const displayCashComponent = () => {
 
   // Use hardcoded benchmark text
   createBenchmark("Good: > 90 days | Warning: 60 - 90 days | Action: < than 60 days", "cashData", "row_daysOperatingCash");
-  createBenchmark("Good: > 1 month expenses | Warning: > 0 and < 1 month expenses | Action: < 0", "cashData", "row_netCashAvailability");
+  createBenchmark("Good: > 1 month expenses  | Warning: > 0 and < 1 month expenses | Action: < 0", "cashData", "row_netCashAvailability");
   
   // Add "What does this mean?" content
   createWhatDoesThisMean(daysOperatingCash_whatDoesThisMean, "row_daysOperatingCash");
@@ -240,7 +244,7 @@ const displayDebtComponent = () => {
   );
 
   // Use hardcoded benchmark text
-  createBenchmark("Good: < 2 | Warning: 2 - 3 | Action: > 3", "debtData", "row_debtToContributionsWithout");
+  createBenchmark("Good: < 2 | Warning:  2 - 3 | Action:  > 3", "debtData", "row_debtToContributionsWithout");
   createBenchmark("Good: < 2x | Warning: 2x - 3x | Action: > 3x contributions w/o donor restrictions per giving unit", "debtData", "row_debtPerGivingUnit");
   
   // Add "What does this mean?" content
@@ -364,14 +368,21 @@ const fieldBenchmarkMap = {
   givingUnits: "", // No benchmark text
   contributionsWithoutDonorExcludingLargeGifts: "", // No benchmark text
   daysOperatingCash: "Good: > 90 days | Warning: 60 - 90 days | Action: < than 60 days",
-  netCashAvailability: "Good: > 1 month expenses | Warning: > 0 and < 1 month expenses | Action: < 0",
-  debtToContributionsWithout: "Good: < 2 | Warning: 2 - 3 | Action: > 3",
+  netCashAvailability: "Good: > 1 month expenses  | Warning: > 0 and < 1 month expenses | Action: < 0",
+  debtToContributionsWithout: "Good: < 2 | Warning:  2 - 3 | Action:  > 3",
   debtPerGivingUnit: "Good: < 2x | Warning: 2x - 3x | Action: > 3x contributions w/o donor restrictions per giving unit",
   contributionsWithoutDonorPerGivingUnit: "", // No benchmark text
+  contributionsWithoutDonorPerGivingUnit_percentChange: "Good: Improving Trend",
   totalContributionsPerGivingUnit: "Good: > $4,500 | Warning: $3,000 - $4,500 | Action: < than $3,000",
+  totalContributionsPerGivingUnit_percentChange: "Good: Improving Trend",
   cashExpendituresPerGivingUnit: "", // No benchmark text
   personnelIncludingToTotalCashExpenditures: "Good: 40-55% | Warning: 35-40% or 55-59% | Action: < 35% or > 59%",
 };
+
+// Make fieldBenchmarkMap accessible globally for use in Utility.js
+if (typeof window !== 'undefined') {
+  window.fieldBenchmarkMap = fieldBenchmarkMap;
+}
 
 /**
  * Display benchmark text above the Expand Info button for charts that have benchmarks
