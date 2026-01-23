@@ -50,14 +50,14 @@ const displayReportComponent = () => {
 
     insertDataToReport(incomeData, selectedYears, [
       ["contributionsWithoutDonorPerGivingUnit", "dollar", 0, "wa"],
-      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0, null],
-      ["totalContributionsPerGivingUnit", "dollar", 0, "wa"],
-      ["totalContributionsPerGivingUnit_percentChange", "percent", 0, null],
+      ["contributionsWithoutDonorPerGivingUnit_percentChange", "percent", 0, null, 'cb'],
+      ["totalContributionsPerGivingUnit", "dollar", 0, "wa", 'cb'],
+      ["totalContributionsPerGivingUnit_percentChange", "percent", 0, null, 'cb'],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
       ["cashExpendituresPerGivingUnit", "dollar", 0, "wa"],
-      ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa"],
+      ["personnelIncludingToTotalCashExpenditures", "percent", 0, "wa", 'cb'],
     ])
 
     // Update contributionsWithoutDonorPerGivingUnit_standard after contributionsWithoutDonorPerGivingUnit is calculated
