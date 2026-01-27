@@ -1842,7 +1842,9 @@ const range = () => {
       }
       
       // Constrain within valid range
-      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      // Only enforce minimum gap of 500 when dragging slider, not when typing manually
+      const maxValue = shouldRound ? Math.min(this.maxprice - 500, this.maxprice) : this.maxprice;
+      this.minprice = Math.max(this.min, Math.min(this.minprice, maxValue));
       
       // Calculate thumb position
       this.minthumb =
@@ -1878,7 +1880,9 @@ const range = () => {
       }
       
       // Constrain within valid range
-      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      // Only enforce minimum gap of 500 when dragging slider, not when typing manually
+      const minValue = shouldRound ? Math.max(this.minprice + 500, this.minprice) : this.minprice;
+      this.maxprice = Math.max(minValue, Math.min(this.maxprice, this.max));
       
       // Calculate thumb position
       this.maxthumb =
@@ -1925,7 +1929,9 @@ function missionaryRange() {
       }
       
       // Constrain within valid range
-      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      // Only enforce minimum gap of 500 when dragging slider, not when typing manually
+      const maxValue = shouldRound ? Math.min(this.maxprice - 500, this.maxprice) : this.maxprice;
+      this.minprice = Math.max(this.min, Math.min(this.minprice, maxValue));
       
       // Calculate thumb position
       this.minthumb =
@@ -1961,7 +1967,9 @@ function missionaryRange() {
       }
       
       // Constrain within valid range
-      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      // Only enforce minimum gap of 500 when dragging slider, not when typing manually
+      const minValue = shouldRound ? Math.max(this.minprice + 500, this.minprice) : this.minprice;
+      this.maxprice = Math.max(minValue, Math.min(this.maxprice, this.max));
       
       // Calculate thumb position
       this.maxthumb =

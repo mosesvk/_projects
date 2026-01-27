@@ -411,9 +411,13 @@ class ChartConfigFactory {
     };
 
 
+    // Get client name from DOM or global variable
+    const firmNameElement = document.getElementById("firmName");
+    const clientName = firmNameElement?.textContent?.trim() || firmName || "Client";
+
     const series = [
       {
-        name: "Client",
+        name: clientName,
         type: "column",
         data: clientArray,
         style: {
