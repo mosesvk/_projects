@@ -2310,7 +2310,7 @@ class DataProcessor {
   filterRecordsByYear(records, year) {
     // Handle null or undefined records
     if (!records) {
-      console.warn("Records is null or undefined");
+      // console.warn("Records is null or undefined");
       return [];
     }
 
@@ -2347,10 +2347,10 @@ class DataProcessor {
     });
     
     // Log year distribution summary
-    console.log(`\n📊 filterRecordsByYear - Year Distribution Analysis (filtering for year ${year}):`);
-    console.log(`   Total records in input: ${recordsArray.length}`);
+    // console.log(`\n📊 filterRecordsByYear - Year Distribution Analysis (filtering for year ${year}):`);
+    // console.log(`   Total records in input: ${recordsArray.length}`);
     Object.keys(yearDistribution).sort().forEach((yr) => {
-      console.log(`   Year ${yr}: ${yearDistribution[yr]} records`);
+      // console.log(`   Year ${yr}: ${yearDistribution[yr]} records`);
     });
     
     // Log clients that appear in multiple years (potential issue indicator)
@@ -2358,11 +2358,11 @@ class DataProcessor {
       (client) => clientYearMap[client].size > 1
     );
     if (multiYearClients.length > 0) {
-      console.log(`\n   ⚠️ Clients appearing in multiple years:`);
-      multiYearClients.forEach((client) => {
-        const years = Array.from(clientYearMap[client]).sort().join(", ");
-        console.log(`      "${client}": years ${years}`);
-      });
+      // console.log(`\n   ⚠️ Clients appearing in multiple years:`);
+      // multiYearClients.forEach((client) => {
+      //   const years = Array.from(clientYearMap[client]).sort().join(", ");
+      //   console.log(`      "${client}": years ${years}`);
+      // });
     }
 
     const filtered = recordsArray.filter((record) => {
@@ -2391,16 +2391,16 @@ class DataProcessor {
         }
         // If neither format works, log and skip this record
         else {
-          console.warn("Unrecognized record format:", record);
+          // console.warn("Unrecognized record format:", record);
           return false;
         }
       } catch (error) {
-        console.error("Error filtering record by year:", error, record);
+        // console.error("Error filtering record by year:", error, record);
         return false;
       }
     });
     
-    console.log(`   ✅ Filtered result: ${filtered.length} records for year ${year}\n`);
+    // console.log(`   ✅ Filtered result: ${filtered.length} records for year ${year}\n`);
     return filtered;
   }
 }
@@ -2419,7 +2419,7 @@ class ApiService {
       try {
         // If no data was collected, return empty array
         if (dataStr === "<qdbapi>") {
-          console.warn("No records collected, returning empty array");
+          // console.warn("No records collected, returning empty array");
           return [];
         }
 
@@ -2432,13 +2432,13 @@ class ApiService {
         // console.log(`Parsed ${records.length} peer records from collected data`);
         return records;
       } catch (error) {
-        console.error("Error parsing XML in getRecordsForPeer:", error);
+        // console.error("Error parsing XML in getRecordsForPeer:", error);
         return [];
       }
     }
 
     const currentYear = years[0];
-    console.log(`Fetching peer data for year: ${currentYear}`);
+    // console.log(`Fetching peer data for year: ${currentYear}`);
 
     try {
       // Debug: Log current selected clients
@@ -2449,7 +2449,7 @@ class ApiService {
       const selectedClients = Array.from(window.selectedClients_Array || []);
       const batchedRecords = await this.fetchPeerDataInBatches(currentYear, selectedClients);
       
-      console.log(`Received ${batchedRecords.length} peer records for year ${currentYear} with ${selectedClients.length} selected clients`);
+      // console.log(`Received ${batchedRecords.length} peer records for year ${currentYear} with ${selectedClients.length} selected clients`);
 
       // Collect records for later use
       if (batchedRecords.length > 0) {
@@ -2465,23 +2465,23 @@ class ApiService {
           dataStr += newRecord.outerHTML;
         }
       } else {
-        console.warn(`No records found for year ${currentYear}`);
+        // console.warn(`No records found for year ${currentYear}`);
       }
 
       // Recursive call with updated years and dataStr
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching peer data for year", currentYear, error);
+      // console.error("Error fetching peer data for year", currentYear, error);
 
       // Log error details
       if (error.status) {
-        console.error(
-          `Status: ${error.status}, StatusText: ${error.statusText}`
-        );
+        // console.error(
+        //   `Status: ${error.status}, StatusText: ${error.statusText}`
+        // );
       }
 
       // Continue with next year even if this one failed
-      console.log(`Continuing to next year after error...`);
+      // console.log(`Continuing to next year after error...`);
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
   }
@@ -2497,7 +2497,7 @@ class ApiService {
 
     // Calculate number of batches needed
     const totalBatches = Math.ceil(selectedClients.length / BATCH_SIZE);
-    console.log(`Processing ${selectedClients.length} clients in ${totalBatches} batches of ${BATCH_SIZE}`);
+    // console.log(`Processing ${selectedClients.length} clients in ${totalBatches} batches of ${BATCH_SIZE}`);
 
     // Process clients in batches
     for (let i = 0; i < totalBatches; i++) {
@@ -2505,7 +2505,7 @@ class ApiService {
       const endIndex = Math.min(startIndex + BATCH_SIZE, selectedClients.length);
       const batchClients = selectedClients.slice(startIndex, endIndex);
       
-      console.log(`Processing batch ${i + 1}/${totalBatches}: clients ${startIndex + 1}-${endIndex}`);
+      // console.log(`Processing batch ${i + 1}/${totalBatches}: clients ${startIndex + 1}-${endIndex}`);
 
       try {
         // Build query for this batch
@@ -2526,13 +2526,13 @@ class ApiService {
         const xml = await $.get(peerData, apiCallPeerData);
         const batchRecords = $("record", xml).toArray();
         
-        console.log(`Batch ${i + 1} returned ${batchRecords.length} records`);
+        // console.log(`Batch ${i + 1} returned ${batchRecords.length} records`);
         
         // Debug: Log each record's client name and year (fid 301)
         batchRecords.forEach((record) => {
           const clientName = record.querySelector("pe___client_informal_name")?.textContent || "Unknown";
           const yearField = record.querySelector("fiscal_ye_date_formatted_year_text")?.textContent || "Unknown";
-          console.log(`  📊 Peer Record - Client: "${clientName}", Year (fid 301): "${yearField}" (Query year: ${year})`);
+          // console.log(`  📊 Peer Record - Client: "${clientName}", Year (fid 301): "${yearField}" (Query year: ${year})`);
         });
         
         allRecords.push(...batchRecords);
@@ -2543,7 +2543,7 @@ class ApiService {
         }
 
       } catch (error) {
-        console.error(`Error fetching batch ${i + 1}:`, error);
+        // console.error(`Error fetching batch ${i + 1}:`, error);
         // Continue with next batch even if this one failed
         continue;
       }
@@ -2561,17 +2561,17 @@ class ApiService {
       yearCheck[recordYear].push(clientName);
     });
     
-    console.log(`\n📈 fetchPeerDataInBatches Summary for year ${year}:`);
-    console.log(`   Total records collected: ${allRecords.length}`);
+    // console.log(`\n📈 fetchPeerDataInBatches Summary for year ${year}:`);
+    // console.log(`   Total records collected: ${allRecords.length}`);
     Object.keys(yearCheck).sort().forEach((yr) => {
       const uniqueClients = new Set(yearCheck[yr]);
-      console.log(`   Records with year "${yr}": ${yearCheck[yr].length} (${yr === year.toString() ? '✅' : '❌ WRONG YEAR'}) - ${uniqueClients.size} unique clients`);
+      // console.log(`   Records with year "${yr}": ${yearCheck[yr].length} (${yr === year.toString() ? '✅' : '❌ WRONG YEAR'}) - ${uniqueClients.size} unique clients`);
       if (yr !== year.toString()) {
-        console.log(`      ⚠️ WARNING: Found ${yearCheck[yr].length} records with year "${yr}" when querying for year "${year}"!`);
-        console.log(`      Clients: ${Array.from(uniqueClients).slice(0, 10).join(", ")}${uniqueClients.size > 10 ? '...' : ''}`);
+        // console.log(`      ⚠️ WARNING: Found ${yearCheck[yr].length} records with year "${yr}" when querying for year "${year}"!`);
+        // console.log(`      Clients: ${Array.from(uniqueClients).slice(0, 10).join(", ")}${uniqueClients.size > 10 ? '...' : ''}`);
       }
     });
-    console.log(``);
+    // console.log(``);
     
     return allRecords;
   }
@@ -2583,7 +2583,7 @@ class ApiService {
       try {
         // If no data was collected, return empty array
         if (dataStr === "<qdbapi>") {
-          console.warn("No client records collected, returning empty array");
+          // console.warn("No client records collected, returning empty array");
           return [];
         }
 
@@ -2597,7 +2597,7 @@ class ApiService {
         // console.log(`Parsed ${records.length} client records from collected data`);
         return records;
       } catch (error) {
-        console.error("Error parsing client XML:", error);
+        // console.error("Error parsing client XML:", error);
         return [];
       }
     }
@@ -2634,13 +2634,13 @@ class ApiService {
       // Recursive call with updated years and dataStr
       return await this.getRecordsForClient(years.slice(1), dataStr);
     } catch (error) {
-      console.error("Error fetching client data for year", currentYear, error);
+      // console.error("Error fetching client data for year", currentYear, error);
 
       // Log error details
       if (error.status) {
-        console.error(
-          `Status: ${error.status}, StatusText: ${error.statusText}`
-        );
+        // console.error(
+        //   `Status: ${error.status}, StatusText: ${error.statusText}`
+        // );
       }
 
       // Continue with next year even if this one failed
@@ -2770,9 +2770,9 @@ class ApiService {
           sortedUniquePeerClientNames
         );
       } else {
-        console.error(
-          "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
-        );
+        // console.error(
+        //   "addUniqueClientsToOptionsSelectClientDropdown function is not defined"
+        // );
 
         // Provide a simple fallback for populating clients if needed
         this._populateClientsDropdownFallback(sortedUniquePeerClientNames);
@@ -2785,7 +2785,7 @@ class ApiService {
 
       return sortedUniquePeerClientNames;
     } catch (error) {
-      console.error("Error fetching unique client names:", error);
+      // console.error("Error fetching unique client names:", error);
       return [];
     }
   }
@@ -2837,7 +2837,7 @@ class ApiService {
   // Method to handle filter changes
   _handleFiltersChanged() {
     if (!window.clientDataStore) {
-      console.warn("Client datahe store not available yet");
+      // console.warn("Client datahe store not available yet");
       return;
     }
 
@@ -2850,7 +2850,7 @@ class ApiService {
       // Try the function from Header.js
       headerUpdateClientDropdown();
     } else {
-      console.error("No suitable update function found for client dropdown");
+      // console.error("No suitable update function found for client dropdown");
       this._updateClientSelection() 
     }
   }
@@ -2969,9 +2969,9 @@ class ApiService {
       return '({59.EX.""})';
     }
 
-    console.log(
-      `Building query for ${selectedClients.length} selected clients`
-    );
+    // console.log(
+    //   `Building query for ${selectedClients.length} selected clients`
+    // );
 
     // Build the client conditions
     const clientConditions = selectedClients
@@ -3034,7 +3034,7 @@ class AppController {
   initializeEventListeners() {
     // Prevent duplicate initialization
     if (this._initialized) {
-      console.log("AppController already initialized");
+      // console.log("AppController already initialized");
       return;
     }
 
@@ -3154,7 +3154,7 @@ class AppController {
       const clientDataExists = await this._checkForAnyData("*_Client");
 
       if (!peerDataExists && !clientDataExists) {
-        console.warn("No peer or client data found");
+        // console.warn("No peer or client data found");
         createToastWarning(
           "No data retrieved. Try selecting fewer clients or different years."
         );
@@ -3163,7 +3163,7 @@ class AppController {
 
       return true;
     } catch (error) {
-      console.error("Error validating chart data:", error);
+      // console.error("Error validating chart data:", error);
       return false;
     }
   }
@@ -3198,7 +3198,7 @@ class AppController {
           return true;
         }
       } catch (e) {
-        console.error(`Error parsing ${category}:`, e);
+        // console.error(`Error parsing ${category}:`, e);
       }
     }
 
@@ -3207,7 +3207,7 @@ class AppController {
 
   // Handle the run button click
   async handleRunButtonClick() {
-    console.log("handleRunButtonClick() called");
+    // console.log("handleRunButtonClick() called");
 
     try {
       // Show loading indicator
@@ -3218,7 +3218,7 @@ class AppController {
       try {
         selectedYears = this.processSelectedYears();
       } catch (error) {
-        console.error("Error processing selected years:", error);
+        // console.error("Error processing selected years:", error);
         showApiLoadingFunction("close");
 
         this.enableGenerateReportsButton();
@@ -3233,7 +3233,7 @@ class AppController {
         !window.selectedClients_Array ||
         window.selectedClients_Array.size === 0
       ) {
-        console.warn("No clients selected");
+        // console.warn("No clients selected");
         createToastWarning("Please select at least one client");
         showApiLoadingFunction("close");
 
@@ -3282,7 +3282,7 @@ class AppController {
 
         // Validate records
         if (!recordsPeer || recordsPeer.length === 0) {
-          console.warn("No peer records returned");
+          // console.warn("No peer records returned");
           // Continue anyway, we might have client data
         } else {
           // Process peer records
@@ -3292,7 +3292,7 @@ class AppController {
           countUniqueClients(recordsPeer);
         }
       } catch (error) {
-        console.error("Error fetching peer data:", error);
+        // console.error("Error fetching peer data:", error);
         createToastWarning(
           "Error fetching peer data. Please try again or adjust your filters."
         );
@@ -3310,7 +3310,7 @@ class AppController {
 
 
         if (!recordsClient || recordsClient.length === 0) {
-          console.warn("No client records returned");
+          // console.warn("No client records returned");
           // Continue anyway, we might have peer data
         } else {
           // Process client records
@@ -3323,7 +3323,7 @@ class AppController {
           // console.log(`Normalized ${recordsClient.length} client records`);
         }
       } catch (error) {
-        console.error("Error fetching client data:", error);
+        // console.error("Error fetching client data:", error);
         createToastWarning("Error fetching client data. Please try again.");
         // Continue anyway, we might have peer data
       }
@@ -3333,7 +3333,7 @@ class AppController {
         (!recordsPeer || recordsPeer.length === 0) &&
         (!recordsClient || recordsClient.length === 0)
       ) {
-        console.error("No data available for either peer or client");
+        // console.error("No data available for either peer or client");
         createToastWarning(
           "No data retrieved. Try selecting fewer clients or different years."
         );
@@ -3349,7 +3349,7 @@ class AppController {
           recordsClient || []
         );
       } catch (error) {
-        console.error("Error processing data:", error);
+        // console.error("Error processing data:", error);
         createToastWarning("Error processing data. Please try again.");
         showApiLoadingFunction("close");
         return;
@@ -3358,7 +3358,7 @@ class AppController {
       // Validate data for charts
       const hasValidData = await this._validateDataForCharts();
       if (!hasValidData) {
-        console.warn("No valid data for charts");
+        // console.warn("No valid data for charts");
         showApiLoadingFunction("close");
         return;
       }
@@ -3367,7 +3367,7 @@ class AppController {
       try {
         this.displayAllComponents();
       } catch (error) {
-        console.error("Error displaying components:", error);
+        // console.error("Error displaying components:", error);
         createToastWarning(
           "Error displaying charts. Please check console for details."
         );
@@ -3376,21 +3376,21 @@ class AppController {
         showApiLoadingFunction("close");
       }
     } catch (err) {
-      console.error("Unexpected error in handleRunButtonClick:", err);
+      // console.error("Unexpected error in handleRunButtonClick:", err);
       createToastWarning("An unexpected error occurred. Please try again.");
       showApiLoadingFunction("close");
 
       // Re-enable generateReports button if it exists
       this.enableGenerateReportsButton();
     } finally {
-      console.log("Finally block in handleRunButtonClick, re-enabling buttons");
+      // console.log("Finally block in handleRunButtonClick, re-enabling buttons");
 
       this.enableGenerateReportsButton();
     }
   }
 
   enableGenerateReportsButton() {
-    console.log("enableGenerateReportsButton called");
+    // console.log("enableGenerateReportsButton called");
 
     // Re-enable the generate reports button
     const generateReportsBtn = document.getElementById("generateReports");
@@ -3443,9 +3443,9 @@ class AppController {
           );
         }
       } else {
-        console.warn(
-          "ExcelReportGenerator not available. Excel report functionality may be limited."
-        );
+        // console.warn(
+        //   "ExcelReportGenerator not available. Excel report functionality may be limited."
+        // );
       }
     }
 
@@ -3453,20 +3453,20 @@ class AppController {
   }
 
   enablePrintModalHiddenClass() {
-    console.log("enablePrintModalHiddenClass called");
+    // console.log("enablePrintModalHiddenClass called");
 
     // Hide the print modal footer if it exists
     const printModalFooter = document.getElementById("print_modal_footer");
     if (printModalFooter) {
       // Only add the hidden class if it's not already present
       if (!printModalFooter.classList.contains("hidden")) {
-        console.log("Adding hidden class to print_modal_footer");
+        // console.log("Adding hidden class to print_modal_footer");
         printModalFooter.classList.add("hidden");
       } else {
-        console.log("print_modal_footer already has hidden class");
+        // console.log("print_modal_footer already has hidden class");
       }
     } else {
-      console.warn("print_modal_footer element not found!");
+      // console.warn("print_modal_footer element not found!");
     }
   }
 
@@ -3500,10 +3500,10 @@ class AppController {
       // Already an array
       selectedYearsArray = selectedYearsData;
     } else {
-      console.error(
-        "Invalid selected years data type:",
-        typeof selectedYearsData
-      );
+      // console.error(
+      //   "Invalid selected years data type:",
+      //   typeof selectedYearsData
+      // );
       return;
     }
 
@@ -3521,9 +3521,9 @@ class AppController {
       const hasData = this._validateDataForCharts();
 
       if (!hasData) {
-        console.warn(
-          "No valid data available for charts. Showing error message to user."
-        );
+        // console.warn(
+        //   "No valid data available for charts. Showing error message to user."
+        // );
         createToastWarning(
           "No data retrieved from API. Try adjusting your filters or selecting different years."
         );
@@ -3533,7 +3533,7 @@ class AppController {
       window.reportComponent.displayReportComponent()
       // Rest of the displayAllComponents method...
     } catch (error) {
-      console.error("Error in displayAllComponents:", error);
+      // console.error("Error in displayAllComponents:", error);
       throw error;
     }
   }
@@ -3552,7 +3552,7 @@ class AppController {
       for (const category of categories) {
         const data = localStorage.getItem(category);
         if (!data || data === "{}") {
-          console.warn(`Missing or empty data for category: ${category}`);
+          // console.warn(`Missing or empty data for category: ${category}`);
           return false;
         }
 
@@ -3560,18 +3560,18 @@ class AppController {
         try {
           const parsedData = JSON.parse(data);
           if (Object.keys(parsedData).length === 0) {
-            console.warn(`Empty object for category: ${category}`);
+            // console.warn(`Empty object for category: ${category}`);
             return false;
           }
         } catch (e) {
-          console.error(`Error parsing ${category}: ${e}`);
+          // console.error(`Error parsing ${category}: ${e}`);
           return false;
         }
       }
 
       return true;
     } catch (error) {
-      console.error("Error validating chart data:", error);
+      // console.error("Error validating chart data:", error);
       return false;
     }
   }
@@ -3580,7 +3580,7 @@ class AppController {
 // Function to restore initial client selection
 function restoreInitialClientSelection() {
   if (!window.clientDataStore) {
-    console.warn("Client data store not initialized");
+    // console.warn("Client data store not initialized");
     return;
   }
 
@@ -3634,7 +3634,7 @@ document.addEventListener("clientDataLoaded", function (event) {
 function countUniqueClients(records) {
   // Check if records is valid and has a forEach method
   if (!records || typeof records.forEach !== "function") {
-    console.error("Invalid records provided to countUniqueClients:", records);
+    // console.error("Invalid records provided to countUniqueClients:", records);
     document.getElementById("uniqueClients").textContent = "0";
     return;
   }
@@ -3660,8 +3660,8 @@ function countUniqueClients(records) {
     });
 
     // Console log the list of unique clients being pulled
-    console.log("📋 Unique Peer Clients Found:", Array.from(uniqueClients));
-    console.log("📝 Client List:", Array.from(uniqueClients));
+    // console.log("📋 Unique Peer Clients Found:", Array.from(uniqueClients));
+    // console.log("📝 Client List:", Array.from(uniqueClients));
 
     // Update the UI with the count
     const count = uniqueClients.size;
@@ -3675,10 +3675,10 @@ function countUniqueClients(records) {
       createToastWarning("There are 5 or less Unique Clients in Peer Records.");
     }
 
-    console.log(`Counted ${count} unique clients after filtering`);
-    console.log("Unique clients list:", Array.from(uniqueClients));
+    // console.log(`Counted ${count} unique clients after filtering`);
+    // console.log("Unique clients list:", Array.from(uniqueClients));
   } catch (error) {
-    console.error("Error counting unique clients:", error);
+    // console.error("Error counting unique clients:", error);
     const element = document.getElementById("uniqueClients");
     if (element) {
       element.textContent = "0";
@@ -3735,12 +3735,12 @@ $.get(clientData, apiCallClientDataForUniqueYears)
       document.querySelector("#firmName").textContent = firmName;
       findUniqueYears(recordsClient);
     } else {
-      console.error(
-        "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
-      );
+      // console.error(
+      //   "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
+      // );
     }
   })
-  .catch((err) => console.error(err));
+  .catch((err) => {/* console.error(err) */});
 
 // Find and add unique years from data
 const findUniqueYears = (data) => {
@@ -3770,7 +3770,7 @@ const findUniqueYears = (data) => {
 async function validateAndNormalizeRecords(records) {
   // Handle empty or invalid input
   if (!records) {
-    console.warn("Empty records received");
+    // console.warn("Empty records received");
     return [];
   }
 
@@ -3817,16 +3817,16 @@ async function validateAndNormalizeRecords(records) {
     return [records];
   }
 
-  console.error("Unrecognized records format:", records);
+  // console.error("Unrecognized records format:", records);
   return [];
 }
 
 window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
-  console.log("processApiData called with", {
-    yearsCount: selectedYears.length,
-    peerCount: recordsPeer ? recordsPeer.length : 0,
-    clientCount: recordsClient ? recordsClient.length : 0,
-  });
+  // console.log("processApiData called with", {
+  //   yearsCount: selectedYears.length,
+  //   peerCount: recordsPeer ? recordsPeer.length : 0,
+  //   clientCount: recordsClient ? recordsClient.length : 0,
+  // });
 
   // Call the processApiCalls function which will update the dataStore
   if (typeof processApiCalls === "function") {
@@ -3842,27 +3842,27 @@ window.processApiData = function (selectedYears, recordsPeer, recordsClient) {
     // Attempt to trigger chart initialization
     setTimeout(() => {
       if (typeof enhancedInitializeChartDisplay === "function") {
-        console.log(
-          "Triggering enhancedInitializeChartDisplay from processApiData"
-        );
+        // console.log(
+        //   "Triggering enhancedInitializeChartDisplay from processApiData"
+        // );
         enhancedInitializeChartDisplay();
       } else if (typeof initializeChartDisplay === "function") {
-        console.log("Triggering initializeChartDisplay from processApiData");
+        // console.log("Triggering initializeChartDisplay from processApiData");
         initializeChartDisplay();
       } else if (
         window.systemConnector &&
         typeof window.systemConnector.displayCharts === "function"
       ) {
-        console.log(
-          "Triggering systemConnector.displayCharts from processApiData"
-        );
+        // console.log(
+        //   "Triggering systemConnector.displayCharts from processApiData"
+        // );
         window.systemConnector.displayCharts();
       }
     }, 500);
 
     return processedData;
   } else {
-    console.error("processApiCalls function not available");
+    // console.error("processApiCalls function not available");
 
     // Create a fallback function
     if (!window.dataStore) {

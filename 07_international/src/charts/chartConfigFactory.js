@@ -327,15 +327,21 @@ class ChartConfigFactory {
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
     // Get chart data with explicit data refresh
+    // IMPORTANT: For costOfContributions, always use "costOfContributions" as mainName
+    // to ensure consistency with costOfContributionsDetailView chart
+    const cacheMainName = (mainName === "costOfContributionsDetailView") 
+      ? "costOfContributions" 
+      : mainName;
+    
     const chartData = getPeerAndClientChartDataArrays(
       selectedYearsArray,
       dataPeer,
       dataClient,
       fixedNum,
-      mainName,
+      cacheMainName, // Use consistent mainName for caching
       numType,
       wa,
-      true, // Add a force refresh parameter
+      false, // Use cache to ensure consistency between charts
       parsedData
     );
 
@@ -365,6 +371,17 @@ class ChartConfigFactory {
     let peerMid = chartData.peerMid;
     let peer25 = chartData.peer25;
     let peer75 = chartData.peer75;
+
+    // DEBUG: Log peer averages for costOfContributions chart (to compare with detail view)
+    if (mainName === "costOfContributions") {
+      console.log("📊 costOfContributions_chart - Peer Averages:", {
+        chart: "costOfContributions_chart",
+        years: selectedYearsArray,
+        peerAvg: peerAvg,
+        cacheKey: `${cacheMainName}_${selectedYearsArray.join("_")}_${numType}_${wa}_${fixedNum}`,
+        mainName: cacheMainName
+      });
+    }
 
     // console.log("createMainChart", {
     //   mainName,
@@ -1489,6 +1506,11 @@ class ChartConfigFactory {
   }) {
     const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
+    // IMPORTANT: Normalize mainName to "costOfContributions" to ensure both charts
+    // (costOfContributionsDetailView and costOfContributions) use the same cache and peer averages
+    // This ensures the weighted average calculation uses the correct data structure key
+    const normalizedMainName = "costOfContributions";
+
     // Extract fundraising expenses data
     const fundraisingExpensesData = [];
     selectedYearsArray.forEach((year) => {
@@ -1524,6 +1546,8 @@ class ChartConfigFactory {
     });
 
     // Get client and peer cost of contributions ratio
+    // IMPORTANT: Always use "costOfContributions" as mainName to ensure both charts
+    // (costOfContributionsDetailView and costOfContributions) use the same cache and peer averages
     let costOfContributionsClient = [];
     let costOfContributionsPeer = [];
 
@@ -1533,15 +1557,24 @@ class ChartConfigFactory {
         dataPeer,
         dataClient,
         fixedNum,
-        "costOfContributions",
+        normalizedMainName, // Always use "costOfContributions" to match the regular chart
         "dollar",
         wa,
-        true,
+        false, // Use cache to ensure consistency between both charts
         parsedData
       );
 
       costOfContributionsClient = result.clientArray || [];
       costOfContributionsPeer = result.peerAvg || [];
+      
+      // DEBUG: Log peer averages for costOfContributionsDetailView chart
+      console.log("📊 costOfContributionsDetailView_chart - Peer Averages:", {
+        chart: "costOfContributionsDetailView_chart",
+        years: selectedYearsArray,
+        peerAvg: costOfContributionsPeer,
+        cacheKey: `${normalizedMainName}_${selectedYearsArray.join("_")}_dollar_${wa}_${fixedNum}`,
+        mainName: normalizedMainName
+      });
     } catch (error) {
       console.error("Error getting chart data arrays:", error);
       costOfContributionsClient = selectedYearsArray.map(() => 0);

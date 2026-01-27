@@ -4770,7 +4770,10 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, '')"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, ''); $event.target.select();"
+                      x-on:input="const rawVal = $event.target.value.replace(/[^\d]/g, ''); const numVal = parseInt(rawVal) || 0; minprice = numVal; $event.target.value = numVal.toLocaleString('en-US');"
+                      x-on:keydown.enter="$event.target.blur()"
+                      x-on:keydown.tab="$event.target.blur()"
                       x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { minprice = parseInt(newVal) || 0; mintrigger(true); }"
                       x-ref="minInput"
                       id="givingUnitsMin"
@@ -4781,7 +4784,10 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, '')"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, ''); $event.target.select();"
+                      x-on:input="const rawVal = $event.target.value.replace(/[^\d]/g, ''); const numVal = parseInt(rawVal) || 25000; maxprice = numVal; $event.target.value = numVal.toLocaleString('en-US');"
+                      x-on:keydown.enter="$event.target.blur()"
+                      x-on:keydown.tab="$event.target.blur()"
                       x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { maxprice = parseInt(newVal) || 25000; maxtrigger(true); }"
                       id="givingUnitsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4796,31 +4802,29 @@
                       const maxPos = 100 - maxthumb;
                       const minDist = Math.abs(clickPercent - minPos);
                       const maxDist = Math.abs(clickPercent - maxPos);
-                      const threshold = 5; // 5% threshold for clickable area
+                      const threshold = 5;
                       if (minDist > threshold && maxDist > threshold) {
                         $event.preventDefault();
                         $event.stopPropagation();
                         return false;
                       }
-                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
-                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
                       if (!minInput || !maxInput) return;
                       
                       const currentlyActive = minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
                       const shouldBeActive = minDist < maxDist ? 'min' : 'max';
                       
-                      // If we need to switch, prevent the event and manually trigger
                       if (currentlyActive !== shouldBeActive) {
                         $event.preventDefault();
                         $event.stopPropagation();
                         
-                        // Switch the inputs
                         if (shouldBeActive === 'min') {
                           minInput.style.pointerEvents = 'auto';
                           minInput.style.zIndex = '21';
                           maxInput.style.pointerEvents = 'none';
                           maxInput.style.zIndex = '20';
-                          // Manually trigger the min input
                           setTimeout(() => {
                             const newEvent = new MouseEvent('mousedown', {
                               bubbles: true,
@@ -4836,7 +4840,6 @@
                           minInput.style.zIndex = '20';
                           maxInput.style.pointerEvents = 'auto';
                           maxInput.style.zIndex = '21';
-                          // Manually trigger the max input
                           setTimeout(() => {
                             const newEvent = new MouseEvent('mousedown', {
                               bubbles: true,
@@ -4850,7 +4853,6 @@
                         }
                         return false;
                       } else {
-                        // No switch needed, just update pointer-events
                         if (shouldBeActive === 'min') {
                           minInput.style.pointerEvents = 'auto';
                           minInput.style.zIndex = '21';
@@ -4865,14 +4867,13 @@
                       }
                     "
                     x-on:mouseup="
-                      // Re-enable both inputs after mouseup
-                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
-                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
                       if (minInput) minInput.style.pointerEvents = 'auto';
                       if (maxInput) maxInput.style.pointerEvents = 'auto';
                     "
                     x-on:mousemove="
-                      // Update pointer-events and cursor when hovering near a thumb
                       const rect = $event.currentTarget.getBoundingClientRect();
                       const mouseX = $event.clientX - rect.left;
                       const mousePercent = (mouseX / rect.width) * 100;
@@ -4881,13 +4882,13 @@
                       const minDist = Math.abs(mousePercent - minPos);
                       const maxDist = Math.abs(mousePercent - maxPos);
                       const threshold = 5;
-                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
-                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
                       if (minInput && maxInput) {
                         if (minDist <= threshold || maxDist <= threshold) {
                           minInput.style.cursor = 'pointer';
                           maxInput.style.cursor = 'pointer';
-                          // Update pointer-events based on which thumb is closer
                           if (minDist < maxDist) {
                             minInput.style.pointerEvents = 'auto';
                             minInput.style.zIndex = '21';
@@ -4914,14 +4915,13 @@
                       x-on:input="mintrigger(true, true)"
                       x-model="minprice"
                       x-init="
-                        // Initially enable min, disable max
                         $el.style.pointerEvents = 'auto';
                         $el.style.zIndex = '21';
                         $el.nextElementSibling.style.pointerEvents = 'none';
                         $el.nextElementSibling.style.zIndex = '20';
                       "
                       class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0"
-                      style="cursor: default;"
+                      style="cursor: default"
                     />
 
                     <input
@@ -4932,7 +4932,6 @@
                       x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
                       x-init="
-                        // Initially disable max
                         $el.style.pointerEvents = 'none';
                         $el.style.zIndex = '20';
                       "
@@ -4973,7 +4972,10 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, '')"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, ''); $event.target.select();"
+                      x-on:input="const rawVal = $event.target.value.replace(/[^\d]/g, ''); const numVal = parseInt(rawVal) || 0; minprice = numVal; $event.target.value = numVal.toLocaleString('en-US');"
+                      x-on:keydown.enter="$event.target.blur()"
+                      x-on:keydown.tab="$event.target.blur()"
                       x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { minprice = parseInt(newVal) || 0; mintrigger(true); }"
                       x-ref="minInput"
                       id="missionUnitsMin"
@@ -4983,7 +4985,10 @@
                     <input
                       type="text"
                       maxlength="15"
-                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, '')"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, ''); $event.target.select();"
+                      x-on:input="const rawVal = $event.target.value.replace(/[^\d]/g, ''); const numVal = parseInt(rawVal) || 10000; maxprice = numVal; $event.target.value = numVal.toLocaleString('en-US');"
+                      x-on:keydown.enter="$event.target.blur()"
+                      x-on:keydown.tab="$event.target.blur()"
                       x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { maxprice = parseInt(newVal) || 10000; maxtrigger(true); }"
                       id="missionUnitsMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -4998,31 +5003,29 @@
                       const maxPos = 100 - maxthumb;
                       const minDist = Math.abs(clickPercent - minPos);
                       const maxDist = Math.abs(clickPercent - maxPos);
-                      const threshold = 5; // 5% threshold for clickable area
+                      const threshold = 5;
                       if (minDist > threshold && maxDist > threshold) {
                         $event.preventDefault();
                         $event.stopPropagation();
                         return false;
                       }
-                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
-                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
                       if (!minInput || !maxInput) return;
                       
                       const currentlyActive = minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
                       const shouldBeActive = minDist < maxDist ? 'min' : 'max';
                       
-                      // If we need to switch, prevent the event and manually trigger
                       if (currentlyActive !== shouldBeActive) {
                         $event.preventDefault();
                         $event.stopPropagation();
                         
-                        // Switch the inputs
                         if (shouldBeActive === 'min') {
                           minInput.style.pointerEvents = 'auto';
                           minInput.style.zIndex = '21';
                           maxInput.style.pointerEvents = 'none';
                           maxInput.style.zIndex = '20';
-                          // Manually trigger the min input
                           setTimeout(() => {
                             const newEvent = new MouseEvent('mousedown', {
                               bubbles: true,
@@ -5038,7 +5041,6 @@
                           minInput.style.zIndex = '20';
                           maxInput.style.pointerEvents = 'auto';
                           maxInput.style.zIndex = '21';
-                          // Manually trigger the max input
                           setTimeout(() => {
                             const newEvent = new MouseEvent('mousedown', {
                               bubbles: true,
@@ -5052,7 +5054,6 @@
                         }
                         return false;
                       } else {
-                        // No switch needed, just update pointer-events
                         if (shouldBeActive === 'min') {
                           minInput.style.pointerEvents = 'auto';
                           minInput.style.zIndex = '21';
@@ -5067,14 +5068,13 @@
                       }
                     "
                     x-on:mouseup="
-                      // Re-enable both inputs after mouseup
-                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
-                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
                       if (minInput) minInput.style.pointerEvents = 'auto';
                       if (maxInput) maxInput.style.pointerEvents = 'auto';
                     "
                     x-on:mousemove="
-                      // Update pointer-events and cursor when hovering near a thumb
                       const rect = $event.currentTarget.getBoundingClientRect();
                       const mouseX = $event.clientX - rect.left;
                       const mousePercent = (mouseX / rect.width) * 100;
@@ -5083,13 +5083,13 @@
                       const minDist = Math.abs(mousePercent - minPos);
                       const maxDist = Math.abs(mousePercent - maxPos);
                       const threshold = 5;
-                      const minInput = $event.currentTarget.querySelector('input[type=range]:first-child');
-                      const maxInput = $event.currentTarget.querySelector('input[type=range]:last-child');
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
                       if (minInput && maxInput) {
                         if (minDist <= threshold || maxDist <= threshold) {
                           minInput.style.cursor = 'pointer';
                           maxInput.style.cursor = 'pointer';
-                          // Update pointer-events based on which thumb is closer
                           if (minDist < maxDist) {
                             minInput.style.pointerEvents = 'auto';
                             minInput.style.zIndex = '21';
@@ -5116,14 +5116,13 @@
                       x-on:input="mintrigger(true, true)"
                       x-model="minprice"
                       x-init="
-                        // Initially enable min, disable max
                         $el.style.pointerEvents = 'auto';
                         $el.style.zIndex = '21';
                         $el.nextElementSibling.style.pointerEvents = 'none';
                         $el.nextElementSibling.style.zIndex = '20';
                       "
                       class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0"
-                      style="cursor: default;"
+                      style="cursor: default"
                     />
 
                     <input
@@ -5134,7 +5133,6 @@
                       x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
                       x-init="
-                        // Initially disable max
                         $el.style.pointerEvents = 'none';
                         $el.style.zIndex = '20';
                       "

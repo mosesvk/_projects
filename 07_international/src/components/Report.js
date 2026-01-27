@@ -288,7 +288,7 @@ class ReportComponent {
           cell.className =
             "px-6 py-4 text-xl font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-80 justify-between border-r-2 dark:border-gray-600";
 
-          if (value !== undefined && Number(value) !== 0) {
+          if (value !== undefined && value !== null && value !== "") {
             // Format the value
             const formattedValue = this.styleNumber(
               value,
