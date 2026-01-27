@@ -1507,48 +1507,100 @@ function getBenchmarks(obj) {
   return benchmarks;
 }
 
-const getBackgroundColor = (array, row, i = 1) => {
-  if (!array || !array.length) return;
-  
-  // Filter out null/undefined values and safely process items
-  const trimmedArray = array
-    .filter(item => item != null && typeof item === 'string')
-    .map(item => item.trim().replace(/\n/g, '').replace(/Action\s+Required/g, 'Action Required'));
-  
-  if (!trimmedArray.length) return;
-  
-  // console.log({ array, row, trimmedArray});
+/**
+ * Normalize raw benchmark rating values coming from Quickbase.
+ * Handles whitespace/newlines and minor text variations.
+ * @param {unknown} rawRating
+ * @returns {string} Normalized rating string (possibly empty).
+ */
+const normalizeBenchmarkRating = (rawRating) => {
+  if (rawRating === null || rawRating === undefined) return "";
+  const str = String(rawRating).trim().replace(/\n/g, "");
+  if (!str) return "";
+  return str.replace(/Action\s+Required/gi, "Action Required");
+};
 
+/**
+ * Infer a benchmark color when the explicit rating is missing/invalid.
+ * This primarily targets the new income percent-change benchmarks where
+ * the rating may be blank/0 while the displayed value is still present.
+ *
+ * Rules:
+ * - Percent cells: negative => actionRequired, zero/positive => good
+ * - Non-percent cells: default to good (ensures 0 still shows a color)
+ *
+ * @param {string} cellText
+ * @returns {"warning"|"good"|"actionRequired"|null}
+ */
+const inferBenchmarkColorFromCellText = (cellText) => {
+  if (typeof cellText !== "string") return "good";
+  const text = cellText.trim();
+
+  // Percent-change cells include a % symbol in the display.
+  const isPercent = text.includes("%");
+  if (!isPercent) {
+    // Ensure a color is always present even for "0" / "$0" / missing data display.
+    return "good";
+  }
+
+  // Parentheses indicate negative values in this UI (e.g. "(5%)").
+  const isNegative = text.includes("(") || /^-/.test(text);
+  return isNegative ? "actionRequired" : "good";
+};
+
+/**
+ * Apply benchmark background colors to report year cells.
+ * Benchmark ratings are expected to be "Good" | "Warning" | "Action Required".
+ * If a rating is missing/invalid (often when the displayed value is 0), we fall
+ * back to inferring a color from the cell text so a color always appears.
+ *
+ * @param {Array<unknown>} benchmarkArray - Per-year benchmark ratings
+ * @param {HTMLTableRowElement} row - The report <tr> row
+ * @param {number} i - Child index to start at (1 == first year cell)
+ */
+const getBackgroundColor = (benchmarkArray, row, i = 1) => {
+  if (!benchmarkArray || benchmarkArray.length === 0) return;
+  if (!row || !row.children || row.children.length <= i) {
+    // Still recurse to consume the array to avoid infinite loops in callers.
+    getBackgroundColor(benchmarkArray.slice(1), row, i + 1);
+    return;
+  }
+
+  const normalizedRating = normalizeBenchmarkRating(benchmarkArray[0]);
+
+  /** @type {"warning"|"good"|"actionRequired"|null} */
   let color =
-    trimmedArray[0] === "Warning"
+    normalizedRating === "Warning"
       ? "warning"
-      : trimmedArray[0] === "Good"
-      ? "good"
-      : trimmedArray[0] === "Action Required"
-      ? "actionRequired"
-      : null;
+      : normalizedRating === "Good"
+        ? "good"
+        : normalizedRating === "Action Required"
+          ? "actionRequired"
+          : null;
+
+  const cell = row.children[i];
+  if (!color) {
+    // If the rating is missing/invalid (e.g., "", "0"), infer from the displayed value.
+    color = inferBenchmarkColorFromCellText(cell?.textContent || "");
+  }
 
   if (color) {
-    // Add class to apply background color
-    row.children[i].classList.add(color);
-    // Initialize tippy popover
-    tippy(row.children[i], {
+    cell.classList.add(color);
+    tippy(cell, {
       allowHTML: true,
       content: `<p class="flex items-center text-md">
         Click
-        <svg class="w-4 h-4 mx-2 text-white " aria-hidden="true" xmlns="http://www.w3.org/ 00/svg" fill="none" viewBox="0 0 14 10">
+        <svg class="w-4 h-4 mx-2 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
           <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
         </svg>
         Benchmark
       </p>`,
       arrow: true,
       placement: "left",
-      // animation: scaleExtreme
     });
   }
 
-  getBackgroundColor(array.slice(1), row, i + 1);
-  // console.log('---');
+  getBackgroundColor(benchmarkArray.slice(1), row, i + 1);
 };
 
 /**
