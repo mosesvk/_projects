@@ -409,6 +409,13 @@ class ChartConfigFactory {
         val !== null && val !== undefined ? parseFloat(val) * 100 : val
       );
     }
+    
+    // For costOfContributions, round peer averages to 2 decimal places to match detail view chart
+    if (mainName === "costOfContributions" && numType === "dollar" && fixedNum === 2) {
+      peerAvg = peerAvg.map((val) =>
+        val !== null && val !== undefined ? parseFloat(parseFloat(val).toFixed(2)) : val
+      );
+    }
 
     // Create formatters based on number type
     const formatters = this._createFormatters(numType, mainName); // Pass mainName to formatters

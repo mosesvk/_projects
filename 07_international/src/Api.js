@@ -2587,6 +2587,9 @@ class ApiService {
           return [];
         }
 
+        // DEBUG: Print the complete XML dataStr for client data
+        console.log("📄 CLIENT DATA XML (dataStr):", dataStr + "</qdbapi>");
+
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(
           dataStr + "</qdbapi>",
