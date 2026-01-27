@@ -275,7 +275,7 @@ const displayCashComponent = () => {
   createBenchmark("Good: > 60 | Warning: 30-60 | Action: < 30", "cashData", "row_daysExpendableNetAssets");
   createBenchmark("Good: > 90 | Warning: 60-90 | Action: < 60", "cashData", "row_daysOperatingCash");
   createBenchmark("Good: > 0 | Warning: 1 year of negative results | Action:  2+ years of negative results", "cashData", "row_cashFlowsFromOperatingActivities");
-  createBenchmark("Good: > 4 | Warning: 1-4 | Action: < 1", "cashData", "row_liquidityRatio");
+  createBenchmark("Good: > 2 | Warning: 1-2 | Action: < 1", "cashData", "row_liquidityRatio");
   createBenchmark("Good: > 1 month expenses | Warning: > 0 and < 1 month expenses | Action: < 0", "cashData", "row_netCashAvailability");
 
   createWhatDoesThisMean(daysExpendable_whatDoesThisMean, "row_daysExpendableNetAssets");
@@ -368,7 +368,7 @@ const displayDebtComponent = () => {
 
   createBenchmark("Good: < 2 | Warning: 2-3 | Action: > 3", "debtData", "row_debtToContributionsWithout");
   createBenchmark("Good: > 2 | Warning: 1-2 | Action: < 1", "debtData", "row_currentRatio");
-  createBenchmark("Good: < 15 | Warning: 15-20 | Action: > 20", "debtData", "row_mandatoryDebtServiceToContributionsWithout");
+  createBenchmark("Good: < 20 | Warning: 20-30 | Action: > 30", "debtData", "row_mandatoryDebtServiceToContributionsWithout");
   createBenchmark("Good: < 2x | Warning: 2x - 3x | Action: > 3x contributions w/o donor restrictions", "debtData", "row_debtPerGivingUnit");
   createBenchmark("Good: > 1.25 | Warning: 1 - 1.25 | Action: < 1", "debtData", "row_debtCoverage");
 
@@ -544,11 +544,11 @@ const fieldBenchmarkMap = {
   daysExpendableNetAssets: "Good: > 60 | Warning: 30-60 | Action: < 30",
   daysOperatingCash: "Good: > 90 | Warning: 60-90 | Action: < 60",
   cashFlowsFromOperatingActivities: "Good: > 0 | Warning: 1 year of negative results | Action:  2+ years of negative results",
-  liquidityRatio: "Good: > 4 | Warning: 1-4 | Action: < 1",
+  liquidityRatio: "Good: > 2 | Warning: 1-2 | Action: < 1",
   netCashAvailability: "Good: > 1 month expenses | Warning: > 0 and < 1 month expenses | Action: < 0",
   debtToContributionsWithout: "Good: < 2 | Warning: 2-3 | Action: > 3",
   currentRatio: "Good: > 2 | Warning: 1-2 | Action: < 1",
-  mandatoryDebtServiceToContributionsWithout: "Good: < 15 | Warning: 15-20 | Action: > 20",
+  mandatoryDebtServiceToContributionsWithout: "Good: < 20 | Warning: 20-30 | Action: > 30",
   debtPerGivingUnit: "Good: < 2x | Warning: 2x - 3x | Action: > 3x contributions w/o donor restrictions",
   debtCoverage: "Good: > 1.25 | Warning: 1 - 1.25 | Action: < 1",
   netIncomeRatio: "Good: > 0 | Warning: = 0 | Action: < 0",
