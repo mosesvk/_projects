@@ -537,7 +537,19 @@ function processTHElements() {
   // Select all <tr> elements with an id
   const rows = document.querySelectorAll('tr[id]');
 
+  // Rows to exclude from negative number processing
+  const excludedRowIds = [
+    'row_contributionsWithoutDonorPerGivingUnit',
+    'row_contributionsWithoutDonorPerGivingUnit_percentChange',
+    'row_totalContributionsPerGivingUnit'
+  ];
+
   rows.forEach(row => {
+    // Skip excluded rows
+    if (excludedRowIds.includes(row.id)) {
+      return;
+    }
+
     // Select all <th> elements inside the current <tr>
     const thElements = row.querySelectorAll('th');
 

@@ -1388,6 +1388,19 @@ const getMainChartOptions = (
       align: "left",
       offsetX: 110,
     },
+    subtitle: {
+      text: (mainName === "contributionsWithoutDonorPerGivingUnit" || mainName === "totalContributionsPerGivingUnit") 
+        ? "excluding large one-time gifts" 
+        : "",
+      align: "left",
+      offsetX: 110,
+      offsetY: 20,
+      style: {
+        fontSize: "14px",
+        fontWeight: "normal",
+        color: chartColors.labelColor,
+      },
+    },
     xaxis: {
       categories: selectedYearsArray,
       axisTicks: {
