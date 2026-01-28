@@ -1389,9 +1389,7 @@ const getMainChartOptions = (
       offsetX: 110,
     },
     subtitle: {
-      text: (mainName === "contributionsWithoutDonorPerGivingUnit" || mainName === "totalContributionsPerGivingUnit") 
-        ? "excluding large one-time gifts" 
-        : "",
+      text: "",
       align: "left",
       offsetX: 110,
       offsetY: 20,
