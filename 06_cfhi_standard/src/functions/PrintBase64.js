@@ -364,6 +364,7 @@ const getChartInstance = (chartId) => {
     contributionsWithoutDonorPerGivingUnit_chart: window.contributionsWithoutDonorPerGivingUnit_chart,
     totalContributionsPerGivingUnit_chart: window.totalContributionsPerGivingUnit_chart,
     cashExpendituresPerGivingUnit_chart: window.cashExpendituresPerGivingUnit_chart,
+    personnelIncludingToTotalCashExpenditures_chart: window.personnelIncludingToTotalCashExpenditures_chart,
   };
 
   const chart = chartMap[chartId] || null;
@@ -686,7 +687,7 @@ async function apexChartsExportPrint() {
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
-    // Define chart mappings for Standard project (9 charts)
+    // Define chart mappings for Standard project (10 charts)
     const chartMappings = [
       { chartId: "givingUnits_chart", fieldId: 11 },
       { chartId: "contributionsWithoutDonorExcludingLargeGifts_chart", fieldId: 12 },
@@ -697,6 +698,7 @@ async function apexChartsExportPrint() {
       { chartId: "contributionsWithoutDonorPerGivingUnit_chart", fieldId: 17 },
       { chartId: "totalContributionsPerGivingUnit_chart", fieldId: 18 },
       { chartId: "cashExpendituresPerGivingUnit_chart", fieldId: 19 },
+      { chartId: "personnelIncludingToTotalCashExpenditures_chart", fieldId: 83 },
     ];
 
     // Filter out any charts that don't exist in the DOM
