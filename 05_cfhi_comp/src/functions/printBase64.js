@@ -796,6 +796,7 @@ function buildUploadXml(results) {
   uploadXml += createFieldXml(36, window.monthYearEnd || "");
   uploadXml += createFieldXml(35, currentYear);
   uploadXml += createFieldXml(32, currentMonth);
+  uploadXml += createFieldXml(85, "Comprehensive");
 
   // Years 1-8
   const yearFids = [37, 38, 39, 40, 41, 42, 43, 44];
