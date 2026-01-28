@@ -33,21 +33,25 @@ class ExcelReportGenerator {
     // XML payload storage
     this.xmlPayload = "";
 
-    // Field metric mappings for Standard Project (9 metrics)
-    // Format per entry: [metricName, [AVG, MIN, MID, MAX], category, useWeightedAvg]
+    // Field metric mappings for Standard Project
+    // Format per entry: [metricName, [AVG, MIN, MID, MAX], category, useWeightedAvg, format?]
     // useWeightedAvg matches "wa" flag from Report.js
-    // Field IDs: Standard uses S-prefix fields (239-286) as defined in printTableFields.md
-    // Both use same upload table (btcc8gq3r) but different field ranges based on TYPE field
+    // format: "percent" = stored as ratio 0–1, send as 0–100 rounded to 2 decimals; omitted = round to 2 decimals
+    // Field IDs: Standard uses S-prefix fields (239–286, 332–335) per printExcelFields.txt
     this.fieldMappings = [
       // General - S01.x fields
       // S01.1 Giving Units: 239 (AVG), 240 (MID), 241 (MIN), 242 (MAX)
       ["givingUnits", [239, 241, 240, 242], "general", false],
       // S01.2 Contributions Without Donor Restrictions: 243 (AVG), 244 (MID), 245 (MIN), 246 (MAX)
       ["contributionsWithoutDonorExcludingLargeGifts", [243, 245, 244, 246], "general", false],
+      // S01.3 Total Contributions: 247 (AVG), 248 (MID), 249 (MIN), 250 (MAX)
+      ["totalContributionsExclude", [247, 249, 248, 250], "general", false],
 
       // Cash - S02.x fields
       // S02.1 Days of Operating Cash: 251 (AVG), 252 (MID), 253 (MIN), 254 (MAX)
       ["daysOperatingCash", [251, 253, 252, 254], "cash", true],
+      // S02.2 Net Cash Availability: 255 (AVG), 256 (MID), 257 (MIN), 258 (MAX)
+      ["netCashAvailability", [255, 257, 256, 258], "cash", false],
       // S02.3 Std: One month of cash expenses: 259 (AVG), 260 (MID), 261 (MIN), 262 (MAX)
       ["netCashAvailability_standard", [259, 261, 260, 262], "cash", false],
 
@@ -56,6 +60,8 @@ class ExcelReportGenerator {
       ["debtToContributionsWithout", [263, 265, 264, 266], "debt", true],
       // S03.2 Debt per Giving Unit: 267 (AVG), 268 (MID), 269 (MIN), 270 (MAX)
       ["debtPerGivingUnit", [267, 269, 268, 270], "debt", true],
+      // S03.3 Std: 2.0 X Contributions Without Donor Restrictions per Giving Unit: 271 (AVG), 272 (MID), 273 (MIN), 274 (MAX)
+      ["contributionsWithoutDonorPerGivingUnit_standard", [271, 273, 272, 274], "debt", false],
 
       // Income - S04.x fields
       // S04.1 Contributions Without Donor Restrictions per Giving Unit: 275 (AVG), 276 (MID), 277 (MIN), 278 (MAX)
@@ -66,6 +72,8 @@ class ExcelReportGenerator {
       // Expense - S05.x fields
       // S05.1 Cash Expenses per Giving Unit: 283 (AVG), 284 (MID), 285 (MIN), 286 (MAX)
       ["cashExpendituresPerGivingUnit", [283, 285, 284, 286], "expense", true],
+      // S05.2 Personnel to Cash: 332 (AVG), 334 (MID), 335 (MIN), 333 (MAX). Percent: store ratio, send 0–100 rounded.
+      ["personnelIncludingToTotalCashExpenditures", [332, 335, 334, 333], "expense", true, "percent"],
     ];
 
     this.init();
@@ -220,6 +228,22 @@ class ExcelReportGenerator {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&apos;");
+  }
+
+  /**
+   * Format a stat value for QuickBase XML. Percent metrics are stored as ratio 0–1;
+   * we send 0–100 rounded to 2 decimals. Other numerics rounded to 2 decimals.
+   * @param {number} val - Raw value (ratio for percent, else numeric)
+   * @param {string} [format] - "percent" or undefined
+   * @returns {number}
+   */
+  formatStatForXml(val, format) {
+    const n = Number(val);
+    if (n !== n || !isFinite(n)) return 0;
+    if (format === "percent") {
+      return Math.round((n * 100) * 100) / 100;
+    }
+    return Math.round(n * 100) / 100;
   }
 
   /**
@@ -491,7 +515,7 @@ class ExcelReportGenerator {
 
       // Process each field mapping
       this.fieldMappings.forEach((mapping) => {
-        const [metricName, fieldIds, category, useWeightedAvg] = mapping;
+        const [metricName, fieldIds, category, useWeightedAvg, format] = mapping;
 
         let dataObject;
         switch (category) {
@@ -515,6 +539,11 @@ class ExcelReportGenerator {
         }
 
         if (!dataObject || !dataObject[`${metricName}_Peer`]) {
+          if (metricName === "personnelIncludingToTotalCashExpenditures") {
+            console.warn(
+              "[PrintExcel] personnelIncludingToTotalCashExpenditures skipped: missing expenseData.personnelIncludingToTotalCashExpenditures_Peer. Run the report first and ensure peer data exists."
+            );
+          }
           return;
         }
 
@@ -526,11 +555,15 @@ class ExcelReportGenerator {
           const minId = fieldIds[1];
           const maxId = fieldIds[3];
 
-          // Format values
-          const safeAvg = this.escapeXml(stats.avg);
-          const safeMid = this.escapeXml(stats.mid);
-          const safeMin = this.escapeXml(stats.min);
-          const safeMax = this.escapeXml(stats.max);
+          // Round and optionally convert (e.g. percent 0–1 → 0–100); then escape for XML
+          const avg = this.formatStatForXml(stats.avg, format);
+          const mid = this.formatStatForXml(stats.mid, format);
+          const min = this.formatStatForXml(stats.min, format);
+          const max = this.formatStatForXml(stats.max, format);
+          const safeAvg = this.escapeXml(avg);
+          const safeMid = this.escapeXml(mid);
+          const safeMin = this.escapeXml(min);
+          const safeMax = this.escapeXml(max);
 
           // Add fields to metrics XML
           metricsXml +=

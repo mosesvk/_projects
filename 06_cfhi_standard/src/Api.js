@@ -1802,7 +1802,7 @@ class ApiService {
     const apiCallClientData = {
       act: "API_DoQuery",
       query: `
-        {98.EX.${ClientRid}} AND {474.EX.${currentYear}} 
+        {98.EX.${ClientRid}} AND {474.EX.${currentYear}} AND {105.EX.'Standard'}
       `,
       clist:
         "452.98.474.22.59.60.211.212.213.215.216.217.227.218.219.220.221.222.223.228.224.415.462.229.460.463.232.230.233.294.700.698.702.703.704.421.420",
