@@ -328,7 +328,7 @@ const displayExpenseComponent = () => {
     'Cash Expenditures Per Giving Unit'
   );
 
-  // personnelIncludingToTotalCashExpenditures
+  // personnelIncludingToTotalCashExpenditures — pass parseData so weighted average (Avg line) gets totalSalaries, totalExpense, costOfOutsourcedEmployee, totalDepreciationExpense
   createChartFromParsedData(
     parseData,
     'personnelIncludingToTotalCashExpenditures_chart',
@@ -340,7 +340,7 @@ const displayExpenseComponent = () => {
     getBenchmarksForField('personnelIncludingToTotalCashExpenditures'),
     'Personnel (Including Outsourced Personnel) to Total Cash Expenditures',
     'wa',
-    savedData
+    parseData
   );
 
   // Use hardcoded benchmark text

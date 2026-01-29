@@ -4574,6 +4574,10 @@ class AppController {
       );
     }
 
+    // Set up print modal cleanup and reset on app load so closing/reopening
+    // the print modal always resets Generate Reports and the four report buttons
+    this.setupPrintModalCleanup();
+
     // Mark as initialized
     this._initialized = true;
   }
@@ -5122,7 +5126,8 @@ class AppController {
   }
 
   /**
-   * Set up cleanup function for print modal closure
+   * Set up cleanup on print modal close and reset on print modal open
+   * Ensures: on close (click outside or hidden) → full cleanup; on open → UI reset to initial state
    */
   setupPrintModalCleanup() {
     const printModal = document.getElementById("print_modal");
@@ -5137,7 +5142,7 @@ class AppController {
       this.printModalObserver.disconnect();
     }
 
-    // Set up mutation observer to detect when modal is hidden
+    // Set up mutation observer to detect when modal is hidden or shown
     const observer = new MutationObserver((mutations) => {
       mutations.forEach((mutation) => {
         if (
@@ -5146,29 +5151,55 @@ class AppController {
         ) {
           const modal = mutation.target;
           if (modal.classList.contains("hidden")) {
-            // console.log("Print modal closed, cleaning up Excel report data");
             this.cleanupExcelReportData();
+          } else {
+            // Modal was opened (hidden class removed) — reset UI so user sees Generate Reports again
+            this.resetPrintModalUI();
           }
         }
       });
     });
 
-    // Start observing the modal for class changes
     observer.observe(printModal, {
       attributes: true,
       attributeFilter: ["class"],
     });
 
-    // Also set up click event listener for backdrop/overlay clicks
+    // Backdrop/overlay click: run full cleanup so everything starts from beginning on next open
     printModal.addEventListener("click", (event) => {
       if (event.target === printModal) {
-        // console.log("Print modal backdrop clicked, cleaning up Excel report data");
         this.cleanupExcelReportData();
       }
     });
 
-    // Store the observer reference for potential cleanup later
     this.printModalObserver = observer;
+  }
+
+  /**
+   * Reset print modal UI to initial state (hide footer, reset Generate Reports button, clear report links).
+   * Called when the print modal is opened so the user always sees "Generate Reports" and must run from the beginning.
+   */
+  resetPrintModalUI() {
+    const printModalFooter = document.getElementById("print_modal_footer");
+    if (printModalFooter) {
+      printModalFooter.classList.add("hidden");
+    }
+
+    const generateReportsBtn = document.getElementById("generateReports");
+    if (generateReportsBtn) {
+      generateReportsBtn.disabled = false;
+      generateReportsBtn.textContent = "Generate Trends and Benchmark Reports";
+      generateReportsBtn.classList.remove("opacity-50", "cursor-not-allowed");
+    }
+
+    // Clear the four report download links so they are not reused until Generate Reports runs again
+    const reportLinkIds = ["trendXLSFinal", "trendPDFFinal", "benchXLSFinal", "benchPDFFinal"];
+    reportLinkIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el && el.getAttribute("href") !== undefined) {
+        el.setAttribute("href", "");
+      }
+    });
   }
 
   /**
@@ -5237,11 +5268,19 @@ class AppController {
       console.log(`Removed cached data: ${key}`);
     });
 
-    // Hide the print modal footer again
+    // Hide the print modal footer and clear the four report download links
     const printModalFooter = document.getElementById("print_modal_footer");
     if (printModalFooter) {
       printModalFooter.classList.add("hidden");
     }
+
+    const reportLinkIds = ["trendXLSFinal", "trendPDFFinal", "benchXLSFinal", "benchPDFFinal"];
+    reportLinkIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el && el.getAttribute("href") !== undefined) {
+        el.setAttribute("href", "");
+      }
+    });
 
     // Reset the generate reports button state and re-initialize
     const generateReportsBtn = document.getElementById("generateReports");

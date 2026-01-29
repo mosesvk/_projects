@@ -436,6 +436,20 @@ const displayExpenseComponent = () => {
     "Cash Expenditures Per Giving Unit"
   );
 
+  // personnelIncludingToTotalCashExpenditures (wa = weighted average for Avg line; parseData supplies totalSalaries, totalExpense, etc.)
+  createChartFromParsedData(
+    parseData,
+    "personnelIncludingToTotalCashExpenditures_chart",
+    "personnelIncludingToTotalCashExpenditures_Peer",
+    "personnelIncludingToTotalCashExpenditures_Client",
+    "percent",
+    0,
+    "personnelIncludingToTotalCashExpenditures",
+    getBenchmarksForField("personnelIncludingToTotalCashExpenditures"),
+    "Personnel (Including Outsourced Personnel) to Total Cash Expenditures",
+    "wa"
+  );
+
   const personnelToCash_benchmark = [
     fixUnicodeCharacters("Personnel to Cash Expenditure Benchmark"),
     fixUnicodeCharacters("40% - 55%"),

@@ -2272,6 +2272,10 @@ class AppController {
       );
     }
 
+    // Set up print modal cleanup and reset on app load so closing/reopening
+    // the print modal always resets Generate Reports and the four report buttons
+    this.setupPrintModalCleanup();
+
     // Mark as initialized
     this._initialized = true;
   }
@@ -2540,6 +2544,9 @@ class AppController {
       try {
       await this.displayAllComponents();
 
+      // Enable the generate reports button and set up print modal (hide footer, cleanup on close/open)
+      this.enableGenerateReportsButton();
+
       // console.log("✅ Data processing complete");
     } catch (error) {
         // console.error("Error displaying components:", error);
@@ -2581,6 +2588,241 @@ class AppController {
     }
   }
 
+  /**
+   * Enable the Generate Reports button and set up event listeners
+   */
+  enableGenerateReportsButton() {
+    const generateReportsBtn = document.getElementById("generateReports");
+    if (generateReportsBtn) {
+      generateReportsBtn.disabled = false;
+
+      if (typeof toggleGenerateReportButtonNormalState === "function") {
+        toggleGenerateReportButtonNormalState(generateReportsBtn);
+      } else {
+        generateReportsBtn.textContent =
+          "Generate Trends and Benchmark Reports";
+      }
+
+      const newBtn = generateReportsBtn.cloneNode(true);
+      generateReportsBtn.parentNode.replaceChild(newBtn, generateReportsBtn);
+
+      if (typeof ExcelReportGenerator === "function") {
+        if (!window.excelReportGenerator) {
+          window.excelReportGenerator = new ExcelReportGenerator();
+        }
+
+        newBtn.addEventListener(
+          "click",
+          window.excelReportGenerator.handleGenerateReport.bind(
+            window.excelReportGenerator
+          ),
+          { once: true }
+        );
+
+        if (!window.createPrintExcel) {
+          window.createPrintExcel =
+            window.excelReportGenerator.createPrintExcel.bind(
+              window.excelReportGenerator
+            );
+          window.uploadToFile =
+            window.excelReportGenerator.uploadToFile.bind(
+              window.excelReportGenerator
+            );
+          window.uploadSingleToFile =
+            window.excelReportGenerator.uploadSingleToFile.bind(
+              window.excelReportGenerator
+            );
+          window.printToExcel =
+            window.excelReportGenerator.printToExcel.bind(
+              window.excelReportGenerator
+            );
+        }
+      } else {
+        console.warn(
+          "ExcelReportGenerator not available. Excel report functionality may be limited."
+        );
+      }
+    }
+
+    this.enablePrintModalHiddenClass();
+  }
+
+  /**
+   * Enable print modal and hide footer initially
+   */
+  enablePrintModalHiddenClass() {
+    const printModalFooter = document.getElementById("print_modal_footer");
+    if (printModalFooter) {
+      printModalFooter.classList.add("hidden");
+    }
+
+    if (typeof initApexChartsPrintFunction === "function") {
+      initApexChartsPrintFunction();
+    }
+
+    this.setupPrintModalCleanup();
+  }
+
+  /**
+   * Set up cleanup on print modal close and reset on print modal open
+   * Ensures: on close (click outside or hidden) → full cleanup; on open → UI reset to initial state
+   */
+  setupPrintModalCleanup() {
+    const printModal = document.getElementById("print_modal");
+
+    if (!printModal) {
+      console.warn("Print modal not found, cannot set up cleanup");
+      return;
+    }
+
+    if (this.printModalObserver) {
+      this.printModalObserver.disconnect();
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "class"
+        ) {
+          const modal = mutation.target;
+          if (modal.classList.contains("hidden")) {
+            this.cleanupExcelReportData();
+          } else {
+            this.resetPrintModalUI();
+          }
+        }
+      });
+    });
+
+    observer.observe(printModal, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+
+    printModal.addEventListener("click", (event) => {
+      if (event.target === printModal) {
+        this.cleanupExcelReportData();
+      }
+    });
+
+    this.printModalObserver = observer;
+  }
+
+  /**
+   * Reset print modal UI to initial state (hide footer, reset Generate Reports button, clear report links).
+   * Called when the print modal is opened so the user always sees "Generate Reports" and must run from the beginning.
+   */
+  resetPrintModalUI() {
+    const printModalFooter = document.getElementById("print_modal_footer");
+    if (printModalFooter) {
+      printModalFooter.classList.add("hidden");
+    }
+
+    const generateReportsBtn = document.getElementById("generateReports");
+    if (generateReportsBtn) {
+      generateReportsBtn.disabled = false;
+      generateReportsBtn.textContent = "Generate Trends and Benchmark Reports";
+      generateReportsBtn.classList.remove("opacity-50", "cursor-not-allowed");
+    }
+
+    const reportLinkIds = ["trendXLSFinal", "trendPDFFinal", "benchXLSFinal", "benchPDFFinal"];
+    reportLinkIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el && el.getAttribute("href") !== undefined) {
+        el.setAttribute("href", "");
+      }
+    });
+  }
+
+  /**
+   * Disconnect the print modal observer
+   */
+  disconnectPrintModalObserver() {
+    if (this.printModalObserver) {
+      this.printModalObserver.disconnect();
+      this.printModalObserver = null;
+      console.log("Print modal observer disconnected");
+    }
+  }
+
+  /**
+   * Clean up Excel report data when print modal is closed
+   */
+  cleanupExcelReportData() {
+    if (this.isCleaningUp) {
+      return;
+    }
+
+    this.isCleaningUp = true;
+
+    if (window.excelReportGenerator) {
+      if (typeof window.excelReportGenerator.cleanup === "function") {
+        window.excelReportGenerator.cleanup();
+      } else {
+        if (window.excelReportGenerator.xmlPayload) {
+          window.excelReportGenerator.xmlPayload = "";
+        }
+        if (window.excelReportGenerator.isGenerating) {
+          window.excelReportGenerator.isGenerating = false;
+        }
+        if (window.excelReportGenerator.storedData) {
+          window.excelReportGenerator.storedData = null;
+        }
+      }
+    }
+
+    if (window.lastGeneratedReportData) {
+      delete window.lastGeneratedReportData;
+    }
+
+    const keysToRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (
+        (key && key.includes("excel_report_")) ||
+        (key && key.includes("temp_report_"))
+      ) {
+        keysToRemove.push(key);
+      }
+    }
+
+    keysToRemove.forEach((key) => {
+      localStorage.removeItem(key);
+      console.log(`Removed cached data: ${key}`);
+    });
+
+    const printModalFooter = document.getElementById("print_modal_footer");
+    if (printModalFooter) {
+      printModalFooter.classList.add("hidden");
+    }
+
+    const reportLinkIds = ["trendXLSFinal", "trendPDFFinal", "benchXLSFinal", "benchPDFFinal"];
+    reportLinkIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el && el.getAttribute("href") !== undefined) {
+        el.setAttribute("href", "");
+      }
+    });
+
+    const generateReportsBtn = document.getElementById("generateReports");
+    if (generateReportsBtn) {
+      generateReportsBtn.disabled = false;
+      generateReportsBtn.textContent = "Generate Trends and Benchmark Reports";
+      generateReportsBtn.classList.remove("opacity-50", "cursor-not-allowed");
+
+      if (
+        typeof ExcelReportGenerator === "function" &&
+        window.excelReportGenerator
+      ) {
+        window.excelReportGenerator.init();
+      }
+    }
+
+    setTimeout(() => {
+      this.isCleaningUp = false;
+    }, 1000);
+  }
 
   /**
    * Process selected years

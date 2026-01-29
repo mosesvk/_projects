@@ -82,6 +82,7 @@ const destroyChartIfExists = (chartId) => {
     "salariesBenefitsIncludingOutsourcedEmployees_chart",
     "personnelToCashExpenditure_chart",
     "cashExpendituresPerGivingUnit_chart",
+    "personnelIncludingToTotalCashExpenditures_chart",
   ];
 
   if (chartIds.includes(chartId)) {
@@ -123,6 +124,7 @@ const destroyAllCharts = () => {
     "salariesBenefitsIncludingOutsourcedEmployees_chart",
     "personnelToCashExpenditure_chart",
     "cashExpendituresPerGivingUnit_chart",
+    "personnelIncludingToTotalCashExpenditures_chart",
   ];
 
   chartIds.forEach((chartId) => {
