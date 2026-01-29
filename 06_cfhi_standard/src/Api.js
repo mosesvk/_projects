@@ -1375,9 +1375,29 @@ class ApiService {
   }
 
   /**
-   * Get records for peer organizations with filtering.
-   * Matches Comprehensive: same full filters (year, clients, survey type, giving units,
-   * regions, sites) applied to every year. No anchor logic — each year queried independently.
+   * Build peer query: year + clients + survey type only. No GU/region/site.
+   * Matches raw data: fetch all client-years for selected clients so object matches raw list.
+   * @param {number|string} year
+   * @param {Set|Array} clientsSet
+   * @returns {string}
+   */
+  _buildFullPeerQuery(year, clientsSet) {
+    const clientQuery = this.getClientQuery(clientsSet);
+    let q = `{195.EX.${year}} AND ${clientQuery}`;
+    if (window.includeComprehensive === true) {
+      q += " AND ({193.EX.'Standard'} OR {193.EX.'Comprehensive'})";
+    } else {
+      q += " AND {193.EX.'Standard'}";
+    }
+    // Do NOT filter by GU, region, or site in the peer API query.
+    // Raw data includes all client-years for selected clients; we match by fetching the same.
+    // GU/region/site can still be used for dropdown filtering or display elsewhere.
+    return q;
+  }
+
+  /**
+   * Get records for peer organizations. Query: year + clients + survey only (no GU/region/site).
+   * Matches raw data so object includes all client-years for selected clients.
    *
    * @param {Array} years - Array of years to fetch
    * @param {string} dataStr - Accumulated XML data string
@@ -1385,79 +1405,43 @@ class ApiService {
   async getRecordsForPeer(years, dataStr = "<qdbapi>") {
     if (years.length === 0) {
       try {
-        if (dataStr === "<qdbapi>") {
-          return [];
-        }
+        if (dataStr === "<qdbapi>") return [];
         const parser = new DOMParser();
-        const finalXmlString = dataStr + "</qdbapi>";
-        const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
+        const xmlDoc = parser.parseFromString(dataStr + "</qdbapi>", "text/xml");
         const records = xmlDoc.querySelectorAll("record");
-        const deduplicatedRecords = this.deduplicatePeerRecordsByClientAndYear(records);
-        return deduplicatedRecords;
-      } catch (error) {
+        return this.deduplicatePeerRecordsByClientAndYear(records);
+      } catch (e) {
         return [];
       }
     }
 
     const currentYear = years[0];
+    const clist =
+      "3.222.195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.155.158.330.331.420.421.131.175";
 
     try {
-      const clientQuery = this.getClientQuery(window.selectedClients_Array);
-      let queryCondition = `{195.EX.${currentYear}} AND ${clientQuery}`;
-
-      if (window.includeComprehensive === true) {
-        queryCondition += " AND ({193.EX.'Standard'} OR {193.EX.'Comprehensive'})";
-      } else {
-        queryCondition += " AND {193.EX.'Standard'}";
-      }
-      if (
-        window.sliderValue !== undefined &&
-        window.sliderValue2 !== undefined
-      ) {
-        queryCondition += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
-      }
-      if (
-        window.selectedRegions_Array &&
-        window.selectedRegions_Array.length > 0
-      ) {
-        const regionConditions = window.selectedRegions_Array
-          .map((region) => `{267.EX.${region}}`)
-          .join(" OR ");
-        queryCondition += ` AND (${regionConditions})`;
-      }
-      if (window.selectedSites_Array && window.selectedSites_Array.length > 0) {
-        const siteConditions = window.selectedSites_Array
-          .map((site) => `{268.EX.${site}}`)
-          .join(" OR ");
-        queryCondition += ` AND (${siteConditions})`;
-      }
-
-      const apiCallPeerData = {
+      const fullQuery = this._buildFullPeerQuery(
+        currentYear,
+        window.selectedClients_Array
+      );
+      const xml = await $.get(peerData, {
         act: "API_DoQuery",
-        query: queryCondition,
-        clist:
-          "3.222.195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.155.158.330.331.420.421.131.175",
-      };
-
-      const xml = await $.get(peerData, apiCallPeerData);
+        query: fullQuery,
+        clist,
+      });
       const recordsForPeer = $("record", xml).toArray();
 
-      if (recordsForPeer.length > 0) {
-        for (const record of recordsForPeer) {
-          const newRecord = document.createElement("record");
-          Array.from(record.children).forEach((child) => {
-            newRecord.appendChild(child.cloneNode(true));
-          });
-          this.recordPeerHTMLArray.push(newRecord.outerHTML);
-          dataStr += newRecord.outerHTML;
-        }
+      for (const rec of recordsForPeer) {
+        const newRecord = document.createElement("record");
+        Array.from(rec.children).forEach((child) =>
+          newRecord.appendChild(child.cloneNode(true))
+        );
+        this.recordPeerHTMLArray.push(newRecord.outerHTML);
+        dataStr += newRecord.outerHTML;
       }
 
       try {
-        if (
-          !window.peerRecordMapPerYear ||
-          typeof window.peerRecordMapPerYear.set !== "function"
-        ) {
+        if (!window.peerRecordMapPerYear?.set) {
           window.peerRecordMapPerYear = new Map();
         }
         window.peerRecordMapPerYear.set(String(currentYear), recordsForPeer.length);
@@ -1468,10 +1452,7 @@ class ApiService {
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
       try {
-        if (
-          !window.peerRecordMapPerYear ||
-          typeof window.peerRecordMapPerYear.set !== "function"
-        ) {
+        if (!window.peerRecordMapPerYear?.set) {
           window.peerRecordMapPerYear = new Map();
         }
         window.peerRecordMapPerYear.set(String(currentYear), 0);
@@ -1509,31 +1490,12 @@ class ApiService {
     //   `Using batching for ${selectedClients.length} clients across ${years.length} years`
     // );
 
-    // Matches Comprehensive: same full filters for every year (no anchor logic)
-    const filterParts = [];
-    if (window.includeComprehensive === true) {
-      filterParts.push(`({193.EX.'Standard'} OR {193.EX.'Comprehensive'})`);
-    } else {
-      filterParts.push(`{193.EX.'Standard'}`);
-    }
-    if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
-      filterParts.push(
-        `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`
-      );
-    }
-    if (window.selectedRegions_Array?.length > 0) {
-      const regionConditions = window.selectedRegions_Array
-        .map((region) => `{267.EX.${region}}`)
-        .join(" OR ");
-      filterParts.push(`(${regionConditions})`);
-    }
-    if (window.selectedSites_Array?.length > 0) {
-      const siteConditions = window.selectedSites_Array
-        .map((site) => `{268.EX.${site}}`)
-        .join(" OR ");
-      filterParts.push(`(${siteConditions})`);
-    }
-    const additionalFilters = ` AND ${filterParts.join(" AND ")}`;
+    // Match raw data: year + clients + survey only. No GU/region/site in API query.
+    const surveyFilter =
+      window.includeComprehensive === true
+        ? `({193.EX.'Standard'} OR {193.EX.'Comprehensive'})`
+        : `{193.EX.'Standard'}`;
+    const additionalFilters = ` AND ${surveyFilter}`;
 
     const escapedClients = selectedClients.map((c) => this._escapeClientName(c));
     const BATCH_SIZE = 15;
@@ -1545,46 +1507,44 @@ class ApiService {
     const clist =
       "3.222.195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.158.155.330.331.420.421.131.175";
 
-    const apiCalls = [];
+    const recordHtmlParts = [];
+    const CONCURRENCY_LIMIT = 5;
+
+    const runBatch = async (calls) => {
+      const out = [];
+      for (let i = 0; i < calls.length; i += CONCURRENCY_LIMIT) {
+        const chunk = calls.slice(i, i + CONCURRENCY_LIMIT);
+        const settled = await Promise.allSettled(chunk);
+        out.push(...settled);
+        if (i + CONCURRENCY_LIMIT < calls.length) {
+          await new Promise((r) => setTimeout(r, 50));
+        }
+      }
+      return out;
+    };
+
     for (const currentYear of years) {
+      const fullCalls = [];
       for (const clientBatch of clientBatches) {
         const clientConditions = clientBatch
           .map((c) => `{301.EX.'${c}'}`)
           .join(" OR ");
-        const queryCondition = `{195.EX.${currentYear}} AND (${clientConditions})${additionalFilters}`;
-        apiCalls.push(
-          $.get(peerData, { act: "API_DoQuery", query: queryCondition, clist })
-        );
+        const q = `{195.EX.${currentYear}} AND (${clientConditions})${additionalFilters}`;
+        fullCalls.push($.get(peerData, { act: "API_DoQuery", query: q, clist }));
       }
-    }
-
-    const CONCURRENCY_LIMIT = 5;
-    const results = [];
-    for (let i = 0; i < apiCalls.length; i += CONCURRENCY_LIMIT) {
-      const batch = apiCalls.slice(i, i + CONCURRENCY_LIMIT);
-      try {
-        const batchResults = await Promise.allSettled(batch);
-        results.push(...batchResults);
-        if (i + CONCURRENCY_LIMIT < apiCalls.length) {
-          await new Promise((r) => setTimeout(r, 50));
+      const fullResults = await runBatch(fullCalls);
+      for (const res of fullResults) {
+        if (res.status !== "fulfilled") continue;
+        try {
+          const $records = $("record", res.value);
+          for (let i = 0; i < $records.length; i++) {
+            const html = $records[i].outerHTML;
+            recordHtmlParts.push(html);
+            this.recordPeerHTMLArray.push(html);
+          }
+        } catch (e) {
+          /* no-op */
         }
-      } catch (e) {
-        /* no-op */
-      }
-    }
-
-    const recordHtmlParts = [];
-    for (const result of results) {
-      if (result.status !== "fulfilled") continue;
-      try {
-        const $records = $("record", result.value);
-        for (let i = 0; i < $records.length; i++) {
-          const html = $records[i].outerHTML;
-          recordHtmlParts.push(html);
-          this.recordPeerHTMLArray.push(html);
-        }
-      } catch (e) {
-        /* no-op */
       }
     }
 
@@ -2259,6 +2219,17 @@ class AppController {
       if (typeof destroyAllCharts === "function") {
         destroyAllCharts();
       }
+
+      // Log peer query params (Excel: sites TWOSIX=2-5, regions NE|MA|MW|PL=Midwest|Plains, GU 800–25000)
+      const regions = Array.from(window.selectedRegions_Array || []);
+      const sites = Array.from(window.selectedSites_Array || []);
+      console.log("Peer query params:", {
+        years: selectedYears,
+        regions,
+        sites,
+        givingUnitMin: window.sliderValue ?? 0,
+        givingUnitMax: window.sliderValue2 ?? 25000,
+      });
 
       // Fetch peer data with improved error handling
       let recordsPeer;
