@@ -7,22 +7,22 @@ const selectedYearsselectedYears_Array = [];
 
 // CFHI-specific data arrays (adapted from testUtility.js structure)
 const regions_Array = [
-  { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
+  { arr: ["New England: CT, RI, MA, VT, NH"], str: "NE" },
   {
-    arr: ["Mid-Atlantic, VA, WV, MD, DE, NJ, NY, PA, DC)"],
+    arr: ["Mid-Atlantic: VA, WV, MD, DE, NJ, NY, PA, DC"],
     str: "MA",
   },
   {
-    arr: ["South, AR, LA, AL, TN, KY, GA, FL, SC, NC, MS)"],
+    arr: ["South: AR, LA, AL, TN, KY, GA, FL, SC, NC, MS"],
     str: "SO",
   },
-  { arr: ["Midwest, WI, IL, IN, MI, OH, IA, MN)"], str: "MW" },
-  { arr: ["Plains, KS, MO, OK, TX, ND, SD, NE)"], str: "PL" },
+  { arr: ["Midwest: WI, IL, IN, MI, OH, IA, MN"], str: "MW" },
+  { arr: ["Plains: KS, MO, OK, TX, ND, SD, NE"], str: "PL" },
   {
-    arr: ["Mountain/Southwest, ID, MT, WY, CO, UT, NV, AZ, NM)"],
+    arr: ["Mountain/Southwest: ID, MT, WY, CO, UT, NV, AZ, NM"],
     str: "MT",
   },
-  { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
+  { arr: ["West Coast: CA, OR, WA"], str: "WC" },
 ];
 
 const sites_Array = [
@@ -2542,7 +2542,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     newLabel.setAttribute("for", `client_${clientString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-nowrap cursor-pointer"
     );
     newLabel.innerText = clientString;
 

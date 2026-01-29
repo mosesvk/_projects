@@ -355,7 +355,7 @@ function initializeClientDropdown(event) {
     newLabel.setAttribute("for", `client_${clientName}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-nowrap cursor-pointer"
     );
     newLabel.innerText = clientName;
 
@@ -483,7 +483,7 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
     newLabel.setAttribute("for", `region_${regionString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-normal break-words cursor-pointer"
     );
     newLabel.innerText = regionName;
 

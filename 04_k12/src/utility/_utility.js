@@ -7,22 +7,13 @@ let firmName;
 
 
 const regions_Array = [
-  { arr: ["New England (CT, RI, MA, VT, NH)"], str: "NE" },
-  {
-    arr: ["Mid-Atlantic, VA, WV, MD, DE, NJ, NY, PA, DC)"],
-    str: "MA",
-  },
-  {
-    arr: ["South, AR, LA, AL, TN, KY, GA, FL, SC, NC, MS)"],
-    str: "SO",
-  },
-  { arr: ["Midwest, WI, IL, IN, MI, OH, IA, MN)"], str: "MW" },
-  { arr: ["Plains, KS, MO, OK, TX, ND, SD, NE)"], str: "PL" },
-  {
-    arr: ["Mountain/Southwest, ID, MT, WY, CO, UT, NV, AZ, NM)"],
-    str: "MT",
-  },
-  { arr: ["West Coast, CA, OR, WA)"], str: "WC" },
+  { arr: ["New England CT, RI, MA, VT, NH"], str: "NE" },
+  { arr: ["Mid-Atlantic VA, WV, MD, DE, NJ, NY, PA, DC"], str: "MA" },
+  { arr: ["South AR, LA, AL, TN, KY, GA, FL, SC, NC, MS"], str: "SO" },
+  { arr: ["Midwest WI, IL, IN, MI, OH, IA, MN"], str: "MW" },
+  { arr: ["Plains KS, MO, OK, TX, ND, SD, NE"], str: "PL" },
+  { arr: ["Mountain/Southwest ID, MT, WY, CO, UT, NV, AZ, NM"], str: "MT" },
+  { arr: ["West Coast CA, OR, WA"], str: "WC" },
 ];
 
 // Mission Sending
@@ -403,6 +394,93 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 
     optionsListElement.appendChild(newLabel);
   });
+};
+
+/**
+ * Populates the options-list-region dropdown with region checkboxes from regions_Array.
+ * Includes a "(select all)" option. All options are always visible (no max-height).
+ * Updates selectedregion_Array on change.
+ */
+const addUniqueRegionsToOptionsSelectDropdown = () => {
+  const optionsListRegion = document.getElementById("options-list-region");
+  if (!optionsListRegion) return;
+
+  optionsListRegion.innerHTML = "";
+
+  const labelClass =
+    "flex items-center justify-start px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded";
+  const inputClass = "form-checkbox h-4 w-4 colorBlue mr-2 rounded";
+
+  const regionInputs = [];
+
+  // "(select all)" option
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "option-region-selectall");
+  selectAllLabel.setAttribute("class", labelClass);
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "option-region-selectall");
+  selectAllInput.setAttribute("class", inputClass);
+  selectAllInput.checked = selectedregion_Array.length === 0 || selectedregion_Array.length === regions_Array.length;
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("class", "dark:text-white");
+  selectAllSpan.innerText = "(select all)";
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+  optionsListRegion.appendChild(selectAllLabel);
+
+  selectAllInput.addEventListener("change", () => {
+    const checked = selectAllInput.checked;
+    regionInputs.forEach((input) => {
+      input.checked = checked;
+    });
+    selectedregion_Array.length = 0;
+    if (checked) {
+      regions_Array.forEach((r) => selectedregion_Array.push(r.str));
+    }
+  });
+
+  // Individual region options
+  regions_Array.forEach((regionObj) => {
+    const regionName = regionObj.arr[0];
+    const regionStr = regionObj.str;
+
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `option-region-${regionStr}`);
+    newLabel.setAttribute("class", labelClass);
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("id", `option-region-${regionStr}`);
+    newInput.setAttribute("class", inputClass);
+    newInput.setAttribute("value", regionStr);
+    newInput.checked = selectedregion_Array.includes(regionStr);
+    regionInputs.push(newInput);
+
+    newInput.addEventListener("change", () => {
+      if (newInput.checked) {
+        selectedregion_Array.push(regionStr);
+      } else {
+        const idx = selectedregion_Array.indexOf(regionStr);
+        if (idx > -1) selectedregion_Array.splice(idx, 1);
+      }
+      selectAllInput.checked = selectedregion_Array.length === regions_Array.length;
+    });
+
+    const newSpan = document.createElement("span");
+    newSpan.setAttribute("class", "dark:text-white");
+    newSpan.innerText = regionName;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+    optionsListRegion.appendChild(newLabel);
+  });
+
+  if (selectedregion_Array.length === 0) {
+    regions_Array.forEach((r) => selectedregion_Array.push(r.str));
+    regionInputs.forEach((i) => (i.checked = true));
+    selectAllInput.checked = true;
+  }
 };
 
 const getPeerAndClientChartDataArrays = (

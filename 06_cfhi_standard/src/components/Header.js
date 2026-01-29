@@ -121,7 +121,7 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
   selectAllLabel.setAttribute("for", "select-all-checkbox-region");
   selectAllLabel.setAttribute(
     "class",
-    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+    "flex items-center justify-start px-4 py-2 cursor-pointer"
   );
 
   const selectAllInput = document.createElement("input");
@@ -170,7 +170,7 @@ function addUniqueRegionsToOptionsSelectRegionsDropdown(regionArray) {
     newLabel.setAttribute("for", `region_${regionString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-nowrap cursor-pointer"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-normal cursor-pointer"
     );
     newLabel.innerText = regionName;
 

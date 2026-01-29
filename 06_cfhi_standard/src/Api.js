@@ -1375,34 +1375,26 @@ class ApiService {
   }
 
   /**
-   * Get records for peer organizations with filtering
+   * Get records for peer organizations with filtering.
+   * Matches Comprehensive: same full filters (year, clients, survey type, giving units,
+   * regions, sites) applied to every year. No anchor logic — each year queried independently.
+   *
    * @param {Array} years - Array of years to fetch
    * @param {string} dataStr - Accumulated XML data string
    */
   async getRecordsForPeer(years, dataStr = "<qdbapi>") {
     if (years.length === 0) {
-      // Base case: return the final string when the array is empty
       try {
-        // If no data was collected, return empty array
         if (dataStr === "<qdbapi>") {
-          // console.warn("No records collected, returning empty array");
           return [];
         }
-
         const parser = new DOMParser();
         const finalXmlString = dataStr + "</qdbapi>";
-        // console.log('peer records (non-batched)', finalXmlString);
-        const xmlDoc = parser.parseFromString(
-          finalXmlString,
-          "text/xml"
-        );
+        const xmlDoc = parser.parseFromString(finalXmlString, "text/xml");
         const records = xmlDoc.querySelectorAll("record");
-        
-        // Deduplicate peer records: keep only the most recent YE record per client per year
         const deduplicatedRecords = this.deduplicatePeerRecordsByClientAndYear(records);
         return deduplicatedRecords;
       } catch (error) {
-        // console.error("Error parsing XML in getRecordsForPeer:", error);
         return [];
       }
     }
@@ -1410,28 +1402,20 @@ class ApiService {
     const currentYear = years[0];
 
     try {
-      // Get selected clients query
       const clientQuery = this.getClientQuery(window.selectedClients_Array);
-
-      // Basic query condition with year and client query
       let queryCondition = `{195.EX.${currentYear}} AND ${clientQuery}`;
 
-      // Add survey type filter based on includeComprehensive state
       if (window.includeComprehensive === true) {
         queryCondition += " AND ({193.EX.'Standard'} OR {193.EX.'Comprehensive'})";
       } else {
         queryCondition += " AND {193.EX.'Standard'}";
       }
-
-      // Add giving units filter
       if (
         window.sliderValue !== undefined &&
         window.sliderValue2 !== undefined
       ) {
         queryCondition += ` AND {123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`;
       }
-
-      // Add regions filter
       if (
         window.selectedRegions_Array &&
         window.selectedRegions_Array.length > 0
@@ -1441,46 +1425,34 @@ class ApiService {
           .join(" OR ");
         queryCondition += ` AND (${regionConditions})`;
       }
-
-      // Add sites filter
       if (window.selectedSites_Array && window.selectedSites_Array.length > 0) {
         const siteConditions = window.selectedSites_Array
           .map((site) => `{268.EX.${site}}`)
           .join(" OR ");
         queryCondition += ` AND (${siteConditions})`;
-    }
+      }
 
-    const apiCallPeerData = {
-      act: "API_DoQuery",
+      const apiCallPeerData = {
+        act: "API_DoQuery",
         query: queryCondition,
-      clist:
-          // Added field 3 (Record ID#) and 222 (s52 - Fiscal YE Date) for proper deduplication by most recent YE
+        clist:
           "3.222.195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.155.158.330.331.420.421.131.175",
       };
 
-      // Use await to make the async operation more explicit
       const xml = await $.get(peerData, apiCallPeerData);
-      // console.log("PEER XML", xml);
       const recordsForPeer = $("record", xml).toArray();
 
-      // Collect records for later use
       if (recordsForPeer.length > 0) {
         for (const record of recordsForPeer) {
           const newRecord = document.createElement("record");
-
-          // Append each child element to the new record
           Array.from(record.children).forEach((child) => {
             newRecord.appendChild(child.cloneNode(true));
           });
-
           this.recordPeerHTMLArray.push(newRecord.outerHTML);
           dataStr += newRecord.outerHTML;
         }
-      } else {
-        // console.warn(`No records found for year ${currentYear}`);
       }
 
-      // Update per-year record count map
       try {
         if (
           !window.peerRecordMapPerYear ||
@@ -1488,27 +1460,13 @@ class ApiService {
         ) {
           window.peerRecordMapPerYear = new Map();
         }
-        window.peerRecordMapPerYear.set(
-          String(currentYear),
-          recordsForPeer.length
-        );
+        window.peerRecordMapPerYear.set(String(currentYear), recordsForPeer.length);
       } catch (e) {
-        // console.error("Unable to update peerRecordMapPerYear:", e);
+        /* no-op */
       }
 
-      // Recursive call with updated years and dataStr
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     } catch (error) {
-      // console.error("Error fetching peer data for year", currentYear, error);
-
-      // Log error details
-      if (error.status) {
-        // console.error(
-        //   `Status: ${error.status}, StatusText: ${error.statusText}`
-        // );
-      }
-
-      // Continue with next year even if this one failed
       try {
         if (
           !window.peerRecordMapPerYear ||
@@ -1518,10 +1476,7 @@ class ApiService {
         }
         window.peerRecordMapPerYear.set(String(currentYear), 0);
       } catch (e) {
-        // console.error(
-        //   "Unable to set 0 count in peerRecordMapPerYear after error:",
-        //   e
-        // );
+        /* no-op */
       }
       return await this.getRecordsForPeer(years.slice(1), dataStr);
     }
@@ -1554,30 +1509,18 @@ class ApiService {
     //   `Using batching for ${selectedClients.length} clients across ${years.length} years`
     // );
 
-    // Pre-calculate all filter conditions once
+    // Matches Comprehensive: same full filters for every year (no anchor logic)
     const filterParts = [];
-    
-    // Include survey type filter based on includeComprehensive state
     if (window.includeComprehensive === true) {
       filterParts.push(`({193.EX.'Standard'} OR {193.EX.'Comprehensive'})`);
     } else {
       filterParts.push(`{193.EX.'Standard'}`);
     }
-    
-    // Add giving units filter if defined
-    // console.log("🎚️ Slider values:", {
-    //   sliderValue: window.sliderValue,
-    //   sliderValue2: window.sliderValue2,
-    //   selectedRegions: window.selectedRegions_Array?.length || 0,
-    //   selectedSites: window.selectedSites_Array?.length || 0
-    // });
-    
     if (window.sliderValue !== undefined && window.sliderValue2 !== undefined) {
       filterParts.push(
         `{123.GTE.${window.sliderValue}} AND {123.LTE.${window.sliderValue2}}`
       );
     }
-    
     if (window.selectedRegions_Array?.length > 0) {
       const regionConditions = window.selectedRegions_Array
         .map((region) => `{267.EX.${region}}`)
@@ -1591,125 +1534,59 @@ class ApiService {
       filterParts.push(`(${siteConditions})`);
     }
     const additionalFilters = ` AND ${filterParts.join(" AND ")}`;
-    
-    // console.log("📝 Filter parts:", filterParts);
 
-    // Pre-escape all client names once
-    const escapedClients = selectedClients.map((client) =>
-      this._escapeClientName(client)
-    );
-
-    // Split clients into batches of 15 (Standard mode uses field 186 which can be longer)
+    const escapedClients = selectedClients.map((c) => this._escapeClientName(c));
     const BATCH_SIZE = 15;
     const clientBatches = [];
     for (let i = 0; i < escapedClients.length; i += BATCH_SIZE) {
       clientBatches.push(escapedClients.slice(i, i + BATCH_SIZE));
     }
 
-    // console.log(
-    //   `Split into ${clientBatches.length} batches of ${BATCH_SIZE} clients each`
-    // );
-
-    // apiCallForPeerDataBatched
-    const apiCalls = [];
-    // Added field 3 (Record ID#) and 222 (s52 - Fiscal YE Date) for proper deduplication by most recent YE
     const clist =
       "3.222.195.123.122.186.301.267.268.193.160.161.143.145.164.165.149.154.184.304.305.306.307.308.309.310.311.312.313.314.315.316.317.318.319.320.321.407.408.409.329.352.137.158.155.330.331.420.421.131.175";
 
+    const apiCalls = [];
     for (const currentYear of years) {
-      for (let batchIndex = 0; batchIndex < clientBatches.length; batchIndex++) {
-        const clientBatch = clientBatches[batchIndex];
+      for (const clientBatch of clientBatches) {
         const clientConditions = clientBatch
-          .map((client) => `{301.EX.'${client}'}`)
+          .map((c) => `{301.EX.'${c}'}`)
           .join(" OR ");
         const queryCondition = `{195.EX.${currentYear}} AND (${clientConditions})${additionalFilters}`;
-
-        // Log first query for debugging
-        if (currentYear === years[0] && batchIndex === 0) {
-          // console.log("🔍 Sample query for year", currentYear, "batch 1:");
-          // console.log("Query:", queryCondition);
-          // console.log("clist:", clist);
-        }
-
-        const apiCallPeerData = {
-          act: "API_DoQuery",
-          query: queryCondition,
-          clist: clist,
-        };
-
-        apiCalls.push($.get(peerData, apiCallPeerData));
+        apiCalls.push(
+          $.get(peerData, { act: "API_DoQuery", query: queryCondition, clist })
+        );
       }
     }
 
-    // console.log(
-    //   `Executing ${apiCalls.length} API calls (${years.length} years × ${clientBatches.length} batches)`
-    // );
-
-    // Execute all API calls in parallel with limited concurrency
-    const CONCURRENCY_LIMIT = 5; // Limit concurrent requests to avoid overwhelming server
+    const CONCURRENCY_LIMIT = 5;
     const results = [];
-
     for (let i = 0; i < apiCalls.length; i += CONCURRENCY_LIMIT) {
       const batch = apiCalls.slice(i, i + CONCURRENCY_LIMIT);
       try {
         const batchResults = await Promise.allSettled(batch);
         results.push(...batchResults);
-
-        // console.log(
-        //   `Completed batch ${Math.floor(i / CONCURRENCY_LIMIT) + 1}/${Math.ceil(apiCalls.length / CONCURRENCY_LIMIT)}`
-        // );
-
-        // Small delay between batches to be API-friendly
         if (i + CONCURRENCY_LIMIT < apiCalls.length) {
-          await new Promise((resolve) => setTimeout(resolve, 50));
+          await new Promise((r) => setTimeout(r, 50));
         }
-      } catch (error) {
-        // console.error("Error in batch execution:", error);
+      } catch (e) {
+        /* no-op */
       }
     }
 
-    // Process all results efficiently
     const recordHtmlParts = [];
-    let successfulCalls = 0;
-    let failedCalls = 0;
-    
-    for (let idx = 0; idx < results.length; idx++) {
-      const result = results[idx];
-      
-      if (result.status === "fulfilled") {
-        successfulCalls++;
-        try {
-          const xml = result.value;
-          
-          // Use jQuery once per response, then process natively
-          const $records = $("record", xml);
-          
-          // Log record count for first batch
-          if (idx === 0) {
-            // console.log("Records found in first response:", $records.length);
-            if ($records.length > 0) {
-              // console.log("First record preview:", $records[0].outerHTML.substring(0, 300));
-            }
-          }
-
-          // Process records using native DOM for better performance
-          for (let i = 0; i < $records.length; i++) {
-            const recordHtml = $records[i].outerHTML;
-            recordHtmlParts.push(recordHtml);
-            this.recordPeerHTMLArray.push(recordHtml);
-          }
-        } catch (error) {
-          // console.error("Error processing XML result at index", idx, ":", error);
+    for (const result of results) {
+      if (result.status !== "fulfilled") continue;
+      try {
+        const $records = $("record", result.value);
+        for (let i = 0; i < $records.length; i++) {
+          const html = $records[i].outerHTML;
+          recordHtmlParts.push(html);
+          this.recordPeerHTMLArray.push(html);
         }
-        } else {
-        failedCalls++;
-        // console.warn("API call", idx + 1, "failed:", result.reason);
+      } catch (e) {
+        /* no-op */
       }
     }
-    
-    // console.log(`✅ Successful calls: ${successfulCalls}, ❌ Failed calls: ${failedCalls}`);
-
-    // console.log(`Total records collected: ${recordHtmlParts.length}`);
 
     // Parse and return final results
     try {
@@ -1997,8 +1874,6 @@ class ApiService {
       Object.entries(clientMostRecentMap).forEach(([clientName, entry]) => {
         window.clientDataStore[clientName] = entry.data;
       });
-      
-      // console.log(`📊 Client data store populated with ${Object.keys(clientMostRecentMap).length} clients (using most recent YE per client)`);
 
       // Close the XML string
       xmlString += "</qdbapi>";
@@ -2546,6 +2421,30 @@ class AppController {
 
       // Enable the generate reports button and set up print modal (hide footer, cleanup on close/open)
       this.enableGenerateReportsButton();
+
+      // Log all client-year records pulled this run with client, year, and givingUnit
+      const runClientYearEntries = [];
+      (recordsPeer || []).forEach((record) => {
+        const name =
+          record.querySelector?.("client___merged_client_name")?.textContent?.trim() ||
+          record.querySelector?.("client_name")?.textContent?.trim();
+        if (!name) return;
+        const year =
+          record.querySelector?.("s52_formatted_year")?.textContent?.trim() ||
+          record.querySelector?.("year")?.textContent?.trim() ||
+          "—";
+        const gu =
+          record.querySelector?.("s02___giving_units")?.textContent?.trim() || "0";
+        runClientYearEntries.push({
+          client: name,
+          year: year,
+          givingUnit: parseFloat(gu) || 0,
+        });
+      });
+      console.log(
+        `Client-year records pulled this run (${runClientYearEntries.length}):`,
+        runClientYearEntries
+      );
 
       // console.log("✅ Data processing complete");
     } catch (error) {
