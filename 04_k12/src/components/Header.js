@@ -4,9 +4,9 @@ const optionsButton = document.querySelector(
 const optionsModal = document.getElementById("options_modal");
 const printModal = document.getElementById("print_modal");
 
-// Initialize slider default values (match _comp)
-window.sliderValue = window.sliderValue ?? 0;
-window.sliderValue2 = window.sliderValue2 ?? 25000;
+// Initialize slider default values (match 05_cfhi_comp)
+window.sliderValue = 0;
+window.sliderValue2 = 25000;
 
 let backdropRemoved = false; // Flag to track whether the backdrop is removed
 
@@ -183,68 +183,86 @@ const addCheckmarkToSelectedOption = () => {
 // Call the function to add checkmark dynamically to selected option
 addCheckmarkToSelectedOption();
 
-// Enrollment range slider: release listeners and input sync (match _comp)
-function setupSliderReleaseListeners() {
-  const sliderContainer = document.querySelector('[x-data="range()"]');
-  if (sliderContainer) {
-    const rangeInputs = sliderContainer.querySelectorAll('input[type="range"]');
-    rangeInputs.forEach((rangeInput) => {
-      rangeInput.addEventListener('mouseup', function () {
-        document.dispatchEvent(new CustomEvent("filtersChanged"));
+// Enrollment range slider: match 05_cfhi_comp Giving Units (run after DOM + Alpine ready)
+document.addEventListener("DOMContentLoaded", function () {
+  function setupSliderReleaseListeners() {
+    const sliderContainer = document.querySelector('[x-data="range()"]');
+    if (sliderContainer) {
+      const rangeInputs = sliderContainer.querySelectorAll('input[type="range"]');
+      rangeInputs.forEach((rangeInput) => {
+        rangeInput.addEventListener("mouseup", function () {
+          document.dispatchEvent(new CustomEvent("filtersChanged"));
+        });
+        rangeInput.addEventListener("touchend", function () {
+          document.dispatchEvent(new CustomEvent("filtersChanged"));
+        });
+        rangeInput.addEventListener("change", function () {
+          document.dispatchEvent(new CustomEvent("filtersChanged"));
+        });
       });
-      rangeInput.addEventListener('touchend', function () {
-        document.dispatchEvent(new CustomEvent("filtersChanged"));
+    }
+  }
+  setTimeout(setupSliderReleaseListeners, 100);
+
+  const sliderInputs = [
+    {
+      element: document.getElementById("givingUnitsMin"),
+      globalVar: "sliderValue",
+      defaultValue: 0,
+      sliderDivs: document.querySelectorAll(".givingUnitsSlider"),
+    },
+    {
+      element: document.getElementById("givingUnitsMax"),
+      globalVar: "sliderValue2",
+      defaultValue: 25000,
+      sliderDivs: document.querySelectorAll(".givingUnitsSlider"),
+    },
+  ];
+
+  sliderInputs.forEach((slider) => {
+    if (slider.element) {
+      slider.element.value = window[slider.globalVar];
+    }
+  });
+
+  function triggerFiltersChanged(sliderInfo) {
+    document.dispatchEvent(new CustomEvent("filtersChanged"));
+  }
+
+  sliderInputs.forEach((slider) => {
+    if (slider.element) {
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "style"
+          ) {
+            window[slider.globalVar] =
+              parseInt(String(slider.element.value).replace(/[^\d]/g, ""), 10) || slider.defaultValue;
+            triggerFiltersChanged(slider);
+          }
+        });
       });
-      rangeInput.addEventListener('change', function () {
-        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      observer.observe(slider.element, {
+        attributes: true,
+        attributeFilter: ["style"],
       });
+    }
+  });
+
+  function initializeEnrollmentSliderValues() {
+    const sliders = [
+      document.getElementById("givingUnitsMin"),
+      document.getElementById("givingUnitsMax"),
+    ];
+    sliders.forEach((slider) => {
+      if (slider) {
+        slider.value =
+          slider.id === "givingUnitsMin"
+            ? window.sliderValue
+            : window.sliderValue2;
+      }
     });
   }
-}
-setTimeout(setupSliderReleaseListeners, 100);
-
-const sliderInputs = [
-  {
-    element: document.getElementById("givingUnitsMin"),
-    globalVar: "sliderValue",
-    defaultValue: 0,
-    sliderDivs: document.querySelectorAll(".givingUnitsSlider"),
-  },
-  {
-    element: document.getElementById("givingUnitsMax"),
-    globalVar: "sliderValue2",
-    defaultValue: 25000,
-    sliderDivs: document.querySelectorAll(".givingUnitsSlider"),
-  },
-];
-
-sliderInputs.forEach((slider) => {
-  if (slider.element) {
-    slider.element.value = window[slider.globalVar];
-  }
-});
-
-function triggerFiltersChanged(sliderInfo) {
-  document.dispatchEvent(new CustomEvent("filtersChanged"));
-}
-
-sliderInputs.forEach((slider) => {
-  if (slider.element) {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "style"
-        ) {
-          window[slider.globalVar] =
-            parseInt(slider.element.value.replace(/[^\d]/g, ""), 10) || slider.defaultValue;
-          triggerFiltersChanged(slider);
-        }
-      });
-    });
-    observer.observe(slider.element, {
-      attributes: true,
-      attributeFilter: ["style"],
-    });
-  }
+  initializeEnrollmentSliderValues();
 });
