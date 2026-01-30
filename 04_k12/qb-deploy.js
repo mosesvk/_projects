@@ -35,7 +35,7 @@ const config = {
     'src/index.html',
     'src/api.js',
     'src/components/**/*.js',
-    'src/utility/**/*.js'
+    'src/_utility/**/*.js'
   ],
   
   // Debounce delay (ms) to prevent multiple rapid uploads

@@ -164,10 +164,12 @@ const addCheckmarkToSelectedOption = () => {
       const labels = document.querySelectorAll(`label[for="${this.id}"]`);
       labels.forEach((label) => {
         const checkIcon = label.querySelector(".check-icon");
-        if (this.checked) {
-          checkIcon.classList.remove("hidden");
-        } else {
-          checkIcon.classList.add("hidden");
+        if (checkIcon) {
+          if (this.checked) {
+            checkIcon.classList.remove("hidden");
+          } else {
+            checkIcon.classList.add("hidden");
+          }
         }
       });
     });

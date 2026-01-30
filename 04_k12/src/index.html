@@ -147,12 +147,79 @@
         width: 50rem !important;
       }
 
+      /* Report tab: match Standard/Comprehensive styling */
+      .report-section-header {
+        background-color: #326eaa;
+        color: white !important;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+      .report-section-header th {
+        color: white !important;
+        padding: 0.75rem 1.5rem;
+      }
+      .report-main-item {
+        font-weight: 700;
+        padding: 1rem 1.5rem;
+      }
+      .report-sub-item {
+        font-weight: 400;
+        padding: 1rem 1.5rem;
+        padding-left: 4rem;
+      }
+      .report-sub-item-nested {
+        font-weight: 400;
+        padding: 1rem 1.5rem;
+        padding-left: 5rem;
+      }
+
       input[type="range"]::-webkit-slider-thumb {
         pointer-events: all;
         width: 24px;
         height: 24px;
         -webkit-appearance: none;
         /* @apply w-6 h-6 appearance-none pointer-events-auto; */
+      }
+
+      /* Enrollment Range - match Comprehensive: hide number input spinners */
+      .enrollment-range-input::-webkit-outer-spin-button,
+      .enrollment-range-input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .enrollment-range-input[type="number"] {
+        -moz-appearance: textfield;
+        appearance: textfield;
+      }
+
+      /* Enrollment Range dual slider - thumbs receive events for dragging */
+      .enrollment-range-slider input[type="range"]::-webkit-slider-runnable-track {
+        pointer-events: none;
+      }
+      .enrollment-range-slider input[type="range"]::-moz-range-track {
+        pointer-events: none;
+      }
+      .enrollment-range-slider input[type="range"]::-webkit-slider-thumb {
+        pointer-events: all;
+        -webkit-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #83b240;
+        cursor: pointer;
+        z-index: 30;
+      }
+      .enrollment-range-slider input[type="range"]::-moz-range-thumb {
+        pointer-events: all;
+        -moz-appearance: none;
+        appearance: none;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #83b240;
+        cursor: pointer;
+        z-index: 30;
       }
     </style>
   </head>
@@ -1278,7 +1345,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75 dark:text-white"
+                          class="report-section-header text-2xl dark:text-white"
                         >
                           <tr id="row_enrollment_tableHeader">
                             <th
@@ -1301,7 +1368,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               1. Students - Average Enrollment
                             </th>
@@ -1312,7 +1379,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               a. % Change
                             </th>
@@ -1323,7 +1390,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               b. Average Enrollment
                             </th>
@@ -1334,7 +1401,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c. Peak Enrollment
                             </th>
@@ -1345,7 +1412,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               2. Student/Faculty Ratio
                             </th>
@@ -1371,7 +1438,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75 dark:text-white"
+                          class="report-section-header text-2xl dark:text-white"
                         >
                           <tr id="row_cash_tableHeader">
                             <th
@@ -1394,7 +1461,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               3. Expendable Reserves - In Days
                             </th>
@@ -1405,7 +1472,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               4. Expendable Reserves - % of Total Cash Exprenses
                             </th>
@@ -1416,7 +1483,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               5. Days Cash on Hand
                             </th>
@@ -1427,7 +1494,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               6. Cash Available to Deferred Revenues
                             </th>
@@ -1438,7 +1505,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               7. Liquidity Ratio
                             </th>
@@ -1449,7 +1516,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               8. Net Cash Provided (used) by Operating
                               Activities
@@ -1461,7 +1528,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               a. As per statement of Cash Flows
                             </th>
@@ -1472,7 +1539,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               b. Total Depreciation
                             </th>
@@ -1498,7 +1565,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75 dark:text-white"
+                          class="report-section-header text-2xl dark:text-white"
                         >
                           <tr id="row_asset_tableHeader">
                             <th
@@ -1521,7 +1588,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               9. Property and equipment per student excluding
                               land
@@ -1533,7 +1600,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               10. Net Tuition A/R as a % of Current Assets
                             </th>
@@ -1544,7 +1611,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               11. Receivable write offs as a % of Net Tuition
                               and Fees
@@ -1556,7 +1623,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               a. % Change
                             </th>
@@ -1582,7 +1649,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75 dark:text-white"
+                          class="report-section-header text-2xl dark:text-white"
                         >
                           <tr id="row_debt_tableHeader">
                             <th
@@ -1605,7 +1672,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               12. Debt to Property and Equipment
                             </th>
@@ -1616,7 +1683,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               13. Debt to Net Assets
                             </th>
@@ -1627,7 +1694,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               14. Current Ratio
                             </th>
@@ -1638,7 +1705,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               15. Current Liabilities to Available Net Assets
                             </th>
@@ -1649,7 +1716,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               16. Debt per students
                             </th>
@@ -1660,7 +1727,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               17. Debt Coverage
                             </th>
@@ -1686,7 +1753,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75 dark:text-white"
+                          class="report-section-header text-2xl dark:text-white"
                         >
                           <tr id="row_income_tableHeader">
                             <th
@@ -1709,7 +1776,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               18. Net Income Ratio
                             </th>
@@ -1720,7 +1787,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               19. Net Income Ratio Excluding Depreciation
                             </th>
@@ -1731,7 +1798,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               20. Percentage of average tuition increase between
                               years
@@ -1743,7 +1810,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               21. Financial Assistance as a % of Tuition and
                               Fees
@@ -1755,7 +1822,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               22. Tuition and Fees as a % of Total Income
                             </th>
@@ -1766,7 +1833,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               23. Contributions as a % of Total Income
                             </th>
@@ -1777,7 +1844,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               24. Net Tuition and Financial Assistance Awarded,
                               per student :
@@ -1789,7 +1856,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               a1. Gross Tuition
                             </th>
@@ -1800,7 +1867,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               a2. % Change
                             </th>
@@ -1811,7 +1878,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c1. Scholarship Awarded
                             </th>
@@ -1822,7 +1889,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c2. % Change
                             </th>
@@ -1833,7 +1900,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               b1. Total Financial Assistance
                             </th>
@@ -1844,7 +1911,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               b2. % Change
                             </th>
@@ -1855,7 +1922,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c1. Net Tuition
                             </th>
@@ -1866,7 +1933,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c2. % Change
                             </th>
@@ -1877,7 +1944,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               25. Fees as a percent of net tuition
                             </th>
@@ -1903,7 +1970,7 @@
                         class="w-full text-lg text-left text-gray-500 dark:text-gray-400"
                       >
                         <thead
-                          class="text-xs text-white uppercase backgroundBlue opacity-75 dark:text-white"
+                          class="report-section-header text-2xl dark:text-white"
                         >
                           <tr id="row_expense_tableHeader">
                             <th
@@ -1926,7 +1993,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               26. Salaries and benefits of teachers as % of net
                               tuition
@@ -1938,7 +2005,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               a. Salaries
                             </th>
@@ -1949,7 +2016,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               b. Benefits
                             </th>
@@ -1960,7 +2027,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c. Salaries & Benefits
                             </th>
@@ -1972,7 +2039,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-2xl font-bold leading-tight tracking-wide text-gray-900 dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               27. Salaries and benefits of teachers per students
                               enrolled at YE
@@ -1984,7 +2051,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               a. Salaries
                             </th>
@@ -1995,7 +2062,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               b. Benefits
                             </th>
@@ -2006,7 +2073,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c. Salaries & Benefits
                             </th>
@@ -2018,7 +2085,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               28. Benefits as a percent of Salaries for teachers
                             </th>
@@ -2030,7 +2097,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-2xl font-bold leading-tight tracking-wide text-gray-900 dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               29. Personnel and mandatory debt service payments
                               as a percent of total expenses (excluding
@@ -2043,7 +2110,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               a. Salaries & Benefits
                             </th>
@@ -2054,7 +2121,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-16 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-sub-item-nested text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               1. Teachers
                             </th>
@@ -2065,7 +2132,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-16 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-sub-item-nested text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               2. Administration
                             </th>
@@ -2076,7 +2143,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-16 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-sub-item-nested text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               3. All School Employees
                             </th>
@@ -2087,7 +2154,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               b. Mandatory debt service payments including
                               interest
@@ -2099,7 +2166,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c. Personnel and mandatory debt service payments
                             </th>
@@ -2111,7 +2178,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               30. % of fund raising expenses exceeding (less
                               than) funds raised
@@ -2124,7 +2191,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 text-xl font-bold leading-tight tracking-wide text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-xl text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               31. Funds & Expenses per student
                             </th>
@@ -2135,7 +2202,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               a. Net tuition (#20-E1)
                             </th>
@@ -2146,7 +2213,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               b. Cash expenses (expenses excluding depreciation)
                             </th>
@@ -2157,7 +2224,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               c. Cash expenses (in excess of) or less than net
                               tuition
@@ -2169,7 +2236,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               d. Funds raised
                             </th>
@@ -2181,7 +2248,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               e. Funds raised over/under to cover cash
                               expenses/overage or deficit
@@ -2194,7 +2261,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               30. Facility cost per square foot (excluding
                               interest expense)
@@ -2206,7 +2273,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               Average age of facility < 10 years
                             </th>
@@ -2217,7 +2284,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               Average age of facility > 10 years
                             </th>
@@ -2229,7 +2296,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               31. Facility cost per square foot (including
                               principal and interest expense)
@@ -2241,7 +2308,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               Average age of facility < 10 years
                             </th>
@@ -2252,7 +2319,7 @@
                           >
                             <th
                               scope="row"
-                              class="pr-6 pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white"
+                              class="report-sub-item text-gray-900 whitespace-normal dark:text-white"
                             >
                               Average age of facility > 10 years
                             </th>
@@ -2264,7 +2331,7 @@
                           >
                             <th
                               scope="row"
-                              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              class="report-main-item text-gray-900 whitespace-nowrap dark:text-white"
                             >
                               32. Information Technology Costs
                             </th>
@@ -5157,50 +5224,57 @@
                     </p>
                   </div>
                   <div
-                    class="relative max-w-lg w-full pb-5"
+                    class="enrollment-range-slider relative max-w-lg w-full pb-5"
                     x-data="range()"
                     x-init="mintrigger(); maxtrigger()"
                   >
-                    <div class="flex items-center justify-center p-2">
+                    <div class="flex items-center justify-center p-2 gap-1">
                       <input
-                        type="text"
-                        maxlength="5"
+                        type="number"
+                        min="0"
+                        max="25000"
+                        step="100"
                         x-on:input="mintrigger"
-                        x-model="minprice"
+                        x-on:change="mintrigger"
+                        x-model.number="minprice"
                         x-ref="minInput"
-                        class="bg-transparent border-none text-center w-24 text-xl text-gray-900 dark:text-white"
+                        class="enrollment-range-input bg-transparent border-none text-center w-24 text-xl text-gray-900 dark:text-white"
                       />
-                      -
+                      <span class="text-gray-500">–</span>
                       <input
-                        type="text"
-                        maxlength="5"
+                        type="number"
+                        min="0"
+                        max="25000"
+                        step="100"
                         x-on:input="maxtrigger"
-                        x-model="maxprice"
-                        class="bg-transparent border-none text-center w-24 text-xl text-gray-900 dark:text-white"
+                        x-on:change="maxtrigger"
+                        x-model.number="maxprice"
+                        class="enrollment-range-input bg-transparent border-none text-center w-24 text-xl text-gray-900 dark:text-white"
                       />
                     </div>
-                    <div>
+                    <div class="relative h-2">
                       <input
                         type="range"
                         step="100"
                         x-bind:min="min"
-                        x-bind:max="max"
+                        x-bind:max="maxprice"
                         x-on:input="mintrigger"
-                        x-model="minprice"
-                        class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                        x-model.number="minprice"
+                        class="absolute w-full h-2 appearance-none bg-transparent cursor-pointer"
+                        x-bind:style="'z-index: ' + minZIndex()"
                       />
-
                       <input
                         type="range"
                         step="100"
-                        x-bind:min="min"
+                        x-bind:min="minprice"
                         x-bind:max="max"
                         x-on:input="maxtrigger"
-                        x-model="maxprice"
-                        class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0 cursor-pointer"
+                        x-model.number="maxprice"
+                        class="absolute w-full h-2 appearance-none bg-transparent cursor-pointer"
+                        x-bind:style="'z-index: ' + maxZIndex()"
                       />
 
-                      <div class="relative z-10 h-2">
+                      <div class="absolute inset-0 z-10 h-2 pointer-events-none">
                         <div
                           class="absolute z-10 left-0 right-0 bottom-0 top-0 rounded-md bg-gray-200"
                         ></div>
@@ -5245,6 +5319,7 @@
                             value="school"
                             class="hidden peer"
                             required
+                            checked
                           />
                           <label
                             for="selectSchool"

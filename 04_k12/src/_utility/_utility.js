@@ -1,6 +1,7 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
-let selectedSchoolChurch = document.getElementById('selectSchool').checked ? 0 : 1;
+/** School = 0, Church = 1. Initialized to 0 (School) by default. */
+let selectedSchoolChurch = 0;
 let selectedImagesArray = []
 let uniqueClients
 let firmName;
@@ -46,8 +47,8 @@ const sites_Array = [
 
 let sliderAmount = null;
 let sliderRange = null;
-let sliderValue = 0;
-let sliderValue2 = 25000;
+window.sliderValue = window.sliderValue || 0;
+window.sliderValue2 = window.sliderValue2 || 25000;
 // let amount = null;
 
 let selectedRegion = "";
@@ -717,52 +718,56 @@ function changeThWidth(elementId) {
   }
 }
 
+/**
+ * Dual-range slider component for Enrollment Range (min/max enrollment values).
+ * Matches Comprehensive slider behavior: number inputs, dynamic z-index, bidirectional sync.
+ * Syncs with global sliderValue and sliderValue2 for API queries.
+ * Min gap: 500. Range: 0–25,000.
+ */
 const range = () => {
   return {
     minprice: 0,
     maxprice: 25000,
     min: 0,
     max: 25000,
-    minthumb: 1,
-    maxthumb: 1,
+    minthumb: 0,
+    maxthumb: 0,
+
+    /** Parse value as number, clamp to range. Handles text/number input. */
+    parseNum(val) {
+      const n = parseInt(String(val).replace(/[^0-9-]/g, ""), 10);
+      return isNaN(n) ? this.min : Math.max(this.min, Math.min(this.max, n));
+    },
+
+    /** When thumbs overlap, max thumb on top for interaction (Comprehensive pattern). */
+    minZIndex() {
+      return this.minprice >= this.maxprice - 500 ? 1 : 3;
+    },
+    maxZIndex() {
+      return this.minprice >= this.maxprice - 500 ? 3 : 1;
+    },
 
     mintrigger() {
+      this.minprice = this.parseNum(this.minprice);
       this.minprice = Math.min(this.minprice, this.maxprice - 500);
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Update sliderValue and trigger slider movement if necessary
+      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
       sliderValue = this.minprice;
-      if (sliderAmount) {
-        sliderAmount.value = sliderValue; // Assuming sliderAmount is an input element
-        // Update slider position dynamically using appropriate API (e.g., jQuery UI, NoUiSlider)
-      }
-
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for minthumb movement
     },
 
     maxtrigger() {
+      this.maxprice = this.parseNum(this.maxprice);
       this.maxprice = Math.max(this.maxprice, this.minprice + 500);
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-
-      // Update sliderValue2 and trigger slider movement if necessary
       sliderValue2 = this.maxprice;
-      if (sliderRange) {
-        sliderRange.value = sliderValue2; // Assuming sliderRange is an input element
-        // Update slider position dynamically using appropriate API
-      }
-
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-
-      // Consider adding visual or functional feedback for maxthumb movement
     },
   };
 };
+
+// Expose for Alpine.js x-data
+if (typeof window !== "undefined") {
+  window.range = range;
+}
 
 const adjustDivHeight = () => {
   var div = document.getElementById("options-list");
@@ -962,14 +967,30 @@ function missionaryRange() {
   };
 }
 
-// Add event listener to checkbox input
-document.getElementById('selectSchool').addEventListener('change', function() {
-  // Update selectedSchoolChurch based on the checked state
-  selectedSchoolChurch = this.checked ? 0 : 1;
-  
-  // For testing purposes, you can log the updated value
-  // console.log('selectedSchoolChurch:', selectedSchoolChurch);
+/**
+ * Updates selectedSchoolChurch based on which radio is checked.
+ * School (selectSchool) = 0, Church (selectChurch) = 1.
+ */
+const updateSelectedSchoolChurch = () => {
+  const schoolRadio = document.getElementById('selectSchool');
+  const churchRadio = document.getElementById('selectChurch');
+  if (schoolRadio?.checked) {
+    selectedSchoolChurch = 0;
+  } else if (churchRadio?.checked) {
+    selectedSchoolChurch = 1;
+  }
+};
+
+// Attach change listeners to both School and Church radio buttons
+['selectSchool', 'selectChurch'].forEach((id) => {
+  const el = document.getElementById(id);
+  if (el) {
+    el.addEventListener('change', updateSelectedSchoolChurch);
+  }
 });
+
+// Initialize on load in case one is pre-selected
+updateSelectedSchoolChurch();
 
 // Add event listener to sidebar ul highlighting the active button
 document.querySelector("#sidebar ul").addEventListener("click", function () {
