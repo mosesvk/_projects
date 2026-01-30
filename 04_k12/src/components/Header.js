@@ -248,19 +248,3 @@ sliderInputs.forEach((slider) => {
     });
   }
 });
-
-// Set initial slider input values when DOM is ready (Alpine may have already set formatted values)
-setTimeout(() => {
-  const sliders = [
-    document.getElementById("givingUnitsMin"),
-    document.getElementById("givingUnitsMax"),
-  ];
-  sliders.forEach((slider) => {
-    if (slider) {
-      slider.value =
-        slider.id === "givingUnitsMin"
-          ? (window.sliderValue ?? 0)
-          : (window.sliderValue2 ?? 25000);
-    }
-  });
-}, 150);
