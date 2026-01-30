@@ -719,10 +719,12 @@ function changeThWidth(elementId) {
 }
 
 /**
- * Dual-range slider component for Enrollment Range (min/max enrollment values).
- * Matches Comprehensive slider behavior: number inputs, dynamic z-index, bidirectional sync.
- * Syncs with global sliderValue and sliderValue2 for API queries.
+ * Creates an Alpine.js data object for the Enrollment Range slider (min/max enrollment).
+ * Matches Comprehensive slider behavior: text inputs with formatting, dynamic z-index,
+ * bidirectional sync, and pointer-events for dual-thumb interaction.
+ * Syncs with global window.sliderValue and window.sliderValue2 for API queries.
  * Min gap: 500. Range: 0–25,000.
+ * @returns {Object} Alpine.js data object with minprice, maxprice, thumb positions, and trigger functions
  */
 const range = () => {
   return {
@@ -730,36 +732,57 @@ const range = () => {
     maxprice: 25000,
     min: 0,
     max: 25000,
-    minthumb: 0,
-    maxthumb: 0,
+    minthumb: 1,
+    maxthumb: 1,
 
-    /** Parse value as number, clamp to range. Handles text/number input. */
-    parseNum(val) {
-      const n = parseInt(String(val).replace(/[^0-9-]/g, ""), 10);
-      return isNaN(n) ? this.min : Math.max(this.min, Math.min(this.max, n));
+    /**
+     * Updates the minimum value, recalculates thumb position, and updates the DOM.
+     * @param {boolean} shouldDispatchEvent - Whether to dispatch filtersChanged event
+     * @param {boolean} shouldRound - Whether to round the value to nearest 100 (used for slider input)
+     */
+    mintrigger(shouldDispatchEvent = true, shouldRound = false) {
+      let value = String(this.minprice).replace(/[^\d]/g, '');
+      this.minprice = parseInt(value) || 0;
+      if (shouldRound) {
+        this.minprice = Math.round(this.minprice / 100) * 100;
+      }
+      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      this.minthumb =
+        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+      window.sliderValue = this.minprice;
+      const inputElement = document.getElementById("givingUnitsMin");
+      if (inputElement) {
+        inputElement.value = this.minprice.toLocaleString('en-US');
+        inputElement.dataset.oldValue = String(this.minprice);
+      }
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
 
-    /** When thumbs overlap, max thumb on top for interaction (Comprehensive pattern). */
-    minZIndex() {
-      return this.minprice >= this.maxprice - 500 ? 1 : 3;
-    },
-    maxZIndex() {
-      return this.minprice >= this.maxprice - 500 ? 3 : 1;
-    },
-
-    mintrigger() {
-      this.minprice = this.parseNum(this.minprice);
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);
-      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
-      sliderValue = this.minprice;
-    },
-
-    maxtrigger() {
-      this.maxprice = this.parseNum(this.maxprice);
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
+    /**
+     * Updates the maximum value, recalculates thumb position, and updates the DOM.
+     * @param {boolean} shouldDispatchEvent - Whether to dispatch filtersChanged event
+     * @param {boolean} shouldRound - Whether to round the value to nearest 100 (used for slider input)
+     */
+    maxtrigger(shouldDispatchEvent = true, shouldRound = false) {
+      let value = String(this.maxprice).replace(/[^\d]/g, '');
+      this.maxprice = parseInt(value) || this.max;
+      if (shouldRound) {
+        this.maxprice = Math.round(this.maxprice / 100) * 100;
+      }
+      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
       this.maxthumb =
         100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-      sliderValue2 = this.maxprice;
+      window.sliderValue2 = this.maxprice;
+      const inputElement = document.getElementById("givingUnitsMax");
+      if (inputElement) {
+        inputElement.value = this.maxprice.toLocaleString('en-US');
+        inputElement.dataset.oldValue = String(this.maxprice);
+      }
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
   };
 };
