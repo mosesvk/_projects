@@ -11,19 +11,25 @@ $.get(clientData, apiCallClientDataForUniqueYears)
   .then(async (xml) => {
     recordsClient = await $("record", xml).toArray();
 
-    firmName = recordsClient[0].children[2].textContent;
-    // console.log(recordsClient[0].children);
-    
-    document.querySelector("#firmName").textContent = firmName;
-
-    if (recordsClient.length > 0) {
-      findUniqueYears(recordsClient);
-      dataClient = recordsClient[0].children;
-    } else {
+    if (!recordsClient || recordsClient.length === 0) {
       console.error(
         "No records found from this client for the specific years. Maybe check the spelling of clientrid and not clientRid"
       );
+      const firmNameEl = document.querySelector("#firmName");
+      if (firmNameEl) firmNameEl.textContent = "";
+      return;
     }
+
+    const firstRecord = recordsClient[0];
+    firmName =
+      firstRecord.children && firstRecord.children[2]
+        ? firstRecord.children[2].textContent
+        : "";
+    const firmNameEl = document.querySelector("#firmName");
+    if (firmNameEl) firmNameEl.textContent = firmName;
+
+    findUniqueYears(recordsClient);
+    dataClient = firstRecord.children;
   })
   .catch((err) => console.error(err));
 
