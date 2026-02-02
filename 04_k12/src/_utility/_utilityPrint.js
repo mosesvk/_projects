@@ -123,7 +123,7 @@ const dataArrayObjects = (
 
 /**
  * Global: append metric fields to uploadMainFile (used by Report.js via createFileForPrint).
- * K12 field layout: num = AVG fid, num+1 = MID, num+2 = MIN, num+3 = MAX.
+ * K12 field layout per excelFields.txt: num = AVG, num+1 = MAX, num+2 = MID, num+3 = MIN.
  */
 function uploadToFile(avg, mid, min, max, num, begin, end) {
   if (begin) {
@@ -132,9 +132,9 @@ function uploadToFile(avg, mid, min, max, num, begin, end) {
   }
   uploadMainFile += `<field fid='${num}'>${avg}</field><field fid='${
     num + 1
-  }'>${mid}</field><field fid='${num + 2}'>${min}</field><field fid='${
+  }'>${max}</field><field fid='${num + 2}'>${mid}</field><field fid='${
     num + 3
-  }'>${max}</field>`;
+  }'>${min}</field>`;
 }
 
 /**
@@ -183,12 +183,14 @@ class ExcelReportGenerator {
       COLUMN_LIST: "<clist>186</clist>",
     };
 
-    // K12-specific field IDs
+    // K12-specific field IDs (see docs/quickbase/excelFields.txt)
     this.FIELD_IDS = {
       CLIENT_RID: "186",
       FIRM_NAME: "187",
       TOTAL_RECORDS_PEER: "188",
       YEARS_START: "189",
+      QUERY_ENROLLMENT_MAX: "194",
+      QUERY_ENROLLMENT_MIN: "195",
     };
 
     // XML payload storage
@@ -361,12 +363,20 @@ class ExcelReportGenerator {
       this.xmlPayload += `<field fid='${this.FIELD_IDS.FIRM_NAME}'>${this.escapeXml(firmNameVal)}</field>`;
       this.xmlPayload += `<field fid='${this.FIELD_IDS.TOTAL_RECORDS_PEER}'>${this.escapeXml(uniqueCount)}</field>`;
 
-      // Add years (K12: field IDs 189+)
+      // Add years (K12: field IDs 189–193)
       let yearFieldId = parseInt(this.FIELD_IDS.YEARS_START, 10);
       for (let i = 0; i < selectedYears.length; i++) {
         this.xmlPayload += `<field fid='${yearFieldId}'>${this.escapeXml(selectedYears[i])}</field>`;
         yearFieldId++;
       }
+
+      // Query Enrollment Min/Max (fid 194 = max, 195 = min; from enrollment slider)
+      const enrollmentMin =
+        typeof window.sliderValue !== "undefined" ? window.sliderValue : "";
+      const enrollmentMax =
+        typeof window.sliderValue2 !== "undefined" ? window.sliderValue2 : "";
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_ENROLLMENT_MAX}'>${this.escapeXml(enrollmentMax)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_ENROLLMENT_MIN}'>${this.escapeXml(enrollmentMin)}</field>`;
 
       // Close the XML
       this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
@@ -402,6 +412,55 @@ class ExcelReportGenerator {
    * @returns {Promise} Promise that resolves with the QuickBase response
    */
   printToExcel(dataString) {
+    /**
+     * Generate URL for Trends or Benchmark reports based on year count (K12).
+     * Structure matches comp; tpid/dbid may need to be updated for K12 report templates.
+     * @param {string} reportType - "trends" or "benchmark"
+     * @param {string} format - "xls" or "pdf"
+     * @param {string} RecordId - QuickBase record ID
+     * @returns {string} URL for the report
+     */
+    const getUrlBasedOnYearCount = (reportType, format, RecordId) => {
+      const selectedYears =
+        typeof getSelectedYearsFromLocalStorage === "function"
+          ? getSelectedYearsFromLocalStorage()
+          : (typeof selectedYears_Set !== "undefined" && selectedYears_Set
+              ? Array.from(selectedYears_Set)
+              : []);
+      const yearCount = selectedYears.length;
+
+      let clientName = "";
+      if (typeof firmName !== "undefined" && firmName != null) {
+        clientName =
+          firmName instanceof HTMLElement
+            ? firmName.textContent || ""
+            : String(firmName);
+      } else if (window.firmName) {
+        clientName =
+          window.firmName instanceof HTMLElement
+            ? window.firmName.textContent || ""
+            : String(window.firmName);
+      }
+
+      let tpid = "";
+      const reportSuffix =
+        reportType === "trends" ? "Trends Report" : "Benchmark Report";
+      const fnName = clientName
+        ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+        : reportSuffix;
+
+      if (reportType === "trends") {
+        const map = { 1: "5", 2: "4", 3: "6", 4: "7", 5: "8" };
+        tpid = map[yearCount] || "";
+      } else if (reportType === "benchmark") {
+        const map = { 1: "9", 2: "10", 3: "11", 4: "12", 5: "13" };
+        tpid = map[yearCount] || "";
+      }
+      if (!tpid) return "";
+
+      return `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=${tpid}&fn=${fnName}&dbid=bt3q4xqn5&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+    };
+
     return new Promise((resolve, reject) => {
       try {
         localStorage.setItem("lastXmlPayload", dataString);
@@ -447,6 +506,40 @@ class ExcelReportGenerator {
                   document.getElementById("print_modal_footer");
                 if (printModalFooter) {
                   printModalFooter.classList.remove("hidden");
+                }
+
+                const trendXLSFinal = document.getElementById("trendXLSFinal");
+                if (trendXLSFinal) {
+                  trendXLSFinal.href = getUrlBasedOnYearCount(
+                    "trends",
+                    "xls",
+                    recordId
+                  );
+                }
+                const trendPDFFinal = document.getElementById("trendPDFFinal");
+                if (trendPDFFinal) {
+                  trendPDFFinal.href = getUrlBasedOnYearCount(
+                    "trends",
+                    "pdf",
+                    recordId
+                  );
+                }
+                const benchXLSFinal = document.getElementById("benchXLSFinal");
+                if (benchXLSFinal) {
+                  benchXLSFinal.href = getUrlBasedOnYearCount(
+                    "benchmark",
+                    "xls",
+                    recordId
+                  );
+                }
+                const benchPDFFinal =
+                  document.getElementById("benchPDFFinal");
+                if (benchPDFFinal) {
+                  benchPDFFinal.href = getUrlBasedOnYearCount(
+                    "benchmark",
+                    "pdf",
+                    recordId
+                  );
                 }
 
                 resolve({ recordId });

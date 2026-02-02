@@ -1,0 +1,195 @@
+	 Date Created	Date / Time	 	1	 
+	 Date Modified 	Date / Time	 	2	 
+	 Record ID# 	Numeric	 	3	 
+	 Record Owner	User	 	4	 
+	 Last Modified By	User	 	5	 
+	 01  - Students Enrollment - AVG	Numeric	 	6	 
+	 01  - Students Enrollment - MAX	Numeric	 	7	 
+	 01  - Students Enrollment - MID	Numeric	 	8	 
+	 01  - Students Enrollment - MIN	Numeric	 	9	 
+	 01C  - Students Enrollment Peak Enrolmment - AVG	Numeric	 	10	 
+	 01C  - Students Enrollment Peak Enrolmment - MAX	Numeric	 	11	 
+	 01C  - Students Enrollment Peak Enrolmment - MID	Numeric	 	12	 
+	 01C  - Students Enrollment Peak Enrolmment - MIN	Numeric	 	13	 
+	 02  - Student Faculty Ratio - AVG	Numeric	 	14	 
+	 02  - Student Faculty Ratio - MAX	Numeric	 	15	 
+	 02  - Student Faculty Ratio - MID	Numeric	 	16	 
+	 02  - Student Faculty Ratio - MIN	Numeric	 	17	 
+	 03  - Expendable Reserves - In Days - AVG	Numeric	 	18	 
+	 03  - Expendable Reserves - In Days - MAX	Numeric	 	19	 
+	 03  - Expendable Reserves - In Days - MID	Numeric	 	20	 
+	 03  - Expendable Reserves - In Days - MIN	Numeric	 	21	 
+	 04  - Expendable Reserves -  % of total cash expenses - AVG	Numeric	 	22	 
+	 04  - Expendable Reserves -  % of total cash expenses - MAX	Numeric	 	23	 
+	 04  - Expendable Reserves -  % of total cash expenses - MID	Numeric	 	24	 
+	 04  - Expendable Reserves -  % of total cash expenses - MIN	Numeric	 	25	 
+	 05  - Cash available to Deferred Revenues - AVG	Numeric	 	26	 
+	 05  - Cash available to Deferred Revenues - MAX	Numeric	 	27	 
+	 05  - Cash available to Deferred Revenues - MID	Numeric	 	28	 
+	 05  - Cash available to Deferred Revenues - MIN	Numeric	 	29	 
+	 05.1  - Days Cash on Hand - AVG	Numeric	 	30	 
+	 05.1  - Days Cash on Hand - MAX	Numeric	 	31	 
+	 05.1  - Days Cash on Hand - MID	Numeric	 	32	 
+	 05.1  - Days Cash on Hand - MIN	Numeric	 	33	 
+	 06  - Liquidity Ratio - AVG	Numeric	 	34	 
+	 06  - Liquidity Ratio - MAX	Numeric	 	35	 
+	 06  - Liquidity Ratio - MID	Numeric	 	36	 
+	 06  - Liquidity Ratio - MIN	Numeric	 	37	 
+	 07a  - As per statement of cash flows - AVG	Numeric	 	38	 
+	 07a  - As per statement of cash flows - MAX	Numeric	 	39	 
+	 07a  - As per statement of cash flows - MID	Numeric	 	40	 
+	 07a  - As per statement of cash flows - MIN	Numeric	 	41	 
+	 07b  - Total Depreciation - AVG	Numeric	 	42	 
+	 07b  - Total Depreciation - MAX	Numeric	 	43	 
+	 07b  - Total Depreciation - MID	Numeric	 	44	 
+	 07b  - Total Depreciation - MIN	Numeric	 	45	 
+	 08  - Property and equipment per student excluding land - AVG	Numeric	 	46	 
+	 08  - Property and equipment per student excluding land - MAX	Numeric	 	47	 
+	 08  - Property and equipment per student excluding land - MID	Numeric	 	48	 
+	 08  - Property and equipment per student excluding land - MIN	Numeric	 	49	 
+	 09  - Net Tuition A/R as a % of Current Assets - AVG	Numeric	 	50	 
+	 09  - Net Tuition A/R as a % of Current Assets - MAX	Numeric	 	51	 
+	 09  - Net Tuition A/R as a % of Current Assets - MID	Numeric	 	52	 
+	 09  - Net Tuition A/R as a % of Current Assets - MIN	Numeric	 	53	 
+	 10  - Receivable write offs as a % of Net Tuition and Fees - AVG	Numeric	 	54	 
+	 10  - Receivable write offs as a % of Net Tuition and Fees - MAX	Numeric	 	55	 
+	 10  - Receivable write offs as a % of Net Tuition and Fees - MID	Numeric	 	56	 
+	 10  - Receivable write offs as a % of Net Tuition and Fees - MIN	Numeric	 	57	 
+	 11  - Debt to Property and Equipment - AVG	Numeric	 	58	 
+	 11  - Debt to Property and Equipment - MAX	Numeric	 	59	 
+	 11  - Debt to Property and Equipment - MID	Numeric	 	60	 
+	 11  - Debt to Property and Equipment - MIN	Numeric	 	61	 
+	 11.1  - Debt to Net Assets - AVG	Numeric	 	62	 
+	 11.1  - Debt to Net Assets - MAX	Numeric	 	63	 
+	 11.1  - Debt to Net Assets - MID	Numeric	 	64	 
+	 11.1  - Debt to Net Assets - MIN	Numeric	 	65	 
+	 12  - Current Ratio - AVG	Numeric	 	66	 
+	 12  - Current Ratio - MAX	Numeric	 	67	 
+	 12  - Current Ratio - MID	Numeric	 	68	 
+	 12  - Current Ratio - MIN	Numeric	 	69	 
+	 13  - Current Liabilities to Available Net Assets - AVG	Numeric	 	70	 
+	 13  - Current Liabilities to Available Net Assets - MAX	Numeric	 	71	 
+	 13  - Current Liabilities to Available Net Assets - MID	Numeric	 	72	 
+	 13  - Current Liabilities to Available Net Assets - MIN	Numeric	 	73	 
+	 14  - Debt per students - AVG	Numeric	 	74	 
+	 14  - Debt per students - MAX	Numeric	 	75	 
+	 14  - Debt per students - MID	Numeric	 	76	 
+	 14  - Debt per students - MIN	Numeric	 	77	 
+	 15  - Debt Coverage - AVG	Numeric	 	78	 
+	 15  - Debt Coverage - MAX	Numeric	 	79	 
+	 15  - Debt Coverage - MID	Numeric	 	80	 
+	 15  - Debt Coverage - MIN	Numeric	 	81	 
+	 16  - Net Income Ratio - AVG	Numeric	 	82	 
+	 16  - Net Income Ratio - MAX	Numeric	 	83	 
+	 16  - Net Income Ratio - MID	Numeric	 	84	 
+	 16  - Net Income Ratio - MIN	Numeric	 	85	 
+	 17  - Net Income Excluding Depreciation - AVG	Numeric	 	86	 
+	 17  - Net Income Excluding Depreciation - MAX	Numeric	 	87	 
+	 17  - Net Income Excluding Depreciation - MID	Numeric	 	88	 
+	 17  - Net Income Excluding Depreciation - MIN	Numeric	 	89	 
+	 19  - Financial Assistance as a % of Tuition and Fees - AVG	Numeric	 	90	 
+	 19  - Financial Assistance as a % of Tuition and Fees - MAX	Numeric	 	91	 
+	 19  - Financial Assistance as a % of Tuition and Fees - MID	Numeric	 	92	 
+	 19  - Financial Assistance as a % of Tuition and Fees - MIN	Numeric	 	93	 
+	 20  - Tuition and Fees as a % of Total Income - AVG	Numeric	 	94	 
+	 20  - Tuition and Fees as a % of Total Income - MAX	Numeric	 	95	 
+	 20  - Tuition and Fees as a % of Total Income - MID	Numeric	 	96	 
+	 20  - Tuition and Fees as a % of Total Income - MIN	Numeric	 	97	 
+	 21  - Contributions as a % of Total Income - AVG	Numeric	 	98	 
+	 21  - Contributions as a % of Total Income - MAX	Numeric	 	99	 
+	 21  - Contributions as a % of Total Income - MID	Numeric	 	100	 
+	 21  - Contributions as a % of Total Income - MIN	Numeric	 	101	 
+	 22a1  - Gross Tuition - AVG	Numeric	 	102	 
+	 22a1  - Gross Tuition - MAX	Numeric	 	103	 
+	 22a1  - Gross Tuition - MID	Numeric	 	104	 
+	 22a1  - Gross Tuition - MIN	Numeric	 	105	 
+	 22d1  - Total Financial Assistance - AVG	Numeric	 	106	 
+	 22d1  - Total Financial Assistance - MAX	Numeric	 	107	 
+	 22d1  - Total Financial Assistance - MID	Numeric	 	108	 
+	 22d1  - Total Financial Assistance - MIN	Numeric	 	109	 
+	 22e1  - Net Tuition - AVG	Numeric	 	110	 
+	 22e1  - Net Tuition - MAX	Numeric	 	111	 
+	 22e1  - Net Tuition - MID	Numeric	 	112	 
+	 22e1  - Net Tuition - MIN	Numeric	 	113	 
+	 23  - Fees as a percent of net tuition - AVG	Numeric	 	114	 
+	 23  - Fees as a percent of net tuition - MAX	Numeric	 	115	 
+	 23  - Fees as a percent of net tuition - MID	Numeric	 	116	 
+	 23  - Fees as a percent of net tuition - MIN	Numeric	 	117	 
+	 24a  - Salaries as % of net tuition - AVG	Numeric	 	118	 
+	 24a  - Salaries as % of net tuition - MAX	Numeric	 	119	 
+	 24a  - Salaries as % of net tuition - MID	Numeric	 	120	 
+	 24a  - Salaries as % of net tuition - MIN	Numeric	 	121	 
+	 24b  - Benefits as % of net tuition - AVG	Numeric	 	122	 
+	 24b  - Benefits as % of net tuition - MAX	Numeric	 	123	 
+	 24b  - Benefits as % of net tuition - MID	Numeric	 	124	 
+	 24b  - Benefits as % of net tuition - MIN	Numeric	 	125	 
+	 24c  - Salaries Benefits as % of net tuition - AVG	Numeric	 	126	 
+	 24c  - Salaries Benefits as % of net tuition - MAX	Numeric	 	127	 
+	 24c  - Salaries Benefits as % of net tuition - MID	Numeric	 	128	 
+	 24c  - Salaries Benefits as % of net tuition - MIN	Numeric	 	129	 
+	 25a  - Salaries per students - AVG	Numeric	 	130	 
+	 25a  - Salaries per students - MAX	Numeric	 	131	 
+	 25a  - Salaries per students - MID	Numeric	 	132	 
+	 25a  - Salaries per students - MIN	Numeric	 	133	 
+	 25b  - Benefits per students - AVG	Numeric	 	134	 
+	 25b  - Benefits per students - MAX	Numeric	 	135	 
+	 25b  - Benefits per students - MID	Numeric	 	136	 
+	 25b  - Benefits per students - MIN	Numeric	 	137	 
+	 25c  - Salaries and benefits per students - AVG	Numeric	 	138	 
+	 25c  - Salaries and benefits per students - MAX	Numeric	 	139	 
+	 25c  - Salaries and benefits per students - MID	Numeric	 	140	 
+	 25c  - Salaries and benefits per students - MIN	Numeric	 	141	 
+	 27a1  - Teachers Salaries and benefits per Total Expenses - AVG	Numeric	 	142	 
+	 27a1  - Teachers Salaries and benefits per Total Expenses - MAX	Numeric	 	143	 
+	 27a1  - Teachers Salaries and benefits per Total Expenses - MID	Numeric	 	144	 
+	 27a1  - Teachers Salaries and benefits per Total Expenses - MIN	Numeric	 	145	 
+	 27a2  - Admin Salaries and benefits per Total Expenses - AVG	Numeric	 	146	 
+	 27a2  - Admin Salaries and benefits per Total Expenses - MAX	Numeric	 	147	 
+	 27a2  - Admin Salaries and benefits per Total Expenses - MID	Numeric	 	148	 
+	 27a2  - Admin Salaries and benefits per Total Expenses - MIN	Numeric	 	149	 
+	 27a3  - All Salaries and benefits per Total Expenses - AVG	Numeric	 	150	 
+	 27a3  - All Salaries and benefits per Total Expenses - MAX	Numeric	 	151	 
+	 27a3  - All Salaries and benefits per Total Expenses - MID	Numeric	 	152	 
+	 27a3  - All Salaries and benefits per Total Expenses - MIN	Numeric	 	153	 
+	 27b  -  Mandatory debt service payments including interest per Total Expenses - AVG	Numeric	 	154	 
+	 27b  -  Mandatory debt service payments including interest per Total Expenses - MAX	Numeric	 	155	 
+	 27b  -  Mandatory debt service payments including interest per Total Expenses - MID	Numeric	 	156	 
+	 27b  -  Mandatory debt service payments including interest per Total Expenses - MIN	Numeric	 	157	 
+	 27c  -  Personnel and mandatory debt service payments per Total Expenses - AVG	Numeric	 	158	 
+	 27c  -  Personnel and mandatory debt service payments per Total Expenses - MAX	Numeric	 	159	 
+	 27c  -  Personnel and mandatory debt service payments per Total Expenses - MID	Numeric	 	160	 
+	 27c  -  Personnel and mandatory debt service payments per Total Expenses - MIN	Numeric	 	161	 
+	 28  - Percent  of fund raising expenses exceeding or less than funds raised - AVG	Numeric	 	162	 
+	 28  - Percent  of fund raising expenses exceeding or less than funds raised - MAX	Numeric	 	163	 
+	 28  - Percent  of fund raising expenses exceeding or less than funds raised - MID	Numeric	 	164	 
+	 28  - Percent  of fund raising expenses exceeding or less than funds raised - MIN	Numeric	 	165	 
+	 29a  - Funds raised - AVG	Numeric	 	166	 
+	 29a  - Funds raised - MAX	Numeric	 	167	 
+	 29a  - Funds raised - MID	Numeric	 	168	 
+	 29a  - Funds raised - MIN	Numeric	 	169	 
+	 29b  - Cash expenses - AVG	Numeric	 	170	 
+	 29b  - Cash expenses - MAX	Numeric	 	171	 
+	 29b  - Cash expenses - MID	Numeric	 	172	 
+	 29b  - Cash expenses - MIN	Numeric	 	173	 
+	 29c  - Net tuition - AVG	Numeric	 	174	 
+	 29c  - Net tuition - MAX	Numeric	 	175	 
+	 29c  - Net tuition - MID	Numeric	 	176	 
+	 29c  - Net tuition - MIN	Numeric	 	177	 
+	 29d  - Cash expenses in excess of or less than net tuition - AVG	Numeric	 	178	 
+	 29d  - Cash expenses in excess of or less than net tuition - MAX	Numeric	 	179	 
+	 29d  - Cash expenses in excess of or less than net tuition - MID	Numeric	 	180	 
+	 29d  - Cash expenses in excess of or less than net tuition - MIN	Numeric	 	181	 
+	 29e  - Funds raised over under to cover cash expenses overage or deficit - AVG	Numeric	 	182	 
+	 29e  - Funds raised over under to cover cash expenses overage or deficit - MAX	Numeric	 	183	 
+	 29e  - Funds raised over under to cover cash expenses overage or deficit - MID	Numeric	 	184	 
+	 29e  - Funds raised over under to cover cash expenses overage or deficit - MIN	Numeric	 	185	 
+	  00 Client ID	Numeric	 	186	 
+	  00 Client Name	Text	 	187	 
+	  00 Records Returned	Text	 	188	 
+	  00 Year 1	Numeric	 	189	 
+	  00 Year 2	Numeric	 	190	 
+	  00 Year 3	Numeric	 	191	 
+	  00 Year 4	Numeric	 	192	 
+	  00 Year 5	Numeric	 	193	 
+	  Query Enrollment Max	Numeric	 	194	 
+	  Query Enrollment Min	Numeric	 	195
