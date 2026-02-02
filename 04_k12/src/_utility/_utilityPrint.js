@@ -1,7 +1,7 @@
 /**
- * K12 Excel Report Integration (structure matches 05_cfhi_comp / 06_cfhi_standard printExcel.js)
- * Handles XML generation and QuickBase API integration for enrollment/report data.
- * K12-specific: URLs, clist, and field IDs (186, 187, 188, 189+) are preserved.
+ * Simplified Excel Report Integration (structure/outline matches 05_cfhi_comp printExcel.js)
+ * Handles XML generation and QuickBase API integration.
+ * K12-specific: table id bt3q4xqn5, clist 186, field IDs 186–189+, and read-only exclusions.
  */
 
 // ----- Global state used by Report.js and api.js (do not remove) -----
@@ -169,13 +169,14 @@ createFileForPrint = (
 
 class ExcelReportGenerator {
   constructor() {
-    // API constants (K12-specific URLs)
+    // API Constants (K12: table id bt3q4xqn5)
     this.API = {
       APP_TOKEN: "bpat4pgu9t69yby5gbemdbej52j",
       UPLOAD_URL:
-        "https://capincrouse.quickbase.com/db/bt76haf6m?a=API_AddRecord",
+        "https://capincrouse.quickbase.com/db/bt3q4xqn5?a=API_AddRecord",
     };
 
+    // XML Template Strings (K12: clist 186)
     this.XML = {
       HEADER: `<?xml version="1.0" ?><qdbapi><apptoken>${this.API.APP_TOKEN}</apptoken>`,
       FOOTER: "</qdbapi>",
@@ -190,14 +191,14 @@ class ExcelReportGenerator {
       YEARS_START: "189",
     };
 
+    // XML payload storage
     this.xmlPayload = "";
     this.isGenerating = false;
     this.init();
   }
 
   /**
-   * Initialize: attach single click handler to generateReports (no duplicates).
-   * Matches comp/standard init().
+   * Initialize the Excel report generator
    */
   init() {
     const generateReportsBtn = document.getElementById("generateReports");
@@ -212,7 +213,7 @@ class ExcelReportGenerator {
   }
 
   /**
-   * Clean up Excel report generator data and reset state (matches comp/standard).
+   * Clean up Excel report generator data and reset state
    */
   cleanup() {
     this.xmlPayload = "";
@@ -237,10 +238,11 @@ class ExcelReportGenerator {
   }
 
   /**
-   * Handle generate report button click (matches comp/standard flow).
+   * Handle generate report button click
    */
   handleGenerateReport() {
     if (this.isGenerating) {
+      console.warn("Generation already in progress, ignoring duplicate call");
       return;
     }
     this.isGenerating = true;
@@ -300,7 +302,7 @@ class ExcelReportGenerator {
   }
 
   /**
-   * Escape XML special characters (matches comp/standard).
+   * Escape XML special characters to prevent malformed XML
    */
   escapeXml(unsafe) {
     if (unsafe === undefined || unsafe === null) return "";
@@ -313,112 +315,191 @@ class ExcelReportGenerator {
   }
 
   /**
-   * Build full XML from uploadMainFile (metrics from Report.js) + client/years + clist/footer.
-   * Returns a Promise that resolves when QuickBase request completes.
+   * Generate Excel report with all data (metrics from Report.js + client/years; K12 flow).
+   * @returns {Promise} Resolves when QuickBase request completes
    */
   async createPrintExcel() {
-    const ClientRid =
-      window.ClientRid ||
-      (typeof getQueryVariable !== "undefined"
-        ? getQueryVariable("clientrid")
-        : "") ||
-      "";
-    let firmNameVal = "";
-    if (typeof firmName !== "undefined" && firmName != null) {
-      firmNameVal =
-        firmName instanceof HTMLElement
-          ? firmName.textContent || ""
-          : String(firmName);
-    } else if (window.firmName) {
-      firmNameVal =
-        window.firmName instanceof HTMLElement
-          ? window.firmName.textContent || ""
-          : String(window.firmName);
+    this.xmlPayload = "";
+
+    try {
+      // Get client data (K12: ClientRid, firmName, uniqueClients, selectedYears)
+      const ClientRid =
+        window.ClientRid ||
+        (typeof getQueryVariable !== "undefined"
+          ? getQueryVariable("clientrid")
+          : "") ||
+        "";
+      let firmNameVal = "";
+      if (typeof firmName !== "undefined" && firmName != null) {
+        firmNameVal =
+          firmName instanceof HTMLElement
+            ? firmName.textContent || ""
+            : String(firmName);
+      } else if (window.firmName) {
+        firmNameVal =
+          window.firmName instanceof HTMLElement
+            ? window.firmName.textContent || ""
+            : String(window.firmName);
+      }
+      const uniqueCount =
+        (typeof uniqueClients !== "undefined" && uniqueClients && uniqueClients.size) ||
+        (window.uniqueClients && window.uniqueClients.size) ||
+        0;
+
+      const selectedYears =
+        typeof getSelectedYearsFromLocalStorage === "function"
+          ? getSelectedYearsFromLocalStorage()
+          : (typeof selectedYears_Set !== "undefined" && selectedYears_Set
+              ? Array.from(selectedYears_Set).sort()
+              : []);
+
+      // Start with metrics XML from Report.js (uploadMainFile), then add client/years
+      this.xmlPayload = uploadMainFile;
+
+      // Add client data with direct field additions (K12 field IDs 186, 187, 188)
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_RID}'>${this.escapeXml(ClientRid)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.FIRM_NAME}'>${this.escapeXml(firmNameVal)}</field>`;
+      this.xmlPayload += `<field fid='${this.FIELD_IDS.TOTAL_RECORDS_PEER}'>${this.escapeXml(uniqueCount)}</field>`;
+
+      // Add years (K12: field IDs 189+)
+      let yearFieldId = parseInt(this.FIELD_IDS.YEARS_START, 10);
+      for (let i = 0; i < selectedYears.length; i++) {
+        this.xmlPayload += `<field fid='${yearFieldId}'>${this.escapeXml(selectedYears[i])}</field>`;
+        yearFieldId++;
+      }
+
+      // Close the XML
+      this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
+
+      // Read-only QuickBase fields (K12: omit to avoid API_AddRecord error 34)
+      const readOnlyFieldIds = [
+        "172", "173", "174", "175", "190",
+      ];
+      readOnlyFieldIds.forEach((fid) => {
+        this.xmlPayload = this.xmlPayload.replace(
+          new RegExp(`<field fid='${fid}'>[\\s\\S]*?<\\/field>`, "g"),
+          ""
+        );
+      });
+
+      // Send to QuickBase with delay (matches comp)
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          this.printToExcel(this.xmlPayload)
+            .then(resolve)
+            .catch(reject);
+        }, 1500);
+      });
+    } catch (error) {
+      console.error("Error creating Excel report:", error);
+      throw error;
     }
-    const uniqueCount =
-      (typeof uniqueClients !== "undefined" && uniqueClients && uniqueClients.size) ||
-      (window.uniqueClients && window.uniqueClients.size) ||
-      0;
-
-    const selectedYears =
-      typeof getSelectedYearsFromLocalStorage === "function"
-        ? getSelectedYearsFromLocalStorage()
-        : (typeof selectedYears_Set !== "undefined" && selectedYears_Set
-            ? Array.from(selectedYears_Set).sort()
-            : []);
-
-    this.xmlPayload = uploadMainFile;
-
-    this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_RID}'>${this.escapeXml(ClientRid)}</field>`;
-    this.xmlPayload += `<field fid='${this.FIELD_IDS.FIRM_NAME}'>${this.escapeXml(firmNameVal)}</field>`;
-    this.xmlPayload += `<field fid='${this.FIELD_IDS.TOTAL_RECORDS_PEER}'>${this.escapeXml(uniqueCount)}</field>`;
-
-    let yearFieldId = parseInt(this.FIELD_IDS.YEARS_START, 10);
-    for (let i = 0; i < selectedYears.length; i++) {
-      this.xmlPayload += `<field fid='${yearFieldId}'>${this.escapeXml(selectedYears[i])}</field>`;
-      yearFieldId++;
-    }
-
-    this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
-
-    // Field 172 ("00 Print URL Trends XLS") is read-only in QuickBase; omit it from payload to avoid API_AddRecord error 34
-    this.xmlPayload = this.xmlPayload.replace(
-      /<field fid='172'>[\s\S]*?<\/field>/g,
-      ""
-    );
-
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        this.printToExcel(this.xmlPayload)
-          .then(resolve)
-          .catch(reject);
-      }, 1500);
-    });
   }
 
   /**
-   * Send XML to QuickBase (K12 URL). Returns a Promise.
+   * Send XML data to QuickBase with added delay (structure matches comp)
+   * @param {string} dataString - XML payload to send
+   * @returns {Promise} Promise that resolves with the QuickBase response
    */
   printToExcel(dataString) {
     return new Promise((resolve, reject) => {
-      $.ajax({
-        type: "POST",
-        contentType: "text/xml",
-        async: true,
-        url: this.API.UPLOAD_URL,
-        dataType: "xml",
-        processData: false,
-        data: dataString,
-        success: (response) => {
-          const xmlUpload = $(response);
-          const errcode = xmlUpload.find("qdbapi").find("errcode").text();
+      try {
+        localStorage.setItem("lastXmlPayload", dataString);
+      } catch (e) {
+        console.warn("Could not save XML payload to localStorage:", e);
+      }
 
-          if (errcode === "0") {
-            if (typeof createToastSuccess === "function") {
-              createToastSuccess("Generated Reports successfully to Quickbase.");
+      try {
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(dataString, "text/xml");
+        const parseError = xmlDoc.querySelector("parsererror");
+        if (parseError) {
+          console.error("XML validation failed:", parseError.textContent);
+        }
+      } catch (validationError) {
+        console.error("Error validating XML:", validationError);
+      }
+
+      setTimeout(() => {
+        $.ajax({
+          type: "POST",
+          contentType: "text/xml",
+          async: true,
+          url: this.API.UPLOAD_URL,
+          dataType: "xml",
+          processData: false,
+          data: dataString,
+          success: (response) => {
+            try {
+              const xmlUpload = $(response);
+              const errorCode = xmlUpload.find("qdbapi").find("errcode").text();
+
+              if (errorCode === "0") {
+                const recordId = xmlUpload.find("qdbapi").find("rid").text();
+
+                if (typeof createToastSuccess === "function") {
+                  createToastSuccess(
+                    "Generated Reports successfully to Quickbase."
+                  );
+                }
+
+                const printModalFooter =
+                  document.getElementById("print_modal_footer");
+                if (printModalFooter) {
+                  printModalFooter.classList.remove("hidden");
+                }
+
+                resolve({ recordId });
+              } else {
+                const errorText =
+                  xmlUpload.find("qdbapi").find("errtext").text() ||
+                  "Unknown QuickBase error";
+                const error = new Error(
+                  `QuickBase error (${errorCode}): ${errorText}`
+                );
+
+                if (typeof createToastWarning === "function") {
+                  createToastWarning(error.message);
+                }
+
+                reject(error);
+              }
+            } catch (parseError) {
+              if (typeof createToastWarning === "function") {
+                createToastWarning(
+                  `Failed to parse QuickBase response: ${parseError.message}`
+                );
+              }
+              reject(
+                new Error(
+                  `Failed to parse QuickBase response: ${parseError.message}`
+                )
+              );
             }
-            const footer = document.getElementById("print_modal_footer");
-            if (footer) footer.classList.remove("hidden");
-            resolve();
-          } else {
-            const errtext =
-              xmlUpload.find("qdbapi").find("errtext").text() ||
-              "Unknown QuickBase error";
+          },
+          error: (xhr, status, error) => {
+            let errorMessage = "Unknown error";
+
+            if (xhr && xhr.responseText) {
+              try {
+                const $errorXml = $(xhr.responseText);
+                errorMessage =
+                  $errorXml.find("errtext").text() || error || status;
+              } catch (e) {
+                errorMessage = xhr.responseText || error || status;
+              }
+            } else {
+              errorMessage = error || status;
+            }
+
             if (typeof createToastWarning === "function") {
-              createToastWarning(`Quickbase returned an error: ${errtext}`);
+              createToastWarning(`QuickBase API error: ${errorMessage}`);
             }
-            reject(new Error(errtext));
-          }
-        },
-        error: (xhr, status, err) => {
-          const msg =
-            (xhr && xhr.responseText) || err || status || "Unknown error";
-          if (typeof createToastWarning === "function") {
-            createToastWarning(`Quickbase returned an error: ${msg}`);
-          }
-          reject(new Error(msg));
-        },
-      });
+
+            reject(new Error(`QuickBase API error: ${errorMessage}`));
+          },
+        });
+      }, 1000);
     });
   }
 }
