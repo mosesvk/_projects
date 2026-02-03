@@ -52,7 +52,25 @@ if (sidebar) {
       });
       tabContents[index].classList.remove("hidden");
       activateButton(index);
-      // Removed handleSidebarButtonClick() from here
+
+      // Scroll to top when switching tabs (smooth scroll) - same pattern as comp/stand
+      const scrollToTop = () => {
+        if (mainContent) {
+          mainContent.scrollTo({
+            top: 0,
+            behavior: "smooth",
+          });
+        }
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: "smooth",
+        });
+      };
+      scrollToTop();
+      requestAnimationFrame(() => {
+        setTimeout(scrollToTop, 50);
+      });
     });
   });
 

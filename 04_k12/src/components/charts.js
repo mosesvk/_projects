@@ -28,13 +28,19 @@ const getMainChartOptions = (
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
+  /** Use only years that exist in peer data so chart data and categories stay in sync and we avoid undefined data errors. */
+  const yearsToShow =
+    Array.isArray(selectedYearsArray) && dataPeer
+      ? selectedYearsArray.filter((year) => dataPeer[year])
+      : [];
+
   const formatNumber = (value) => value.toLocaleString();
 
   // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
   ({ clientArray, peerAvg, peerMid, peer25, peer75 } =
     getPeerAndClientChartDataArrays(
-      selectedYearsArray,
+      yearsToShow,
       dataPeer,
       dataClient,
       fixedNum
@@ -154,7 +160,7 @@ const getMainChartOptions = (
       offsetX: 110,
     },
     xaxis: {
-      categories: selectedYearsArray,
+      categories: yearsToShow,
       labels: {
         style: {
           colors: chartColors.labelColor,

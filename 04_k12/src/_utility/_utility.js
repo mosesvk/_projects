@@ -99,8 +99,12 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum, name) => {
 };
 
 function updateModal(mainName, avgData, clientData) {
-  // Get the selected years from local storage
+  // Get the selected years from local storage; show only years that exist in peer data
   const selectedYears = getSelectedYearsFromLocalStorage();
+  const yearsToShow =
+    Array.isArray(selectedYears) && avgData
+      ? selectedYears.filter((year) => avgData[year])
+      : [];
 
   // Find the modal element
   const modal = document.getElementById(`${mainName}_modal`);
@@ -149,8 +153,8 @@ function updateModal(mainName, avgData, clientData) {
       headerRow.appendChild(col);
     });
 
-    // Add a row for each selected year
-    selectedYears.forEach((year) => {
+    // Add a row for each year that has peer data
+    yearsToShow.forEach((year) => {
       const yearRow = document.createElement("tr");
       yearRow.className =
         "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
@@ -497,37 +501,30 @@ const getPeerAndClientChartDataArrays = (
   const peer75 = [];
   const clientArray = [];
 
-  years.forEach((year) => {
-    if (dataPeer && dataPeer[year]) {
-      const array = dataPeer[year];
-      const avg = parseFloat(getAverageOfArray(array));
-      const mid = parseFloat(getMidpointOfArray(array));
-      const lower25 = parseFloat(get25thPercentileOfArray(array));
-      const higher75 = parseFloat(get75thPercentileOfArray(array));
+  /** Only iterate over years that exist in peer data to avoid undefined errors when selected years and stored data are out of sync. */
+  const yearsWithPeerData =
+    Array.isArray(years) && dataPeer
+      ? years.filter((year) => dataPeer[year])
+      : [];
 
-      peerAvg.push(avg.toFixed(fixedNum));
-      peerMid.push(mid.toFixed(fixedNum));
-      peer25.push(lower25.toFixed(fixedNum));
-      peer75.push(higher75.toFixed(fixedNum));
-      
-      // if (lower25 == 0.000) console.log({ avg, mid, lower25, higher75 });
+  yearsWithPeerData.forEach((year) => {
+    const array = dataPeer[year];
+    const avg = parseFloat(getAverageOfArray(array));
+    const mid = parseFloat(getMidpointOfArray(array));
+    const lower25 = parseFloat(get25thPercentileOfArray(array));
+    const higher75 = parseFloat(get75thPercentileOfArray(array));
 
-      if (dataClient && dataClient[year] && dataClient[year].value !== undefined && dataClient[year].value !== null) {
-        const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
-        clientArray.push(clientNum);
-      } else {
-        // Use 0 as default if client data is missing for this year
-        clientArray.push("0");
-        console.warn(`Client data for year ${year} is undefined or missing value`);
-      }
+    peerAvg.push(avg.toFixed(fixedNum));
+    peerMid.push(mid.toFixed(fixedNum));
+    peer25.push(lower25.toFixed(fixedNum));
+    peer75.push(higher75.toFixed(fixedNum));
+
+    if (dataClient && dataClient[year] && dataClient[year].value !== undefined && dataClient[year].value !== null) {
+      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
+      clientArray.push(clientNum);
     } else {
-      console.error(`Data for year ${year} is undefined in dataPeer`);
-      // Push placeholder values to maintain array length
-      peerAvg.push("0");
-      peerMid.push("0");
-      peer25.push("0");
-      peer75.push("0");
       clientArray.push("0");
+      console.warn(`Client data for year ${year} is undefined or missing value`);
     }
   });
 
