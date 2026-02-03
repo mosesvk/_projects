@@ -18,7 +18,7 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(cashData, selectedYears, [
-      ['expendableReserves_inDays', 'num', 0, 'wa', 'cb', 16, null, null],
+      ['expendableReserves_inDays', 'num', 0, 'wa', 'cb', 18, null, null],
       ['expendableReserves_Percent', 'percent', 0, 'wa', 'cb', 22, null, null],
       ['daysCashOnHand', 'num', 0, 'wa',  null, 30, null, null],
       ['cashAvailableDeferred', 'num', 2, 'wa', null, 26, null, null],

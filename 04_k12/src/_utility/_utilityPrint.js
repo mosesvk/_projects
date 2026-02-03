@@ -378,13 +378,23 @@ class ExcelReportGenerator {
       this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_ENROLLMENT_MAX}'>${this.escapeXml(enrollmentMax)}</field>`;
       this.xmlPayload += `<field fid='${this.FIELD_IDS.QUERY_ENROLLMENT_MIN}'>${this.escapeXml(enrollmentMin)}</field>`;
 
-      // Close the XML
-      this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
-
-      // Read-only QuickBase fields (K12: omit to avoid API_AddRecord error 34)
+      // Ensure every field 6–195 from excelFields.txt is present (comp pattern: template expects all columns).
+      // Missing fields are appended empty so ExcelGen_UA / QuickBase record has all columns.
       const readOnlyFieldIds = [
         "172", "173", "174", "175", "190",
       ];
+      for (let fid = 6; fid <= 195; fid++) {
+        const fidStr = String(fid);
+        if (readOnlyFieldIds.includes(fidStr)) continue;
+        if (!this.xmlPayload.includes(`fid='${fidStr}'`)) {
+          this.xmlPayload += `<field fid='${fidStr}'></field>`;
+        }
+      }
+
+      // Close the XML
+      this.xmlPayload += this.XML.COLUMN_LIST + this.XML.FOOTER;
+
+      // Remove read-only fields from payload (omit to avoid API_AddRecord error 34)
       readOnlyFieldIds.forEach((fid) => {
         this.xmlPayload = this.xmlPayload.replace(
           new RegExp(`<field fid='${fid}'>[\\s\\S]*?<\\/field>`, "g"),
@@ -415,6 +425,9 @@ class ExcelReportGenerator {
     /**
      * Generate URL for Trends or Benchmark reports based on year count (K12).
      * Structure matches comp; tpid/dbid may need to be updated for K12 report templates.
+     * If ExcelGen_UA returns "Cannot find column N": (1) ensure table bt3q4xqn5 has field ID N
+     * (see docs/quickbase/excelFields.txt); (2) ensure the report template (tpid) is configured
+     * for K12 and only references field IDs that exist in bt3q4xqn5.
      * @param {string} reportType - "trends" or "benchmark"
      * @param {string} format - "xls" or "pdf"
      * @param {string} RecordId - QuickBase record ID
