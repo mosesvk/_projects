@@ -43,7 +43,8 @@ const getMainChartOptions = (
       yearsToShow,
       dataPeer,
       dataClient,
-      fixedNum
+      fixedNum,
+      numType
     ));
 
   // console.log({clientArray})

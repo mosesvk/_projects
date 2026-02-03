@@ -73,15 +73,12 @@ const insertDataIntoObject = (
   dynamicValueClientPeer,
   name
 ) => {
-  console.log({ type, year, object, dataKey, record, child, dynamicValueClientPeer, name });
-  
-  // Check if child field exists before accessing it
   const childElement = record.querySelector(child);
   if (!childElement) {
     console.warn(`Field "${child}" not found in record for dataKey "${dataKey}"`);
     return;
   }
-  
+
   const innerData =
     childElement.innerHTML.split("").length > 0
       ? childElement.innerHTML.trim()
@@ -105,7 +102,6 @@ const insertDataIntoObject = (
     object[dataKey][year].benchmark = benchmarkField;
   } else {
     // type === 'peer'
-
     const yesNoFieldElement = dynamicValueClientPeer
       ? record.querySelector(dynamicValueClientPeer)
       : null;

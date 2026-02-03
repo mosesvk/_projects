@@ -488,18 +488,31 @@ const addUniqueRegionsToOptionsSelectDropdown = () => {
   }
 };
 
+/**
+ * Builds chart data arrays for peer (avg, mid, 25%, 75%) and client per year.
+ * For percent type, values are scaled by 100 so the chart matches modal display (e.g. 0.05 → 5).
+ * @param {number[]} years - Years to include
+ * @param {Object} dataPeer - Peer data keyed by year (each value is array of numbers)
+ * @param {Object} dataClient - Client data keyed by year (each value has .value)
+ * @param {number} fixedNum - Decimal places for toFixed
+ * @param {string} [numType] - "percent" | "number" | "dollar" — for percent, scale by 100
+ * @returns {{ clientArray: string[], peerAvg: string[], peerMid: string[], peer25: string[], peer75: string[] }}
+ */
 const getPeerAndClientChartDataArrays = (
   years,
   dataPeer,
   dataClient,
-  fixedNum
+  fixedNum,
+  numType
 ) => {
-  // console.log({ years, dataPeer, dataClient, fixedNum });
   const peerAvg = [];
   const peerMid = [];
   const peer25 = [];
   const peer75 = [];
   const clientArray = [];
+
+  /** Scale factor for percent: chart expects 0–100 scale to match modal (styleNumber multiplies by 100). */
+  const scale = numType === "percent" ? 100 : 1;
 
   /** Only iterate over years that exist in peer data to avoid undefined errors when selected years and stored data are out of sync. */
   const yearsWithPeerData =
@@ -514,14 +527,14 @@ const getPeerAndClientChartDataArrays = (
     const lower25 = parseFloat(get25thPercentileOfArray(array));
     const higher75 = parseFloat(get75thPercentileOfArray(array));
 
-    peerAvg.push(avg.toFixed(fixedNum));
-    peerMid.push(mid.toFixed(fixedNum));
-    peer25.push(lower25.toFixed(fixedNum));
-    peer75.push(higher75.toFixed(fixedNum));
+    peerAvg.push((avg * scale).toFixed(fixedNum));
+    peerMid.push((mid * scale).toFixed(fixedNum));
+    peer25.push((lower25 * scale).toFixed(fixedNum));
+    peer75.push((higher75 * scale).toFixed(fixedNum));
 
     if (dataClient && dataClient[year] && dataClient[year].value !== undefined && dataClient[year].value !== null) {
-      const clientNum = Number(dataClient[year].value).toFixed(fixedNum);
-      clientArray.push(clientNum);
+      const clientVal = Number(dataClient[year].value) * scale;
+      clientArray.push(clientVal.toFixed(fixedNum));
     } else {
       clientArray.push("0");
       console.warn(`Client data for year ${year} is undefined or missing value`);

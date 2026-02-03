@@ -1,5 +1,4 @@
 const getWeightedAverageOfArray = (data, name) => {
-  // console.log(data, name);
   switch (name) {
     case "studentFacilityRatio":
       return studentFacilityRatio_weightedAverage(data, name);
@@ -137,7 +136,7 @@ const getWeightedAverageOfArray = (data, name) => {
       );
     case "daysCashOnHand": 
       return daysCashOnHand_weightedAverage(data, name);
-    case "debtToNetAssets": 
+    case "debtToNetAssets":
       return debtToNetAssets_weightedAverage(data, name);
     default:
       return;
@@ -146,18 +145,17 @@ const getWeightedAverageOfArray = (data, name) => {
 
 const debtToNetAssets_weightedAverage = (data, name) => {
   // [03-11 Total Debt] / [03-12 Total Unrestricted Net Assets] + [03-14 Temporarily Restricted Net Assets]
-
-  let numTotalDebt = getSumOfArray(data.totalDebt[name]);
+  let numTotalDebt = getSumOfArray(data.totalDebt?.[name] || []);
   let numTotalUnrestrictedNetAssets = getSumOfArray(
-    data.totalUnrestrictedNetAssets[name]
+    data.totalUnrestrictedNetAssets?.[name] || []
   );
   let numTemporarilyRestrictedNetAssets = getSumOfArray(
-    data.temporarilyRestrictedNetAssets[name]
+    data.temporarilyRestrictedNetAssets?.[name] || []
   );
-
-  return numTotalDebt / (numTotalUnrestrictedNetAssets + numTemporarilyRestrictedNetAssets);
-
-}
+  const denominator = numTotalUnrestrictedNetAssets + numTemporarilyRestrictedNetAssets;
+  if (!denominator) return 0;
+  return numTotalDebt / denominator;
+};
 
 const daysCashOnHand_weightedAverage = (data, name) => {
   // [03-02 Total Cash]/([04-08 Total Expenses]/365)

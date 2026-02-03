@@ -109,8 +109,8 @@ const displayAssetComponent = () => {
     "netTuitionARasPercentCurrentAssets_chart",
     "netTuitionARasPercentCurrentAssets_Peer",
     "netTuitionARasPercentCurrentAssets_Client",
-    "number",
-    1,
+    "percent",
+    0,
     "netTuitionARasPercentCurrentAssets"
   );
 
