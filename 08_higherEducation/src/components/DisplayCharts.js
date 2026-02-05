@@ -104,8 +104,8 @@ const displayCfiComponent = () => {
       return `<div class="cfi-segment" style="flex:${flexVal} 0 0;min-height:2px;background-color:${range.color};opacity:0.9" title="${range.label}"></div>`;
     }).join('');
 
-    // Tick marks at exact values: -4, 0, 5, 10 (positioned at correct % from bottom)
-    const tickValues = [-4, 0, 5, 10];
+    // Tick marks at color-range boundaries: -4, 1, 3, 5, 7, 9, 10
+    const tickValues = [-4, 1, 3, 5, 7, 9, 10];
     const scaleTicksHtml = tickValues.map((tickVal) => {
       const bottomPct = ((tickVal - CFI_MIN) / CFI_RANGE) * 100;
       return `<div class="cfi-scale-tick" style="bottom:${bottomPct}%">
@@ -120,8 +120,8 @@ const displayCfiComponent = () => {
 
     const indicatorBarHtml = valuePosPct != null
       ? `<div class="cfi-indicator-bar-wrap" style="height:${valuePosPct}%">
-          <span class="cfi-value-on-bar">${Number(value).toFixed(2)}</span>
           <div class="cfi-indicator-bar"></div>
+          <span class="cfi-value-on-bar">${Number(value).toFixed(2)}</span>
         </div>`
       : '';
 
@@ -134,9 +134,9 @@ const displayCfiComponent = () => {
           <div class="cfi-scale-axis" style="width:36px;flex-shrink:0;position:relative;background:#f9fafb;border-right:1px solid #e5e7eb">
             ${scaleTicksHtml}
           </div>
-          <div class="cfi-bar-stack" style="flex:1;display:flex;flex-direction:column;min-height:0;position:relative;justify-content:flex-end;align-items:center;padding:0 8px">
+          <div class="cfi-bar-stack" style="flex:1;display:flex;flex-direction:column;min-height:0;position:relative;justify-content:flex-end;align-items:stretch;padding:0 8px">
             ${segmentsHtml}
-            <div class="cfi-indicator-container" style="position:absolute;left:50%;transform:translateX(-50%);bottom:0;top:0;width:32px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;pointer-events:none">
+            <div class="cfi-indicator-container" style="position:absolute;left:50%;transform:translateX(-50%);bottom:0;top:0;width:56px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;pointer-events:none">
               ${indicatorBarHtml}
             </div>
           </div>
