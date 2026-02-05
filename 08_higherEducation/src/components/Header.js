@@ -448,7 +448,7 @@ function initializeClientDropdown(event) {
     newLabel.setAttribute("for", `client_${clientName}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-nowrap cursor-pointer"
     );
     newLabel.innerText = clientName;
 
@@ -1552,9 +1552,21 @@ function formatNumberWithCommas(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-// Function to observe and format input values
+// Remove overlay spans and restore normal input display for enrollment (fix focus/selection)
+function cleanupEnrollmentInputOverlays() {
+  ["enrollmentMin", "enrollmentMax"].forEach((id) => {
+    const input = document.getElementById(id);
+    const span = document.querySelector(`[data-format-for="${id}"]`);
+    if (input) {
+      input.style.color = "";
+    }
+    if (span) span.remove();
+  });
+}
+
+// Function to observe and format input values (excludes enrollment - handled by Utility.js range())
 function setupNumberFormatting() {
-  const inputIds = ["enrollmentMin", "enrollmentMax"];
+  const inputIds = []; // enrollmentMin/Max excluded - range() sets formatted values directly
 
   // Process each input field
   inputIds.forEach((id) => {
@@ -1603,18 +1615,7 @@ function setupNumberFormatting() {
     });
   });
 
-  // Also listen for the custom filtersChanged event
-  document.addEventListener("filtersChanged", function () {
-    inputIds.forEach((id) => {
-      const input = document.getElementById(id);
-      if (!input) return;
-
-      const rawValue = input.value;
-      const formattedValue = formatNumberWithCommas(rawValue);
-      const displaySpan = getOrCreateDisplaySpan(input, id);
-      displaySpan.textContent = formattedValue;
-    });
-  });
+  // filtersChanged updates handled by range() for enrollment inputs
 }
 
 // Helper function to get or create display span
@@ -1738,7 +1739,30 @@ document.addEventListener("DOMContentLoaded", function () {
     );
   }
 
-  // Configure slider inputs
+  // Set up slider release event listeners (matches 05_cfhi_comp Giving Units)
+  function setupSliderReleaseListeners() {
+    const sliderContainer = document.querySelector('[x-data="range()"]');
+    if (sliderContainer) {
+      const rangeInputs = sliderContainer.querySelectorAll('input[type="range"]');
+      rangeInputs.forEach((rangeInput) => {
+        rangeInput.addEventListener('mouseup', function () {
+          document.dispatchEvent(new CustomEvent("filtersChanged"));
+        });
+        rangeInput.addEventListener('touchend', function () {
+          document.dispatchEvent(new CustomEvent("filtersChanged"));
+        });
+        rangeInput.addEventListener('change', function () {
+          document.dispatchEvent(new CustomEvent("filtersChanged"));
+        });
+      });
+    }
+  }
+  setTimeout(() => {
+    setupSliderReleaseListeners();
+    cleanupEnrollmentInputOverlays();
+  }, 100);
+
+  // Configure slider inputs (matches 05_cfhi_comp Giving Units structure)
   const sliderInputs = [
     {
       element: document.getElementById("enrollmentMin"),
@@ -1754,56 +1778,38 @@ document.addEventListener("DOMContentLoaded", function () {
     },
   ];
 
+  // Set initial values to inputs
+  sliderInputs.forEach((slider) => {
+    if (slider.element) {
+      slider.element.value = window[slider.globalVar];
+    }
+  });
+
   // Function to trigger filter change event
   function triggerFiltersChanged(sliderInfo) {
-    // console.log(
-    //   `${sliderInfo.globalVar} changed to ${window[sliderInfo.globalVar]}`
-    // );
     const event = new CustomEvent("filtersChanged");
     document.dispatchEvent(event);
   }
 
-  // Set up each slider
+  // Set up MutationObserver to detect style changes (matches comp)
   sliderInputs.forEach((slider) => {
     if (slider.element) {
-      // Set initial value
-      slider.element.value = window[slider.globalVar];
-
-      // If slider has specific slider divs
-      if (slider.sliderDivs && slider.sliderDivs.length) {
-        slider.sliderDivs.forEach((sliderDiv) => {
-          // Set up MutationObserver to detect style changes
-          const observer = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (
-                mutation.type === "attributes" &&
-                mutation.attributeName === "style"
-              ) {
-                // Update global variable from the input element
-                window[slider.globalVar] =
-                  parseInt(slider.element.value) || slider.defaultValue;
-                triggerFiltersChanged(slider);
-              }
-            });
-          });
-
-          // Configure the observer
-          observer.observe(sliderDiv, {
-            attributes: true,
-            attributeFilter: ["style"],
-          });
+      const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+          if (
+            mutation.type === "attributes" &&
+            mutation.attributeName === "style"
+          ) {
+            window[slider.globalVar] =
+              parseInt(slider.element.value.replace(/[^\d]/g, "")) ||
+              slider.defaultValue;
+            triggerFiltersChanged(slider);
+          }
         });
-      }
-
-      // Standard event listeners as a fallback
-      slider.element.addEventListener("input", function () {
-        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider);
       });
-
-      slider.element.addEventListener("change", function () {
-        window[slider.globalVar] = parseInt(this.value) || slider.defaultValue;
-        triggerFiltersChanged(slider);
+      observer.observe(slider.element, {
+        attributes: true,
+        attributeFilter: ["style"],
       });
     }
   });
@@ -1892,7 +1898,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     });
 
-    // Set up sliders with current values
+    // Set up sliders with current values (matches comp - no input listeners, filtering via range())
     const sliders = [
       document.getElementById("enrollmentMin"),
       document.getElementById("enrollmentMax"),
@@ -1900,26 +1906,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     sliders.forEach((slider) => {
       if (slider) {
-        // Set initial slider values to match global variables
-        slider.value = parseInt(
+        slider.value =
           slider.id === "enrollmentMin"
             ? window.sliderValue
-            : slider.id === "enrollmentMax"
-            ? window.sliderValue2
-            : 0
-        );
-        slider.addEventListener("input", () => {
-          // Update corresponding value
-          if (slider.id === "enrollmentMax") {
-            window.sliderValue = parseInt(slider.value);
-          } else if (slider.id === "enrollmentMax") {
-            window.sliderValue2 = parseInt(slider.value);
-          } 
-
-          // Trigger the filtersChanged event
-          const event = new CustomEvent("filtersChanged");
-          document.dispatchEvent(event);
-        });
+            : window.sliderValue2;
       }
     });
   }

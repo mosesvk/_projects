@@ -5764,7 +5764,7 @@
     <div
       id="options-modal"
       tabindex="-1"
-      class="hidden overflow-y-auto overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
+      class="hidden overflow-y-hidden overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
     >
       <div class="relative p-4 w-full max-w-7xl max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
@@ -5972,22 +5972,25 @@
                   </div>
                   <div
                     id="options-list-client"
-                    class="absolute top-36 right-32 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-scroll h-full"
+                    class="absolute top-36 right-32 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-[30rem] max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[calc(100vh-10rem)] p-4"
                   ></div>
                 </div>
-                <!-- Enrollment - slider -->
+                <!-- Enrollment Range - slider (structure from 05_cfhi_comp Giving Units) -->
                 <div
                   x-data="range()"
-                  x-init="mintrigger(); maxtrigger()"
+                  x-init="$nextTick(() => { mintrigger(false); maxtrigger(false); })"
                   class="relative max-w-lg w-full pb-5"
                 >
                   <div class="flex items-center py-3 pr-3">
-                    <p class="whitespace-nowrap w-40">Enrollment:</p>
+                    <p class="whitespace-nowrap w-40">Enrollment Range:</p>
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:input="mintrigger"
-                      x-model="minprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, ''); $event.target.select();"
+                      x-on:input="const rawVal = $event.target.value.replace(/[^\d]/g, ''); const numVal = parseInt(rawVal) || 0; minprice = numVal; $event.target.value = numVal.toLocaleString('en-US');"
+                      x-on:keydown.enter="$event.target.blur()"
+                      x-on:keydown.tab="$event.target.blur()"
+                      x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { minprice = parseInt(newVal) || 0; mintrigger(true); }"
                       x-ref="minInput"
                       id="enrollmentMin"
                       class="bg-transparent border-none text-center w-40 text-xl"
@@ -5996,57 +5999,177 @@
 
                     <input
                       type="text"
-                      maxlength="12"
-                      x-on:input="maxtrigger"
-                      x-model="maxprice"
+                      maxlength="15"
+                      x-on:focus="$event.target.dataset.oldValue = $event.target.value.replace(/[^\d]/g, ''); $event.target.select();"
+                      x-on:input="const rawVal = $event.target.value.replace(/[^\d]/g, ''); const numVal = parseInt(rawVal) || 25000; maxprice = numVal; $event.target.value = numVal.toLocaleString('en-US');"
+                      x-on:keydown.enter="$event.target.blur()"
+                      x-on:keydown.tab="$event.target.blur()"
+                      x-on:blur="const newVal = $event.target.value.replace(/[^\d]/g, ''); const oldVal = $event.target.dataset.oldValue; if (newVal !== oldVal) { maxprice = parseInt(newVal) || 25000; maxtrigger(true); }"
                       id="enrollmentMax"
                       class="bg-transparent border-none text-center w-40 text-xl"
                     />
                   </div>
-                  <div>
-                    <!-- Hidden range inputs for value binding only -->
+                  <div
+                    x-on:mousedown="
+                      const rect = $event.currentTarget.getBoundingClientRect();
+                      const clickX = $event.clientX - rect.left;
+                      const clickPercent = (clickX / rect.width) * 100;
+                      const minPos = minthumb;
+                      const maxPos = 100 - maxthumb;
+                      const minDist = Math.abs(clickPercent - minPos);
+                      const maxDist = Math.abs(clickPercent - maxPos);
+                      const threshold = 5;
+                      if (minDist > threshold && maxDist > threshold) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        return false;
+                      }
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
+                      if (!minInput || !maxInput) return;
+                      const currentlyActive = minInput.style.pointerEvents === 'auto' ? 'min' : 'max';
+                      const shouldBeActive = minDist < maxDist ? 'min' : 'max';
+                      if (currentlyActive !== shouldBeActive) {
+                        $event.preventDefault();
+                        $event.stopPropagation();
+                        if (shouldBeActive === 'min') {
+                          minInput.style.pointerEvents = 'auto';
+                          minInput.style.zIndex = '21';
+                          maxInput.style.pointerEvents = 'none';
+                          maxInput.style.zIndex = '20';
+                          setTimeout(() => {
+                            const newEvent = new MouseEvent('mousedown', {
+                              bubbles: true,
+                              cancelable: true,
+                              clientX: $event.clientX,
+                              clientY: $event.clientY,
+                              button: $event.button
+                            });
+                            minInput.dispatchEvent(newEvent);
+                          }, 0);
+                        } else {
+                          minInput.style.pointerEvents = 'none';
+                          minInput.style.zIndex = '20';
+                          maxInput.style.pointerEvents = 'auto';
+                          maxInput.style.zIndex = '21';
+                          setTimeout(() => {
+                            const newEvent = new MouseEvent('mousedown', {
+                              bubbles: true,
+                              cancelable: true,
+                              clientX: $event.clientX,
+                              clientY: $event.clientY,
+                              button: $event.button
+                            });
+                            maxInput.dispatchEvent(newEvent);
+                          }, 0);
+                        }
+                        return false;
+                      } else {
+                        if (shouldBeActive === 'min') {
+                          minInput.style.pointerEvents = 'auto';
+                          minInput.style.zIndex = '21';
+                          maxInput.style.pointerEvents = 'none';
+                          maxInput.style.zIndex = '20';
+                        } else {
+                          minInput.style.pointerEvents = 'none';
+                          minInput.style.zIndex = '20';
+                          maxInput.style.pointerEvents = 'auto';
+                          maxInput.style.zIndex = '21';
+                        }
+                      }
+                    "
+                    x-on:mouseup="
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
+                      if (minInput) minInput.style.pointerEvents = 'auto';
+                      if (maxInput) maxInput.style.pointerEvents = 'auto';
+                    "
+                    x-on:mousemove="
+                      const rect = $event.currentTarget.getBoundingClientRect();
+                      const mouseX = $event.clientX - rect.left;
+                      const mousePercent = (mouseX / rect.width) * 100;
+                      const minPos = minthumb;
+                      const maxPos = 100 - maxthumb;
+                      const minDist = Math.abs(mousePercent - minPos);
+                      const maxDist = Math.abs(mousePercent - maxPos);
+                      const threshold = 5;
+                      const rangeInputs = $event.currentTarget.querySelectorAll('input[type=range]');
+                      const minInput = rangeInputs[0];
+                      const maxInput = rangeInputs[1];
+                      if (minInput && maxInput) {
+                        if (minDist <= threshold || maxDist <= threshold) {
+                          minInput.style.cursor = 'pointer';
+                          maxInput.style.cursor = 'pointer';
+                          if (minDist < maxDist) {
+                            minInput.style.pointerEvents = 'auto';
+                            minInput.style.zIndex = '21';
+                            maxInput.style.pointerEvents = 'none';
+                            maxInput.style.zIndex = '20';
+                          } else {
+                            minInput.style.pointerEvents = 'none';
+                            minInput.style.zIndex = '20';
+                            maxInput.style.pointerEvents = 'auto';
+                            maxInput.style.zIndex = '21';
+                          }
+                        } else {
+                          minInput.style.cursor = 'default';
+                          maxInput.style.cursor = 'default';
+                        }
+                      }
+                    "
+                  >
                     <input
                       type="range"
-                      step="100"
+                      step="1"
                       x-bind:min="min"
                       x-bind:max="max"
+                      x-on:input="mintrigger(true, true)"
                       x-model="minprice"
-                      class="hidden"
-                      id="minRangeInput"
+                      x-init="
+                        $el.style.pointerEvents = 'auto';
+                        $el.style.zIndex = '21';
+                        $el.nextElementSibling.style.pointerEvents = 'none';
+                        $el.nextElementSibling.style.zIndex = '20';
+                      "
+                      class="absolute pointer-events-auto appearance-none z-21 h-2 w-full opacity-0"
+                      style="cursor: default"
                     />
 
                     <input
                       type="range"
-                      step="100"
+                      step="1"
                       x-bind:min="min"
                       x-bind:max="max"
+                      x-on:input="maxtrigger(true, true)"
                       x-model="maxprice"
-                      class="hidden"
-                      id="maxRangeInput"
+                      x-init="
+                        $el.style.pointerEvents = 'none';
+                        $el.style.zIndex = '20';
+                      "
+                      class="absolute pointer-events-none appearance-none z-20 h-2 w-full opacity-0"
+                      style="cursor: default"
                     />
 
-                    <div class="relative z-10 h-2">
+                    <div class="relative z-10 h-2 pointer-events-none">
                       <div
-                        class="absolute z-10 left-0 right-0 bottom-0 top-0 rounded-md bg-gray-200"
+                        class="absolute z-10 left-0 right-0 bottom-0 top-0 rounded-md bg-gray-200 pointer-events-none"
                       ></div>
 
                       <div
-                        class="absolute z-20 top-0 bottom-0 rounded-md backgroundGreen"
+                        class="absolute z-20 top-0 bottom-0 rounded-md backgroundGreen pointer-events-none"
                         x-bind:style="'right:'+maxthumb+'%; left:'+minthumb+'%'"
                       ></div>
 
                       <div
-                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1 cursor-pointer select-none"
+                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1 pointer-events-none"
                         x-bind:style="'left: '+minthumb+'%'"
-                        x-on:mousedown="startDrag($event, 'min')"
-                        data-handle="min"
                       ></div>
 
                       <div
-                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 left-0 backgroundGreen rounded-full -mt-2 -ml-1 cursor-pointer select-none"
-                        x-bind:style="'left: '+(100-maxthumb)+'%'"
-                        x-on:mousedown="startDrag($event, 'max')"
-                        data-handle="max"
+                        class="enrollmentSlider absolute z-30 w-6 h-6 top-0 right-0 backgroundGreen rounded-full -mt-2 -mr-1 pointer-events-none"
+                        x-bind:style="'right: '+maxthumb+'%'"
                       ></div>
                     </div>
                   </div>

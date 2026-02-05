@@ -969,7 +969,7 @@ const addUniqueClientsToOptionsSelectClientDropdown = (clientArray) => {
     newLabel.setAttribute("for", `client_${clientString}`);
     newLabel.setAttribute(
       "class",
-      "w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+      "w-full py-2 ms-2 font-medium text-gray-900 rounded dark:text-gray-300 whitespace-nowrap cursor-pointer"
     );
     newLabel.innerText = clientString;
 
@@ -1465,6 +1465,11 @@ function changeThWidth(elementId) {
   }
 }
 
+/**
+ * Creates an Alpine.js data object for the Enrollment Range slider.
+ * Matches 05_cfhi_comp/06_cfhi_standard Giving Units structure.
+ * @returns {Object} Alpine.js data object with minprice, maxprice, thumb positions, and trigger functions
+ */
 const range = () => {
   return {
     minprice: window.sliderValue,
@@ -1473,103 +1478,53 @@ const range = () => {
     max: 25000,
     minthumb: 1,
     maxthumb: 1,
-    isDragging: false,
-    dragHandle: null,
-    sliderRect: null,
 
-    mintrigger() {
-      this.minprice = Math.min(this.minprice, this.maxprice - 500);
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
-
-      // Update global variable
+    /**
+     * Updates the minimum value, recalculates thumb position, and updates the DOM.
+     * @param {boolean} shouldDispatchEvent - Whether to dispatch filtersChanged event
+     * @param {boolean} shouldRound - Whether to round the value to nearest 100 (used for slider input)
+     */
+    mintrigger(shouldDispatchEvent = true, shouldRound = false) {
+      let value = String(this.minprice).replace(/[^\d]/g, '');
+      this.minprice = parseInt(value) || 0;
+      if (shouldRound) {
+        this.minprice = Math.round(this.minprice / 100) * 100;
+      }
+      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      this.minthumb = ((this.minprice - this.min) / (this.max - this.min)) * 100;
       window.sliderValue = this.minprice;
-
-      // Trigger a custom event to notify other components
-      const event = new CustomEvent("sliderChanged", {
-        detail: { value: this.minprice, type: "min" },
-      });
-      document.dispatchEvent(event);
-
-      if (sliderAmount) {
-        sliderAmount.value = window.sliderValue;
+      const inputElement = document.getElementById("enrollmentMin");
+      if (inputElement) {
+        inputElement.value = this.minprice.toLocaleString('en-US');
+        inputElement.dataset.oldValue = String(this.minprice);
       }
-
-      this.minthumb =
-        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
     },
 
-    maxtrigger() {
-      this.maxprice = Math.max(this.maxprice, this.minprice + 500);
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-
-      // Update global variable
+    /**
+     * Updates the maximum value, recalculates thumb position, and updates the DOM.
+     * @param {boolean} shouldDispatchEvent - Whether to dispatch filtersChanged event
+     * @param {boolean} shouldRound - Whether to round the value to nearest 100 (used for slider input)
+     */
+    maxtrigger(shouldDispatchEvent = true, shouldRound = false) {
+      let value = String(this.maxprice).replace(/[^\d]/g, '');
+      this.maxprice = parseInt(value) || this.max;
+      if (shouldRound) {
+        this.maxprice = Math.round(this.maxprice / 100) * 100;
+      }
+      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      this.maxthumb = 100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
       window.sliderValue2 = this.maxprice;
-
-      // Trigger a custom event to notify other components
-      const event = new CustomEvent("sliderChanged", {
-        detail: { value: this.maxprice, type: "max" },
-      });
-      document.dispatchEvent(event);
-
-      if (sliderRange) {
-        sliderRange.value = window.sliderValue2;
+      const inputElement = document.getElementById("enrollmentMax");
+      if (inputElement) {
+        inputElement.value = this.maxprice.toLocaleString('en-US');
+        inputElement.dataset.oldValue = String(this.maxprice);
       }
-
-      this.maxthumb =
-        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
-    },
-
-    startDrag(event, handle) {
-      event.preventDefault();
-      this.isDragging = true;
-      this.dragHandle = handle;
-      
-      // Get the slider container rect for calculations
-      const sliderContainer = event.target.closest('.relative.z-10.h-2');
-      if (sliderContainer) {
-        this.sliderRect = sliderContainer.getBoundingClientRect();
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
       }
-      
-      // Add global mouse event listeners
-      document.addEventListener('mousemove', this.handleDrag.bind(this));
-      document.addEventListener('mouseup', this.stopDrag.bind(this));
-      
-      // Prevent text selection during drag
-      document.body.style.userSelect = 'none';
-    },
-
-    handleDrag(event) {
-      if (!this.isDragging || !this.sliderRect) return;
-      
-      // Calculate the position relative to the slider
-      const x = event.clientX - this.sliderRect.left;
-      const percentage = Math.max(0, Math.min(100, (x / this.sliderRect.width) * 100));
-      
-      // Convert percentage to value
-      const value = Math.round(this.min + (percentage / 100) * (this.max - this.min));
-      
-      if (this.dragHandle === 'min') {
-        this.minprice = Math.min(value, this.maxprice - 500);
-        this.mintrigger();
-      } else if (this.dragHandle === 'max') {
-        this.maxprice = Math.max(value, this.minprice + 500);
-        this.maxtrigger();
-      }
-    },
-
-    stopDrag() {
-      this.isDragging = false;
-      this.dragHandle = null;
-      this.sliderRect = null;
-      
-      // Remove global mouse event listeners
-      document.removeEventListener('mousemove', this.handleDrag.bind(this));
-      document.removeEventListener('mouseup', this.stopDrag.bind(this));
-      
-      // Restore text selection
-      document.body.style.userSelect = '';
     },
   };
 };

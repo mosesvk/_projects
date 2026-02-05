@@ -2050,25 +2050,7 @@ class ApiService {
     // These will be triggered when types, areas or sliders change
     document.addEventListener("filtersChanged", this._handleFiltersChanged);
 
-    // Initialize sliders if they exist
-    const enrollmentMinSlider = document.getElementById("enrollmentMin");
-    const enrollmentMaxSlider = document.getElementById("enrollmentMax");
-
-    if (enrollmentMinSlider) {
-      enrollmentMinSlider.addEventListener("input", () => {
-        window.sliderValue = parseInt(enrollmentMinSlider.value);
-        this._triggerFiltersChanged();
-      });
-    }
-
-    if (enrollmentMaxSlider) {
-      enrollmentMaxSlider.addEventListener("input", () => {
-        window.sliderValue2 = parseInt(enrollmentMaxSlider.value);
-        this._triggerFiltersChanged();
-      });
-    }
-
-    // Initial filter application
+    // Initial filter application (slider filtering via filtersChanged from range() in Utility.js)
     this._triggerFiltersChanged();
   }
 
