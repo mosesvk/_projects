@@ -68,59 +68,100 @@ const displayCfiComponent = () => {
     "CFI Viability Ratio"
   );
 
-  // Extract CFI data and render the vertical bullet chart
+  // Extract CFI data and render the HTML/CSS vertical bar chart
   const selectedYears = getSelectedYearsFromLocalStorage();
   const mostRecentYear = selectedYears[selectedYears.length - 1];
   const cfiValue = parseData.cfiRatio_Client[mostRecentYear]?.value;
-  
+
+  /** CFI color ranges: -4 to 10 scale */
+  const CFI_COLOR_RANGES = [
+    { min: -4, max: 1, color: '#D46D78', label: 'Assess viability to Survive' },
+    { min: 1, max: 3, color: '#E39D5E', label: 'Re-Engineer the University' },
+    { min: 3, max: 5, color: '#E0BD4D', label: 'Direct resources to allow transformation' },
+    { min: 5, max: 7, color: '#CAE46A', label: 'Focus resources to compete in future state' },
+    { min: 7, max: 9, color: '#B0E46A', label: 'Allow experimentation with new initiatives' },
+    { min: 9, max: 10, color: '#8AB552', label: 'Deploy resources to achieve robust mission' }
+  ];
+  const CFI_MIN = -4;
+  const CFI_MAX = 10;
+  const CFI_RANGE = CFI_MAX - CFI_MIN;
+
   /**
-   * Renders the CFI vertical chart with animation
+   * Builds and injects an HTML/CSS vertical bar chart for CFI Ratio
+   * Bar order: 9-10 (top) down to -4 to 1 (bottom) to match label alignment
+   * @param {number} value - Current CFI value for indicator position
+   * @param {string} year - Year for caption
+   */
+  function buildCfiHtmlChart(value, year) {
+    const container = document.getElementById('cfiCompositeHtml_Chart');
+    if (!container) return;
+    const displayYear = year || 'N/A';
+
+    // Reverse order: 9-10 at top, -4 to 1 at bottom (matches cfiLabel6 at top, cfiLabel1 at bottom)
+    const segmentsHtml = [...CFI_COLOR_RANGES].reverse().map((range) => {
+      const heightPct = ((range.max - range.min) / CFI_RANGE) * 100;
+      return `<div class="cfi-segment" style="height:${heightPct}%;background-color:${range.color};opacity:0.85" title="${range.label}"></div>`;
+    }).join('');
+
+    const valuePosPct = value !== undefined && !isNaN(value)
+      ? Math.min(100, Math.max(0, ((value - CFI_MIN) / CFI_RANGE) * 100))
+      : null;
+
+    const indicatorHtml = valuePosPct != null
+      ? `<div class="cfi-value-indicator" style="bottom:${valuePosPct}%">
+          <span class="cfi-value-text">${Number(value).toFixed(2)}</span>
+        </div>`
+      : '';
+
+    container.innerHTML = `
+      <div class="cfi-html-chart" style="width:200px;height:700px;position:relative;border:1px solid #e5e7eb;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
+        <div class="cfi-chart-caption" style="text-align:center;font-weight:bold;font-size:16px;padding:8px 0;background:#f9fafb;flex-shrink:0">
+          CFI RATIO - ${displayYear}
+        </div>
+        <div class="cfi-bar-stack" style="flex:1;display:flex;flex-direction:column;min-height:0;position:relative">
+          ${segmentsHtml}
+          ${indicatorHtml}
+        </div>
+      </div>
+    `;
+  }
+
+  /**
+   * Renders the CFI vertical HTML/CSS chart and updates labels
    */
   function renderCfiChart() {
-    if (cfiValue !== undefined && !isNaN(cfiValue)) {
-      // Dispose of existing chart if it exists and has dispose method
-      if (cfiCompositeHtml_Chart && typeof cfiCompositeHtml_Chart.dispose === 'function') {
-        cfiCompositeHtml_Chart.dispose();
-      }
-      
-      // Create and render new chart
-      cfiCompositeHtml_Chart = new FusionCharts(getCfiVerticalChart(parseData, mostRecentYear, cfiValue));
-      cfiCompositeHtml_Chart.render();
-      
-      // Update CFI text labels styling based on current CFI value
-      updateCfiLabels(cfiValue);
+    const chartContainer = document.getElementById('cfiCompositeHtml_Chart');
+    const detailsSection = document.getElementById('details_cfiRatio');
+    if (chartContainer && detailsSection && detailsSection.classList.contains('hidden')) {
+      return;
     }
+    buildCfiHtmlChart(cfiValue, mostRecentYear);
+    updateCfiLabels(cfiValue);
   }
   
   /**
-   * Updates the styling of CFI text labels based on the current CFI value
+   * Updates the styling of CFI text labels - colors match bar segments, bold for active range
+   * Label order in DOM: cfiLabel6 (9-10) top, down to cfiLabel1 (-4 to 1) bottom
    * @param {number} cfiValue - The current CFI ratio value
    */
   function updateCfiLabels(cfiValue) {
-    // Define the ranges for each label
-    const ranges = [
-      { id: 'cfiLabel1', min: -4, max: 1 },
-      { id: 'cfiLabel2', min: 1, max: 3 },
-      { id: 'cfiLabel3', min: 3, max: 5 },
-      { id: 'cfiLabel4', min: 5, max: 7 },
-      { id: 'cfiLabel5', min: 7, max: 9 },
-      { id: 'cfiLabel6', min: 9, max: 10 }
+    const labelRanges = [
+      { id: 'cfiLabel1', min: -4, max: 1, color: '#D46D78' },
+      { id: 'cfiLabel2', min: 1, max: 3, color: '#E39D5E' },
+      { id: 'cfiLabel3', min: 3, max: 5, color: '#E0BD4D' },
+      { id: 'cfiLabel4', min: 5, max: 7, color: '#CAE46A' },
+      { id: 'cfiLabel5', min: 7, max: 9, color: '#B0E46A' },
+      { id: 'cfiLabel6', min: 9, max: 10, color: '#8AB552' }
     ];
-    
-    // Update each label
-    ranges.forEach(range => {
+
+    labelRanges.forEach((range) => {
       const labelDiv = document.getElementById(range.id);
       const labelP = labelDiv?.querySelector('p');
-      
+
       if (labelP) {
-        // Check if CFI value falls within this range
-        if (cfiValue >= range.min && cfiValue < range.max) {
-          // Active range - make it bold and larger
-          labelP.className = 'text-2xl font-bold text-black';
-        } else {
-          // Inactive range - normal styling
-          labelP.className = 'text-base font-normal text-gray-600';
-        }
+        const isActive = cfiValue >= range.min && cfiValue < range.max;
+        labelP.style.color = range.color;
+        labelP.className = isActive ? 'text-2xl font-bold' : 'text-base font-normal';
       }
     });
   }
