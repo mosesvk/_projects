@@ -78,9 +78,9 @@ const displayCfiComponent = () => {
     { min: -4, max: 1, color: '#D46D78', label: 'Assess viability to Survive' },
     { min: 1, max: 3, color: '#E39D5E', label: 'Re-Engineer the University' },
     { min: 3, max: 5, color: '#E0BD4D', label: 'Direct resources to allow transformation' },
-    { min: 5, max: 7, color: '#CAE46A', label: 'Focus resources to compete in future state' },
-    { min: 7, max: 9, color: '#B0E46A', label: 'Allow experimentation with new initiatives' },
-    { min: 9, max: 10, color: '#8AB552', label: 'Deploy resources to achieve robust mission' }
+    { min: 5, max: 7, color: '#b5de1f', label: 'Focus resources to compete in future state' },
+    { min: 7, max: 9, color: '#91de2a', label: 'Allow experimentation with new initiatives' },
+    { min: 9, max: 10, color: '#79b52b', label: 'Deploy resources to achieve robust mission' }
   ];
   const CFI_MIN = -4;
   const CFI_MAX = 10;
@@ -88,7 +88,7 @@ const displayCfiComponent = () => {
 
   /**
    * Builds and injects an HTML/CSS vertical bar chart for CFI Ratio
-   * Bar order: 9-10 (top) down to -4 to 1 (bottom) to match label alignment
+   * Gauge-style: segmented background, tick labels at exact values, center indicator bar with value on top
    * @param {number} value - Current CFI value for indicator position
    * @param {string} year - Year for caption
    */
@@ -97,30 +97,49 @@ const displayCfiComponent = () => {
     if (!container) return;
     const displayYear = year || 'N/A';
 
-    // Reverse order: 9-10 at top, -4 to 1 at bottom (matches cfiLabel6 at top, cfiLabel1 at bottom)
-    const segmentsHtml = [...CFI_COLOR_RANGES].reverse().map((range) => {
-      const heightPct = ((range.max - range.min) / CFI_RANGE) * 100;
-      return `<div class="cfi-segment" style="height:${heightPct}%;background-color:${range.color};opacity:0.85" title="${range.label}"></div>`;
+    // Reverse order: 9-10 at top, -4 to 1 at bottom. Use flex for proportional heights (height:% fails in flex parents)
+    const reversedRanges = [...CFI_COLOR_RANGES].reverse();
+    const segmentsHtml = reversedRanges.map((range) => {
+      const flexVal = range.max - range.min; // proportional share: 5,2,2,2,2,1
+      return `<div class="cfi-segment" style="flex:${flexVal} 0 0;min-height:2px;background-color:${range.color};opacity:0.9" title="${range.label}"></div>`;
+    }).join('');
+
+    // Tick marks at exact values: -4, 0, 5, 10 (positioned at correct % from bottom)
+    const tickValues = [-4, 0, 5, 10];
+    const scaleTicksHtml = tickValues.map((tickVal) => {
+      const bottomPct = ((tickVal - CFI_MIN) / CFI_RANGE) * 100;
+      return `<div class="cfi-scale-tick" style="bottom:${bottomPct}%">
+        <span class="cfi-tick-line"></span>
+        <span class="cfi-tick-value">${tickVal}</span>
+      </div>`;
     }).join('');
 
     const valuePosPct = value !== undefined && !isNaN(value)
       ? Math.min(100, Math.max(0, ((value - CFI_MIN) / CFI_RANGE) * 100))
       : null;
 
-    const indicatorHtml = valuePosPct != null
-      ? `<div class="cfi-value-indicator" style="bottom:${valuePosPct}%">
-          <span class="cfi-value-text">${Number(value).toFixed(2)}</span>
+    const indicatorBarHtml = valuePosPct != null
+      ? `<div class="cfi-indicator-bar-wrap" style="height:${valuePosPct}%">
+          <span class="cfi-value-on-bar">${Number(value).toFixed(2)}</span>
+          <div class="cfi-indicator-bar"></div>
         </div>`
       : '';
 
     container.innerHTML = `
-      <div class="cfi-html-chart" style="width:200px;height:700px;position:relative;border:1px solid #e5e7eb;border-radius:4px;overflow:hidden;display:flex;flex-direction:column">
-        <div class="cfi-chart-caption" style="text-align:center;font-weight:bold;font-size:16px;padding:8px 0;background:#f9fafb;flex-shrink:0">
+      <div class="cfi-html-chart" style="width:200px;height:700px;position:relative;border:1px solid #e5e7eb;border-radius:4px;overflow:visible;display:flex;flex-direction:column;box-shadow:2px 2px 6px rgba(0,0,0,0.08)">
+        <div class="cfi-chart-caption" style="text-align:center;font-weight:bold;font-size:16px;padding:8px 0;background:#f9fafb;flex-shrink:0;border-radius:4px 4px 0 0">
           CFI RATIO - ${displayYear}
         </div>
-        <div class="cfi-bar-stack" style="flex:1;display:flex;flex-direction:column;min-height:0;position:relative">
-          ${segmentsHtml}
-          ${indicatorHtml}
+        <div class="cfi-chart-body" style="flex:1;display:flex;min-height:0;position:relative">
+          <div class="cfi-scale-axis" style="width:36px;flex-shrink:0;position:relative;background:#f9fafb;border-right:1px solid #e5e7eb">
+            ${scaleTicksHtml}
+          </div>
+          <div class="cfi-bar-stack" style="flex:1;display:flex;flex-direction:column;min-height:0;position:relative;justify-content:flex-end;align-items:center;padding:0 8px">
+            ${segmentsHtml}
+            <div class="cfi-indicator-container" style="position:absolute;left:50%;transform:translateX(-50%);bottom:0;top:0;width:32px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;pointer-events:none">
+              ${indicatorBarHtml}
+            </div>
+          </div>
         </div>
       </div>
     `;
@@ -149,9 +168,9 @@ const displayCfiComponent = () => {
       { id: 'cfiLabel1', min: -4, max: 1, color: '#D46D78' },
       { id: 'cfiLabel2', min: 1, max: 3, color: '#E39D5E' },
       { id: 'cfiLabel3', min: 3, max: 5, color: '#E0BD4D' },
-      { id: 'cfiLabel4', min: 5, max: 7, color: '#CAE46A' },
-      { id: 'cfiLabel5', min: 7, max: 9, color: '#B0E46A' },
-      { id: 'cfiLabel6', min: 9, max: 10, color: '#8AB552' }
+      { id: 'cfiLabel4', min: 5, max: 7, color: '#b5de1f' },
+      { id: 'cfiLabel5', min: 7, max: 9, color: '#91de2a' },
+      { id: 'cfiLabel6', min: 9, max: 10, color: '#79b52b' }
     ];
 
     labelRanges.forEach((range) => {

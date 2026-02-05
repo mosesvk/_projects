@@ -218,25 +218,58 @@
         flex-shrink: 0;
         min-height: 2px;
       }
-      .cfi-value-indicator {
+      .cfi-scale-axis {
+        position: relative;
+      }
+      .cfi-scale-tick {
         position: absolute;
         left: 0;
-        right: 0;
-        transform: translateY(50%);
-        height: 0;
         display: flex;
         align-items: center;
-        justify-content: center;
-        pointer-events: none;
+        gap: 4px;
+        transform: translateY(50%);
       }
-      .cfi-value-text {
+      .cfi-tick-line {
+        width: 8px;
+        height: 1px;
+        background: #6b7280;
+      }
+      .cfi-tick-value {
+        font-size: 11px;
+        color: #374151;
+        font-weight: 500;
+      }
+      .dark .cfi-tick-value { color: #d1d5db; }
+      .cfi-indicator-bar-wrap {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        min-height: 0;
+      }
+      .cfi-indicator-bar {
+        flex: 1;
+        min-height: 4px;
+        width: 12px;
+        background: #4b5563;
+        border-radius: 2px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+      }
+      .cfi-value-on-bar {
+        flex-shrink: 0;
+        font-size: 13px;
+        font-weight: bold;
+        margin-bottom: 2px;
         background: #000;
         color: #fff;
-        padding: 2px 8px;
-        font-size: 14px;
-        font-weight: bold;
-        border-radius: 4px;
-        white-space: nowrap;
+        padding: 2px 6px;
+        border-radius: 3px;
+      }
+      .cfi-scale-label {
+        color: #374151;
+      }
+      .dark .cfi-scale-label {
+        color: #d1d5db;
       }
       /* Force CFI table row colors to show (override dark mode in CFI section) */
       #cfiRatio_clientTable tr.backgroundOffGreen,
@@ -1171,7 +1204,7 @@
                   <div id="cfiCompositeHtml_Chart" class="mr-2 flex-shrink-0">
                   </div>
                   <!-- CFI Text Labels: tight to chart, min-width so text sits next to color regions -->
-                  <div id="cfiTextLabels" class="flex-shrink-0 mt-10 mr-2" style="height: 656px">
+                  <div id="cfiTextLabels" class="flex-shrink-0 mt-10 mr-4" style="height: 656px">
                     <div id="cfiLabel6" class="py-2 h-16 flex items-center">
                       <p class="text-base font-normal text-gray-600">Deploy resources to achieve robust mission</p>
                     </div>
