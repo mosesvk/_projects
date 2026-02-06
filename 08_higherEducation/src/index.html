@@ -299,6 +299,14 @@
         width: 90%;
         height: 500px;
       }
+
+      /* Options modal dropdowns: Tailwind 2 precompiled CSS does not include arbitrary values
+         like max-h-[calc(100vh-10rem)], so replicate 06_cfhi_standard behavior for scroll-in-list. */
+      #options_modal [id^="options-list-"] {
+        max-height: calc(100vh - 10rem);
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
     </style>
   </head>
   <body>
@@ -499,8 +507,8 @@
             <!-- other  -->
             <button
               id="custom-select-other"
-              data-modal-target="options-modal"
-              data-modal-toggle="options-modal"
+              data-modal-target="options_modal"
+              data-modal-toggle="options_modal"
               class="text-xl mr-3 backgroundBlue font-semibold w-34 h-10 justify-center items-center rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor-pointer"
               type="button"
             >
@@ -5760,15 +5768,15 @@
       </div>
     </div>
 
-    <!-- OPTIONS MODAL -->
-    <div
-      id="options-modal"
+    <!-- OPTIONS MODAL (structure matches 06_cfhi_standard / 05_cfhi_comp) -->
+    <div id="options_modal"
       tabindex="-1"
-      class="hidden overflow-y-hidden overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-32"
+      class="hidden overflow-y-hidden overflow-x-hidden fixed bottom-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full items-baseline pt-40"
     >
       <div class="relative p-4 w-full max-w-7xl max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div
+            id="options_modal"
             data-accordion="collapse"
             data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
           >
@@ -5787,7 +5795,7 @@
                 <button
                   type="button"
                   class="absolute right-5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                  data-modal-toggle="options-modal"
+                  data-modal-toggle="options_modal"
                 >
                   <svg
                     class="w-3 h-3"
@@ -5836,7 +5844,7 @@
                   </div>
                   <div
                     id="options-list-membership"
-                    class="absolute top-36 left-44 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 overflow-scroll h-full"
+                    class="absolute top-36 left-44 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-96 max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[calc(100vh-10rem)] p-4"
                   ></div>
                   <!-- Type -->
                   <div
@@ -5863,7 +5871,7 @@
                   </div>
                   <div
                     id="options-list-type"
-                    class="absolute top-36 left-80 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 overflow-scroll h-full"
+                    class="absolute top-36 left-80 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-96 max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[calc(100vh-10rem)] p-4"
                   ></div>
                   <!-- Athletic -->
                   <div
@@ -5890,7 +5898,7 @@
                   </div>
                   <div
                     id="options-list-athletic"
-                    class="absolute top-36 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-scroll h-full"
+                    class="absolute top-36 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-96 max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[calc(100vh-10rem)] p-4"
                     style="left: 28rem"
                   ></div>
                   <!-- Seminary -->
@@ -5918,7 +5926,7 @@
                   </div>
                   <div
                     id="options-list-seminary"
-                    class="absolute top-36 right-96 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-scroll h-fit"
+                    class="absolute top-36 right-96 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-96 max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[calc(100vh-10rem)] p-4"
                   ></div>
                   <!-- Regional -->
                   <div
@@ -5945,7 +5953,7 @@
                   </div>
                   <div
                     id="options-list-regional"
-                    class="absolute top-36 right-60 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg w-60 invisible overflow-scroll h-full"
+                    class="absolute top-36 right-60 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-96 max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[32rem] p-4"
                   ></div>
                   <!-- Client -->
                   <div
@@ -5972,7 +5980,7 @@
                   </div>
                   <div
                     id="options-list-client"
-                    class="absolute top-36 right-32 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-[30rem] max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[calc(100vh-10rem)] p-4"
+                    class="absolute top-36 right-32 z-50 mt-2 bg-white border border-gray-300 shadow-lg rounded-lg border-gray-200 dark:bg-gray-800 dark:border-gray-600 dark:shadow-lg min-w-96 max-w-2xl w-max invisible overflow-y-auto overflow-x-hidden max-h-[calc(100vh-10rem)] p-4"
                   ></div>
                 </div>
                 <!-- Enrollment Range - slider (structure from 05_cfhi_comp Giving Units) -->
@@ -6180,6 +6188,8 @@
         </div>
       </div>
     </div>
+
+
 
     <!-- PRINT MODAL -->
     <div
