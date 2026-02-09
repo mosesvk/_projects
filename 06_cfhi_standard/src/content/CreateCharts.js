@@ -560,6 +560,107 @@ const getMainChartOptions = (
     },
   ];
 
+  // Single benchmark line per chart (same style as higherEd); label on the right, past the last bar
+  const selectedYearsLength = selectedYearsArray.length;
+  let offsetXRight;
+  switch (selectedYearsLength) {
+    case 1:
+      offsetXRight = 80;
+      break;
+    case 2:
+    case 3:
+      offsetXRight = 120;
+      break;
+    case 4:
+    case 5:
+      offsetXRight = 180;
+      break;
+    case 6:
+      offsetXRight = 220;
+      break;
+    case 7:
+      offsetXRight = 260;
+      break;
+    case 8:
+      offsetXRight = 300;
+      break;
+    case 9:
+      offsetXRight = 340;
+      break;
+    case 10:
+      offsetXRight = 380;
+      break;
+    case 11:
+      offsetXRight = 420;
+      break;
+    default:
+      offsetXRight = 120;
+  }
+
+  const yaxisAnnotations = [];
+  if (benchmark && Array.isArray(benchmark) && benchmark.length > 0) {
+    // Use one benchmark value: for 2-value ranges use the lower end (minimum threshold)
+    const singleValue = benchmark[0];
+    yaxisAnnotations.push({
+      id: "annotation",
+      y: singleValue,
+      borderColor: chartColors.labelColor,
+      strokeDashArray: 0,
+      label: {
+        text: "Benchmark",
+        borderColor: "transparent",
+        borderWidth: 0,
+        offsetX: offsetXRight,
+        position: "right",
+        style: {
+          background: "transparent",
+          color: chartColors.labelColor,
+          fontSize: "18px",
+          fontWeight: 600,
+        },
+      },
+    });
+  }
+
+  const chartEvents = {
+    beforeMount: function (chartContext, config) {
+      setTimeout(() => {
+        const chartElement = document.getElementById(chartId);
+        if (!chartElement) return;
+        const gridLine = chartElement.querySelector(
+          ".apexcharts-gridlines-horizontal line"
+        );
+        if (!gridLine) return;
+        const annotationLines = chartElement.querySelectorAll(
+          ".apexcharts-yaxis-annotations line"
+        );
+        const x1 = gridLine.getAttribute("x1");
+        const x2 = gridLine.getAttribute("x2");
+        annotationLines.forEach((line) => {
+          line.setAttribute("x1", x1);
+          line.setAttribute("x2", x2);
+        });
+      }, 200);
+    },
+    updated: function (chartContext, config) {
+      const chartElement = document.getElementById(chartId);
+      if (!chartElement) return;
+      const gridLine = chartElement.querySelector(
+        ".apexcharts-gridlines-horizontal line"
+      );
+      if (!gridLine) return;
+      const annotationLines = chartElement.querySelectorAll(
+        ".apexcharts-yaxis-annotations line"
+      );
+      const x1 = gridLine.getAttribute("x1");
+      const x2 = gridLine.getAttribute("x2");
+      annotationLines.forEach((line) => {
+        line.setAttribute("x1", x1);
+        line.setAttribute("x2", x2);
+      });
+    },
+  };
+
   return {
     colors: [
       window.chartColors.green,
@@ -588,6 +689,10 @@ const getMainChartOptions = (
       type: "line",
       stacked: false,
       background: "transparent",
+      events: chartEvents,
+    },
+    annotations: {
+      yaxis: yaxisAnnotations,
     },
     dataLabels: {
       enabled: true,
