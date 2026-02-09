@@ -604,7 +604,7 @@ const getMainChartOptions = (
     yaxisAnnotations.push({
       id: "annotation",
       y: singleValue,
-      borderColor: chartColors.labelColor,
+      borderColor: "#000000",
       strokeDashArray: 0,
       label: {
         text: "Benchmark",
@@ -614,7 +614,7 @@ const getMainChartOptions = (
         position: "right",
         style: {
           background: "transparent",
-          color: chartColors.labelColor,
+          color: "#000000",
           fontSize: "18px",
           fontWeight: 600,
         },
