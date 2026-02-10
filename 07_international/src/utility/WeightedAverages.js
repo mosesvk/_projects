@@ -591,7 +591,7 @@ const percentWithoutDR_excludingPPE_weightedAverage = (data, name, year) => {
     : getSumOfArray(data.totalNetAssets[name]["total"]);
 
   return totalNetAssets > 0
-    ? (netAssetsWithoutDR - propertyPlantAndEquipment - notesPayable) /
+    ? (netAssetsWithoutDR - propertyPlantAndEquipment + notesPayable) /
         totalNetAssets
     : 0;
 };
