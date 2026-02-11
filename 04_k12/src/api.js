@@ -63,6 +63,15 @@ const findUniqueYears = (data) => {
   }
 };
 
+/** Track missing-field warnings so we only log once per (field, dataKey). */
+const _missingFieldWarned = new Set();
+
+/** Peer ratio fields known to be absent from API; skip warning to avoid console noise. */
+const _knownOptionalPeerFields = new Set([
+  "_22b1_ratio_financial_assistance_discount_based\nfinancialAssistanceDiscountBased_Peer",
+  "_22c1_ratio_scholarship_awarded\nscholarshipAwarded_Peer",
+]);
+
 const insertDataIntoObject = (
   type,
   year,
@@ -75,7 +84,17 @@ const insertDataIntoObject = (
 ) => {
   const childElement = record.querySelector(child);
   if (!childElement) {
-    console.warn(`Field "${child}" not found in record for dataKey "${dataKey}"`);
+    const warnKey = `${child}\n${dataKey}`;
+    if (_knownOptionalPeerFields.has(warnKey)) {
+      return;
+    }
+    if (!_missingFieldWarned.has(warnKey)) {
+      _missingFieldWarned.add(warnKey);
+      console.warn(
+        `Field "${child}" not found in record for dataKey "${dataKey}". ` +
+          "This may mean the field is not in the API clist or some records omit it. Skipping for affected records."
+      );
+    }
     return;
   }
 
@@ -3026,10 +3045,17 @@ const countUniqueClients = (records) => {
 
     const count = uniqueClients.size;
     // console.log(count);
-    document.getElementById("uniqueClients").textContent = count;
+
+    const uniqueClientsElement = document.getElementById("uniqueClients");
+    if (uniqueClientsElement) {
+      uniqueClientsElement.textContent = count;
+    }
   } catch (error) {
     console.error("Error counting unique clients:", error);
-    document.getElementById("uniqueClients").textContent = 0; // Set to 0 in case of error
+    const uniqueClientsElement = document.getElementById("uniqueClients");
+    if (uniqueClientsElement) {
+      uniqueClientsElement.textContent = 0;
+    }
   }
 };
 
@@ -3249,6 +3275,12 @@ run_btn.addEventListener("click", async () => {
   try {
     uploadMainFile = "";
     // document.getElementById("print_modal_footer").classList.add("hidden");
+
+    // Update School/Church selection so the API peer query can use it
+    if (typeof getSelectedSchoolChurchOption === "function") {
+      getSelectedSchoolChurchOption();
+    }
+
     toggleButtonLoadingState(run_btn);
     const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
@@ -3271,8 +3303,25 @@ run_btn.addEventListener("click", async () => {
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
+
+    // Toastify-style confirmation that the API run completed successfully,
+    // aligned with the comprehensive project’s feedback patterns.
+    if (typeof createToastSuccess === "function") {
+      createToastSuccess(
+        "API data loaded successfully."
+      );
+    }
   } catch (err) {
     console.error(err);
+    // Surface a user-facing error toast when the API run fails,
+    // similar to the comp project’s warning patterns.
+    if (typeof createToastWarning === "function") {
+      createToastWarning(
+        err && err.message
+          ? `There was an error loading data: ${err.message}`
+          : "There was an error loading data. Please try again."
+      );
+    }
   } finally {
     toggleButtonNormalState(run_btn);
   }
@@ -3293,16 +3342,15 @@ const getRecordsForPeer = async (years, dataStr) => {
     return parsedData;
   }
 
-  //  ( {288.EX.${schoolChurch_Array[0]['arr'][0]}} OR {288.EX.${schoolChurch_Array[1]['arr'][0]}} )
-  //      {6.GTE.${sliderValue}} AND
-  //      {6.LTE.${sliderValue2}} AND
-
+  // Peer query: year only (field 136). Matches original K12 behavior so peer
+  // data loads reliably. Enrollment (field 6) and School/Church (field 288)
+  // can be re-added once Quickbase field IDs and value formats are confirmed.
   const currentYear = years[0];
+  const queryCondition = `{136.EX.${currentYear}}`;
+
   const apiCallPeerData = {
     act: "API_DoQuery",
-    query: `
-    {136.EX.${currentYear}} AND 
-  `,
+    query: queryCondition,
     clist:
       "136.138.49.50.51.52.53.154.157.159.160.161.162.8.10.6.54.163.31.27.30.27.30.41.42.55.164.56.165.21.22.29.57.166.28.58.167.59.168.60.169.47.19.61.170.27.26.62.171.24.20.63.186.25.34.37.65.188.30.27.66.189.20.28.67.190.28.31.290.27.30.32.68.191.69.192.45.44.48.18.70.193..45.40.71.194.42.73.196.37.34.74.197.34.38.75.198.39.38.76.199.34.78.201.36.80.203.82.205.37.84.207.34.86.209.35.87.210.13.34.37.88.211.14.89.212.34.90.213.91.215.92.216.93.217.94.218.4.42.95.219.15.41.96.220.97.221.48.98.222.18.44.99.223.39.46.100.224.39.101.225.102.226.34.37.103.227.104.228.39.105.229.16.12.106.230.107.231.16.18.44.48.12.108.232.109.233.17.43.282.285.283.284.288.156",
   };

@@ -10,9 +10,22 @@ window.sliderValue2 = 25000;
 
 let backdropRemoved = false; // Flag to track whether the backdrop is removed
 
+/**
+ * Moves focus out of the options modal to the trigger button so that
+ * aria-hidden can be set without leaving focus on a hidden element
+ * (fixes "Blocked aria-hidden" accessibility warning).
+ */
+const returnFocusFromOptionsModal = () => {
+  const active = document.activeElement;
+  if (optionsModal && active && optionsModal.contains(active) && optionsButton) {
+    optionsButton.focus();
+  }
+};
+
 // Function to remove all backdrop elements
 const removeBackdrops = () => {
   // console.log("removeBackdrop");
+  returnFocusFromOptionsModal();
   const backdrops = document.querySelectorAll("[modal-backdrop]");
   backdrops.forEach((backdrop) => {
     backdrop.remove();
@@ -54,6 +67,44 @@ const toggleOptionsModal = () => {
 };
 
 optionsButton.addEventListener("click", toggleOptionsModal);
+
+// When the options modal is hidden (by Flowbite or any code), return focus so
+// aria-hidden does not hide the focused element (fixes accessibility warning).
+if (optionsModal && optionsButton) {
+  const modalObserver = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      if (m.attributeName === "aria-hidden" && optionsModal.getAttribute("aria-hidden") === "true") {
+        returnFocusFromOptionsModal();
+        break;
+      }
+      if (m.attributeName === "class" && optionsModal.classList.contains("hidden")) {
+        returnFocusFromOptionsModal();
+        break;
+      }
+    }
+  });
+  modalObserver.observe(optionsModal, { attributes: true, attributeFilter: ["aria-hidden", "class"] });
+
+  // Return focus before Flowbite closes the modal (backdrop click / Escape) to avoid aria-hidden warning.
+  document.addEventListener(
+    "click",
+    (e) => {
+      if (e.target && (e.target.hasAttribute("modal-backdrop") || e.target.closest("[modal-backdrop]"))) {
+        returnFocusFromOptionsModal();
+      }
+    },
+    true
+  );
+  document.addEventListener(
+    "keydown",
+    (e) => {
+      if (e.key === "Escape" && optionsModal && !optionsModal.classList.contains("hidden")) {
+        returnFocusFromOptionsModal();
+      }
+    },
+    true
+  );
+}
 
 const customSelectElement = document.getElementById("custom-select");
 const optionsListElement = document.getElementById("options-list");
@@ -163,7 +214,6 @@ const addCheckmarkToSelectedOption = () => {
   );
 
   radioButtons.forEach((radio) => {
-    // console.log(radio);
     radio.addEventListener("change", function () {
       const labels = document.querySelectorAll(`label[for="${this.id}"]`);
       labels.forEach((label) => {
@@ -176,6 +226,10 @@ const addCheckmarkToSelectedOption = () => {
           }
         }
       });
+
+      if (typeof getSelectedSchoolChurchOption === "function") {
+        getSelectedSchoolChurchOption();
+      }
     });
   });
 };

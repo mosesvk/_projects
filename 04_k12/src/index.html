@@ -497,7 +497,7 @@
                       class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
                     >
                       <h3
-                        class="font-semibold text-gray-900 dark:text-white text-lg"
+                        class="font-semibold text-white text-lg"
                       >
                         Cash Flow and Reserve Ratios
                       </h3>
@@ -511,6 +511,9 @@
                 <li>
                   <button
                     id="netAssetsLink"
+                    data-popover-target="popoverNetAssets-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     type="button"
                     class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
@@ -534,10 +537,33 @@
                       Asset Ratio
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverNetAssets-hover"
+                    role="tooltip"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
+                    >
+                      <h3
+                        class="font-semibold text-white text-lg"
+                      >
+                        Asset Ratios
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
                     id="debtLink"
+                    data-popover-target="popoverDebt-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     type="button"
                     class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
@@ -559,10 +585,33 @@
                       Debt
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverDebt-hover"
+                    role="tooltip"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
+                    >
+                      <h3
+                        class="font-semibold text-white text-lg"
+                      >
+                        Debt Ratios
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
                     id="incomeLink"
+                    data-popover-target="popoverIncome-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     type="button"
                     class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
@@ -586,10 +635,33 @@
                       Income
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverIncome-hover"
+                    role="tooltip"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
+                    >
+                      <h3
+                        class="font-semibold text-white text-lg"
+                      >
+                        Income Ratios
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
                     id="expenseLink"
+                    data-popover-target="popoverExpense-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     type="button"
                     class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
@@ -611,10 +683,33 @@
                       Expense
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverExpense-hover"
+                    role="tooltip"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
+                    >
+                      <h3
+                        class="font-semibold text-white text-lg"
+                      >
+                        Expense Ratios
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
                 <li>
                   <button
                     id="reportLink"
+                    data-popover-target="popoverReports-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
                     class="flex items-center w-full p-2 text-black transition duration-75 rounded-lg group hover:bg-gray-300 dark:text-white dark:hover:bg-gray-700 active:text-green-200"
                   >
                     <svg
@@ -637,6 +732,26 @@
                       All Reports
                     </span>
                   </button>
+                  <div
+                    data-popover
+                    id="popoverReports-hover"
+                    role="tooltip"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
+                    >
+                      <h3
+                        class="font-semibold text-white text-lg"
+                      >
+                        Trends and Benchmark Reports
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
                 </li>
               </ul>
             </div>
