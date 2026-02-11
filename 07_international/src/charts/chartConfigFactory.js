@@ -520,7 +520,7 @@ class ChartConfigFactory {
           }
         },
         style: {
-          fontSize: "14px",
+          fontSize: "20px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
           colors: this.themeColors.seriesColors,
@@ -979,7 +979,7 @@ class ChartConfigFactory {
         textAnchor: "middle",
         offsetY: -10,
         style: {
-          fontSize: "12px",
+          fontSize: "20px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
         },
@@ -1710,7 +1710,7 @@ class ChartConfigFactory {
         offsetX: 0,
         textAnchor: 'middle',
         style: {
-          fontSize: "14px",
+          fontSize: "22px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
           colors: seriesColors,
@@ -2037,10 +2037,10 @@ class ChartConfigFactory {
       },
       dataLabels: {
         enabled: true,
-        offsetY: -20,
+        offsetY: -32,
         formatter: formatLargeNumber,
         style: {
-          fontSize: "14px",
+          fontSize: "20px",
           fontFamily: "Helvetica, Arial, sans-serif",
           fontWeight: "bold",
           colors: seriesColors,

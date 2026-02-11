@@ -1162,11 +1162,11 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     window.yearSelectionsInitialized = true;
   }
 
-  // Initialize selectedYears_Set from local storage if data exists
+  // Initialize selectedYears_Set from local storage if data exists (normalize to numbers)
   const storedYears = getSelectedYearsFromLocalStorage();
 
   if (Array.isArray(storedYears)) {
-    selectedYears_Set = new Set(storedYears);
+    selectedYears_Set = new Set(storedYears.map((y) => Number(y)));
   }
 
   // Clear existing content
@@ -1191,8 +1191,8 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
   selectAllInput.checked = false;
 
   // Sort years in descending order first (to determine button text)
-  const sortedYears = yearsArray.sort((a, b) => b - a);
-  
+  const sortedYears = yearsArray.map((y) => Number(y)).sort((a, b) => b - a);
+
   const selectAllSpan = document.createElement("span");
   selectAllSpan.setAttribute("id", "select-all-text-years");
   // If more than 5 years available, show "select recent 5", otherwise "select all"
@@ -1204,8 +1204,30 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
 
   optionsListElement.appendChild(selectAllLabel);
 
-  // Add year options
+  /**
+   * Syncs the "select recent 5" / "select all" checkbox to match the current year selections.
+   * When the user deselects any of the recent 5 years, this must uncheck the select-all button.
+   */
+  const syncSelectAllYearsCheckbox = () => {
+    const selectAllCheckbox = document.getElementById("select-all-checkbox-years");
+    if (!selectAllCheckbox) return;
+    const yearCheckboxes = document.querySelectorAll(
+      "#options-list input[type='checkbox']"
+    );
+    const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
+      (cb) => cb.id !== "select-all-checkbox-years"
+    );
+    const maxToSelect = sortedYears.length > 5 ? 5 : nonSelectAllCheckboxes.length;
+    const targetCheckboxes = nonSelectAllCheckboxes.slice(0, maxToSelect);
+    const allTargetChecked = targetCheckboxes.every((cb) => cb.checked);
+    const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
+    selectAllCheckbox.checked = allTargetChecked;
+    selectAllCheckbox.indeterminate = !allTargetChecked && !noneChecked;
+  };
+
+  // Add year options (use numeric year for set operations so types stay consistent)
   sortedYears.forEach((year) => {
+    const yearNum = Number(year);
     const newLabel = document.createElement("label");
     newLabel.setAttribute("for", `option-${year}`);
     newLabel.setAttribute(
@@ -1221,36 +1243,20 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
       `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
     );
     newInput.setAttribute("value", year);
-    // Check the input only if the year is in the selectedYears_Set
-    newInput.checked = selectedYears_Set.has(year);
+    // Check the input only if the year is in the selectedYears_Set (use number for consistency)
+    newInput.checked = selectedYears_Set.has(yearNum);
 
     newInput.addEventListener("change", (e) => {
       const isChecked = e.target.checked;
 
       if (isChecked) {
-        selectedYears_Set.add(year);
+        selectedYears_Set.add(yearNum);
       } else {
-        selectedYears_Set.delete(year);
+        selectedYears_Set.delete(yearNum);
       }
 
-      // Update "Select All/Recent 5" checkbox state
-      const yearCheckboxes = document.querySelectorAll(
-        "#options-list input[type='checkbox']"
-      );
-      const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
-        (cb) => cb.id !== "select-all-checkbox-years"
-      );
-
-      // Determine target state based on number of years
-      const maxToSelect = sortedYears.length > 5 ? 5 : nonSelectAllCheckboxes.length;
-      
-      // Check if the first N checkboxes (most recent years) are all checked
-      const targetCheckboxes = nonSelectAllCheckboxes.slice(0, maxToSelect);
-      const allTargetChecked = targetCheckboxes.every((cb) => cb.checked);
-      const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
-
-      selectAllInput.checked = allTargetChecked;
-      selectAllInput.indeterminate = !allTargetChecked && !noneChecked;
+      // When user deselects any of the recent 5, the select-all must be unchecked to avoid interference
+      syncSelectAllYearsCheckbox();
 
       // Save to local storage
       const selectedYearsArray = Array.from(selectedYears_Set).sort(
@@ -1268,37 +1274,40 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     optionsListElement.appendChild(newLabel);
   });
 
+  // Set initial state of "select recent 5" so it matches current year selections
+  syncSelectAllYearsCheckbox();
+
   // "Select All" (or "Select Recent 5") checkbox behavior
   selectAllInput.addEventListener("change", function () {
     const isChecked = selectAllInput.checked;
     const yearCheckboxes = document.querySelectorAll(
       "#options-list input[type='checkbox']"
     );
-    
+
     // Get non-select-all checkboxes (already in descending order - most recent first)
     const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
       (cb) => cb.id !== "select-all-checkbox-years"
     );
-    
+
     // Determine how many to select: all if <= 5 years, otherwise just 5
     const maxToSelect = sortedYears.length > 5 ? 5 : nonSelectAllCheckboxes.length;
 
     nonSelectAllCheckboxes.forEach((checkbox, index) => {
-      const year = parseInt(checkbox.value);
-      
+      const yearNum = Number(checkbox.value);
+
       if (isChecked) {
         // If checking: select first 5 (most recent) or all if <= 5 years
         if (index < maxToSelect) {
           checkbox.checked = true;
-          selectedYears_Set.add(year);
+          selectedYears_Set.add(yearNum);
         } else {
           checkbox.checked = false;
-          selectedYears_Set.delete(year);
+          selectedYears_Set.delete(yearNum);
         }
       } else {
         // If unchecking: uncheck all
         checkbox.checked = false;
-        selectedYears_Set.delete(year);
+        selectedYears_Set.delete(yearNum);
       }
     });
 
