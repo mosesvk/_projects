@@ -4,8 +4,9 @@ Higher Ed (08_higherEducation)
 - [08_higherEducation] FusionChart colors to match capin colors. For this to-do: only the Fusion Chart background colors need to match the capin colors. Within 07_international, in the source and charts folder, make sure only the Fusion Chart background colors match the original config capin colors. The green, the red, and the yellow need to match the capin colors.
 
 K12 (04_k12)
-- [04_k12] Make sure the header/nav matches with church. This is complex on the UI side. Reference the images above: K-12 header vs church headers. Match the organization of Index.html, how buttons are styled and arranged next to years. Reference the HTML and header files of 05_cfhi_comp and 06_cfhi_standard for how 04_k12 should look.
-- [04_k12] Make sure the print functionality matches church projects (reference 05_cfhi_comp, 06_cfhi_standard). This includes:
+- Make sure the header/nav matches with church. This is complex on the UI side. Reference the images above: K-12 header vs church headers. Match the organization of Index.html, how buttons are styled and arranged next to years. Reference the HTML and header files of 05_cfhi_comp and 06_cfhi_standard for how 04_k12 should look.
+- When Running the api data, make sure it follows the comp projects process when it shows the 'api loading div'. 
+- Make sure the print functionality matches church projects (reference 05_cfhi_comp, 06_cfhi_standard). This includes:
 - making sure the print button is on the sidebar
 - making sure when we click that print button, it displays a print_modal where we can click "generate reports" or "print presentation". Move all print/Excel functionality from options_modal into the print_modal. Create print_modal, print button on sidebar (like church). Reference church's print_base64, base URL file, and print Excel file. Implement in 04_k12.
 

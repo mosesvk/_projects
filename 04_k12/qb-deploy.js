@@ -25,6 +25,7 @@ const config = {
     '_utility.js': '135',          // k12_utility.js -> Code Page 135
     '_utilityWeightedAverages.js': '142', // k12_utilityWeightedAverages.js -> Code Page 142
     '_utilityPrint.js': '180',     // k12_utilityPrint.js -> Code Page 180
+    '_utilityPrintBase64.js': '222', // k12_utilityPrintBase64.js -> Code Page 222 (Print Presentation base64 → bumq5tt67)
   },
   
   // Default page ID (fallback)

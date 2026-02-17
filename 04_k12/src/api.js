@@ -3281,6 +3281,9 @@ run_btn.addEventListener("click", async () => {
       getSelectedSchoolChurchOption();
     }
 
+    if (typeof showApiLoadingFunction === "function") {
+      showApiLoadingFunction("open", "api");
+    }
     toggleButtonLoadingState(run_btn);
     const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
@@ -3311,6 +3314,9 @@ run_btn.addEventListener("click", async () => {
         "API data loaded successfully."
       );
     }
+    if (typeof showApiLoadingFunction === "function") {
+      showApiLoadingFunction("close");
+    }
   } catch (err) {
     console.error(err);
     // Surface a user-facing error toast when the API run fails,
@@ -3322,8 +3328,14 @@ run_btn.addEventListener("click", async () => {
           : "There was an error loading data. Please try again."
       );
     }
+    if (typeof showApiLoadingFunction === "function") {
+      showApiLoadingFunction("close");
+    }
   } finally {
     toggleButtonNormalState(run_btn);
+    if (typeof showApiLoadingFunction === "function") {
+      showApiLoadingFunction("close");
+    }
   }
 });
 

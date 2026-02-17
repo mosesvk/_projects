@@ -276,11 +276,43 @@
             </div>
           </div>
           <div class="flex items-center cursor-pointer">
+            <!-- Years first (church order), blue styling -->
+            <div
+              id="custom-select"
+              class="relative flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor-pointer"
+            >
+              <div
+                class="flex items-center justify-between"
+              >
+                <span class="text-xl">Years</span>
+                <svg
+                  class="pl-2 w-8 h-8 text-white"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="m19 9-7 7-7-7"
+                  />
+                </svg>
+              </div>
+              <div
+                id="options-list"
+                class="absolute left-0 top-full z-50 mt-2 w-full min-w-fit text-gray-900 dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto max-h-80 py-4 invisible"
+              ></div>
+            </div>
             <button
               data-modal-target="options_modal"
               data-modal-toggle="options_modal"
               type="button"
-              class="flex mr-3 backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
+              class="flex mr-3 backgroundBlue font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-blue-300 opacity-75 hover:opacity-100 cursor:pointer"
             >
               <span class="text-lg">Options</span>
               <svg
@@ -295,44 +327,6 @@
                 />
               </svg>
             </button>
-            <div
-              id="custom-select"
-              class="block py-2.5 px-0 mr-4 w-full text-gray-600 bg-transparent border-0 border-b-2 border-gray-400 dark:border-white appearance-none transition delay-50 focus:outline-none focus:ring-0 focus:border-gray-200 peer relative text-xl"
-            >
-              <div
-                class="flex items-center justify-between hover:text-gray-400 dark:text-gray-400 dark:hover:text-white"
-              >
-                <svg
-                  class="w-5 h-5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                >
-                  <path
-                    d="M0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm14-7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm-5-4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1Zm0 4a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1ZM20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4Z"
-                  />
-                </svg>
-                <div class="px-2">Select Years</div>
-                <svg
-                  class="h-5 w-5"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M6.293 9.293a1 1 0 011.414 0L10 11.586l2.293-2.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-              </div>
-              <div
-                id="options-list"
-                class="absolute left-0 z-10 mt-2 w-full dark:text-gray-400 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto h-fit py-4 invisible"
-              ></div>
-            </div>
             <button
               id="run"
               class="flex flex-row items-center backgroundGreen font-bold py-2 px-4 rounded transition transform text-white dark:text-white hover:scale-105 hover:shadow-md hover:shadow-green-300 opacity-75 hover:opacity-100 cursor:pointer"
@@ -357,9 +351,9 @@
               </svg>
             </button>
           </div>
-          <div class="flex flex-rowcolorBlue text-right dark:text-white">
-            <p class="font-mono">
-              unique clients: <span id="uniqueClients"></span>
+          <div class="flex flex-row colorBlue text-right dark:text-white">
+            <p class="font-bold">
+              Peer group size - <span id="uniqueClients"></span>
             </p>
           </div>
           <div class="flex items-center">
@@ -745,6 +739,58 @@
                         class="font-semibold text-white text-lg"
                       >
                         Trends and Benchmark Reports
+                      </h3>
+                    </div>
+                    <div
+                      data-popper-arrow
+                      class="bg-gray-700 dark:border-gray-600"
+                    ></div>
+                  </div>
+                </li>
+                <hr class="h-px my-8 bg-gray-400 border-1 dark:bg-gray-700" />
+                <li>
+                  <button
+                    data-modal-target="print_modal"
+                    data-modal-toggle="print_modal"
+                    data-popover-target="popoverPrint-hover"
+                    data-popover-trigger="hover"
+                    data-popover-placement="right"
+                    type="button"
+                    class="flex items-center w-full p-2 text-base text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-700"
+                  >
+                    <svg
+                      class="flex-shrink-0 w-6 h-6 transition duration-75"
+                      aria-hidden="true"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="24"
+                      height="24"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M8 3a2 2 0 0 0-2 2v3h12V5a2 2 0 0 0-2-2H8Zm-3 7a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h1v-4a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v4h1a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5Zm4 11a1 1 0 0 1-1-1v-4h8v4a1 1 0 0 1-1 1H9Z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    <span
+                      class="ml-4 text-left text-xl font-bold whitespace-nowrap"
+                      sidebar-toggle-item=""
+                    >
+                      Print
+                    </span>
+                  </button>
+                  <div
+                    data-popover
+                    id="popoverPrint-hover"
+                    role="tooltip"
+                    class="hidden absolute z-10 invisible inline-block w-64 transition-opacity duration-300 border border-gray-700 rounded-lg shadow-sm opacity-0"
+                  >
+                    <div
+                      class="px-3 py-2 bg-gray-700 border-b border-gray-700 rounded-lg"
+                    >
+                      <h3 class="font-semibold text-white text-lg">
+                        Print Report
                       </h3>
                     </div>
                     <div
@@ -5605,6 +5651,39 @@
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PRINT MODAL -->
+    <div
+      id="print_modal"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden overflow-y-auto overflow-x-hidden fixed inset-0 z-50 flex items-center justify-center w-full p-4"
+    >
+      <div
+        class="relative bg-white rounded-xl shadow-2xl dark:bg-gray-800 p-6 w-full max-w-2xl max-h-full overflow-y-auto"
+      >
+        <div class="relative">
+          <div
+            data-accordion="collapse"
+            data-active-classes="dark:bg-gray-800 colorBlue dark:text-white"
+          >
+            <div class="flex justify-center py-6">
+              <h2
+                class="text-3xl dark:text-white font-bold leading-none uppercase text-gray-800"
+              >
+                Print Options
+              </h2>
+            </div>
+            <div
+              class="block py-4 px-0 w-full text-gray-600 bg-transparent dark:text-gray-300 relative text-lg"
+            >
+              <div class="flex flex-col gap-y-6">
                 <div class="flex flex-col justify-center py-4">
                   <button
                     type="button"
@@ -5664,6 +5743,14 @@
                       </a>
                     </div>
                   </div>
+                  <hr class="h-px my-6 bg-gray-300 border-0 dark:bg-gray-600" />
+                  <button
+                    type="button"
+                    class="flex backgroundBlue text-xl font-bold w-max-content self-center py-4 mb-2 px-8 rounded-lg transition-all duration-200 text-white dark:text-white hover:scale-105 hover:shadow-lg hover:shadow-blue-300/50 opacity-90 hover:opacity-100 cursor-pointer"
+                    id="printBase64"
+                  >
+                    Print Presentation
+                  </button>
                 </div>
               </div>
             </div>
@@ -5672,10 +5759,69 @@
       </div>
     </div>
 
+    <!-- Loading Modal -->
+    <div
+      id="loadingApiDiv"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black/75 backdrop-blur-sm"
+    >
+      <div class="text-center">
+        <div role="status">
+          <div
+            id="loadingApiInnerDiv"
+            class="flex flex-col items-center px-8 py-8 font-semibold text-white leading-none tracking-wider text-center rounded-2xl shadow-2xl animate-pulse"
+          >
+            <div
+              id="loadingApiHeader"
+              class="mb-6 text-6xl font-bold text-blue-100"
+            ></div>
+            <div
+              id="loadingApiYears"
+              class="px-6 py-3 text-4xl font-bold leading-none text-center text-blue-100 backgroundBlue rounded-full border border-white"
+            >
+              <span id="apiYears">
+                <span id="firstApiYear" class="mx-2"></span> -
+                <span id="LastApiYear" class="mx-2"></span>
+              </span>
+              <span id="apiPrint" class="hidden flex gap-3 items-center mt-3">
+                <svg
+                  class="w-8 h-8 text-blue-300 hover:text-blue-100 transition-colors cursor-pointer"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
+                  />
+                </svg>
+                <svg
+                  class="w-8 h-8 text-green-400 hover:text-green-300 transition-colors cursor-pointer"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <rect x="3" y="10" width="4" height="8" rx="1" fill="currentColor" />
+                  <rect x="9" y="6" width="4" height="12" rx="1" fill="currentColor" />
+                  <rect x="15" y="2" width="4" height="16" rx="1" fill="currentColor" />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=135"></script> <!-- utility.js --> 
 	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=142"></script> <!-- utilityWeightedAverages.js --> 
-	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=180"></script> <!-- utilityPrint.js --> 
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=180"></script> <!-- utilityPrint.js -->
+	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=222"></script> <!-- utilityPrintBase64.js -->
 	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=136"></script> <!-- api.js -->
  	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=137"></script> <!-- Header.js -->
  	<script src="https://capincrouse.quickbase.com/db/bps9da9i5?a=dbpage&pageID=138"></script> <!-- compEnrollment.js -->

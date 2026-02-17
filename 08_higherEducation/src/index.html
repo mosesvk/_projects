@@ -151,6 +151,7 @@
         greenPropertyEquipment: "#459B53",
         greenPropertyEquipmentHover: "#2E6136",
       };
+      window.chartColors = chartColors;
 
       // Convert base64 to blob URL
       const base64String =
@@ -224,16 +225,12 @@
       }
       .cfi-scale-tick {
         position: absolute;
-        left: 0;
+        right: 0;
+        left: auto;
         display: flex;
         align-items: center;
-        gap: 4px;
+        justify-content: flex-end;
         transform: translateY(50%);
-      }
-      .cfi-tick-line {
-        width: 8px;
-        height: 1px;
-        background: #6b7280;
       }
       .cfi-tick-value {
         font-size: 16px;
@@ -1214,22 +1211,22 @@
                   <!-- CFI Text Labels: tight to chart, min-width so text sits next to color regions -->
                   <div id="cfiTextLabels" class="flex-shrink-0 mt-10 mr-4" style="height: 656px">
                     <div id="cfiLabel6" class="py-2 h-16 flex items-center">
-                      <p class="text-base font-normal text-gray-600">Deploy resources to achieve robust mission</p>
+                      <p class="text-base font-normal text-black">Deploy resources to achieve robust mission</p>
                     </div>
                     <div id="cfiLabel5" class="py-2 h-20 flex items-center">
-                      <p class="text-base font-normal text-gray-600">Allow experimentation with new initiatives</p>
+                      <p class="text-base font-normal text-black">Allow experimentation with new initiatives</p>
                     </div>
                     <div id="cfiLabel4" class="py-2 h-20 flex items-center">
-                      <p class="text-base font-normal text-gray-600">Focus resources to compete in future state</p>
+                      <p class="text-base font-normal text-black">Focus resources to compete in future state</p>
                     </div>
                     <div id="cfiLabel3" class="py-2 h-24 flex items-center">
                       <p class="text-2xl font-bold text-black">Direct resources to allow transformation</p>
                     </div>
                     <div id="cfiLabel2" class="py-2 h-24 flex items-center">
-                      <p class="text-base font-normal text-gray-600">Re-Engineer the University</p>
+                      <p class="text-base font-normal text-black">Re-Engineer the University</p>
                     </div>
                     <div id="cfiLabel1" class="py-2 h-40 flex items-center">
-                      <p class="text-base font-normal text-gray-600">Assess viability to Survive</p>
+                      <p class="text-base font-normal text-black">Assess viability to Survive</p>
                     </div>
                   </div>
                   <!-- CFI Data Tables -->

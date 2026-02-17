@@ -90,6 +90,11 @@ const createChart = (chartId, dataPeer, dataClient, type, fixedNum, name) => {
 
   chart.render();
 
+  // Expose chart instance for Print Presentation (base64 export to Quickbase)
+  if (typeof window !== "undefined") {
+    window[chartId] = chart;
+  }
+
   // init again when toggling dark mode
   document.addEventListener("dark-mode", function () {
     chart.updateOptions(
@@ -340,6 +345,49 @@ const getSelectedYearsFromLocalStorage = () => {
   return storedSelectedYears;
 };
 
+/**
+ * Show or hide the API loading modal (matches comp project process).
+ * @param {string} action - "open" or "close"
+ * @param {string} [mode] - "api" for data load (show year range) or "print" for presentation (hide year range)
+ */
+function showApiLoadingFunction(action, mode) {
+  const loadingDiv = document.getElementById("loadingApiDiv");
+  const loadingApiHeader = document.getElementById("loadingApiHeader");
+  const apiPrint = document.getElementById("apiPrint");
+  const firstApiYearSpan = document.getElementById("firstApiYear");
+  const lastApiYearSpan = document.getElementById("LastApiYear");
+  const apiYears = document.getElementById("apiYears");
+  const loadingApiYears = document.getElementById("loadingApiYears");
+
+  if (!loadingDiv || !loadingApiHeader) return;
+
+  if (action === "close") {
+    setTimeout(() => {
+      loadingDiv.classList.add("hidden");
+    }, 1500);
+  } else if (action === "open") {
+    loadingDiv.classList.remove("hidden");
+
+    if (mode === "api") {
+      loadingApiHeader.innerHTML = "Loading Data";
+      if (apiYears) apiYears.classList.remove("hidden");
+      if (apiPrint) apiPrint.classList.add("hidden");
+      if (loadingApiYears) loadingApiYears.classList.remove("hidden");
+
+      const selectedYears = getSelectedYearsFromLocalStorage();
+      if (selectedYears && selectedYears.length > 0 && firstApiYearSpan && lastApiYearSpan) {
+        firstApiYearSpan.textContent = selectedYears[0];
+        lastApiYearSpan.textContent = selectedYears[selectedYears.length - 1];
+      }
+    } else if (mode === "print") {
+      loadingApiHeader.innerHTML = "Creating Presentation Slides";
+      if (apiYears) apiYears.classList.add("hidden");
+      if (apiPrint) apiPrint.classList.remove("hidden");
+      if (loadingApiYears) loadingApiYears.classList.add("hidden");
+    }
+  }
+}
+
 const resetSelectedYearsFromLocalStorage = () => {
   localStorage.setItem("selectedYears", JSON.stringify([]));
 };
@@ -391,7 +439,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     );
 
     const newSpan = document.createElement("span");
-    newSpan.setAttribute("class", `dark:text-white`)
+    newSpan.setAttribute("class", "text-gray-900 dark:text-white");
     newSpan.innerText = year;
 
     newLabel.appendChild(newInput);

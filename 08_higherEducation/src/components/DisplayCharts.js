@@ -109,7 +109,6 @@ const displayCfiComponent = () => {
     const scaleTicksHtml = tickValues.map((tickVal) => {
       const bottomPct = ((tickVal - CFI_MIN) / CFI_RANGE) * 100;
       return `<div class="cfi-scale-tick" style="bottom:${bottomPct}%">
-        <span class="cfi-tick-line"></span>
         <span class="cfi-tick-value">${tickVal}</span>
       </div>`;
     }).join('');
@@ -159,18 +158,18 @@ const displayCfiComponent = () => {
   }
   
   /**
-   * Updates the styling of CFI text labels - colors match bar segments, bold for active range
+   * Updates the styling of CFI text labels - all black text, bold for active range
    * Label order in DOM: cfiLabel6 (9-10) top, down to cfiLabel1 (-4 to 1) bottom
    * @param {number} cfiValue - The current CFI ratio value
    */
   function updateCfiLabels(cfiValue) {
     const labelRanges = [
-      { id: 'cfiLabel1', min: -4, max: 1, color: '#D46D78' },
-      { id: 'cfiLabel2', min: 1, max: 3, color: '#E39D5E' },
-      { id: 'cfiLabel3', min: 3, max: 5, color: '#E0BD4D' },
-      { id: 'cfiLabel4', min: 5, max: 7, color: '#b5de1f' },
-      { id: 'cfiLabel5', min: 7, max: 9, color: '#91de2a' },
-      { id: 'cfiLabel6', min: 9, max: 10, color: '#79b52b' }
+      { id: 'cfiLabel1', min: -4, max: 1 },
+      { id: 'cfiLabel2', min: 1, max: 3 },
+      { id: 'cfiLabel3', min: 3, max: 5 },
+      { id: 'cfiLabel4', min: 5, max: 7 },
+      { id: 'cfiLabel5', min: 7, max: 9 },
+      { id: 'cfiLabel6', min: 9, max: 10 }
     ];
 
     labelRanges.forEach((range) => {
@@ -179,7 +178,7 @@ const displayCfiComponent = () => {
 
       if (labelP) {
         const isActive = cfiValue >= range.min && cfiValue < range.max;
-        labelP.style.color = range.color;
+        labelP.style.color = '#000000';
         labelP.className = isActive ? 'text-2xl font-bold' : 'text-base font-normal';
       }
     });

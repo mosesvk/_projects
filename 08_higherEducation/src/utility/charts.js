@@ -4825,7 +4825,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
       ? `Within Range of Benchmark: $${benchmark.toLocaleString()}`
       : `Below Benchmark: $${benchmark.toLocaleString()}`;
 
-  const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
+  const backgroundColor = value > benchmark ? window.chartColors.green : window.chartColors.cfi25;
 
   netTuitionPerStudent_chart = new FusionCharts({
     type: "hlineargauge",
@@ -4853,7 +4853,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
           {
             minValue: benchmark,
             maxValue: value,
-            code: "#BBE97A",
+            code: window.chartColors.green,
           },
           // {
           //   minValue: "7000",
@@ -4863,7 +4863,7 @@ const getNetTuitionPerStudentChartOptions = (data) => {
           {
             minValue: 0,
             maxValue: benchmark,
-            code: "#EF707E",
+            code: window.chartColors.cfi25,
           },
         ],
       },
@@ -5037,7 +5037,7 @@ const getDebtServiceCoverageChartOptions = (data) => {
       ? `Above Benchmark: ${benchmark}`
       : `Within Range of Benchmark:: ${benchmark}`;
 
-  const backgroundColor = value > benchmark ? "#cf3636" : "#54ba4a";
+  const backgroundColor = value > benchmark ? window.chartColors.cfi25 : window.chartColors.green;
 
   // console.log({value, benchmark, text, backgroundColor});
 
@@ -5071,12 +5071,12 @@ const getDebtServiceCoverageChartOptions = (data) => {
           {
             minValue: "0",
             maxValue: "1.25",
-            code: "#BBE97A",
+            code: window.chartColors.green,
           },
           {
             minValue: "1.25",
             maxValue: "5",
-            code: "#EF707E",
+            code: window.chartColors.cfi25,
           },
         ],
       },
@@ -5206,7 +5206,7 @@ const getEndowmentOperatingChartOptions = (data) => {
       ? `Within Range of Benchmark: ${benchmark}%`
       : `Below Benchmark: ${benchmark}%`;
 
-  const backgroundColor = value > benchmark ? "#54ba4a" : "#cf3636";
+  const backgroundColor = value > benchmark ? window.chartColors.green : window.chartColors.cfi25;
 
   endowmentOperatingBudget_chart = new FusionCharts({
     type: "hlineargauge",
@@ -5234,12 +5234,12 @@ const getEndowmentOperatingChartOptions = (data) => {
           {
             minValue: "0",
             maxValue: "150",
-            code: "#EF707E",
+            code: window.chartColors.cfi25,
           },
           {
             minValue: "150",
             maxValue: "250",
-            code: "#BBE97A",
+            code: window.chartColors.green,
           },
         ],
       },
