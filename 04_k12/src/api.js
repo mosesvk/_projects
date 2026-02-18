@@ -3032,19 +3032,23 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 
 // Helper functions
 
+/**
+ * Counts unique clients (peer schools) in records and updates the UI.
+ * @param {NodeList|Array} records - Peer records from Quickbase API
+ * @returns {number} Count of unique clients
+ */
 const countUniqueClients = (records) => {
   uniqueClients = new Set();
+  let count = 0;
   try {
     records.forEach((record) => {
-      const mainRelatedClient = record.querySelector(
-        "main__related_client"
-      ).textContent;
-      // console.log(mainRelatedClient);
-      uniqueClients.add(mainRelatedClient);
+      const mainRelatedClientEl = record.querySelector("main__related_client");
+      if (mainRelatedClientEl && mainRelatedClientEl.textContent) {
+        uniqueClients.add(mainRelatedClientEl.textContent);
+      }
     });
 
-    const count = uniqueClients.size;
-    // console.log(count);
+    count = uniqueClients.size;
 
     const uniqueClientsElement = document.getElementById("uniqueClients");
     if (uniqueClientsElement) {
@@ -3057,6 +3061,7 @@ const countUniqueClients = (records) => {
       uniqueClientsElement.textContent = 0;
     }
   }
+  return count;
 };
 
 const toggleButtonLoadingState = (btn) => {
@@ -3290,7 +3295,8 @@ run_btn.addEventListener("click", async () => {
 
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
     // console.log("RECORDS PEER", recordsPeer);
-    countUniqueClients(recordsPeer);
+    const uniqueClientCount = countUniqueClients(recordsPeer);
+    window.lastRunUniqueClientCount = uniqueClientCount;
 
     const recordsClient = await getRecordsForClient(selectedYears, "<qdbapi>");
 
@@ -3314,7 +3320,9 @@ run_btn.addEventListener("click", async () => {
     }
     setTimeout(() => {
       if (typeof createToastSuccess === "function") {
-        createToastSuccess("API data loaded successfully.");
+        createToastSuccess(
+          `API data loaded successfully. ${uniqueClientCount} unique clients in peer group.`
+        );
       }
     }, 500);
   } catch (err) {

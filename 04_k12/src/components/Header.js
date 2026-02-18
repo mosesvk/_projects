@@ -230,6 +230,7 @@ const addCheckmarkToSelectedOption = () => {
       if (typeof getSelectedSchoolChurchOption === "function") {
         getSelectedSchoolChurchOption();
       }
+      document.dispatchEvent(new CustomEvent("filtersChanged"));
     });
   });
 };
@@ -319,4 +320,28 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
   initializeEnrollmentSliderValues();
+});
+
+/**
+ * Listen for filtersChanged event (enrollment range, school/church, etc.)
+ * Show toast with unique clients info, matching church project behavior.
+ * Debounced to avoid toast spam when dragging the slider.
+ */
+let filtersChangedToastTimeout = null;
+document.addEventListener("filtersChanged", function () {
+  if (typeof createToastSuccess !== "function") return;
+
+  if (filtersChangedToastTimeout) clearTimeout(filtersChangedToastTimeout);
+  filtersChangedToastTimeout = setTimeout(() => {
+    filtersChangedToastTimeout = null;
+    const count = window.lastRunUniqueClientCount;
+
+    if (count != null) {
+      createToastSuccess(
+        `Filters updated. Last run had ${count} unique clients in peer group. Click Run to refresh with new filters.`
+      );
+    } else {
+      createToastSuccess("Filters updated. Click Run to load data.");
+    }
+  }, 150);
 });
