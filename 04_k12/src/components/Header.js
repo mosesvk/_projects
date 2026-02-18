@@ -338,7 +338,7 @@ document.addEventListener("filtersChanged", function () {
 
     if (count != null) {
       createToastSuccess(
-        `Filters updated. Last run had ${count} unique clients in peer group. Click Run to refresh with new filters.`
+        `Filters updated. Peer group: ${count} unique clients match filters.`
       );
     } else {
       createToastSuccess("Filters updated. Click Run to load data.");

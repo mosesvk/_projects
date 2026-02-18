@@ -1,3 +1,2 @@
-K12
-- Now, in the K12 project, we want to make sure and update the Toastify whenever we change the filters or the enrollment range. We want to make sure that the unique clients are showing up and being displayed in the Toastify success. We want to look at the church project and make sure that the Toast success with the unique clients. All of that functionality is going to be implemented in our K12 project.
+
 
