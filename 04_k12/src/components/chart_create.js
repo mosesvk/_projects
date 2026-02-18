@@ -15,6 +15,18 @@ const peerLabel = {
   max: 'Peer Max'
 };
 
+/**
+ * Resolves the label to show for the client series (firmName or clientName, fallback "Client").
+ * @returns {string}
+ */
+const getClientChartLabel = () => {
+  if (typeof firmName !== "undefined" && firmName != null) {
+    return firmName instanceof HTMLElement ? firmName.textContent : String(firmName);
+  }
+  const firmEl = document.getElementById("firmName");
+  return firmEl && firmEl.textContent ? firmEl.textContent : "Client";
+};
+
 const createChart = (id, type, title, subtitle, chartTitle, min, max) => {
   // Chart Title --------------------------------------------------->
   if (!chartTitle) chartTitle = null;
@@ -102,7 +114,7 @@ const createChart = (id, type, title, subtitle, chartTitle, min, max) => {
       datasets: [
         {
           type: 'bar',
-          label: 'Client',
+          label: getClientChartLabel(),
           data: '',
           backgroundColor: ['#83b240a3'],
           borderColor: ['#83b240'],

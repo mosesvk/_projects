@@ -1,3 +1,15 @@
+/**
+ * Resolves the label to show for the client series (firmName or clientName, fallback "Client").
+ * @returns {string}
+ */
+const getClientChartLabel = () => {
+  if (typeof firmName !== "undefined" && firmName != null) {
+    return firmName instanceof HTMLElement ? firmName.textContent : String(firmName);
+  }
+  const firmEl = document.getElementById("firmName");
+  return firmEl && firmEl.textContent ? firmEl.textContent : "Client";
+};
+
 const getMainChartOptions = (
   dataPeer,
   dataClient,
@@ -7,6 +19,7 @@ const getMainChartOptions = (
 ) => {
   // console.log('getMainChartOptions()')
 
+  const clientLabel = getClientChartLabel();
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -75,7 +88,7 @@ const getMainChartOptions = (
 
   const series = [
     {
-      name: "Client",
+      name: clientLabel,
       type: "column",
       data: clientArray,
       style: {

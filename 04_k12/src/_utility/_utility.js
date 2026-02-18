@@ -349,8 +349,9 @@ const getSelectedYearsFromLocalStorage = () => {
  * Show or hide the API loading modal (matches comp project process).
  * @param {string} action - "open" or "close"
  * @param {string} [mode] - "api" for data load (show year range) or "print" for presentation (hide year range)
+ * @param {number} [closeDelayMs] - Optional delay in ms before hiding (close only). If omitted, uses 1500. Use shorter value (e.g. 400) when showing success toast so overlay hides before toast.
  */
-function showApiLoadingFunction(action, mode) {
+function showApiLoadingFunction(action, mode, closeDelayMs) {
   const loadingDiv = document.getElementById("loadingApiDiv");
   const loadingApiHeader = document.getElementById("loadingApiHeader");
   const apiPrint = document.getElementById("apiPrint");
@@ -362,9 +363,10 @@ function showApiLoadingFunction(action, mode) {
   if (!loadingDiv || !loadingApiHeader) return;
 
   if (action === "close") {
+    const delay = typeof closeDelayMs === "number" ? closeDelayMs : 1500;
     setTimeout(() => {
       loadingDiv.classList.add("hidden");
-    }, 1500);
+    }, delay);
   } else if (action === "open") {
     loadingDiv.classList.remove("hidden");
 
@@ -439,7 +441,7 @@ const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
     );
 
     const newSpan = document.createElement("span");
-    newSpan.setAttribute("class", "text-gray-900 dark:text-white");
+    // Inherit text-2xl and colorBlue from #options-list (match church options-list-year)
     newSpan.innerText = year;
 
     newLabel.appendChild(newInput);

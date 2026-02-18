@@ -3151,7 +3151,7 @@ const createToastWarning = (textString) => {
   }, 100); // Delay adding the event listener to prevent immediate removal
 };
 
-const createToastSuccess = (textString) => {
+const createToastSuccess = (textString, useMaxWXl = false) => {
   const toastSuccessDiv = document.createElement("div");
   toastSuccessDiv.id = "toast-success";
   toastSuccessDiv.classList.add(
@@ -3167,7 +3167,7 @@ const createToastSuccess = (textString) => {
     "flex",
     "items-center",
     "w-full",
-    "max-w-md",
+    useMaxWXl ? "max-w-xl" : "max-w-md",
     "p-4",
     "text-gray-700",
     "bg-gray-300",
@@ -3307,16 +3307,16 @@ run_btn.addEventListener("click", async () => {
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
 
-    // Toastify-style confirmation that the API run completed successfully,
     // aligned with the comprehensive project’s feedback patterns.
-    if (typeof createToastSuccess === "function") {
-      createToastSuccess(
-        "API data loaded successfully."
-      );
-    }
+    // Close loading overlay first (short delay so it hides before toast), then show success toast (church: overlay gone before feedback).
     if (typeof showApiLoadingFunction === "function") {
-      showApiLoadingFunction("close");
+      showApiLoadingFunction("close", undefined, 400);
     }
+    setTimeout(() => {
+      if (typeof createToastSuccess === "function") {
+        createToastSuccess("API data loaded successfully.");
+      }
+    }, 500);
   } catch (err) {
     console.error(err);
     // Surface a user-facing error toast when the API run fails,

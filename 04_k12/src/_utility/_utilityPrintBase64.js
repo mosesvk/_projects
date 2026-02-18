@@ -9,11 +9,18 @@
 const DEFAULT_CHART_WIDTH = 1000;
 const DEFAULT_CHART_HEIGHT = 600;
 
-/** K12 Quickbase table for base64 presentation records */
+/** K12 Quickbase table for base64 presentation records (app bptwbcsjv "Public Documents") */
 const K12_BASE64_TABLE_ID = "bumq5tt67";
-/** App token for K12 (same as index.html / _utilityPrint.js) */
-const K12_APP_TOKEN = "bpat4pgu9t69yby5gbemdbej52j";
-
+/**
+ * App token for app bptwbcsjv (Public Documents), which contains table bumq5tt67 (K12 Presentation).
+ * Same app as Church Presentation (bvcr2chqi); church uses this token in printBase64.js.
+ * Override via window.K12_BASE64_APP_TOKEN in index.html if needed.
+ */
+const K12_BASE64_APP_TOKEN =
+  typeof window !== "undefined" && window.K12_BASE64_APP_TOKEN
+    ? window.K12_BASE64_APP_TOKEN
+    : "bbkmdcurd2sd5cpqvf58dsabq2q";
+    
 /**
  * Get dimensions for a chart (all K12 charts use same size).
  * @param {string} chartId - The ID of the chart
@@ -145,6 +152,11 @@ function saveCompleteChartState(chart) {
       ];
     }
 
+    const w = chart.w.globals.svgWidth;
+    const h = chart.w.globals.svgHeight;
+    const viewBoxVal = paperNode.getAttribute("viewBox");
+    const preserveVal = paperNode.getAttribute("preserveAspectRatio");
+
     return {
       chartId,
       chartType,
@@ -152,10 +164,10 @@ function saveCompleteChartState(chart) {
       svgAttributes: {
         width: paperNode.getAttribute("width"),
         height: paperNode.getAttribute("height"),
-        viewBox: paperNode.getAttribute("viewBox"),
+        viewBox: viewBoxVal != null && viewBoxVal !== "" ? viewBoxVal : `0 0 ${w} ${h}`,
         styleWidth: paperNode.style.width,
         styleHeight: paperNode.style.height,
-        preserveAspectRatio: paperNode.getAttribute("preserveAspectRatio"),
+        preserveAspectRatio: preserveVal != null && preserveVal !== "" ? preserveVal : "xMidYMid meet",
       },
       chartConfig: clonedConfig,
       dimensions: {
@@ -191,15 +203,14 @@ function restoreCompleteChartState(chart, originalState) {
 
     const paperNode = chart.w.globals.dom.Paper.node;
     const { svgAttributes } = originalState;
-    paperNode.setAttribute("width", svgAttributes.width);
-    paperNode.setAttribute("height", svgAttributes.height);
-    paperNode.style.width = svgAttributes.styleWidth;
-    paperNode.style.height = svgAttributes.styleHeight;
-    paperNode.setAttribute("viewBox", svgAttributes.viewBox);
-    paperNode.setAttribute(
-      "preserveAspectRatio",
-      svgAttributes.preserveAspectRatio
-    );
+    if (svgAttributes.width != null) paperNode.setAttribute("width", svgAttributes.width);
+    if (svgAttributes.height != null) paperNode.setAttribute("height", svgAttributes.height);
+    if (svgAttributes.styleWidth != null) paperNode.style.width = svgAttributes.styleWidth;
+    if (svgAttributes.styleHeight != null) paperNode.style.height = svgAttributes.styleHeight;
+    const viewBox = svgAttributes.viewBox != null && svgAttributes.viewBox !== "" ? svgAttributes.viewBox : "0 0 1000 600";
+    paperNode.setAttribute("viewBox", viewBox);
+    const preserve = svgAttributes.preserveAspectRatio != null && svgAttributes.preserveAspectRatio !== "" ? svgAttributes.preserveAspectRatio : "xMidYMid meet";
+    paperNode.setAttribute("preserveAspectRatio", preserve);
 
     const originalConfig = chart.w.config;
     const chartId = originalState.chartId || chart.w.globals.chartID;
@@ -638,7 +649,7 @@ async function apexChartsExportPrint() {
  * @returns {string} XML string
  */
 function buildUploadXml(results) {
-  let uploadXml = `<qdbapi><apptoken>${K12_APP_TOKEN}</apptoken>`;
+  let uploadXml = `<qdbapi><apptoken>${K12_BASE64_APP_TOKEN}</apptoken>`;
 
   const uniqueClientCount =
     (typeof uniqueClients !== "undefined" && uniqueClients?.size) ||

@@ -64,7 +64,9 @@
     <script>
 			var apptoken = "bpat4pgu9t69yby5gbemdbej52j"; 
 			$.ajaxSetup({data: {apptoken: apptoken}});
-			
+			// Print Presentation uploads to table bumq5tt67 in app bptwbcsjv. Get that app's token in Quickbase (app bptwbcsjv → Manage → Application token) and set it here, or assign this app's token to bptwbcsjv in Quickbase.
+			// window.K12_BASE64_APP_TOKEN = "your_bptwbcsjv_app_token_here";
+
 			//retrieve URL ID for record
 				function getQueryVariable(variable) {  
 					var query = window.location.search.substring(1)
@@ -214,6 +216,65 @@
   </head>
 
   <body>
+    <!-- Loading Modal: first child of body so fixed inset-0 covers whole window (church pattern) -->
+    <div
+      id="loadingApiDiv"
+      tabindex="-1"
+      aria-hidden="true"
+      class="hidden fixed inset-0 flex items-center justify-center backdrop-blur-sm"
+      style="background-color: rgba(0,0,0,0.75); z-index: 9999;"
+    >
+      <div class="text-center">
+        <div role="status">
+          <div
+            id="loadingApiInnerDiv"
+            class="flex flex-col items-center px-8 py-8 font-semibold text-white leading-none tracking-wider text-center rounded-2xl animate-pulse"
+          >
+            <div
+              id="loadingApiHeader"
+              class="mb-6 text-6xl font-bold text-blue-100"
+            ></div>
+            <div
+              id="loadingApiYears"
+              class="px-6 py-3 text-4xl font-bold leading-none text-center text-blue-100 backgroundBlue rounded-full border border-white"
+            >
+              <span id="apiYears">
+                <span id="firstApiYear" class="mx-2"></span> -
+                <span id="LastApiYear" class="mx-2"></span>
+              </span>
+              <span id="apiPrint" class="flex gap-3 items-center mt-3 hidden">
+                <svg
+                  class="w-8 h-8 text-blue-300 hover:text-blue-100 transition-colors cursor-pointer"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
+                  />
+                </svg>
+                <svg
+                  class="w-8 h-8 text-green-400 hover:text-green-300 transition-colors cursor-pointer"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <rect x="3" y="10" width="4" height="8" rx="1" fill="currentColor" />
+                  <rect x="9" y="6" width="4" height="12" rx="1" fill="currentColor" />
+                  <rect x="15" y="2" width="4" height="16" rx="1" fill="currentColor" />
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
     <nav
       id="nav"
       class="fixed z-30 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700"
@@ -305,7 +366,7 @@
               </div>
               <div
                 id="options-list"
-                class="absolute left-0 top-full z-50 mt-2 w-full min-w-fit text-gray-900 dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto max-h-80 py-4 invisible"
+                class="absolute left-0 top-full z-50 mt-2 w-full min-w-fit text-2xl colorBlue dark:text-gray-200 bg-white border shadow-2xl rounded-lg dark:border-gray-600 border-gray-300 dark:bg-gray-800 dark:shadow-md dark:shadow-capinGrey overflow-y-auto max-h-80 py-4 invisible"
               ></div>
             </div>
             <button
@@ -5753,65 +5814,6 @@
                   </button>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Loading Modal -->
-    <div
-      id="loadingApiDiv"
-      tabindex="-1"
-      aria-hidden="true"
-      class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black/75 backdrop-blur-sm"
-    >
-      <div class="text-center">
-        <div role="status">
-          <div
-            id="loadingApiInnerDiv"
-            class="flex flex-col items-center px-8 py-8 font-semibold text-white leading-none tracking-wider text-center rounded-2xl shadow-2xl animate-pulse"
-          >
-            <div
-              id="loadingApiHeader"
-              class="mb-6 text-6xl font-bold text-blue-100"
-            ></div>
-            <div
-              id="loadingApiYears"
-              class="px-6 py-3 text-4xl font-bold leading-none text-center text-blue-100 backgroundBlue rounded-full border border-white"
-            >
-              <span id="apiYears">
-                <span id="firstApiYear" class="mx-2"></span> -
-                <span id="LastApiYear" class="mx-2"></span>
-              </span>
-              <span id="apiPrint" class="hidden flex gap-3 items-center mt-3">
-                <svg
-                  class="w-8 h-8 text-blue-300 hover:text-blue-100 transition-colors cursor-pointer"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M12 4v12m0 0l-4-4m4 4l4-4M4 20h16"
-                  />
-                </svg>
-                <svg
-                  class="w-8 h-8 text-green-400 hover:text-green-300 transition-colors cursor-pointer"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <rect x="3" y="10" width="4" height="8" rx="1" fill="currentColor" />
-                  <rect x="9" y="6" width="4" height="12" rx="1" fill="currentColor" />
-                  <rect x="15" y="2" width="4" height="16" rx="1" fill="currentColor" />
-                </svg>
-              </span>
             </div>
           </div>
         </div>
