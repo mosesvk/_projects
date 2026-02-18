@@ -1,0 +1,3 @@
+Higher Ed — Match FusionChart background colors (green, red, yellow) to Capin colors.
+K12 — (1) Match header/nav to church projects. (2) Use comp-style API loading. (3) Add sidebar Print button and print modal (“Generate reports” / “Print presentation”); move all print/Excel from options modal into it.
+Church (both) — Use K-12 header font and color for the “CFHI” title.
