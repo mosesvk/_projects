@@ -890,7 +890,7 @@ const daysExpensesInNAwithDR_excludingPPE_weightedAverage = (
   return denominator > 0
     ? (netAssetsWithDRByPurposeOrTime +
         netAssetsWithDRInPerpetuity -
-        propertyPlantAndEquipment -
+        propertyPlantAndEquipment +
         notesPayable) /
         denominator
     : 0;
