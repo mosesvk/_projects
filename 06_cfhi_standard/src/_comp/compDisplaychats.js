@@ -191,14 +191,14 @@ const displayDebtComponent = () => {
   const savedData = getStoredData("debtData");
   const parseData = parseStoredData(savedData);
 
-  // debtToContributionsWithout
+  // debtToContributionsWithout (fixedNum 1 so trend lines show decimals e.g. 1.5, 1.2)
   createChartFromParsedData(
     parseData,
     "debtToContributionsWithout_chart",
     "debtToContributionsWithout_Peer",
     "debtToContributionsWithout_Client",
-    "dollar",
-    0,
+    "number",
+    1,
     "debtToContributionsWithout",
     getBenchmarksForField("debtToContributionsWithout"),
     "Debt to Contributions Without"

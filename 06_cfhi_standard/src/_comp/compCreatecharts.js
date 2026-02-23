@@ -12,7 +12,7 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
 
     // Cash
     daysExpendableNetAssets: [30, 60],
-    daysOperatingCash: [40, 80],
+    daysOperatingCash: [90],
     availableDaysOfCashFlow: [120, 180],
     liquidityRatio: [5],
     netCashAvailability: null,
@@ -28,7 +28,7 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
     // Income
     netIncomeRatio: [0], // positive is good
     contributionsWithoutDonorPerGivingUnit: null,
-    totalContributionsPerGivingUnit: null,
+    totalContributionsPerGivingUnit: [4500],
 
     // Expense
     benefitsToSalaries: null,
@@ -223,6 +223,17 @@ const getMainChartOptions = (
       // First, wait for the chart and annotations to be rendered
       const chartElement = document.getElementById(chartId);
       if (!chartElement) return;
+
+      // Re-apply benchmark annotations if they were removed (e.g. when toggling Avg/25th/50th/75th)
+      // so the Benchmark line stays visible independently of trend line legend toggles.
+      if (yaxisAnnotation && yaxisAnnotation.length > 0) {
+        const existingAnnotationLines = chartElement.querySelectorAll(
+          `.apexcharts-yaxis-annotations line`
+        );
+        if (existingAnnotationLines.length === 0 && chartContext.updateOptions) {
+          chartContext.updateOptions({ annotations: { yaxis: yaxisAnnotation } }, false, false);
+        }
+      }
 
       // Get the first grid line to use as reference
       const gridLine = chartElement.querySelector(
