@@ -16,8 +16,6 @@ This project provides a comprehensive financial reporting system built on Quickb
 ```
 06_cfhi_standard/
 ├── src/                          # Source files for development
-│   ├── _comp/                    # Reference implementation (DO NOT MODIFY)
-│   │   └── comp*.js/html         # Working reference files from comp project
 │   ├── Index.html                # Main application entry point
 │   ├── Api.js                    # Quickbase API wrapper
 │   ├── components/               # React-like components
@@ -39,14 +37,6 @@ This project provides a comprehensive financial reporting system built on Quickb
 ├── package.json                 # Node.js dependencies
 └── .env                         # Environment variables (not in repo)
 ```
-
-### Important Notes about `_comp/` Folder
-
-⚠️ **The `_comp/` folder contains reference files ONLY:**
-- These files are from the fully working `05_cfhi_comp` project
-- **DO NOT modify files in `_comp/`**
-- Use them as reference when implementing features in `src/`
-- When debugging, check `_comp/` for the working implementation
 
 ## 🚀 Getting Started
 
@@ -218,7 +208,7 @@ const fetchClientData = async (clientId) => {
 - Check browser console for JavaScript errors
 - Verify ApexCharts library is loaded
 - Ensure data format matches chart expectations
-- Reference `_comp/compCreatecharts.js` for working implementation
+- Reference the `05_cfhi_comp` project for chart implementation patterns
 
 **4. Mixed content errors**
 - The deployment script automatically converts HTTP to HTTPS
@@ -226,7 +216,7 @@ const fetchClientData = async (clientId) => {
 
 ## 🤝 Contributing
 
-1. Check the `_comp/` folder for reference implementations before creating new features
+1. Reference the `05_cfhi_comp` project in the _cc repo when implementing new features
 2. Follow the established code style and standards
 3. Include JSDoc comments for all new functions
 4. Test thoroughly in Quickbase before committing

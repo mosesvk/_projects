@@ -10,27 +10,27 @@
 window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
   const map = {
 
-    // Cash
-    daysExpendableNetAssets: [30, 60],
-    daysOperatingCash: [40, 80],
+    // Cash — CREATE BENCHMARK AT values from UI: 60 (Days Expendable), 90 (Days Operating Cash)
+    daysExpendableNetAssets: [30, 60],   // benchmark at 60 (Good > 60 | Warning 30-60 | Action < 30)
+    daysOperatingCash: [60, 90],          // benchmark at 90 (Good > 90 | Warning 60-90 | Action < 60)
     availableDaysOfCashFlow: [120, 180],
     liquidityRatio: [5],
     netCashAvailability: null,
 
-    // Debt
+    // Debt — CREATE BENCHMARK AT: 2 (Debt to Contrib, Current Ratio), 20 (Mandatory Debt Service), 1.25 (Debt Coverage). NO BENCHMARK: Debt per Giving Unit
     debtToContributionsWithout: [2],
     currentRatio: [2],
     cashFlowsFromOperatingActivities: [0],
-    mandatoryDebtServiceToContributionsWithout: [15, 20],
-    debtPerGivingUnit: null,
-    debtCoverage: [1.15],
+    mandatoryDebtServiceToContributionsWithout: [20],  // benchmark at 20 (Good < 20 | Warning 20-30 | Action > 30)
+    debtPerGivingUnit: null,                            // NO BENCHMARK - SKIP
+    debtCoverage: [1.25],                               // benchmark at 1.25 (Good > 1.25 | Warning 1-1.25 | Action < 1)
 
-    // Income
+    // Income — CREATE BENCHMARK AT: 0 (Net Income Ratio), 4,500 (Total Contributions per Giving Unit)
     netIncomeRatio: [0], // positive is good
     contributionsWithoutDonorPerGivingUnit: null,
-    totalContributionsPerGivingUnit: null,
+    totalContributionsPerGivingUnit: [4500],             // benchmark at 4,500 (Good > 4,500 | Warning 3,000-4,500 | Action < 3,000)
 
-    // Expense
+    // Expense — CREATE BENCHMARK AT: 40 (Personnel to Total Cash; range 40-55)
     benefitsToSalaries: null,
     salariesBenefitsIncludingOutsourcedEmployees: null,
     personnelToCashExpenditure: [40, 55],
@@ -93,6 +93,27 @@ function isFieldHigherBetter(fieldName) {
   return true;
 };
 
+/**
+ * Get the appropriate benchmark label based on field name and benchmark values
+ * @param {string} fieldName - The field name to get benchmark label for
+ * @param {Array} benchmarkArray - Array of benchmark values (1 or 2 values)
+ * @param {number} index - Index of current benchmark (0 or 1)
+ * @returns {string} The appropriate benchmark label
+ */
+window.getBenchmarkLabel = function getBenchmarkLabel(fieldName, benchmarkArray, index) {
+  if (!benchmarkArray || benchmarkArray.length === 0) return "Benchmark";
+  if (benchmarkArray.length === 1) return "Benchmark";
+
+  const isHigherBetter = isFieldHigherBetter(fieldName);
+  const lowerValue = Math.min(...benchmarkArray);
+  const higherValue = Math.max(...benchmarkArray);
+  const currentValue = benchmarkArray[index];
+
+  if (isHigherBetter) {
+    return currentValue === higherValue ? "Benchmark - higher end" : "Benchmark - lower end";
+  }
+  return currentValue === lowerValue ? "Benchmark - higher end" : "Benchmark - lower end";
+};
 
 const getMainChartOptions = (
   dataPeer,
@@ -101,6 +122,8 @@ const getMainChartOptions = (
   fixedNum = 0,
   mainName,
   benchmark,
+  title,
+  chartId,
   wa = null,
   allData = null
 ) => {
@@ -987,7 +1010,8 @@ const getMainChartOptions = (
     ...(peerAvg || []),
     ...(peerMid || []),
     ...(peer25 || []),
-    ...(peer75 || [])
+    ...(peer75 || []),
+    ...(benchmark || [])
   ].filter(v => v !== null && v !== undefined && !isNaN(v));
   
   let safetyCheckAdjustedAxis = false; // Track if we made changes
@@ -1268,6 +1292,97 @@ const getMainChartOptions = (
 
   // clientArray should already contain clean numeric values from getPeerAndClientChartDataArrays
 
+  // Benchmark line: single horizontal line per chart (same style as standard); label on the right
+  const selectedYearsLength = selectedYearsArray.length;
+  let offsetXRight;
+  switch (selectedYearsLength) {
+    case 1: offsetXRight = 80; break;
+    case 2:
+    case 3: offsetXRight = 120; break;
+    case 4:
+    case 5: offsetXRight = 180; break;
+    case 6: offsetXRight = 220; break;
+    case 7: offsetXRight = 260; break;
+    case 8: offsetXRight = 300; break;
+    case 9: offsetXRight = 340; break;
+    case 10: offsetXRight = 380; break;
+    case 11: offsetXRight = 420; break;
+    default: offsetXRight = 120;
+  }
+
+  const yaxisAnnotations = [];
+  if (benchmark && Array.isArray(benchmark) && benchmark.length > 0) {
+    const singleValue = benchmark[0];
+    yaxisAnnotations.push({
+      id: "annotation",
+      y: singleValue,
+      borderColor: "#000000",
+      strokeDashArray: 0,
+      label: {
+        text: "Benchmark",
+        borderColor: "transparent",
+        borderWidth: 0,
+        offsetX: offsetXRight,
+        position: "right",
+        style: {
+          background: "transparent",
+          color: "#000000",
+          fontSize: "18px",
+          fontWeight: 600,
+        },
+      },
+    });
+  }
+
+  const chartEvents = {
+    beforeMount: function (chartContext, config) {
+      setTimeout(() => {
+        const chartElement = document.getElementById(chartId);
+        if (!chartElement) return;
+        const gridLine = chartElement.querySelector(".apexcharts-gridlines-horizontal line");
+        if (!gridLine) return;
+        const annotationLines = chartElement.querySelectorAll(".apexcharts-yaxis-annotations line");
+        const x1 = gridLine.getAttribute("x1");
+        const x2 = gridLine.getAttribute("x2");
+        annotationLines.forEach((line) => {
+          line.setAttribute("x1", x1);
+          line.setAttribute("x2", x2);
+        });
+      }, 200);
+    },
+    updated: function (chartContext, config) {
+      const chartElement = document.getElementById(chartId);
+      if (!chartElement) return;
+      if (yaxisAnnotations && yaxisAnnotations.length > 0) {
+        const annotationsToReapply = yaxisAnnotations;
+        setTimeout(() => {
+          const el = document.getElementById(chartId);
+          if (!el) return;
+          const lines = el.querySelectorAll(".apexcharts-yaxis-annotations line");
+          if (lines.length === 0) {
+            const chartInstance = window[chartId] || chartContext;
+            if (chartInstance && typeof chartInstance.updateOptions === "function") {
+              chartInstance.updateOptions(
+                { annotations: { yaxis: annotationsToReapply } },
+                true,
+                false
+              );
+            }
+          }
+        }, 100);
+      }
+      const gridLine = chartElement.querySelector(".apexcharts-gridlines-horizontal line");
+      if (!gridLine) return;
+      const annotationLines = chartElement.querySelectorAll(".apexcharts-yaxis-annotations line");
+      const x1 = gridLine.getAttribute("x1");
+      const x2 = gridLine.getAttribute("x2");
+      annotationLines.forEach((line) => {
+        line.setAttribute("x1", x1);
+        line.setAttribute("x2", x2);
+      });
+    },
+  };
+
   const series = [
     {
       name: firmName,
@@ -1348,6 +1463,10 @@ const getMainChartOptions = (
       type: "line",
       stacked: false,
       background: "transparent",
+      events: chartEvents,
+    },
+    annotations: {
+      yaxis: yaxisAnnotations,
     },
     dataLabels: {
       enabled: true,
@@ -1438,25 +1557,67 @@ const getMainChartOptions = (
         },
       },
     ],
-    tooltip: {
-      fixed: {
-        enabled: true,
-        position: "topLeft",
-        offsetY: 30,
-        offsetX: 60,
-      },
-      theme: isDarkMode ? "dark" : "light",
-      style: {
-        fontSize: "14px",
-        fontFamily: "Helvetica, Arial, sans-serif",
-      },
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
+    tooltip: (() => {
+      const chartTitle = title && String(title).trim() ? title : mainName || "Chart";
+      const seriesColors = [
+        window.chartColors.green,
+        window.chartColors.blue,
+        window.chartColors.orange,
+        window.chartColors.yellow,
+        window.chartColors.purple,
+      ];
+      const benchmarkColor = "#6B7280";
+      const base = {
+        fixed: {
+          enabled: true,
+          position: "topLeft",
+          offsetY: 30,
+          offsetX: 60,
         },
-      },
-    },
+        theme: isDarkMode ? "dark" : "light",
+        style: {
+          fontSize: "14px",
+          fontFamily: "Helvetica, Arial, sans-serif",
+        },
+        y: {
+          formatter: tooltipFormatter,
+          title: {
+            formatter: (seriesName) => `${seriesName}:`,
+          },
+        },
+        custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+          const year = w.globals.labels[dataPointIndex] || "";
+          const seriesNames = w.globals.seriesNames || [];
+          let html = '<div class="apexcharts-tooltip-title" style="margin-bottom: 4px;">' + chartTitle + "</div>";
+          if (year) {
+            html += '<div style="margin-bottom: 4px; font-size: 12px; opacity: 0.9;">' + year + "</div>";
+          }
+          series.forEach((seriesData, i) => {
+            const val = seriesData[dataPointIndex];
+            if (val !== null && val !== undefined) {
+              const formatted = tooltipFormatter(Number(val));
+              const color = seriesColors[i] || chartColors.labelColor;
+              html +=
+                '<div class="apexcharts-tooltip-series-group" style="align-items: center; display: flex; gap: 6px; margin: 2px 0;">' +
+                '<span class="apexcharts-tooltip-marker" style="background-color: ' + color + ';"></span>' +
+                "<span><strong>" + (seriesNames[i] || "") + ":</strong> " + formatted + "</span></div>";
+            }
+          });
+          if (benchmark && Array.isArray(benchmark) && benchmark.length > 0) {
+            benchmark.forEach((val, idx) => {
+              const formatted = tooltipFormatter(Number(val));
+              const label = typeof getBenchmarkLabel === "function" ? getBenchmarkLabel(mainName, benchmark, idx) : "Benchmark";
+              html +=
+                '<div class="apexcharts-tooltip-series-group" style="align-items: center; display: flex; gap: 6px; margin: 2px 0;">' +
+                '<span class="apexcharts-tooltip-marker" style="background-color: ' + benchmarkColor + ';"></span>' +
+                "<span><strong>" + label + ":</strong> " + formatted + "</span></div>";
+            });
+          }
+          return html;
+        },
+      };
+      return base;
+    })(),
     legend: {
       horizontalAlign: "center",
       offsetX: 40,

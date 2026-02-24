@@ -645,15 +645,25 @@ const getMainChartOptions = (
     updated: function (chartContext, config) {
       const chartElement = document.getElementById(chartId);
       if (!chartElement) return;
-      // Re-apply benchmark annotations if they were removed (e.g. when toggling trend lines via legend)
-      // so the Benchmark line stays visible independently of Avg/25th/50th/75th.
+      // Re-apply benchmark annotations if they were removed when all trend lines (Avg, 25th, 50th, 75th) are hidden.
+      // Defer so we run after ApexCharts has finished updating; use redrawPaths: true so annotations actually redraw.
       if (yaxisAnnotations && yaxisAnnotations.length > 0) {
-        const annotationLines = chartElement.querySelectorAll(
-          ".apexcharts-yaxis-annotations line"
-        );
-        if (annotationLines.length === 0 && chartContext.updateOptions) {
-          chartContext.updateOptions({ annotations: { yaxis: yaxisAnnotations } }, false, false);
-        }
+        const annotationsToReapply = yaxisAnnotations;
+        setTimeout(() => {
+          const el = document.getElementById(chartId);
+          if (!el) return;
+          const lines = el.querySelectorAll(".apexcharts-yaxis-annotations line");
+          if (lines.length === 0) {
+            const chartInstance = window[chartId] || chartContext;
+            if (chartInstance && typeof chartInstance.updateOptions === "function") {
+              chartInstance.updateOptions(
+                { annotations: { yaxis: annotationsToReapply } },
+                true,
+                false
+              );
+            }
+          }
+        }, 100);
       }
       const gridLine = chartElement.querySelector(
         ".apexcharts-gridlines-horizontal line"
@@ -782,25 +792,67 @@ const getMainChartOptions = (
           },
         },
       ],
-    tooltip: {
-        fixed: {
-          enabled: true,
-          position: "topLeft",
-          offsetY: 30,
-          offsetX: 60,
-        },
-        theme: isDarkMode ? "dark" : "light",
-        style: {
-          fontSize: "14px",
-          fontFamily: "Helvetica, Arial, sans-serif",
-        },
-        y: {
-          formatter: tooltipFormatter,
-          title: {
-            formatter: (seriesName) => `${seriesName}:`,
+    tooltip: (() => {
+        const chartTitle = title && String(title).trim() ? title : mainName || "Chart";
+        const seriesColors = [
+          window.chartColors.green,
+          window.chartColors.blue,
+          window.chartColors.orange,
+          window.chartColors.yellow,
+          window.chartColors.purple,
+        ];
+        const benchmarkColor = "#6B7280";
+        const base = {
+          fixed: {
+            enabled: true,
+            position: "topLeft",
+            offsetY: 30,
+            offsetX: 60,
           },
-        },
-      },
+          theme: isDarkMode ? "dark" : "light",
+          style: {
+            fontSize: "14px",
+            fontFamily: "Helvetica, Arial, sans-serif",
+          },
+          y: {
+            formatter: tooltipFormatter,
+            title: {
+              formatter: (seriesName) => `${seriesName}:`,
+            },
+          },
+          custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+            const year = w.globals.labels[dataPointIndex] || "";
+            const seriesNames = w.globals.seriesNames || [];
+            let html = '<div class="apexcharts-tooltip-title" style="margin-bottom: 4px;">' + chartTitle + "</div>";
+            if (year) {
+              html += '<div style="margin-bottom: 4px; font-size: 12px; opacity: 0.9;">' + year + "</div>";
+            }
+            series.forEach((seriesData, i) => {
+              const val = seriesData[dataPointIndex];
+              if (val !== null && val !== undefined) {
+                const formatted = tooltipFormatter(Number(val));
+                const color = seriesColors[i] || chartColors.labelColor;
+                html +=
+                  '<div class="apexcharts-tooltip-series-group" style="align-items: center; display: flex; gap: 6px; margin: 2px 0;">' +
+                  '<span class="apexcharts-tooltip-marker" style="background-color: ' + color + ';"></span>' +
+                  "<span><strong>" + (seriesNames[i] || "") + ":</strong> " + formatted + "</span></div>";
+              }
+            });
+            if (benchmark && Array.isArray(benchmark) && benchmark.length > 0) {
+              benchmark.forEach((val, idx) => {
+                const formatted = tooltipFormatter(Number(val));
+                const label = getBenchmarkLabel(mainName, benchmark, idx);
+                html +=
+                  '<div class="apexcharts-tooltip-series-group" style="align-items: center; display: flex; gap: 6px; margin: 2px 0;">' +
+                  '<span class="apexcharts-tooltip-marker" style="background-color: ' + benchmarkColor + ';"></span>' +
+                  "<span><strong>" + label + ":</strong> " + formatted + "</span></div>";
+              });
+            }
+            return html;
+          },
+        };
+        return base;
+      })(),
       legend: {
         horizontalAlign: "center",
         offsetX: 40,

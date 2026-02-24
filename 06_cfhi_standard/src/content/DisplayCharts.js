@@ -181,7 +181,7 @@ const displayCashComponent = () => {
     0,
     "daysOperatingCash",
     getBenchmarksForField("daysOperatingCash"),
-    "Days Operating Cash"
+    "Days of Operating Cash and Investments on Hand to Fund Annual Cash Expenditures"
   );
 
   // netCashAvailability

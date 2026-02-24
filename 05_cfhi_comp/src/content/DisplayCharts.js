@@ -212,7 +212,7 @@ const displayCashComponent = () => {
     0,
     "daysExpendableNetAssets",
     getBenchmarksForField("daysExpendableNetAssets"),
-    "Days Expendable Net Assets",
+    "Days of Expendable Net Asset Reserves",
     "wa" // use weighted average
   );
 
@@ -226,7 +226,7 @@ const displayCashComponent = () => {
     0,
     "daysOperatingCash",
     getBenchmarksForField("daysOperatingCash"),
-    "Days Operating Cash",
+    "Days of Operating Cash and Investments on Hand to Fund Annual Cash Expenditures",
     "wa" // use weighted average
   );
 
