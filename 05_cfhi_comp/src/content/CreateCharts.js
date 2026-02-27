@@ -115,45 +115,53 @@ window.getBenchmarkLabel = function getBenchmarkLabel(fieldName, benchmarkArray,
   return currentValue === lowerValue ? "Benchmark - higher end" : "Benchmark - lower end";
 };
 
-const positionChartTooltip = (chartId) => {
-  const chartElement = document.getElementById(chartId);
-  if (!chartElement) return;
-  const tooltipEl = chartElement.querySelector(".apexcharts-tooltip");
+/**
+ * Position the chart tooltip immediately to the left of the hovered bar.
+ * Keeps tooltip close to the bar and prevents it from covering bar data.
+ * @param {string} chartId - ID of the chart container element
+ * @param {number} dataPointIndex - Index of the hovered category/bar
+ */
+const positionTooltipLeftOfBar = (chartId, dataPointIndex) => {
+  const chartEl = document.getElementById(chartId);
+  if (!chartEl) return;
+  const tooltipEl = chartEl.querySelector(".apexcharts-tooltip");
   if (!tooltipEl || tooltipEl.style.opacity === "0" || tooltipEl.style.display === "none") {
     return;
   }
 
-  const chartRect = chartElement.getBoundingClientRect();
+  const chartRect = chartEl.getBoundingClientRect();
   const tooltipRect = tooltipEl.getBoundingClientRect();
-  const margin = 12;
+  const gap = 8;
 
-  // Compute where the tooltip is currently centered relative to the chart.
-  const tooltipCenterX = tooltipRect.left + tooltipRect.width / 2;
-  const chartMidX = chartRect.left + chartRect.width / 2;
+  // Find the bar element for the hovered data point (column series is first)
+  const barAreas = chartEl.querySelectorAll(".apexcharts-bar-series .apexcharts-bar-area");
+  let barLeftRelative = 0;
+  let barCenterYRelative = chartRect.height / 2;
 
-  // Decide whether to place the tooltip to the right or left of the bar band.
-  let newLeft;
-  if (tooltipCenterX <= chartMidX) {
-    // On the left half of the chart: show tooltip to the right of the bar.
-    newLeft = tooltipCenterX + margin;
+  if (barAreas.length > 0 && dataPointIndex >= 0 && dataPointIndex < barAreas.length) {
+    const barRect = barAreas[dataPointIndex].getBoundingClientRect();
+    barLeftRelative = barRect.left - chartRect.left;
+    barCenterYRelative = barRect.top - chartRect.top + barRect.height / 2;
   } else {
-    // On the right half of the chart: show tooltip to the left of the bar.
-    newLeft = tooltipCenterX - tooltipRect.width - margin;
+    // Fallback: approximate bar left from plot area (grid)
+    const grid = chartEl.querySelector(".apexcharts-grid");
+    if (grid) {
+      const gridRect = grid.getBoundingClientRect();
+      const plotLeft = gridRect.left - chartRect.left;
+      const plotWidth = gridRect.width;
+      const categories = chartEl.querySelectorAll(".apexcharts-bar-series .apexcharts-bar-area").length || 1;
+      const barWidth = plotWidth / categories;
+      barLeftRelative = plotLeft + dataPointIndex * barWidth;
+      barCenterYRelative = gridRect.top - chartRect.top + gridRect.height / 2;
+    }
   }
 
-  // Clamp horizontally within the chart area.
-  const minLeft = chartRect.left + margin;
-  const maxLeft = chartRect.right - margin - tooltipRect.width;
-  if (newLeft < minLeft) newLeft = minLeft;
-  if (newLeft > maxLeft) newLeft = maxLeft;
-
-  // Nudge the tooltip slightly upward to avoid overlapping the bar value label.
-  const currentTop = tooltipRect.top;
-  const newTop = currentTop - chartRect.top - 24;
-
-  tooltipEl.style.left = `${newLeft - chartRect.left}px`;
-  tooltipEl.style.top = `${newTop}px`;
+  // Place tooltip so its right edge is just left of the bar
+  const left = barLeftRelative - tooltipRect.width - gap;
+  tooltipEl.style.left = Math.max(0, left) + "px";
+  tooltipEl.style.top = Math.max(0, barCenterYRelative - tooltipRect.height / 2) + "px";
   tooltipEl.style.transform = "none";
+  tooltipEl.style.position = "absolute";
 };
 
 const getMainChartOptions = (
@@ -1422,11 +1430,21 @@ const getMainChartOptions = (
         line.setAttribute("x2", x2);
       });
     },
-    mouseMove: function (event, chartContext, config) {
-      positionChartTooltip(chartId);
-    },
     dataPointMouseEnter: function (event, chartContext, config) {
-      positionChartTooltip(chartId);
+      if (config && typeof config.dataPointIndex === "number") {
+        const chartElement = document.getElementById(chartId);
+        if (chartElement) chartElement._lastTooltipDataPointIndex = config.dataPointIndex;
+        setTimeout(() => positionTooltipLeftOfBar(chartId, config.dataPointIndex), 0);
+      }
+    },
+    mouseMove: function (event, chartContext, config) {
+      const chartElement = document.getElementById(chartId);
+      if (!chartElement) return;
+      const idx =
+        config && typeof config.dataPointIndex === "number"
+          ? config.dataPointIndex
+          : chartElement._lastTooltipDataPointIndex;
+      if (typeof idx === "number") positionTooltipLeftOfBar(chartId, idx);
     },
   };
 
@@ -1549,6 +1567,12 @@ const getMainChartOptions = (
       width: [2, 3, 4, 4, 4],
       dashArray: series.map((s, i) => (i === 1 ? 4 : 0)),
     },
+    markers: {
+      size: 0,
+      hover: {
+        sizeOffset: 6,
+      },
+    },
     title: {
       text: "",
       align: "left",
@@ -1615,6 +1639,7 @@ const getMainChartOptions = (
       ];
       const base = {
         theme: isDarkMode ? "dark" : "light",
+        shared: true,
         style: {
           fontSize: "14px",
           fontFamily: "Helvetica, Arial, sans-serif",
