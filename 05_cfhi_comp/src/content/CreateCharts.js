@@ -1586,12 +1586,19 @@ const getMainChartOptions = (
           },
         },
         custom: function ({ series, seriesIndex, dataPointIndex, w }) {
-          const year = w.globals.labels[dataPointIndex] || "";
+          const yearValue =
+            Array.isArray(selectedYearsArray) && selectedYearsArray[dataPointIndex] !== undefined
+              ? selectedYearsArray[dataPointIndex]
+              : w.globals.labels[dataPointIndex];
+          const year = yearValue != null ? String(yearValue) : "";
           const seriesNames = w.globals.seriesNames || [];
-          let html = '<div class="apexcharts-tooltip-title" style="margin-bottom: 4px;">' + chartTitle + "</div>";
+          let html =
+            '<div class="cfhi-benchmark-tooltip" style="max-width: 200px; width: 200px; white-space: normal; overflow-wrap: break-word;">' +
+            '<div class="apexcharts-tooltip-title" style="margin-bottom: 4px; text-align: center;">';
           if (year) {
-            html += '<div style="margin-bottom: 4px; font-size: 12px; opacity: 0.9;">' + year + "</div>";
+            html += year;
           }
+          html += "</div>";
           series.forEach((seriesData, i) => {
             const val = seriesData[dataPointIndex];
             if (val !== null && val !== undefined) {
@@ -1613,6 +1620,7 @@ const getMainChartOptions = (
                 "<span><strong>" + label + ":</strong> " + formatted + "</span></div>";
             });
           }
+          html += "</div>";
           return html;
         },
       };
