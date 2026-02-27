@@ -11,8 +11,8 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
   const map = {
 
     // Cash — CREATE BENCHMARK AT values from UI: 60 (Days Expendable), 90 (Days Operating Cash)
-    daysExpendableNetAssets: [30, 60],   // benchmark at 60 (Good > 60 | Warning 30-60 | Action < 30)
-    daysOperatingCash: [60, 90],          // benchmark at 90 (Good > 90 | Warning 60-90 | Action < 60)
+    daysExpendableNetAssets: [60],        // benchmark at 60 (Good > 60 | Warning 30-60 | Action < 30)
+    daysOperatingCash: [90],              // benchmark at 90 (Good > 90 | Warning 60-90 | Action < 60)
     availableDaysOfCashFlow: [120, 180],
     liquidityRatio: [5],
     netCashAvailability: null,
@@ -113,6 +113,47 @@ window.getBenchmarkLabel = function getBenchmarkLabel(fieldName, benchmarkArray,
     return currentValue === higherValue ? "Benchmark - higher end" : "Benchmark - lower end";
   }
   return currentValue === lowerValue ? "Benchmark - higher end" : "Benchmark - lower end";
+};
+
+const positionChartTooltip = (chartId) => {
+  const chartElement = document.getElementById(chartId);
+  if (!chartElement) return;
+  const tooltipEl = chartElement.querySelector(".apexcharts-tooltip");
+  if (!tooltipEl || tooltipEl.style.opacity === "0" || tooltipEl.style.display === "none") {
+    return;
+  }
+
+  const chartRect = chartElement.getBoundingClientRect();
+  const tooltipRect = tooltipEl.getBoundingClientRect();
+  const margin = 12;
+
+  // Compute where the tooltip is currently centered relative to the chart.
+  const tooltipCenterX = tooltipRect.left + tooltipRect.width / 2;
+  const chartMidX = chartRect.left + chartRect.width / 2;
+
+  // Decide whether to place the tooltip to the right or left of the bar band.
+  let newLeft;
+  if (tooltipCenterX <= chartMidX) {
+    // On the left half of the chart: show tooltip to the right of the bar.
+    newLeft = tooltipCenterX + margin;
+  } else {
+    // On the right half of the chart: show tooltip to the left of the bar.
+    newLeft = tooltipCenterX - tooltipRect.width - margin;
+  }
+
+  // Clamp horizontally within the chart area.
+  const minLeft = chartRect.left + margin;
+  const maxLeft = chartRect.right - margin - tooltipRect.width;
+  if (newLeft < minLeft) newLeft = minLeft;
+  if (newLeft > maxLeft) newLeft = maxLeft;
+
+  // Nudge the tooltip slightly upward to avoid overlapping the bar value label.
+  const currentTop = tooltipRect.top;
+  const newTop = currentTop - chartRect.top - 24;
+
+  tooltipEl.style.left = `${newLeft - chartRect.left}px`;
+  tooltipEl.style.top = `${newTop}px`;
+  tooltipEl.style.transform = "none";
 };
 
 const getMainChartOptions = (
@@ -1381,6 +1422,12 @@ const getMainChartOptions = (
         line.setAttribute("x2", x2);
       });
     },
+    mouseMove: function (event, chartContext, config) {
+      positionChartTooltip(chartId);
+    },
+    dataPointMouseEnter: function (event, chartContext, config) {
+      positionChartTooltip(chartId);
+    },
   };
 
   const series = [
@@ -1566,14 +1613,7 @@ const getMainChartOptions = (
         window.chartColors.yellow,
         window.chartColors.purple,
       ];
-      const benchmarkColor = "#6B7280";
       const base = {
-        fixed: {
-          enabled: true,
-          position: "topLeft",
-          offsetY: 30,
-          offsetX: 60,
-        },
         theme: isDarkMode ? "dark" : "light",
         style: {
           fontSize: "14px",
@@ -1606,20 +1646,10 @@ const getMainChartOptions = (
               const color = seriesColors[i] || chartColors.labelColor;
               html +=
                 '<div class="apexcharts-tooltip-series-group" style="align-items: center; display: flex; gap: 6px; margin: 2px 0;">' +
-                '<span class="apexcharts-tooltip-marker" style="background-color: ' + color + ';"></span>' +
+                '<span class="apexcharts-tooltip-marker" style="background-color: ' + color + '; border-radius: 50%; width: 10px; height: 10px; display: inline-block;"></span>' +
                 "<span><strong>" + (seriesNames[i] || "") + ":</strong> " + formatted + "</span></div>";
             }
           });
-          if (benchmark && Array.isArray(benchmark) && benchmark.length > 0) {
-            benchmark.forEach((val, idx) => {
-              const formatted = tooltipFormatter(Number(val));
-              const label = typeof getBenchmarkLabel === "function" ? getBenchmarkLabel(mainName, benchmark, idx) : "Benchmark";
-              html +=
-                '<div class="apexcharts-tooltip-series-group" style="align-items: center; display: flex; gap: 6px; margin: 2px 0;">' +
-                '<span class="apexcharts-tooltip-marker" style="background-color: ' + benchmarkColor + ';"></span>' +
-                "<span><strong>" + label + ":</strong> " + formatted + "</span></div>";
-            });
-          }
           html += "</div>";
           return html;
         },
