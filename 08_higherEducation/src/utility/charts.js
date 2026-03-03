@@ -2789,6 +2789,25 @@ const getCurrentRatioChartOptions = (data) => {
     return Math.round(num).toString();
   };
 
+  // Data labels above the bars (Current Assets / Liabilities) –
+  // show more exact millions, floored to the nearest 1M (e.g. 208,958,182 → $208M).
+  const dataLabelFormatter = (value) => {
+    const abs = Math.abs(Number(value));
+    if (!Number.isFinite(abs)) return "";
+
+    if (abs >= 1000000) {
+      const millions = Math.floor(abs / 1000000);
+      return `$${millions}M`;
+    }
+
+    if (abs >= 1000) {
+      const thousands = Math.floor(abs / 1000);
+      return `$${thousands}K`;
+    }
+
+    return `$${Math.floor(abs)}`;
+  };
+
   const tooltipFormatter = (value) => {
     if (!value) return;
     let formattedValue = value.toLocaleString();
@@ -2810,28 +2829,40 @@ const getCurrentRatioChartOptions = (data) => {
     window.chartColors.blue,
   ];
 
+  // Ensure all series use the same number of points as the selected years,
+  // so we don't render an extra point (especially for Peer Avg) past 2025.
+  const pointCount =
+    Array.isArray(selectedYearsArray) && selectedYearsArray.length
+      ? selectedYearsArray.length
+      : currentAssetsArray.length;
+
+  const assetsSeries = currentAssetsArray.slice(0, pointCount);
+  const liabilitiesSeries = currentLiabilitiesArray.slice(0, pointCount);
+  const currentRatioSeries = currentRatioArray.slice(0, pointCount);
+  const peerAvgRatioSeries = peerAvgCurrentRatioArray.slice(0, pointCount);
+
   return {
     colors: seriesColors,
     series: [
       {
         name: "Current Assets",
         type: "column",
-        data: currentAssetsArray,
+        data: assetsSeries,
       },
       {
         name: "Current Liabilities",
         type: "column",
-        data: currentLiabilitiesArray,
+        data: liabilitiesSeries,
       },
       {
         name: "Current Ratio",
         type: "line",
-        data: currentRatioArray,
+        data: currentRatioSeries,
       },
       {
         name: "Peer Avg",
         type: "line",
-        data: peerAvgCurrentRatioArray,
+        data: peerAvgRatioSeries,
       },
     ],
     chart: {
@@ -2946,7 +2977,7 @@ const getCurrentRatioChartOptions = (data) => {
       enabled: true,
       enabledOnSeries: [0, 1],
       offsetY: -20,
-      formatter: yaxisLabelFormatter,
+      formatter: dataLabelFormatter,
       style: {
         fontSize: "16px",
         fontFamily: "Helvetica, Arial, sans-serif",
