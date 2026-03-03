@@ -2318,6 +2318,58 @@ const getCashFlowTrendChartOptions = (data) => {
   };
 };
 
+/**
+ * Compute a “nice” axis range with evenly spaced, rounded ticks.
+ * Returns rounded min/max plus a tickAmount that produces equal intervals.
+ * Only used for specific charts so other charts keep their existing behavior.
+ *
+ * @param {number} minVal - Raw minimum value from data
+ * @param {number} maxVal - Raw maximum value from data
+ * @param {number} desiredTicks - Approximate desired number of ticks
+ * @returns {{ min: number, max: number, tickAmount: number }}
+ */
+const getNiceAxisRange = (minVal, maxVal, desiredTicks = 6) => {
+  if (!Number.isFinite(minVal) || !Number.isFinite(maxVal)) {
+    return { min: minVal, max: maxVal, tickAmount: desiredTicks };
+  }
+
+  let min = minVal;
+  let max = maxVal;
+
+  if (min === max) {
+    const delta = Math.abs(min) || 1;
+    min -= delta / 2;
+    max += delta / 2;
+  }
+
+  let range = max - min;
+  if (range === 0) {
+    range = Math.abs(max) || 1;
+  }
+
+  const rawStep = range / Math.max(1, desiredTicks - 1);
+  const magnitude = Math.pow(
+    10,
+    Math.floor(Math.log10(Math.abs(rawStep))) || 0
+  );
+  const niceSteps = [1, 2, 2.5, 5, 10];
+  let step = niceSteps[0] * magnitude;
+
+  for (let i = 0; i < niceSteps.length; i += 1) {
+    const candidate = niceSteps[i] * magnitude;
+    if (candidate >= rawStep) {
+      step = candidate;
+      break;
+    }
+  }
+
+  const niceMin = Math.floor(min / step) * step;
+  const niceMax = Math.ceil(max / step) * step;
+  const tickAmount = Math.round((niceMax - niceMin) / step) + 1;
+
+  return { min: niceMin, max: niceMax, tickAmount };
+};
+
 const getCurrentRatioChartOptions = (data) => {
   // console.log('currentRatio', { chartData: data });
 
@@ -2646,6 +2698,9 @@ const getCurrentRatioChartOptions = (data) => {
     peerAvgCurrentRatioArray,
   ]);
 
+  const leftAxis = getNiceAxisRange(minY, maxY, 6);
+  const rightAxis = getNiceAxisRange(minYLine, maxYLine, 5);
+
   // console.log("getCurrentRatioChartOptions", {
   //   currentAssetsArray,
   //   currentLiabilitiesArray,
@@ -2681,8 +2736,11 @@ const getCurrentRatioChartOptions = (data) => {
     const isNegative = value < 0;
     const absValue = Math.abs(value);
     const sign = isNegative ? "-" : "";
-    
-    if (absValue >= 10000000) {
+
+    if (absValue >= 1000000000) {
+      // 1B, 2B, etc. for values >= 1B
+      return `${sign}$${(absValue / 1000000000).toFixed(1).replace(/\\.0$/, "")}B`;
+    } else if (absValue >= 10000000) {
       // Round to nearest 10M for values >= 10M
       return `${sign}$${Math.round(absValue / 10000000) * 10}M`;
     } else if (absValue >= 1000000) {
@@ -2697,8 +2755,16 @@ const getCurrentRatioChartOptions = (data) => {
     }
     return `${sign}$${formatNumber(absValue)}`;
   };
+
   const yaxisLabelFormatter2 = (value) => {
-    return `${Math.round(value)}`;
+    const num = Number(value);
+    if (!Number.isFinite(num)) return "";
+    const abs = Math.abs(num);
+    if (abs < 10) {
+      // Show up to 1 decimal for small ratios (e.g., 1.5, 2.0)
+      return num.toFixed(1).replace(/\\.0$/, "");
+    }
+    return Math.round(num).toString();
   };
 
   const tooltipFormatter = (value) => {
@@ -2777,15 +2843,15 @@ const getCurrentRatioChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
-        tickAmount: 7,
-        min: minY,
-        max: maxY,
+        tickAmount: leftAxis.tickAmount,
+        min: leftAxis.min,
+        max: leftAxis.max,
       },
       {
         seriesName: "Current Liabilities",
         show: false,
-        min: minY,
-        max: maxY,
+        min: leftAxis.min,
+        max: leftAxis.max,
       },
       {
         seriesName: "Current Ratio",
@@ -2802,18 +2868,21 @@ const getCurrentRatioChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
-        min: minYLine,
-        max: maxYLine,
+        min: rightAxis.min,
+        max: rightAxis.max,
+        tickAmount: rightAxis.tickAmount,
       },
       {
         seriesName: "Peer Avg",
         opposite: true,
         show: false,
-        min: minYLine,
-        max: maxYLine,
+        min: rightAxis.min,
+        max: rightAxis.max,
       },
     ],
     tooltip: {
+      shared: true,
+      intersect: false,
       y: {
         formatter: tooltipFormatter,
         title: {
