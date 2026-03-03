@@ -2698,7 +2698,22 @@ const getCurrentRatioChartOptions = (data) => {
     peerAvgCurrentRatioArray,
   ]);
 
-  const leftAxis = getNiceAxisRange(minY, maxY, 6);
+  // Left axis for dollar amounts: force clean 50M/100M-style steps
+  const buildLeftAxis = (maxVal, desiredTicks = 6) => {
+    const maxMillions = Math.ceil(maxVal / 1000000);
+    const baseStepMillions = 50; // enforce multiples of 50M
+    const stepMillions =
+      Math.ceil(maxMillions / Math.max(1, desiredTicks - 1) / baseStepMillions) *
+      baseStepMillions;
+    const maxNiceMillions = stepMillions * Math.max(1, desiredTicks - 1);
+    return {
+      min: 0,
+      max: maxNiceMillions * 1000000,
+      tickAmount: desiredTicks,
+    };
+  };
+
+  const leftAxis = buildLeftAxis(maxY, 6);
   const rightAxis = getNiceAxisRange(minYLine, maxYLine, 5);
 
   // console.log("getCurrentRatioChartOptions", {
@@ -2734,8 +2749,15 @@ const getCurrentRatioChartOptions = (data) => {
 
   const yaxisLabelFormatter = (value) => {
     const isNegative = value < 0;
-    const absValue = Math.abs(value);
+    const absRaw = Math.abs(value);
     const sign = isNegative ? "-" : "";
+
+    // For larger values, snap to nearest 50M so labels are 0M, 50M, 100M, 150M, etc.
+    let absValue = absRaw;
+    if (absRaw >= 1000000) {
+      const step = 50000000; // 50M
+      absValue = Math.round(absRaw / step) * step;
+    }
 
     if (absValue >= 1000000000) {
       // 1B, 2B, etc. for values >= 1B
@@ -2883,11 +2905,41 @@ const getCurrentRatioChartOptions = (data) => {
     tooltip: {
       shared: true,
       intersect: false,
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
+      custom: function ({ series, seriesIndex, dataPointIndex, w }) {
+        const labels = w.globals.categoryLabels || w.globals.labels || [];
+        const year = labels[dataPointIndex] || "";
+        const seriesNames = w.globals.seriesNames || [];
+        const seriesColorsLocal = seriesColors;
+
+        let html =
+          '<div class="cfhi-benchmark-tooltip" style="max-width: 220px; width: 220px; white-space: normal; overflow-wrap: break-word;">' +
+          '<div class="apexcharts-tooltip-title" style="margin-bottom: 4px; text-align: center;">';
+
+        if (year) {
+          html += year;
+        }
+
+        html += "</div>";
+
+        series.forEach((seriesData, i) => {
+          const val = seriesData[dataPointIndex];
+          if (val === null || val === undefined) return;
+          const formatted = tooltipFormatter(Number(val));
+          const color = seriesColorsLocal[i] || chartColor;
+          html +=
+            '<div class="apexcharts-tooltip-series-group" style="align-items: center; display: flex; gap: 6px; margin: 2px 0;">' +
+            '<span class="apexcharts-tooltip-marker" style="background-color: ' +
+            color +
+            '; border-radius: 50%; width: 10px; height: 10px; display: inline-block;"></span>' +
+            "<span><strong>" +
+            (seriesNames[i] || "") +
+            ":</strong> " +
+            formatted +
+            "</span></div>";
+        });
+
+        html += "</div>";
+        return html;
       },
     },
     dataLabels: {
