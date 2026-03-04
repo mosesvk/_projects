@@ -1,2 +1,143 @@
+I used Abilene Christian (client ID 3213; 2022-2025; peer group: ABACC ) 
 
+Higher Ed To-Do
 
+Financial Flow Analysis
+
+- [ ] Remove the word "beta" from the interface.
+- [ ] For the graph, treat scholarships and financial aid as negative values so they decrease in the chart (they will be keyed in as negative, so reverse as needed).
+- [ ] Update the "general expenses" calculation to be:
+      [R162 Services Supplies and Other] +
+      [R163 Occupancy Utilities and Maintenance] +
+      [R164 Depreciation and Amortization] +
+      [R165 Interest]
+
+HIGHER ED – REVENUE and EXPENSE
+
+Sources of Income
+
+- [ ] Fix the peer group pie chart so its segments sum to 100% and include investments (the client pie chart is already correct).
+
+Net Education Expense per Student
+
+- [ ] Add dollar signs to the y-axis.
+
+Net Tuition Per Student
+
+- [ ] Fix the axis to use round whole numbers.
+
+Tuition Discount Rate
+
+- [ ] Change the label "Current Ratio" to "Client Ratio".
+
+HIGHER ED – DEBT & ENDOWMENT
+
+Debt Service Coverage Ratio
+
+- [ ] Add numbers to the x-axis.
+I used Abilene Christian (client ID 3213; 2022-2025; peer group: ABACC ) 
+
+ 
+
+HIGHER ED – FINANCE TAB 
+
+ 
+
+ 
+
+CURRENT RATIO 
+
+ 
+
+The yxis on the left – can you make those numbers to be regular round intervals? 
+
+When you hover over it only show the current ratio for client. Can you add the ratio for the peer average as well to the modal box? 
+
+The 2 trend lines aren’t plotting correctly on the right y axis.  For 2022 – Client is 3.0 and peer is 3.4  But the graph shows the client at 2.6 and the peer at 3.0. 
+
+The bar graph numbers are rounded to the near hundred of a million.  Can these be exact. So for 2022 this should read as 208M and 69M 
+
+The y-axis on the right – the 4 is at the 3.5 mark. 
+
+ 
+
+Financial Flow Analysis 
+
+You can remove the word “beta” now 
+
+For the graph – can you change scholarships and financial aid with a  negative? It will be keyed in as a negative – so we need to reverse it so it decreases in the chart. 
+
+What is your calculation for general expenses? It should be the following 
+[R162 Services Supplies and Other] +  
+
+[R163 Occupancy Utilities and Maintenance] +  
+
+[R164 Depreciation and Amortization] + 
+
+[R165 Interest] 
+
+ 
+
+ 
+
+ 
+
+HIGHER ED – REVENUE and EXPENSE 
+
+ 
+
+Sources of Income 
+
+The client pie chart matches PERFECTLY. The peer chart is a little off.  Your numbers equal greater than 100 and it’s missing investments. 
+
+ 
+
+ 
+
+ 
+
+Net Education Expense per Student 
+
+Add dollar signs to the yaxis 
+
+ 
+
+ 
+
+ 
+
+Net Tuition Per Student 
+
+Fix the axis to have round whole numbers. 
+
+ 
+
+ 
+
+ 
+
+Tuition Discount Rate 
+
+Change “Current Ratio” to “Client Ratio” 
+
+ 
+
+ 
+
+ 
+
+HIGHER ED – DEBT & ENDOWMENT 
+
+ 
+
+ 
+
+Debt Service Coverage Ratio 
+
+Can you add numbers to the x-axis 
+
+ 
+
+ 
+
+ 

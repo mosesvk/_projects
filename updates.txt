@@ -1,16 +1,11 @@
-TODO Update Summary:
+Higher Ed
 
-- Higher Ed
-  - Match FusionChart background colors (green, red, yellow) to Capin color scheme.
+CURRENT RATIO
 
-- K12
-  - Match header and navigation styling to church projects.
-  - Implement comp-style API loading.
-  - Add a Print button to the sidebar and a print modal ("Generate reports" / "Print presentation").
-  - Move all print/Excel functionality from the options modal into the new print modal.
-  - Use Toastify for filter/enrollment changes and Run success:
-      - On Run, show a success toast with unique clients count.
-      - On filter change, show a toast with the previous unique clients count and prompt user to click Run to refresh.
+- [ ] Make the left y-axis use regular round interval numbers.
+- [ ] In the hover modal, show both the client current ratio and the peer average ratio.
+- [ ] Fix the two trend lines on the right y-axis so that for 2022 the client is 3.0 and the peer is 3.4 (currently plotting as 2.6 and 3.0).
+- [ ] Change the bar graph labels from rounded hundreds of millions to exact values (for 2022 use 208M and 69M).
+- [ ] Fix the right y-axis so that the "4" tick mark is correctly aligned (not at the 3.5 mark).
 
-- Church (both)
-  - Update "CFHI" title to use the K-12 header font and color.
+

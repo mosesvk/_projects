@@ -1790,9 +1790,9 @@ const getFfaChartOptions = (data) => {
     data["ffa_revenueTuitionAndFees_Client"][currentYear].value
   );
 
-  const revenueSchoolServicesClient = Math.abs(
-    Number(data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value)
-  );
+  const revenueSchoolServicesClient = Math.abs
+    Number(data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value);
+
   const ScholarshipAndFinancialAidClient =
     revenueTuitionAndFeesClient + revenueSchoolServicesClient;
 
@@ -1846,12 +1846,17 @@ const getFfaChartOptions = (data) => {
     data["ffa_occupancyUtilitiesAndMaintenance_Client"][currentYear].value
   );
 
+  const depreciationAndAmortizationClient = Number(
+    data["ffa_depreciationAndAmortization_Client"][currentYear].value
+  );
+
   const interestClient = Number(data["ffa_interest_Client"][currentYear].value);
 
   const generalExpenseClient =
     compensationAndBenefitsClient -
     (servicesSuppliesAndOtherClient +
       occupancyUtilitiesAndMaintenanceClient +
+      depreciationAndAmortizationClient +
       interestClient);
 
   const surplusDefecitClient = 0 + generalExpenseClient;
