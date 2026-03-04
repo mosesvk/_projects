@@ -2,15 +2,7 @@ I used Abilene Christian (client ID 3213; 2022-2025; peer group: ABACC )
 
 Higher Ed To-Do
 
-Financial Flow Analysis
 
-- [ ] Remove the word "beta" from the interface.
-- [ ] For the graph, treat scholarships and financial aid as negative values so they decrease in the chart (they will be keyed in as negative, so reverse as needed).
-- [ ] Update the "general expenses" calculation to be:
-      [R162 Services Supplies and Other] +
-      [R163 Occupancy Utilities and Maintenance] +
-      [R164 Depreciation and Amortization] +
-      [R165 Interest]
 
 HIGHER ED – REVENUE and EXPENSE
 

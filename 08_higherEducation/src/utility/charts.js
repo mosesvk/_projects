@@ -2026,15 +2026,6 @@ const getFfaChartOptions = (data) => {
         color: chartColor,
       },
     },
-    subtitle: {
-      text: "BETA",
-      position: "top",
-      align: "center",
-      style: {
-        fontSize: "20px",
-        color: "red",
-      },
-    },
     xaxis: {
       labels: {
         style: {
