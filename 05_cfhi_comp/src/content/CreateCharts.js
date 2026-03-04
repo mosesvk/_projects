@@ -14,7 +14,7 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
     daysExpendableNetAssets: [60],        // benchmark at 60 (Good > 60 | Warning 30-60 | Action < 30)
     daysOperatingCash: [90],              // benchmark at 90 (Good > 90 | Warning 60-90 | Action < 60)
     availableDaysOfCashFlow: [120, 180],
-    liquidityRatio: [5],
+    liquidityRatio: [2],
     netCashAvailability: null,
 
     // Debt — CREATE BENCHMARK AT: 2 (Debt to Contrib, Current Ratio), 20 (Mandatory Debt Service), 1.25 (Debt Coverage). NO BENCHMARK: Debt per Giving Unit
@@ -33,7 +33,7 @@ window.getBenchmarksForField = function getBenchmarksForField(fieldName) {
     // Expense — CREATE BENCHMARK AT: 40 (Personnel to Total Cash; range 40-55)
     benefitsToSalaries: null,
     salariesBenefitsIncludingOutsourcedEmployees: null,
-    personnelToCashExpenditure: [40, 55],
+    personnelToCashExpenditure: [40],
     mandatoryDebtServiceToCashExpenditure: [15],
     personnelIncludingToTotalCashExpenditures: null,
     totalGlobalAndLocalOutreachExpenses: [10, 25],
