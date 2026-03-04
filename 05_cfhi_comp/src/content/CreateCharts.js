@@ -76,17 +76,11 @@ function isFieldHigherBetter(fieldName) {
     'mandatoryDebtServiceToCashExpenditure'
   ];
 
-  const rangeFields = [
-    'personnelToCashExpenditure' // 40-55 range, so 40 is lower end, 55 is higher end
-  ];
 
   if (higherIsBetter.includes(fieldName)) {
     return true;
   } else if (lowerIsBetter.includes(fieldName)) {
     return false;
-  } else if (rangeFields.includes(fieldName)) {
-    // For range fields, treat as higher is better for labeling purposes
-    return true;
   }
 
   // Default to higher is better if not specified

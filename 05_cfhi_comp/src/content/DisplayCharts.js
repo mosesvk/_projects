@@ -483,7 +483,7 @@ const displayExpenseComponent = () => {
     "wa" // use weighted average
   );
 
-  // personnelToCashExpenditure
+  // personnelToCashExpenditure — benchmark at 40% (Good: 40-55)
   createChartFromParsedData(
     parseData,
     "personnelToCashExpenditure_chart",
@@ -492,7 +492,7 @@ const displayExpenseComponent = () => {
     "percent",
     0,
     "personnelToCashExpenditure",
-    null,
+    [40],
     "Personnel to Cash Expenditure",
     "wa" // use weighted average
   );

@@ -221,6 +221,8 @@ const createChartFromParsedData = (
   wa = null
 ) => {
   if (parsedData) {
+    // Resolve benchmark from central map when not provided (e.g. personnelToCashExpenditure 40% benchmark)
+    const resolvedBenchmark = benchmark != null ? benchmark : (typeof window.getBenchmarksForField === "function" ? window.getBenchmarksForField(mainName) : null);
     // console.log('createChartFromParsedData', { parsedData, chart, peer, client, type, fixedNum, mainName, wa });
 
     createChart(
@@ -230,7 +232,7 @@ const createChartFromParsedData = (
       type,
       fixedNum,
       mainName,
-      benchmark,
+      resolvedBenchmark,
       title,
       wa,
       parsedData
