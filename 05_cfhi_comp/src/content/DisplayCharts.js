@@ -251,7 +251,7 @@ const displayCashComponent = () => {
     "liquidityRatio_Peer",
     "liquidityRatio_Client",
     "number",
-    0,
+    1,
     "liquidityRatio",
     getBenchmarksForField("liquidityRatio"),
     "Liquidity Ratio",

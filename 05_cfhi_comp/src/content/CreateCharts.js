@@ -1305,17 +1305,27 @@ const getMainChartOptions = (
 
   const tooltipFormatter = (value) => {
     if (value === null || value === undefined) return;
-    const formattedValue = value.toLocaleString();
+
+    const formatWithFixed = (val) => {
+      if (typeof fixedNum === "number" && fixedNum > 0) {
+        return val.toLocaleString(undefined, {
+          minimumFractionDigits: fixedNum,
+          maximumFractionDigits: fixedNum,
+        });
+      }
+      return val.toLocaleString();
+    };
+
+    const absValue = Math.abs(value);
+    const formattedValue = formatWithFixed(absValue);
+
     if (numType === "dollar") {
       // For negative dollar values, format as -$X instead of $-X
-      if (value < 0) {
-        return `-$${Math.abs(value).toLocaleString()}`;
-      }
-      return `$${formattedValue}`;
+      return value < 0 ? `-$${formattedValue}` : `$${formattedValue}`;
     } else if (numType === "percent") {
       return `${formattedValue}%`;
     } else {
-      return formattedValue;
+      return value < 0 ? `-${formattedValue}` : formattedValue;
     }
   };
 
@@ -1354,8 +1364,11 @@ const getMainChartOptions = (
   }
 
   const yaxisAnnotations = [];
-  if (benchmark && Array.isArray(benchmark) && benchmark.length > 0) {
-    const singleValue = benchmark[0];
+  const benchmarkValues = Array.isArray(benchmark)
+    ? benchmark.filter((v) => v !== null && v !== undefined && !Number.isNaN(v))
+    : [];
+  if (benchmarkValues.length > 0) {
+    const singleValue = benchmarkValues[0];
     yaxisAnnotations.push({
       id: "annotation",
       y: singleValue,
@@ -1396,6 +1409,58 @@ const getMainChartOptions = (
     updated: function (chartContext, config) {
       const chartElement = document.getElementById(chartId);
       if (!chartElement) return;
+
+      // Capture initial y-axis max (with all series visible) so legend toggles
+      // do not change the scale or formatting. This keeps the original axis
+      // while still allowing the benchmark to remain visible.
+      if (
+        benchmarkValues.length > 0 &&
+        chartContext &&
+        chartContext.w &&
+        typeof chartContext.w.globals.maxY === "number" &&
+        !chartElement.dataset.initialMaxY
+      ) {
+        chartElement.dataset.initialMaxY = String(chartContext.w.globals.maxY);
+      }
+
+      if (benchmarkValues.length > 0 && chartElement.dataset.initialMaxY) {
+        const initialMaxY = parseFloat(chartElement.dataset.initialMaxY);
+        const currentMaxY =
+          chartContext &&
+          chartContext.w &&
+          typeof chartContext.w.globals.maxY === "number"
+            ? chartContext.w.globals.maxY
+            : null;
+
+        if (
+          currentMaxY !== null &&
+          initialMaxY &&
+          currentMaxY < initialMaxY
+        ) {
+          const chartInstance = window[chartId] || chartContext;
+          const w = chartContext && chartContext.w;
+
+          if (chartInstance && typeof chartInstance.updateOptions === "function" && w) {
+            let nextYAxis;
+
+            if (Array.isArray(w.config.yaxis)) {
+              nextYAxis = w.config.yaxis.map((axisConfig, idx) =>
+                idx === 0 ? { ...axisConfig, max: initialMaxY } : axisConfig
+              );
+            } else {
+              nextYAxis = [{ ...(w.config.yaxis || {}), max: initialMaxY }];
+            }
+
+            chartInstance.updateOptions(
+              {
+                yaxis: nextYAxis,
+              },
+              false,
+              false
+            );
+          }
+        }
+      }
       if (yaxisAnnotations && yaxisAnnotations.length > 0) {
         const annotationsToReapply = yaxisAnnotations;
         setTimeout(() => {
