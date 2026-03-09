@@ -1509,33 +1509,33 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-  selectedYearsArray.sort((a, b) => a - b);
+  // Use the most recent selected year for peers (to match client charts)
+  selectedYearsArray.sort((a, b) => b - a);
+  const selectedYear = selectedYearsArray[0];
 
-  const totalValue = getAverageOfArray(
-    data["soiTotal_Peer"][selectedYearsArray[0]]
-  );
+  const totalValue = getAverageOfArray(data["soiTotal_Peer"][selectedYear]);
   const tuitionPercentage = getAverageOfArray(
-    data["revenueTuitionAndFees_Peer"][selectedYearsArray[0]]
+    data["revenueTuitionAndFees_Peer"][selectedYear]
   );
   const tuitionValue = Math.round(totalValue * tuitionPercentage);
 
   const auxiliaryPercentage = getAverageOfArray(
-    data["revenueAuxiliaryActivities_Peer"][selectedYearsArray[0]]
+    data["revenueAuxiliaryActivities_Peer"][selectedYear]
   );
   const auxiliaryValue = Math.round(totalValue * auxiliaryPercentage);
 
   const contributionsPercentage = getAverageOfArray(
-    data["revenueContributions_Peer"][selectedYearsArray[0]]
+    data["revenueContributions_Peer"][selectedYear]
   );
   const contributionsValue = Math.round(totalValue * contributionsPercentage);
 
   const investmentsPercentage = getAverageOfArray(
-    data["revenueInvestmentIncome_Peer"][selectedYearsArray[0]]
+    data["revenueInvestmentIncome_Peer"][selectedYear]
   );
   const investmentsValue = Math.round(totalValue * investmentsPercentage);
 
   const otherPercentage = getAverageOfArray(
-    data["revenueOther_Peer"][selectedYearsArray[0]]
+    data["revenueOther_Peer"][selectedYear]
   );
   const otherValue = Math.round(totalValue * otherPercentage);
 
@@ -1784,14 +1784,17 @@ const getCfiVerticalChart = (data, mostRecentYear, cfiValue) => {
 
 const getFfaChartOptions = (data) => {
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
-  currentYear = selectedYearsArray[selectedYearsArray.length - 1];
+  const currentYear = selectedYearsArray[selectedYearsArray.length - 1];
 
   const revenueTuitionAndFeesClient = Number(
     data["ffa_revenueTuitionAndFees_Client"][currentYear].value
   );
 
-  const revenueSchoolServicesClient = Math.abs
-    Number(data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value);
+  const revenueSchoolServicesClient = Math.abs(
+    Number(
+      data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
+    )
+  );
 
   const ScholarshipAndFinancialAidClient =
     revenueTuitionAndFeesClient + revenueSchoolServicesClient;
@@ -4092,15 +4095,20 @@ const getNetEducationalExpensePerStudentChartOptions = (data) => {
   const yaxisLabelFormatter = (val) => {
     const num = parseInt(val, 10);
     if (isNaN(num)) {
-      return "Invalid input";
+      return "";
     }
-    if (num >= 1000000) {
-      return `${Math.floor(num / 1000000)}M`;
+
+    const isNegative = num < 0;
+    const absVal = Math.abs(num);
+    const sign = isNegative ? "-" : "";
+
+    if (absVal >= 1000000) {
+      return `${sign}$${Math.floor(absVal / 1000000)}M`;
     }
-    if (num >= 1000) {
-      return `${Math.floor(num / 1000)}k`;
+    if (absVal >= 1000) {
+      return `${sign}$${Math.floor(absVal / 1000)}k`;
     }
-    return val;
+    return `${sign}$${absVal.toLocaleString()}`;
   };
 
   const tooltipFormatter = (value) => {
@@ -4772,7 +4780,7 @@ const getTuitionDiscountRateChartOptions = (data) => {
         data: tuitionFeesArray,
       },
       {
-        name: "Current Ratio",
+        name: "Client Ratio",
         type: "line",
         data: clientRatioArray,
       },
@@ -4975,6 +4983,11 @@ const getNetTuitionPerStudentChartOptions = (data) => {
 
   const backgroundColor = value > benchmark ? window.chartColors.green : window.chartColors.cfi25;
 
+  // Round the upper limit so axis tick values are clean, rounded amounts
+  const stepSize = 5000;
+  const roundedUpperLimit =
+    Math.ceil(value / stepSize) * stepSize || stepSize;
+
   netTuitionPerStudent_chart = new FusionCharts({
     type: "hlineargauge",
     renderAt: "netTuitionPerStudent_chart",
@@ -4987,8 +5000,11 @@ const getNetTuitionPerStudentChartOptions = (data) => {
         caption: "",
         subcaption: "",
         lowerLimit: "0",
-        upperLimit: value + 5000,
+        upperLimit: roundedUpperLimit.toString(),
         numberPrefix: "$",
+        numDivLines: "3",
+        divLineDecimalPrecision: "0",
+        tickValueDecimals: "0",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "1.25rem",
@@ -5203,16 +5219,19 @@ const getDebtServiceCoverageChartOptions = (data) => {
         caption: "",
         subcaption: "",
         lowerLimit: "0",
-        upperLimit: "5",
+        upperLimit: "6",
         numberSuffix: "",
+        numDivLines: "6",
+        tickValueDecimals: "0",
+        divLineDecimalPrecision: "0",
         valueAbovePointer: "0",
         chartBottomMargin: "50",
         valueFontSize: "1.25rem",
         valueFontBold: "6",
         labelFontColor: chartColor,
         baseFontColor: chartColor,
-        showTickMarks: "0",
-        showTickValues: "0",
+        showTickMarks: "1",
+        showTickValues: "1",
       },
       colorRange: {
         color: [

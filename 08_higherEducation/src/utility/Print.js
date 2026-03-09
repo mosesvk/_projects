@@ -157,6 +157,7 @@ async function processChartsWithSpacing(chartMappings) {
 
   for (let i = 0; i < chartMappings.length; i++) {
     const { chartId, fieldId } = chartMappings[i];
+    const chartType = getChartTypeFromId(chartId);
     updateProgressUI(i, chartMappings.length);
 
     // console.log(`Processing chart: ${chartId}...`);
@@ -177,55 +178,8 @@ async function processChartsWithSpacing(chartMappings) {
       //   chart && typeof chart.dataURI === "function"
       // );
 
-      // Special handling for CFI Composite chart - export only the table
-      if (chartId === "cfiCompositeHtml_Chart") {
-        const tableElement = chartElement.querySelector("#myTable");
-        if (tableElement) {
-          // Export the table directly without container constraints
-          const tableClone = tableElement.cloneNode(true);
-
-          // Set minimal styling for clean export
-          tableClone.style.margin = "0";
-          tableClone.style.padding = "10px";
-          tableClone.style.backgroundColor = "#ffffff";
-          tableClone.style.fontSize = "12px";
-          tableClone.style.border = "none";
-
-          // Position off-screen for export
-          tableClone.style.position = "absolute";
-          tableClone.style.left = "-9999px";
-          tableClone.style.top = "0";
-
-          document.body.appendChild(tableClone);
-
-          // Wait for layout to settle
-          await new Promise((resolve) => setTimeout(resolve, 100));
-
-          // Export with html2canvas using natural dimensions
-          const canvas = await html2canvas(tableClone, {
-            scale: 1,
-            useCORS: true,
-            allowTaint: true,
-            backgroundColor: "#ffffff",
-            width: tableClone.scrollWidth,
-            height: tableClone.scrollHeight,
-          });
-
-          const dataURL = canvas.toDataURL("image/png");
-          const base64String = dataURL.split(",")[1];
-
-          // Clean up
-          if (tableClone.parentNode) {
-            document.body.removeChild(tableClone);
-          }
-
-          results.push({ chartId, fieldId, base64String });
-          continue;
-        }
-      }
-
       // If we have an ApexChart instance, use its export method
-      if (chart && typeof chart.dataURI === "function") {
+      if (chart && typeof chart.dataURI === "function" && chartType !== "radialBar") {
         const base64String = await exportApexChart(chart, chartId);
         if (base64String) {
           results.push({ chartId, fieldId, base64String });
@@ -924,7 +878,7 @@ async function exportWithHtml2Canvas(chartElement) {
   // Get chart ID from the element
   const chartId = chartElement.id;
   const dimensions = getChartDimensions(chartId);
-  const { width: chartWidth, height: chartHeight } = dimensions;
+  let { width: chartWidth, height: chartHeight } = dimensions;
 
   // Get the chart instance to handle FusionCharts caption clearing
   const chart = getChartInstance(chartId);
@@ -957,37 +911,32 @@ async function exportWithHtml2Canvas(chartElement) {
     );
   }
 
-  // Special handling for CFI Composite chart
+  // Special handling for CFI Composite chart - export only the chart content to avoid white space
   if (chartId === "cfiCompositeHtml_Chart") {
-    // For CFI Composite, use the container's actual content height
-    const actualHeight = chartElement.scrollHeight || chartElement.offsetHeight;
-    const finalHeight = Math.max(actualHeight, chartHeight);
+    const innerChart = chartElement.querySelector(".cfi-html-chart");
+    const targetEl = innerChart || chartElement;
+    const clone = targetEl.cloneNode(true);
 
-    // Create a clone container with dynamic height
     const container = document.createElement("div");
     container.style.position = "absolute";
     container.style.left = "-9999px";
-    container.style.width = `${chartWidth}px`;
-    container.style.height = `${finalHeight}px`;
+    container.style.top = "0";
     container.style.backgroundColor = "#ffffff";
     container.style.overflow = "visible";
-
-    // Clone the chart element into the container
-    const clone = chartElement.cloneNode(true);
-    clone.style.width = `${chartWidth}px`;
-    clone.style.height = "auto";
+    container.style.display = "inline-block";
     container.appendChild(clone);
     document.body.appendChild(container);
 
     try {
-      // Wait for layout updates
-      await new Promise((resolve) => setTimeout(resolve, 200));
+      await new Promise((resolve) => setTimeout(resolve, 150));
 
-      // Use html2canvas with dynamic height and optimized width
+      const contentWidth = clone.offsetWidth || clone.scrollWidth;
+      const contentHeight = clone.offsetHeight || clone.scrollHeight;
+
       const canvas = await html2canvas(clone, {
         scale: 1,
-        width: optimalWidth,
-        height: finalHeight,
+        width: contentWidth,
+        height: contentHeight,
         useCORS: true,
         allowTaint: true,
         backgroundColor: "#ffffff",
@@ -996,7 +945,6 @@ async function exportWithHtml2Canvas(chartElement) {
       const dataURL = canvas.toDataURL("image/png");
       const base64String = dataURL.split(",")[1];
 
-      // Clean up
       document.body.removeChild(container);
       return base64String;
     } catch (error) {
@@ -1004,6 +952,15 @@ async function exportWithHtml2Canvas(chartElement) {
         document.body.removeChild(container);
       }
       return null;
+    }
+  }
+
+  // For Apex radialBar charts, use the on-screen size so the export matches
+  if (chartType === "radialBar") {
+    const rect = chartElement.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      chartWidth = rect.width;
+      chartHeight = rect.height;
     }
   }
 
