@@ -62,7 +62,22 @@ const getMainChartOptions = (
       })
     : [];
 
-  const formatNumber = (value) => value.toLocaleString();
+  const formatNumber = (value) => {
+    if (value == null || isNaN(value)) return "";
+    return value.toLocaleString();
+  };
+
+  const formatNumberWithFixed = (value) => {
+    if (value == null || isNaN(value)) return "";
+    const num = Number(value);
+    if (typeof fixedNum === "number" && fixedNum > 0) {
+      return num.toLocaleString(undefined, {
+        minimumFractionDigits: fixedNum,
+        maximumFractionDigits: fixedNum,
+      });
+    }
+    return num.toLocaleString();
+  };
 
   // console.log(selectedYearsArray, dataPeer, dataClient, fixedNum);
 
@@ -81,17 +96,17 @@ const getMainChartOptions = (
 
   const yaxisLabelFormatter = (value) => {
     if (numType === "dollar") {
-      return `$${formatNumber(value)}`;
+      return `$${formatNumberWithFixed(value)}`;
     } else if (numType === "percent") {
-      return `${formatNumber(value)}%`;
+      return `${formatNumberWithFixed(value)}%`;
     } else {
-      return formatNumber(value);
+      return formatNumberWithFixed(value);
     }
   };
 
   const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
+    if (value == null || isNaN(value)) return;
+    const formattedValue = formatNumberWithFixed(value);
     if (numType === "dollar") {
       return `$${formattedValue}`;
     } else if (numType === "percent") {
