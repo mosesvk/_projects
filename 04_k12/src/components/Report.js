@@ -44,9 +44,9 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(incomeData, selectedYears, [
-      ['netIncomeRatio', 'num', 1, 'wa', 'cb', 82, null, null], 
+      ['netIncomeRatio', 'num', 2, 'wa', 'cb', 82, null, null], 
       ['netIncomeRatioExcludingDepreciation', 'num', 1, 'wa', 'cb', 86, null, null],
-      ['percentAverageTuitionIncreaseBetweenYears', 'percent', 0, 'wa', 'cb'],
+      ['percentAverageTuitionIncreaseBetweenYears', 'percent', 0, null, 'cb'],
       ['financialAssistanceAsPercentTuitionAndFees', 'percent', 0, 'wa', null, 90, null, null],
       ['tuitionAndFeesAsPercentTotalIncome', 'percent', 0, 'wa', null, 94, null, null],
       ['contributionsAsAPercentOfTotalIncome', 'percent', 0, 'wa', null, 98, null, null],
@@ -291,7 +291,7 @@ const addPeerDataToRow = (
   const min = peer ? parseFloat(get25thPercentileOfArray(peerArr)) : '';
   const max = peer ? parseFloat(get75thPercentileOfArray(peerArr)) : '';
   const safeNum = (n) => (Number.isFinite(n) ? styleNumber(n, type, fixedNum) : '-');
-  const textAvg = peer ? safeNum(avg) : '';
+  const textAvg = peer ? safeNum(avg) : '-';
   const dataPointMid = document.createElement("th");
   const textMid = safeNum(mid);
   const dataPointMin = document.createElement("th");

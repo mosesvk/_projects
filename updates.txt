@@ -1,20 +1,6 @@
-Higher Ed
-
-CURRENT RATIO
-
-- [ ] Make the left y-axis use regular round interval numbers.
-- [ ] In the hover modal, show both the client current ratio and the peer average ratio.
-- [ ] Fix the two trend lines on the right y-axis so that for 2022 the client is 3.0 and the peer is 3.4 (currently plotting as 2.6 and 3.0).
-- [ ] Change the bar graph labels from rounded hundreds of millions to exact values (for 2022 use 208M and 69M).
-- [ ] Fix the right y-axis so that the "4" tick mark is correctly aligned (not at the 3.5 mark).
-
-
-Financial Flow Analysis
-
-- [ ] Remove the word "beta" from the interface.
-- [ ] For the graph, treat scholarships and financial aid as negative values so they decrease in the chart (they will be keyed in as negative, so reverse as needed).
-- [ ] Update the "general expenses" calculation to be:
-      [R162 Services Supplies and Other] +
-      [R163 Occupancy Utilities and Maintenance] +
-      [R164 Depreciation and Amortization] +
-      [R165 Interest]
+K12: Changed Student/Faculty Ratio chart to display as percent.
+K12: Verified Days Cash on Hand peer data and chart wiring are correct after earlier fixes.
+K12: Verified Debt to Net Assets peer data and chart wiring are correct after earlier fixes.
+K12: Updated Net Income Ratio chart and report values to show two decimal places.
+K12: Changed Financial Assistance as % of Tuition and Fees chart to display as percent.
+K12: Changed Salaries & Benefits - Teachers as % of Net Tuition chart to display as percent and updated its modal title to match.

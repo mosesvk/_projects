@@ -20,7 +20,7 @@ const displayEnrollmentComponent = () => {
     "studentFacilityRatio_chart",
     "studentFacilityRatio_Peer",
     "studentFacilityRatio_Client",
-    "number",
+    "percent",
     1,
     "studentFacilityRatio"
   );
@@ -191,7 +191,7 @@ const displayIncomeComponent = () => {
     "netIncomeRatio_Peer",
     "netIncomeRatio_Client",
     "number",
-    1,
+    2,
     "netIncomeRatio"
   );
 
@@ -213,7 +213,7 @@ const displayIncomeComponent = () => {
     "financialAssistanceAsPercentTuitionAndFees_chart",
     "financialAssistanceAsPercentTuitionAndFees_Peer",
     "financialAssistanceAsPercentTuitionAndFees_Client",
-    "number", 
+    "percent", 
     1,
     "financialAssistanceAsPercentTuitionAndFees"
   );
@@ -250,7 +250,7 @@ const displayExpenseComponent = () => {
     "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_chart",
     "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Peer",
     "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Client",
-    "number",
+    "percent",
     1,
     "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
   );
