@@ -159,12 +159,14 @@ const debtToNetAssets_weightedAverage = (data, name) => {
 
 const daysCashOnHand_weightedAverage = (data, name) => {
   // [03-02 Total Cash]/([04-08 Total Expenses]/365)
-
-  let numTotalCash = getSumOfArray(data.totalCash[name]);
-  let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
-
-  return numTotalCash / (numTotalExpenses / 365);
-}
+  const totalCash = (data.totalCash && data.totalCash[name]) || [];
+  const totalExpenses = (data.totalExpenses && data.totalExpenses[name]) || [];
+  const numTotalCash = getSumOfArray(totalCash);
+  const numTotalExpenses = getSumOfArray(totalExpenses);
+  const denominator = numTotalExpenses / 365;
+  if (!denominator) return 0;
+  return numTotalCash / denominator;
+};
 
 const fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage = (
   data,
@@ -342,23 +344,27 @@ const personnelMandatoryDebtService_Mandatory_weightedAverage = (
 
 const personnelMandatoryDebtService_SalariesAndBenefits_Employees_weightedAverage =
   (data, name) => {
-    // [16] 02-04 Total maintenance costs  / ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense )
+    // ([02-03 Total personnel costs salaries & benefits of all school employees] /
+    //  ([04-08 Total Expenses] - [04-09 Total Depreciation Expense]))
 
-    let numTotalMaintenanceCosts = getSumOfArray(
-      data.totalMaintenanceCosts[name]
+    const numTotalPersonnelCostsSalariesBenefits = getSumOfArray(
+      (data.totalPersonnelCostsSalariesBenefits &&
+        data.totalPersonnelCostsSalariesBenefits[name]) ||
+        []
     );
-    let numTotalPersonnelCostsSalariesBenefits = getSumOfArray(
-      data.totalPersonnelCostsSalariesBenefits[name]
+    const numTotalExpenses = getSumOfArray(
+      (data.totalExpenses && data.totalExpenses[name]) || []
     );
-    let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
-    let numTotalDepreciationExpense = getSumOfArray(
-      data.totalDepreciationExpense[name]
+    const numTotalDepreciationExpense = getSumOfArray(
+      (data.totalDepreciationExpense &&
+        data.totalDepreciationExpense[name]) ||
+        []
     );
 
-    return (
-      numTotalPersonnelCostsSalariesBenefits /
-      (numTotalExpenses - numTotalDepreciationExpense)
-    );
+    const denominator = numTotalExpenses - numTotalDepreciationExpense;
+    if (!denominator) return 0;
+
+    return numTotalPersonnelCostsSalariesBenefits / denominator;
   };
 
 const personnelMandatoryDebtService_SalariesAndBenefits_Administration_weightedAverage =

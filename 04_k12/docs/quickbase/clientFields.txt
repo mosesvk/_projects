@@ -1,46 +1,25 @@
-	 
-Field Label
- 
-Type
- 
-Relationship
- 
-Field Id
- 
-	 Record ID# 	Numeric	 	3	 
-	 01-01 Students-average enrollment	Numeric	 	6	 
-	 Related Client 	Numeric	Client  Many K12	138	 
-	 Client - Merged Denomination 	Text	Client  Many K12	142	 
-	 Merged Client Name 	Text	Client  Many K12	139	 
-	 01A RATIO Students Enrollment % Change	Formula - Numeric	 	50	 
-	 01B RATIO Students Enrollment Average	Formula - Numeric	 	51	 
-	 Fiscal YE Date	Date	 	135	 
-	 02 RATIO Student Faculty Ratio	Formula - Numeric	 	53	 
-	 MAIN QueryRegions	Formula - Text	 	149	 
+
 	 Date Created	Date / Time	 	1	 
-	 00 Accounting Basis	Text - Multiple Choice	 	119	 
-	 00 Audited Statements	Text - Multiple Choice	 	126	 
-	 9999 - Open Input Form	Formula - Rich Text	 	130	 
-	 01 RATIO Students Enrollment	Formula - Numeric	 	49	 
+	 Date Modified 	Date / Time	 	2	 
+	 Record ID# 	Numeric	 	3	 
+	 Record Owner	User	 	4	 
+	 Last Modified By	User	 	5	 
+	 01-01 Students-average enrollment	Numeric	 	6	 
 	 01-02 Students-peak enrollment	Numeric	 	7	 
 	 01-03 FT Teachers	Numeric	 	8	 
 	 01-04 FT Admin/other	Numeric	 	9	 
 	 01-05 PT Teachers	Numeric	 	10	 
 	 01-06 PT Admin/other	Numeric	 	11	 
 	 01-07 Total Facility Square Footage	Numeric	 	12	 
-	 01C RATIO Students Enrollment Peak Enrolmment	Formula - Numeric	 	52	 
 	 02-01 Total Teacher Salaries	Numeric	 	13	 
 	 02-02 Total Teacher Benefits	Numeric	 	14	 
 	 02-03 Total Personnel Costs Salaries & Benefits of all School Employees	Numeric	 	15	 
 	 02-04 Total maintenance costs	Numeric	 	16	 
 	 02-05 Information Technology costs	Numeric	 	17	 
 	 02-06 Current maturities of LT Debt	Numeric	 	18	 
-	 03 BENCH RATING Expendable Reserves - In Days	Formula - Rich Text	 	110	 
-	 03 RATIO Expendable Reserves - In Days	Formula - Numeric	 	54	 
 	 03-01 Current Assets	Numeric	 	20	 
 	 03-02 Total Cash	Numeric	 	21	 
 	 03-03 Non-Endowment Investments	Numeric	 	22	 
-	 03-04 Pledges Receivable 	Numeric	 	153	 
 	 03-05 Student Accounts Receivable	Numeric	 	24	 
 	 03-06 Student Accounts Receivable Written-Off	Numeric	 	25	 
 	 03-07 Land and Land Improvements	Numeric	 	26	 
@@ -50,9 +29,6 @@ Field Id
 	 03-11 Total Debt	Numeric	 	30	 
 	 03-12 Total Unrestricted Net Assets	Numeric	 	31	 
 	 03-13 BOD Designated for Operations	Numeric	 	32	 
-	 03-14 Temporarily Restricted Net Assets 	Numeric	 	154	 
-	 04 BENCHMARK RATING Expendable Reserves -  % of total cash expenses	Formula - Rich Text	 	111	 
-	 04 RATIO Expendable Reserves -  % of total cash expenses	Formula - Numeric	 	55	 
 	 04-01 Gross Tuition Revenues Excluding Fees	Numeric	 	34	 
 	 04-02 Fees	Numeric	 	35	 
 	 04-04 Financial Aid / Scholarships	Numeric	 	37	 
@@ -65,32 +41,30 @@ Field Id
 	 04-11 Current Year Interest Expense	Numeric	 	44	 
 	 04-12 Change in Unrestricted Net Assets	Numeric	 	45	 
 	 04-13 Fundraising Income	Numeric	 	46	 
-	 05 RATIO Cash available to Deferred Revenues	Formula - Numeric	 	56	 
 	 05-01 Cash Flows from Operating Activities	Numeric	 	47	 
 	 05-02 Capitalized Interest	Numeric	 	48	 
-	 05.1 RATIO Days Cash on Hand	Formula - Numeric	 	150	 
-	 06 BENCH RATING Liquidity Ratio	Formula - Rich Text	 	112	 
+	 01 RATIO Students Enrollment	Formula - Numeric	 	49	 
+	 01A RATIO Students Enrollment % Change	Formula - Numeric	 	50	 
+	 01B RATIO Students Enrollment Average	Formula - Numeric	 	51	 
+	 01C RATIO Students Enrollment Peak Enrolmment	Formula - Numeric	 	52	 
+	 02 RATIO Student Faculty Ratio	Formula - Numeric	 	53	 
+	 03 RATIO Expendable Reserves - In Days	Formula - Numeric	 	54	 
+	 04 RATIO Expendable Reserves -  % of total cash expenses	Formula - Numeric	 	55	 
+	 05 RATIO Cash available to Deferred Revenues	Formula - Numeric	 	56	 
 	 06 RATIO Liquidity Ratio	Formula - Numeric	 	57	 
 	 07a RATIO As per statement of cash flows	Formula - Numeric	 	58	 
 	 07b RATIO Depreciation Expenses on 3-7 year assets	Formula - Numeric	 	59	 
-	 07c BENCH RATING Over Under Benchmark	Formula - Rich Text	 	113	 
 	 08 RATIO Property and equipment per student excluding land	Formula - Numeric	 	61	 
 	 09 RATIO Net Tuition A/R as a % of Current Assets	Formula - Numeric	 	62	 
 	 10 RATIO Receivable write offs as a % of Net Tuition and Fees	Formula - Numeric	 	63	 
 	 10a RATIO % Change	Formula - Numeric	 	64	 
 	 11 RATIO Debt to Property and Equipment	Formula - Numeric	 	65	 
-	 11.1 RATIO Debt to Net Assets	Formula - Numeric	 	151	 
-	 12 BENCH RATING Current Ratio	Formula - Rich Text	 	114	 
 	 12 RATIO Current Ratio	Formula - Numeric	 	66	 
-	 13 BENCH RATING Current Liabilities to Available Net Assets	Formula - Rich Text	 	115	 
 	 13 RATIO Current Liabilities to Available Net Assets	Formula - Numeric	 	67	 
 	 14 RATIO Debt per students	Formula - Numeric	 	68	 
 	 15 RATIO Debt Coverage	Formula - Numeric	 	69	 
-	 16 BENCH RATING Net Income Ratio	Formula - Rich Text	 	116	 
 	 16 RATIO Net Income Ratio	Formula - Numeric	 	70	 
-	 17 BENCH RATING Net Income Ratio Excluding Depreciation	Formula - Rich Text	 	117	 
 	 17 RATIO Net Income Ratio Excluding Depreciation	Formula - Numeric	 	71	 
-	 18 BENCH RATING Percentage of average tuition increase between years	Formula - Rich Text	 	118	 
 	 18 RATIO Percentage of average tuition increase between years	Formula - Numeric	 	72	 
 	 19 RATIO Financial Assistance as a % of Tuition and Fees	Formula - Numeric	 	73	 
 	 20 RATIO Tuition and Fees as a % of Total Income	Formula - Numeric	 	74	 
@@ -125,42 +99,57 @@ Field Id
 	 31a RATIO LT10 Facility cost per square foot with interest	Formula - Numeric	 	107	 
 	 31b RATIO GTE10 Facility cost per square foot with interest	Formula - Numeric	 	108	 
 	 32 RATIO Information Technology Costs	Formula - Numeric	 	109	 
+	 03 BENCH RATING Expendable Reserves - In Days	Formula - Rich Text	 	110	 
+	 04 BENCHMARK RATING Expendable Reserves -  % of total cash expenses	Formula - Rich Text	 	111	 
+	 06 BENCH RATING Liquidity Ratio	Formula - Rich Text	 	112	 
+	 07c BENCH RATING Over Under Benchmark	Formula - Rich Text	 	113	 
+	 12 BENCH RATING Current Ratio	Formula - Rich Text	 	114	 
+	 13 BENCH RATING Current Liabilities to Available Net Assets	Formula - Rich Text	 	115	 
+	 16 BENCH RATING Net Income Ratio	Formula - Rich Text	 	116	 
+	 17 BENCH RATING Net Income Ratio Excluding Depreciation	Formula - Rich Text	 	117	 
+	 18 BENCH RATING Percentage of average tuition increase between years	Formula - Rich Text	 	118	 
+	 00 Accounting Basis	Text - Multiple Choice	 	119	 
+	 00 Audited Statements	Text - Multiple Choice	 	126	 
+	 9999 - Open Input Form	Formula - Rich Text	 	130	 
+	 Fiscal YE Date	Date	 	135	 
+	 Fiscal YE Date Formatted Year	Formula - Numeric	 	136	 
+	 Fiscal YE Date Formatted Year TEXT	Formula - Text	 	137	 
+	 Related Client 	Numeric	Client  Many K12	138	 
+	 Merged Client Name 	Text	Client  Many K12	139	 
 	 Client - AccountBasis 	Text	Client  Many K12	140	 
 	 Client - CapinData Access 	List - User	Client  Many K12	141	 
-	 Client - Church + School 	Checkbox	Client  Many K12	152	 
+	 Client - Merged Denomination 	Text	Client  Many K12	142	 
 	 Client - Merged State 	Text	Client  Many K12	143	 
 	 Client - PE - CCLLP Office 	Text	Client  Many K12	144	 
 	 Client - PORTAL - CapinData AccessUSERLIST 	List - User	Client  Many K12	145	 
-	 Date Modified 	Date / Time	 	2	 
-	 Fiscal YE Date Formatted Year	Formula - Numeric	 	136	 
-	 Fiscal YE Date Formatted Year TEXT	Formula - Text	 	137	 
-	 Last Modified By	User	 	5	 
 	 PE - Client Partner 	Text	Client  Many K12	146	 
 	 PE - Client Partner Email 	Email	Client  Many K12	147	 
 	 PE Client Code 	Text	Client  Many K12	148	 
+	 MAIN QueryRegions	Formula - Text	 	149	 
+	 05.1 RATIO Days Cash on Hand	Formula - Numeric	 	150	 
+	 11.1 RATIO Debt to Net Assets	Formula - Numeric	 	151	 
+	 Client - Church + School 	Checkbox	Client  Many K12	152	 
+	 03-04 Pledges Receivable 	Numeric	 	153	 
+	 03-14 Temporarily Restricted Net Assets 	Numeric	 	154	 
 	 03N.01 Net Assets Unrestricted	Numeric	 	168	 
 	 03N.02 Net Assets Restricted Time and Purpose	Numeric	 	169	 
 	 03N.90 Net Assets Total	Numeric	 	170	 
-	 03N.90 cNet Assets Total	Formula - Rich Text	 	207	 
 	 04R.01 Tuition and fees-net	Numeric	 	171	 
 	 04R.02 Contributions	Numeric	 	172	 
 	 04R.03 Donated rent	Numeric	 	173	 
 	 04R.04 Government grants	Numeric	 	174	 
 	 04R.05 Interest and other income	Numeric	 	175	 
 	 04R.90 Total Support and Revenue	Numeric	 	176	 
-	 04R.90 cTotal Support and Revenue	Formula - Rich Text	 	209	 
 	 04E.01 Salaries and benefits	Numeric	 	177	 
 	 04E.02 Facilities and depreciation	Numeric	 	178	 
 	 04E.03 Office and professional services	Numeric	 	179	 
 	 04E.04 Curriculum and other	Numeric	 	180	 
 	 04E.90 Total Expenses	Numeric	 	181	 
-	 04E.90 cTotal Expenses	Formula - Rich Text	 	211	 
 	 06FE.01 Salaries and benefits	Numeric	 	185	 
 	 06FE.02 Facilities and depreciation	Numeric	 	186	 
 	 06FE.03 Office and professional services	Numeric	 	187	 
 	 06FE.04 Curriculum and other	Numeric	 	188	 
 	 06FE.90 Total Functional Expenses	Numeric	 	189	 
-	 06FE.90 cTotal Functional Expenses	Formula - Rich Text	 	213	 
 	 04R.06 Other Income	Numeric	 	195	 
 	 04E.05 Program services	Numeric	 	196	 
 	 04E.06 Management and General	Numeric	 	197	 
@@ -169,9 +158,12 @@ Field Id
 	 06FE.06 Technology	Numeric	 	200	 
 	 06FE.07 Curriculum and classroom	Numeric	 	201	 
 	 06FE.08 Student trips and activities	Numeric	 	202	 
+	 03N.90 cNet Assets Total	Formula - Rich Text	 	207	 
+	 04R.90 cTotal Support and Revenue	Formula - Rich Text	 	209	 
+	 04E.90 cTotal Expenses	Formula - Rich Text	 	211	 
+	 06FE.90 cTotal Functional Expenses	Formula - Rich Text	 	213	 
 	 01 Table Title	Formula - Text	 	219	 
 	 09.1 RATIO Tuition Dependency	Formula - Numeric	 	221	 
 	 9999 - Financial Data Entry	Text - Multiple Choice	 	222	 
 	 9999 Pipeline Copy2Peer Trigger	Formula - Text	 	223	 
-	 VERIFIED IN JULY 2025	Checkbox	 	224	 
-	 Record Owner	User	 	4	 
+	 VERIFIED IN JULY 2025	Checkbox	 	224

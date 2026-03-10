@@ -551,7 +551,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "personnelMandatoryDebtService_SalariesAndBenefits_Administration_Peer",
+        "personnelMandatoryDebtService_SalariesAndBenefits_Employees_Peer",
         record,
         "_27a3_ratio_all_salaries_and_benefits_per_total_expenses",
         "_27a3_yes_no_all_salaries_and_benefits_per_total_expenses"
@@ -1970,13 +1970,28 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
 const processDebtData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
-  years.forEach((year) => {
-    const filteredPeerRecords = [...recordsPeer].filter((record) => {
-      const fiscalYear = record.querySelector(
-        "fiscal_ye_date_formatted_year"
-      ).textContent;
+  // Ensure peer keys exist so Report/charts never see undefined.
+  object.debtToNetAssets_Peer = { total: [] };
+  years.forEach((y) => {
+    object.debtToNetAssets_Peer[y] = [];
+  });
+  if (!object.totalDebt) object.totalDebt = {};
+  if (!object.totalUnrestrictedNetAssets) object.totalUnrestrictedNetAssets = {};
+  object.totalDebt.debtToNetAssets = [];
+  object.totalUnrestrictedNetAssets.debtToNetAssets = [];
 
-      return fiscalYear.includes(year.toString());
+  const peerList =
+    recordsPeer && typeof recordsPeer.length === "number"
+      ? Array.from(recordsPeer)
+      : [];
+
+  years.forEach((year) => {
+    const filteredPeerRecords = peerList.filter((record) => {
+      const yearEl =
+        record.querySelector && record.querySelector("fiscal_ye_date_formatted_year");
+      if (!yearEl) return false;
+      const fiscalYear = yearEl.textContent;
+      return fiscalYear && fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
       // debtToPropertyAndEquipment
@@ -2513,13 +2528,29 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
 const processCashData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
-  years.forEach((year) => {
-    const filteredPeerRecords = [...recordsPeer].filter((record) => {
-      const fiscalYear = record.querySelector(
-        "fiscal_ye_date_formatted_year"
-      ).textContent;
+  // Ensure peer keys exist so Report/charts never see undefined (e.g. when API
+  // returns different XML tag names or no records match selected years).
+  object.daysCashOnHand_Peer = { total: [] };
+  years.forEach((y) => {
+    object.daysCashOnHand_Peer[y] = [];
+  });
+  if (!object.totalCash) object.totalCash = {};
+  if (!object.totalExpenses) object.totalExpenses = {};
+  object.totalCash.daysCashOnHand = [];
+  object.totalExpenses.daysCashOnHand = [];
 
-      return fiscalYear.includes(year.toString());
+  const peerList =
+    recordsPeer && typeof recordsPeer.length === "number"
+      ? Array.from(recordsPeer)
+      : [];
+
+  years.forEach((year) => {
+    const filteredPeerRecords = peerList.filter((record) => {
+      const yearEl =
+        record.querySelector && record.querySelector("fiscal_ye_date_formatted_year");
+      if (!yearEl) return false;
+      const fiscalYear = yearEl.textContent;
+      return fiscalYear && fiscalYear.includes(year.toString());
     });
     filteredPeerRecords.forEach((record) => {
       // expendableReserves_inDays
@@ -3400,9 +3431,9 @@ const getRecordsForPeer = async (years, dataStr) => {
     // Recursive call with updated years and dataStr
     return getRecordsForPeer(years.slice(1), dataStr);
   } catch (error) {
-    console.error("Error fetching data:", error);
-    // Handle the error as needed
-    return dataStr; // Return the accumulated data so far even in case of an error
+    console.error("Error fetching peer data:", error);
+    // Return parsed records so far (or empty NodeList) so process*Data always get a list, not a string.
+    return getParsedData(dataStr + "</qdbapi>");
   }
 };
 

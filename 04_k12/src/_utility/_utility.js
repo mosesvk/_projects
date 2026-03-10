@@ -246,11 +246,11 @@ const OfArray = (array) => {
 };
 
 const get25thPercentileOfArray = (array) => {
-  // console.log(array);
+  if (!array || !Array.isArray(array) || array.length === 0) {
+    return 0;
+  }
   // Step 1: Sort the array in ascending order
-  const sortedArray = array.sort((a, b) => a - b);
-  // console.log(sortedArray);
-
+  const sortedArray = array.slice().sort((a, b) => Number(a) - Number(b));
   // Step 2: Check if the array has less than or equal to 2 elements
   if (sortedArray.length <= 2) {
     // If array has 1 or 2 elements, return the average of the elements
@@ -275,14 +275,16 @@ const get25thPercentileOfArray = (array) => {
 };
 
 const get75thPercentileOfArray = (array) => {
+  if (!array || !Array.isArray(array) || array.length === 0) {
+    return 0;
+  }
   // Step 1: Sort the array in ascending order
-  const sortedArray = array.slice().sort((a, b) => a - b); // Use slice() to create a copy of the array before sorting
-
+  const sortedArray = array.slice().sort((a, b) => Number(a) - Number(b));
   // Step 2: Calculate the index for the 75th percentile
   const index = Math.ceil(sortedArray.length * 0.75);
-
-  // Step 3: Return the value at the calculated index
-  return sortedArray[index - 1];
+  // Step 3: Return the value at the calculated index (index 0 when length is 0 is handled above)
+  const value = sortedArray[Math.max(0, index - 1)];
+  return Number(value);
 };
 
 // 
@@ -564,30 +566,51 @@ const getPeerAndClientChartDataArrays = (
   /** Scale factor for percent: chart expects 0–100 scale to match modal (styleNumber multiplies by 100). */
   const scale = numType === "percent" ? 100 : 1;
 
-  /** Only iterate over years that exist in peer data to avoid undefined errors when selected years and stored data are out of sync. */
-  const yearsWithPeerData =
-    Array.isArray(years) && dataPeer
-      ? years.filter((year) => dataPeer[year])
-      : [];
+  /**
+   * Iterate over the provided years (already filtered in getMainChartOptions)
+   * and build peer and client series. If peer data is missing for a year,
+   * use 0s so the client bar can still render.
+   */
+  const safeYears = Array.isArray(years) ? years : [];
 
-  yearsWithPeerData.forEach((year) => {
-    const array = dataPeer[year];
-    const avg = parseFloat(getAverageOfArray(array));
-    const mid = parseFloat(getMidpointOfArray(array));
-    const lower25 = parseFloat(get25thPercentileOfArray(array));
-    const higher75 = parseFloat(get75thPercentileOfArray(array));
+  safeYears.forEach((year) => {
+    const peerArray =
+      dataPeer && Array.isArray(dataPeer[year]) ? dataPeer[year] : null;
+    const hasPeerData = !!(peerArray && peerArray.length);
 
-    peerAvg.push((avg * scale).toFixed(fixedNum));
-    peerMid.push((mid * scale).toFixed(fixedNum));
-    peer25.push((lower25 * scale).toFixed(fixedNum));
-    peer75.push((higher75 * scale).toFixed(fixedNum));
+    if (hasPeerData) {
+      const avg = parseFloat(getAverageOfArray(peerArray));
+      const mid = parseFloat(getMidpointOfArray(peerArray));
+      const lower25 = parseFloat(get25thPercentileOfArray(peerArray));
+      const higher75 = parseFloat(get75thPercentileOfArray(peerArray));
 
-    if (dataClient && dataClient[year] && dataClient[year].value !== undefined && dataClient[year].value !== null) {
+      peerAvg.push((avg * scale).toFixed(fixedNum));
+      peerMid.push((mid * scale).toFixed(fixedNum));
+      peer25.push((lower25 * scale).toFixed(fixedNum));
+      peer75.push((higher75 * scale).toFixed(fixedNum));
+    } else {
+      peerAvg.push("0");
+      peerMid.push("0");
+      peer25.push("0");
+      peer75.push("0");
+    }
+
+    if (
+      dataClient &&
+      dataClient[year] &&
+      dataClient[year].value !== undefined &&
+      dataClient[year].value !== null &&
+      dataClient[year].value !== ""
+    ) {
       const clientVal = Number(dataClient[year].value) * scale;
       clientArray.push(clientVal.toFixed(fixedNum));
     } else {
       clientArray.push("0");
-      console.warn(`Client data for year ${year} is undefined or missing value`);
+      if (dataClient) {
+        console.warn(
+          `Client data for year ${year} is undefined, null, or empty; treating as 0 for chart.`
+        );
+      }
     }
   });
 

@@ -41,11 +41,26 @@ const getMainChartOptions = (
 
   const selectedYearsArray = getSelectedYearsFromLocalStorage();
 
-  /** Use only years that exist in peer data so chart data and categories stay in sync and we avoid undefined data errors. */
-  const yearsToShow =
-    Array.isArray(selectedYearsArray) && dataPeer
-      ? selectedYearsArray.filter((year) => dataPeer[year])
-      : [];
+  /**
+   * Use years that have either peer OR client data so charts
+   * still render client bars when peer data is missing for a year.
+   * Peer arrays are treated as empty for those years and rendered as 0.
+   */
+  const yearsToShow = Array.isArray(selectedYearsArray)
+    ? selectedYearsArray.filter((year) => {
+        const hasPeerData = !!(dataPeer && dataPeer[year]);
+        const hasClientData =
+          !!(
+            dataClient &&
+            dataClient[year] &&
+            dataClient[year].value !== undefined &&
+            dataClient[year].value !== null &&
+            dataClient[year].value !== ""
+          );
+
+        return hasPeerData || hasClientData;
+      })
+    : [];
 
   const formatNumber = (value) => value.toLocaleString();
 
