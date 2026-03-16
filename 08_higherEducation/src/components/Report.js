@@ -200,16 +200,21 @@ const insertDataToFfaReport = (data, selectedYears) => {
   const depreciationAndAmortizationClient = Number(
     data["ffa_depreciationAndAmortization_Client"][currentYear].value
   );
-  const interestClient = Number(data["ffa_interest_Client"][currentYear].value);
+  const interestClient = Number(
+    data["ffa_interest_Client"][currentYear].value
+  );
   const incomeExpenseSurplusDefecitClient = Number(
     data["ffa_incomeExpenseSurplusDefecit_Client"][currentYear].value
   );
+
+  // Match General Expense definition used in the Financial Position chart
+  // (sum of non-compensation expense categories, excluding surplus/deficit).
   const generalExpenseClient =
     servicesSuppliesAndOtherClient +
     occupancyUtilitiesAndMaintenanceClient +
     depreciationAndAmortizationClient +
-    interestClient +
-    incomeExpenseSurplusDefecitClient;
+    interestClient;
+
   document.getElementById("ffa_generalExpense").textContent =
     generalExpenseClient != 0
       ? styleNumber(generalExpenseClient, "dollar", 0)

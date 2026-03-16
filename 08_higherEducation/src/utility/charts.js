@@ -1476,7 +1476,12 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     plotOptions: {
       pie: {
         dataLabels: {
-          offset: -20,
+          offset: 20,
+          // Place labels outside slices and force black text
+          style: {
+            colors: ["#000000"],
+            fontSize: "16px",
+          },
         },
       },
     },
@@ -1513,31 +1518,48 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   selectedYearsArray.sort((a, b) => b - a);
   const selectedYear = selectedYearsArray[0];
 
-  const totalValue = getAverageOfArray(data["soiTotal_Peer"][selectedYear]);
-  const tuitionPercentage = getAverageOfArray(
-    data["revenueTuitionAndFees_Peer"][selectedYear]
-  );
-  const tuitionValue = Math.round(totalValue * tuitionPercentage);
+  const soiTotals = data["soiTotal_Peer"][selectedYear] || [];
+  const totalValue = getSumOfArray(soiTotals);
 
-  const auxiliaryPercentage = getAverageOfArray(
-    data["revenueAuxiliaryActivities_Peer"][selectedYear]
-  );
-  const auxiliaryValue = Math.round(totalValue * auxiliaryPercentage);
+  const tuitionArray =
+    (data["revenueTuitionAndFees_Peer"] &&
+      data["revenueTuitionAndFees_Peer"][selectedYear]) ||
+    [];
+  const auxiliaryArray =
+    (data["revenueAuxiliaryActivities_Peer"] &&
+      data["revenueAuxiliaryActivities_Peer"][selectedYear]) ||
+    [];
+  const contributionsArray =
+    (data["revenueContributions_Peer"] &&
+      data["revenueContributions_Peer"][selectedYear]) ||
+    [];
+  const investmentsArray =
+    (data["revenueInvestmentIncome_Peer"] &&
+      data["revenueInvestmentIncome_Peer"][selectedYear]) ||
+    [];
+  const otherArray =
+    (data["revenueOther_Peer"] &&
+      data["revenueOther_Peer_Peer"] &&
+      data["revenueOther_Peer"][selectedYear]) ||
+    data["revenueOther_Peer"][selectedYear] ||
+    [];
 
-  const contributionsPercentage = getAverageOfArray(
-    data["revenueContributions_Peer"][selectedYear]
-  );
-  const contributionsValue = Math.round(totalValue * contributionsPercentage);
+  // Per user spec: peer percentage for each category should be
+  // sum(array) * 10 (e.g. 6.44 → 64.4%).
+  const sumToPercent = (arr) => (getSumOfArray(arr) || 0) * 100;
 
-  const investmentsPercentage = getAverageOfArray(
-    data["revenueInvestmentIncome_Peer"][selectedYear]
-  );
-  const investmentsValue = Math.round(totalValue * investmentsPercentage);
+  const tuitionPercent = sumToPercent(tuitionArray); // e.g. 64.4
+  const auxiliaryPercent = sumToPercent(auxiliaryArray);
+  const contributionsPercent = sumToPercent(contributionsArray);
+  const investmentsPercent = sumToPercent(investmentsArray);
+  const otherPercent = sumToPercent(otherArray);
 
-  const otherPercentage = getAverageOfArray(
-    data["revenueOther_Peer"][selectedYear]
-  );
-  const otherValue = Math.round(totalValue * otherPercentage);
+  // Convert percentage to 0–1 fraction for dollar slices
+  const tuitionValue = totalValue * (tuitionPercent / 100);
+  const auxiliaryValue = totalValue * (auxiliaryPercent / 100);
+  const contributionsValue = totalValue * (contributionsPercent / 100);
+  const investmentsValue = totalValue * (investmentsPercent / 100);
+  const otherValue = totalValue * (otherPercent / 100);
 
   // console.log ({
   //   totalValue,
@@ -1566,15 +1588,14 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-  const formatNumber = (value) => value.toLocaleString();
-
-  const yaxisLabelFormatter = (value) => {
-    return `$${formatNumber(value)}`;
-  };
+  const formatNumber = (value) =>
+    Number(value || 0).toLocaleString(undefined, {
+      maximumFractionDigits: 0,
+    });
 
   const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
+    if (value == null || isNaN(value)) return;
+    const formattedValue = formatNumber(value);
     return `$${formattedValue}`;
   };
   // console.log ({clientArray, peerArray, benchmarkArray});
@@ -1639,7 +1660,15 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     plotOptions: {
       pie: {
         dataLabels: {
-          offset: -20,
+          offset: 20,
+          formatter: function (val) {
+            // Use percent of total with 1 decimal place
+            return `${val.toFixed(1)}%`;
+          },
+          style: {
+            colors: ["#000000"],
+            fontSize: "16px",
+          },
         },
       },
     },
@@ -1790,11 +1819,11 @@ const getFfaChartOptions = (data) => {
     data["ffa_revenueTuitionAndFees_Client"][currentYear].value
   );
 
-  const revenueSchoolServicesClient = Math.abs(
+  const revenueSchoolServicesClient = 
     Number(
       data["ffa_revenueScholarshipsAndFinancialAid_Client"][currentYear].value
     )
-  );
+  ;
 
   const ScholarshipAndFinancialAidClient =
     revenueTuitionAndFeesClient + revenueSchoolServicesClient;
@@ -1811,11 +1840,18 @@ const getFfaChartOptions = (data) => {
   const revenueOtherClient = Number(
     data["ffa_revenueOther_Client"][currentYear].value
   );
+  const revenueInvestmentIncomeClient = Number(
+    data["ffa_revenueInvestmentIncome_Client"][currentYear].value
+  );
+  const revenueEndowmentSpendingAppropriationClient = Number(
+    data["ffa_revenueEndowmentSpendingAppropriation_Client"][currentYear].value
+  );
 
   const auxiliaryAndOtherClient =
     unrestrictedGiftsClient +
     revenueAuxiliaryActivitiesClient +
-    revenueOtherClient;
+    revenueOtherClient +
+    revenueInvestmentIncomeClient + revenueEndowmentSpendingAppropriationClient;
 
   // const changeInNetAssetsWithDRClient = Number(
   //   data["ffa_changeInNetAssetsWithDR_Client"][currentYear].value

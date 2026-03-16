@@ -2528,17 +2528,6 @@ const processAssetData = (years, recordsPeer, recordsClient) => {
 const processCashData = (years, recordsPeer, recordsClient) => {
   const object = {};
 
-  // Ensure peer keys exist so Report/charts never see undefined (e.g. when API
-  // returns different XML tag names or no records match selected years).
-  object.daysCashOnHand_Peer = { total: [] };
-  years.forEach((y) => {
-    object.daysCashOnHand_Peer[y] = [];
-  });
-  if (!object.totalCash) object.totalCash = {};
-  if (!object.totalExpenses) object.totalExpenses = {};
-  object.totalCash.daysCashOnHand = [];
-  object.totalExpenses.daysCashOnHand = [];
-
   const peerList =
     recordsPeer && typeof recordsPeer.length === "number"
       ? Array.from(recordsPeer)
