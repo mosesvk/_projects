@@ -242,27 +242,22 @@ const displayFinancialAnalysisContentComponent = async () => {
     assetToLiabilities_chart.updateOptions(getAtlChartOptions(parseData));
   });
 
-  sourceOfIncomeClient_chart = new ApexCharts(
-    document.querySelector("#sourceOfIncomeClient_chart"),
-    getSourcesOfIncomeClientChartOptions(parseData)
-  );
-  sourceOfIncomeClient_chart.render();
+  sourceOfIncomeClient_chart = getSourcesOfIncomeClientChartOptions(parseData);
   // console.log({soiClientChart});
   document.addEventListener("dark-mode", function () {
-    sourceOfIncomeClient_chart.updateOptions(
-      getSourcesOfIncomeClientChartOptions(parseData)
-    );
+    if (sourceOfIncomeClient_chart) {
+      sourceOfIncomeClient_chart.dispose();
+    }
+    sourceOfIncomeClient_chart =
+      getSourcesOfIncomeClientChartOptions(parseData);
   });
 
-  sourceOfIncomePeer_chart = new ApexCharts(
-    document.querySelector("#sourceOfIncomePeer_chart"),
-    getSourcesOfIncomePeerChartOptions(parseData)
-  );
-  sourceOfIncomePeer_chart.render();
+  sourceOfIncomePeer_chart = getSourcesOfIncomePeerChartOptions(parseData);
   document.addEventListener("dark-mode", function () {
-    sourceOfIncomePeer_chart.updateOptions(
-      getSourcesOfIncomePeerChartOptions(parseData)
-    );
+    if (sourceOfIncomePeer_chart) {
+      sourceOfIncomePeer_chart.dispose();
+    }
+    sourceOfIncomePeer_chart = getSourcesOfIncomePeerChartOptions(parseData);
   });
 
   ffa_chart = new ApexCharts(

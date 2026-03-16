@@ -1417,96 +1417,63 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
   };
 
   const chartData = [
-    tuitionValue,
-    auxiliaryValue,
-    contributionsValue,
-    investmentsValue,
-    otherValue,
+    {
+      label: "Tuition",
+      value: tuitionValue,
+      color: window.chartColors.green,
+    },
+    {
+      label: "Auxiliary",
+      value: auxiliaryValue,
+      color: window.chartColors.yellow,
+    },
+    {
+      label: "Contributions",
+      value: contributionsValue,
+      color: window.chartColors.blue,
+    },
+    {
+      label: "Investments",
+      value: investmentsValue,
+      color: window.chartColors.orange,
+    },
+    {
+      label: "Other",
+      value: otherValue,
+      color: window.chartColors.purple,
+    },
   ];
 
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.yellow,
-      window.chartColors.blue,
-      window.chartColors.orange,
-      window.chartColors.purple,
-    ],
-    series: chartData,
-    chart: {
-      toolbar: {
-        tools: {
-          download: true,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
+  const dynamicFontColor = document.documentElement.classList.contains("dark")
+    ? "#ebedf0"
+    : "#111827";
+
+  const chartConfig = {
+    type: "pie2d",
+    renderAt: "sourceOfIncomeClient_chart",
+    width: "100%",
+    height: "520",
+    dataFormat: "json",
+    dataSource: {
+      chart: {
+        caption: "Sources of Income",
+        subCaption: "(without donor restrictions)",
+        numberPrefix: "$",
+        showPercentValues: "1",
+        showPercentInTooltip: "0",
+        decimals: "1",
+        theme: "fusion",
+        labelFontColor: "#000000",
+        baseFontColor: dynamicFontColor,
+        enableSmartLabels: "1",
       },
-      zoom: {
-        enabled: false,
-      },
-      height: 450,
-      type: "pie",
-    },
-    labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
-    title: {
-      text: "Sources of Income",
-      align: "top",
-      style: {
-        color: chartColor,
-        fontSize: "20px",
-      },
-    },
-    subtitle: {
-      text: "(without donor restrictions)",
-      position: "top",
-      align: "center",
-      style: {
-        color: chartColor,
-        fontSize: "20px",
-      },
-    },
-    stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
-    },
-    plotOptions: {
-      pie: {
-        dataLabels: {
-          offset: 20,
-          // Place labels outside slices and force black text
-          style: {
-            colors: ["#000000"],
-            fontSize: "16px",
-          },
-        },
-      },
-    },
-    xaxis: {
-      labels: {
-        style: {
-          colors: chartColor,
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      // show: false,
-      horizontalAlign: "center",
-      position: "bottom",
-      fontSize: "20px",
+      data: chartData,
     },
   };
+
+  const chartInstance = new FusionCharts(chartConfig);
+  chartInstance.render();
+  return chartInstance;
 };
 
 const getSourcesOfIncomePeerChartOptions = (data) => {
@@ -1600,100 +1567,63 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
   };
   // console.log ({clientArray, peerArray, benchmarkArray});
   const chartData = [
-    tuitionValue,
-    auxiliaryValue,
-    contributionsValue,
-    investmentsValue,
-    otherValue,
+    {
+      label: "Tuition",
+      value: tuitionValue,
+      color: window.chartColors.green,
+    },
+    {
+      label: "Auxiliary",
+      value: auxiliaryValue,
+      color: window.chartColors.yellow,
+    },
+    {
+      label: "Contributions",
+      value: contributionsValue,
+      color: window.chartColors.blue,
+    },
+    {
+      label: "Investments",
+      value: investmentsValue,
+      color: window.chartColors.orange,
+    },
+    {
+      label: "Other",
+      value: otherValue,
+      color: window.chartColors.purple,
+    },
   ];
 
-  return {
-    colors: [
-      window.chartColors.green,
-      window.chartColors.yellow,
-      window.chartColors.blue,
-      window.chartColors.orange,
-      window.chartColors.purple,
-    ],
-    series: chartData,
-    chart: {
-      toolbar: {
-        tools: {
-          download: true,
-          selection: false,
-          zoom: false,
-          zoomin: false,
-          zoomout: false,
-          pan: false,
-          reset: false,
-        },
+  const dynamicFontColor = document.documentElement.classList.contains("dark")
+    ? "#ebedf0"
+    : "#111827";
+
+  const chartConfig = {
+    type: "pie2d",
+    renderAt: "sourceOfIncomePeer_chart",
+    width: "100%",
+    height: "520",
+    dataFormat: "json",
+    dataSource: {
+      chart: {
+        caption: "Peer Average Sources of Income",
+        subCaption: "(without donor restrictions)",
+        numberPrefix: "$",
+        showPercentValues: "1",
+        showPercentInTooltip: "0",
+        decimals: "1",
+        theme: "fusion",
+        labelFontColor: "#000000",
+        baseFontColor: dynamicFontColor,
+        enableSmartLabels: "1",
       },
-      height: 450,
-      width: "100%",
-      type: "pie",
-    },
-    zoom: {
-      enabled: false,
-    },
-    labels: ["Tuition", "Auxiliary", "Contributions", "Investments", "Other"],
-    title: {
-      text: "Peer Average Sources of Income",
-      align: "top",
-      style: {
-        color: chartColor,
-        fontSize: "20px",
-      },
-    },
-    subtitle: {
-      text: "(without donor restrictions)",
-      position: "top",
-      align: "center",
-      style: {
-        color: chartColor,
-        fontSize: "20px",
-      },
-    },
-    stroke: {
-      width: 5,
-      colors: chartColors.labelColor,
-    },
-    plotOptions: {
-      pie: {
-        dataLabels: {
-          offset: 20,
-          formatter: function (val) {
-            // Use percent of total with 1 decimal place
-            return `${val.toFixed(1)}%`;
-          },
-          style: {
-            colors: ["#000000"],
-            fontSize: "16px",
-          },
-        },
-      },
-    },
-    xaxis: {
-      labels: {
-        style: {
-          colors: chartColor,
-        },
-      },
-    },
-    tooltip: {
-      y: {
-        formatter: tooltipFormatter,
-        title: {
-          formatter: (seriesName) => `${seriesName}:`,
-        },
-      },
-    },
-    legend: {
-      // show: false,
-      horizontalAlign: "center",
-      position: "bottom",
-      fontSize: "20px",
+      data: chartData,
     },
   };
+
+  const chartInstance = new FusionCharts(chartConfig);
+  chartInstance.render();
+  return chartInstance;
 };
 
 /**
@@ -2368,6 +2298,33 @@ const getNiceAxisRange = (minVal, maxVal, desiredTicks = 6) => {
     return { min: minVal, max: maxVal, tickAmount: desiredTicks };
   }
 
+  // Special handling for small ratio-style ranges so ticks are 0.5 or 1.0
+  // and distributed evenly (used by the Current Ratio right-hand axis).
+  if (maxVal <= 10 && minVal >= 0) {
+    let min = minVal;
+    let max = maxVal;
+
+    if (min === max) {
+      const delta = Math.abs(min) || 1;
+      min = Math.max(0, min - delta / 2);
+      max = max + delta / 2;
+    }
+
+    let range = max - min;
+    if (range === 0) {
+      range = Math.abs(max) || 1;
+    }
+
+    const rawStep = range / Math.max(1, desiredTicks - 1);
+    const step = rawStep <= 0.75 ? 0.5 : 1;
+
+    const niceMin = Math.floor(min / step) * step;
+    const niceMax = Math.ceil(max / step) * step;
+    const tickAmount = Math.round((niceMax - niceMin) / step) + 1;
+
+    return { min: niceMin, max: niceMax, tickAmount };
+  }
+
   let min = minVal;
   let max = maxVal;
 
@@ -2724,33 +2681,6 @@ const getCurrentRatioChartOptions = (data) => {
     `;
   });
 
-  const { minY, maxY } = getMinMaxY([
-    currentAssetsArray,
-    currentLiabilitiesArray,
-  ]);
-  const { minYLine, maxYLine } = getMinMaxY([
-    currentRatioArray,
-    peerAvgCurrentRatioArray,
-  ]);
-
-  // Left axis for dollar amounts: force clean 50M/100M-style steps
-  const buildLeftAxis = (maxVal, desiredTicks = 6) => {
-    const maxMillions = Math.ceil(maxVal / 1000000);
-    const baseStepMillions = 50; // enforce multiples of 50M
-    const stepMillions =
-      Math.ceil(maxMillions / Math.max(1, desiredTicks - 1) / baseStepMillions) *
-      baseStepMillions;
-    const maxNiceMillions = stepMillions * Math.max(1, desiredTicks - 1);
-    return {
-      min: 0,
-      max: maxNiceMillions * 1000000,
-      tickAmount: desiredTicks,
-    };
-  };
-
-  const leftAxis = buildLeftAxis(maxY, 6);
-  const rightAxis = getNiceAxisRange(minYLine, maxYLine, 5);
-
   // console.log("getCurrentRatioChartOptions", {
   //   currentAssetsArray,
   //   currentLiabilitiesArray,
@@ -2784,33 +2714,27 @@ const getCurrentRatioChartOptions = (data) => {
 
   const yaxisLabelFormatter = (value) => {
     const isNegative = value < 0;
-    const absRaw = Math.abs(value);
+    const abs = Math.abs(Number(value));
     const sign = isNegative ? "-" : "";
 
-    // For larger values, snap to nearest 50M so labels are 0M, 50M, 100M, 150M, etc.
-    let absValue = absRaw;
-    if (absRaw >= 1000000) {
-      const step = 50000000; // 50M
-      absValue = Math.round(absRaw / step) * step;
+    if (!Number.isFinite(abs)) return "";
+
+    // IMPORTANT: do not snap to custom steps here.
+    // Just format whatever numeric ticks Apex chooses.
+    if (abs >= 1000000000) {
+      return `${sign}$${(abs / 1000000000).toFixed(1).replace(/\.0$/, "")}B`;
+    }
+    if (abs >= 1000000) {
+      const millions = abs / 1000000;
+      const decimals = millions >= 10 ? 0 : 1;
+      return `${sign}$${millions.toFixed(decimals)}M`;
+    }
+    if (abs >= 1000) {
+      const thousands = abs / 1000;
+      return `${sign}$${thousands.toFixed(0)}K`;
     }
 
-    if (absValue >= 1000000000) {
-      // 1B, 2B, etc. for values >= 1B
-      return `${sign}$${(absValue / 1000000000).toFixed(1).replace(/\\.0$/, "")}B`;
-    } else if (absValue >= 10000000) {
-      // Round to nearest 10M for values >= 10M
-      return `${sign}$${Math.round(absValue / 10000000) * 10}M`;
-    } else if (absValue >= 1000000) {
-      // Round to nearest 1M for values >= 1M
-      return `${sign}$${Math.round(absValue / 1000000)}M`;
-    } else if (absValue >= 10000) {
-      // Round to nearest 10K for values >= 10K
-      return `${sign}$${Math.round(absValue / 10000) * 10}K`;
-    } else if (absValue >= 1000) {
-      // Round to nearest 1K for values >= 1K
-      return `${sign}$${Math.round(absValue / 1000)}K`;
-    }
-    return `${sign}$${formatNumber(absValue)}`;
+    return `${sign}$${Math.round(abs).toLocaleString()}`;
   };
 
   const yaxisLabelFormatter2 = (value) => {
@@ -2883,21 +2807,25 @@ const getCurrentRatioChartOptions = (data) => {
         name: "Current Assets",
         type: "column",
         data: assetsSeries,
+        yAxisIndex: 0,
       },
       {
         name: "Current Liabilities",
         type: "column",
         data: liabilitiesSeries,
+        yAxisIndex: 0,
       },
       {
         name: "Current Ratio",
         type: "line",
         data: currentRatioSeries,
+        yAxisIndex: 1,
       },
       {
         name: "Peer Avg",
         type: "line",
         data: peerAvgRatioSeries,
+        yAxisIndex: 1,
       },
     ],
     chart: {
@@ -2931,20 +2859,15 @@ const getCurrentRatioChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
-        tickAmount: leftAxis.tickAmount,
-        min: leftAxis.min,
-        max: leftAxis.max,
       },
       {
         seriesName: "Current Liabilities",
+        opposite: true,
         show: false,
-        min: leftAxis.min,
-        max: leftAxis.max,
       },
       {
         seriesName: "Current Ratio",
         opposite: true,
-        // stepSize: 1,
         axisBorder: {
           show: true,
           color: chartColor,
@@ -2956,16 +2879,11 @@ const getCurrentRatioChartOptions = (data) => {
             fontSize: "1.25rem",
           },
         },
-        min: rightAxis.min,
-        max: rightAxis.max,
-        tickAmount: rightAxis.tickAmount,
       },
       {
         seriesName: "Peer Avg",
         opposite: true,
         show: false,
-        min: rightAxis.min,
-        max: rightAxis.max,
       },
     ],
     tooltip: {
