@@ -1341,6 +1341,44 @@ const getAtlChartOptions = (data) => {
   };
 };
 
+/**
+ * Renders a names-only legend below a Sources of Income pie chart.
+ * @param {string} containerId - ID of the chart container (e.g. "sourceOfIncomeClient_chart").
+ * @param {Array<{label: string, color: string}>} chartData - Data array with label and color per slice.
+ */
+const renderSourcesOfIncomeLegend = (containerId, chartData) => {
+  const container = document.getElementById(containerId);
+  if (!container || !Array.isArray(chartData)) return;
+
+  const existing = container.nextElementSibling;
+  if (existing && existing.classList.contains("soi-custom-legend")) {
+    existing.remove();
+  }
+
+  const legend = document.createElement("div");
+  legend.className = "soi-custom-legend";
+  legend.setAttribute(
+    "style",
+    "display:flex; flex-wrap:wrap; justify-content:center; gap:1rem 1.5rem; margin-top:0.5rem; font-size:28px;"
+  );
+  chartData.forEach((item) => {
+    const itemEl = document.createElement("span");
+    itemEl.setAttribute(
+      "style",
+      `display:inline-flex; align-items:center; gap:0.35rem; color:inherit;`
+    );
+    const dot = document.createElement("span");
+    dot.setAttribute(
+      "style",
+      `width:24px; height:24px; border-radius:50%; background-color:${item.color}; flex-shrink:0;`
+    );
+    itemEl.appendChild(dot);
+    itemEl.appendChild(document.createTextNode(item.label));
+    legend.appendChild(itemEl);
+  });
+  container.insertAdjacentElement("afterend", legend);
+};
+
 const getSourcesOfIncomeClientChartOptions = (data) => {
   // console.log("soi - client", data);
 
@@ -1386,6 +1424,16 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
   //   otherValue,
   // });
 
+  const totalClientValue =
+    tuitionValue +
+    auxiliaryValue +
+    contributionsValue +
+    investmentsValue +
+    otherValue;
+
+  const toClientPercent = (value) =>
+    totalClientValue > 0 ? `${((value / totalClientValue) * 100).toFixed(1)}%` : "";
+
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
         borderColor: "#374151",
@@ -1421,26 +1469,31 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
       label: "Tuition",
       value: tuitionValue,
       color: window.chartColors.green,
+      displayValue: toClientPercent(tuitionValue),
     },
     {
       label: "Auxiliary",
       value: auxiliaryValue,
       color: window.chartColors.yellow,
+      displayValue: toClientPercent(auxiliaryValue),
     },
     {
       label: "Contributions",
       value: contributionsValue,
       color: window.chartColors.blue,
+      displayValue: toClientPercent(contributionsValue),
     },
     {
       label: "Investments",
       value: investmentsValue,
       color: window.chartColors.orange,
+      displayValue: toClientPercent(investmentsValue),
     },
     {
       label: "Other",
       value: otherValue,
       color: window.chartColors.purple,
+      displayValue: toClientPercent(otherValue),
     },
   ];
 
@@ -1459,13 +1512,23 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
         caption: "Sources of Income",
         subCaption: "(without donor restrictions)",
         numberPrefix: "$",
-        showPercentValues: "1",
+        showPercentValues: "0",
         showPercentInTooltip: "0",
+        showValues: "1",
         decimals: "1",
         theme: "fusion",
         labelFontColor: "#000000",
         baseFontColor: dynamicFontColor,
+        captionFontSize: "36",
+        subCaptionFontSize: "36",
+        baseFontSize: "36",
+        labelFontSize: "36",
+        valueFontSize: "36",
+        legendItemFontSize: "36",
         enableSmartLabels: "1",
+        useDataPlotColorForLabels: "0",
+        labelSepChar: ", ",
+        showLegend: "0",
       },
       data: chartData,
     },
@@ -1473,6 +1536,7 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
 
   const chartInstance = new FusionCharts(chartConfig);
   chartInstance.render();
+  renderSourcesOfIncomeLegend("sourceOfIncomeClient_chart", chartData);
   return chartInstance;
 };
 
@@ -1511,31 +1575,23 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     data["revenueOther_Peer"][selectedYear] ||
     [];
 
-  // Per user spec: peer percentage for each category should be
-  // sum(array) * 10 (e.g. 6.44 → 64.4%).
-  const sumToPercent = (arr) => (getSumOfArray(arr) || 0) * 100;
+  // Category sums (raw); proportions must add to 100% for pie and labels
+  const tuitionSum = getSumOfArray(tuitionArray) || 0;
+  const auxiliarySum = getSumOfArray(auxiliaryArray) || 0;
+  const contributionsSum = getSumOfArray(contributionsArray) || 0;
+  const investmentsSum = getSumOfArray(investmentsArray) || 0;
+  const otherSum = getSumOfArray(otherArray) || 0;
+  const totalCategorySum =
+    tuitionSum + auxiliarySum + contributionsSum + investmentsSum + otherSum;
 
-  const tuitionPercent = sumToPercent(tuitionArray); // e.g. 64.4
-  const auxiliaryPercent = sumToPercent(auxiliaryArray);
-  const contributionsPercent = sumToPercent(contributionsArray);
-  const investmentsPercent = sumToPercent(investmentsArray);
-  const otherPercent = sumToPercent(otherArray);
-
-  // Convert percentage to 0–1 fraction for dollar slices
-  const tuitionValue = totalValue * (tuitionPercent / 100);
-  const auxiliaryValue = totalValue * (auxiliaryPercent / 100);
-  const contributionsValue = totalValue * (contributionsPercent / 100);
-  const investmentsValue = totalValue * (investmentsPercent / 100);
-  const otherValue = totalValue * (otherPercent / 100);
-
-  // console.log ({
-  //   totalValue,
-  //   tuitionValue,
-  //   auxiliaryValue,
-  //   contributionsValue,
-  //   investmentsValue,
-  //   otherValue,
-  // });
+  // Slice sizes and display % from share of total category sum (so pie and labels sum to 100%)
+  const share = (s) =>
+    totalCategorySum > 0 ? s / totalCategorySum : 0;
+  const tuitionValue = totalValue * share(tuitionSum);
+  const auxiliaryValue = totalValue * share(auxiliarySum);
+  const contributionsValue = totalValue * share(contributionsSum);
+  const investmentsValue = totalValue * share(investmentsSum);
+  const otherValue = totalValue * share(otherSum);
 
   const chartColors = document.documentElement.classList.contains("dark")
     ? {
@@ -1565,32 +1621,41 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
     const formattedValue = formatNumber(value);
     return `$${formattedValue}`;
   };
+  // Data label % = category share of total (already 0–100, matches slice size)
+  const toPeerPercent = (value) =>
+    totalValue > 0 ? `${((value / totalValue) * 100).toFixed(1)}%` : "";
+
   // console.log ({clientArray, peerArray, benchmarkArray});
   const chartData = [
     {
       label: "Tuition",
       value: tuitionValue,
       color: window.chartColors.green,
+      displayValue: toPeerPercent(tuitionValue),
     },
     {
       label: "Auxiliary",
       value: auxiliaryValue,
       color: window.chartColors.yellow,
+      displayValue: toPeerPercent(auxiliaryValue),
     },
     {
       label: "Contributions",
       value: contributionsValue,
       color: window.chartColors.blue,
+      displayValue: toPeerPercent(contributionsValue),
     },
     {
       label: "Investments",
       value: investmentsValue,
       color: window.chartColors.orange,
+      displayValue: toPeerPercent(investmentsValue),
     },
     {
       label: "Other",
       value: otherValue,
       color: window.chartColors.purple,
+      displayValue: toPeerPercent(otherValue),
     },
   ];
 
@@ -1609,13 +1674,23 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
         caption: "Peer Average Sources of Income",
         subCaption: "(without donor restrictions)",
         numberPrefix: "$",
-        showPercentValues: "1",
+        showPercentValues: "0",
         showPercentInTooltip: "0",
+        showValues: "1",
         decimals: "1",
         theme: "fusion",
         labelFontColor: "#000000",
         baseFontColor: dynamicFontColor,
+        captionFontSize: "36",
+        subCaptionFontSize: "36",
+        baseFontSize: "28",
+        labelFontSize: "28",
+        valueFontSize: "28",
+        legendItemFontSize: "28",
         enableSmartLabels: "1",
+        useDataPlotColorForLabels: "0",
+        labelSepChar: ", ",
+        showLegend: "0",
       },
       data: chartData,
     },
@@ -1623,6 +1698,7 @@ const getSourcesOfIncomePeerChartOptions = (data) => {
 
   const chartInstance = new FusionCharts(chartConfig);
   chartInstance.render();
+  renderSourcesOfIncomeLegend("sourceOfIncomePeer_chart", chartData);
   return chartInstance;
 };
 
