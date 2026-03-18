@@ -1359,7 +1359,7 @@ const renderSourcesOfIncomeLegend = (containerId, chartData) => {
   legend.className = "soi-custom-legend";
   legend.setAttribute(
     "style",
-    "display:flex; flex-wrap:wrap; justify-content:center; gap:1rem 1.5rem; margin-top:0.5rem; font-size:28px;"
+    "display:flex; flex-wrap:wrap; justify-content:center; gap:1rem 1.5rem; margin-top:0.5rem; font-size:24px;"
   );
   chartData.forEach((item) => {
     const itemEl = document.createElement("span");
@@ -1452,18 +1452,6 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
     ? "#e3f0fa"
     : "#3a464f";
 
-  const formatNumber = (value) => value.toLocaleString();
-
-  const yaxisLabelFormatter = (value) => {
-    return `$${formatNumber(value)}`;
-  };
-
-  const tooltipFormatter = (value) => {
-    if (!value) return;
-    const formattedValue = value.toLocaleString();
-    return `$${formattedValue}`;
-  };
-
   const chartData = [
     {
       label: "Tuition",
@@ -1521,10 +1509,10 @@ const getSourcesOfIncomeClientChartOptions = (data) => {
         baseFontColor: dynamicFontColor,
         captionFontSize: "36",
         subCaptionFontSize: "36",
-        baseFontSize: "36",
-        labelFontSize: "36",
-        valueFontSize: "36",
-        legendItemFontSize: "36",
+        baseFontSize: "28",
+        labelFontSize: "28",
+        valueFontSize: "28",
+        legendItemFontSize: "28",
         enableSmartLabels: "1",
         useDataPlotColorForLabels: "0",
         labelSepChar: ", ",
