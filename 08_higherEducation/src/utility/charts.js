@@ -2864,6 +2864,25 @@ const getCurrentRatioChartOptions = (data) => {
   const currentRatioSeries = currentRatioArray.slice(0, pointCount);
   const peerAvgRatioSeries = peerAvgCurrentRatioArray.slice(0, pointCount);
 
+  // Match axis scaling across the visible + hidden axis objects (same pattern
+  // as Tuition Dependency/Discount), so bar labels align with tick marks.
+  const assetsSeriesNumeric = assetsSeries.map((v) => Number(v));
+  const liabilitiesSeriesNumeric = liabilitiesSeries.map((v) => Number(v));
+  const currentRatioSeriesNumeric = currentRatioSeries.map((v) => Number(v));
+  const peerAvgRatioSeriesNumeric = peerAvgRatioSeries.map((v) => Number(v));
+
+  const { min: minY, max: maxY } = getMinMaxY([
+    assetsSeriesNumeric,
+    liabilitiesSeriesNumeric,
+  ]);
+  const { min: minYLine, max: maxYLine } = getMinMaxY(
+    currentRatioSeriesNumeric,
+    peerAvgRatioSeriesNumeric
+  );
+
+  // Use a stable tick count; we previously confirmed this avoids chart breakage.
+  const tickAmount = 6;
+
   return {
     colors: seriesColors,
     series: [
@@ -2871,25 +2890,29 @@ const getCurrentRatioChartOptions = (data) => {
         name: "Current Assets",
         type: "column",
         data: assetsSeries,
+        // Force columns to left axis (matches Tuition Dependency/Discount behavior).
         yAxisIndex: 0,
       },
       {
         name: "Current Liabilities",
         type: "column",
         data: liabilitiesSeries,
+        // Force columns to left axis.
         yAxisIndex: 0,
       },
       {
         name: "Current Ratio",
         type: "line",
         data: currentRatioSeries,
-        yAxisIndex: 1,
+        // Force lines to right axis.
+        yAxisIndex: 2,
       },
       {
         name: "Peer Avg",
         type: "line",
         data: peerAvgRatioSeries,
-        yAxisIndex: 1,
+        // Force lines to right axis.
+        yAxisIndex: 2,
       },
     ],
     chart: {
@@ -2917,6 +2940,9 @@ const getCurrentRatioChartOptions = (data) => {
           show: true,
           color: window.chartColors.green,
         },
+        min: minY,
+        max: maxY,
+        tickAmount,
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
@@ -2928,6 +2954,9 @@ const getCurrentRatioChartOptions = (data) => {
         seriesName: "Current Liabilities",
         opposite: true,
         show: false,
+        min: minY,
+        max: maxY,
+        tickAmount,
       },
       {
         seriesName: "Current Ratio",
@@ -2936,6 +2965,9 @@ const getCurrentRatioChartOptions = (data) => {
           show: true,
           color: chartColor,
         },
+        min: minYLine,
+        max: maxYLine,
+        tickAmount,
         labels: {
           formatter: yaxisLabelFormatter2,
           style: {
@@ -2948,6 +2980,9 @@ const getCurrentRatioChartOptions = (data) => {
         seriesName: "Peer Avg",
         opposite: true,
         show: false,
+        min: minYLine,
+        max: maxYLine,
+        tickAmount,
       },
     ],
     tooltip: {
@@ -2992,9 +3027,20 @@ const getCurrentRatioChartOptions = (data) => {
     },
     dataLabels: {
       enabled: true,
-      enabledOnSeries: [0, 1],
+      // Series index mapping:
+      // 0/1 => left Y-axis (Current Assets / Current Liabilities)
+      // 2/3 => right Y-axis (Current Ratio / Peer Avg)
+      enabledOnSeries: [0, 1, 2, 3],
       offsetY: -20,
-      formatter: dataLabelFormatter,
+      formatter: (value, opts) => {
+        const seriesIndex = opts?.seriesIndex;
+        // Columns (0/1) use $K/$M formatting.
+        if (seriesIndex === 0 || seriesIndex === 1) {
+          return dataLabelFormatter(value);
+        }
+        // Lines (2/3) use a ratio-style formatter (no $ prefix).
+        return yaxisLabelFormatter2(value);
+      },
       style: {
         fontSize: "16px",
         fontFamily: "Helvetica, Arial, sans-serif",
