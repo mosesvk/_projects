@@ -2426,6 +2426,33 @@ const getNiceAxisRange = (minVal, maxVal, desiredTicks = 6) => {
   return { min: niceMin, max: niceMax, tickAmount };
 };
 
+/**
+ * Builds a left Y-axis for Current Ratio (dollars) with clean tick steps in
+ * millions: $10M, $15M, $20M, $25M, or $30M (not arbitrary divisions like ~$18M).
+ *
+ * @param {number} maxYRaw - Upper bound from data (e.g. from `getMinMaxY` maxY)
+ * @returns {{ min: number, max: number, tickAmount: number, step: number }}
+ */
+const getNiceCurrentRatioDollarAxis = (maxYRaw) => {
+  const maxVal =
+    Number.isFinite(maxYRaw) && maxYRaw > 0 ? maxYRaw : 10_000_000;
+  /**
+   * Step sizes in dollars ($10M–$30M). Order prefers $20M / $25M first for
+   * typical ~$100M ceilings (clean 0, 20, 40, … grid).
+   */
+  const steps = [20e6, 25e6, 15e6, 30e6, 10e6];
+  /** Prefer steps that yield a readable number of ticks (roughly 5–9) */
+  const preferred = steps.filter((step) => {
+    const niceMax = Math.ceil(maxVal / step) * step;
+    const tickAmount = Math.round(niceMax / step) + 1;
+    return tickAmount >= 5 && tickAmount <= 9;
+  });
+  const step = preferred[0] || 20e6;
+  const niceMax = Math.ceil(maxVal / step) * step;
+  const tickAmount = Math.round(niceMax / step) + 1;
+  return { min: 0, max: niceMax, tickAmount, step };
+};
+
 const getCurrentRatioChartOptions = (data) => {
   // console.log('currentRatio', { chartData: data });
 
@@ -2871,17 +2898,40 @@ const getCurrentRatioChartOptions = (data) => {
   const currentRatioSeriesNumeric = currentRatioSeries.map((v) => Number(v));
   const peerAvgRatioSeriesNumeric = peerAvgRatioSeries.map((v) => Number(v));
 
-  const { min: minY, max: maxY } = getMinMaxY([
+  const { minY, maxY } = getMinMaxY([
     assetsSeriesNumeric,
     liabilitiesSeriesNumeric,
   ]);
-  const { min: minYLine, max: maxYLine } = getMinMaxY(
-    currentRatioSeriesNumeric,
-    peerAvgRatioSeriesNumeric
-  );
+  const {
+    min: minYLeft,
+    max: maxYLeft,
+    tickAmount: tickAmountLeft,
+    step: leftStepSize,
+  } = getNiceCurrentRatioDollarAxis(maxY);
 
-  // Use a stable tick count; we previously confirmed this avoids chart breakage.
-  const tickAmount = 6;
+  // Ratio axis: do not use `getMinMaxY` here — it forces minY=0 and blows the
+  // scale to ~8, which makes Apex pick ugly tick steps (~0.9). Use actual
+  // ratio extrema plus padding, then `getNiceAxisRange` for 0.5 / 1.0 steps.
+  const ratioValues = [
+    ...currentRatioSeriesNumeric,
+    ...peerAvgRatioSeriesNumeric,
+  ].filter((v) => Number.isFinite(v));
+  const ratioDataMin =
+    ratioValues.length > 0 ? Math.min(...ratioValues) : 0;
+  const ratioDataMax =
+    ratioValues.length > 0 ? Math.max(...ratioValues) : 1;
+  const ratioPad = 0.35;
+  const rawRatioMin = Math.max(0, ratioDataMin - ratioPad);
+  const rawRatioMax = ratioDataMax + ratioPad;
+  // Slightly more ticks so `getNiceAxisRange` often picks 0.5 steps (not 1.0 only).
+  const desiredRatioTicks = 10;
+  const {
+    min: minYLine,
+    max: maxYLine,
+    tickAmount: tickAmountLine,
+  } = getNiceAxisRange(rawRatioMin, rawRatioMax, desiredRatioTicks);
+  const ratioStepSize =
+    tickAmountLine > 1 ? (maxYLine - minYLine) / (tickAmountLine - 1) : 1;
 
   return {
     colors: seriesColors,
@@ -2890,29 +2940,21 @@ const getCurrentRatioChartOptions = (data) => {
         name: "Current Assets",
         type: "column",
         data: assetsSeries,
-        // Force columns to left axis (matches Tuition Dependency/Discount behavior).
-        yAxisIndex: 0,
       },
       {
         name: "Current Liabilities",
         type: "column",
         data: liabilitiesSeries,
-        // Force columns to left axis.
-        yAxisIndex: 0,
       },
       {
         name: "Current Ratio",
         type: "line",
         data: currentRatioSeries,
-        // Force lines to right axis.
-        yAxisIndex: 2,
       },
       {
         name: "Peer Avg",
         type: "line",
         data: peerAvgRatioSeries,
-        // Force lines to right axis.
-        yAxisIndex: 2,
       },
     ],
     chart: {
@@ -2935,14 +2977,14 @@ const getCurrentRatioChartOptions = (data) => {
     },
     yaxis: [
       {
-        seriesName: "Current Assets",
         axisBorder: {
           show: true,
           color: window.chartColors.green,
         },
-        min: minY,
-        max: maxY,
-        tickAmount,
+        min: minYLeft,
+        max: maxYLeft,
+        tickAmount: tickAmountLeft,
+        stepSize: leftStepSize,
         labels: {
           formatter: yaxisLabelFormatter,
           style: {
@@ -2951,15 +2993,13 @@ const getCurrentRatioChartOptions = (data) => {
         },
       },
       {
-        seriesName: "Current Liabilities",
-        opposite: true,
         show: false,
-        min: minY,
-        max: maxY,
-        tickAmount,
+        min: minYLeft,
+        max: maxYLeft,
+        tickAmount: tickAmountLeft,
+        stepSize: leftStepSize,
       },
       {
-        seriesName: "Current Ratio",
         opposite: true,
         axisBorder: {
           show: true,
@@ -2967,7 +3007,8 @@ const getCurrentRatioChartOptions = (data) => {
         },
         min: minYLine,
         max: maxYLine,
-        tickAmount,
+        tickAmount: tickAmountLine,
+        stepSize: ratioStepSize,
         labels: {
           formatter: yaxisLabelFormatter2,
           style: {
@@ -2977,12 +3018,12 @@ const getCurrentRatioChartOptions = (data) => {
         },
       },
       {
-        seriesName: "Peer Avg",
         opposite: true,
         show: false,
         min: minYLine,
         max: maxYLine,
-        tickAmount,
+        tickAmount: tickAmountLine,
+        stepSize: ratioStepSize,
       },
     ],
     tooltip: {
