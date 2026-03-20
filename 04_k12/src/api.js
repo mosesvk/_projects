@@ -71,6 +71,7 @@ const _knownOptionalPeerFields = new Set([
   "_22b1_ratio_financial_assistance_discount_based\nfinancialAssistanceDiscountBased_Peer",
   "_22c1_ratio_scholarship_awarded\nscholarshipAwarded_Peer",
 ]);
+const _missingPeerYesNoWarned = new Set();
 
 const insertDataIntoObject = (
   type,
@@ -124,6 +125,16 @@ const insertDataIntoObject = (
     const yesNoFieldElement = dynamicValueClientPeer
       ? record.querySelector(dynamicValueClientPeer)
       : null;
+    if (dynamicValueClientPeer && !yesNoFieldElement) {
+      const yesNoWarnKey = `${dynamicValueClientPeer}\n${dataKey}`;
+      if (!_missingPeerYesNoWarned.has(yesNoWarnKey)) {
+        _missingPeerYesNoWarned.add(yesNoWarnKey);
+        console.warn(
+          `Peer YES/NO field "${dynamicValueClientPeer}" not found for dataKey "${dataKey}". ` +
+            "Verify XML field name or API clist."
+        );
+      }
+    }
     const yesNoField = yesNoFieldElement
       ? yesNoFieldElement.textContent.trim()
       : null;
@@ -2033,7 +2044,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "debtToNetAssets_Peer",
         record,
         "_11_1_ratio_debt_to_net_assets",
-        "_11_1__yes_no_ratio_debt_to_net_assets"
+        "_11_1__yes_no_debt_to_net_assets"
       );
       insertDataIntoObject(
         "peer",
@@ -2042,7 +2053,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "totalDebt",
         record,
         "_03_11_total_debt",
-        "_11_1__yes_no_ratio_debt_to_net_assets",
+        "_11_1__yes_no_debt_to_net_assets",
         "debtToNetAssets"
       );
       insertDataIntoObject(
@@ -2052,7 +2063,7 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "totalUnrestrictedNetAssets",
         record,
         "_03_12_total_unrestricted_net_assets",
-        "_11_1__yes_no_ratio_debt_to_net_assets",
+        "_11_1__yes_no_debt_to_net_assets",
         "debtToNetAssets"
       );
 
@@ -2340,6 +2351,12 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "_15_ratio_debt_coverage"
       );
     });
+  });
+
+  console.log("Debt data debug:", {
+    selectedYears: years,
+    debtToNetAssets_Peer: object.debtToNetAssets_Peer,
+    debtToNetAssets_Client: object.debtToNetAssets_Client,
   });
 
   localStorage.removeItem("debtData");
@@ -2672,7 +2689,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "daysCashOnHand_Peer",
         record,
         "_05_1_ratio_days_cash_on_hand",
-        "_05_1_yes_no_ratio_days_cash_on_hand",
+        "_05_1_yes_no_days_cash_on_hand",
       );
       insertDataIntoObject(
         "peer",
@@ -2681,7 +2698,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalCash",
         record,
         "_03_02_total_cash",
-        "_05_1_yes_no_ratio_days_cash_on_hand",
+        "_05_1_yes_no_days_cash_on_hand",
         "daysCashOnHand"
       );
       insertDataIntoObject(
@@ -2691,7 +2708,7 @@ const processCashData = (years, recordsPeer, recordsClient) => {
         "totalExpenses",
         record,
         "_04_08_total_expenses",
-        "_05_1_yes_no_ratio_days_cash_on_hand",
+        "_05_1_yes_no_days_cash_on_hand",
         "daysCashOnHand"
       );
 
@@ -2907,7 +2924,11 @@ const processCashData = (years, recordsPeer, recordsClient) => {
     });
   });
 
-  // console.log(object);
+  console.log("Cash data debug:", {
+    selectedYears: years,
+    daysCashOnHand_Peer: object.daysCashOnHand_Peer,
+    daysCashOnHand_Client: object.daysCashOnHand_Client,
+  });
   localStorage.removeItem("cashData");
   localStorage.setItem("cashData", JSON.stringify(object));
 };
@@ -3312,6 +3333,10 @@ run_btn.addEventListener("click", async () => {
     toggleButtonLoadingState(run_btn);
     const selectedYears = processSelectedYears();
     saveSelectedYearsToLocalStorage(selectedYears);
+    const selectedYearsArray = Array.isArray(selectedYears)
+      ? selectedYears
+      : Array.from(selectedYears || []);
+    console.log("Selected year(s) for API run:", selectedYearsArray);
 
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
     // console.log("RECORDS PEER", recordsPeer);
@@ -3323,12 +3348,12 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("CLIENT", qdbapiElementClient);
+    console.log("Client XML string:", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
     )}</qdbapi>`;
-    // console.log("PEER", qdbapiElementPeer);
+    console.log("Peer XML string:", qdbapiElementPeer);
 
     processApiCalls(selectedYears, recordsPeer, recordsClient);
     displayComponents();
