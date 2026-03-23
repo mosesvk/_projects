@@ -1019,9 +1019,12 @@ async function exportWithHtml2Canvas(chartElement) {
           ) || "#ffffff",
       });
 
-      const finalCanvas = isSourcesOfIncomeChart
-        ? trimCanvasWhitespace(canvas, 12)
-        : canvas;
+      const finalCanvas =
+        isSourcesOfIncomeChart ||
+        isHorizontalFusionGauge ||
+        chartType === "radialBar"
+          ? trimCanvasWhitespace(canvas, 8)
+          : canvas;
       const dataURL = finalCanvas.toDataURL("image/png");
       const base64String = dataURL.split(",")[1];
 
@@ -1100,7 +1103,9 @@ async function exportWithHtml2Canvas(chartElement) {
         ) || "#ffffff",
     });
 
-    const dataURL = canvas.toDataURL("image/png");
+    const finalCanvas =
+      chartType === "radialBar" ? trimCanvasWhitespace(canvas, 8) : canvas;
+    const dataURL = finalCanvas.toDataURL("image/png");
     const base64String = dataURL.split(",")[1];
 
     // console.log(
@@ -1309,6 +1314,9 @@ async function apexChartsExportPrint() {
 
   let cfiDetailsOpenedForPrint = false;
   let detailsCfiRatioInitiallyHidden = false;
+  let completionMessage = "";
+  let completionIsSuccess = false;
+  let shouldShowCompletionToast = false;
 
   try {
     const detailsCfiRatioElement = document.getElementById("details_cfiRatio");
@@ -1435,35 +1443,42 @@ async function apexChartsExportPrint() {
     // Process the response
     const xmlResponse = $(response);
     const errorCode = xmlResponse.find("qdbapi").find("errcode").text();
-    showApiLoadingFunction("close", "print");
 
     if (errorCode === "0") {
-      createToastSuccess(
-        `The presentation will be sent to your email address in the next 5 minutes from clientportal@capincrouse.com.  If you do not receive it, please email capindata@capincrouse.com for assistance.`, 
-        true
-      );
+      completionMessage =
+        "The presentation will be sent to your email address in the next 5 minutes from clientportal@capincrouse.com. If you do not receive it, please email capindata@capincrouse.com for assistance.";
+      completionIsSuccess = true;
+      shouldShowCompletionToast = true;
     } else {
       const errorText =
         xmlResponse.find("qdbapi").find("errtext").text() || "Unknown error";
       throw new Error(`Quickbase returned error ${errorCode}: ${errorText}`);
     }
   } catch (error) {
-    showApiLoadingFunction("close", "print");
     console.error("Error in apexChartsExportPrint:", error);
-    createToastWarning(
-      `Error creating presentation: ${error.message || "Unknown error"}`
-    );
+    completionMessage = `Error creating presentation: ${
+      error.message || "Unknown error"
+    }`;
+    completionIsSuccess = false;
+    shouldShowCompletionToast = true;
   } finally {
-    if (cfiDetailsOpenedForPrint && detailsCfiRatioInitiallyHidden) {
-      const detailsCfiRatioElement = document.getElementById("details_cfiRatio");
-      if (detailsCfiRatioElement && !detailsCfiRatioElement.classList.contains("hidden")) {
-        const cfiDetailsButton = document.getElementById("dropdown_cfiRatio");
-        if (cfiDetailsButton) {
-          cfiDetailsButton.click();
-        } else if (typeof window.toggleDetailsByIdentifier === "function") {
-          window.toggleDetailsByIdentifier("cfiRatio");
+    try {
+      if (cfiDetailsOpenedForPrint && detailsCfiRatioInitiallyHidden) {
+        const detailsCfiRatioElement = document.getElementById("details_cfiRatio");
+        if (
+          detailsCfiRatioElement &&
+          !detailsCfiRatioElement.classList.contains("hidden")
+        ) {
+          const cfiDetailsButton = document.getElementById("dropdown_cfiRatio");
+          if (cfiDetailsButton) {
+            cfiDetailsButton.click();
+          } else if (typeof window.toggleDetailsByIdentifier === "function") {
+            window.toggleDetailsByIdentifier("cfiRatio");
+          }
         }
       }
+    } catch (cleanupError) {
+      console.error("Error restoring CFI details state:", cleanupError);
     }
 
     // Restore button state
@@ -1476,6 +1491,16 @@ async function apexChartsExportPrint() {
     );
     if (progressContainer && progressContainer.parentNode) {
       progressContainer.parentNode.removeChild(progressContainer);
+    }
+
+    showApiLoadingFunction("close", "print");
+
+    if (shouldShowCompletionToast && completionMessage) {
+      if (completionIsSuccess) {
+        createToastSuccess(completionMessage, true);
+      } else {
+        createToastWarning(completionMessage);
+      }
     }
   }
 }
