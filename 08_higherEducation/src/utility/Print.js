@@ -948,7 +948,8 @@ async function exportWithHtml2Canvas(chartElement) {
         backgroundColor: "#ffffff",
       });
 
-      const dataURL = canvas.toDataURL("image/png");
+      const trimmedCanvas = trimCanvasWhitespace(canvas, 6);
+      const dataURL = trimmedCanvas.toDataURL("image/png");
       const base64String = dataURL.split(",")[1];
 
       return base64String;
@@ -1306,7 +1307,15 @@ async function apexChartsExportPrint() {
       <span class="font-medium">Exporting Charts...</span>
     </div>`;
 
+  let cfiDetailsOpenedForPrint = false;
+  let detailsCfiRatioInitiallyHidden = false;
+
   try {
+    const detailsCfiRatioElement = document.getElementById("details_cfiRatio");
+    detailsCfiRatioInitiallyHidden =
+      !!detailsCfiRatioElement &&
+      detailsCfiRatioElement.classList.contains("hidden");
+
     // Unhide any hidden sections to ensure all charts are available
     const sections = [
       "FinancialPositionContent",
@@ -1324,6 +1333,21 @@ async function apexChartsExportPrint() {
         hiddenSections.push(element);
       }
     });
+
+    if (detailsCfiRatioInitiallyHidden) {
+      const cfiDetailsButton = document.getElementById("dropdown_cfiRatio");
+      if (cfiDetailsButton) {
+        cfiDetailsButton.click();
+        cfiDetailsOpenedForPrint = true;
+      } else if (typeof window.toggleDetailsByIdentifier === "function") {
+        window.toggleDetailsByIdentifier("cfiRatio");
+        cfiDetailsOpenedForPrint = true;
+      }
+
+      if (cfiDetailsOpenedForPrint) {
+        await new Promise((resolve) => setTimeout(resolve, 300));
+      }
+    }
 
     await new Promise((resolve) => setTimeout(resolve, 100));
 
@@ -1430,6 +1454,18 @@ async function apexChartsExportPrint() {
       `Error creating presentation: ${error.message || "Unknown error"}`
     );
   } finally {
+    if (cfiDetailsOpenedForPrint && detailsCfiRatioInitiallyHidden) {
+      const detailsCfiRatioElement = document.getElementById("details_cfiRatio");
+      if (detailsCfiRatioElement && !detailsCfiRatioElement.classList.contains("hidden")) {
+        const cfiDetailsButton = document.getElementById("dropdown_cfiRatio");
+        if (cfiDetailsButton) {
+          cfiDetailsButton.click();
+        } else if (typeof window.toggleDetailsByIdentifier === "function") {
+          window.toggleDetailsByIdentifier("cfiRatio");
+        }
+      }
+    }
+
     // Restore button state
     printButton.disabled = false;
     printButton.innerHTML = originalButtonContent;
