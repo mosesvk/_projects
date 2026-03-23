@@ -883,6 +883,8 @@ async function exportWithHtml2Canvas(chartElement) {
   // Get the chart instance to handle FusionCharts caption clearing
   const chart = getChartInstance(chartId);
   const chartType = getChartTypeFromId(chartId);
+  const isFusionChart =
+    !!(chart && chart.args && chart.args.dataSource && chart.args.dataSource.chart);
 
   // Handle FusionCharts caption clearing before export
   let originalCaption = null;
@@ -914,26 +916,30 @@ async function exportWithHtml2Canvas(chartElement) {
   // Special handling for CFI Composite chart - export only the chart content to avoid white space
   if (chartId === "cfiCompositeHtml_Chart") {
     const innerChart = chartElement.querySelector(".cfi-html-chart");
-    const targetEl = innerChart || chartElement;
-    const clone = targetEl.cloneNode(true);
-
-    const container = document.createElement("div");
-    container.style.position = "absolute";
-    container.style.left = "-9999px";
-    container.style.top = "0";
-    container.style.backgroundColor = "#ffffff";
-    container.style.overflow = "visible";
-    container.style.display = "inline-block";
-    container.appendChild(clone);
-    document.body.appendChild(container);
+    const contentEl = innerChart || chartElement;
+    const targetEl = chartElement;
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 150));
+      await new Promise((resolve) => setTimeout(resolve, 300));
+      const rect = contentEl.getBoundingClientRect();
+      const contentWidth = Math.ceil(
+        Math.max(
+          contentEl.scrollWidth || 0,
+          contentEl.offsetWidth || 0,
+          rect.width || 0,
+          CFI_COMPOSITE_WIDTH
+        )
+      );
+      const contentHeight = Math.ceil(
+        Math.max(
+          contentEl.scrollHeight || 0,
+          contentEl.offsetHeight || 0,
+          rect.height || 0,
+          CFI_COMPOSITE_HEIGHT
+        )
+      );
 
-      const contentWidth = clone.offsetWidth || clone.scrollWidth;
-      const contentHeight = clone.offsetHeight || clone.scrollHeight;
-
-      const canvas = await html2canvas(clone, {
+      const canvas = await html2canvas(targetEl, {
         scale: 1,
         width: contentWidth,
         height: contentHeight,
@@ -945,12 +951,8 @@ async function exportWithHtml2Canvas(chartElement) {
       const dataURL = canvas.toDataURL("image/png");
       const base64String = dataURL.split(",")[1];
 
-      document.body.removeChild(container);
       return base64String;
     } catch (error) {
-      if (container.parentNode) {
-        document.body.removeChild(container);
-      }
       return null;
     }
   }
@@ -961,6 +963,97 @@ async function exportWithHtml2Canvas(chartElement) {
     if (rect.width && rect.height) {
       chartWidth = rect.width;
       chartHeight = rect.height;
+    }
+  }
+
+  // FusionCharts pies can render to canvas/SVG states that do not survive cloneNode.
+  // Capture from the live node for accurate base64 output.
+  if (isFusionChart) {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 250));
+      const rect = chartElement.getBoundingClientRect();
+      const isSourcesOfIncomeChart =
+        chartId === "sourceOfIncomeClient_chart" ||
+        chartId === "sourceOfIncomePeer_chart";
+      const isHorizontalFusionGauge = chartType === "hlineargauge";
+      const fusionWidth = Math.ceil(
+        isHorizontalFusionGauge
+          ? Math.max(
+              chartElement.scrollWidth || 0,
+              chartElement.offsetWidth || 0,
+              rect.width || 0
+            )
+          : Math.max(
+              chartWidth,
+              chartElement.scrollWidth || 0,
+              chartElement.offsetWidth || 0,
+              rect.width || 0
+            )
+      );
+      const fusionHeight = Math.ceil(
+        isSourcesOfIncomeChart || isHorizontalFusionGauge
+          ? Math.max(
+              chartElement.scrollHeight || 0,
+              chartElement.offsetHeight || 0,
+              rect.height || 0
+            )
+          : Math.max(
+              chartHeight,
+              chartElement.scrollHeight || 0,
+              chartElement.offsetHeight || 0,
+              rect.height || 0
+            )
+      );
+      const fusionPaddingBottom = isHorizontalFusionGauge ? 20 : 0;
+
+      const canvas = await html2canvas(chartElement, {
+        scale: 1,
+        width: fusionWidth,
+        height: fusionHeight + fusionPaddingBottom,
+        useCORS: true,
+        allowTaint: true,
+        backgroundColor:
+          getComputedStyle(document.documentElement).getPropertyValue(
+            "--chart-bg-color"
+          ) || "#ffffff",
+      });
+
+      const finalCanvas = isSourcesOfIncomeChart
+        ? trimCanvasWhitespace(canvas, 12)
+        : canvas;
+      const dataURL = finalCanvas.toDataURL("image/png");
+      const base64String = dataURL.split(",")[1];
+
+      if (
+        originalCaption !== null &&
+        chart &&
+        chart.args &&
+        chart.args.dataSource
+      ) {
+        chart.args.dataSource.chart.caption = originalCaption;
+        if (typeof chart.setData === "function") {
+          chart.setData(chart.args.dataSource);
+        } else if (typeof chart.feedData === "function") {
+          chart.feedData(chart.args.dataSource);
+        }
+      }
+
+      return base64String;
+    } catch (error) {
+      if (
+        originalCaption !== null &&
+        chart &&
+        chart.args &&
+        chart.args.dataSource
+      ) {
+        chart.args.dataSource.chart.caption = originalCaption;
+        if (typeof chart.setData === "function") {
+          chart.setData(chart.args.dataSource);
+        } else if (typeof chart.feedData === "function") {
+          chart.feedData(chart.args.dataSource);
+        }
+      }
+      return null;
     }
   }
 
@@ -1043,6 +1136,79 @@ async function exportWithHtml2Canvas(chartElement) {
     }
     return null;
   }
+}
+
+/**
+ * Trim white margins from a canvas while preserving a small padding.
+ * @param {HTMLCanvasElement} canvas - Source canvas to trim.
+ * @param {number} padding - Extra padding (in px) around detected content.
+ * @returns {HTMLCanvasElement} - Trimmed canvas or original canvas if no bounds found.
+ */
+function trimCanvasWhitespace(canvas, padding = 0) {
+  const context = canvas.getContext("2d");
+  if (!context) return canvas;
+
+  const { width, height } = canvas;
+  if (!width || !height) return canvas;
+
+  const { data } = context.getImageData(0, 0, width, height);
+  const threshold = 245;
+  let minX = width;
+  let minY = height;
+  let maxX = -1;
+  let maxY = -1;
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      const index = (y * width + x) * 4;
+      const red = data[index];
+      const green = data[index + 1];
+      const blue = data[index + 2];
+      const alpha = data[index + 3];
+      const isContentPixel =
+        alpha > 0 &&
+        (red < threshold || green < threshold || blue < threshold);
+
+      if (isContentPixel) {
+        if (x < minX) minX = x;
+        if (x > maxX) maxX = x;
+        if (y < minY) minY = y;
+        if (y > maxY) maxY = y;
+      }
+    }
+  }
+
+  if (maxX < minX || maxY < minY) {
+    return canvas;
+  }
+
+  minX = Math.max(0, minX - padding);
+  minY = Math.max(0, minY - padding);
+  maxX = Math.min(width - 1, maxX + padding);
+  maxY = Math.min(height - 1, maxY + padding);
+
+  const trimmedWidth = maxX - minX + 1;
+  const trimmedHeight = maxY - minY + 1;
+  const trimmedCanvas = document.createElement("canvas");
+  trimmedCanvas.width = trimmedWidth;
+  trimmedCanvas.height = trimmedHeight;
+
+  const trimmedContext = trimmedCanvas.getContext("2d");
+  if (!trimmedContext) return canvas;
+
+  trimmedContext.drawImage(
+    canvas,
+    minX,
+    minY,
+    trimmedWidth,
+    trimmedHeight,
+    0,
+    0,
+    trimmedWidth,
+    trimmedHeight
+  );
+
+  return trimmedCanvas;
 }
 
 /**
