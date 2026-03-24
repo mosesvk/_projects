@@ -357,6 +357,9 @@ class ExcelReportGenerator {
 
       // Start with metrics XML from Report.js (uploadMainFile), then add client/years
       this.xmlPayload = uploadMainFile;
+      if (!this.xmlPayload || !this.xmlPayload.includes("<qdbapi>")) {
+        this.xmlPayload = `<qdbapi><apptoken>${this.API.APP_TOKEN}</apptoken>`;
+      }
 
       // Add client data with direct field additions (K12 field IDs 186, 187, 188)
       this.xmlPayload += `<field fid='${this.FIELD_IDS.CLIENT_RID}'>${this.escapeXml(ClientRid)}</field>`;
@@ -380,9 +383,7 @@ class ExcelReportGenerator {
 
       // Ensure every field 6–195 from excelFields.txt is present (comp pattern: template expects all columns).
       // Missing fields are appended empty so ExcelGen_UA / QuickBase record has all columns.
-      const readOnlyFieldIds = [
-        "172", "173", "174", "175", "190",
-      ];
+      const readOnlyFieldIds = ["172", "173", "174", "175"];
       for (let fid = 6; fid <= 195; fid++) {
         const fidStr = String(fid);
         if (readOnlyFieldIds.includes(fidStr)) continue;
@@ -610,6 +611,39 @@ class ExcelReportGenerator {
   }
 }
 
+/**
+ * Reset the Print Options modal to its initial state.
+ * Hides generated report links, clears previous URLs, and restores button state.
+ * @returns {void}
+ */
+const resetPrintOptionsModalState = () => {
+  const footer = document.getElementById("print_modal_footer");
+  if (footer) {
+    footer.classList.add("hidden");
+  }
+
+  const generateReportsBtn = document.getElementById("generateReports");
+  if (generateReportsBtn) {
+    generateReportsBtn.disabled = false;
+    generateReportsBtn.textContent = "Generate Trends and Benchmark Reports";
+    generateReportsBtn.classList.remove("opacity-50", "cursor-not-allowed");
+  }
+
+  const reportLinkIds = [
+    "trendXLSFinal",
+    "trendPDFFinal",
+    "benchXLSFinal",
+    "benchPDFFinal",
+  ];
+  reportLinkIds.forEach((id) => {
+    const link = document.getElementById(id);
+    if (link) {
+      link.href = "";
+    }
+  });
+
+};
+
 // ----- Initialize on DOM ready (matches comp/standard) -----
 document.addEventListener("DOMContentLoaded", () => {
   const excelReportGenerator = new ExcelReportGenerator();
@@ -631,4 +665,33 @@ document.addEventListener("DOMContentLoaded", () => {
   window.uploadSingleToFile = uploadSingleToFile;
   window.printToExcel =
     excelReportGenerator.printToExcel.bind(excelReportGenerator);
+
+  const printModal = document.getElementById("print_modal");
+  if (printModal) {
+    // If user clicks out / Escape and modal is hidden, restore initial state.
+    const printModalObserver = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.attributeName === "class" &&
+          printModal.classList.contains("hidden")
+        ) {
+          resetPrintOptionsModalState();
+        }
+      });
+    });
+    printModalObserver.observe(printModal, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+  }
+
+  // Ensure opening Print modal always starts from initial view.
+  const printModalTriggers = document.querySelectorAll(
+    '[data-modal-target="print_modal"]'
+  );
+  printModalTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => {
+      resetPrintOptionsModalState();
+    });
+  });
 });
