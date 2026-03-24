@@ -10,6 +10,10 @@
       href="https://cdn.tailwindcss.com/2.2.19/tailwind.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css"
+    />
 
     <script>
       tailwind.config = {
@@ -37,49 +41,136 @@
     .hidden-by-default.transition-max-h {
       max-height: 100%;
     }
+
+    /* Vertical filing-status radios (pill style) */
+    .filing-radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      width: 100%;
+      max-width: 22rem;
+      margin: 0 auto;
+      padding: 1.25rem 1.25rem 1.375rem;
+      border: 1px solid rgb(148 163 184);
+      border-radius: 1rem;
+      background: rgb(255 255 255);
+      box-shadow:
+        0 1px 2px 0 rgb(0 0 0 / 0.04),
+        0 1px 3px 0 rgb(0 0 0 / 0.06);
+      box-sizing: border-box;
+    }
+
+    .filing-radio-group legend {
+      width: 100%;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgb(75 85 99);
+      margin-bottom: 0.625rem;
+      padding: 0 0.125rem;
+    }
+
+    .filing-radio-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.75rem;
+      padding: 0.5rem 1rem 0.5rem 2.75rem;
+      border-radius: 9999px;
+      border: 1px solid rgb(148 163 184);
+      background: white;
+      cursor: pointer;
+      transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+
+    .filing-radio-option:hover {
+      border-color: rgb(100 116 139);
+    }
+
+    .filing-radio-option input {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .filing-radio-indicator {
+      position: absolute;
+      left: 1rem;
+      width: 1.125rem;
+      height: 1.125rem;
+      border-radius: 9999px;
+      border: 2px solid rgb(148 163 184);
+      background: rgb(243 244 246);
+    }
+
+    .filing-radio-option:has(input:checked) {
+      border-color: rgb(131 178 64);
+      background: rgb(240 253 244);
+      box-shadow: 0 0 0 1px rgb(131 178 64);
+    }
+
+    .filing-radio-option:has(input:checked) .filing-radio-indicator {
+      border-color: rgb(131 178 64);
+      background: white;
+      box-shadow: inset 0 0 0 3px rgb(131 178 64);
+    }
+
+    .filing-radio-label-text {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: rgb(17 24 39);
+    }
   </style>
   <body>
     <div class="isolate bg-white mb-4 sm:mb-8 md:mb-12 lg:mb-16 xl:mb-28">
-      <!-- Header -->
-      <div class="px-4 lg:px-8 2xl:absolute">
-        <nav class="flex items-center justify-between" aria-label="Global">
-          <div class="flex lg:flex-1 items-center">
-            <div class="-m-1.5 p-1.5">
-              <img
-                class="w-1/4 md:w-1/2"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2BOEgggiM024TCxtOpv0rxeM10Sk27EOOIfDmNi2Ukw&s"
-                alt="Code of Relevancy"
-              />
-              <p
-                class="text-blue font-semibold leading-6 w-[15rem] ml-4 sm:text-sm md:text-base lg:text-lg xl:text-xl whitespace-nowrap"
-              >
-                Developed for Cherry Hills Christian School
-              </p>
-            </div>
-          </div>
-        </nav>
-      </div>
-
       <!--MAIN-->
-      <main>
-        <!--Blur Backdrop-->
+      <main class="relative overflow-x-clip">
+        <!-- Blur backdrop: contained, low z-index, no pointer capture — kept subtle so it does not compete with copy -->
         <div
-          class="hidden md:block absolute top-0 left-80 w-72 h-72 bg-green rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"
-        ></div>
-        <div
-          class="absolute top-50 left-10 w-52 h-72 bg-blue rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"
-        ></div>
-        <div
-          class="absolute top-0 left-20 w-72 h-72 bg-blue rounded-full mix-blend-multiply filter blur-3xl opacity-50 animate-blob"
-        ></div>
+          class="pointer-events-none absolute inset-x-0 top-0 h-48 sm:h-56 md:h-64 -z-10 overflow-hidden"
+          aria-hidden="true"
+        >
+          <div
+            class="hidden md:block absolute -top-16 -left-24 w-56 h-56 md:w-64 md:h-64 bg-green rounded-full mix-blend-multiply filter blur-3xl opacity-25 animate-blob"
+          ></div>
+          <div
+            class="absolute -top-20 left-1/3 w-44 h-64 md:w-52 md:h-72 bg-blue rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"
+          ></div>
+          <div
+            class="absolute -top-12 -right-16 w-56 h-56 md:w-64 md:h-64 bg-blue rounded-full mix-blend-multiply filter blur-3xl opacity-22 animate-blob"
+          ></div>
+        </div>
 
         <!--Main Content-->
-        <div class="relative px-6 lg:px-8">
+        <div class="relative z-10 px-6 lg:px-8">
           <!--Input-->
           <div
             id="inputDiv"
-            class="mx-auto max-w-2xl xl:max-w-7xl pt-4 sm:pt-4 lg:pt-6"
+            class="mx-auto max-w-2xl xl:max-w-7xl pt-6 sm:pt-8 lg:pt-10"
           >
+            <div
+              class="mb-6 sm:mb-8 w-full flex justify-start -mx-6 lg:-mx-8 pl-4 sm:pl-6"
+            >
+              <div class="-m-1.5 p-1.5 flex flex-col items-start gap-2 text-left">
+                <img
+                  class="self-start h-auto w-auto max-w-[7rem] sm:max-w-[9rem] md:max-w-[11rem] lg:max-w-[12rem]"
+                  src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ2BOEgggiM024TCxtOpv0rxeM10Sk27EOOIfDmNi2Ukw&s"
+                  alt="Code of Relevancy"
+                />
+                <p
+                  class="text-left text-blue font-semibold leading-6 text-sm sm:text-base md:text-lg lg:text-xl max-w-[20rem]"
+                >
+                  Developed for Cherry Hills Christian School
+                </p>
+              </div>
+            </div>
             <h2
               class="text-center text-2xl font-bold tracking-tight text-gray-900 sm:text-4xl mb-2"
             >
@@ -102,52 +193,81 @@
             </p>
 
             <div class="px-6 py-6 sm:py-6 lg:px-8 md:pb-4">
-              <div
-                class="mx-auto max-w-xl flex flex-col md:flex-row justify-between"
-              >
-                <div class="sm:col-span-2 mb-8">
-                  <label
-                    class="block text-2xl font-semibold leading-6 text-gray-900 mb-2.5"
-                    for="donation"
-                  >
-                    Donation Amount
-                  </label>
-                  <div class="relative md:w-[11rem] lg:w-[20rem]">
+              <div class="mx-auto max-w-xl flex flex-col items-center gap-y-8">
+                <fieldset
+                  class="filing-radio-group shrink-0"
+                  role="radiogroup"
+                  aria-label="Filing status"
+                >
+                  <legend>Filing status</legend>
+                  <label class="filing-radio-option">
                     <input
-                      id="donationAmount"
-                      class="animate-pulse block w-full md:w-12rem rounded-md border-2 border-slate-600 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
-                      type="text"
-                      placeholder="0.00"
-                      name="property"
-                      oninput="formatNumberInput(this)"
+                      type="radio"
+                      name="filingStatus"
+                      value="individual"
+                      checked
                     />
-                    <div
-                      class="text-2xl absolute inset-y-0 left-2 flex items-center"
+                    <span class="filing-radio-indicator" aria-hidden="true"></span>
+                    <span class="filing-radio-label-text">Individuals</span>
+                  </label>
+                  <label class="filing-radio-option">
+                    <input
+                      type="radio"
+                      name="filingStatus"
+                      value="married"
+                    />
+                    <span class="filing-radio-indicator" aria-hidden="true"></span>
+                    <span class="filing-radio-label-text">Married couples</span>
+                  </label>
+                </fieldset>
+
+                <div
+                  class="w-full flex flex-col md:flex-row md:justify-between gap-y-8 gap-x-6 md:items-end"
+                >
+                  <div class="w-full md:w-auto">
+                    <label
+                      class="block text-2xl font-semibold leading-6 text-gray-900 mb-2.5"
+                      for="donationAmount"
                     >
-                      $
+                      Donation Amount
+                    </label>
+                    <div class="relative md:w-[11rem] lg:w-[20rem]">
+                      <input
+                        id="donationAmount"
+                        class="animate-pulse block w-full md:w-12rem rounded-md border-2 border-slate-600 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
+                        type="text"
+                        placeholder="0.00"
+                        name="property"
+                        oninput="formatNumberInput(this)"
+                      />
+                      <div
+                        class="text-2xl absolute inset-y-0 left-2 flex items-center"
+                      >
+                        $
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="sm:col-span-2 sm:mb-0">
-                  <label
-                    class="block text-2xl font-semibold leading-6 text-gray-900 mb-2.5"
-                    for="donation"
-                  >
-                    Federal Tax Rate
-                  </label>
-                  <div class="relative w-[10rem]">
-                    <input
-                      id="fedTaxRate"
-                      class="animate-pulse block w-full rounded-md border-2 border-slate-600 py-1.5 pl-2 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
-                      type="text"
-                      placeholder="35"
-                      name="property"
-                      oninput="formatNumberInput(this)"
-                    />
-                    <div
-                      class="text-2xl absolute inset-y-0 right-2 flex items-center"
+                  <div class="w-full md:w-auto md:text-right">
+                    <label
+                      class="block text-2xl font-semibold leading-6 text-gray-900 mb-2.5"
+                      for="fedTaxRate"
                     >
-                      %
+                      Federal Tax Rate
+                    </label>
+                    <div class="relative w-full max-w-[10rem] md:ml-auto">
+                      <input
+                        id="fedTaxRate"
+                        class="animate-pulse block w-full rounded-md border-2 border-slate-600 py-1.5 pl-2 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-xl md:text-2xl lg:text-3xl sm:leading-6"
+                        type="text"
+                        placeholder="35"
+                        name="property"
+                        oninput="formatNumberInput(this)"
+                      />
+                      <div
+                        class="text-2xl absolute inset-y-0 right-2 flex items-center"
+                      >
+                        %
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -286,14 +406,17 @@
             of use. Those assumptions are: that each person itemizes their
             deductions on their personal federal income tax return; that they
             know what federal income tax rate they are subject to; and each user
-            has already reached the $10,000 cap on the federal deduction of
-            state and local taxes. For personalized tax guidance, each person
-            should consult their own tax advisor.
+            has already reached the federal deduction cap on state and local
+            taxes (SALT) that applies to their filing status
+            (<span id="saltCapDisclaimer"></span>).
+            For personalized tax guidance, each person should consult their own tax advisor.
           </p>
           <p class="block text-md text-gray-500">
-            The “State Tax Deduction Savings” amount is based upon Colorado’s
-            income tax rate of 4.25%. This income tax rate is fixed by statute
-            and is accurate as of November 2023.
+            The “State Tax Deduction Savings” amount applies Colorado’s income
+            tax rate of 4.4% to the portion of your donation that fits within
+            the federal SALT cap for your selected filing status. This income tax
+            rate is fixed by statute and is reflected in this calculator as of
+            March 2025.
           </p>
           <p class="block text-md text-gray-500">
             The “Colorado Child Care Contribution Credit” is 50% of the amount
@@ -322,8 +445,7 @@
         >
       </div>
     </footer>
-  </body>
-
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.js"></script>
   <script>
     // SELECTORS
     const input = document.querySelector('#donationAmount');
@@ -347,6 +469,75 @@
     const netCostToTaxPayerWithout = document.getElementById(
       'netCostToTaxPayerWithout'
     );
+    const saltCapDisclaimer = document.getElementById('saltCapDisclaimer');
+
+    /** Colorado state income tax rate (4.4%) applied to state tax deduction savings. */
+    const CO_STATE_INCOME_TAX_RATE = 0.044;
+
+    /** Display string for Colorado income tax rate (matches {@link CO_STATE_INCOME_TAX_RATE}). */
+    const CO_STATE_INCOME_TAX_RATE_LABEL = '4.4%';
+
+    /**
+     * Federal SALT (state and local tax) deduction cap for the selected filing status.
+     * @returns {20000 | 40000}
+     */
+    function getSaltCap() {
+      const married =
+        document.querySelector('input[name="filingStatus"]:checked')?.value ===
+        'married';
+      return married ? 40000 : 20000;
+    }
+
+    /**
+     * Updates the footer text that describes the assumed federal SALT cap.
+     */
+    function updateSaltCapDisclaimer() {
+      if (!saltCapDisclaimer) return;
+      const cap = getSaltCap();
+      const formatted = `$${cap.toLocaleString()}`;
+      saltCapDisclaimer.textContent =
+        cap === 20000
+          ? `${formatted} for individuals (the federal SALT cap assumed in this model)`
+          : `${formatted} for married couples filing jointly (the federal SALT cap assumed in this model)`;
+    }
+
+    /**
+     * Shows a Toastify toast when filing status changes: SALT cap and that the
+     * calculator enforces it, plus Colorado income tax rate (4.4%).
+     * @param {'individual' | 'married'} filingValue - Selected radio value.
+     */
+    function showFilingStatusToast(filingValue) {
+      if (typeof Toastify !== 'function') return;
+
+      const married = filingValue === 'married';
+      const cap = married ? 40000 : 20000;
+      const capFormatted = `$${cap.toLocaleString()}`;
+      const title = married ? 'Married couples (joint)' : 'Individuals';
+      const text = [
+        `${title}: federal SALT cap ${capFormatted}.`,
+        `This calculator caps state tax deduction savings at that amount (your donation is limited to the cap for that part of the math).`,
+        `Colorado income tax rate used: ${CO_STATE_INCOME_TAX_RATE_LABEL}.`
+      ].join(' ');
+
+      Toastify({
+        text,
+        duration: 8000,
+        gravity: 'top',
+        position: 'center',
+        stopOnFocus: true,
+        close: true,
+        style: {
+          background:
+            'linear-gradient(135deg, rgb(131, 178, 64) 0%, rgb(90, 130, 48) 100%)',
+          borderRadius: '10px',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.18)',
+          maxWidth: 'min(28rem, calc(100vw - 2rem))',
+          fontSize: '0.9375rem',
+          lineHeight: '1.45',
+          padding: '14px 18px'
+        }
+      }).showToast();
+    }
 
     function displayAlert(message) {
       const alertContainer = document.createElement('div');
@@ -390,7 +581,14 @@
       }
     }
 
+    /**
+     * Computes donation comparison amounts for 5C vs general giving.
+     * @param {number} fedTaxRateVal - Federal marginal rate as a decimal (e.g. 0.35).
+     * @param {number} prevVal - Unused; kept for call-site compatibility.
+     */
     function updateCalculations(fedTaxRateVal, prevVal) {
+      updateSaltCapDisclaimer();
+
       // Assuming `input` is defined somewhere in the code. If not, it needs to be defined.
       const input = document.getElementById('donationAmount');
 
@@ -399,6 +597,7 @@
 
       // Format the value with commas
       let formattedValue = parseInt(inputValue, 10);
+      if (Number.isNaN(formattedValue)) formattedValue = 0;
 
       input.value = formattedValue.toLocaleString();
 
@@ -412,10 +611,13 @@
           formattedValue > 0 ? formattedValue.toLocaleString() : '');
 
       //UPDATING VALUES
+      const saltCap = getSaltCap();
 
       let sum = 0;
       let sumWithout = 0;
-      let value = Math.round(formattedValue * 0.0425);
+      // State tax deduction savings: CO rate × min(donation, federal SALT cap for filing status).
+      const stateTaxBase = Math.min(formattedValue, saltCap);
+      let value = Math.round(stateTaxBase * CO_STATE_INCOME_TAX_RATE);
       stateTaxDeduction.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
       stateTaxDeductionWithout.innerHTML =
@@ -449,5 +651,33 @@
       netCostToTaxPayerWithout.innerHTML =
         valueWithout > 0 ? `$ ${valueWithout.toLocaleString()}` : '-';
     }
+
+    document.querySelectorAll('input[name="filingStatus"]').forEach((radio) => {
+      radio.addEventListener('change', (e) => {
+        const target = e.target;
+        if (target instanceof HTMLInputElement && target.checked) {
+          showFilingStatusToast(
+            target.value === 'married' ? 'married' : 'individual'
+          );
+        }
+        updateCalculations(fedTaxRateVal, 0);
+      });
+    });
+
+    function initCalculator() {
+      const fedInput = document.getElementById('fedTaxRate');
+      if (fedInput?.value) {
+        const n = parseInt(fedInput.value.replace(/[^0-9]/g, ''), 10);
+        if (!Number.isNaN(n)) fedTaxRateVal = n / 100;
+      }
+      updateCalculations(fedTaxRateVal, 0);
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCalculator);
+    } else {
+      initCalculator();
+    }
   </script>
+  </body>
 </html>
