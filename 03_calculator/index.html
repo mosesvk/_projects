@@ -405,24 +405,22 @@
             Further, this calculator has certain baked-in assumptions for ease
             of use. Those assumptions are: that each person itemizes their
             deductions on their personal federal income tax return; that they
-            know what federal income tax rate they are subject to; and each user
-            has already reached the federal deduction cap on state and local
-            taxes (SALT) that applies to their filing status
+            know what federal income tax rate they are subject to; and the
+            Colorado child care contribution credit cap applies based on filing status
             (<span id="saltCapDisclaimer"></span>).
             For personalized tax guidance, each person should consult their own tax advisor.
           </p>
           <p class="block text-md text-gray-500">
             The “State Tax Deduction Savings” amount applies Colorado’s income
-            tax rate of 4.4% to the portion of your donation that fits within
-            the federal SALT cap for your selected filing status. This income tax
+            tax rate of 4.4% to your donation amount. This income tax
             rate is fixed by statute and is reflected in this calculator as of
             March 2025.
           </p>
           <p class="block text-md text-gray-500">
             The “Colorado Child Care Contribution Credit” is 50% of the amount
             of a contribution made to a qualifying Colorado childcare charitable
-            organization. The credit is currently capped at $100,000 by the
-            state of Colorado.
+            organization. This calculator caps the credit at $20,000 for individuals
+            and $40,000 for married couples filing jointly.
           </p>
           <p class="block text-md text-gray-500">
             The “Federal Tax Deduction Savings” amount is based upon the chosen
@@ -478,10 +476,10 @@
     const CO_STATE_INCOME_TAX_RATE_LABEL = '4.4%';
 
     /**
-     * Federal SALT (state and local tax) deduction cap for the selected filing status.
+     * Colorado child care contribution credit cap for the selected filing status.
      * @returns {20000 | 40000}
      */
-    function getSaltCap() {
+    function getChildCareCreditCap() {
       const married =
         document.querySelector('input[name="filingStatus"]:checked')?.value ===
         'married';
@@ -493,17 +491,16 @@
      */
     function updateSaltCapDisclaimer() {
       if (!saltCapDisclaimer) return;
-      const cap = getSaltCap();
+      const cap = getChildCareCreditCap();
       const formatted = `$${cap.toLocaleString()}`;
       saltCapDisclaimer.textContent =
         cap === 20000
-          ? `${formatted} for individuals (the federal SALT cap assumed in this model)`
-          : `${formatted} for married couples filing jointly (the federal SALT cap assumed in this model)`;
+          ? `${formatted} for individuals`
+          : `${formatted} for married couples filing jointly`;
     }
 
     /**
-     * Shows a Toastify toast when filing status changes: SALT cap and that the
-     * calculator enforces it, plus Colorado income tax rate (4.4%).
+     * Shows a Toastify toast when filing status changes.
      * @param {'individual' | 'married'} filingValue - Selected radio value.
      */
     function showFilingStatusToast(filingValue) {
@@ -514,8 +511,8 @@
       const capFormatted = `$${cap.toLocaleString()}`;
       const title = married ? 'Married couples (joint)' : 'Individuals';
       const text = [
-        `${title}: federal SALT cap ${capFormatted}.`,
-        `This calculator caps state tax deduction savings at that amount (your donation is limited to the cap for that part of the math).`,
+        `${title}: Colorado child care contribution credit cap ${capFormatted}.`,
+        `State tax deduction savings use Colorado's fixed 4.4% income tax rate.`,
         `Colorado income tax rate used: ${CO_STATE_INCOME_TAX_RATE_LABEL}.`
       ].join(' ');
 
@@ -611,13 +608,11 @@
           formattedValue > 0 ? formattedValue.toLocaleString() : '');
 
       //UPDATING VALUES
-      const saltCap = getSaltCap();
 
       let sum = 0;
       let sumWithout = 0;
-      // State tax deduction savings: CO rate × min(donation, federal SALT cap for filing status).
-      const stateTaxBase = Math.min(formattedValue, saltCap);
-      let value = Math.round(stateTaxBase * CO_STATE_INCOME_TAX_RATE);
+      // State tax deduction savings: CO rate × full donation amount.
+      let value = Math.round(formattedValue * CO_STATE_INCOME_TAX_RATE);
       stateTaxDeduction.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
       stateTaxDeductionWithout.innerHTML =
@@ -625,10 +620,8 @@
 
       sum += value;
       sumWithout += value;
-      value =
-        Math.round(formattedValue * 0.5) <= 100000
-          ? Math.round(formattedValue * 0.5)
-          : 100000;
+      const childCareCreditCap = getChildCareCreditCap();
+      value = Math.min(Math.round(formattedValue * 0.5), childCareCreditCap);
 
       stateTaxDeductionFromCredit.innerHTML =
         value > 0 ? `(${value.toLocaleString()})` : '-';
