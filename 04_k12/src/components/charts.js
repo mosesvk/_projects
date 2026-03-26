@@ -15,7 +15,8 @@ const getMainChartOptions = (
   dataClient,
   numType,
   fixedNum = 0,
-  name
+  name,
+  allData = null
 ) => {
   // console.log('getMainChartOptions()')
 
@@ -87,7 +88,9 @@ const getMainChartOptions = (
       dataPeer,
       dataClient,
       fixedNum,
-      numType
+      numType,
+      name,
+      allData
     ));
 
   // console.log({clientArray})
@@ -95,6 +98,45 @@ const getMainChartOptions = (
 
 
   const yaxisLabelFormatter = (value) => {
+    if (name === "studentFacilityRatio") {
+      const roundedValue = Math.round(Number(value));
+      return `${roundedValue}%`;
+    }
+    if (name === "netTuitionARasPercentCurrentAssets") {
+      // Keep the y-axis style the same (no decimals) even if we show
+      // more precision in tooltips/data values.
+      const roundedValue = Math.round(Number(value));
+      return `${roundedValue}%`;
+    }
+    if (name === "financialAssistanceAsPercentTuitionAndFees") {
+      const roundedValue = Math.round(Number(value));
+      return `${roundedValue}%`;
+    }
+    if (name === "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits") {
+      const roundedValue = Math.round(Number(value));
+      return `${roundedValue}%`;
+    }
+    if (name === "grossTuition") {
+      const roundedValue = Math.round(Number(value));
+      // Gross tuition should show no decimals on the y-axis.
+      return `$${roundedValue.toLocaleString()}`;
+    }
+    if (name === "liquidityRatio") {
+      const roundedValue = Math.round(Number(value));
+      return roundedValue.toLocaleString();
+    }
+    if (name === "currentRatio") {
+      const roundedValue = Math.round(Number(value));
+      return roundedValue.toLocaleString();
+    }
+    if (name === "debtPerStudent") {
+      const roundedValue = Math.round(Number(value));
+      return roundedValue.toLocaleString();
+    }
+    if (name === "debtCoverage") {
+      const roundedValue = Math.round(Number(value));
+      return roundedValue.toLocaleString();
+    }
     if (numType === "dollar") {
       return `$${formatNumberWithFixed(value)}`;
     } else if (numType === "percent") {
@@ -131,7 +173,8 @@ const getMainChartOptions = (
       data: peerAvg,
       yaxis: 0,
       style: {
-        colors: ["transparent"], // Set the line color to transparent
+        // Keep Avg line visible so per-year recalculation is noticeable.
+        colors: [window.chartColors.blue],
       },
       fill: {
         type: "gradient",

@@ -1,11 +1,11 @@
 window.chartColors = {
-  red: 'rgb(255, 99, 132)',
-  orange: 'rgb(255, 159, 64)',
-  yellow: 'rgb(255, 205, 86)',
-  green: 'rgb(51, 204, 51)',
-  blue: 'rgb(54, 162, 235)',
-  purple: 'rgb(153, 102, 255)',
-  grey: 'rgb(201, 203, 207)'
+  red: '#CD5A2C',
+  orange: '#CD5A2C',
+  yellow: '#EDAB20',
+  green: '#83b240',
+  blue: '#326eaa',
+  purple: '#723682',
+  grey: '#c9cbcf'
 };
 
 const peerLabel = {
@@ -180,7 +180,7 @@ const createChart = (id, type, title, subtitle, chartTitle, min, max) => {
           data: '',
           fill: false,
           hidden: true,
-          borderColor: '#00808d',
+          borderColor: '#723682',
           borderWidth: 9,
           datalabels: {
             display: false

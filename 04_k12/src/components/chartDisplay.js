@@ -110,7 +110,7 @@ const displayAssetComponent = () => {
     "netTuitionARasPercentCurrentAssets_Peer",
     "netTuitionARasPercentCurrentAssets_Client",
     "percent",
-    0,
+    1,
     "netTuitionARasPercentCurrentAssets"
   );
 
@@ -139,7 +139,7 @@ const displayDebtComponent = () => {
     "debtPerStudent_Peer",
     "debtPerStudent_Client",
     "number",
-    1,
+    0,
     "debtPerStudent"
   );
 
@@ -202,7 +202,7 @@ const displayIncomeComponent = () => {
     "grossTuition_Peer",
     "grossTuition_Client",
     "dollar",
-    1,
+    0,
     "grossTuition"
   );
 
@@ -251,7 +251,7 @@ const displayExpenseComponent = () => {
     "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Peer",
     "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_Client",
     "percent",
-    1,
+    0,
     "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
   );
 

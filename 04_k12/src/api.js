@@ -67,10 +67,7 @@ const findUniqueYears = (data) => {
 const _missingFieldWarned = new Set();
 
 /** Peer ratio fields known to be absent from API; skip warning to avoid console noise. */
-const _knownOptionalPeerFields = new Set([
-  "_22b1_ratio_financial_assistance_discount_based\nfinancialAssistanceDiscountBased_Peer",
-  "_22c1_ratio_scholarship_awarded\nscholarshipAwarded_Peer",
-]);
+const _knownOptionalPeerFields = new Set([]);
 const _missingPeerYesNoWarned = new Set();
 
 const insertDataIntoObject = (
@@ -1673,49 +1670,6 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "_01b_ratio_students_enrollment_average",
         "_22a1_yes_no_gross_tuition",
         "grossTuition"
-      );
-
-      // financialAssistanceDiscountBased
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "financialAssistanceDiscountBased_Peer",
-        record,
-        "_22b1_ratio_financial_assistance_discount_based",
-        "_22b1_yes_no_financial_assistance_discount_based"
-      );
-
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "studentAverageEnrollment_Main",
-        record,
-        "_01b_ratio_students_enrollment_average",
-        "_22b1_yes_no_financial_assistance_discount_based",
-        "financialAssistanceDiscountBased"
-      );
-
-      // scholarshipAwarded
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "scholarshipAwarded_Peer",
-        record,
-        "_22c1_ratio_scholarship_awarded",
-        "_22c1_yes_no_scholarship_awarded"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "studentAverageEnrollment_Main",
-        record,
-        "_01b_ratio_students_enrollment_average",
-        "_22c1_yes_no_scholarship_awarded",
-        "scholarshipAwarded"
       );
 
       // totalFinancialAssistance
