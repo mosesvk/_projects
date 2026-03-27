@@ -672,18 +672,21 @@ const debtCoverage_weightedAverage = (data, name) => {
   // ( [45] 04-12 Change in Unrestricted Net Assets + [44] 04-11 Current Year Interest Expense + [42] 04-09 Total Depreciation Expense + [48] 05-02 Capitalized Interest ) / ([18] 02-06 Current maturities of LT Debt + [44] 04-11 Current Year Interest Expense + [48] 05-02 Capitalized Interest)
 
   let numChangeInUnrestrictedNetAssets = getSumOfArray(
-    data.changeInUnrestrictedNetAssets[name]
+    data.changeInUnrestrictedNetAssets?.[name] || []
   );
   let numCurrentYearInterestExpense = getSumOfArray(
-    data.currentYearInterestExpense[name]
+    data.currentYearInterestExpense?.[name] || []
   );
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense?.[name] || []
   );
-  let numCapitalizedInterest = getSumOfArray(data.capitalizedInterest[name]);
-  let numCurrentMaturitiesOfLTDebt = getSumOfArray(
-    data.currentMaturitiesOfLTDebt[name]
+  let numCapitalizedInterest = getSumOfArray(
+    data.capitalizedInterest?.[name] || []
   );
+  // processDebtData stores LT debt maturities under `currentMaturingDebt` (matches insertDataIntoObject dataKey).
+  const currentMaturitiesArr =
+    data.currentMaturingDebt?.[name] ?? data.currentMaturitiesOfLTDebt?.[name];
+  let numCurrentMaturitiesOfLTDebt = getSumOfArray(currentMaturitiesArr || []);
 
   return (
     (numChangeInUnrestrictedNetAssets +
@@ -762,9 +765,10 @@ const receivableWriteOffsAsPercentNetTuitionAndFees_weightedAverage = (
 ) => {
   // [25] 03-06 Student Accounts Receivable Written-Off / ([34] 04-01 Gross Tuition Revenues Excluding Fees - [37] 04-04 Financial Aid / Scholarships )
 
-  let numStudentAccountsReceivableWrittenOff = getSumOfArray(
-    data.studentAccountsReceivableWrittenOff[name]
-  );
+  const writeOffs =
+    data.studentAccountsReceivableWriteOffs?.[name] ??
+    data.studentAccountsReceivableWrittenOff?.[name];
+  let numStudentAccountsReceivableWrittenOff = getSumOfArray(writeOffs);
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
     data.grossTuitionRevenuesExcludingFees[name]
   );
@@ -780,9 +784,10 @@ const receivableWriteOffsAsPercentNetTuitionAndFees_weightedAverage = (
 
 const netTuitionARasPercentCurrentAssets_weightedAverage = (data, name) => {
   // [24] 03-05 Student Accounts Receivable / [20] 03-01 Current Assets
-  let numStudentAccountsReceivable = getSumOfArray(
-    data.studentAccountsReceivable[name]
-  );
+  const ar =
+    data.studentsAccountsReceivable?.[name] ??
+    data.studentAccountsReceivable?.[name];
+  let numStudentAccountsReceivable = getSumOfArray(ar);
   let numCurrentAssets = getSumOfArray(data.currentAssets[name]);
 
   return numStudentAccountsReceivable / numCurrentAssets;

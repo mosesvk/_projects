@@ -720,7 +720,9 @@ const getPeerAndClientChartDataArrays = (
         const capitalizedInterestArr =
           allData.capitalizedInterest?.[year] || [];
         const currentMaturitiesOfLTDebtArr =
-          allData.currentMaturitiesOfLTDebt?.[year] || [];
+          allData.currentMaturingDebt?.[year] ||
+          allData.currentMaturitiesOfLTDebt?.[year] ||
+          [];
 
         const numChangeInUnrestrictedNetAssets = getSumOfArray(
           changeInUnrestrictedNetAssetsArr

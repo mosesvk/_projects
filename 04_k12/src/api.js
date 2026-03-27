@@ -1853,7 +1853,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         object,
         "contributionsAsAPercentOfTotalIncome_Client",
         record,
-        "_20_ratio_tuition_and_fees_as_a___of_total_income"
+        "_21_ratio_contributions_as_a___of_total_income"
       );
 
       // grossTuition

@@ -11,15 +11,15 @@ const displayReportComponent = () => {
     addYearColumnsToReportTable(selectedYears);
     insertDataToReport(enrollmentData, selectedYears, [
       ['studentAverageEnrollment', 'num', 0, null, null, 6, 'begin', null],
-      ['studentAverageEnrollment_PercentChange', 'percent', 1],
+      ['studentAverageEnrollment_PercentChange', 'percent', 0],
       ['studentAverageEnrollment_Average', 'num', 0],
       ['studentAverageEnrollment_Peak', 'num', 0, null, null, 10, null, null],
       ['studentFacilityRatio', 'percent', 1, 'wa', null, 14, null, null]
     ]);
 
     insertDataToReport(cashData, selectedYears, [
-      ['expendableReserves_inDays', 'num', 0, 'wa', 'cb', 18, null, null],
-      ['expendableReserves_Percent', 'percent', 0, 'wa', 'cb', 22, null, null],
+      ['expendableReserves_inDays', 'num', 0, null, 'cb', 18, null, null],
+      ['expendableReserves_Percent', 'percent', 0, null, 'cb', 22, null, null],
       ['daysCashOnHand', 'num', 0, 'wa',  null, 30, null, null],
       ['cashAvailableDeferred', 'num', 2, 'wa', null, 26, null, null],
       ['liquidityRatio', 'num', 1, 'wa', 'cb', 34, null, null],
@@ -45,7 +45,7 @@ const displayReportComponent = () => {
 
     insertDataToReport(incomeData, selectedYears, [
       ['netIncomeRatio', 'num', 2, 'wa', 'cb', 82, null, null], 
-      ['netIncomeRatioExcludingDepreciation', 'num', 1, 'wa', 'cb', 86, null, null],
+      ['netIncomeRatioExcludingDepreciation', 'num', 2, 'wa', 'cb', 86, null, null],
       ['percentAverageTuitionIncreaseBetweenYears', 'percent', 0, null, 'cb'],
       ['financialAssistanceAsPercentTuitionAndFees', 'percent', 1, 'wa', null, 90, null, null],
       ['tuitionAndFeesAsPercentTotalIncome', 'percent', 0, 'wa', null, 94, null, null],
@@ -149,7 +149,11 @@ const addToSingleRow = (
         year,
         wa,
         name,
-        data
+        data,
+        null,
+        null,
+        null,
+        selectedYears
       );
     }
   });
@@ -173,7 +177,8 @@ const addToSingleRow = (
     data, 
     fId, 
     begin, 
-    end
+    end,
+    selectedYears
   );
 
 };
@@ -267,7 +272,8 @@ const addPeerDataToRow = (
   data,
   fId, 
   begin, 
-  end
+  end,
+  selectedYears
 ) => {
   
   const propClass =
@@ -275,10 +281,69 @@ const addPeerDataToRow = (
   const propScope = "row";
   
   const dataPointAvg = document.createElement("th");
+
+  /** Report rows where peer benchmark columns (Avg, 25%, 50%, 75%) are intentionally blank. */
+  const peerBlankPeerColumnsNames = new Set([
+    "studentAverageEnrollment_PercentChange",
+    "receivableWriteOffsAsPercentNetTuitionAndFees_Percent",
+  ]);
+
+  /** Report "Avg" column uses sum-based weighted ratio (not a simple average of yearly ratios). */
+  const reportTotalSumWeightedNames = new Set([
+    "propertyEquipmentPerStudent",
+    "netTuitionARasPercentCurrentAssets",
+    "receivableWriteOffsAsPercentNetTuitionAndFees",
+    "debtToPropertyAndEquipment",
+    "debtToNetAssets",
+    "currentRatio",
+    "debtPerStudent",
+    "debtCoverage",
+  ]);
   
   const peerArr = peer && peer[dataArray] != null ? peer[dataArray] : [];
   let avg;
-  if (peer && dataArray !== "total" && name === "currentRatio") {
+
+  // Peer benchmark columns are blank even when peer object is missing (no "-" placeholders).
+  if (peerBlankPeerColumnsNames.has(name)) {
+    const emptyPeerTh = () => {
+      const th = document.createElement("th");
+      th.className = propClass;
+      th.scope = propScope;
+      th.textContent = "";
+      return th;
+    };
+    tableRow.appendChild(emptyPeerTh());
+    tableRow.appendChild(emptyPeerTh());
+    tableRow.appendChild(emptyPeerTh());
+    tableRow.appendChild(emptyPeerTh());
+    if (fId) {
+      createFileForPrint(name, fId, begin, end, "", "", "", "", peer, data);
+    }
+    return;
+  }
+
+  if (peer && dataArray === "total" && reportTotalSumWeightedNames.has(name)) {
+    const w = getWeightedAverageOfArray(data, name);
+    avg =
+      w != null && Number.isFinite(Number(w))
+        ? Number(w)
+        : 0;
+  } else if (
+    peer &&
+    dataArray === "total" &&
+    name === "currentLiabilitiesToAvailableNetAssets"
+  ) {
+    avg = parseFloat(getAverageOfArray(peer["total"] || []));
+  } else if (
+    peer &&
+    dataArray === "total" &&
+    (name === "expendableReserves_inDays" ||
+      name === "expendableReserves_Percent")
+  ) {
+    // For these two "weird" ratios, report Avg should use the normal average
+    // over the total peer values (not recalculated sums and not avg-of-yearly-avgs).
+    avg = parseFloat(getAverageOfArray(peer["total"] || []));
+  } else if (peer && dataArray !== "total" && name === "currentRatio") {
     const currentAssetsArr = data.currentAssets?.[dataArray] || [];
     const currentLiabilitiesArr = data.currentLiabilities?.[dataArray] || [];
 
@@ -302,7 +367,9 @@ const addPeerDataToRow = (
     const capitalizedInterestArr =
       data.capitalizedInterest?.[dataArray] || [];
     const currentMaturitiesOfLTDebtArr =
-      data.currentMaturitiesOfLTDebt?.[dataArray] || [];
+      data.currentMaturingDebt?.[dataArray] ||
+      data.currentMaturitiesOfLTDebt?.[dataArray] ||
+      [];
 
     const numChangeInUnrestrictedNetAssets = getSumOfArray(
       changeInUnrestrictedNetAssetsArr
@@ -388,7 +455,11 @@ const addPeerDataToRow = (
     const denominator = getSumOfArray(grossTuitionRevenuesArr);
 
     avg = denominator === 0 ? 0 : numerator / denominator;
-  } else if (peer && name === "netTuitionARasPercentCurrentAssets") {
+  } else if (
+    peer &&
+    dataArray !== "total" &&
+    name === "netTuitionARasPercentCurrentAssets"
+  ) {
     // Recalculate per-year A/R as % of current assets using sums
     // (not a simple average of ratios).
     const receivablesArr =
