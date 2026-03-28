@@ -290,9 +290,6 @@ const addPeerDataToRow = (
 
   /** Report "Avg" column uses sum-based weighted ratio (not a simple average of yearly ratios). */
   const reportTotalSumWeightedNames = new Set([
-    "propertyEquipmentPerStudent",
-    "netTuitionARasPercentCurrentAssets",
-    "receivableWriteOffsAsPercentNetTuitionAndFees",
     "debtToPropertyAndEquipment",
     "debtToNetAssets",
     "currentRatio",
@@ -303,26 +300,69 @@ const addPeerDataToRow = (
   const peerArr = peer && peer[dataArray] != null ? peer[dataArray] : [];
   let avg;
 
-  // Peer benchmark columns are blank even when peer object is missing (no "-" placeholders).
-  if (peerBlankPeerColumnsNames.has(name)) {
-    const emptyPeerTh = () => {
-      const th = document.createElement("th");
-      th.className = propClass;
-      th.scope = propScope;
-      th.textContent = "";
-      return th;
-    };
-    tableRow.appendChild(emptyPeerTh());
-    tableRow.appendChild(emptyPeerTh());
-    tableRow.appendChild(emptyPeerTh());
-    tableRow.appendChild(emptyPeerTh());
-    if (fId) {
-      createFileForPrint(name, fId, begin, end, "", "", "", "", peer, data);
-    }
-    return;
-  }
-
-  if (peer && dataArray === "total" && reportTotalSumWeightedNames.has(name)) {
+  /**
+   * Asset report Avg (peer): ratio from summed numerators/denominators across
+   * selected years only (not an average of yearly peer ratios).
+   */
+  if (
+    data &&
+    dataArray === "total" &&
+    Array.isArray(selectedYears) &&
+    selectedYears.length &&
+    name === "propertyEquipmentPerStudent"
+  ) {
+    let sumLbe = 0;
+    let sumLand = 0;
+    let sumStudents = 0;
+    selectedYears.forEach((y) => {
+      const k = String(y);
+      sumLbe += getSumOfArray(data.landBuildingsEquipmentNet?.[k] || []);
+      sumLand += getSumOfArray(data.landAndLandImprovements?.[k] || []);
+      sumStudents += getSumOfArray(data.studentAverageEnrollment_Main?.[k] || []);
+    });
+    avg = sumStudents === 0 ? 0 : (sumLbe - sumLand) / sumStudents;
+  } else if (
+    data &&
+    dataArray === "total" &&
+    Array.isArray(selectedYears) &&
+    selectedYears.length &&
+    name === "netTuitionARasPercentCurrentAssets"
+  ) {
+    let sumAR = 0;
+    let sumCA = 0;
+    selectedYears.forEach((y) => {
+      const k = String(y);
+      const ar =
+        data.studentsAccountsReceivable?.[k] ??
+        data.studentAccountsReceivable?.[k];
+      sumAR += getSumOfArray(ar || []);
+      sumCA += getSumOfArray(data.currentAssets?.[k] || []);
+    });
+    avg = sumCA === 0 ? 0 : sumAR / sumCA;
+  } else if (
+    data &&
+    dataArray === "total" &&
+    Array.isArray(selectedYears) &&
+    selectedYears.length &&
+    name === "receivableWriteOffsAsPercentNetTuitionAndFees"
+  ) {
+    let sumWO = 0;
+    let sumGross = 0;
+    let sumFA = 0;
+    selectedYears.forEach((y) => {
+      const k = String(y);
+      const wo =
+        data.studentAccountsReceivableWriteOffs?.[k] ??
+        data.studentAccountsReceivableWrittenOff?.[k];
+      sumWO += getSumOfArray(wo || []);
+      sumGross += getSumOfArray(
+        data.grossTuitionRevenuesExcludingFees?.[k] || []
+      );
+      sumFA += getSumOfArray(data.financialAidScholarships?.[k] || []);
+    });
+    const denom = sumGross - sumFA;
+    avg = denom === 0 ? 0 : sumWO / denom;
+  } else if (peer && dataArray === "total" && reportTotalSumWeightedNames.has(name)) {
     const w = getWeightedAverageOfArray(data, name);
     avg =
       w != null && Number.isFinite(Number(w))
@@ -557,13 +597,20 @@ const addPeerDataToRow = (
   const min = peer ? parseFloat(get25thPercentileOfArray(peerArr)) : '';
   const max = peer ? parseFloat(get75thPercentileOfArray(peerArr)) : '';
   const safeNum = (n) => (Number.isFinite(n) ? styleNumber(n, type, fixedNum) : '-');
-  const textAvg = peer ? safeNum(avg) : '-';
+  let textAvg = peer ? safeNum(avg) : '-';
   const dataPointMid = document.createElement("th");
-  const textMid = safeNum(mid);
+  let textMid = safeNum(mid);
   const dataPointMin = document.createElement("th");
-  const textMin = safeNum(min);
+  let textMin = safeNum(min);
   const dataPointMax = document.createElement("th");
-  const textMax = safeNum(max);
+  let textMax = safeNum(max);
+
+  if (peerBlankPeerColumnsNames.has(name)) {
+    textAvg = '';
+    textMid = '';
+    textMin = '';
+    textMax = '';
+  }
 
   // console.log({ tableRow, fixedNum, avg, mid, min, textMin, max, textMax });
 
