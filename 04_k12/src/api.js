@@ -201,7 +201,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         object,
         "grossTuitionRevenuesExcludingFees",
         record,
-        "_02_01_total_teacher_salaries",
+        "_04_01_gross_tuition_revenues_excluding_fees",
         "_24a_yes_no_salaries_as___of_net_tuition",
         "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
       );
@@ -234,7 +234,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "_02_02_total_teacher_benefits_",
         "_24b_yes_no_benefits_as___of_net_tuition",
-        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
+        "salariesBenefitsTeachersAsPercentNetTuition_Benefits"
       );
       insertDataIntoObject(
         "peer",
@@ -242,9 +242,9 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         object,
         "grossTuitionRevenuesExcludingFees",
         record,
-        "_02_01_total_teacher_salaries",
+        "_04_01_gross_tuition_revenues_excluding_fees",
         "_24b_yes_no_benefits_as___of_net_tuition",
-        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
+        "salariesBenefitsTeachersAsPercentNetTuition_Benefits"
       );
       insertDataIntoObject(
         "peer",
@@ -254,7 +254,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         record,
         "_04_04_financial_aid___scholarships",
         "_24b_yes_no_benefits_as___of_net_tuition",
-        "salariesBenefitsTeachersAsPercentNetTuition_Salaries"
+        "salariesBenefitsTeachersAsPercentNetTuition_Benefits"
       );
 
       // salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits
@@ -293,7 +293,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         object,
         "grossTuitionRevenuesExcludingFees",
         record,
-        "_02_01_total_teacher_salaries",
+        "_04_01_gross_tuition_revenues_excluding_fees",
         "_24c_yes_no_salaries_benefits_as___of_net_tuition",
         "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
       );
@@ -356,7 +356,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalTeacherBenefits",
         record,
         "_02_02_total_teacher_benefits_",
-        "_25b_yes_no_benefits_per_students",
+        "_25a_yes_no_salaries_per_students",
         "salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits"
       );
       insertDataIntoObject(
@@ -366,7 +366,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
-        "_25b_yes_no_benefits_per_students",
+        "_25a_yes_no_salaries_per_students",
         "salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits"
       );
 
@@ -387,7 +387,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalTeacherSalaries",
         record,
         "_02_01_total_teacher_salaries",
-        "_25c_yes_no_salaries_and_benefits_per_students",
+        "_25a_yes_no_salaries_per_students",
         "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits"
       );
       insertDataIntoObject(
@@ -397,7 +397,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalTeacherBenefits",
         record,
         "_02_02_total_teacher_benefits_",
-        "_25c_yes_no_salaries_and_benefits_per_students",
+        "_25a_yes_no_salaries_per_students",
         "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits"
       );
       insertDataIntoObject(
@@ -407,7 +407,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
-        "_25c_yes_no_salaries_and_benefits_per_students",
+        "_25a_yes_no_salaries_per_students",
         "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits"
       );
 
@@ -816,7 +816,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalExpenses",
         record,
         "_04_08_total_expenses",
-        "_29b_yes_no_cash_expenses",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_CashExpensesExcludingDepreciation"
       );
       insertDataIntoObject(
@@ -826,7 +826,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalDepreciationExpense",
         record,
         "_04_09_total_depreciation_expense",
-        "_29b_yes_no_cash_expenses",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_CashExpensesExcludingDepreciation"
       );
       insertDataIntoObject(
@@ -836,7 +836,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
-        "_29b_yes_no_cash_expenses",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_CashExpensesExcludingDepreciation"
       );
 
@@ -857,7 +857,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "grossTuitionRevenuesExcludingFees",
         record,
         "_04_01_gross_tuition_revenues_excluding_fees",
-        "_29c_yes_no_net_tuition",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_netTuition"
       );
       insertDataIntoObject(
@@ -867,7 +867,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "financialAidScholarships",
         record,
         "_04_04_financial_aid___scholarships",
-        "_29c_yes_no_net_tuition",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_netTuition"
       );
       insertDataIntoObject(
@@ -877,7 +877,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
-        "_29c_yes_no_net_tuition",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_netTuition"
       );
 
@@ -898,7 +898,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "grossTuitionRevenuesExcludingFees",
         record,
         "_04_01_gross_tuition_revenues_excluding_fees",
-        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
       insertDataIntoObject(
@@ -908,7 +908,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "financialAidScholarships",
         record,
         "_04_04_financial_aid___scholarships",
-        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
       insertDataIntoObject(
@@ -918,7 +918,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
-        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
       insertDataIntoObject(
@@ -928,7 +928,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalExpenses",
         record,
         "_04_08_total_expenses",
-        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
       insertDataIntoObject(
@@ -938,7 +938,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalDepreciationExpense",
         record,
         "_04_09_total_depreciation_expense",
-        "_29d_yes_no_cash_expenses_in_excess_of_or_less_than_net_tuition",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_cashExpensesExcessNetTuition"
       );
 
@@ -959,7 +959,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalContributions",
         record,
         "_04_06_total_contributions",
-        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
@@ -969,7 +969,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
-        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
@@ -979,7 +979,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "grossTuitionRevenuesExcludingFees",
         record,
         "_04_01_gross_tuition_revenues_excluding_fees",
-        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
@@ -989,7 +989,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "financialAidScholarships",
         record,
         "_04_04_financial_aid___scholarships",
-        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
@@ -999,7 +999,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalExpenses",
         record,
         "_04_08_total_expenses",
-        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
       insertDataIntoObject(
@@ -1009,7 +1009,7 @@ const processExpenseData = (years, recordsPeer, recordsClient) => {
         "totalDepreciationExpense",
         record,
         "_04_09_total_depreciation_expense",
-        "_29e_yes_no_funds_raised_over_under_to_cover_cash_expenses_overage_or_deficit",
+        "_29a_yes_no_funds_raised",
         "fundsExpensesPerStudent_FundsRaisedOverUnder"
       );
 
@@ -1689,7 +1689,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "financialAidScholarships",
         record,
         "_04_04_financial_aid___scholarships",
-        "_22d1_yes_no_total_financial_assistance",
+        "_22a1_yes_no_gross_tuition",
         "totalFinancialAssistance"
       );
       insertDataIntoObject(
@@ -1699,7 +1699,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
-        "_22d1_yes_no_total_financial_assistance",
+        "_22a1_yes_no_gross_tuition",
         "totalFinancialAssistance"
       );
 
@@ -1720,7 +1720,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "grossTuitionRevenuesExcludingFees",
         record,
         "_04_01_gross_tuition_revenues_excluding_fees",
-        "_22e1_yes_no_net_tuition",
+        "_22a1_yes_no_gross_tuition",
         "netTuition"
       );
       insertDataIntoObject(
@@ -1730,7 +1730,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "financialAidScholarships",
         record,
         "_04_04_financial_aid___scholarships",
-        "_22e1_yes_no_net_tuition",
+        "_22a1_yes_no_gross_tuition",
         "netTuition"
       );
       insertDataIntoObject(
@@ -1740,7 +1740,7 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
         "studentAverageEnrollment_Main",
         record,
         "_01b_ratio_students_enrollment_average",
-        "_22e1_yes_no_net_tuition",
+        "_22a1_yes_no_gross_tuition",
         "netTuition"
       );
 
@@ -1927,6 +1927,41 @@ const processIncomeData = (years, recordsPeer, recordsClient) => {
       );
     });
   });
+
+  // Fix issue 21: Recompute financialAssistanceAsPercentTuitionAndFees_Client
+  // from per-student dollar values (totalFinancialAssistance / grossTuition) for precision.
+  // QB stores the pre-computed ratio rounded to 2 decimal places (e.g. 0.01 instead of 0.0138).
+  years.forEach((year) => {
+    const totalFAVal = object?.totalFinancialAssistance_Client?.[year]?.value;
+    const grossTVal = object?.grossTuition_Client?.[year]?.value;
+    if (
+      totalFAVal != null &&
+      grossTVal != null &&
+      Number(grossTVal) !== 0 &&
+      object?.financialAssistanceAsPercentTuitionAndFees_Client?.[year]
+    ) {
+      object.financialAssistanceAsPercentTuitionAndFees_Client[year].value =
+        String(Number(totalFAVal) / Number(grossTVal));
+    }
+  });
+
+  // Fix issue 21: Rebuild financialAssistanceAsPercentTuitionAndFees_Peer["total"]
+  // from aligned raw dollar arrays for more precise peer percentile calculations.
+  const faAll =
+    object?.financialAidScholarships?.financialAssistanceAsPercentTuitionAndFees;
+  const gtAll =
+    object?.grossTuitionRevenuesExcludingFees?.financialAssistanceAsPercentTuitionAndFees;
+  if (
+    Array.isArray(faAll) &&
+    Array.isArray(gtAll) &&
+    faAll.length === gtAll.length &&
+    faAll.length > 0 &&
+    object?.financialAssistanceAsPercentTuitionAndFees_Peer
+  ) {
+    object.financialAssistanceAsPercentTuitionAndFees_Peer.total = faAll.map(
+      (fa, i) => (Number(gtAll[i]) === 0 ? 0 : Number(fa) / Number(gtAll[i]))
+    );
+  }
 
   localStorage.removeItem("incomeData");
   localStorage.setItem("incomeData", JSON.stringify(object));

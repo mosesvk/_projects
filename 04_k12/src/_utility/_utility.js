@@ -811,7 +811,10 @@ const styleNumber = (num, type, fixed) => {
   if (!isNaN(text)) {
     if (type === "num" && text != 0) {
       textNum = Number(text).toFixed(fixed);
-      text = Number(textNum).toLocaleString(); // Add commas for thousands
+      text = Number(textNum).toLocaleString(undefined, {
+        minimumFractionDigits: fixed,
+        maximumFractionDigits: fixed,
+      }); // Add commas for thousands, preserve trailing zeros
     }
     
     if (type === "percent" && text != 0) {
