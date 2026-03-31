@@ -3387,13 +3387,96 @@ const getParsedData = (xmlString) => {
   return xmlDoc.querySelectorAll("record");
 };
 
+/**
+ * Converts a record collection (NodeList/Array) into a plain array.
+ * @param {NodeList|Array|null|undefined} records
+ * @returns {Array}
+ */
+const toRecordArray = (records) => {
+  if (!records) return [];
+  return Array.isArray(records) ? records : Array.from(records);
+};
+
+/**
+ * Parses a YE date string into a comparable epoch number.
+ * @param {string|null|undefined} yeDateStr
+ * @returns {number|null}
+ */
+const parseYeDate = (yeDateStr) => {
+  if (!yeDateStr) return null;
+  const parsed = Date.parse(yeDateStr);
+  if (!Number.isNaN(parsed)) return parsed;
+  const asEpoch = parseInt(yeDateStr, 10);
+  return Number.isNaN(asEpoch) ? null : asEpoch;
+};
+
+/**
+ * Deduplicates peer records by keeping only the most recent record per client-year.
+ * Primary sort key is fiscal YE date; record id is used as a tiebreaker.
+ * @param {NodeList|Array} records
+ * @returns {Array}
+ */
+const deduplicatePeerRecordsByClientAndYear = (records) => {
+  const recordsArray = toRecordArray(records);
+  if (!recordsArray.length) return [];
+
+  const clientYearMap = new Map();
+
+  recordsArray.forEach((record) => {
+    if (!record || typeof record.querySelector !== "function") return;
+
+    const clientName =
+      record.querySelector("main__related_client")?.textContent?.trim() ||
+      record.querySelector("client___merged_client_name")?.textContent?.trim() ||
+      record.querySelector("client_name")?.textContent?.trim();
+    const year =
+      record.querySelector("fiscal_ye_date_formatted_year")?.textContent?.trim() ||
+      record.querySelector("s52_formatted_year")?.textContent?.trim();
+    if (!clientName || !year) return;
+
+    const yeDateStr =
+      record.querySelector("fiscal_ye_date")?.textContent?.trim() ||
+      record.querySelector("s52___fiscal_ye_date")?.textContent?.trim();
+    const recordIdStr =
+      record.querySelector("record_id_")?.textContent?.trim() ||
+      record.querySelector("rid")?.textContent?.trim() ||
+      record.getAttribute("rid");
+
+    const yeDate = parseYeDate(yeDateStr);
+    const recordId = parseInt(recordIdStr, 10) || 0;
+    const key = `${clientName}|${year}`;
+    const existing = clientYearMap.get(key);
+
+    if (!existing) {
+      clientYearMap.set(key, { record, yeDate, recordId });
+      return;
+    }
+
+    let shouldReplace = false;
+    if (yeDate !== null && existing.yeDate !== null) {
+      if (yeDate > existing.yeDate) shouldReplace = true;
+      if (yeDate === existing.yeDate && recordId > existing.recordId) shouldReplace = true;
+    } else if (yeDate !== null && existing.yeDate === null) {
+      shouldReplace = true;
+    } else if (yeDate === null && existing.yeDate === null && recordId > existing.recordId) {
+      shouldReplace = true;
+    }
+
+    if (shouldReplace) {
+      clientYearMap.set(key, { record, yeDate, recordId });
+    }
+  });
+
+  return Array.from(clientYearMap.values()).map((entry) => entry.record);
+};
+
 const getRecordsForPeer = async (years, dataStr) => {
   // console.log(years, dataStr)
 
   if (years.length === 0) {
     // Base case: return the final string when the array is empty
     const parsedData = getParsedData(dataStr + "</qdbapi>");
-    return parsedData;
+    return deduplicatePeerRecordsByClientAndYear(parsedData);
   }
 
   // Peer query: year only (field 136). Matches original K12 behavior so peer
@@ -3436,7 +3519,8 @@ const getRecordsForPeer = async (years, dataStr) => {
   } catch (error) {
     console.error("Error fetching peer data:", error);
     // Return parsed records so far (or empty NodeList) so process*Data always get a list, not a string.
-    return getParsedData(dataStr + "</qdbapi>");
+    const parsedData = getParsedData(dataStr + "</qdbapi>");
+    return deduplicatePeerRecordsByClientAndYear(parsedData);
   }
 };
 
