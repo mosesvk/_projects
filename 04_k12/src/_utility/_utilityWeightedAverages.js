@@ -425,8 +425,8 @@ const benefitsPercentSalariesTeachers_weightedAverage = (data, name) => {
 
 const salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_weightedAverage =
   (data, name) => {
-    // ( [13] 02-01 Total Teacher Salaries + [14] 02-02 Total Teacher Benefits) / [6] 01-01 Students-average enrollment
-
+    // ( [02-01 Total Teacher Salaries] + [02-02 Total Teacher Benefits ]  ) / [01-01 Students-average enrollment]
+    
     let numTotalTeacherSalaries = getSumOfArray(
       data.totalTeacherSalaries[name]
     );
@@ -473,7 +473,7 @@ const salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_weightedAverage = (
 
 const salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_weightedAverage =
   (data, name) => {
-    // ( [13] 02-01 Total Teacher Salaries + [14] 02-02 Total Teacher Benefits) / ([34] 04-01 Gross Tuition Revenues Excluding Fees - [37] 04-04 Financial Aid / Scholarships)
+    // ( [02-01 Total Teacher Salaries] + [02-02 Total Teacher Benefits ] ) / ([04-01 Gross Tuition Revenues Excluding Fees] - [04-04 Financial Aid / Scholarships])
 
     let numTotalTeacherSalaries = getSumOfArray(
       data.totalTeacherSalaries[name]
@@ -487,18 +487,18 @@ const salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_weightedAv
     let numFinancialAidScholarships = getSumOfArray(
       data.financialAidScholarships[name]
     );
+    const denominator =
+      numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships;
+    const numerator = numTotalTeacherSalaries + numTotalTeacherBenefits;
 
-    return (
-      (numTotalTeacherSalaries + numTotalTeacherBenefits) /
-      (numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships)
-    );
+    return denominator === 0 ? 0 : numerator / denominator;
   };
 
 const salariesBenefitsTeachersAsPercentNetTuition_Benefits_weightedAverage = (
   data,
   name
 ) => {
-  // [14] 02-02 Total Teacher Benefits  / ([34] 04-01 Gross Tuition Revenues Excluding Fees - [37] 04-04 Financial Aid / Scholarships)
+  // [02-02 Total Teacher Benefits ]  / ([04-01 Gross Tuition Revenues Excluding Fees] - [04-04 Financial Aid / Scholarships])
 
   let numTotalTeacherBenefits = getSumOfArray(data.totalTeacherBenefits[name]);
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
@@ -507,18 +507,17 @@ const salariesBenefitsTeachersAsPercentNetTuition_Benefits_weightedAverage = (
   let numFinancialAidScholarships = getSumOfArray(
     data.financialAidScholarships[name]
   );
+  const denominator =
+    numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships;
 
-  return (
-    numTotalTeacherBenefits /
-    (numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships)
-  );
+  return denominator === 0 ? 0 : numTotalTeacherBenefits / denominator;
 };
 
 const salariesBenefitsTeachersAsPercentNetTuition_Salaries_weightedAverage = (
   data,
   name
 ) => {
-  // [13] 02-01 Total Teacher Salaries / ([34] 04-01 Gross Tuition Revenues Excluding Fees - [37] 04-04 Financial Aid / Scholarships)
+  // [02-01 Total Teacher Salaries] / ([04-01 Gross Tuition Revenues Excluding Fees] - [04-04 Financial Aid / Scholarships])
 
   let numTotalTeacherSalaries = getSumOfArray(data.totalTeacherSalaries[name]);
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
@@ -527,11 +526,10 @@ const salariesBenefitsTeachersAsPercentNetTuition_Salaries_weightedAverage = (
   let numFinancialAidScholarships = getSumOfArray(
     data.financialAidScholarships[name]
   );
+  const denominator =
+    numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships;
 
-  return (
-    numTotalTeacherSalaries /
-    (numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships)
-  );
+  return denominator === 0 ? 0 : numTotalTeacherSalaries / denominator;
 };
 
 const feesPercentOfNetTuition_weightedAverage = (data, name) => {

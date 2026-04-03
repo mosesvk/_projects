@@ -18,8 +18,8 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(cashData, selectedYears, [
-      ['expendableReserves_inDays', 'num', 0, null, 'cb', 18, null, null],
-      ['expendableReserves_Percent', 'percent', 0, null, 'cb', 22, null, null],
+      ['expendableReserves_inDays', 'num', 0, 'wa', 'cb', 18, null, null],
+      ['expendableReserves_Percent', 'percent', 0, 'wa', 'cb', 22, null, null],
       ['daysCashOnHand', 'num', 0, 'wa',  null, 30, null, null],
       ['cashAvailableDeferred', 'num', 2, 'wa', null, 26, null, null],
       ['liquidityRatio', 'num', 1, 'wa', 'cb', 34, null, null],
@@ -28,19 +28,19 @@ const displayReportComponent = () => {
     ]);
 
     insertDataToReport(assetData, selectedYears, [
-      ['propertyEquipmentPerStudent', 'dollar', 0, null, null, 46, null, null],
-      ['netTuitionARasPercentCurrentAssets', 'percent', 1, null, null, 50, null, null],
-      ['receivableWriteOffsAsPercentNetTuitionAndFees', 'percent', 0, null, null, 54, null, null],
+      ['propertyEquipmentPerStudent', 'dollar', 0, 'wa', null, 46, null, null],
+      ['netTuitionARasPercentCurrentAssets', 'percent', 1, 'wa', null, 50, null, null],
+      ['receivableWriteOffsAsPercentNetTuitionAndFees', 'percent', 0, 'wa', null, 54, null, null],
       ['receivableWriteOffsAsPercentNetTuitionAndFees_Percent', 'percent', 1],  
     ]);
 
     insertDataToReport(debtData, selectedYears, [
-      ['debtToPropertyAndEquipment', 'num', 1, null, null, 58, null, null],
-      ['debtToNetAssets', 'num', 1, null, null, 62, null, null],
-      ['currentRatio', 'num', 1, null, 'cb', 66, null, null], 
-      ['currentLiabilitiesToAvailableNetAssets', 'num', 1, null, 'cb', 70, null, null],
-      ['debtPerStudent', 'num', 0, null, null, 74, null, null],
-      ['debtCoverage', 'num', 1, null, null, 78, null, null],
+      ['debtToPropertyAndEquipment', 'num', 1, 'wa', null, 58, null, null],
+      ['debtToNetAssets', 'num', 1, 'wa', null, 62, null, null],
+      ['currentRatio', 'num', 1, 'wa', 'cb', 66, null, null], 
+      ['currentLiabilitiesToAvailableNetAssets', 'num', 1, 'wa', 'cb', 70, null, null],
+      ['debtPerStudent', 'num', 0, 'wa', null, 74, null, null],
+      ['debtCoverage', 'num', 1, 'wa', null, 78, null, null],
     ]);
 
     insertDataToReport(incomeData, selectedYears, [
@@ -52,31 +52,31 @@ const displayReportComponent = () => {
       ['contributionsAsAPercentOfTotalIncome', 'percent', 0, 'wa', null, 98, null, null],
       ['grossTuition' , 'dollar', 0, 'wa', null, 102, null, null],
       ['grossTuition_Percent', 'percent', 0],
-      ['totalFinancialAssistance', 'dollar', 0, null, null, 106, null, null],
+      ['totalFinancialAssistance', 'dollar', 0, 'wa', null, 106, null, null],
       ['totalFinancialAssistance_Percent', 'percent', 0],
-      ['netTuition', 'dollar', 0, null, null, 110, null, null],
+      ['netTuition', 'dollar', 0, 'wa', null, 110, null, null],
       ['netTuition_Percent', 'percent', 0],
       ['feesPercentOfNetTuition', 'percent', 1, 'wa', null, 114, null, null],
     ])
 
     insertDataToReport(expenseData, selectedYears, [
-      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'percent', 0, null, null, 118, null, null],
-      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'percent', 0, null, null, 122, null, null], 
-      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'percent', 0, null, null, 126, null, null],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'dollar', 0, null, null, 130, null, null],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'dollar', 0, null, null , 134, null, null],
-      ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'dollar', 0, null, null, 138, null, null],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Salaries', 'percent', 0, 'wa', null, 118, null, null],
+      ['salariesBenefitsTeachersAsPercentNetTuition_Benefits', 'percent', 0, 'wa', null, 122, null, null], 
+      ['salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits', 'percent', 0, 'wa', null, 126, null, null],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries', 'dollar', 0, 'wa', null, 130, null, null],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits', 'dollar', 0, 'wa', null , 134, null, null],
+      ['salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits', 'dollar', 0, 'wa', null, 138, null, null],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Teachers', 'percent', 0, 'wa', null, 142, null, null],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Administration', 'percent', 0, 'wa', null, 146, null, null],
       ['personnelMandatoryDebtService_SalariesAndBenefits_Employees', 'percent', 0, 'wa', null, 150, null, null],
       ['personnelMandatoryDebtService_Mandatory', 'percent', 0, 'wa', null, 154, null, null],
       ['personnelMandatoryDebtService_Personnel', 'percent', 0, 'wa', null, 158, null, null],
       ['percentFundRaisingExpensesExceeding', 'percent', 0, 'wa', null, 162, null, null],
-      ['fundsExpensesPerStudent_FundsRaised', 'dollar', 0, null, null, 166, null, null],
-      ['fundsExpensesPerStudent_CashExpensesExcludingDepreciation', 'dollar', 0, null, null, 170, null, null],
-      ['fundsExpensesPerStudent_netTuition', 'dollar', 0, null, null , 174, null, null],
-      ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'dollar', 0, null, null, 178, null, null],
-      ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'dollar', 0, null, null, 182, null, null],
+      ['fundsExpensesPerStudent_FundsRaised', 'dollar', 0, 'wa', null, 166, null, null],
+      ['fundsExpensesPerStudent_CashExpensesExcludingDepreciation', 'dollar', 0, 'wa', null, 170, null, null],
+      ['fundsExpensesPerStudent_netTuition', 'dollar', 0, 'wa', null, 174, null, null],
+      ['fundsExpensesPerStudent_cashExpensesExcessNetTuition', 'dollar', 0, 'wa', null, 178, null, null],
+      ['fundsExpensesPerStudent_FundsRaisedOverUnder', 'dollar', 0, 'wa', null, 182, null, null],
     ])
   }
   

@@ -136,7 +136,7 @@ const insertDataIntoObject = (
       ? yesNoFieldElement.textContent.trim()
       : null;
 
-    if (yesNoField == "Yes") {
+    if (yesNoField === "Yes" || yesNoField === "empty") {
       if (!object[dataKey]) {
         object[dataKey] = {};
       }
@@ -144,19 +144,21 @@ const insertDataIntoObject = (
         object[dataKey][year] = [];
       }
 
+      const dataValue = yesNoField === "Yes" ? innerData : 0;
+
       if (!name) {
         if (!object[dataKey]["total"]) {
           object[dataKey]["total"] = [];
         }
-        object[dataKey]["total"].push(innerData);
+        object[dataKey]["total"].push(dataValue);
       } else {
         if (!object[dataKey][name]) {
           object[dataKey][name] = [];
         }
-        object[dataKey][name].push(innerData);
+        object[dataKey][name].push(dataValue);
       }
 
-      object[dataKey][year].push(innerData);
+      object[dataKey][year].push(dataValue);
     }
   }
 };
@@ -3311,7 +3313,10 @@ run_btn.addEventListener("click", async () => {
     uploadMainFile = "";
     // document.getElementById("print_modal_footer").classList.add("hidden");
 
-    // Update School/Church selection so the API peer query can use it
+    // Sync School/Church selection before API call so getRecordsForPeer uses the current value.
+    if (typeof updateSelectedSchoolChurch === "function") {
+      updateSelectedSchoolChurch();
+    }
     if (typeof getSelectedSchoolChurchOption === "function") {
       getSelectedSchoolChurchOption();
     }
@@ -3328,7 +3333,7 @@ run_btn.addEventListener("click", async () => {
     console.log("Selected year(s) for API run:", selectedYearsArray);
 
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
-    // console.log("RECORDS PEER", recordsPeer);
+    console.log("Peer data records:", recordsPeer);
     const uniqueClientCount = countUniqueClients(recordsPeer);
     window.lastRunUniqueClientCount = uniqueClientCount;
 
@@ -3395,6 +3400,52 @@ const getParsedData = (xmlString) => {
 const toRecordArray = (records) => {
   if (!records) return [];
   return Array.isArray(records) ? records : Array.from(records);
+};
+
+/**
+ * Field 288 / client___church___school: 1 = school-and-church peers, 0 = school-only peers.
+ * Uses live global `selectedSchoolChurch` (refreshed from the radios at the start of each peer run).
+ * Default (selectedSchoolChurch !== 0): include both (no field-288 clause on the query).
+ * School-only (selectedSchoolChurch === 0): restrict to {288.EX.0}.
+ */
+const isPeerSchoolChurchBroadMode = () => Number(selectedSchoolChurch) !== 0;
+
+/**
+ * Builds the peer DoQuery string for one year from the current `selectedSchoolChurch` (0 or 1).
+ * @param {string} currentYear
+ * @returns {string} QuickBase query fragment for peer data.
+ */
+const getPeerQueryConditionForYear = (currentYear) => {
+  if (isPeerSchoolChurchBroadMode()) {
+    return `{136.EX.${currentYear}}`;
+  }
+  return `{136.EX.${currentYear}} AND {288.EX.0}`;
+};
+
+/**
+ * @param {NodeList|Array<Element>} records
+ * @returns {Array<Element>}
+ */
+const filterPeerRecordsByChurchSchool = (records) =>
+  toRecordArray(records).filter((record) => {
+    if (!record || typeof record.querySelector !== "function") return false;
+    const v = record.querySelector("client___church___school")?.textContent?.trim();
+    if (isPeerSchoolChurchBroadMode()) {
+      return v === "1" || v === "0";
+    }
+    return v === "0";
+  });
+
+/**
+ * @param {Element} record
+ * @returns {boolean}
+ */
+const peerRecordMatchesChurchSchoolFilter = (record) => {
+  const v = record.querySelector?.("client___church___school")?.textContent?.trim();
+  if (isPeerSchoolChurchBroadMode()) {
+    return v === "1" || v === "0";
+  }
+  return v === "0";
 };
 
 /**
@@ -3470,20 +3521,31 @@ const deduplicatePeerRecordsByClientAndYear = (records) => {
   return Array.from(clientYearMap.values()).map((entry) => entry.record);
 };
 
-const getRecordsForPeer = async (years, dataStr) => {
-  // console.log(years, dataStr)
+/**
+ * @param {NodeList|Array} records
+ * @returns {Array<Element>}
+ */
+const finalizePeerRecordsForSchoolChurch = (records) =>
+  filterPeerRecordsByChurchSchool(deduplicatePeerRecordsByClientAndYear(records));
 
-  if (years.length === 0) {
-    // Base case: return the final string when the array is empty
-    const parsedData = getParsedData(dataStr + "</qdbapi>");
-    return deduplicatePeerRecordsByClientAndYear(parsedData);
+const getRecordsForPeer = async (years, dataStr) => {
+  // Re-read the School/Church radios once per Run (initial dataStr only) so filtering matches the
+  // latest click; skip on recursive calls so all years in one run share the same mode.
+  if (
+    typeof updateSelectedSchoolChurch === "function" &&
+    dataStr === "<qdbapi>"
+  ) {
+    updateSelectedSchoolChurch();
   }
 
-  // Peer query: year only (field 136). Matches original K12 behavior so peer
-  // data loads reliably. Enrollment (field 6) and School/Church (field 288)
-  // can be re-added once Quickbase field IDs and value formats are confirmed.
+  if (years.length === 0) {
+    const parsedData = getParsedData(dataStr + "</qdbapi>");
+    return finalizePeerRecordsForSchoolChurch(parsedData);
+  }
+
   const currentYear = years[0];
-  const queryCondition = `{136.EX.${currentYear}}`;
+
+  const queryCondition = getPeerQueryConditionForYear(currentYear);
 
   const apiCallPeerData = {
     act: "API_DoQuery",
@@ -3495,32 +3557,40 @@ const getRecordsForPeer = async (years, dataStr) => {
   try {
     const xml = await $.get(peerData, apiCallPeerData);
     const recordsForPeer = $("record", xml).toArray();
+    let includedThisYear = 0;
 
-    //console.log('recordsForPeer', recordsForPeer)
-
-    // Update dataStr with the records from the current API call
     recordsForPeer.forEach((record) => {
-      // Create a new record element
-      const newRecord = document.createElement("record");
+      if (!peerRecordMatchesChurchSchoolFilter(record)) return;
 
-      // Append each child element to the new record
+      const newRecord = document.createElement("record");
       Array.from(record.children).forEach((child) => {
         newRecord.appendChild(child.cloneNode(true));
       });
-
       recordPeerHTMLArray.push(newRecord.outerHTML);
-
-      // Append the new record's outerHTML to dataStr
       dataStr += newRecord.outerHTML;
+      includedThisYear += 1;
     });
+
+    try {
+      if (!window.peerRecordMapPerYear?.set) {
+        window.peerRecordMapPerYear = new Map();
+      }
+      window.peerRecordMapPerYear.set(String(currentYear), includedThisYear);
+    } catch (e) { /* no-op */ }
 
     // Recursive call with updated years and dataStr
     return getRecordsForPeer(years.slice(1), dataStr);
   } catch (error) {
     console.error("Error fetching peer data:", error);
+    try {
+      if (!window.peerRecordMapPerYear?.set) {
+        window.peerRecordMapPerYear = new Map();
+      }
+      window.peerRecordMapPerYear.set(String(currentYear), 0);
+    } catch (e) { /* no-op */ }
     // Return parsed records so far (or empty NodeList) so process*Data always get a list, not a string.
     const parsedData = getParsedData(dataStr + "</qdbapi>");
-    return deduplicatePeerRecordsByClientAndYear(parsedData);
+    return finalizePeerRecordsForSchoolChurch(parsedData);
   }
 };
 

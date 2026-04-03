@@ -1,7 +1,9 @@
 const yearsData_Array = [];
 const selectedYearsselectedYears_Array = [];
-/** School = 0, Church = 1. Initialized to 0 (School) by default. */
-let selectedSchoolChurch = 0;
+/**
+ * Matches radio `value`: 1 = schoolAndChurch (default, all peer types); 0 = schoolOnly (field 288 school clients).
+ */
+let selectedSchoolChurch = 1;
 let selectedImagesArray = []
 let uniqueClients
 let firmName;
@@ -35,8 +37,8 @@ const types_Array = [
 ]
 
 const schoolChurch_Array = [
-  { arr: ["School"], str: 0},
-  { arr: ["Church"], str: 1},
+  { arr: ["School and Church"], str: 1 },
+  { arr: ["School Only"], str: 0 },
 ];
 
 const sites_Array = [
@@ -1263,21 +1265,16 @@ function missionaryRange() {
 }
 
 /**
- * Updates selectedSchoolChurch based on which radio is checked.
- * School (selectSchool) = 0, Church (selectChurch) = 1.
+ * Updates selectedSchoolChurch from the checked radio: value "1" = schoolAndChurch, "0" = schoolOnly.
  */
 const updateSelectedSchoolChurch = () => {
-  const schoolRadio = document.getElementById('selectSchool');
-  const churchRadio = document.getElementById('selectChurch');
-  if (schoolRadio?.checked) {
-    selectedSchoolChurch = 0;
-  } else if (churchRadio?.checked) {
-    selectedSchoolChurch = 1;
-  }
+  const checked = document.querySelector('input[name="schoolChurch"]:checked');
+  const raw = checked?.value;
+  selectedSchoolChurch = Number(raw) === 0 ? 0 : 1;
 };
 
-// Attach change listeners to both School and Church radio buttons
-['selectSchool', 'selectChurch'].forEach((id) => {
+// Attach change listeners to both radio buttons
+['selectSchoolAndChurch', 'selectSchoolOnly'].forEach((id) => {
   const el = document.getElementById(id);
   if (el) {
     el.addEventListener('change', updateSelectedSchoolChurch);

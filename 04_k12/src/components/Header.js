@@ -230,6 +230,9 @@ const addCheckmarkToSelectedOption = () => {
       if (typeof getSelectedSchoolChurchOption === "function") {
         getSelectedSchoolChurchOption();
       }
+      if (typeof updateSelectedSchoolChurch === "function") {
+        updateSelectedSchoolChurch();
+      }
       document.dispatchEvent(new CustomEvent("filtersChanged"));
     });
   });
