@@ -30,7 +30,7 @@ const displayReportComponent = () => {
     insertDataToReport(assetData, selectedYears, [
       ['propertyEquipmentPerStudent', 'dollar', 0, 'wa', null, 46, null, null],
       ['netTuitionARasPercentCurrentAssets', 'percent', 1, 'wa', null, 50, null, null],
-      ['receivableWriteOffsAsPercentNetTuitionAndFees', 'percent', 0, 'wa', null, 54, null, null],
+      ['receivableWriteOffsAsPercentNetTuitionAndFees', 'percent', 1, 'wa', null, 54, null, null],
       ['receivableWriteOffsAsPercentNetTuitionAndFees_Percent', 'percent', 1],  
     ]);
 
@@ -152,8 +152,7 @@ const addToSingleRow = (
         data,
         null,
         null,
-        null,
-        selectedYears
+        null
       );
     }
   });
@@ -174,11 +173,10 @@ const addToSingleRow = (
     "total",
     wa,
     name,
-    data, 
-    fId, 
-    begin, 
-    end,
-    selectedYears
+    data,
+    fId,
+    begin,
+    end
   );
 
 };
@@ -270,10 +268,9 @@ const addPeerDataToRow = (
   wa,
   name,
   data,
-  fId, 
-  begin, 
-  end,
-  selectedYears
+  fId,
+  begin,
+  end
 ) => {
   
   const propClass =
@@ -288,304 +285,26 @@ const addPeerDataToRow = (
     "receivableWriteOffsAsPercentNetTuitionAndFees_Percent",
   ]);
 
-  /** Report "Avg" column uses sum-based weighted ratio (not a simple average of yearly ratios). */
-  const reportTotalSumWeightedNames = new Set([
-    "debtToPropertyAndEquipment",
-    "debtToNetAssets",
-    "currentRatio",
-    "debtPerStudent",
-    "debtCoverage",
-  ]);
-  
-  const peerArr = peer && peer[dataArray] != null ? peer[dataArray] : [];
+  /** Peer objects from JSON use string keys; modal passes year as number or string. */
+  const peerLookupKey =
+    dataArray === "total" || dataArray == null ? dataArray : String(dataArray);
+  const peerArr =
+    peer && peer[peerLookupKey] != null ? peer[peerLookupKey] : [];
+
+  // Year key for per-year modal rows; undefined for the report's total column.
+  const yearKey = dataArray !== "total" ? String(dataArray) : undefined;
+
   let avg;
 
-  /**
-   * Asset report Avg (peer): ratio from summed numerators/denominators across
-   * selected years only (not an average of yearly peer ratios).
-   */
   if (
-    data &&
-    dataArray === "total" &&
-    Array.isArray(selectedYears) &&
-    selectedYears.length &&
-    name === "propertyEquipmentPerStudent"
+    name === "expendableReserves_inDays" ||
+    name === "expendableReserves_Percent"
   ) {
-    let sumLbe = 0;
-    let sumLand = 0;
-    let sumStudents = 0;
-    selectedYears.forEach((y) => {
-      const k = String(y);
-      sumLbe += getSumOfArray(data.landBuildingsEquipmentNet?.[k] || []);
-      sumLand += getSumOfArray(data.landAndLandImprovements?.[k] || []);
-      sumStudents += getSumOfArray(data.studentAverageEnrollment_Main?.[k] || []);
-    });
-    avg = sumStudents === 0 ? 0 : (sumLbe - sumLand) / sumStudents;
-  } else if (
-    data &&
-    dataArray === "total" &&
-    Array.isArray(selectedYears) &&
-    selectedYears.length &&
-    name === "netTuitionARasPercentCurrentAssets"
-  ) {
-    let sumAR = 0;
-    let sumCA = 0;
-    selectedYears.forEach((y) => {
-      const k = String(y);
-      const ar =
-        data.studentsAccountsReceivable?.[k] ??
-        data.studentAccountsReceivable?.[k];
-      sumAR += getSumOfArray(ar || []);
-      sumCA += getSumOfArray(data.currentAssets?.[k] || []);
-    });
-    avg = sumCA === 0 ? 0 : sumAR / sumCA;
-  } else if (
-    data &&
-    dataArray === "total" &&
-    Array.isArray(selectedYears) &&
-    selectedYears.length &&
-    name === "receivableWriteOffsAsPercentNetTuitionAndFees"
-  ) {
-    let sumWO = 0;
-    let sumGross = 0;
-    let sumFA = 0;
-    selectedYears.forEach((y) => {
-      const k = String(y);
-      const wo =
-        data.studentAccountsReceivableWriteOffs?.[k] ??
-        data.studentAccountsReceivableWrittenOff?.[k];
-      sumWO += getSumOfArray(wo || []);
-      sumGross += getSumOfArray(
-        data.grossTuitionRevenuesExcludingFees?.[k] || []
-      );
-      sumFA += getSumOfArray(data.financialAidScholarships?.[k] || []);
-    });
-    const denom = sumGross - sumFA;
-    avg = denom === 0 ? 0 : sumWO / denom;
-  } else if (peer && dataArray === "total" && reportTotalSumWeightedNames.has(name)) {
-    const w = getWeightedAverageOfArray(data, name);
-    avg =
-      w != null && Number.isFinite(Number(w))
-        ? Number(w)
-        : 0;
-  } else if (
-    peer &&
-    dataArray === "total" &&
-    name === "currentLiabilitiesToAvailableNetAssets"
-  ) {
-    avg = parseFloat(getAverageOfArray(peer["total"] || []));
-  } else if (
-    peer &&
-    dataArray === "total" &&
-    (name === "expendableReserves_inDays" ||
-      name === "expendableReserves_Percent")
-  ) {
-    // For these two "weird" ratios, report Avg should use the normal average
-    // over the total peer values (not recalculated sums and not avg-of-yearly-avgs).
-    avg = parseFloat(getAverageOfArray(peer["total"] || []));
-  } else if (peer && dataArray !== "total" && name === "currentRatio") {
-    const currentAssetsArr = data.currentAssets?.[dataArray] || [];
-    const currentLiabilitiesArr = data.currentLiabilities?.[dataArray] || [];
-
-    const numCurrentAssets = getSumOfArray(currentAssetsArr);
-    const numCurrentLiabilities = getSumOfArray(currentLiabilitiesArr);
-    avg = numCurrentLiabilities === 0 ? 0 : numCurrentAssets / numCurrentLiabilities;
-  } else if (peer && dataArray !== "total" && name === "debtPerStudent") {
-    const totalDebtArr = data.totalDebt?.[dataArray] || [];
-    const studentsArr = data.studentAverageEnrollment_Main?.[dataArray] || [];
-
-    const numTotalDebt = getSumOfArray(totalDebtArr);
-    const numStudents = getSumOfArray(studentsArr);
-    avg = numStudents === 0 ? 0 : numTotalDebt / numStudents;
-  } else if (peer && dataArray !== "total" && name === "debtCoverage") {
-    const changeInUnrestrictedNetAssetsArr =
-      data.changeInUnrestrictedNetAssets?.[dataArray] || [];
-    const currentYearInterestExpenseArr =
-      data.currentYearInterestExpense?.[dataArray] || [];
-    const totalDepreciationExpenseArr =
-      data.totalDepreciationExpense?.[dataArray] || [];
-    const capitalizedInterestArr =
-      data.capitalizedInterest?.[dataArray] || [];
-    const currentMaturitiesOfLTDebtArr =
-      data.currentMaturingDebt?.[dataArray] ||
-      data.currentMaturitiesOfLTDebt?.[dataArray] ||
-      [];
-
-    const numChangeInUnrestrictedNetAssets = getSumOfArray(
-      changeInUnrestrictedNetAssetsArr
-    );
-    const numCurrentYearInterestExpense = getSumOfArray(
-      currentYearInterestExpenseArr
-    );
-    const numTotalDepreciationExpense = getSumOfArray(
-      totalDepreciationExpenseArr
-    );
-    const numCapitalizedInterest = getSumOfArray(capitalizedInterestArr);
-    const numCurrentMaturitiesOfLTDebt = getSumOfArray(
-      currentMaturitiesOfLTDebtArr
-    );
-
-    const numerator =
-      numChangeInUnrestrictedNetAssets +
-      numCurrentYearInterestExpense +
-      numTotalDepreciationExpense +
-      numCapitalizedInterest;
-    const denominator =
-      numCurrentMaturitiesOfLTDebt +
-      numCurrentYearInterestExpense +
-      numCapitalizedInterest;
-
-    avg = denominator === 0 ? 0 : numerator / denominator;
-  } else if (peer && dataArray !== "total" && name === "debtToNetAssets") {
-    const totalDebtArr = data.totalDebt?.[dataArray] || [];
-    const totalUnrestrictedNetAssetsArr =
-      data.totalUnrestrictedNetAssets?.[dataArray] || [];
-    const temporarilyRestrictedNetAssetsArr =
-      data.temporarilyRestrictedNetAssets?.[dataArray] || [];
-
-    const numTotalDebt = getSumOfArray(totalDebtArr);
-    const numTotalUnrestrictedNetAssets = getSumOfArray(
-      totalUnrestrictedNetAssetsArr
-    );
-    const numTemporarilyRestrictedNetAssets = getSumOfArray(
-      temporarilyRestrictedNetAssetsArr
-    );
-
-    const denominator =
-      numTotalUnrestrictedNetAssets + numTemporarilyRestrictedNetAssets;
-    avg = denominator === 0 ? 0 : numTotalDebt / denominator;
-  } else if (peer && dataArray !== "total" && name === "netIncomeRatio") {
-    // Recalculate per-year Net Income Ratio using sums
-    // (not a simple average of ratios).
-    const changeInUnrestrictedNetAssetsArr =
-      data.changeInUnrestrictedNetAssets?.[dataArray] || [];
-    const unrestrictedSupportRevenuesReclassificationArr =
-      data.unrestrictedSupportRevenuesReclassification?.[dataArray] || [];
-
-    const numerator = getSumOfArray(changeInUnrestrictedNetAssetsArr);
-    const denominator = getSumOfArray(
-      unrestrictedSupportRevenuesReclassificationArr
-    );
-
-    avg = denominator === 0 ? 0 : numerator / denominator;
-  } else if (peer && dataArray !== "total" && name === "grossTuition") {
-    // Recalculate per-year Gross Tuition using sums
-    // (not a simple average of ratios).
-    const grossTuitionRevenuesArr =
-      data.grossTuitionRevenuesExcludingFees?.[dataArray] || [];
-    const studentsArr =
-      data.studentAverageEnrollment_Main?.[dataArray] || [];
-
-    const numerator = getSumOfArray(grossTuitionRevenuesArr);
-    const denominator = getSumOfArray(studentsArr);
-
-    avg = denominator === 0 ? 0 : numerator / denominator;
-  } else if (
-    peer &&
-    dataArray !== "total" &&
-    name === "financialAssistanceAsPercentTuitionAndFees"
-  ) {
-    // Recalculate per-year financial assistance as % of tuition/fees using sums.
-    const financialAidScholarshipsArr =
-      data.financialAidScholarships?.[dataArray] || [];
-    const grossTuitionRevenuesArr =
-      data.grossTuitionRevenuesExcludingFees?.[dataArray] || [];
-
-    const numerator = getSumOfArray(financialAidScholarshipsArr);
-    const denominator = getSumOfArray(grossTuitionRevenuesArr);
-
-    avg = denominator === 0 ? 0 : numerator / denominator;
-  } else if (
-    peer &&
-    dataArray !== "total" &&
-    name === "netTuitionARasPercentCurrentAssets"
-  ) {
-    // Recalculate per-year A/R as % of current assets using sums
-    // (not a simple average of ratios).
-    const receivablesArr =
-      data.studentsAccountsReceivable?.[dataArray] || [];
-    const currentAssetsArr = data.currentAssets?.[dataArray] || [];
-    const numStudentAccountsReceivable = getSumOfArray(receivablesArr);
-    const numCurrentAssets = getSumOfArray(currentAssetsArr);
-
-    avg =
-      numCurrentAssets === 0
-        ? 0
-        : numStudentAccountsReceivable / numCurrentAssets;
+    // These ratios use a simple average of pre-computed peer values (not a WA formula).
+    avg = parseFloat(getAverageOfArray(peerArr));
   } else if (peer && wa) {
-    if (dataArray !== "total") {
-      // When rendering per-year modal rows, "Avg" must be recalculated for that year.
-      if (name === "studentFacilityRatio") {
-        const fullTimeArr = data.fullTimeTeachers_Peer?.[dataArray] || [];
-        const partTimeArr = data.partTimeTeachers_Peer?.[dataArray] || [];
-        const studentsArr =
-          data.studentAverageEnrollment_Main?.[dataArray] || [];
-
-        const numFullTime = getSumOfArray(fullTimeArr);
-        const numPartTime = getSumOfArray(partTimeArr);
-        const numStudents = getSumOfArray(studentsArr);
-
-        avg =
-          numStudents === 0
-            ? 0
-            : (numFullTime + 0.5 * numPartTime) / numStudents;
-      } else if (
-        name ===
-          "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits"
-      ) {
-        // Recalculate per-year salaries+benefits as % of net tuition using sums.
-        // (Total Teacher Salaries + Total Teacher Benefits) / (Gross Tuition - Financial Aid)
-        const totalTeacherSalariesArr =
-          data.totalTeacherSalaries?.[dataArray] || [];
-        const totalTeacherBenefitsArr =
-          data.totalTeacherBenefits?.[dataArray] || [];
-        const grossTuitionRevenuesArr =
-          data.grossTuitionRevenuesExcludingFees?.[dataArray] || [];
-        const financialAidScholarshipsArr =
-          data.financialAidScholarships?.[dataArray] || [];
-
-        const numTotalTeacherSalaries = getSumOfArray(totalTeacherSalariesArr);
-        const numTotalTeacherBenefits = getSumOfArray(totalTeacherBenefitsArr);
-        const numGrossTuition = getSumOfArray(grossTuitionRevenuesArr);
-        const numFinancialAid = getSumOfArray(financialAidScholarshipsArr);
-
-        const numerator = numTotalTeacherSalaries + numTotalTeacherBenefits;
-        const denominator = numGrossTuition - numFinancialAid;
-
-        avg = denominator === 0 ? 0 : numerator / denominator;
-      } else if (name === "expendableReserves_inDays" || name === "expendableReserves_Percent") {
-        // Chart "Avg" for expendable reserves is the simple average of the
-        // peer ratios for the selected year.
-        avg = parseFloat(getAverageOfArray(peerArr));
-      } else if (name === "liquidityRatio") {
-        const totalCashArr = data.totalCash?.[dataArray] || [];
-        const nonEndowmentArr = data.nonEndowmentInvestments?.[dataArray] || [];
-        const currentLiabilitiesArr = data.currentLiabilities?.[dataArray] || [];
-        const deferredRevenueArr = data.deferredRevenue?.[dataArray] || [];
-
-        const numTotalCash = getSumOfArray(totalCashArr);
-        const numNonEndowment = getSumOfArray(nonEndowmentArr);
-        const numCurrentLiabilities = getSumOfArray(currentLiabilitiesArr);
-        const numDeferredRevenue = getSumOfArray(deferredRevenueArr);
-
-        const denominator = numCurrentLiabilities - numDeferredRevenue;
-        avg = denominator === 0 ? 0 : (numTotalCash + numNonEndowment) / denominator;
-      } else if (name === "daysCashOnHand") {
-        const totalCashArr = data.totalCash?.[dataArray] || [];
-        const totalExpensesArr = data.totalExpenses?.[dataArray] || [];
-
-        const numTotalCash = getSumOfArray(totalCashArr);
-        const numTotalExpenses = getSumOfArray(totalExpensesArr);
-
-        const denominator = numTotalExpenses / 365;
-        avg = denominator === 0 ? 0 : numTotalCash / denominator;
-      } else {
-        avg = parseFloat(getWeightedAverageOfArray(data, name));
-      }
-    } else {
-      // For the report's "total" column, keep the existing overall weighted-average behavior.
-      avg = parseFloat(getWeightedAverageOfArray(data, name));
-    }
+    const w = getWeightedAverageOfArray(data, name, yearKey);
+    avg = w != null && Number.isFinite(Number(w)) ? Number(w) : 0;
   } else if (peer && !wa) {
     avg = parseFloat(getAverageOfArray(peerArr));
   } else {

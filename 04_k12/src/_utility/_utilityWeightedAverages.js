@@ -1,166 +1,116 @@
-const getWeightedAverageOfArray = (data, name) => {
+const getWeightedAverageOfArray = (data, name, year) => {
   switch (name) {
     case "studentFacilityRatio":
-      return studentFacilityRatio_weightedAverage(data, name);
+      return studentFacilityRatio_weightedAverage(data, name, year);
     case "expendableReserves_inDays":
-      return expendableReservesInDays_weightedAverage(data, name);
+      return expendableReservesInDays_weightedAverage(data, name, year);
     case "expendableReserves_Percent":
-      return expendableReservesPercent_weightedAverage(data, name);
+      return expendableReservesPercent_weightedAverage(data, name, year);
     case "cashAvailableDeferred":
-      return cashAvailableDeferred_weightedAverage(data, name);
+      return cashAvailableDeferred_weightedAverage(data, name, year);
     case "liquidityRatio":
-      return liquidityRatio_weightedAverage(data, name);
+      return liquidityRatio_weightedAverage(data, name, year);
     case "netCashUsedOperating_overUnderBench":
-      return netCashUsedOperating_overUnderBenchmark_weightedAverage(data);
+      return netCashUsedOperating_overUnderBenchmark_weightedAverage(data, name, year);
     case "propertyEquipmentPerStudent":
-      return propertyEquipmentPerStudent_weightedAverage(data, name);
+      return propertyEquipmentPerStudent_weightedAverage(data, name, year);
     case "netTuitionARasPercentCurrentAssets":
-      return netTuitionARasPercentCurrentAssets_weightedAverage(data, name);
+      return netTuitionARasPercentCurrentAssets_weightedAverage(data, name, year);
     case "receivableWriteOffsAsPercentNetTuitionAndFees":
-      return receivableWriteOffsAsPercentNetTuitionAndFees_weightedAverage(
-        data,
-        name
-      );
+      return receivableWriteOffsAsPercentNetTuitionAndFees_weightedAverage(data, name, year);
     case "debtToPropertyAndEquipment":
-      return debtToPropertyAndEquipment_weightedAverage(data, name);
+      return debtToPropertyAndEquipment_weightedAverage(data, name, year);
     case "currentRatio":
-      return currentRatio_weightedAverage(data, name);
+      return currentRatio_weightedAverage(data, name, year);
     case "currentLiabilitiesToAvailableNetAssets":
-      return currentLiabilitiesToAvailableNetAssets_weightedAverage(data, name);
+      return currentLiabilitiesToAvailableNetAssets_weightedAverage(data, name, year);
     case "debtPerStudent":
-      return debtPerStudents_weightedAverage(data, name);
+      return debtPerStudents_weightedAverage(data, name, year);
     case "debtCoverage":
-      return debtCoverage_weightedAverage(data, name);
+      return debtCoverage_weightedAverage(data, name, year);
     case "netIncomeRatio":
-      return netIncomeRatio_weightedAverage(data, name);
+      return netIncomeRatio_weightedAverage(data, name, year);
     case "netIncomeRatioExcludingDepreciation":
-      return netIncomeRatioExcludingDepreciation_weightedAverage(data, name);
+      return netIncomeRatioExcludingDepreciation_weightedAverage(data, name, year);
     case "financialAssistanceAsPercentTuitionAndFees":
-      return financialAssistanceAsPercentTuitionAndFees_weightedAverage(
-        data,
-        name
-      );
+      return financialAssistanceAsPercentTuitionAndFees_weightedAverage(data, name, year);
     case "tuitionAndFeesAsPercentTotalIncome":
-      return tuitionAndFeesAsPercentTotalIncome_weightedAverage(data, name);
+      return tuitionAndFeesAsPercentTotalIncome_weightedAverage(data, name, year);
     case "contributionsAsAPercentOfTotalIncome":
-      return contributionsAsAPercentOfTotalIncome_weightedAverage(data, name);
+      return contributionsAsAPercentOfTotalIncome_weightedAverage(data, name, year);
     case "grossTuition":
-      return grossTuition_weightedAverage(data, name);
-    case "financialAssistanceDiscountBased":
-      return financialAssistanceDiscountBased_weightedAverage(data, name);
-    case "scholarshipAwarded":
-      return scholarshipAwarded_weightedAverage(data, name);
+      return grossTuition_weightedAverage(data, name, year);
     case "totalFinancialAssistance":
-      return totalFinancialAssistance_weightedAverage(data, name);
+      return totalFinancialAssistance_weightedAverage(data, name, year);
     case "netTuition":
-      return netTuition_weightedAverage(data, name);
+      return netTuition_weightedAverage(data, name, year);
     case "feesPercentOfNetTuition":
-      return feesPercentOfNetTuition_weightedAverage(data, name);
+      return feesPercentOfNetTuition_weightedAverage(data, name, year);
     case "salariesBenefitsTeachersAsPercentNetTuition_Salaries":
-      return salariesBenefitsTeachersAsPercentNetTuition_Salaries_weightedAverage(
-        data,
-        name
-      );
+      return salariesBenefitsTeachersAsPercentNetTuition_Salaries_weightedAverage(data, name, year);
     case "salariesBenefitsTeachersAsPercentNetTuition_Benefits":
-      return salariesBenefitsTeachersAsPercentNetTuition_Benefits_weightedAverage(
-        data,
-        name
-      );
+      return salariesBenefitsTeachersAsPercentNetTuition_Benefits_weightedAverage(data, name, year);
     case "salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits":
-      return salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_weightedAverage(
-        data,
-        name
-      );
+      return salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_weightedAverage(data, name, year);
     case "salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries":
-      return salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_weightedAverage(
-        data,
-        name
-      );
+      return salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_weightedAverage(data, name, year);
     case "salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits":
-      return salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_weightedAverage(
-        data,
-        name
-      );
+      return salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_weightedAverage(data, name, year);
     case "salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits":
-      return salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_weightedAverage(
-        data,
-        name
-      );
+      return salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_weightedAverage(data, name, year);
     case "benefitsPercentSalariesTeachers":
-      return benefitsPercentSalariesTeachers_weightedAverage(data, name);
+      return benefitsPercentSalariesTeachers_weightedAverage(data, name, year);
     case "personnelMandatoryDebtService_SalariesAndBenefits_Teachers":
-      return personnelMandatoryDebtService_SalariesAndBenefits_Teachers_weightedAverage(
-        data,
-        name
-      );
+      return personnelMandatoryDebtService_SalariesAndBenefits_Teachers_weightedAverage(data, name, year);
     case "personnelMandatoryDebtService_SalariesAndBenefits_Administration":
-      return personnelMandatoryDebtService_SalariesAndBenefits_Administration_weightedAverage(
-        data,
-        name
-      );
+      return personnelMandatoryDebtService_SalariesAndBenefits_Administration_weightedAverage(data, name, year);
     case "personnelMandatoryDebtService_SalariesAndBenefits_Employees":
-      return personnelMandatoryDebtService_SalariesAndBenefits_Employees_weightedAverage(
-        data,
-        name
-      );
+      return personnelMandatoryDebtService_SalariesAndBenefits_Employees_weightedAverage(data, name, year);
     case "personnelMandatoryDebtService_Mandatory":
-      return personnelMandatoryDebtService_Mandatory_weightedAverage(
-        data,
-        name
-      );
+      return personnelMandatoryDebtService_Mandatory_weightedAverage(data, name, year);
     case "personnelMandatoryDebtService_Personnel":
-      return personnelMandatoryDebtService_Personnel_weightedAverage(
-        data,
-        name
-      );
+      return personnelMandatoryDebtService_Personnel_weightedAverage(data, name, year);
     case "percentFundRaisingExpensesExceeding":
-      return percentFundRaisingExpensesExceeding_weightedAverage(data, name);
+      return percentFundRaisingExpensesExceeding_weightedAverage(data, name, year);
     case "fundsExpensesPerStudent_FundsRaised":
-      return fundsExpensesPerStudent_FundsRaised_weightedAverage(data, name);
+      return fundsExpensesPerStudent_FundsRaised_weightedAverage(data, name, year);
     case "fundsExpensesPerStudent_CashExpensesExcludingDepreciation":
-      return fundsExpensesPerStudent_CashExpensesExcludingDepreciation_weightedAverage(
-        data,
-        name
-      );
+      return fundsExpensesPerStudent_CashExpensesExcludingDepreciation_weightedAverage(data, name, year);
     case "fundsExpensesPerStudent_netTuition":
-      return fundsExpensesPerStudent_netTuition_weightedAverage(data, name);
+      return fundsExpensesPerStudent_netTuition_weightedAverage(data, name, year);
     case "fundsExpensesPerStudent_cashExpensesExcessNetTuition":
-      return fundsExpensesPerStudent_cashExpensesExcessNetTuition_weightedAverage(
-        data,
-        name
-      );
+      return fundsExpensesPerStudent_cashExpensesExcessNetTuition_weightedAverage(data, name, year);
     case "fundsExpensesPerStudent_FundsRaisedOverUnder":
-      return fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage(
-        data,
-        name
-      );
-    case "daysCashOnHand": 
-      return daysCashOnHand_weightedAverage(data, name);
+      return fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage(data, name, year);
+    case "daysCashOnHand":
+      return daysCashOnHand_weightedAverage(data, name, year);
     case "debtToNetAssets":
-      return debtToNetAssets_weightedAverage(data, name);
+      return debtToNetAssets_weightedAverage(data, name, year);
     default:
       return;
   }
 };
 
-const debtToNetAssets_weightedAverage = (data, name) => {
+const debtToNetAssets_weightedAverage = (data, name, year) => {
   // [03-11 Total Debt] / [03-12 Total Unrestricted Net Assets] + [03-14 Temporarily Restricted Net Assets]
-  let numTotalDebt = getSumOfArray(data.totalDebt?.[name] || []);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalDebt = getSumOfArray(data.totalDebt?.[key] || []);
   let numTotalUnrestrictedNetAssets = getSumOfArray(
-    data.totalUnrestrictedNetAssets?.[name] || []
+    data.totalUnrestrictedNetAssets?.[key] || []
   );
   let numTemporarilyRestrictedNetAssets = getSumOfArray(
-    data.temporarilyRestrictedNetAssets?.[name] || []
+    data.temporarilyRestrictedNetAssets?.[key] || []
   );
   const denominator = numTotalUnrestrictedNetAssets + numTemporarilyRestrictedNetAssets;
   if (!denominator) return 0;
   return numTotalDebt / denominator;
 };
 
-const daysCashOnHand_weightedAverage = (data, name) => {
+const daysCashOnHand_weightedAverage = (data, name, year) => {
   // [03-02 Total Cash]/([04-08 Total Expenses]/365)
-  const totalCash = (data.totalCash && data.totalCash[name]) || [];
-  const totalExpenses = (data.totalExpenses && data.totalExpenses[name]) || [];
+  const key = year != null ? `${name}_${year}` : name;
+  const totalCash = (data.totalCash && data.totalCash[key]) || [];
+  const totalExpenses = (data.totalExpenses && data.totalExpenses[key]) || [];
   const numTotalCash = getSumOfArray(totalCash);
   const numTotalExpenses = getSumOfArray(totalExpenses);
   const denominator = numTotalExpenses / 365;
@@ -170,23 +120,25 @@ const daysCashOnHand_weightedAverage = (data, name) => {
 
 const fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // ( [39] 04-06 Total Contributions / [6] 01-01 Students-average enrollment ) + ( ( ([34] 04-01 Gross Tuition Revenues Excluding Fees - [36] 04-03 Discounts - [37] 04-04 Financial Aid / Scholarships) / [6] 01-01 Students-average enrollment ) - ( ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense ) / [6] 01-01 Students-average enrollment ) )
 
-  let numTotalContributions = getSumOfArray(data.totalContributions[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalContributions = getSumOfArray(data.totalContributions[key]);
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
-  let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+  let numTotalExpenses = getSumOfArray(data.totalExpenses[key]);
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense[key]
   );
 
   return (
@@ -201,22 +153,24 @@ const fundsExpensesPerStudent_FundsRaisedOverUnder_weightedAverage = (
 
 const fundsExpensesPerStudent_cashExpensesExcessNetTuition_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // ( ([34] 04-01 Gross Tuition Revenues Excluding Fees - [37] 04-04 Financial Aid / Scholarships) / [6] 01-01 Students-average enrollment ) - ( ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense ) / [6] 01-01 Students-average enrollment )
 
+  const key = year != null ? `${name}_${year}` : name;
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
-  let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+  let numTotalExpenses = getSumOfArray(data.totalExpenses[key]);
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense[key]
   );
 
   return (
@@ -227,17 +181,18 @@ const fundsExpensesPerStudent_cashExpensesExcessNetTuition_weightedAverage = (
   );
 };
 
-const fundsExpensesPerStudent_netTuition_weightedAverage = (data, name) => {
+const fundsExpensesPerStudent_netTuition_weightedAverage = (data, name, year) => {
   // ([34] 04-01 Gross Tuition Revenues Excluding Fees -[37] 04-04 Financial Aid / Scholarships) / [6] 01-01 Students-average enrollment
 
+  const key = year != null ? `${name}_${year}` : name;
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return (
@@ -247,15 +202,16 @@ const fundsExpensesPerStudent_netTuition_weightedAverage = (data, name) => {
 };
 
 const fundsExpensesPerStudent_CashExpensesExcludingDepreciation_weightedAverage =
-  (data, name) => {
+  (data, name, year) => {
     // (4-08 Total Expenses - [42] 04-09 Total Depreciation Expense ) / [6] 01-01 Students-average enrollment
 
-    let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+    const key = year != null ? `${name}_${year}` : name;
+    let numTotalExpenses = getSumOfArray(data.totalExpenses[key]);
     let numTotalDepreciationExpense = getSumOfArray(
-      data.totalDepreciationExpense[name]
+      data.totalDepreciationExpense[key]
     );
     let numStudentAverageEnrollment = getSumOfArray(
-      data.studentAverageEnrollment_Main[name]
+      data.studentAverageEnrollment_Main[key]
     );
 
     return (
@@ -264,47 +220,48 @@ const fundsExpensesPerStudent_CashExpensesExcludingDepreciation_weightedAverage 
     );
   };
 
-const fundsExpensesPerStudent_FundsRaised_weightedAverage = (data, name) => {
+const fundsExpensesPerStudent_FundsRaised_weightedAverage = (data, name, year) => {
   // [39] 04-06 Total Contributions / [6] 01-01 Students-average enrollment
 
-  let numTotalContributions = getSumOfArray(data.totalContributions[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalContributions = getSumOfArray(data.totalContributions[key]);
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return numTotalContributions / numStudentAverageEnrollment;
 };
 
-const percentFundRaisingExpensesExceeding_weightedAverage = (data, name) => {
+const percentFundRaisingExpensesExceeding_weightedAverage = (data, name, year) => {
   // [43] 04-10 Total Fundraising Expenses / ([39] 04-06 Total Contributions + [46] 04-13 Fundraising Income)
 
-  let numTotalFundraising = getSumOfArray(data.totalFundraising[name]);
-  let numTotalContributions = getSumOfArray(data.totalContributions[name]);
-  let numFundraisingIncome = getSumOfArray(data.fundraisingIncome[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalFundraising = getSumOfArray(data.totalFundraising[key]);
+  let numTotalContributions = getSumOfArray(data.totalContributions[key]);
+  let numFundraisingIncome = getSumOfArray(data.fundraisingIncome[key]);
 
   return numTotalFundraising / (numTotalContributions + numFundraisingIncome);
 };
 
 const personnelMandatoryDebtService_Personnel_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // ( [15]  [16] 02-04 Total maintenance costs + [18] 02-06 Current maturities of LT Debt + [44] 04-11 Current Year Interest Expense +  [48] 05-02 Capitalized Interest )  / ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense )
 
-  // console.log('dataName', data, name);
-
-
+  const key = year != null ? `${name}_${year}` : name;
   let numTotalPersonnelCostsSalariesBenefits = getSumOfArray(
-    data.totalPersonnelCostsSalariesBenefits[name]
-  );``
-  let numCurrentMaturingDebt = getSumOfArray(data.currentMaturingDebt[name]);
-  let numCurrentYearInterestExpense = getSumOfArray(
-    data.currentYearInterestExpense[name]
+    data.totalPersonnelCostsSalariesBenefits[key]
   );
-  let numCapitalizedInterest = getSumOfArray(data.capitalizedInterest[name]);
-  let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+  let numCurrentMaturingDebt = getSumOfArray(data.currentMaturingDebt[key]);
+  let numCurrentYearInterestExpense = getSumOfArray(
+    data.currentYearInterestExpense[key]
+  );
+  let numCapitalizedInterest = getSumOfArray(data.capitalizedInterest[key]);
+  let numTotalExpenses = getSumOfArray(data.totalExpenses[key]);
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense[key]
   );
 
   return (
@@ -318,20 +275,20 @@ const personnelMandatoryDebtService_Personnel_weightedAverage = (
 
 const personnelMandatoryDebtService_Mandatory_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // ( [18] 02-06 Current maturities of LT Debt + [44] 04-11 Current Year Interest Expense +  [48] 05-02 Capitalized Interest )  / ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense )
 
-  // console.log("dataName", data, name);
-
-  let numCurrentMaturingDebt = getSumOfArray(data.currentMaturingDebt[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numCurrentMaturingDebt = getSumOfArray(data.currentMaturingDebt[key]);
   let numCurrentYearInterestExpense = getSumOfArray(
-    data.currentYearInterestExpense[name]
+    data.currentYearInterestExpense[key]
   );
-  let numCapitalizedInterest = getSumOfArray(data.capitalizedInterest[name]);
-  let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+  let numCapitalizedInterest = getSumOfArray(data.capitalizedInterest[key]);
+  let numTotalExpenses = getSumOfArray(data.totalExpenses[key]);
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense[key]
   );
 
   return (
@@ -343,21 +300,22 @@ const personnelMandatoryDebtService_Mandatory_weightedAverage = (
 };
 
 const personnelMandatoryDebtService_SalariesAndBenefits_Employees_weightedAverage =
-  (data, name) => {
+  (data, name, year) => {
     // ([02-03 Total personnel costs salaries & benefits of all school employees] /
     //  ([04-08 Total Expenses] - [04-09 Total Depreciation Expense]))
 
+    const key = year != null ? `${name}_${year}` : name;
     const numTotalPersonnelCostsSalariesBenefits = getSumOfArray(
       (data.totalPersonnelCostsSalariesBenefits &&
-        data.totalPersonnelCostsSalariesBenefits[name]) ||
+        data.totalPersonnelCostsSalariesBenefits[key]) ||
         []
     );
     const numTotalExpenses = getSumOfArray(
-      (data.totalExpenses && data.totalExpenses[name]) || []
+      (data.totalExpenses && data.totalExpenses[key]) || []
     );
     const numTotalDepreciationExpense = getSumOfArray(
       (data.totalDepreciationExpense &&
-        data.totalDepreciationExpense[name]) ||
+        data.totalDepreciationExpense[key]) ||
         []
     );
 
@@ -368,21 +326,20 @@ const personnelMandatoryDebtService_SalariesAndBenefits_Employees_weightedAverag
   };
 
 const personnelMandatoryDebtService_SalariesAndBenefits_Administration_weightedAverage =
-  (data, name) => {
-    // console.log("wa", data, name);
-
+  (data, name, year) => {
+    const key = year != null ? `${name}_${year}` : name;
     let numTotalPersonnelCostsSalariesBenefits = getSumOfArray(
-      data.totalPersonnelCostsSalariesBenefits[name]
+      data.totalPersonnelCostsSalariesBenefits[key]
     );
     let numTotalTeacherSalaries = getSumOfArray(
-      data.totalTeacherSalaries[name]
+      data.totalTeacherSalaries[key]
     );
     let numTotalTeacherBenefits = getSumOfArray(
-      data.totalTeacherBenefits[name]
+      data.totalTeacherBenefits[key]
     );
-    let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+    let numTotalExpenses = getSumOfArray(data.totalExpenses[key]);
     let numTotalDepreciationExpense = getSumOfArray(
-      data.totalDepreciationExpense[name]
+      data.totalDepreciationExpense[key]
     );
 
     return (
@@ -394,18 +351,19 @@ const personnelMandatoryDebtService_SalariesAndBenefits_Administration_weightedA
   };
 
 const personnelMandatoryDebtService_SalariesAndBenefits_Teachers_weightedAverage =
-  (data, name) => {
+  (data, name, year) => {
     // ( [13] 02-01 Total Teacher Salaries + [14] 02-02 Total Teacher Benefits  ) / ([41] 04-08 Total Expenses - [42] 04-09 Total Depreciation Expense )
 
+    const key = year != null ? `${name}_${year}` : name;
     let numTotalTeacherSalaries = getSumOfArray(
-      data.totalTeacherSalaries[name]
+      data.totalTeacherSalaries[key]
     );
     let numTotalTeacherBenefits = getSumOfArray(
-      data.totalTeacherBenefits[name]
+      data.totalTeacherBenefits[key]
     );
-    let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+    let numTotalExpenses = getSumOfArray(data.totalExpenses[key]);
     let numTotalDepreciationExpense = getSumOfArray(
-      data.totalDepreciationExpense[name]
+      data.totalDepreciationExpense[key]
     );
 
     return (
@@ -414,27 +372,29 @@ const personnelMandatoryDebtService_SalariesAndBenefits_Teachers_weightedAverage
     );
   };
 
-const benefitsPercentSalariesTeachers_weightedAverage = (data, name) => {
+const benefitsPercentSalariesTeachers_weightedAverage = (data, name, year) => {
   // [14] 02-02 Total Teacher Benefits  / [13] 02-01 Total Teacher Salaries
 
-  let numTotalTeacherBenefits = getSumOfArray(data.totalTeacherBenefits[name]);
-  let numTotalTeacherSalaries = getSumOfArray(data.totalTeacherSalaries[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalTeacherBenefits = getSumOfArray(data.totalTeacherBenefits[key]);
+  let numTotalTeacherSalaries = getSumOfArray(data.totalTeacherSalaries[key]);
 
   return numTotalTeacherBenefits / numTotalTeacherSalaries;
 };
 
 const salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_weightedAverage =
-  (data, name) => {
+  (data, name, year) => {
     // ( [02-01 Total Teacher Salaries] + [02-02 Total Teacher Benefits ]  ) / [01-01 Students-average enrollment]
-    
+
+    const key = year != null ? `${name}_${year}` : name;
     let numTotalTeacherSalaries = getSumOfArray(
-      data.totalTeacherSalaries[name]
+      data.totalTeacherSalaries[key]
     );
     let numTotalTeacherBenefits = getSumOfArray(
-      data.totalTeacherBenefits[name]
+      data.totalTeacherBenefits[key]
     );
     let numStudentAverageEnrollment = getSumOfArray(
-      data.studentAverageEnrollment_Main[name]
+      data.studentAverageEnrollment_Main[key]
     );
 
     return (
@@ -445,13 +405,15 @@ const salariesBenefitsTeachersPerStudentsEnrolledYE_SalariesAndBenefits_weighted
 
 const salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // [14] 02-02 Total Teacher Benefits / [6] 01-01 Students-average enrollment
 
-  let numTotalTeacherBenefits = getSumOfArray(data.totalTeacherBenefits[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalTeacherBenefits = getSumOfArray(data.totalTeacherBenefits[key]);
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return numTotalTeacherBenefits / numStudentAverageEnrollment;
@@ -459,33 +421,36 @@ const salariesBenefitsTeachersPerStudentsEnrolledYE_Benefits_weightedAverage = (
 
 const salariesBenefitsTeachersPerStudentsEnrolledYE_Salaries_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // [13] 02-01 Total Teacher Salaries / [6] 01-01 Students-average enrollment
 
-  let numTotalTeacherSalaries = getSumOfArray(data.totalTeacherSalaries[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalTeacherSalaries = getSumOfArray(data.totalTeacherSalaries[key]);
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return numTotalTeacherSalaries / numStudentAverageEnrollment;
 };
 
 const salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_weightedAverage =
-  (data, name) => {
+  (data, name, year) => {
     // ( [02-01 Total Teacher Salaries] + [02-02 Total Teacher Benefits ] ) / ([04-01 Gross Tuition Revenues Excluding Fees] - [04-04 Financial Aid / Scholarships])
 
+    const key = year != null ? `${name}_${year}` : name;
     let numTotalTeacherSalaries = getSumOfArray(
-      data.totalTeacherSalaries[name]
+      data.totalTeacherSalaries[key]
     );
     let numTotalTeacherBenefits = getSumOfArray(
-      data.totalTeacherBenefits[name]
+      data.totalTeacherBenefits[key]
     );
     let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-      data.grossTuitionRevenuesExcludingFees[name]
+      data.grossTuitionRevenuesExcludingFees[key]
     );
     let numFinancialAidScholarships = getSumOfArray(
-      data.financialAidScholarships[name]
+      data.financialAidScholarships[key]
     );
     const denominator =
       numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships;
@@ -496,16 +461,18 @@ const salariesBenefitsTeachersAsPercentNetTuition_SalariesAndBenefits_weightedAv
 
 const salariesBenefitsTeachersAsPercentNetTuition_Benefits_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // [02-02 Total Teacher Benefits ]  / ([04-01 Gross Tuition Revenues Excluding Fees] - [04-04 Financial Aid / Scholarships])
 
-  let numTotalTeacherBenefits = getSumOfArray(data.totalTeacherBenefits[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalTeacherBenefits = getSumOfArray(data.totalTeacherBenefits[key]);
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
   const denominator =
     numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships;
@@ -515,16 +482,18 @@ const salariesBenefitsTeachersAsPercentNetTuition_Benefits_weightedAverage = (
 
 const salariesBenefitsTeachersAsPercentNetTuition_Salaries_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // [02-01 Total Teacher Salaries] / ([04-01 Gross Tuition Revenues Excluding Fees] - [04-04 Financial Aid / Scholarships])
 
-  let numTotalTeacherSalaries = getSumOfArray(data.totalTeacherSalaries[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalTeacherSalaries = getSumOfArray(data.totalTeacherSalaries[key]);
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
   const denominator =
     numGrossTuitionRevenuesExcludingFees - numFinancialAidScholarships;
@@ -532,15 +501,16 @@ const salariesBenefitsTeachersAsPercentNetTuition_Salaries_weightedAverage = (
   return denominator === 0 ? 0 : numTotalTeacherSalaries / denominator;
 };
 
-const feesPercentOfNetTuition_weightedAverage = (data, name) => {
+const feesPercentOfNetTuition_weightedAverage = (data, name, year) => {
   // [35] 04-02 Fees / ([34] 04-01 Gross Tuition Revenues Excluding Fees -  [37] 04-04 Financial Aid / Scholarships)
 
-  let numFees = getSumOfArray(data.fees[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numFees = getSumOfArray(data.fees[key]);
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
 
   return (
@@ -549,17 +519,18 @@ const feesPercentOfNetTuition_weightedAverage = (data, name) => {
   );
 };
 
-const netTuition_weightedAverage = (data, name) => {
+const netTuition_weightedAverage = (data, name, year) => {
   // ([34] 04-01 Gross Tuition Revenues Excluding Fees - [37] 04-04 Financial Aid / Scholarships) / [6] 01-01 Students-average enrollment
 
+  const key = year != null ? `${name}_${year}` : name;
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return (
@@ -568,80 +539,87 @@ const netTuition_weightedAverage = (data, name) => {
   );
 };
 
-const totalFinancialAssistance_weightedAverage = (data, name) => {
+const totalFinancialAssistance_weightedAverage = (data, name, year) => {
   // [37] 04-04 Financial Aid / Scholarships / [6] 01-01 Students-average enrollment
 
+  const key = year != null ? `${name}_${year}` : name;
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return numFinancialAidScholarships / numStudentAverageEnrollment;
 };
 
 
-const grossTuition_weightedAverage = (data, name) => {
+const grossTuition_weightedAverage = (data, name, year) => {
   // [34] 04-01 Gross Tuition Revenues Excluding Fees / [6] 01-01 Students-average enrollment
 
+  const key = year != null ? `${name}_${year}` : name;
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return numGrossTuitionRevenuesExcludingFees / numStudentAverageEnrollment;
 };
 
-const contributionsAsAPercentOfTotalIncome_weightedAverage = (data, name) => {
+const contributionsAsAPercentOfTotalIncome_weightedAverage = (data, name, year) => {
   // [39] 04-06 Total Contributions / [38] 04-05 Total Support and Revenue
 
-  let numTotalContributions = getSumOfArray(data.totalContributions[name]);
-  let numTotalSupportRevenue = getSumOfArray(data.totalSupportRevenue[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalContributions = getSumOfArray(data.totalContributions[key]);
+  let numTotalSupportRevenue = getSumOfArray(data.totalSupportRevenue[key]);
 
   return numTotalContributions / numTotalSupportRevenue;
 };
 
-const tuitionAndFeesAsPercentTotalIncome_weightedAverage = (data, name) => {
+const tuitionAndFeesAsPercentTotalIncome_weightedAverage = (data, name, year) => {
   // [34] 04-01 Gross Tuition Revenues Excluding Fees / [38] 04-05 Total Support and Revenue
 
+  const key = year != null ? `${name}_${year}` : name;
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
-  let numtotalSupportRevenue = getSumOfArray(data.totalSupportRevenue[name]);
+  let numtotalSupportRevenue = getSumOfArray(data.totalSupportRevenue[key]);
 
   return numGrossTuitionRevenuesExcludingFees / numtotalSupportRevenue;
 };
 
 const financialAssistanceAsPercentTuitionAndFees_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // [37] 04-04 Financial Aid / Scholarships / [34] 04-01 Gross Tuition Revenues Excluding Fees
 
+  const key = year != null ? `${name}_${year}` : name;
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
 
   return numFinancialAidScholarships / numGrossTuitionRevenuesExcludingFees;
 };
 
-const netIncomeRatioExcludingDepreciation_weightedAverage = (data, name) => {
+const netIncomeRatioExcludingDepreciation_weightedAverage = (data, name, year) => {
   // ( [45] 04-12 Change in Unrestricted Net Assets + [42] 04-09 Total Depreciation Expense) / [40] 04-07 Unrestricted Support, Revenues and Reclassifications for operating purposes
 
+  const key = year != null ? `${name}_${year}` : name;
   let numChangeInUnrestrictedNetAssets = getSumOfArray(
-    data.changeInUnrestrictedNetAssets[name]
+    data.changeInUnrestrictedNetAssets[key]
   );
   let NumUnrestrictedSupportRevenuesReclassification = getSumOfArray(
-    data.unrestrictedSupportRevenuesReclassification[name]
+    data.unrestrictedSupportRevenuesReclassification[key]
   );
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense[key]
   );
 
   return (
@@ -650,14 +628,15 @@ const netIncomeRatioExcludingDepreciation_weightedAverage = (data, name) => {
   );
 };
 
-const netIncomeRatio_weightedAverage = (data, name) => {
+const netIncomeRatio_weightedAverage = (data, name, year) => {
   // [45] 04-12 Change in Unrestricted Net Assets / [40] 04-07 Unrestricted Support, Revenues and Reclassifications for operating purposes
 
+  const key = year != null ? `${name}_${year}` : name;
   let numChangeInUnrestrictedNetAssets = getSumOfArray(
-    data.changeInUnrestrictedNetAssets[name]
+    data.changeInUnrestrictedNetAssets[key]
   );
   let NumUnrestrictedSupportRevenuesReclassification = getSumOfArray(
-    data.unrestrictedSupportRevenuesReclassification[name]
+    data.unrestrictedSupportRevenuesReclassification[key]
   );
 
   return (
@@ -666,24 +645,24 @@ const netIncomeRatio_weightedAverage = (data, name) => {
   );
 };
 
-const debtCoverage_weightedAverage = (data, name) => {
+const debtCoverage_weightedAverage = (data, name, year) => {
   // ( [45] 04-12 Change in Unrestricted Net Assets + [44] 04-11 Current Year Interest Expense + [42] 04-09 Total Depreciation Expense + [48] 05-02 Capitalized Interest ) / ([18] 02-06 Current maturities of LT Debt + [44] 04-11 Current Year Interest Expense + [48] 05-02 Capitalized Interest)
 
+  const key = year != null ? `${name}_${year}` : name;
   let numChangeInUnrestrictedNetAssets = getSumOfArray(
-    data.changeInUnrestrictedNetAssets?.[name] || []
+    data.changeInUnrestrictedNetAssets?.[key] || []
   );
   let numCurrentYearInterestExpense = getSumOfArray(
-    data.currentYearInterestExpense?.[name] || []
+    data.currentYearInterestExpense?.[key] || []
   );
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense?.[name] || []
+    data.totalDepreciationExpense?.[key] || []
   );
   let numCapitalizedInterest = getSumOfArray(
-    data.capitalizedInterest?.[name] || []
+    data.capitalizedInterest?.[key] || []
   );
-  // processDebtData stores LT debt maturities under `currentMaturingDebt` (matches insertDataIntoObject dataKey).
   const currentMaturitiesArr =
-    data.currentMaturingDebt?.[name] ?? data.currentMaturitiesOfLTDebt?.[name];
+    data.currentMaturingDebt?.[key] ?? data.currentMaturitiesOfLTDebt?.[key];
   let numCurrentMaturitiesOfLTDebt = getSumOfArray(currentMaturitiesArr || []);
 
   return (
@@ -697,33 +676,33 @@ const debtCoverage_weightedAverage = (data, name) => {
   );
 };
 
-const debtPerStudents_weightedAverage = (data, name) => {
+const debtPerStudents_weightedAverage = (data, name, year) => {
   // [30] 03-11 Total Debt / [6] 01-01 Students-average enrollment
 
-  let numTotalDebt = getSumOfArray(data.totalDebt[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalDebt = getSumOfArray(data.totalDebt[key]);
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return numTotalDebt / numStudentAverageEnrollment;
 };
 
-const currentLiabilitiesToAvailableNetAssets_weightedAverage = (data, name) => {
+const currentLiabilitiesToAvailableNetAssets_weightedAverage = (data, name, year) => {
   // [28] 03-09 Current Liabilities / ([31] 03-12 Total Unrestricted Net Assets - (IF [27] 03-08 Land, Buildings and Equipment, net - [30] 03-11 Total Debt <0,0, [27] 03-08 Land, Buildings and Equipment, net - [30] 03-11 Total Debt) - [32] 03-13 BOD Designated for Operations )
   // Current Liabilities / (03-12 Total Unrestricted Net Assets - 03-08 Land, Buildings and Equipment, net - 03-11 Total Debt - BOD Designated for Operations)
 
-  // console.log({data, name})
-
-  let numCurrentLiabilities = getSumOfArray(data.currentLiabilities[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numCurrentLiabilities = getSumOfArray(data.currentLiabilities[key]);
   let numTotalUnrestrictedNetAssets = getSumOfArray(
-    data.totalUnrestrictedNetAssets[name]
+    data.totalUnrestrictedNetAssets[key]
   );
   let numLandBuildingsEquipmentNet = getSumOfArray(
-    data.landBuildingsEquipmentNet[name]
+    data.landBuildingsEquipmentNet[key]
   );
-  let numTotalDebt = getSumOfArray(data.totalDebt[name]);
+  let numTotalDebt = getSumOfArray(data.totalDebt[key]);
   let numBODDesignatedForOperations = getSumOfArray(
-    data.bodDesignatedForOperations[name]
+    data.bodDesignatedForOperations[key]
   );
 
   let numIf =
@@ -737,21 +716,23 @@ const currentLiabilitiesToAvailableNetAssets_weightedAverage = (data, name) => {
   );
 };
 
-const currentRatio_weightedAverage = (data, name) => {
+const currentRatio_weightedAverage = (data, name, year) => {
   // [20] 03-01 Current Assets / [28] 03-09 Current Liabilities
 
-  let numCurrentAssets = getSumOfArray(data.currentAssets[name]);
-  let numCurrentLiabilities = getSumOfArray(data.currentLiabilities[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numCurrentAssets = getSumOfArray(data.currentAssets[key]);
+  let numCurrentLiabilities = getSumOfArray(data.currentLiabilities[key]);
 
   return numCurrentAssets / numCurrentLiabilities;
 };
 
-const debtToPropertyAndEquipment_weightedAverage = (data, name) => {
+const debtToPropertyAndEquipment_weightedAverage = (data, name, year) => {
   // [30] 03-11 Total Debt / [27] 03-08 Land, Buildings and Equipment, net
 
-  let numTotalDebt = getSumOfArray(data.totalDebt[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalDebt = getSumOfArray(data.totalDebt[key]);
   let numLandBuildingsEquipmentNet = getSumOfArray(
-    data.landBuildingsEquipmentNet[name]
+    data.landBuildingsEquipmentNet[key]
   );
 
   return numTotalDebt / numLandBuildingsEquipmentNet;
@@ -759,20 +740,36 @@ const debtToPropertyAndEquipment_weightedAverage = (data, name) => {
 
 const receivableWriteOffsAsPercentNetTuitionAndFees_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
   // [25] 03-06 Student Accounts Receivable Written-Off / ([34] 04-01 Gross Tuition Revenues Excluding Fees - [37] 04-04 Financial Aid / Scholarships )
 
+  const key = year != null ? `${name}_${year}` : name;
   const writeOffs =
-    data.studentAccountsReceivableWriteOffs?.[name] ??
-    data.studentAccountsReceivableWrittenOff?.[name];
+    data.studentAccountsReceivableWriteOffs?.[key] ??
+    data.studentAccountsReceivableWrittenOff?.[key];
   let numStudentAccountsReceivableWrittenOff = getSumOfArray(writeOffs);
   let numGrossTuitionRevenuesExcludingFees = getSumOfArray(
-    data.grossTuitionRevenuesExcludingFees[name]
+    data.grossTuitionRevenuesExcludingFees[key]
   );
   let numFinancialAidScholarships = getSumOfArray(
-    data.financialAidScholarships[name]
+    data.financialAidScholarships[key]
   );
+
+  // Display the values in a table labeled 'Receivable Write-Offs as Percent Net Tuition And Fees (weighted avg)'
+  // console.table([
+  //   {
+  //     'Student Accounts Receivable Written-Off (total)': numStudentAccountsReceivableWrittenOff,
+  //     'Gross Tuition Revenues Excluding Fees (total)': numGrossTuitionRevenuesExcludingFees,
+  //     'Financial Aid / Scholarships (total)': numFinancialAidScholarships
+  //   }
+  // ], [
+  //   'Student Accounts Receivable Written-Off (total)',
+  //   'Gross Tuition Revenues Excluding Fees (total)',
+  //   'Financial Aid / Scholarships (total)'
+  // ]);
+  // console.log('Table: Receivable Write-Offs as Percent Net Tuition And Fees (weighted avg)');
 
   return (
     numStudentAccountsReceivableWrittenOff /
@@ -780,26 +777,28 @@ const receivableWriteOffsAsPercentNetTuitionAndFees_weightedAverage = (
   );
 };
 
-const netTuitionARasPercentCurrentAssets_weightedAverage = (data, name) => {
+const netTuitionARasPercentCurrentAssets_weightedAverage = (data, name, year) => {
   // [24] 03-05 Student Accounts Receivable / [20] 03-01 Current Assets
+  const key = year != null ? `${name}_${year}` : name;
   const ar =
-    data.studentsAccountsReceivable?.[name] ??
-    data.studentAccountsReceivable?.[name];
+    data.studentsAccountsReceivable?.[key] ??
+    data.studentAccountsReceivable?.[key];
   let numStudentAccountsReceivable = getSumOfArray(ar);
-  let numCurrentAssets = getSumOfArray(data.currentAssets[name]);
+  let numCurrentAssets = getSumOfArray(data.currentAssets[key]);
 
   return numStudentAccountsReceivable / numCurrentAssets;
 };
 
-const propertyEquipmentPerStudent_weightedAverage = (data, name) => {
+const propertyEquipmentPerStudent_weightedAverage = (data, name, year) => {
+  const key = year != null ? `${name}_${year}` : name;
   let numLandBuildingsEquipmentNet = getSumOfArray(
-    data.landBuildingsEquipmentNet[name]
+    data.landBuildingsEquipmentNet[key]
   );
   let numLandAndLandImprovements = getSumOfArray(
-    data.landAndLandImprovements[name]
+    data.landAndLandImprovements[key]
   );
   let numStudentAverageEnrollment = getSumOfArray(
-    data.studentAverageEnrollment_Main[name]
+    data.studentAverageEnrollment_Main[key]
   );
 
   return (
@@ -810,13 +809,15 @@ const propertyEquipmentPerStudent_weightedAverage = (data, name) => {
 
 const netCashUsedOperating_overUnderBenchmark_weightedAverage = (
   data,
-  name
+  name,
+  year
 ) => {
+  const key = year != null ? `${name}_${year}` : name;
   let numCashFlowsOperatingActivities = getSumOfArray(
-    data.cashFlowsOperatingActivities[name]
+    data.cashFlowsOperatingActivities[key]
   );
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense[key]
   );
 
   return (
@@ -825,25 +826,25 @@ const netCashUsedOperating_overUnderBenchmark_weightedAverage = (
   );
 };
 
-const studentFacilityRatio_weightedAverage = (data, name) => {
-  //   console.log('wa', data, name);
-  let numFullTime = getSumOfArray(data.fullTimeTeachers_Peer[name]);
-  let numPartTime = getSumOfArray(data.partTimeTeachers_Peer[name]);
-  let numStudents = getSumOfArray(data.studentAverageEnrollment_Main[name]);
+const studentFacilityRatio_weightedAverage = (data, name, year) => {
+  const key = year != null ? `${name}_${year}` : name;
+  let numFullTime = getSumOfArray(data.fullTimeTeachers_Peer[key]);
+  let numPartTime = getSumOfArray(data.partTimeTeachers_Peer[key]);
+  let numStudents = getSumOfArray(data.studentAverageEnrollment_Main[key]);
 
   return (numFullTime + 0.5 * numPartTime) / numStudents;
 };
 
-const expendableReservesInDays_weightedAverage = (data, name) => {
-  //   console.log(data);
-  let numTotalUnrestricted = getSumOfArray(data.unrestrictedNetAssets[name]);
+const expendableReservesInDays_weightedAverage = (data, name, year) => {
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalUnrestricted = getSumOfArray(data.unrestrictedNetAssets[key]);
   let numLandBuildingsEquipmentNet = getSumOfArray(
-    data.landBuildingsEquipmentNet[name]
+    data.landBuildingsEquipmentNet[key]
   );
-  let numTotalDebt = getSumOfArray(data.totalDebt[name]);
-  let numTotalExpenses = getSumOfArray(data.totalExpenses[name]);
+  let numTotalDebt = getSumOfArray(data.totalDebt[key]);
+  let numTotalExpenses = getSumOfArray(data.totalExpenses[key]);
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense[key]
   );
 
   let numIf =
@@ -858,15 +859,16 @@ const expendableReservesInDays_weightedAverage = (data, name) => {
   );
 };
 
-const expendableReservesPercent_weightedAverage = (data, name) => {
-  let numTotalUnrestricted = getSumOfArray(data.unrestrictedNetAssets[name]);
+const expendableReservesPercent_weightedAverage = (data, name, year) => {
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalUnrestricted = getSumOfArray(data.unrestrictedNetAssets[key]);
   let numLandBuildingsEquipmentNet = getSumOfArray(
-    data.landBuildingsEquipmentNet[name]
+    data.landBuildingsEquipmentNet[key]
   );
-  let numTotalDebt = getSumOfArray(data.totalDebt[name]);
-  let numTotalExpense = getSumOfArray(data.totalExpenses[name]);
+  let numTotalDebt = getSumOfArray(data.totalDebt[key]);
+  let numTotalExpense = getSumOfArray(data.totalExpenses[key]);
   let numTotalDepreciationExpense = getSumOfArray(
-    data.totalDepreciationExpense[name]
+    data.totalDepreciationExpense[key]
   );
 
   let numIf =
@@ -880,14 +882,15 @@ const expendableReservesPercent_weightedAverage = (data, name) => {
   );
 };
 
-const cashAvailableDeferred_weightedAverage = (data, name) => {
+const cashAvailableDeferred_weightedAverage = (data, name, year) => {
   // ( ([21] 03-02 Total Cash  + [22] 03-03 Non-Endowment Investments - [29] 03-10 Deferred Revenue ) / [29] 03-10 Deferred Revenue
 
-  let numTotalCash = getSumOfArray(data.totalCash[name]);
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalCash = getSumOfArray(data.totalCash[key]);
   let numNonEndowmentInvestments = getSumOfArray(
-    data.nonEndowmentInvestments[name]
+    data.nonEndowmentInvestments[key]
   );
-  let numDeferredRevenue = getSumOfArray(data.deferredRevenue[name]);
+  let numDeferredRevenue = getSumOfArray(data.deferredRevenue[key]);
 
   return (
     (numTotalCash + numNonEndowmentInvestments - numDeferredRevenue) /
@@ -895,16 +898,16 @@ const cashAvailableDeferred_weightedAverage = (data, name) => {
   );
 };
 
-const liquidityRatio_weightedAverage = (data, name) => {
-  let numTotalCash = getSumOfArray(data.totalCash[name]);
+const liquidityRatio_weightedAverage = (data, name, year) => {
+  const key = year != null ? `${name}_${year}` : name;
+  let numTotalCash = getSumOfArray(data.totalCash[key]);
   let numNonEndowmentInvestments = getSumOfArray(
-    data.nonEndowmentInvestments[name]
+    data.nonEndowmentInvestments[key]
   );
-  let numCurrentLiabilities = getSumOfArray(data.currentLiabilities[name]);
-  let numDeferredRevenue = getSumOfArray(data.deferredRevenue[name]);
+  let numCurrentLiabilities = getSumOfArray(data.currentLiabilities[key]);
+  let numDeferredRevenue = getSumOfArray(data.deferredRevenue[key]);
 
-  return (
-    (numTotalCash + numNonEndowmentInvestments) /
-    (numCurrentLiabilities - numDeferredRevenue)
-  );
+  const denominator = numCurrentLiabilities - numDeferredRevenue;
+  if (!denominator) return 0;
+  return (numTotalCash + numNonEndowmentInvestments) / denominator;
 };
