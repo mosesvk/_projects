@@ -3065,33 +3065,153 @@ const processEnrollmentData = (years, recordsPeer, recordsClient) => {
 // Helper functions
 
 /**
- * Counts unique clients (peer schools) in records and updates the UI.
- * @param {NodeList|Array} records - Peer records from Quickbase API
+ * Counts unique MAIN Related Client ids (peer table field 156) and updates #uniqueClients.
+ * Also fills {@link window.peerUniqueClientsBreakdown} and logs each client and why it counts.
+ * @param {NodeList|Array} records - Final peer rows from getRecordsForPeer (year query + School/Church filter + dedupe)
  * @returns {number} Count of unique clients
  */
 const countUniqueClients = (records) => {
   uniqueClients = new Set();
   let count = 0;
   try {
-    records.forEach((record) => {
+    const recordList = Array.isArray(records)
+      ? records
+      : Array.from(records || []);
+    /** @type {Record<string, { mainRelatedClientId: string, mergedClientName: string|null, clientChurchSchool: string|null, mainQueryRegions: string[], fiscalYears: string[], peerRecordRowCount: number, whyCounted: string }>} */
+    const byMainRelatedClient = {};
+    /** @type {Array<{ index: number, fiscalYear: string|null, whySkipped: string }>} */
+    const skippedNoRelatedClient = [];
+
+    let schoolChurchFilterNote = "unknown";
+    try {
+      schoolChurchFilterNote = isPeerSchoolChurchBroadMode()
+        ? "Broad mode: peers with client___church___school 0 or 1 (school-only and school+church)."
+        : "School-only mode: peers with client___church___school 0 (field 288).";
+    } catch (e) {
+      /* selectedSchoolChurch not ready */
+    }
+
+    recordList.forEach((record, index) => {
       const mainRelatedClientEl = record.querySelector("main__related_client");
-      if (mainRelatedClientEl && mainRelatedClientEl.textContent) {
-        uniqueClients.add(mainRelatedClientEl.textContent);
+      const id = mainRelatedClientEl?.textContent?.trim();
+      if (!id) {
+        skippedNoRelatedClient.push({
+          index,
+          fiscalYear:
+            record.querySelector("fiscal_ye_date_formatted_year")?.textContent
+              ?.trim() ?? null,
+          whySkipped:
+            "No main__related_client (field 156); row not counted in unique client total.",
+        });
+        return;
       }
+
+      uniqueClients.add(id);
+
+      if (!byMainRelatedClient[id]) {
+        const merged =
+          record.querySelector("client___merged_client_name")?.textContent
+            ?.trim() || null;
+        const churchSchool =
+          record.querySelector("client___church___school")?.textContent
+            ?.trim() ?? null;
+        const region =
+          record.querySelector("main_queryregions")?.textContent?.trim() ?? "";
+
+        byMainRelatedClient[id] = {
+          mainRelatedClientId: id,
+          mergedClientName: merged,
+          clientChurchSchool: churchSchool,
+          mainQueryRegions: region ? [region] : [],
+          fiscalYears: [],
+          peerRecordRowCount: 0,
+          whyCounted:
+            "Included: this row is already in the peer set (fiscal year match + " +
+            schoolChurchFilterNote +
+            " + client/year dedupe). Unique count = one per distinct main__related_client with a value.",
+        };
+      }
+
+      const agg = byMainRelatedClient[id];
+      agg.peerRecordRowCount += 1;
+      const fy =
+        record.querySelector("fiscal_ye_date_formatted_year")?.textContent?.trim();
+      if (fy && !agg.fiscalYears.includes(fy)) {
+        agg.fiscalYears.push(fy);
+      }
+      const reg =
+        record.querySelector("main_queryregions")?.textContent?.trim() ?? "";
+      if (reg && !agg.mainQueryRegions.includes(reg)) {
+        agg.mainQueryRegions.push(reg);
+      }
+      const merged =
+        record.querySelector("client___merged_client_name")?.textContent
+          ?.trim() || null;
+      if (merged && !agg.mergedClientName) {
+        agg.mergedClientName = merged;
+      }
+    });
+
+    Object.values(byMainRelatedClient).forEach((agg) => {
+      agg.fiscalYears.sort();
+      agg.mainQueryRegions.sort();
     });
 
     count = uniqueClients.size;
 
+    const sortedIds = Array.from(uniqueClients).sort((a, b) => {
+      const na = parseInt(a, 10);
+      const nb = parseInt(b, 10);
+      if (!Number.isNaN(na) && !Number.isNaN(nb)) return na - nb;
+      return String(a).localeCompare(String(b));
+    });
+
+    window.uniqueClientsList = sortedIds;
+    window.peerUniqueClientsBreakdown = {
+      uniqueCount: count,
+      mainRelatedClientIdsSorted: sortedIds,
+      byMainRelatedClient,
+      skippedNoRelatedClient,
+      note:
+        "Same number as #uniqueClients. Inspect byMainRelatedClient for display name, regions, years per client.",
+    };
+
+    console.log(
+      "[Peer unique clients] #uniqueClients count =",
+      count,
+      "— detail:",
+      window.peerUniqueClientsBreakdown
+    );
+    console.table(
+      sortedIds.map((cid) => {
+        const row = byMainRelatedClient[cid];
+        return {
+          mainRelatedClient: cid,
+          mergedClientName: row?.mergedClientName ?? "",
+          clientChurchSchool: row?.clientChurchSchool ?? "",
+          regions: (row?.mainQueryRegions || []).join(", "),
+          fiscalYears: (row?.fiscalYears || []).join(", "),
+          rows: row?.peerRecordRowCount ?? 0,
+        };
+      })
+    );
+
     const uniqueClientsElement = document.getElementById("uniqueClients");
     if (uniqueClientsElement) {
-      uniqueClientsElement.textContent = count;
+      uniqueClientsElement.textContent = String(count);
+      uniqueClientsElement.setAttribute(
+        "title",
+        `Open DevTools → Console: peerUniqueClientsBreakdown. IDs: ${sortedIds.join(", ")}`
+      );
     }
   } catch (error) {
     console.error("Error counting unique clients:", error);
     const uniqueClientsElement = document.getElementById("uniqueClients");
     if (uniqueClientsElement) {
-      uniqueClientsElement.textContent = 0;
+      uniqueClientsElement.textContent = "0";
+      uniqueClientsElement.removeAttribute("title");
     }
+    window.peerUniqueClientsBreakdown = { error: String(error) };
   }
   return count;
 };
@@ -3342,7 +3462,7 @@ run_btn.addEventListener("click", async () => {
     const qdbapiElementClient = `<qdbapi>${recordClientHTMLArray.join(
       ""
     )}</qdbapi>`;
-    console.log("Client XML string:", qdbapiElementClient);
+    // console.log("Client XML string:", qdbapiElementClient);
 
     const qdbapiElementPeer = `<qdbapi>${recordPeerHTMLArray.join(
       ""
