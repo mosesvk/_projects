@@ -646,34 +646,60 @@ const netIncomeRatio_weightedAverage = (data, name, year) => {
 };
 
 const debtCoverage_weightedAverage = (data, name, year) => {
-  // ( [45] 04-12 Change in Unrestricted Net Assets + [44] 04-11 Current Year Interest Expense + [42] 04-09 Total Depreciation Expense + [48] 05-02 Capitalized Interest ) / ([18] 02-06 Current maturities of LT Debt + [44] 04-11 Current Year Interest Expense + [48] 05-02 Capitalized Interest)
+  // ( [04-12 Change in Unrestricted Net Assets] + [04-11 Current Year Interest Expense] + [04-09 Total Depreciation Expense] + [05-02 Capitalized Interest] ) / 
+  // ([02-06 Current maturities of LT Debt] + [04-11 Current Year Interest Expense] + [05-02 Capitalized Interest])
 
   const key = year != null ? `${name}_${year}` : name;
-  let numChangeInUnrestrictedNetAssets = getSumOfArray(
+
+  // Gather each numerator/denominator value using the mapped keys per the QB logic
+  const numChangeInUnrestrictedNetAssets = getSumOfArray(
     data.changeInUnrestrictedNetAssets?.[key] || []
   );
-  let numCurrentYearInterestExpense = getSumOfArray(
+  const numCurrentYearInterestExpense = getSumOfArray(
     data.currentYearInterestExpense?.[key] || []
   );
-  let numTotalDepreciationExpense = getSumOfArray(
+  const numTotalDepreciationExpense = getSumOfArray(
     data.totalDepreciationExpense?.[key] || []
   );
-  let numCapitalizedInterest = getSumOfArray(
+  const numCapitalizedInterest = getSumOfArray(
     data.capitalizedInterest?.[key] || []
   );
-  const currentMaturitiesArr =
-    data.currentMaturingDebt?.[key] ?? data.currentMaturitiesOfLTDebt?.[key];
-  let numCurrentMaturitiesOfLTDebt = getSumOfArray(currentMaturitiesArr || []);
-
-  return (
-    (numChangeInUnrestrictedNetAssets +
-      numCurrentYearInterestExpense +
-      numTotalDepreciationExpense +
-      numCapitalizedInterest) /
-    (numCurrentMaturitiesOfLTDebt +
-      numCurrentYearInterestExpense +
-      numCapitalizedInterest)
+  // Per QuickBase, denominator is: "Current Maturities of LT Debt" + "Current Year Interest Expense" + "Capitalized Interest"
+  const numCurrentMaturitiesOfLTDebt = getSumOfArray(
+    // Allow both naming conventions for current maturities, as seen in the API
+    (data.currentMaturingDebt?.[key] ?? data.currentMaturitiesOfLTDebt?.[key]) || []
   );
+
+  // Log a table of all total sums by year (excluding the "total" bucket)
+  if (typeof console !== "undefined" && typeof year !== "undefined" && name !== "total") {
+    // Only log if year is defined and not a summary row
+    try {
+      const logTable = {};
+      logTable["_04_12_change_in_unrestricted_net_assets"] = numChangeInUnrestrictedNetAssets;
+      logTable["_04_11_current_year_interest_expense"] = numCurrentYearInterestExpense;
+      logTable["_04_09_total_depreciation_expense"] = numTotalDepreciationExpense;
+      logTable["_05_02_capitalized_interest"] = numCapitalizedInterest;
+      logTable["_02_06_current_maturities_of_lt_debt"] = numCurrentMaturitiesOfLTDebt;
+      logTable["_Year"] = year;
+      // Stylized per-year log
+      console.table(logTable);
+    } catch (e) {
+      // Fail silently, e.g. if data is missing
+    }
+  }
+  // Match exactly the QB formula
+  const numerator =
+    numChangeInUnrestrictedNetAssets +
+    numCurrentYearInterestExpense +
+    numTotalDepreciationExpense +
+    numCapitalizedInterest;
+
+  const denominator =
+    numCurrentMaturitiesOfLTDebt +
+    numCurrentYearInterestExpense +
+    numCapitalizedInterest;
+
+  return numerator / denominator;
 };
 
 const debtPerStudents_weightedAverage = (data, name, year) => {

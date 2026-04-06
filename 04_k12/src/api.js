@@ -2263,16 +2263,6 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "peer",
         year,
         object,
-        "currentYearInterestExpense",
-        record,
-        "_04_11_current_year_interest_expense",
-        "_15_yes_no_debt_coverage",
-        "debtCoverage"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
         "capitalizedInterest",
         record,
         "_05_02_capitalized_interest",
@@ -2352,11 +2342,11 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
     });
   });
 
-  console.log("Debt data debug:", {
-    selectedYears: years,
-    debtToNetAssets_Peer: object.debtToNetAssets_Peer,
-    debtToNetAssets_Client: object.debtToNetAssets_Client,
-  });
+  // console.log("Debt data debug:", {
+  //   selectedYears: years,
+  //   debtToNetAssets_Peer: object.debtToNetAssets_Peer,
+  //   debtToNetAssets_Client: object.debtToNetAssets_Client,
+  // });
 
   localStorage.removeItem("debtData");
   localStorage.setItem("debtData", JSON.stringify(object));
@@ -2923,11 +2913,11 @@ const processCashData = (years, recordsPeer, recordsClient) => {
     });
   });
 
-  console.log("Cash data debug:", {
-    selectedYears: years,
-    daysCashOnHand_Peer: object.daysCashOnHand_Peer,
-    daysCashOnHand_Client: object.daysCashOnHand_Client,
-  });
+  // console.log("Cash data debug:", {
+  //   selectedYears: years,
+  //   daysCashOnHand_Peer: object.daysCashOnHand_Peer,
+  //   daysCashOnHand_Client: object.daysCashOnHand_Client,
+  // });
   localStorage.removeItem("cashData");
   localStorage.setItem("cashData", JSON.stringify(object));
 };
@@ -3461,7 +3451,7 @@ run_btn.addEventListener("click", async () => {
     console.log("Selected year(s) for API run:", selectedYearsArray);
 
     const recordsPeer = await getRecordsForPeer(selectedYears, "<qdbapi>");
-    console.log("Peer data records:", recordsPeer);
+    // console.log("Peer data records:", recordsPeer);
     const uniqueClientCount = countUniqueClients(recordsPeer);
     window.lastRunUniqueClientCount = uniqueClientCount;
 
