@@ -892,8 +892,8 @@ class ExcelReportGenerator {
         // Map year count to tpid based on report type
         if (reportType === "trends") {
           const reportSuffix = "Trends Report";
-          fnName = clientName 
-            ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+          fnName = clientName
+            ? `${clientName} ${reportSuffix}`
             : reportSuffix;
           switch (yearCount) {
             case 1:
@@ -917,8 +917,8 @@ class ExcelReportGenerator {
           }
         } else if (reportType === "benchmark") {
           const reportSuffix = "Benchmark Report";
-          fnName = clientName 
-            ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+          fnName = clientName
+            ? `${clientName} ${reportSuffix}`
             : reportSuffix;
           switch (yearCount) {
             case 1:
@@ -945,7 +945,14 @@ class ExcelReportGenerator {
           return "";
         }
 
-        const url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=${tpid}&fn=${fnName}&dbid=btcc8gq3r&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+        // Session-based Excel report URL (Quick Base security update; replaces ExcelGen_UA.aspx + apptoken=---).
+        const tableDbid = "btcc8gq3r";
+        const params = new URLSearchParams();
+        params.set("rid", RecordId);
+        params.set("docfmt", format);
+        params.set("tpid", tpid);
+        params.set("fn", fnName);
+        const url = `https://capincrouse.quickbase.com/nav/app/bps9da9i5/table/${tableDbid}/action/er?${params.toString()}`;
 
         console.log(
           `Generated ${reportType} URL for ${yearCount} year(s), format ${format}, RecordId ${RecordId}: ${url}`

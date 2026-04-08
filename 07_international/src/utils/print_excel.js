@@ -776,36 +776,46 @@ class ExcelReportGenerator {
   printToExcel(dataString) {
     function getUrlBasedOnYearCount(format, RecordId) {
       const yearCount = selectedYears_Set.size;
-      let url = "";
+      let tpid = "";
 
       switch (yearCount) {
         case 1:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=42&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "42";
           break;
         case 2:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=41&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "41";
           break;
         case 3:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=40&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "40";
           break;
         case 4:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=39&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "39";
           break;
         case 5:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=38&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "38";
           break;
         case 6:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=37&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "37";
           break;
         case 7:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=36&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "36";
           break;
         case 8:
-          url = `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=35&fn=InternationalSummary&dbid=bt76haf6m&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+          tpid = "35";
           break;
         default:
           console.error("Invalid year count");
+          return "";
       }
+
+      // Session-based Excel report URL (Quick Base security update; replaces ExcelGen_UA.aspx + apptoken=---).
+      const tableDbid = "bt76haf6m";
+      const params = new URLSearchParams();
+      params.set("rid", RecordId);
+      params.set("docfmt", format);
+      params.set("tpid", tpid);
+      params.set("fn", "InternationalSummary");
+      const url = `https://capincrouse.quickbase.com/nav/app/bps9da9i5/table/${tableDbid}/action/er?${params.toString()}`;
 
       console.log(
         `Generated URL for format ${format} and RecordId ${RecordId}: ${url}`

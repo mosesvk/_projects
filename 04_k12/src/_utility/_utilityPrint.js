@@ -426,7 +426,7 @@ class ExcelReportGenerator {
     /**
      * Generate URL for Trends or Benchmark reports based on year count (K12).
      * Structure matches comp; tpid/dbid may need to be updated for K12 report templates.
-     * If ExcelGen_UA returns "Cannot find column N": (1) ensure table bt3q4xqn5 has field ID N
+     * If the Excel report returns "Cannot find column N": (1) ensure table bt3q4xqn5 has field ID N
      * (see docs/quickbase/excelFields.txt); (2) ensure the report template (tpid) is configured
      * for K12 and only references field IDs that exist in bt3q4xqn5.
      * @param {string} reportType - "trends" or "benchmark"
@@ -460,7 +460,7 @@ class ExcelReportGenerator {
       const reportSuffix =
         reportType === "trends" ? "Trends Report" : "Benchmark Report";
       const fnName = clientName
-        ? `${encodeURIComponent(clientName)} ${reportSuffix}`
+        ? `${clientName} ${reportSuffix}`
         : reportSuffix;
 
       if (reportType === "trends") {
@@ -472,7 +472,14 @@ class ExcelReportGenerator {
       }
       if (!tpid) return "";
 
-      return `https://www.quickbaseutilities1.com/CapinTechnology_1795/XL%20Docs/ExcelGen_UA.aspx?clientid=Q1795&appid=bps9da9i5&tpdbid=bsaavek7s&tpid=${tpid}&fn=${fnName}&dbid=bt3q4xqn5&msid=${RecordId}&docfmt=${format}&stream=y&apptoken=---`;
+      // Session-based Excel report URL (Quick Base security update; replaces ExcelGen_UA.aspx + apptoken=---).
+      const tableDbid = "bt3q4xqn5";
+      const params = new URLSearchParams();
+      params.set("rid", RecordId);
+      params.set("docfmt", format);
+      params.set("tpid", tpid);
+      params.set("fn", fnName);
+      return `https://capincrouse.quickbase.com/nav/app/bps9da9i5/table/${tableDbid}/action/er?${params.toString()}`;
     };
 
     return new Promise((resolve, reject) => {
