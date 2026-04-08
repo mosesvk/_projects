@@ -2249,26 +2249,6 @@ const processDebtData = (years, recordsPeer, recordsClient) => {
         "_15_yes_no_debt_coverage",
         "debtCoverage"
       );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "currentMaturingDebt",
-        record,
-        "_02_06_current_maturities_of_lt_debt",
-        "_15_yes_no_debt_coverage",
-        "debtCoverage"
-      );
-      insertDataIntoObject(
-        "peer",
-        year,
-        object,
-        "capitalizedInterest",
-        record,
-        "_05_02_capitalized_interest",
-        "_15_yes_no_debt_coverage",
-        "debtCoverage"
-      );
     });
 
     const filteredClientRecords = [...recordsClient].filter((record) => {
