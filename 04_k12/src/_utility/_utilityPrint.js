@@ -275,15 +275,18 @@ class ExcelReportGenerator {
 
     setTimeout(() => {
       this.createPrintExcel()
-        .then(() => {
+        .then((result) => {
+          if (result?.reportFormUrl) {
+            // Open only after successful generation/upload.
+            window.open(result.reportFormUrl, "_blank", "noopener,noreferrer");
+          }
+
           if (typeof toggleGenerateReportButtonNormalState === "function") {
             toggleGenerateReportButtonNormalState(button);
           } else {
             button.disabled = false;
             button.textContent = "Generate Trends and Benchmark Reports";
           }
-          const footer = document.getElementById("print_modal_footer");
-          if (footer) footer.classList.remove("hidden");
           this.isGenerating = false;
         })
         .catch((error) => {
@@ -482,6 +485,19 @@ class ExcelReportGenerator {
       return `https://capincrouse.quickbase.com/nav/app/bps9da9i5/table/${tableDbid}/action/er?${params.toString()}`;
     };
 
+    /**
+     * Quickbase record form URL for K12 upload table (bt3q4xqn5).
+     * Church/CFHI print flows use btcc8gq3r — not K12.
+     * @param {string} RecordId - QuickBase record ID from API_AddRecord
+     * @returns {string}
+     */
+    const getQuickbaseReportFormUrl = (RecordId) => {
+      const tableDbid = "bt3q4xqn5";
+      const params = new URLSearchParams();
+      params.set("rid", RecordId);
+      return `https://capincrouse.quickbase.com/nav/app/bps9da9i5/table/${tableDbid}/action/dr?${params.toString()}`;
+    };
+
     return new Promise((resolve, reject) => {
       try {
         localStorage.setItem("lastXmlPayload", dataString);
@@ -516,6 +532,12 @@ class ExcelReportGenerator {
 
               if (errorCode === "0") {
                 const recordId = xmlUpload.find("qdbapi").find("rid").text();
+                const trendsReportUrl = getUrlBasedOnYearCount(
+                  "trends",
+                  "xls",
+                  recordId
+                );
+                const reportFormUrl = getQuickbaseReportFormUrl(recordId);
 
                 if (typeof createToastSuccess === "function") {
                   createToastSuccess(
@@ -523,19 +545,9 @@ class ExcelReportGenerator {
                   );
                 }
 
-                const printModalFooter =
-                  document.getElementById("print_modal_footer");
-                if (printModalFooter) {
-                  printModalFooter.classList.remove("hidden");
-                }
-
                 const trendXLSFinal = document.getElementById("trendXLSFinal");
                 if (trendXLSFinal) {
-                  trendXLSFinal.href = getUrlBasedOnYearCount(
-                    "trends",
-                    "xls",
-                    recordId
-                  );
+                  trendXLSFinal.href = trendsReportUrl;
                 }
                 const trendPDFFinal = document.getElementById("trendPDFFinal");
                 if (trendPDFFinal) {
@@ -563,7 +575,7 @@ class ExcelReportGenerator {
                   );
                 }
 
-                resolve({ recordId });
+                resolve({ recordId, reportFormUrl });
               } else {
                 const errorText =
                   xmlUpload.find("qdbapi").find("errtext").text() ||

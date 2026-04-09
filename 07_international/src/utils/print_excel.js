@@ -257,21 +257,13 @@ class ExcelReportGenerator {
       return;
     }
 
-    // Open a placeholder tab in direct response to user click to avoid popup blockers.
-    const pendingReportTab = window.open("", "_blank", "noopener,noreferrer");
-
     // Generate report with slight delay to ensure UI updates
     setTimeout(() => {
       this.createPrintExcel()
         .then((result) => {
           if (result?.reportUrl) {
-            if (pendingReportTab && !pendingReportTab.closed) {
-              pendingReportTab.location.href = result.reportUrl;
-            } else {
-              window.open(result.reportUrl, "_blank", "noopener,noreferrer");
-            }
-          } else if (pendingReportTab && !pendingReportTab.closed) {
-            pendingReportTab.close();
+            // Open only after successful upload (Quickbase form with rid).
+            window.open(result.reportUrl, "_blank", "noopener,noreferrer");
           }
 
           if (typeof toggleGenerateReportButtonNormalState === "function") {
@@ -285,10 +277,6 @@ class ExcelReportGenerator {
         })
         .catch((error) => {
           console.error("Report generation failed:", error);
-
-          if (pendingReportTab && !pendingReportTab.closed) {
-            pendingReportTab.close();
-          }
 
           if (typeof createToastWarning === "function") {
             createToastWarning(
@@ -791,6 +779,20 @@ class ExcelReportGenerator {
    * @returns {Promise} Promise that resolves with the QuickBase response
    */
   printToExcel(dataString) {
+    /**
+     * International Quickbase report form URL (opens form / report UI for this record).
+     * Table: bt76haf6m (International summary upload table).
+     * @param {string} recordId - Quickbase record id from API_AddRecord response
+     * @returns {string}
+     */
+    function getInternationalReportFormUrl(recordId) {
+      const base =
+        "https://capincrouse.quickbase.com/nav/app/bps9da9i5/table/bt76haf6m/action/er";
+      const params = new URLSearchParams();
+      params.set("rid", recordId);
+      return `${base}?${params.toString()}`;
+    }
+
     function getUrlBasedOnYearCount(format, RecordId) {
       const yearCount = selectedYears_Set.size;
       let tpid = "";
@@ -885,7 +887,7 @@ class ExcelReportGenerator {
 
               if (errorCode === "0") {
                 const recordId = xmlUpload.find("qdbapi").find("rid").text();
-                const reportUrl = getUrlBasedOnYearCount("xls", recordId);
+                const reportUrl = getInternationalReportFormUrl(recordId);
                 console.log(
                   "Successfully uploaded to QuickBase, Record ID:",
                   recordId
@@ -903,7 +905,7 @@ class ExcelReportGenerator {
                   trendXLSFinal &&
                   typeof getUrlBasedOnYearCount === "function"
                 ) {
-                  trendXLSFinal.href = reportUrl;
+                  trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
                 }
 
                 const trendPDFFinal = document.getElementById("trendPDFFinal");

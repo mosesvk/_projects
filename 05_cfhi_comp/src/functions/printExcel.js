@@ -231,7 +231,12 @@ class ExcelReportGenerator {
       // Generate report with slight delay to ensure UI updates
       setTimeout(() => {
         this.createPrintExcel()
-          .then(() => {
+          .then((result) => {
+            if (result?.reportUrl) {
+              // Church print table form — open only after successful upload
+              window.open(result.reportUrl, "_blank", "noopener,noreferrer");
+            }
+
             if (typeof toggleGenerateReportButtonNormalState === "function") {
               toggleGenerateReportButtonNormalState(button);
             } else {
@@ -243,7 +248,7 @@ class ExcelReportGenerator {
           })
           .catch((error) => {
             console.error("Report generation failed:", error);
-  
+
             if (typeof createToastWarning === "function") {
               createToastWarning(
                 `Report generation failed: ${error.message || "Unknown error"}`
@@ -869,6 +874,20 @@ class ExcelReportGenerator {
      */
     printToExcel(dataString) {
       /**
+       * Church print table — Quickbase form opened in a new tab after successful upload.
+       * Table btcc8gq3r, action/er with rid only.
+       * @param {string} recordId - QuickBase record ID from API_AddRecord
+       * @returns {string}
+       */
+      function getChurchReportFormUrl(recordId) {
+        const base =
+          "https://capincrouse.quickbase.com/nav/app/bps9da9i5/table/btcc8gq3r/action/er";
+        const params = new URLSearchParams();
+        params.set("rid", recordId);
+        return `${base}?${params.toString()}`;
+      }
+
+      /**
        * Generate URL for Trends or Benchmark reports based on year count
        * @param {string} reportType - Either "trends" or "benchmark"
        * @param {string} format - File format ("xls" or "pdf")
@@ -1005,6 +1024,7 @@ class ExcelReportGenerator {
   
                 if (errorCode === "0") {
                   const recordId = xmlUpload.find("qdbapi").find("rid").text();
+                  const reportUrl = getChurchReportFormUrl(recordId);
                   console.log(
                     "Successfully uploaded to QuickBase, Record ID:",
                     recordId
@@ -1016,16 +1036,14 @@ class ExcelReportGenerator {
                     );
                   }
   
-                  const printModalFooter =
-                    document.getElementById("print_modal_footer");
-                  if (printModalFooter) {
-                    printModalFooter.classList.remove("hidden");
-                  }
-
                   // Update Trends download links
                   const trendXLSFinal = document.getElementById("trendXLSFinal");
                   if (trendXLSFinal) {
-                    trendXLSFinal.href = getUrlBasedOnYearCount("trends", "xls", recordId);
+                    trendXLSFinal.href = getUrlBasedOnYearCount(
+                      "trends",
+                      "xls",
+                      recordId
+                    );
                   }
 
                   const trendPDFFinal = document.getElementById("trendPDFFinal");
@@ -1044,7 +1062,7 @@ class ExcelReportGenerator {
                     benchPDFFinal.href = getUrlBasedOnYearCount("benchmark", "pdf", recordId);
                   }
   
-                  resolve({ recordId });
+                  resolve({ recordId, reportUrl });
                 } else {
                   const errorText =
                     xmlUpload.find("qdbapi").find("errtext").text() ||
