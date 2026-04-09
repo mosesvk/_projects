@@ -257,10 +257,23 @@ class ExcelReportGenerator {
       return;
     }
 
+    // Open a placeholder tab in direct response to user click to avoid popup blockers.
+    const pendingReportTab = window.open("", "_blank", "noopener,noreferrer");
+
     // Generate report with slight delay to ensure UI updates
     setTimeout(() => {
       this.createPrintExcel()
-        .then(() => {
+        .then((result) => {
+          if (result?.reportUrl) {
+            if (pendingReportTab && !pendingReportTab.closed) {
+              pendingReportTab.location.href = result.reportUrl;
+            } else {
+              window.open(result.reportUrl, "_blank", "noopener,noreferrer");
+            }
+          } else if (pendingReportTab && !pendingReportTab.closed) {
+            pendingReportTab.close();
+          }
+
           if (typeof toggleGenerateReportButtonNormalState === "function") {
             toggleGenerateReportButtonNormalState(button);
           } else {
@@ -272,6 +285,10 @@ class ExcelReportGenerator {
         })
         .catch((error) => {
           console.error("Report generation failed:", error);
+
+          if (pendingReportTab && !pendingReportTab.closed) {
+            pendingReportTab.close();
+          }
 
           if (typeof createToastWarning === "function") {
             createToastWarning(
@@ -868,6 +885,7 @@ class ExcelReportGenerator {
 
               if (errorCode === "0") {
                 const recordId = xmlUpload.find("qdbapi").find("rid").text();
+                const reportUrl = getUrlBasedOnYearCount("xls", recordId);
                 console.log(
                   "Successfully uploaded to QuickBase, Record ID:",
                   recordId
@@ -879,19 +897,13 @@ class ExcelReportGenerator {
                   );
                 }
 
-                const printModalFooter =
-                  document.getElementById("print_modal_footer");
-                if (printModalFooter) {
-                  printModalFooter.classList.remove("hidden");
-                }
-
                 // Update download links if they exist
                 const trendXLSFinal = document.getElementById("trendXLSFinal");
                 if (
                   trendXLSFinal &&
                   typeof getUrlBasedOnYearCount === "function"
                 ) {
-                  trendXLSFinal.href = getUrlBasedOnYearCount("xls", recordId);
+                  trendXLSFinal.href = reportUrl;
                 }
 
                 const trendPDFFinal = document.getElementById("trendPDFFinal");
@@ -902,7 +914,7 @@ class ExcelReportGenerator {
                   trendPDFFinal.href = getUrlBasedOnYearCount("pdf", recordId);
                 }
 
-                resolve({ recordId });
+                resolve({ recordId, reportUrl });
               } else {
                 const errorText =
                   xmlUpload.find("qdbapi").find("errtext").text() ||
