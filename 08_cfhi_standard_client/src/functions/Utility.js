@@ -1,0 +1,1953 @@
+const yearsData_Array = [];
+const selectedYearsselectedYears_Array = [];
+const regions_Array = [
+  { arr: ["New England: CT, RI, MA, VT, NH"], str: "NE" },
+  {
+    arr: ["Mid-Atlantic: VA, WV, MD, DE, NJ, NY, PA, DC"],
+    str: "MA",
+  },
+  {
+    arr: ["South: AR, LA, AL, TN, KY, GA, FL, SC, NC, MS"],
+    str: "SO",
+  },
+  { arr: ["Midwest: WI, IL, IN, MI, OH, IA, MN"], str: "MW" },
+  { arr: ["Plains: KS, MO, OK, TX, ND, SD, NE"], str: "PL" },
+  {
+    arr: ["Mountain/Southwest: ID, MT, WY, CO, UT, NV, AZ, NM"],
+    str: "MT",
+  },
+  { arr: ["West Coast: CA, OR, WA"], str: "WC" },
+];
+
+const sites_Array = [
+  { arr: ["Single Site"], str: "SINGLE" },
+  { arr: ["2 - 5 Sites"], str: "TWOSIX" },
+  { arr: ["6+ Sites"], str: "MANY" },
+];
+
+let sliderAmount = null;
+let sliderRange = null;
+window.sliderValue = window.sliderValue || 0;
+window.sliderValue2 = window.sliderValue2 || 25000;
+// let amount = null;
+
+const selectedRegions_Array = [];
+const selectedSites_Array = [];
+
+// Utility Functions
+
+const createChartFromParsedData = (
+  parsedData,
+  chart,
+  peer,
+  client,
+  type,
+  fixedNum,
+  mainName,
+  benchmark,
+  title,
+  wa = null,
+  allData = null
+) => {
+  // console.log('parsedData', parsedData);
+  if (parsedData) {
+    createChart(chart, parsedData[peer], parsedData[client], type, fixedNum, mainName, benchmark, title, wa, allData || parsedData);
+    updateModal(mainName, parsedData[peer], parsedData[client]);
+  }
+};
+
+/**
+ * Destroy an existing chart instance if it exists
+ * @param {string} chartId - The chart ID to destroy
+ */
+const destroyChartIfExists = (chartId) => {
+  const chartIds = [
+    "givingUnits_chart",
+    "givingUnitsToStaff_chart",
+    "contributionsWithoutDonorExcludingLargeGifts_chart",
+    "daysExpendableNetAssets_chart",
+    "daysOperatingCash_chart",
+    "cashFlowsFromOperatingActivities_chart",
+    "liquidityRatio_chart",
+    "netCashAvailability_chart",
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart",
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart",
+    "netIncomeRatio_chart",
+    "contributionsWithoutDonorPerGivingUnit_chart",
+    "totalContributionsPerGivingUnit_chart",
+    "benefitsToSalaries_chart",
+    "salariesBenefitsIncludingOutsourcedEmployees_chart",
+    "personnelToCashExpenditure_chart",
+    "cashExpendituresPerGivingUnit_chart",
+    "personnelIncludingToTotalCashExpenditures_chart",
+  ];
+
+  if (chartIds.includes(chartId)) {
+    // Get the chart instance from window object
+    const chartInstance = window[chartId];
+    if (chartInstance && typeof chartInstance.destroy === "function") {
+      try {
+        chartInstance.destroy();
+      } catch (error) {
+        // console.warn(`Error destroying chart ${chartId}:`, error);
+      }
+      window[chartId] = null;
+    }
+  }
+};
+
+/**
+ * Destroy all chart instances before rerunning API
+ */
+const destroyAllCharts = () => {
+  const chartIds = [
+    "givingUnits_chart",
+    "givingUnitsToStaff_chart",
+    "contributionsWithoutDonorExcludingLargeGifts_chart",
+    "daysExpendableNetAssets_chart",
+    "daysOperatingCash_chart",
+    "cashFlowsFromOperatingActivities_chart",
+    "liquidityRatio_chart",
+    "netCashAvailability_chart",
+    "debtToContributionsWithout_chart",
+    "currentRatio_chart",
+    "mandatoryDebtServiceToContributionsWithout_chart",
+    "debtPerGivingUnit_chart",
+    "debtCoverage_chart",
+    "netIncomeRatio_chart",
+    "contributionsWithoutDonorPerGivingUnit_chart",
+    "totalContributionsPerGivingUnit_chart",
+    "benefitsToSalaries_chart",
+    "salariesBenefitsIncludingOutsourcedEmployees_chart",
+    "personnelToCashExpenditure_chart",
+    "cashExpendituresPerGivingUnit_chart",
+    "personnelIncludingToTotalCashExpenditures_chart",
+  ];
+
+  chartIds.forEach((chartId) => {
+    // Destroy chart instance
+    const chartInstance = window[chartId];
+    if (chartInstance && typeof chartInstance.destroy === "function") {
+      try {
+        chartInstance.destroy();
+      } catch (error) {
+        // console.warn(`Error destroying chart ${chartId}:`, error);
+      }
+      window[chartId] = null;
+    }
+
+    // Clear the DOM element
+    const chartElement = document.getElementById(chartId);
+    if (chartElement) {
+      chartElement.innerHTML = "";
+    }
+  });
+};
+
+const createChart = (chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, wa = null, allData = null) => {
+  // console.log('createChart()', { chartId, dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, wa, allData });
+  
+  // Destroy existing chart instance before creating a new one
+  destroyChartIfExists(chartId);
+  
+  // Clear the DOM element
+  const chartElement = document.getElementById(chartId);
+  if (chartElement) {
+    chartElement.innerHTML = "";
+  }
+
+  // Create a new chart instance with all parameters
+  const chartOptions = getMainChartOptions(
+    dataPeer,
+    dataClient,
+    type,
+    fixedNum,
+    mainName,
+    benchmark,
+    title,
+    chartId,
+    wa,
+    allData
+  );
+
+  // Check if chartOptions is null (invalid data)
+  if (!chartOptions) {
+    // console.warn(`Cannot create chart ${chartId} - invalid chart options`);
+    return;
+  }
+
+  const chart = new ApexCharts(
+    document.getElementById(chartId),
+    chartOptions
+  );
+
+  chart.render();
+
+  // Store chart instance globally for print functionality
+  window[chartId] = chart;
+
+  // init again when toggling dark mode
+  document.addEventListener("dark-mode", function () {
+    chart.updateOptions(
+      getMainChartOptions(dataPeer, dataClient, type, fixedNum, mainName, benchmark, title, chartId, wa, allData)
+    );
+  });
+};
+
+function updateModal(mainName, avgData, clientData) {
+  // Get the selected years from local storage
+  const selectedYears = getSelectedYearsFromLocalStorage();
+
+  // Find the modal element
+  const modal = document.getElementById(`${mainName}_modal`);
+
+  // Check if the modal element exists
+  if (modal) {
+    // Find the table header row
+    const headerRow = modal.querySelector(`#${mainName}_modal_row`);
+    // console.log({headerRow});
+    let tableHead = headerRow.parentElement;
+
+    // Clear existing rows after the headerRow
+    let nextRow = headerRow.nextSibling;
+    while (nextRow) {
+      tableHead.removeChild(nextRow);
+      nextRow = headerRow.nextSibling; // Get the next sibling again
+    }
+
+    // Clear existing header content
+    headerRow.innerHTML = "";
+
+    // Add the "year" column
+    const yearColumn = document.createElement("th");
+    yearColumn.className = "px-6 py-3";
+    yearColumn.textContent = "year";
+    headerRow.appendChild(yearColumn);
+
+    // Add the "Client" column
+    const clientColumn = document.createElement("th");
+    clientColumn.className = "px-6 py-3";
+    clientColumn.textContent = "client";
+    headerRow.appendChild(clientColumn);
+
+    // Add the "Avg" column
+    const avgColumn = document.createElement("th");
+    avgColumn.className = "px-6 py-3";
+    avgColumn.textContent = "Avg";
+    headerRow.appendChild(avgColumn);
+
+    // Add the remaining columns (matching comp project - using percentiles)
+    const columns = ["25th", "50th", "75th"];
+    columns.forEach((column) => {
+      const col = document.createElement("th");
+      col.className = "px-6 py-3";
+      col.textContent = column;
+      headerRow.appendChild(col);
+    });
+
+    // Add a row for each selected year
+    selectedYears.forEach((year) => {
+      const yearRow = document.createElement("tr");
+      yearRow.className =
+        "bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600";
+      yearRow.id = `${mainName}_modal_${year}`;
+
+      // Create a table header cell for the year
+      const yearCell = document.createElement("th");
+      yearCell.className =
+        "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+      yearCell.scope = "row";
+      yearCell.textContent = year;
+
+      // Append the year cell to the row
+      yearRow.appendChild(yearCell);
+
+      // Append the row to the header
+      tableHead.appendChild(yearRow);
+    });
+  }
+}
+
+const getStoredData = (dataTable) => {
+  return localStorage.getItem(dataTable) || null;
+};
+
+const parseStoredData = (data) => {
+  return data ? JSON.parse(data) : null;
+};
+
+const closeSidebarAfterSelectingOption = (component) => {
+  // Remove the sidebar/backdoor/"x" svg icon
+  // Add back the "hamburger" svg icon
+  document.querySelector("#sidebar").classList.add("hidden");
+  document.querySelector("#sidebarBackdrop").classList.add("hidden");
+  document
+    .querySelector("#toggleSidebarMobileHamburger")
+    .classList.remove("hidden");
+  document.querySelector("#toggleSidebarMobileClose").classList.add("hidden");
+
+  localStorage.setItem("lastRenderedComponent", component);
+};
+
+const getAverageOfArray = (array, name, num = 1) => {
+  // Handle null, undefined, or non-array inputs
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
+  // Filter out zero values before calculating average (matching comp implementation)
+  const filteredArray = array
+    .filter((value) => Number(value) !== 0)
+    .map((value) => Number(value) * num);
+
+  if (filteredArray.length === 0) {
+    return 0;
+  }
+  const sum = filteredArray.reduce((acc, value) => acc + value, 0);
+  const avg = sum / filteredArray.length;
+
+  return avg;
+};
+
+const getMidpointOfArray = (array, mainName) => {
+  // Handle null, undefined, or non-array inputs
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
+  // Filter out zero values before calculating midpoint (matching comp implementation)
+  const filteredArray = array
+    .filter((value) => Number(value) !== 0)
+    .map((value) => Number(value));
+
+  if (filteredArray.length === 0) {
+    return 0;
+  }
+
+  filteredArray.sort((a, b) => a - b); // Sort the array
+
+  const midpoint = Math.floor(filteredArray.length / 2); // Calculate the midpoint index
+
+  if (filteredArray.length % 2 === 1) {
+    // If odd length, return the value at the midpoint
+    return Number(filteredArray[midpoint]);
+  } else {
+    // If even length, return the average of the two midpoints
+    return (
+      (Number(filteredArray[midpoint - 1]) + Number(filteredArray[midpoint])) /
+      2
+    );
+  }
+};
+
+const get25thPercentileOfArray = (array, mainName) => {
+  // Handle null, undefined, or non-array inputs
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
+  const filteredArray = array
+    .filter((value) => Number(value) !== 0)
+    .map((value) => Number(value));
+
+  const sortedArray = filteredArray.sort((a, b) => a - b);
+
+  // Check if the array has less than or equal to 2 elements
+  if (sortedArray.length <= 2) {
+    // If array has 1 or 2 elements, return the average of the elements
+    return (
+      sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) /
+      sortedArray.length
+    );
+  }
+
+  // Calculate the index for the 25th percentile
+  const index = (sortedArray.length + 1) * 0.25;
+
+  // Check if the index is an integer
+  if (Number.isInteger(index)) {
+    // If it's an integer, return the value at that index
+    return Number(sortedArray[index - 1]);
+  } else {
+    // If not an integer, interpolate between the two nearest values
+    const lowerIndex = Math.floor(index);
+    const upperIndex = Math.ceil(index);
+    const lowerValue = Number(sortedArray[lowerIndex - 1]);
+    const upperValue = Number(sortedArray[upperIndex - 1]);
+    return (lowerValue + upperValue) / 2;
+  }
+};
+
+const get75thPercentileOfArray = (array, mainName) => {
+  // Handle null, undefined, or non-array inputs
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
+  const filteredArray = array
+    .filter((value) => Number(value) !== 0)
+    .map((value) => Number(value));
+
+  // Sort the array in ascending order
+  const sortedArray = filteredArray.sort((a, b) => a - b);
+
+  // Check if the array has less than or equal to 2 elements
+  if (sortedArray.length <= 2) {
+    // If array has 1 or 2 elements, return the average of the elements
+    return (
+      sortedArray.reduce((acc, val) => Number(acc) + Number(val), 0) /
+      sortedArray.length
+    );
+  }
+
+  // Calculate the index for the 75th percentile
+  const index = (sortedArray.length + 1) * 0.75;
+
+  // Check if the index is an integer
+  if (Number.isInteger(index)) {
+    // If it's an integer, return the value at that index
+    return Number(sortedArray[index - 1]);
+  } else {
+    // If not an integer, interpolate between the two nearest values
+    const lowerIndex = Math.floor(index);
+    const upperIndex = Math.ceil(index);
+    const lowerValue = Number(sortedArray[lowerIndex - 1]);
+    const upperValue = Number(sortedArray[upperIndex - 1]);
+    return (lowerValue + upperValue) / 2;
+  }
+};
+
+const getMaxOfArray = (array) => {
+  const nonZeroArray = array.filter((num) => num !== 0);
+
+  if (nonZeroArray.length === 0) {
+    return 0;
+  }
+
+  return Math.max(...nonZeroArray);
+};
+
+const getMinOfArray = (array) => {
+  // Filter out zero values before calculating minimum (matching comp implementation)
+  const nonZeroArray = array.filter((num) => Number(num) !== 0);
+
+  if (nonZeroArray.length === 0) {
+    return 0;
+  }
+
+  return Math.min(...nonZeroArray);
+};
+
+const getSumOfArray = (array) => {
+  // console.log(array);
+  if (!array || !Array.isArray(array)) {
+    return 0;
+  }
+  
+  if (array.length === 0) {
+    return 0;
+  }
+
+  // Handle null, undefined, and empty string values properly
+  // Filter out null/undefined/empty, then parse and sum
+  return array.reduce((sum, value) => {
+    // Skip null, undefined, or empty string values
+    if (value === null || value === undefined || value === '') {
+      return sum;
+    }
+    // Parse the value and add to sum, defaulting to 0 if parsing fails
+    const numValue = parseFloat(value);
+    return sum + (isNaN(numValue) ? 0 : numValue);
+  }, 0);
+};
+
+const calculateAveragePercentageChange = (values) => {
+  // console.log(values);
+  // console.log('---');
+
+  const years = Object.keys(values);
+  const numberOfYears = years.length;
+
+  if (numberOfYears < 2) {
+    return 0.0; // No change if there are fewer than two years
+  }
+
+  let totalChange = 0;
+
+  for (let i = 1; i < numberOfYears; i++) {
+    const year = years[i];
+    const previousYear = years[i - 1];
+
+    const initialValue = parseFloat(values[previousYear][0]);
+    const finalValue = parseFloat(values[year][0]);
+
+    if (initialValue === 0) {
+      if (finalValue === 0) {
+        continue; // No change if both initial and final values are zero
+      } else {
+        totalChange = Infinity; // Handle division by zero
+        break;
+      }
+    }
+
+    const change = ((finalValue - initialValue) / Math.abs(initialValue)) * 100;
+    totalChange += change;
+  }
+
+  const averagePercentageChange = totalChange / (numberOfYears - 1);
+
+  return averagePercentageChange ? averagePercentageChange.toFixed(1) : 0; // Ensure one decimal point
+};
+
+/**
+ * Create a warning toast notification
+ * @param {string} textString - The message to display in the toast
+ */
+const createToastWarning = (textString) => {
+  const toastWarningDiv = document.createElement("div");
+  toastWarningDiv.id = "toast-warning";
+  toastWarningDiv.classList.add(
+    "transition",
+    "ease-in-out",
+    "delay-150",
+    "fixed",
+    "top-20",
+    "left-1/2",
+    "transform",
+    "-translate-x-1/2",
+    "z-50",
+    "flex",
+    "items-center",
+    "w-full",
+    "max-w-md",
+    "p-4",
+    "text-gray-700",
+    "bg-gray-300",
+    "rounded-lg",
+    "shadow",
+    "dark:text-gray-200",
+    "dark:bg-gray-600"
+  );
+
+  toastWarningDiv.innerHTML = `
+    <div class="animate-pulse inline-flex items-center justify-center flex-shrink-0 w-10 h-10 text-orange-500 bg-orange-100 rounded-lg dark:bg-orange-700 dark:text-orange-200">
+      <svg class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+      </svg>
+      <span class="sr-only">Warning icon</span>
+    </div>
+    <div class="ms-3 text-lg font-normal">
+    ${textString}
+    </div>
+    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-gray-300 text-gray-600 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-200 dark:hover:text-white dark:bg-gray-600 dark:hover:bg-gray-700" data-dismiss-target="#toast-warning" aria-label="Close">
+      <span class="sr-only">Close</span>
+      <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+      </svg>
+    </button>
+  `;
+
+  const closeButton = toastWarningDiv.querySelector(
+    '[data-dismiss-target="#toast-warning"]'
+  );
+  closeButton.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toastWarningDiv.remove();
+  });
+
+  document.body.appendChild(toastWarningDiv);
+
+  const clickOutsideHandler = (event) => {
+    if (!toastWarningDiv.contains(event.target)) {
+      toastWarningDiv.remove();
+      document.body.removeEventListener("click", clickOutsideHandler);
+    }
+  };
+
+  setTimeout(() => {
+    document.body.addEventListener("click", clickOutsideHandler);
+  }, 100);
+};
+
+/**
+ * Create a success toast notification
+ * @param {string} textString - The message to display in the toast
+ */
+const createToastSuccess = (textString) => {
+  const toastSuccessDiv = document.createElement("div");
+  toastSuccessDiv.id = "toast-success";
+  toastSuccessDiv.classList.add(
+    "transition",
+    "ease-in-out",
+    "delay-150",
+    "fixed",
+    "top-20",
+    "left-265",
+    "transform",
+    "-translate-x-1/2",
+    "z-50",
+    "flex",
+    "items-center",
+    "w-fit",
+    "max-w-2xl",
+    "p-4",
+    "text-gray-700",
+    "bg-gray-300",
+    "rounded-lg",
+    "shadow",
+    "dark:text-gray-200",
+    "dark:bg-gray-600"
+  );
+
+  toastSuccessDiv.innerHTML = `
+    <div class="animate-pulse inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-green-800 dark:text-green-200">
+      <svg class="w-8 h-8" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+      </svg>
+      <span class="sr-only">success</span>
+    </div>
+    <div class="ms-3 text-lg font-normal pr-4">${textString}</div>
+    <button type="button" class="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-success" aria-label="Close">
+        <span class="sr-only">Close</span>
+        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+        </svg>
+    </button>
+  `;
+
+  const clickOutsideHandler = (event) => {
+    if (!toastSuccessDiv.contains(event.target)) {
+      toastSuccessDiv.remove();
+      document.body.removeEventListener("click", clickOutsideHandler);
+    }
+  };
+
+  document.body.addEventListener("click", clickOutsideHandler);
+
+  const closeButton = toastSuccessDiv.querySelector(
+    '[data-dismiss-target="#toast-success"]'
+  );
+  closeButton.addEventListener("click", () => {
+    toastSuccessDiv.remove();
+    document.body.removeEventListener("click", clickOutsideHandler);
+  });
+
+  document.body.appendChild(toastSuccessDiv);
+};
+
+/**
+ * Get selected years from localStorage
+ * @returns {Array} Array of selected years
+ */
+const getSelectedYearsFromLocalStorage = () => {
+  const storedSelectedYears = JSON.parse(localStorage.getItem("selectedYears"));
+  const storedData = localStorage.getItem("general");
+  if (!storedSelectedYears && storedData) {
+    // console.error("Need to Select Year");
+  }
+
+  return storedSelectedYears;
+};
+
+const resetSelectedYearsFromLocalStorage = () => {
+  localStorage.setItem("selectedYears", JSON.stringify([]));
+};
+
+let selectedYears_Set = new Set();
+// Shared flag to prevent "select recent 5" checkbox from interfering with individual checkbox updates
+// Must be outside function scope so all event listeners can access the same flag
+let isSelectAllUpdating = false;
+
+const changeListenerForInputYears = (input, year) => {
+  // Normalize year to number for type consistency
+  const yearNum = typeof year === 'string' ? parseInt(year, 10) : year;
+  if (input.checked) {
+    selectedYears_Set.add(yearNum);
+  } else {
+    selectedYears_Set.delete(yearNum);
+  }
+
+  // Normalize years to numbers before storing
+  const selectedYearsArray = Array.from(selectedYears_Set)
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => a - b);
+  localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+};
+
+const addUniqueYearsToOptionsSelectDropdown = (yearsArray) => {
+  // Get the options list element correctly
+  const optionsListElement = document.getElementById("options-list-year");
+
+  if (!optionsListElement) {
+    // console.error("Options list element not found for years dropdown");
+    return;
+  }
+  
+  // Use the shared flag (declared outside function scope)
+  // This ensures all event listeners (even from previous calls) can see the same flag
+
+  // Clear the selected years on page load
+  if (!window.yearSelectionsInitialized) {
+    resetSelectedYearsFromLocalStorage();
+    selectedYears_Set.clear();
+    window.yearSelectionsInitialized = true;
+  }
+
+  // Initialize selectedYears_Set from local storage ONLY if Set is empty
+  // This prevents overwriting user selections when function is called multiple times
+  // The Set is the source of truth - localStorage is updated when checkboxes change
+  // CRITICAL: Normalize all years to numbers for type consistency
+  if (selectedYears_Set.size === 0) {
+    const storedYears = getSelectedYearsFromLocalStorage();
+    if (Array.isArray(storedYears) && storedYears.length > 0) {
+      // Normalize all years to numbers
+      const normalizedYears = storedYears.map(y => typeof y === 'string' ? parseInt(y, 10) : y);
+      selectedYears_Set = new Set(normalizedYears);
+      // console.log("Initialized selectedYears_Set from localStorage:", Array.from(selectedYears_Set));
+    }
+  } else {
+    // If Set already has values, normalize existing Set values and sync to localStorage
+    // This ensures type consistency (all numbers) even if Set has mixed types
+    const normalizedSet = new Set();
+    selectedYears_Set.forEach(year => {
+      const normalizedYear = typeof year === 'string' ? parseInt(year, 10) : year;
+      normalizedSet.add(normalizedYear);
+    });
+    selectedYears_Set = normalizedSet;
+    
+    // Sync localStorage with the normalized Set
+    const selectedYearsArray = Array.from(selectedYears_Set).sort((a, b) => a - b);
+    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    // console.log("Preserved and normalized selectedYears_Set, synced to localStorage:", selectedYearsArray);
+  }
+
+  // Clear existing content
+  optionsListElement.innerHTML = "";
+
+  // Create "Select All" checkbox
+  const selectAllLabel = document.createElement("label");
+  selectAllLabel.setAttribute("for", "select-all-checkbox-years");
+  selectAllLabel.setAttribute(
+    "class",
+    "flex items-center justify-start px-4 py-2 cursor-pointer truncate"
+  );
+
+  const selectAllInput = document.createElement("input");
+  selectAllInput.setAttribute("type", "checkbox");
+  selectAllInput.setAttribute("id", "select-all-checkbox-years");
+  selectAllInput.setAttribute(
+    "class",
+    "w-4 h-4 mr-2 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500 cursor-pointer"
+  );
+  
+  // Set initial state based on current selectedYears_Set
+  // Check if the first 5 most recent years (or all if <= 5) are selected
+  // CRITICAL: Normalize years to numbers for Set lookup
+  const sortedYearsForCheck = [...yearsArray]
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => b - a);
+  const maxToSelect = Math.min(5, sortedYearsForCheck.length);
+  const firstNSelected = sortedYearsForCheck.slice(0, maxToSelect).every(year => selectedYears_Set.has(year));
+  const allSelected = sortedYearsForCheck.every(year => selectedYears_Set.has(year));
+  const noneSelected = sortedYearsForCheck.every(year => !selectedYears_Set.has(year));
+  
+  // Set flag to prevent triggering change event when setting initial state
+  // CRITICAL: This prevents the "select recent 5" checkbox from re-selecting all years
+  // when the dropdown is recreated during API runs
+  isSelectAllUpdating = true;
+  selectAllInput.checked = firstNSelected && allSelected;
+  selectAllInput.indeterminate = firstNSelected && !allSelected && !noneSelected;
+  isSelectAllUpdating = false;
+
+  // Sort years in descending order (most recent first)
+  // CRITICAL: Normalize all years to numbers for type consistency
+  const sortedYears = [...yearsArray]
+    .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+    .sort((a, b) => b - a);
+  
+  const selectAllSpan = document.createElement("span");
+  selectAllSpan.setAttribute("id", "select-all-text-years");
+  // Always show "select recent 5 yrs"
+  selectAllSpan.innerText = "(select recent 5)";
+  selectAllSpan.setAttribute("class", "text-lg font-semibold");
+
+  selectAllLabel.appendChild(selectAllInput);
+  selectAllLabel.appendChild(selectAllSpan);
+
+  optionsListElement.appendChild(selectAllLabel);
+
+  // Add year options
+  // Note: sortedYears is already sorted in descending order (most recent first)
+  sortedYears.forEach((year) => {
+    // CRITICAL: Normalize year to number to ensure type consistency in Set
+    // Years from API might be strings, but Set needs consistent types
+    const yearNum = typeof year === 'string' ? parseInt(year, 10) : year;
+    
+    const newLabel = document.createElement("label");
+    newLabel.setAttribute("for", `option-${yearNum}`);
+    newLabel.setAttribute(
+      "class",
+      "flex items-center justify-start px-4 py-1 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 rounded"
+    );
+
+    const newInput = document.createElement("input");
+    newInput.setAttribute("type", "checkbox");
+    newInput.setAttribute("id", `option-${yearNum}`);
+    newInput.setAttribute(
+      "class",
+      `form-checkbox h-4 w-4 text-blue-600 bg-gray-200 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-300 dark:border-gray-500 mr-2 cursor-pointer`
+    );
+    newInput.setAttribute("value", yearNum);
+    // Check the input only if the year is in the selectedYears_Set
+    // CRITICAL: This ensures checkboxes reflect the actual Set state, not localStorage
+    // This prevents the "select recent 5" checkbox from overriding user selections
+    // Use number for Set lookup to ensure type consistency
+    newInput.checked = selectedYears_Set.has(yearNum);
+
+    // Use an IIFE to capture the year value correctly in the closure
+    ((yearValue) => {
+      newInput.addEventListener("change", (e) => {
+        // Skip if "select recent 5" is currently updating to avoid double-updating
+        if (isSelectAllUpdating) {
+          // console.log(`Individual checkbox ${yearValue} change blocked by isSelectAllUpdating flag`);
+          return;
+        }
+        
+        const isChecked = e.target.checked;
+        // Use the captured yearValue from closure (already normalized to number)
+        const actualYear = yearValue;
+
+        // console.log(`Individual checkbox ${actualYear} (type: ${typeof actualYear}) changed to:`, isChecked);
+        // console.log(`Set before:`, Array.from(selectedYears_Set));
+        // console.log(`Set contains ${actualYear}?`, selectedYears_Set.has(actualYear));
+        // Check if Set has the year as a different type
+        const asString = String(actualYear);
+        const asNumber = Number(actualYear);
+        // console.log(`Set contains "${asString}" (string)?`, selectedYears_Set.has(asString));
+        // console.log(`Set contains ${asNumber} (number)?`, selectedYears_Set.has(asNumber));
+
+        if (isChecked) {
+          selectedYears_Set.add(actualYear);
+          // console.log(`Added ${actualYear} to Set. Set now:`, Array.from(selectedYears_Set));
+        } else {
+          // Try deleting as both number and string to handle type mismatches
+          let deleted = selectedYears_Set.delete(actualYear);
+          if (!deleted && typeof actualYear === 'number') {
+            // Try as string
+            deleted = selectedYears_Set.delete(String(actualYear));
+          } else if (!deleted && typeof actualYear === 'string') {
+            // Try as number
+            deleted = selectedYears_Set.delete(parseInt(actualYear, 10));
+          }
+          // console.log(`Removed ${actualYear} from Set (deleted: ${deleted}). Set now:`, Array.from(selectedYears_Set));
+        }
+
+      // Update "Select All/Recent 5" checkbox state based on actual selections
+      const yearCheckboxes = document.querySelectorAll(
+        "#options-list-year input[type='checkbox']"
+      );
+      const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
+        (cb) => cb.id !== "select-all-checkbox-years"
+      );
+
+      // Always select the 5 most recent years (or all if less than 5)
+      const maxToSelect = Math.min(5, nonSelectAllCheckboxes.length);
+      
+      // Check if the first N checkboxes (most recent years) are all checked
+      const targetCheckboxes = nonSelectAllCheckboxes.slice(0, maxToSelect);
+      const allTargetChecked = targetCheckboxes.every((cb) => cb.checked);
+      const allChecked = nonSelectAllCheckboxes.every((cb) => cb.checked);
+      const noneChecked = nonSelectAllCheckboxes.every((cb) => !cb.checked);
+
+        // Only check "select recent 5" if ALL of the first 5 (or all years if <= 5) are checked
+        // Use flag to prevent triggering the selectAllInput change event
+        // CRITICAL: This prevents the "select recent 5" checkbox from deleting all years
+        // when individual checkboxes are unchecked
+        isSelectAllUpdating = true;
+        const previousCheckedState = selectAllInput.checked;
+        const previousIndeterminateState = selectAllInput.indeterminate;
+        
+        selectAllInput.checked = allTargetChecked && allChecked;
+        selectAllInput.indeterminate = allTargetChecked && !allChecked && !noneChecked;
+        
+        // Only clear flag if state actually changed (to prevent unnecessary event blocking)
+        // But keep it set long enough for any synchronous change event to see it
+        if (previousCheckedState !== selectAllInput.checked || previousIndeterminateState !== selectAllInput.indeterminate) {
+          // Change event will fire synchronously, flag is still true so it will be blocked
+          // Clear flag in next tick to allow future programmatic changes
+          setTimeout(() => {
+            isSelectAllUpdating = false;
+          }, 0);
+        } else {
+          // No state change, no event will fire, safe to clear immediately
+          isSelectAllUpdating = false;
+        }
+
+        // Save to local storage immediately (like HigherEducation)
+        // Normalize years to numbers before storing
+        const selectedYearsArray = Array.from(selectedYears_Set)
+          .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+          .sort((a, b) => a - b);
+        localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+        
+        // Debug: log the Set state to verify it's updating
+        // console.log("selectedYears_Set updated:", Array.from(selectedYears_Set));
+      });
+    })(yearNum); // IIFE to capture year value (normalized to number)
+
+    const newSpan = document.createElement("span");
+    newSpan.innerText = yearNum;
+
+    newLabel.appendChild(newInput);
+    newLabel.appendChild(newSpan);
+
+    optionsListElement.appendChild(newLabel);
+  });
+
+  // "Select All" (or "Select Recent 5") checkbox behavior
+  selectAllInput.addEventListener("change", function (e) {
+    // Prevent this from running if we're programmatically setting the checkbox state
+    // CRITICAL: This prevents the "select recent 5" checkbox from interfering when
+    // individual checkboxes update its state
+    if (isSelectAllUpdating) {
+      // console.log("selectRecent5 change event blocked by isSelectAllUpdating flag");
+      return;
+    }
+    
+    // console.log("selectRecent5 change event fired, isChecked:", selectAllInput.checked);
+    
+    const isChecked = selectAllInput.checked;
+    const yearCheckboxes = document.querySelectorAll(
+      "#options-list-year input[type='checkbox']"
+    );
+    
+    // Get non-select-all checkboxes (already in descending order - most recent first)
+    const nonSelectAllCheckboxes = Array.from(yearCheckboxes).filter(
+      (cb) => cb.id !== "select-all-checkbox-years"
+    );
+    
+    // Always select the 5 most recent years (or all if less than 5)
+    const maxToSelect = Math.min(5, nonSelectAllCheckboxes.length);
+
+    // Set flag to prevent individual checkbox change events from interfering
+    isSelectAllUpdating = true;
+
+    // Update Set and checkboxes
+    nonSelectAllCheckboxes.forEach((checkbox, index) => {
+      const year = parseInt(checkbox.value);
+      
+      if (isChecked) {
+        // If checking: select first 5 (most recent) or all if <= 5 years
+        if (index < maxToSelect) {
+          selectedYears_Set.add(year);
+          checkbox.checked = true;
+        } else {
+          selectedYears_Set.delete(year);
+          checkbox.checked = false;
+        }
+      } else {
+        // If unchecking: uncheck all
+        selectedYears_Set.delete(year);
+        checkbox.checked = false;
+      }
+    });
+
+    // Clear flag
+    isSelectAllUpdating = false;
+
+    // Save to local storage
+    // Normalize years to numbers before storing
+    const selectedYearsArray = Array.from(selectedYears_Set)
+      .map(y => typeof y === 'string' ? parseInt(y, 10) : y)
+      .sort((a, b) => a - b);
+    localStorage.setItem("selectedYears", JSON.stringify(selectedYearsArray));
+    
+    // Debug: log the Set state to verify it's updating
+    // console.log("selectRecent5 - selectedYears_Set updated:", Array.from(selectedYears_Set));
+  });
+};
+
+const getPeerAndClientChartDataArrays = (
+  years,
+  dataPeer,
+  dataClient,
+  fixedNum,
+  mainName,
+  benchmark,
+  type,
+  wa = null,
+  allData = null
+) => {
+  // console.log(`getPeerAndClientChartDataArrays for ${mainName}:`, { years, dataPeer, dataClient, fixedNum, mainName, benchmark, type, wa: !!wa, allData: !!allData });
+
+  const peerAvg = [];
+  const peerMid = [];
+  const peer25 = [];
+  const peer75 = [];
+  const clientArray = [];
+  const benchmarkArray = [];
+
+  years.forEach((year) => {
+    benchmarkArray.push(benchmark);
+
+    if (!dataPeer && dataClient && dataClient[year]) {
+      peerAvg.push(null);
+      peerMid.push(null);
+      peer25.push(null);
+      peer75.push(null);
+
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        // console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
+
+      if (clientValue !== null && clientValue !== undefined && clientValue !== "") {
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Check if the parsed value is a valid number
+        if (!isNaN(clientNum) && isFinite(clientNum)) {
+          // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+          if (type === "percent") {
+            clientNum *= 100;
+          }
+          
+          clientArray.push(clientNum);
+        } else {
+          clientArray.push(null);
+        }
+      } else {
+        clientArray.push(null);
+      }
+    } else if (dataPeer && dataPeer[year] !== undefined && dataClient && dataClient[year] !== undefined) {
+      let numToTimesByIfPercent = 1;
+      if (type == "percent") numToTimesByIfPercent = 100;
+
+      const array = dataPeer[year];
+      // Use weighted average if "wa" is present, otherwise use simple average
+      let avg;
+      if (wa && allData) {
+        // Use weighted average for specific year
+        avg = getWeightedAverageOfArray(allData, mainName, year);
+        avg *= numToTimesByIfPercent;
+      } else {
+        // Use simple average
+        avg = getAverageOfArray(array, mainName);
+        avg *= numToTimesByIfPercent;
+      }
+      let mid = getMidpointOfArray(array, mainName);
+      mid *= numToTimesByIfPercent;
+      let lower25 = get25thPercentileOfArray(array, mainName);
+      lower25 *= numToTimesByIfPercent;
+      let higher75 = get75thPercentileOfArray(array, mainName);
+      higher75 *= numToTimesByIfPercent;
+
+    peerAvg.push(avg.toFixed(fixedNum));
+      peerMid.push(mid.toFixed(fixedNum));
+      peer25.push(lower25.toFixed(fixedNum));
+      peer75.push(higher75.toFixed(fixedNum));
+
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        // console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
+
+      if (clientValue !== null && clientValue !== undefined && clientValue !== "") {
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Check if the parsed value is a valid number
+        if (!isNaN(clientNum) && isFinite(clientNum)) {
+          // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+          if (type === "percent") {
+            clientNum *= 100;
+          }
+          
+          clientArray.push(clientNum);
+        } else {
+          clientArray.push(null);
+        }
+      } else {
+        clientArray.push(null);
+      }
+    } else if (dataPeer[year] === undefined && dataClient[year]) {
+      peerAvg.push(null);
+      peerMid.push(null);
+      peer25.push(null);
+      peer75.push(null);
+
+      // Handle client data with better error checking
+      let clientValue;
+      if (dataClient[year] && typeof dataClient[year] === 'object' && dataClient[year].hasOwnProperty('value')) {
+        clientValue = dataClient[year].value;
+      } else if (typeof dataClient[year] === 'number' || typeof dataClient[year] === 'string') {
+        clientValue = dataClient[year];
+      } else {
+        // console.warn(`Invalid client data structure for ${mainName} year ${year}:`, dataClient[year]);
+        clientValue = null;
+      }
+
+      if (clientValue !== null && clientValue !== undefined) {
+        // Extract raw numeric value, removing commas if present
+        let clientNum = typeof clientValue === 'string' ? 
+          parseFloat(clientValue.replace(/,/g, '')) : parseFloat(clientValue);
+        
+        // Only multiply by 100 for percentages (ApexCharts expects percentage values as 0-100, not 0-1)
+        if (type === "percent") {
+          clientNum *= 100;
+        }
+        
+        clientArray.push(clientNum);
+      } else {
+        clientArray.push(null);
+      }
+    } else if (dataClient == undefined || dataPeer == undefined) {
+      throw new Error(
+        `No Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
+      createToastWarning(
+        `check Data for ${mainName} - object: ${{ dataPeer, dataClient }}`
+      );
+    } else {
+      // Handle missing data gracefully - push null values instead of throwing
+      peerAvg.push(null);
+      peerMid.push(null);
+      peer25.push(null);
+      peer75.push(null);
+      clientArray.push(null);
+    }
+  });
+
+  return { clientArray, peerAvg, peerMid, peer25, peer75, benchmarkArray };
+};
+
+// Helper function to format zero based on type
+const formatZeroByType = (type) => {
+  if (type === "percent") {
+    return "0%";
+  } else if (type === "dollar") {
+    return "$ 0";
+  } else {
+    // For "num", "number", or any unknown type, return "0"
+    return "0";
+  }
+};
+
+const styleNumber = (num, type, fixed) => {
+  // Handle null, undefined, or empty string - treat as 0
+  if (num === null || num === undefined || num === "") {
+    return formatZeroByType(type);
+  }
+
+  // Convert to number for validation
+  const numValue = typeof num === 'string' ? parseFloat(num.replace(/,/g, '')) : Number(num);
+  
+  // If NaN or Infinity, treat as 0
+  if (isNaN(numValue) || !isFinite(numValue)) {
+    return formatZeroByType(type);
+  }
+
+  let text = numValue;
+
+  // if (text == 0 || text == 0.00) text = "-";
+
+  // Handle formatting based on type - also accept "number" as alias for "num"
+  if (type === "num" || type === "number") {
+    if (text != 0) {
+      text = Number(text).toFixed(fixed);
+      text = Number(text).toLocaleString(); // Add commas for thousands
+    } else {
+      text = "0";
+    }
+  } else if (type === "percent") {
+    if (text != 0) {
+      text = parseFloat(text * 100).toFixed(fixed) + "%";
+    } else {
+      text = "0%";
+    }
+  } else if (type === "dollar") {
+    if (text != 0) {
+      text = parseFloat(text).toFixed(fixed);
+      text = "$ " + Number(text).toLocaleString(); // Add commas for thousands
+    } else {
+      text = "$ 0";
+    }
+  } else {
+    // Unknown type - treat as number
+    if (text != 0) {
+      text = Number(text).toFixed(fixed || 0);
+      text = Number(text).toLocaleString();
+    } else {
+      text = "0";
+    }
+  }
+
+  // Final safety check - if somehow we still have NaN, format as 0
+  if (typeof text === 'string' && (text === "NaN" || text === "undefined" || text === "null")) {
+    return formatZeroByType(type);
+  }
+
+  return text;
+};
+
+const updateCountyData = (trId, countyName, percentage, income, year) => {
+  // console.log({ trId, countyName, percentage, income });
+
+  // Create the <tr> element if it doesn't exist
+  let trElement = document.getElementById(`row_${trId}`);
+
+  // Format values
+  const formattedIncome = new Intl.NumberFormat().format(income);
+  const formattedPercentage = Math.round(percentage);
+
+  // Check if elements already exist for this year
+  const percentagePElement = document.getElementById(`percentage_${trId}_${year}`);
+  const incomePElement = document.getElementById(`income_${trId}_${year}`);
+
+  if (percentagePElement && incomePElement) {
+    // Elements already exist, just update their content
+    percentagePElement.textContent = `${formattedPercentage}%`;
+    incomePElement.textContent = `$${formattedIncome}`;
+    return;
+  }
+
+  // Create the second <th> element and its children
+  const secondThElement = document.createElement("th");
+  secondThElement.scope = "row";
+  secondThElement.className =
+    "px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white opacity-75 justify-between border-r-2 dark:border-gray-600";
+
+  // Create the span element inside the second <th>
+  const spanElementSecond = document.createElement("span");
+  spanElementSecond.textContent = "---";
+  secondThElement.appendChild(spanElementSecond);
+
+  // Create the <p> elements inside the second <th>
+  const newPercentagePElement = document.createElement("p");
+  newPercentagePElement.id = `percentage_${trId}_${year}`;
+  newPercentagePElement.className = "mb-2";
+  newPercentagePElement.textContent = `${formattedPercentage}%`;
+  secondThElement.appendChild(newPercentagePElement);
+
+  const newIncomePElement = document.createElement("p");
+  newIncomePElement.id = `income_${trId}_${year}`;
+  newIncomePElement.textContent = `$${formattedIncome}`;
+  secondThElement.appendChild(newIncomePElement);
+
+  trElement.appendChild(secondThElement);
+};
+
+const checkForCountyDataIncomeTable = (
+  trId,
+  countyName,
+  incomeData,
+  percentData,
+  selectedYearsArray,
+  cb
+) => {
+  // console.log({ trId, countyName, incomeData, percentData, selectedYearsArray, cb });
+
+  const data = JSON.parse(localStorage.getItem("incomeData"));
+  // check the data of the passed dataId to see if it has data, if there is no data, then add the class "hidden" to the trId
+
+  // Clear ALL year columns to start fresh (similar to addToSingleRow)
+  const trElement = document.getElementById(`row_${trId}`);
+  if (trElement) {
+    // Find the label column (first <th> with id th_${trId})
+    const labelTh = trElement.querySelector(`#th_${trId}`);
+    
+    // Remove all <th> elements except the label column
+    const allThElements = Array.from(trElement.querySelectorAll('th'));
+    allThElements.forEach((th) => {
+      if (th !== labelTh) {
+        th.remove();
+      }
+    });
+  }
+
+  // Create the first <th> element and its children if it doesn't exist
+  let thElement = document.getElementById(`th_${trId}`);
+  if (!thElement) {
+    thElement = document.createElement("th");
+    thElement.scope = "row";
+    thElement.className =
+      "pl-12 py-4 font-medium text-gray-900 whitespace-normal dark:text-white";
+
+    // console.log('COUNTY', data[countyName][selectedYearsArray[0]]);
+
+    // Create the span element inside the first <th>
+    const spanElement = document.createElement("span");
+    spanElement.id = `title_${trId}`;
+    spanElement.textContent = data[countyName][selectedYearsArray[0]]
+      ? data[countyName][selectedYearsArray[0]].value
+      : "";
+    thElement.appendChild(spanElement);
+
+    // Create the <p> elements inside the first <th>
+    const firstPElement = document.createElement("p");
+    firstPElement.className = "pl-4 mb-2";
+    firstPElement.textContent = "Per Giving Units";
+    thElement.appendChild(firstPElement);
+
+    const secondPElement = document.createElement("p");
+    secondPElement.className = "pl-4";
+    secondPElement.textContent = "Median Household Income";
+    thElement.appendChild(secondPElement);
+
+    const tableRow = document.getElementById(`row_${trId}`);
+    tableRow.appendChild(thElement);
+  }
+
+  if (data[countyName][selectedYearsArray[0]].value === "") {
+    const trElement = document.getElementById(`row_${trId}`);
+    trElement.classList.add("hidden");
+    return;
+  }
+
+  selectedYearsArray.forEach((year) => {
+    let countyNameVal;
+
+      // Iterate over the years in data to find first non-empty county name
+      for (const year of Object.keys(data[countyName])) {
+        // Check if the value is not empty
+        if (data[countyName][year].value !== "") {
+          // Store the value and break the loop
+          countyNameVal = data[countyName][year].value;
+          break;
+        }
+      }
+    // console.log(countyNameVal, trId);
+
+    // If countyNameVal is still undefined, all values were empty
+    if (
+      countyNameVal === 0 ||
+      countyNameVal === undefined ||
+      countyNameVal === ""
+    ) {
+      const trElement = document.getElementById(`row_${trId}`);
+      trElement.classList.add("hidden");
+    }
+
+    // Now you have the countyNameVal, you can continue with your logic
+    // Assuming the rest of your code...
+    const percentageVal = data[percentData][year].value;
+    const incomeVal = data[incomeData][year].value;
+
+    updateCountyData(trId, countyNameVal, percentageVal * 100, incomeVal, year);
+  });
+
+  if (cb) {
+    const benchmarkArray = getBenchmarks(data[percentData]);
+    const row = document.getElementById(`row_${trId}`);
+
+    // console.log(row, benchmarkArray, trId);
+
+    getBackgroundColor(benchmarkArray, row);
+  }
+};
+
+function changeThWidth(elementId) {
+  // Get the element by its ID
+  var trElement = document.getElementById(elementId);
+
+  // Check if the element exists
+  if (trElement) {
+    // Find the first <th> element child of the <tr>
+    var thElement = trElement.querySelector("th");
+
+    // Check if the <th> element exists
+    if (thElement) {
+      // Change the width of the <th> to 50rem
+      thElement.style.width = "50rem";
+    } else {
+      // console.error("No <th> element found inside the specified <tr>.");
+    }
+  } else {
+    // console.error("Element with ID " + elementId + " not found.");
+  }
+}
+
+/**
+ * Creates an Alpine.js data object for the Giving Units range slider.
+ * Manages min/max values, thumb positions, and formatted input display.
+ * @returns {Object} Alpine.js data object with minprice, maxprice, thumb positions, and trigger functions
+ */
+const range = () => {
+  return {
+    minprice: 0,
+    maxprice: 25000,
+    min: 0,
+    max: 25000,
+    minthumb: 1,
+    maxthumb: 1,
+
+    /**
+     * Updates the minimum value, recalculates thumb position, and updates the DOM.
+     * @param {boolean} shouldDispatchEvent - Whether to dispatch filtersChanged event
+     * @param {boolean} shouldRound - Whether to round the value to nearest 100 (used for slider input)
+     */
+    mintrigger(shouldDispatchEvent = true, shouldRound = false) {
+      // Remove any non-numeric characters except digits
+      let value = String(this.minprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.minprice = parseInt(value) || 0;
+      
+      // Round to nearest 100 only if from slider
+      if (shouldRound) {
+        this.minprice = Math.round(this.minprice / 100) * 100;
+      }
+      
+      // Constrain within valid range
+      this.minprice = Math.max(this.min, Math.min(this.minprice, this.maxprice - 500));
+      
+      // Calculate thumb position
+      this.minthumb =
+        ((this.minprice - this.min) / (this.max - this.min)) * 100;
+
+      // Update global window variable
+      window.sliderValue = this.minprice;
+      
+      // Update the text input element with formatted value (with commas)
+      const inputElement = document.getElementById("givingUnitsMin");
+      if (inputElement) {
+        inputElement.value = this.minprice.toLocaleString('en-US');
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.minprice);
+      }
+
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
+    },
+
+    /**
+     * Updates the maximum value, recalculates thumb position, and updates the DOM.
+     * @param {boolean} shouldDispatchEvent - Whether to dispatch filtersChanged event
+     * @param {boolean} shouldRound - Whether to round the value to nearest 100 (used for slider input)
+     */
+    maxtrigger(shouldDispatchEvent = true, shouldRound = false) {
+      // Remove any non-numeric characters except digits
+      let value = String(this.maxprice).replace(/[^\d]/g, '');
+      
+      // Parse as number
+      this.maxprice = parseInt(value) || this.max;
+      
+      // Round to nearest 100 only if from slider
+      if (shouldRound) {
+        this.maxprice = Math.round(this.maxprice / 100) * 100;
+      }
+      
+      // Constrain within valid range
+      this.maxprice = Math.max(this.minprice + 500, Math.min(this.maxprice, this.max));
+      
+      // Calculate thumb position
+      this.maxthumb =
+        100 - ((this.maxprice - this.min) / (this.max - this.min)) * 100;
+
+      // Update global window variable
+      window.sliderValue2 = this.maxprice;
+      
+      // Update the text input element with formatted value (with commas)
+      const inputElement = document.getElementById("givingUnitsMax");
+      if (inputElement) {
+        inputElement.value = this.maxprice.toLocaleString('en-US');
+        // Store the numeric value (without commas) for comparison on blur
+        inputElement.dataset.oldValue = String(this.maxprice);
+      }
+
+      // Trigger filter change event only if requested
+      if (shouldDispatchEvent) {
+        document.dispatchEvent(new CustomEvent("filtersChanged"));
+      }
+    },
+  };
+};
+
+const adjustDivHeight = () => {
+  var div = document.getElementById("options-list-year");
+
+  if (div.scrollHeight <= 20 * 16) {
+    //
+    div.classList.remove("h-80");
+    div.classList.add("h-fit");
+    div.classList.add("py-4");
+  } else {
+    div.classList.remove("h-fit");
+    div.classList.remove("py-4");
+    div.classList.add("h-80");
+  }
+};
+
+function getBenchmarks(obj) {
+  // console.log('getBenchmarks', obj)
+
+  let benchmarks = [];
+  for (let year in obj) {
+    if (obj.hasOwnProperty(year)) {
+      benchmarks.push(obj[year].benchmark);
+    }
+  }
+  return benchmarks;
+}
+
+/**
+ * Normalize raw benchmark rating values coming from Quickbase.
+ * Handles whitespace/newlines and minor text variations.
+ * @param {unknown} rawRating
+ * @returns {string} Normalized rating string (possibly empty).
+ */
+const normalizeBenchmarkRating = (rawRating) => {
+  if (rawRating === null || rawRating === undefined) return "";
+  const str = String(rawRating).trim().replace(/\n/g, "");
+  if (!str) return "";
+  return str.replace(/Action\s+Required/gi, "Action Required");
+};
+
+/**
+ * Infer a benchmark color when the explicit rating is missing/invalid.
+ * This primarily targets the new income percent-change benchmarks where
+ * the rating may be blank/0 while the displayed value is still present.
+ *
+ * Rules:
+ * - Percent cells: negative => actionRequired, zero/positive => good
+ * - Non-percent cells: default to good (ensures 0 still shows a color)
+ *
+ * @param {string} cellText
+ * @returns {"warning"|"good"|"actionRequired"|null}
+ */
+const inferBenchmarkColorFromCellText = (cellText) => {
+  if (typeof cellText !== "string") return "good";
+  const text = cellText.trim();
+
+  // Percent-change cells include a % symbol in the display.
+  const isPercent = text.includes("%");
+  if (!isPercent) {
+    // Ensure a color is always present even for "0" / "$0" / missing data display.
+    return "good";
+  }
+
+  // Parentheses indicate negative values in this UI (e.g. "(5%)").
+  const isNegative = text.includes("(") || /^-/.test(text);
+  return isNegative ? "actionRequired" : "good";
+};
+
+/**
+ * Apply benchmark background colors to report year cells.
+ * Benchmark ratings are expected to be "Good" | "Warning" | "Action Required".
+ * If a rating is missing/invalid (often when the displayed value is 0), we fall
+ * back to inferring a color from the cell text so a color always appears.
+ *
+ * @param {Array<unknown>} benchmarkArray - Per-year benchmark ratings
+ * @param {HTMLTableRowElement} row - The report <tr> row
+ * @param {number} i - Child index to start at (1 == first year cell)
+ */
+const getBackgroundColor = (benchmarkArray, row, i = 1) => {
+  if (!benchmarkArray || benchmarkArray.length === 0) return;
+  if (!row || !row.children || row.children.length <= i) {
+    // Still recurse to consume the array to avoid infinite loops in callers.
+    getBackgroundColor(benchmarkArray.slice(1), row, i + 1);
+    return;
+  }
+
+  const normalizedRating = normalizeBenchmarkRating(benchmarkArray[0]);
+
+  /** @type {"warning"|"good"|"actionRequired"|null} */
+  let color =
+    normalizedRating === "Warning"
+      ? "warning"
+      : normalizedRating === "Good"
+        ? "good"
+        : normalizedRating === "Action Required"
+          ? "actionRequired"
+          : null;
+
+  const cell = row.children[i];
+  if (!color) {
+    // If the rating is missing/invalid (e.g., "", "0"), infer from the displayed value.
+    color = inferBenchmarkColorFromCellText(cell?.textContent || "");
+  }
+
+  if (color) {
+    cell.classList.add(color);
+    tippy(cell, {
+      allowHTML: true,
+      content: `<p class="flex items-center text-md">
+        Click
+        <svg class="w-4 h-4 mx-2 text-white " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+        </svg>
+        Benchmark
+      </p>`,
+      arrow: true,
+      placement: "left",
+    });
+  }
+
+  getBackgroundColor(benchmarkArray.slice(1), row, i + 1);
+};
+
+/**
+ * Add click event to benchmark element
+d * Uses hardcoded benchmark text from fieldBenchmarkMap (static text, not from API)
+ * @param {string} elementId - The row element ID (e.g., "row_daysOperatingCash")
+ * @param {string} fieldName - The field name (e.g., "daysOperatingCash")
+ * @param {string} dataCategory - The data category (e.g., "cashData", "debtData")
+ */
+const addClickEventToBenchmark = async (elementId, fieldName, dataCategory) => {
+  const element = document.getElementById(elementId);
+  if (!element) {
+    // console.warn(`Element not found: ${elementId}`);
+    return;
+  }
+  
+  // Get hardcoded benchmark text from fieldBenchmarkMap (defined in DisplayCharts.js)
+  // This ensures the modal shows the same static benchmark text as outside the chart
+  // Check both global scope and window object for fieldBenchmarkMap
+  const benchmarkMap = typeof fieldBenchmarkMap !== 'undefined' 
+    ? fieldBenchmarkMap 
+    : (typeof window !== 'undefined' && window.fieldBenchmarkMap) 
+      ? window.fieldBenchmarkMap 
+      : null;
+  
+  let benchmarkText = "";
+  if (benchmarkMap && benchmarkMap[fieldName]) {
+    benchmarkText = benchmarkMap[fieldName];
+  }
+  
+  // If no benchmark text found, use default
+  if (!benchmarkText || benchmarkText.trim() === "") {
+    benchmarkText = "No Benchmark has been established";
+  }
+  
+  // Create the modal with hardcoded benchmark text (not from API)
+  const modal = await createBenchmark(benchmarkText, dataCategory, elementId);
+  
+  if (modal) {
+    element.onclick = () => {
+      modal.open();
+    };
+    element.classList.add("cursor-pointer");
+  }
+};
+
+/**
+ * Generate benchmark title from field name
+ * @param {string} fieldName - The field name (e.g., "daysOperatingCash")
+ * @returns {string} - Formatted title (e.g., "Days Operating Cash Benchmark")
+ */
+const generateBenchmarkTitle = (fieldName) => {
+  // Convert camelCase to Title Case and add "Benchmark"
+  const title = fieldName
+    .replace(/([A-Z])/g, ' $1') // Add space before capital letters
+    .replace(/^./, (str) => str.toUpperCase()) // Capitalize first letter
+    .trim();
+  return `${title} Benchmark`;
+};
+
+/**
+ * Process HTML content and add mb-2 class to p tags
+ * @param {string} htmlContent - The HTML content string
+ * @returns {string} - Processed HTML content
+ */
+const processHtmlContent = (htmlContent, addColorClasses = false) => {
+  if (typeof htmlContent !== 'string') {
+    return '';
+  }
+  
+  // Create a temporary div to parse the HTML
+  const tempDiv = document.createElement('div');
+  tempDiv.innerHTML = htmlContent;
+  
+  // Find all p tags and add mb-2 class
+  const pTags = tempDiv.querySelectorAll('p');
+  pTags.forEach(p => {
+    if (!p.classList.contains('mb-2')) {
+      p.classList.add('mb-2');
+    }
+    // Add color classes if requested (for benchmark content)
+    if (addColorClasses) {
+      if (!p.classList.contains('text-gray-600')) {
+        p.classList.add('text-gray-600', 'dark:text-gray-400');
+      }
+    }
+  });
+  
+  return tempDiv.innerHTML;
+};
+
+/**
+ * Create benchmark modal and populate report content dynamically from localStorage
+ * Based on comp project implementation, adapted for Standard project
+ * @param {string} benchmarkFieldName - The field name for the benchmark (e.g., "daysOperatingCash_benchmarkParagraph")
+ * @param {string} dataCategory - The data category (e.g., "cashData", "debtData")
+ * @param {string} elementId - The row element ID (e.g., "row_daysOperatingCash")
+ * @returns {Object} - The tingle modal instance
+ */
+const createBenchmark = async (benchmarkTextOrFieldName, dataCategory, elementId) => {
+  let benchmarkContent;
+  let fieldName;
+  
+  // Check if this is hardcoded text (contains "|" or "Good:" pattern) or a field name
+  const isHardcodedText = benchmarkTextOrFieldName.includes('|') || 
+                          benchmarkTextOrFieldName.includes('Good:') || 
+                          benchmarkTextOrFieldName.includes('Warning:') ||
+                          benchmarkTextOrFieldName.includes('Action:') ||
+                          !benchmarkTextOrFieldName.includes('_');
+  
+  if (isHardcodedText && benchmarkTextOrFieldName.trim() !== '') {
+    // Use hardcoded text directly
+    benchmarkContent = benchmarkTextOrFieldName;
+    // Extract field name from elementId
+    fieldName = elementId.replace(/^row_/, '');
+  } else {
+    // Try to get from localStorage (API data)
+    const data = localStorage.getItem(dataCategory);
+    if (!data) {
+      // console.warn(`No data found for category: ${dataCategory}`);
+      return null;
+    }
+
+    const parsedData = JSON.parse(data);
+    const benchmarkData = parsedData[benchmarkTextOrFieldName];
+    
+    if (!benchmarkData) {
+      // console.warn(`No benchmark data found for field: ${benchmarkTextOrFieldName}`);
+      return null;
+    }
+
+    // Get selected years to access benchmark paragraph
+    const selectedYears = getSelectedYearsFromLocalStorage();
+    if (!selectedYears || selectedYears.length === 0) {
+      // console.warn('No selected years found');
+      return null;
+    }
+
+    // Use the first available year to get benchmark paragraph data
+    const targetYear = selectedYears[0];
+    benchmarkContent = benchmarkData[targetYear]?.value;
+
+    if (!benchmarkContent || benchmarkContent === '0') {
+      // Silently skip if benchmark content is missing (field may not exist in QuickBase)
+      return null;
+    }
+    
+    // Extract field name from benchmarkFieldName (remove _benchmarkParagraph suffix)
+    fieldName = benchmarkTextOrFieldName.replace(/_benchmarkParagraph$/, '');
+  }
+
+  // Get selected years for click handlers
+  const selectedYears = getSelectedYearsFromLocalStorage();
+  if (!selectedYears || selectedYears.length === 0) {
+    // console.warn('No selected years found');
+    return null;
+  }
+
+  // Ensure fixUnicodeCharacters is available (defined in DisplayCharts.js)
+  if (typeof fixUnicodeCharacters !== 'function') {
+    // console.warn('fixUnicodeCharacters function not found, skipping Unicode processing');
+  }
+  
+  // Generate title from field name
+  const benchmarkTitle = generateBenchmarkTitle(fieldName);
+
+  // Process the benchmark text and apply fixUnicodeCharacters
+  // Pass true to addColorClasses to ensure proper text colors for light/dark mode
+  const defaultBenchmarkText = "No Benchmark has been established";
+  const normalizedBenchmarkText =
+    benchmarkContent && benchmarkContent.trim().length > 0
+      ? benchmarkContent
+      : defaultBenchmarkText;
+  let processedContent = processHtmlContent(normalizedBenchmarkText, true);
+  let processedTitle; 
+  if (typeof fixUnicodeCharacters === 'function') {
+    processedContent = fixUnicodeCharacters(processedContent);
+    processedTitle = fixUnicodeCharacters(benchmarkTitle);
+  } else {
+    processedTitle = benchmarkTitle;
+  }
+
+  // Create modal for clickable benchmark interactions
+  let variable = new tingle.modal({
+    footer: false,
+    stickyFooter: false,
+    closeMethods: ["overlay", "button", "escape"],
+    closeLabel: "Close",
+    cssClass: ["custom-class-1", "custom-class-2"],
+    beforeClose: function () {
+      return true; // close the modal
+    },
+  });
+
+  // Build modal content (INCLUDE the title for the tingle modal)
+  // Add proper text color classes for light/dark mode
+  const modalContent = `<div class="text-gray-700 dark:text-gray-300"><p class="mb-2"><strong>${processedTitle}</strong></p><div class="text-gray-600 dark:text-gray-400">${processedContent}</div></div>`;
+  variable.setContent(modalContent);
+
+  // Build report content (SKIP the title for the report tab _body-3 section)
+  // Add proper text color classes for light/dark mode
+  const reportContent = `<div class="text-gray-600 dark:text-gray-400">${processedContent}</div>`;
+
+  // Populate the _body-3 section with the benchmark description (without title)
+  try {
+    // Extract field name from elementId (e.g., "row_daysOperatingCash" -> "daysOperatingCash")
+    const rowFieldName = elementId.replace(/^row_/, '');
+    const body3Selector = `#${rowFieldName}-body-3 div`;
+    const body3Element = document.querySelector(body3Selector);
+    
+    if (body3Element) {
+      // Set the innerHTML of the _body-3 element with the report content (without title)
+      body3Element.innerHTML = reportContent;
+    } else {
+      // console.warn(`_body-3 element not found for selector: ${body3Selector}`);
+    }
+  } catch (error) {
+    // console.error(`Error populating _body-3 section for ${elementId}:`, error);
+  }
+
+  // Set up click handlers for year columns
+  if (selectedYears) {
+    const children = await document.getElementById(elementId).children;
+    
+    for (let i = 1; i < selectedYears.length + 1; i++) {
+      editElementChildren(children[i], variable, elementId);
+    }
+  }
+
+  return variable;
+};
+
+const editElementChildren = (element, variable, elementId) => {
+  // console.log({ element, variable });
+  if (!element) // console.log(elementId);
+
+  // console.log(element.firstChild);
+
+  element.addEventListener("click", () => {
+    variable.open();
+  });
+  element.classList.add("cursor-pointer");
+  element.classList.add("hover:opacity-100");
+  element.classList.add("transition");
+  element.classList.add("ease-in-out");
+};
+
+/**
+ * Create "What Does This Mean" content and populate the _body-2 section
+ * @param {Array<string>} whatDoesThisMeanArray - Array of strings describing what the metric means
+ * @param {string} elementId - The row element ID (e.g., "row_daysOperatingCash")
+ */
+const createWhatDoesThisMean = (whatDoesThisMeanArray, elementId) => {
+  if (!Array.isArray(whatDoesThisMeanArray) || whatDoesThisMeanArray.length === 0) {
+    // console.warn(`Invalid whatDoesThisMeanArray for ${elementId}`);
+    return;
+  }
+
+  // Extract field name from elementId (e.g., "row_daysOperatingCash" -> "daysOperatingCash")
+  const fieldName = elementId.replace(/^row_/, '');
+
+  // Build HTML content from array - each item becomes a paragraph or uses existing HTML
+  let htmlContent = '';
+  whatDoesThisMeanArray.forEach((paragraph) => {
+    // Process each paragraph and apply fixUnicodeCharacters if available
+    let processedParagraph = typeof processHtmlContent === 'function' ? processHtmlContent(paragraph) : paragraph;
+    processedParagraph = typeof fixUnicodeCharacters === 'function' ? fixUnicodeCharacters(processedParagraph) : processedParagraph;
+    
+    // Check if the paragraph already contains HTML tags (starts with <)
+    // If it does, use it as-is; otherwise wrap it in a paragraph tag
+    if (processedParagraph.trim().startsWith('<')) {
+      // Already contains HTML, use as-is
+      htmlContent += processedParagraph;
+    } else {
+      // Plain text, wrap in paragraph tag
+      htmlContent += `<p class="mb-2 text-gray-500 dark:text-gray-400">${processedParagraph}</p>`;
+    }
+  });
+
+  // Populate the _body-2 section
+  try {
+    const body2Selector = `#${fieldName}-body-2`;
+    const body2Element = document.querySelector(body2Selector);
+    
+    if (body2Element) {
+      // Find the inner div with the p-5 class, or create it if it doesn't exist
+      let innerDiv = body2Element.querySelector('div.p-5');
+      if (!innerDiv) {
+        innerDiv = document.createElement('div');
+        innerDiv.className = 'p-5 border border-b-0 border-gray-200 dark:border-gray-700';
+        body2Element.appendChild(innerDiv);
+      }
+      // Ensure white background (remove any gray/dark background classes)
+      innerDiv.classList.remove('bg-gray-50', 'dark:bg-gray-800');
+      innerDiv.innerHTML = htmlContent;
+    } else {
+      // console.warn(`_body-2 element not found for selector: ${body2Selector}`);
+    }
+  } catch (error) {
+    // console.error(`Error populating _body-2 section for ${elementId}:`, error);
+  }
+};
+
+/**
+ * Show or hide the API loading modal
+ * @param {string} action - "open" or "close"
+ * @param {string} mode - "api" or "print"
+ */
+function showApiLoadingFunction(action, mode) {
+  const loadingDiv = document.getElementById("loadingApiDiv");
+  const loadingApiHeader = document.getElementById("loadingApiHeader");
+  const apiPrint = document.getElementById("apiPrint");
+  const firstApiYearSpan = document.getElementById("firstApiYear");
+  const lastApiYearSpan = document.getElementById("LastApiYear");
+  const apiYears = document.getElementById("apiYears");
+  const loadingApiYears = document.getElementById("loadingApiYears");
+
+
+  if (action === "close") {
+    setTimeout(() => {
+      loadingDiv.classList.add("hidden");
+    }, 1500);
+  } else if (action === "open") {
+    loadingDiv.classList.remove("hidden");
+
+    if (mode === "api") {
+      loadingApiHeader.innerHTML = "Loading Data";
+      apiYears.classList.remove("hidden");
+      apiPrint.classList.add("hidden");
+
+      const selectedYears = getSelectedYearsFromLocalStorage();
+      // console.log({ selectedYears });
+
+      if (selectedYears.length > 0) {
+        firstApiYearSpan.textContent = selectedYears[0];
+        lastApiYearSpan.textContent = selectedYears[selectedYears.length - 1];
+      }
+    } else if (mode === "print") {
+      loadingApiHeader.innerHTML = "Creating Presentation Slides";
+      apiYears.classList.add("hidden");
+      apiPrint.classList.remove("hidden");
+      loadingApiYears.classList.add('hidden')
+    }
+  }
+}
+
+// Make destroyAllCharts globally accessible
+window.destroyAllCharts = destroyAllCharts;
